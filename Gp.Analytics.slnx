@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="Gp.Analytics.Api/Gp.Analytics.Api.csproj" />
+  <Project Path="Gp.Analytics.Framework/Gp.Analytics.Framework.csproj" />
+  <Project Path="Gp.Analytics.FrontEnd/Gp.Analytics.FrontEnd.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Gp.Analytics.Translations/Gp.Analytics.Translations.csproj" Id="19f12840-4610-4200-9cb3-158809437a97" />
+</Solution>
