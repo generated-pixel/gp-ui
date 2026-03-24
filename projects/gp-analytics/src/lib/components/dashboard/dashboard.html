@@ -1,0 +1,72 @@
+<section class="gp-dashboard" [ngStyle]="themeStyle()" [attr.aria-label]="t.dashboardAriaLabel">
+  <div class="gp-dashboard-header">
+    <p class="gp-dashboard-eyebrow">{{ t.dashboardEyebrow }}</p>
+    <h2 class="gp-dashboard-title">{{ resolvedTitle() }}</h2>
+  </div>
+
+  @if (hasManagedWidgets()) {
+    <div
+      class="gp-dashboard-grid gp-dashboard-grid--managed"
+      [style.--gp-dashboard-cell-width]="cellWidth() + 'px'"
+      [style.--gp-dashboard-cell-height]="cellHeight() + 'px'"
+      [style.--gp-dashboard-gap]="gridGap() + 'px'"
+      [style.width.px]="gridWidthPx()"
+      [style.height.px]="gridHeightPx()"
+      role="list"
+    >
+      @for (widget of managedWidgets(); track widget.id) {
+        <article
+          class="gp-dashboard-tile"
+          [class.gp-dashboard-tile--locked]="isWidgetLocked(widget)"
+          [style.left.px]="tileLeftPx(widget)"
+          [style.top.px]="tileTopPx(widget)"
+          [style.width.px]="tileWidthPx(widget)"
+          [style.height.px]="tileHeightPx(widget)"
+          role="listitem"
+        >
+          <div class="gp-dashboard-tile__toolbar">
+            <button
+              class="gp-dashboard-tile__move"
+              type="button"
+              [disabled]="isWidgetLocked(widget)"
+              [attr.aria-label]="'Move widget'"
+              aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
+              title="Move widget"
+              (pointerdown)="startMove($event, widget)"
+              (keydown)="onMoveKeydown($event, widget)"
+            >
+              <gp-icon [name]="'drag-handle'" [size]="14"></gp-icon>
+            </button>
+
+            @if (isWidgetLocked(widget)) {
+              <span class="gp-dashboard-tile__lock-badge">Locked</span>
+            }
+          </div>
+
+          <gp-widget
+            [item]="widget.item"
+            [title]="widget.title"
+            [highlighted]="widget.highlighted ?? false"
+          />
+
+          <button
+            class="gp-dashboard-tile__resize"
+            type="button"
+            [disabled]="isWidgetLocked(widget)"
+            [attr.aria-label]="'Resize widget'"
+            aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
+            title="Resize widget"
+            (pointerdown)="startResize($event, widget)"
+            (keydown)="onResizeKeydown($event, widget)"
+          >
+            <gp-icon [name]="'settings'" [size]="12"></gp-icon>
+          </button>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="gp-dashboard-grid">
+      <ng-content></ng-content>
+    </div>
+  }
+</section>

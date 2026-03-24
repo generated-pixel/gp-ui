@@ -1,6 +1,0 @@
-# Publish only compiled artifacts
-*
-!package.json
-!README.md
-!fesm2022/
-!types/

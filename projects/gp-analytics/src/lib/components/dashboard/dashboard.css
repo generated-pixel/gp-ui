@@ -1,0 +1,109 @@
+:host {
+  display: block;
+}
+
+.gp-dashboard {
+  padding: 1.5rem;
+  background: var(--gp-color-surface-muted, #f7fafc);
+  border: 1px solid var(--gp-color-border-subtle, #e2e8f0);
+  border-radius: var(--gp-radius-lg, 0.75rem);
+}
+
+.gp-dashboard-header {
+  margin-bottom: 1.5rem;
+}
+
+.gp-dashboard-eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gp-color-text-muted, #496174);
+}
+
+.gp-dashboard-title {
+  margin: 0;
+  font-size: 1.75rem;
+  color: var(--gp-color-text-primary, #13212b);
+}
+
+.gp-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.gp-dashboard-grid--managed {
+  position: relative;
+  display: block;
+  min-width: 100%;
+  overflow: auto;
+  border: 1px solid var(--gp-color-border-subtle, #e2e8f0);
+  border-radius: var(--gp-radius-md, 0.5rem);
+  background-color: var(--gp-color-surface, #ffffff);
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.12) 1px, transparent 1px);
+  background-size:
+    calc(var(--gp-dashboard-cell-width) + var(--gp-dashboard-gap))
+      calc(var(--gp-dashboard-cell-height) + var(--gp-dashboard-gap));
+}
+
+.gp-dashboard-tile {
+  position: absolute;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.25rem;
+}
+
+.gp-dashboard-tile gp-widget {
+  height: 100%;
+}
+
+.gp-dashboard-tile__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gp-dashboard-tile__move,
+.gp-dashboard-tile__resize {
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1px solid var(--gp-color-border-strong, #cbd5e1);
+  border-radius: var(--gp-radius-sm, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gp-color-surface, #ffffff);
+  color: var(--gp-color-text-muted, #64748b);
+  cursor: move;
+}
+
+.gp-dashboard-tile__resize {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  cursor: se-resize;
+  z-index: 2;
+}
+
+.gp-dashboard-tile__move:disabled,
+.gp-dashboard-tile__resize:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.gp-dashboard-tile__lock-badge {
+  font-size: 0.7rem;
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--gp-radius-full, 999px);
+  border: 1px solid var(--gp-color-border-subtle, #e2e8f0);
+  color: var(--gp-color-text-muted, #64748b);
+  background: var(--gp-color-surface-muted, #f8fafc);
+}
+
+.gp-dashboard-tile--locked gp-widget {
+  opacity: 0.96;
+}

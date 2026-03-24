@@ -1,0 +1,9 @@
+{
+  "snyk.advanced.autoSelectOrganization": true,
+  "chat.tools.terminal.autoApprove": {
+    "/^Get-Location; node -v; npm -v$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
+}

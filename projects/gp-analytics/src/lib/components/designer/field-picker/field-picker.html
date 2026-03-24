@@ -1,0 +1,77 @@
+<div class="gp-field-picker">
+  @for (folder of folders(); track folder.id) {
+    <div class="gp-field-picker__folder">
+      <button
+        class="gp-field-picker__folder-toggle"
+        type="button"
+        [attr.aria-expanded]="isFolderExpanded(folder.id)"
+        [attr.aria-controls]="folderContentId(folder.id)"
+        [title]="folder.name"
+        (click)="toggleFolder(folder.id)"
+      >
+        <span class="gp-field-picker__chevron" aria-hidden="true">
+          <gp-icon [name]="chevronIcon(isFolderExpanded(folder.id))" [size]="10"></gp-icon>
+        </span>
+        <span class="gp-field-picker__folder-name">{{ folder.name }}</span>
+      </button>
+
+      <div [id]="folderContentId(folder.id)">
+        @if (isFolderExpanded(folder.id)) {
+          @for (dataset of folder.datasets; track dataset.id) {
+            <div class="gp-field-picker__dataset">
+              <button
+                class="gp-field-picker__dataset-toggle"
+                type="button"
+                [attr.aria-expanded]="isDatasetExpanded(dataset.id)"
+                [attr.aria-controls]="datasetContentId(dataset.id)"
+                [title]="dataset.name"
+                (click)="toggleDataset(dataset.id)"
+              >
+                <span class="gp-field-picker__chevron" aria-hidden="true">
+                  <gp-icon
+                    [name]="chevronIcon(isDatasetExpanded(dataset.id))"
+                    [size]="10"
+                  ></gp-icon>
+                </span>
+                <span class="gp-field-picker__dataset-name">{{ dataset.name }}</span>
+              </button>
+
+              <div [id]="datasetContentId(dataset.id)">
+                @if (isDatasetExpanded(dataset.id)) {
+                  <div
+                    class="gp-field-picker__fields"
+                    cdkDropList
+                    [cdkDropListData]="dataset.fields"
+                    cdkDropListSortingDisabled
+                    [cdkDropListEnterPredicate]="noDrop"
+                    role="list"
+                  >
+                    @for (field of dataset.fields; track field.name) {
+                      <div
+                        class="gp-field-picker__field"
+                        cdkDrag
+                        [cdkDragData]="field"
+                        role="listitem"
+                      >
+                        <gp-field-item [field]="field" />
+                        <ng-template cdkDragPlaceholder>
+                          <div class="gp-field-picker__field gp-field-picker__field--placeholder">
+                            <gp-field-item [field]="field" />
+                          </div>
+                        </ng-template>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+
+  @if (folders().length === 0) {
+    <p class="gp-field-picker__empty">{{ t.fieldPickerEmptyMessage }}</p>
+  }
+</div>

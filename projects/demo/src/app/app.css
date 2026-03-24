@@ -1,0 +1,37 @@
+.demo-root {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: system-ui, sans-serif;
+}
+
+.demo-header {
+  margin-bottom: 3rem;
+  border-bottom: 2px solid #d4dde7;
+  padding-bottom: 1.5rem;
+}
+
+.demo-heading {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+  color: #0d4a72;
+}
+
+.demo-subheading {
+  margin: 0;
+  color: #496174;
+  font-size: 1rem;
+}
+
+.demo-section {
+  margin-bottom: 3rem;
+}
+
+.demo-section-title {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #496174;
+}

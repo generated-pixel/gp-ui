@@ -1,0 +1,27 @@
+<main class="demo-root">
+  <header class="demo-header">
+    <h1 class="demo-heading">GP Analytics — Demo</h1>
+    <p class="demo-subheading">A live preview of the gp-analytics library components.</p>
+  </header>
+
+  <section class="demo-section">
+    <h2 class="demo-section-title">Dashboard</h2>
+    <gp-dashboard
+      title="Monthly Overview"
+      [widgets]="dashboardWidgets"
+      [columns]="12"
+      [cellWidth]="64"
+      [cellHeight]="64"
+      [gridGap]="8"
+    />
+  </section>
+
+  <section class="demo-section">
+    <h2 class="demo-section-title">Designer</h2>
+    <gp-designer title="Report Designer">
+      <gp-widget title="Drag widgets here"
+        >Use the designer to configure your dashboard layout.</gp-widget
+      >
+    </gp-designer>
+  </section>
+</main>

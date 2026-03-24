@@ -1,0 +1,65 @@
+<article
+  class="gp-widget"
+  [class.gp-widget--highlighted]="effectiveHighlighted()"
+  [class.gp-widget--compact]="compact()"
+  [class]="toneClass()"
+  [ngStyle]="customStyle()"
+  [attr.aria-label]="t.widgetAriaLabel"
+>
+  <div class="gp-widget-header">
+    <h3 class="gp-widget-title">{{ resolvedTitle() }}</h3>
+  </div>
+
+  @if (item(); as designedItem) {
+    <div class="gp-widget-meta">
+      <p class="gp-widget-meta__line">
+        <span class="gp-widget-meta__label">{{ t.widgetItemTypeLabel }}</span>
+        <span class="gp-widget-meta__value">
+          <gp-icon
+            [name]="artifactTypeIcon(designedItem.metadata.artifactType)"
+            [size]="13"
+          ></gp-icon>
+          <span>{{ artifactTypeLabel(designedItem.metadata.artifactType) }}</span>
+        </span>
+      </p>
+      @if (designedItem.metadata.artifactType === 'graph' && designedItem.metadata.graphType) {
+        <p class="gp-widget-meta__line">
+          <span class="gp-widget-meta__label">{{ t.widgetGraphTypeLabel }}</span>
+          <span class="gp-widget-meta__value">
+            <gp-icon [name]="graphTypeIcon(designedItem.metadata.graphType)" [size]="13"></gp-icon>
+            <span>{{ graphTypeLabel(designedItem.metadata.graphType) }}</span>
+          </span>
+        </p>
+      }
+      @if (designedItem.metadata.generatedAt) {
+        <p class="gp-widget-meta__line">
+          <span class="gp-widget-meta__label">{{ t.widgetItemGeneratedAtLabel }}</span>
+          <span class="gp-widget-meta__value">{{
+            formatGeneratedAt(designedItem.metadata.generatedAt)
+          }}</span>
+        </p>
+      }
+    </div>
+  }
+
+  <div class="gp-widget-body">
+    @if (item()?.data?.summary) {
+      <p class="gp-widget-summary">{{ item()?.data?.summary }}</p>
+    }
+
+    @if (item()?.data?.points?.length) {
+      <div class="gp-widget-points" role="list">
+        @for (point of item()!.data.points!; track point.key) {
+          <div class="gp-widget-points__row" role="listitem">
+            <span class="gp-widget-points__label">{{ point.label }}</span>
+            <span class="gp-widget-points__value">{{ formatPointValue(point) }}</span>
+          </div>
+        }
+      </div>
+    } @else if (item()) {
+      <p class="gp-widget-empty">{{ t.widgetItemNoDataLabel }}</p>
+    }
+
+    <ng-content></ng-content>
+  </div>
+</article>

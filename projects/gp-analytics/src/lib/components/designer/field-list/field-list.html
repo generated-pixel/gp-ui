@@ -1,0 +1,136 @@
+<div
+  class="gp-field-list"
+  cdkDropList
+  [cdkDropListData]="fields()"
+  (cdkDropListDropped)="onDrop($event)"
+  role="list"
+>
+  @if (fields().length === 0) {
+    <div class="gp-field-list__empty" [attr.aria-label]="t.fieldListEmptyAriaLabel" role="listitem">
+      <span>{{ t.fieldListEmptyMessage }}</span>
+    </div>
+  }
+
+  @for (item of fields(); track item.field.name; let i = $index) {
+    <div class="gp-field-list__item" cdkDrag [cdkDragData]="item" role="listitem">
+      <button
+        class="gp-field-list__handle"
+        cdkDragHandle
+        type="button"
+        [attr.aria-label]="t.fieldListDragHandleAriaLabel"
+        title="{{ t.fieldListDragHandleAriaLabel }}"
+      >
+        <gp-icon [name]="dragHandleIcon" [size]="14"></gp-icon>
+      </button>
+
+      <div class="gp-field-list__field">
+        <gp-field-item [field]="item.field" />
+        @if (item.kpiRole) {
+          <span class="gp-field-list__pill gp-field-list__pill--kpi">{{
+            kpiRoleLabels()[item.kpiRole]
+          }}</span>
+        }
+      </div>
+
+      <div class="gp-field-list__controls">
+        <label class="gp-field-list__control-label">
+          {{ t.fieldListAliasLabel }}
+          <input
+            class="gp-field-list__input"
+            type="text"
+            [value]="item.alias ?? ''"
+            (blur)="updateAlias(i, $any($event.target).value)"
+            placeholder="{{ item.field.label ?? item.field.name }}"
+          />
+        </label>
+
+        @if (!isKpi()) {
+          <label class="gp-field-list__control-label">
+            {{ t.fieldListAggregationLabel }}
+            <select
+              class="gp-field-list__select"
+              [value]="item.aggregation"
+              (change)="updateAggregation(i, $any($event.target).value)"
+            >
+              @for (agg of AGGREGATIONS; track agg) {
+                <option [value]="agg">{{ aggregationLabels()[agg] }}</option>
+              }
+            </select>
+          </label>
+        }
+
+        @if (isGraph()) {
+          <label class="gp-field-list__control-label">
+            {{ t.fieldListRoleLabel }}
+            <select
+              class="gp-field-list__select"
+              [value]="item.graphRole ?? ''"
+              (change)="updateGraphRole(i, $any($event.target).value)"
+            >
+              @for (role of GRAPH_ROLES; track role) {
+                <option [value]="role">{{ graphRoleLabels()[role] }}</option>
+              }
+            </select>
+          </label>
+        }
+
+        @if (isTabular()) {
+          <label class="gp-field-list__control-label">
+            {{ t.fieldListFormatLabel }}
+            <select
+              class="gp-field-list__select"
+              [value]="item.columnFormat ?? 'default'"
+              (change)="updateColumnFormat(i, $any($event.target).value)"
+            >
+              @for (format of COLUMN_FORMATS; track format) {
+                <option [value]="format">{{ columnFormatLabels()[format] }}</option>
+              }
+            </select>
+          </label>
+        }
+
+        @if (!isKpi()) {
+          <label class="gp-field-list__control-label gp-field-list__control-label--inline">
+            <input
+              type="checkbox"
+              [checked]="item.groupBy"
+              (change)="updateGroupBy(i, $any($event.target).checked)"
+            />
+            {{ t.fieldListGroupByLabel }}
+          </label>
+        }
+
+        @if (isTabular() && item.field.sortable) {
+          <button
+            class="gp-field-list__sort"
+            type="button"
+            [attr.aria-label]="
+              t.fieldListSortAriaPrefix + ': ' + (item.sortDirection ?? t.fieldListSortNoneLabel)
+            "
+            [title]="
+              t.fieldListSortAriaPrefix + ': ' + (item.sortDirection ?? t.fieldListSortNoneLabel)
+            "
+            [class.gp-field-list__sort--asc]="item.sortDirection === 'asc'"
+            [class.gp-field-list__sort--desc]="item.sortDirection === 'desc'"
+            (click)="toggleSort(i)"
+          >
+            <gp-icon [name]="sortIcon(item.sortDirection)" [size]="14"></gp-icon>
+            @if (item.sortPriority) {
+              <span class="gp-field-list__sort-priority">{{ item.sortPriority }}</span>
+            }
+          </button>
+        }
+
+        <button
+          class="gp-field-list__remove"
+          type="button"
+          [attr.aria-label]="t.fieldListRemoveAriaLabel"
+          title="{{ t.fieldListRemoveAriaLabel }}"
+          (click)="removeField(i)"
+        >
+          <gp-icon [name]="removeIcon" [size]="12"></gp-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>
