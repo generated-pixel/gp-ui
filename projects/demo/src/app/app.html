@@ -5,7 +5,19 @@
   </header>
 
   <section class="demo-section">
-    <h2 class="demo-section-title">Dashboard Designer</h2>
+    <div class="demo-section-header">
+      <h2 class="demo-section-title">Dashboard Designer</h2>
+      <button
+        class="demo-add-widget-button"
+        type="button"
+        [attr.aria-expanded]="widgetDrawerOpen()"
+        aria-controls="widget-library-drawer"
+        title="Add widget"
+        (click)="toggleWidgetDrawer()"
+      >
+        +
+      </button>
+    </div>
     <p class="demo-section-description">
       Move and resize widgets directly on the grid, then manage lock state and widget usage details
       in the panel.
@@ -13,37 +25,8 @@
 
     <div class="demo-dashboard-designer">
       <aside class="demo-dashboard-designer__panel" aria-label="Widget configuration panel">
-        <h3 class="demo-panel-title">Widget Library</h3>
-        <p class="demo-panel-description">Drag a widget template onto the dashboard canvas.</p>
-
-        <div
-          class="demo-widget-palette"
-          cdkDropList
-          id="widgetTemplateList"
-          [cdkDropListData]="widgetTemplates"
-          [cdkDropListConnectedTo]="['dashboardDropZone']"
-        >
-          @for (template of widgetTemplates; track template.key) {
-            <button
-              class="demo-widget-palette__item"
-              type="button"
-              cdkDrag
-              [cdkDragData]="template"
-              (cdkDragStarted)="onTemplateDragStarted(template)"
-              (cdkDragMoved)="onTemplateDragMoved($event)"
-              (cdkDragEnded)="onTemplateDragEnded($event)"
-            >
-              <span class="demo-widget-palette__name">{{ template.title }}</span>
-              <span class="demo-widget-palette__meta"
-                >{{ template.artifactType }} | {{ template.defaultW }}x{{ template.defaultH }}</span
-              >
-            </button>
-          }
-        </div>
-
         <h3 class="demo-panel-title">Dashboard Widgets</h3>
         <div class="demo-panel-actions">
-          <button class="demo-button" type="button" (click)="addWidget()">Add Widget</button>
           <button
             class="demo-button demo-button--danger"
             type="button"
@@ -185,14 +168,78 @@
         />
       </div>
     </div>
+
+    @if (widgetDrawerOpen()) {
+      <button
+        class="demo-widget-drawer-backdrop"
+        type="button"
+        aria-label="Close widget drawer"
+        (click)="closeWidgetDrawer()"
+      ></button>
+    }
+
+    <aside
+      id="widget-library-drawer"
+      class="demo-widget-drawer"
+      [class.demo-widget-drawer--open]="widgetDrawerOpen()"
+      aria-label="Widget library drawer"
+    >
+      <header class="demo-widget-drawer__header">
+        <h3 class="demo-panel-title">Widget Library</h3>
+        <button
+          class="demo-widget-drawer__close"
+          type="button"
+          aria-label="Close widget drawer"
+          (click)="closeWidgetDrawer()"
+        >
+          ×
+        </button>
+      </header>
+      <p class="demo-panel-description">Drag onto the dashboard or click to add at the bottom.</p>
+
+      <div
+        class="demo-widget-palette"
+        cdkDropList
+        id="widgetTemplateList"
+        [cdkDropListData]="widgetTemplates"
+        [cdkDropListConnectedTo]="['dashboardDropZone']"
+      >
+        @for (template of widgetTemplates; track template.key) {
+          <div class="demo-widget-palette__item-wrap">
+            <button
+              class="demo-widget-palette__add"
+              type="button"
+              (click)="addWidgetFromTemplate(template)"
+            >
+              <span class="demo-widget-palette__name">{{ template.title }}</span>
+              <span class="demo-widget-palette__meta"
+                >{{ template.artifactType }} | {{ template.defaultW }}x{{ template.defaultH }}</span
+              >
+            </button>
+
+            <button
+              class="demo-widget-palette__item"
+              type="button"
+              cdkDrag
+              [cdkDragData]="template"
+              (cdkDragStarted)="onTemplateDragStarted(template)"
+              (cdkDragMoved)="onTemplateDragMoved($event)"
+              (cdkDragEnded)="onTemplateDragEnded($event)"
+            >
+              Drag
+            </button>
+          </div>
+        }
+      </div>
+    </aside>
   </section>
 
   <section class="demo-section">
     <h2 class="demo-section-title">Designer</h2>
-    <gp-designer title="Report Designer">
-      <gp-widget title="Drag widgets here"
-        >Use the designer to configure your dashboard layout.</gp-widget
-      >
-    </gp-designer>
+    <p class="demo-section-description">
+      Explore realistic folders, datasets, and fields, then drag them into the designer to build a
+      preview.
+    </p>
+    <gp-designer title="Report Designer" [folders]="designerFolders" />
   </section>
 </main>

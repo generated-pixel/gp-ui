@@ -88,13 +88,18 @@
 
 .gp-dashboard-tile {
   position: absolute;
+  overflow: hidden;
 }
 
 .gp-dashboard-tile gp-widget {
+  display: block;
   height: 100%;
+  min-height: 100%;
 }
 
 .gp-dashboard-tile__move,
+.gp-dashboard-tile__lock-toggle,
+.gp-dashboard-tile__remove,
 .gp-dashboard-tile__resize {
   width: 1.65rem;
   height: 1.65rem;
@@ -109,11 +114,33 @@
 }
 
 .gp-dashboard-tile__move:focus-visible,
+.gp-dashboard-tile__lock-toggle:focus-visible,
+.gp-dashboard-tile__remove:focus-visible,
 .gp-dashboard-tile__resize:focus-visible {
   outline: 2px solid var(--gp-color-focus, #93c5fd);
   outline-offset: 1px;
   border-color: var(--gp-color-accent-border, #bfdbfe);
   box-shadow: 0 0 0 3px rgb(147 197 253 / 0.25);
+}
+
+.gp-dashboard-tile__lock-toggle {
+  cursor: pointer;
+}
+
+.gp-dashboard-tile__remove {
+  cursor: pointer;
+}
+
+.gp-dashboard-tile__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .gp-dashboard-tile__resize {
@@ -125,22 +152,11 @@
 }
 
 .gp-dashboard-tile__move:disabled,
+.gp-dashboard-tile__lock-toggle:disabled,
+.gp-dashboard-tile__remove:disabled,
 .gp-dashboard-tile__resize:disabled {
   cursor: not-allowed;
   opacity: 0.55;
-}
-
-.gp-dashboard-tile__lock-badge {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 2;
-  font-size: 0.7rem;
-  padding: 0.12rem 0.4rem;
-  border-radius: var(--gp-radius-full, 999px);
-  border: 1px solid var(--gp-color-border-subtle, #e2e8f0);
-  color: var(--gp-color-text-muted, #64748b);
-  background: var(--gp-color-surface-muted, #f8fafc);
 }
 
 .gp-dashboard-tile--locked gp-widget {

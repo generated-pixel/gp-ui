@@ -36,6 +36,7 @@
       @for (widget of managedWidgets(); track widget.id) {
         <article
           class="gp-dashboard-tile"
+          [attr.data-widget-id]="widget.id"
           [class.gp-dashboard-tile--locked]="isWidgetLocked(widget)"
           [class.gp-dashboard-tile--fixed]="isWidgetFixed(widget)"
           [style.left.px]="tileLeftPx(widget)"
@@ -62,14 +63,38 @@
               (keydown)="onMoveKeydown($event, widget)"
             >
               <gp-icon [name]="'drag-handle'" [size]="14"></gp-icon>
+              <span class="gp-dashboard-tile__sr-only">Move widget</span>
             </button>
-          </gp-widget>
 
-          @if (isWidgetLocked(widget) || isWidgetFixed(widget)) {
-            <span class="gp-dashboard-tile__lock-badge">{{
-              isWidgetLocked(widget) ? 'Locked' : 'Fixed position'
-            }}</span>
-          }
+            @if (!isWidgetFixed(widget)) {
+              <button
+                gpWidgetTitleStart
+                class="gp-dashboard-tile__lock-toggle"
+                type="button"
+                [disabled]="locked()"
+                [attr.aria-label]="lockToggleLabel(widget)"
+                [title]="lockToggleLabel(widget)"
+                (click)="toggleWidgetLocked(widget)"
+              >
+                <gp-icon [name]="lockIcon(widget)" [size]="14"></gp-icon>
+                <span class="gp-dashboard-tile__sr-only">{{ lockToggleLabel(widget) }}</span>
+              </button>
+            }
+
+            @if (canRemoveWidget(widget)) {
+              <button
+                gpWidgetTitleEnd
+                class="gp-dashboard-tile__remove"
+                type="button"
+                [attr.aria-label]="'Remove widget'"
+                title="Remove widget"
+                (click)="removeWidget(widget.id)"
+              >
+                <gp-icon [name]="'remove'" [size]="12"></gp-icon>
+                <span class="gp-dashboard-tile__sr-only">Remove widget</span>
+              </button>
+            }
+          </gp-widget>
 
           <button
             class="gp-dashboard-tile__resize"
@@ -83,6 +108,7 @@
             (keydown)="onResizeKeydown($event, widget)"
           >
             <gp-icon [name]="'settings'" [size]="12"></gp-icon>
+            <span class="gp-dashboard-tile__sr-only">Resize widget</span>
           </button>
         </article>
       }

@@ -5,8 +5,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "gp-analytics": ["./dist/gp-analytics"],
-      "gp-analytics/*": ["./dist/gp-analytics/*"]
+      "gp-analytics": ["./projects/gp-analytics/src/public-api.ts"],
+      "gp-analytics/*": ["./projects/gp-analytics/src/*"]
     },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

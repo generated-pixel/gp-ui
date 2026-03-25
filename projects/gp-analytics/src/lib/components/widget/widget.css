@@ -51,10 +51,22 @@
 }
 
 .gp-widget-title {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   color: var(--gp-color-text-primary, #13212b);
+}
+
+.gp-widget-title-end {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.gp-widget-title-end:empty {
+  display: none;
 }
 
 .gp-widget-body {

@@ -25,6 +25,14 @@
 
 .demo-section {
   margin-bottom: 3rem;
+  position: relative;
+}
+
+.demo-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .demo-section-title {
@@ -34,6 +42,19 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #496174;
+}
+
+.demo-add-widget-button {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: 1px solid #3b82f6;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 1.3rem;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .demo-section-description {
@@ -74,7 +95,14 @@
   gap: 0.45rem;
 }
 
-.demo-widget-palette__item {
+.demo-widget-palette__item-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.45rem;
+  align-items: stretch;
+}
+
+.demo-widget-palette__add {
   border: 1px dashed #9bb5cc;
   border-radius: 0.55rem;
   background: #f5faff;
@@ -82,6 +110,22 @@
   text-align: left;
   display: grid;
   gap: 0.2rem;
+  cursor: pointer;
+}
+
+.demo-widget-palette__item {
+  border: 1px solid #c5d2de;
+  border-radius: 0.55rem;
+  background: #ffffff;
+  color: #334d61;
+  padding: 0.5rem;
+  text-align: left;
+  min-width: 4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: grab;
 }
 
@@ -193,6 +237,55 @@
 
 .demo-dashboard-designer__canvas {
   min-width: 0;
+}
+
+.demo-widget-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgb(15 23 42 / 0.32);
+  z-index: 40;
+}
+
+.demo-widget-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(26rem, 92vw);
+  background: #ffffff;
+  border-left: 1px solid #d4dde7;
+  box-shadow: -18px 0 40px rgb(15 23 42 / 0.16);
+  transform: translateX(105%);
+  transition: transform 0.22s ease;
+  z-index: 45;
+  padding: 1rem;
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 0.75rem;
+}
+
+.demo-widget-drawer--open {
+  transform: translateX(0);
+}
+
+.demo-widget-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.demo-widget-drawer__close {
+  border: 1px solid #c5d2de;
+  background: #ffffff;
+  border-radius: 0.45rem;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.05rem;
+  line-height: 1;
+  color: #334d61;
+  cursor: pointer;
 }
 
 .demo-dashboard-dropzone {

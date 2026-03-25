@@ -66,21 +66,25 @@ export class DashboardLayoutService {
     columns: number,
   ): DashboardWidget[] {
     const map = new Map(widgets.map((x) => [x.id, this.cloneWidget(x)]));
+    const placed: DashboardWidget[] = [];
     const locked = widgets
       .filter((x) => this.isLocked(x) && x.id !== anchorId)
       .map((x) => map.get(x.id)!)
       .sort((a, b) => a.layout.y - b.layout.y || a.layout.x - b.layout.x);
 
     const anchor = anchorId ? map.get(anchorId) : undefined;
-    if (anchor && !this.isLocked(anchor)) {
-      this.pushDownUntilFree(anchor, locked, columns);
-    }
+    locked.forEach((widget) => {
+      this.pushDownUntilFree(widget, placed, columns);
+      placed.push(widget);
+    });
 
-    const placed: DashboardWidget[] = [];
     if (anchor) {
+      if (!this.isLocked(anchor)) {
+        this.pushDownUntilFree(anchor, placed, columns);
+      }
+
       placed.push(anchor);
     }
-    placed.push(...locked);
 
     const floating = widgets
       .filter((x) => x.id !== anchorId && !(this.isLocked(x) && x.id !== anchorId))

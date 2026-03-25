@@ -89,4 +89,37 @@ describe('DashboardLayoutService', () => {
     expect(a.layout.w).toBe(8);
     expect(b.layout.y).toBeGreaterThanOrEqual(2);
   });
+
+  it('should push initially overlapped widgets down during normalizeLayout', () => {
+    const widgets: DashboardWidget[] = [
+      { id: 'a', layout: { x: 0, y: 0, w: 4, h: 4 } },
+      { id: 'b', layout: { x: 0, y: 2, w: 4, h: 3 } },
+      { id: 'c', layout: { x: 4, y: 1, w: 4, h: 2 } },
+    ];
+
+    const normalized = service.normalizeLayout(widgets, 12);
+    const a = normalized.find((x) => x.id === 'a')!;
+    const b = normalized.find((x) => x.id === 'b')!;
+    const c = normalized.find((x) => x.id === 'c')!;
+
+    expect(a.layout.x).toBe(0);
+    expect(a.layout.y).toBe(0);
+    expect(b.layout.y).toBeGreaterThanOrEqual(a.layout.y + a.layout.h);
+    expect(c.layout.x).toBe(4);
+    expect(c.layout.y).toBe(1);
+  });
+
+  it('should push later locked widgets down during normalizeLayout', () => {
+    const widgets: DashboardWidget[] = [
+      { id: 'a', locked: true, layout: { x: 0, y: 0, w: 6, h: 2 } },
+      { id: 'b', locked: true, layout: { x: 0, y: 1, w: 6, h: 2 } },
+    ];
+
+    const normalized = service.normalizeLayout(widgets, 12);
+    const a = normalized.find((x) => x.id === 'a')!;
+    const b = normalized.find((x) => x.id === 'b')!;
+
+    expect(a.layout.y).toBe(0);
+    expect(b.layout.y).toBeGreaterThanOrEqual(a.layout.y + a.layout.h);
+  });
 });

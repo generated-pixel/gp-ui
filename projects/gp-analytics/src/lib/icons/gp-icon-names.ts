@@ -62,6 +62,8 @@ export type GpIconName =
   | 'external-link'
   | 'filter'
   | 'info'
+  | 'lock-closed'
+  | 'lock-open'
   | 'preview'
   | 'refresh'
   | 'remove'

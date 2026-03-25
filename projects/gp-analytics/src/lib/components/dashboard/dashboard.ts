@@ -2,6 +2,8 @@ import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
   HostListener,
   computed,
   effect,
@@ -13,6 +15,7 @@ import {
 
 import { gpAnalyticsThemeCssVariables } from '../../config/gp-analytics-config';
 import { DashboardWidget } from '../../interfaces/dashboard-layout';
+import { GpIconName } from '../../icons/gp-icon-names';
 import { GpIcon } from '../../components/icon/icon';
 import { DashboardLayoutService } from '../../services/dashboard-layout.service';
 import { GP_ANALYTICS_CONFIG, GP_ANALYTICS_TRANSLATIONS } from '../../tokens/gp-analytics.token';
@@ -45,10 +48,13 @@ export class Dashboard {
   readonly widgetsChange = output<DashboardWidget[]>();
 
   private readonly config = inject(GP_ANALYTICS_CONFIG, { optional: true });
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly host = inject(ElementRef<HTMLElement>);
   private readonly layoutService = inject(DashboardLayoutService);
   protected readonly t = inject(GP_ANALYTICS_TRANSLATIONS);
   private readonly managedWidgetsState = signal<DashboardWidget[]>([]);
   private readonly activeInteraction = signal<ActiveDashboardInteraction | undefined>(undefined);
+  private measurementFrame: number | undefined;
 
   protected readonly themeStyle = computed(() => gpAnalyticsThemeCssVariables(this.config?.theme));
   protected readonly resolvedTitle = computed(() => this.title() ?? this.t.dashboardDefaultTitle);
@@ -73,6 +79,18 @@ export class Dashboard {
     effect(() => {
       const normalized = this.layoutService.normalizeLayout(this.widgets(), this.columns());
       this.managedWidgetsState.set(normalized);
+      this.queueContentMeasurement();
+    });
+
+    effect(() => {
+      this.managedWidgetsState();
+      this.queueContentMeasurement();
+    });
+
+    this.destroyRef.onDestroy(() => {
+      if (this.measurementFrame !== undefined) {
+        cancelAnimationFrame(this.measurementFrame);
+      }
     });
   }
 
@@ -124,6 +142,11 @@ export class Dashboard {
 
     this.activeInteraction.set(undefined);
     this.widgetsChange.emit(this.managedWidgetsState());
+  }
+
+  @HostListener('window:resize')
+  protected onWindowResize(): void {
+    this.queueContentMeasurement();
   }
 
   protected startMove(event: PointerEvent, widget: DashboardWidget): void {
@@ -212,6 +235,51 @@ export class Dashboard {
     this.keyboardHelpVisible.update((visible) => !visible);
   }
 
+  protected toggleWidgetLocked(widget: DashboardWidget): void {
+    if (this.locked() || this.isWidgetFixed(widget)) {
+      return;
+    }
+
+    const nextLocked = !this.isWidgetLocked(widget);
+    const next = this.managedWidgetsState().map((candidate) =>
+      candidate.id === widget.id
+        ? {
+            ...candidate,
+            locked: nextLocked,
+            layout: {
+              ...candidate.layout,
+              locked: nextLocked,
+            },
+          }
+        : candidate,
+    );
+
+    this.managedWidgetsState.set(next);
+    this.widgetsChange.emit(next);
+  }
+
+  protected lockIcon(widget: DashboardWidget): GpIconName {
+    return this.isWidgetLocked(widget) ? 'lock-closed' : 'lock-open';
+  }
+
+  protected lockToggleLabel(widget: DashboardWidget): string {
+    if (this.isWidgetFixed(widget)) {
+      return 'Widget position fixed';
+    }
+
+    return this.isWidgetLocked(widget) ? 'Unlock widget' : 'Lock widget';
+  }
+
+  protected canRemoveWidget(widget: DashboardWidget): boolean {
+    return !this.isWidgetFixed(widget);
+  }
+
+  protected removeWidget(widgetId: string): void {
+    const next = this.managedWidgetsState().filter((widget) => widget.id !== widgetId);
+    this.managedWidgetsState.set(next);
+    this.widgetsChange.emit(next);
+  }
+
   protected tileLeftPx(widget: DashboardWidget): number {
     return widget.layout.x * (this.cellWidth() + this.gridGap());
   }
@@ -226,6 +294,62 @@ export class Dashboard {
 
   protected tileHeightPx(widget: DashboardWidget): number {
     return widget.layout.h * this.cellHeight() + (widget.layout.h - 1) * this.gridGap();
+  }
+
+  private queueContentMeasurement(): void {
+    if (typeof requestAnimationFrame !== 'function') {
+      return;
+    }
+
+    if (this.measurementFrame !== undefined) {
+      cancelAnimationFrame(this.measurementFrame);
+    }
+
+    this.measurementFrame = requestAnimationFrame(() => {
+      this.measurementFrame = undefined;
+      this.expandWidgetsToFitContent();
+    });
+  }
+
+  private expandWidgetsToFitContent(): void {
+    const tiles = Array.from(
+      this.host.nativeElement.querySelectorAll('.gp-dashboard-tile'),
+    ) as HTMLElement[];
+    if (tiles.length === 0) {
+      return;
+    }
+
+    let changed = false;
+    const nextWidgets = this.managedWidgetsState().map((widget) => {
+      const tile = tiles.find((candidate) => candidate.dataset['widgetId'] === widget.id);
+      if (!tile) {
+        return widget;
+      }
+
+      const widgetElement = tile.querySelector('gp-widget') as HTMLElement | null;
+      const contentHeight = Math.max(widgetElement?.scrollHeight ?? 0, tile.scrollHeight);
+      const requiredRows = this.rowsForHeight(contentHeight);
+
+      if (requiredRows <= widget.layout.h) {
+        return widget;
+      }
+
+      changed = true;
+      return {
+        ...widget,
+        layout: {
+          ...widget.layout,
+          h: requiredRows,
+        },
+      };
+    });
+
+    if (!changed) {
+      return;
+    }
+
+    const normalized = this.layoutService.normalizeLayout(nextWidgets, this.columns());
+    this.managedWidgetsState.set(normalized);
   }
 
   private maxRows(): number {
@@ -252,5 +376,10 @@ export class Dashboard {
     }
 
     return undefined;
+  }
+
+  private rowsForHeight(heightPx: number): number {
+    const step = this.cellHeight() + this.gridGap();
+    return Math.max(1, Math.ceil((heightPx + this.gridGap()) / step));
   }
 }

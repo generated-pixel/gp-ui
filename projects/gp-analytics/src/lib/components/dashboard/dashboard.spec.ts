@@ -69,6 +69,37 @@ describe('Dashboard', () => {
     expect(tiles.length).toBe(2);
   });
 
+  it('should expand widget height to fit rendered content', () => {
+    fixture.componentRef.setInput('widgets', [
+      {
+        id: 'tall',
+        layout: { x: 0, y: 0, w: 4, h: 1 },
+        item: {
+          metadata: { id: 'tall', name: 'Tall', artifactType: 'kpi', fields: [] },
+          data: { summary: 'Tall content' },
+        },
+      },
+    ]);
+    fixture.detectChanges();
+
+    const tile = fixture.nativeElement.querySelector('.gp-dashboard-tile') as HTMLElement;
+    const widget = tile.querySelector('gp-widget') as HTMLElement;
+
+    Object.defineProperty(widget, 'scrollHeight', {
+      configurable: true,
+      get: () => 170,
+    });
+    Object.defineProperty(tile, 'scrollHeight', {
+      configurable: true,
+      get: () => 170,
+    });
+
+    (component as any).expandWidgetsToFitContent();
+
+    const expanded = (component as any).managedWidgetsState()[0] as DashboardWidget;
+    expect(expanded.layout.h).toBeGreaterThan(1);
+  });
+
   it('should keep keyboard help collapsed by default', () => {
     fixture.componentRef.setInput('widgets', MANAGED_WIDGETS);
     fixture.detectChanges();
@@ -144,6 +175,30 @@ describe('Dashboard', () => {
     );
     expect(moveButton.disabled).toBe(true);
     expect(resizeButton.disabled).toBe(false);
+    expect(fixture.nativeElement.querySelector('.gp-dashboard-tile__lock-toggle')).toBeNull();
+  });
+
+  it('should toggle widget lock from the padlock control', () => {
+    const emitSpy = vi.spyOn(component.widgetsChange, 'emit');
+    fixture.componentRef.setInput('widgets', MANAGED_WIDGETS);
+    fixture.detectChanges();
+
+    const lockButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__lock-toggle',
+    );
+    expect(lockButton.getAttribute('aria-label')).toBe('Lock widget');
+
+    lockButton.click();
+    fixture.detectChanges();
+
+    expect(emitSpy).toHaveBeenCalled();
+    const payload = emitSpy.mock.calls.at(-1)?.[0] as DashboardWidget[];
+    expect(payload.find((widget) => widget.id === 'a')?.locked).toBe(true);
+
+    const updatedLockButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__lock-toggle',
+    );
+    expect(updatedLockButton.getAttribute('aria-label')).toBe('Unlock widget');
   });
 
   it('should emit widgetsChange after a move interaction', () => {

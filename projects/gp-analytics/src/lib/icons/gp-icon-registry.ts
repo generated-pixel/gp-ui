@@ -434,6 +434,26 @@ export const GP_ICON_REGISTRY: Record<GpIconName, string> = {
   `,
 
   /**
+   * Lock closed — a closed padlock.
+   */
+  'lock-closed': `
+    <rect x="6" y="10" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.75"/>
+    <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    <circle cx="12" cy="15" r="1.25" fill="currentColor"/>
+    <path d="M12 16.25v1.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  `,
+
+  /**
+   * Lock open — an unlocked padlock.
+   */
+  'lock-open': `
+    <rect x="6" y="10" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.75"/>
+    <path d="M8.5 10V7.75a3.5 3.5 0 0 1 6-2.4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+    <circle cx="12" cy="15" r="1.25" fill="currentColor"/>
+    <path d="M12 16.25v1.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  `,
+
+  /**
    * Preview — an eye icon.
    */
   preview: `

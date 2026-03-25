@@ -4,52 +4,22 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import {
   Dashboard,
   DashboardWidget,
-  DesignedItem,
   Designer,
   DesignerArtifactType,
   SelectedField,
-  Widget,
 } from 'gp-analytics';
-
-const SAMPLE_REVENUE_ITEM: DesignedItem = {
-  metadata: {
-    id: 'demo-revenue-kpi',
-    name: 'Revenue KPI',
-    artifactType: 'kpi',
-    fields: [],
-    generatedAt: '2026-03-24T12:00:00.000Z',
-  },
-  style: {
-    tone: 'accent',
-    highlighted: true,
-  },
-  data: {
-    summary: 'Generated from the designer configuration on the server.',
-    points: [
-      {
-        key: 'revenue',
-        label: 'Revenue',
-        value: 128400,
-        valueType: 'currency',
-      },
-      {
-        key: 'growth',
-        label: 'Growth',
-        value: 0.12,
-        valueType: 'percent',
-      },
-    ],
-  },
-};
+import {
+  DEMO_DASHBOARD_WIDGETS,
+  DEMO_DESIGNER_FOLDERS,
+  DEMO_REVENUE_ITEM,
+} from './demo-sample-data';
 
 interface WidgetTemplate {
   key: string;
   title: string;
   artifactType: DesignerArtifactType;
   summary: string;
-  tone?: DesignedItem['style'] extends undefined
-    ? never
-    : NonNullable<DesignedItem['style']>['tone'];
+  tone?: 'default' | 'muted' | 'accent' | 'success' | 'warning' | 'danger';
   defaultW: number;
   defaultH: number;
 }
@@ -64,13 +34,14 @@ interface WidgetDropPreview {
 
 @Component({
   selector: 'app-root',
-  imports: [Dashboard, Designer, Widget, DragDropModule, NgStyle],
+  imports: [Dashboard, Designer, DragDropModule, NgStyle],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly revenueItem = SAMPLE_REVENUE_ITEM;
+  protected readonly revenueItem = DEMO_REVENUE_ITEM;
+  protected readonly designerFolders = DEMO_DESIGNER_FOLDERS;
   protected readonly dashboardColumns = 12;
   protected readonly dashboardCellWidth = 64;
   protected readonly dashboardCellHeight = 64;
@@ -104,50 +75,12 @@ export class App {
       defaultH: 4,
     },
   ];
-  protected readonly dashboardWidgets = signal<DashboardWidget[]>([
-    {
-      id: 'widget-total-users',
-      title: 'Total Users',
-      layout: { x: 0, y: 0, w: 4, h: 3 },
-      item: {
-        metadata: {
-          id: 'total-users',
-          name: 'Total Users',
-          artifactType: 'kpi',
-          fields: [],
-        },
-        data: {
-          summary: '42,891 active users this month.',
-        },
-      },
-    },
-    {
-      id: 'widget-revenue',
-      layout: { x: 4, y: 0, w: 4, h: 4 },
-      item: SAMPLE_REVENUE_ITEM,
-    },
-    {
-      id: 'widget-conversion',
-      title: 'Conversion Rate',
-      locked: true,
-      layout: { x: 8, y: 0, w: 4, h: 3 },
-      item: {
-        metadata: {
-          id: 'conversion-rate',
-          name: 'Conversion Rate',
-          artifactType: 'kpi',
-          fields: [],
-        },
-        data: {
-          summary: '3.7% across all campaigns.',
-        },
-      },
-    },
-  ]);
-  protected readonly selectedWidgetId = signal<string>('widget-total-users');
+  protected readonly dashboardWidgets = signal<DashboardWidget[]>(DEMO_DASHBOARD_WIDGETS);
+  protected readonly selectedWidgetId = signal<string>(DEMO_DASHBOARD_WIDGETS[0]?.id ?? '');
   protected readonly selectedWidget = computed(() =>
     this.dashboardWidgets().find((widget) => widget.id === this.selectedWidgetId()),
   );
+  protected readonly widgetDrawerOpen = signal(false);
   protected readonly activeTemplate = signal<WidgetTemplate | undefined>(undefined);
   protected readonly dropPreview = signal<WidgetDropPreview | undefined>(undefined);
   protected readonly dropPreviewHasCollision = computed(() => {
@@ -216,6 +149,24 @@ export class App {
     this.selectedWidgetId.set(widgetId);
   }
 
+  protected openWidgetDrawer(): void {
+    this.widgetDrawerOpen.set(true);
+  }
+
+  protected closeWidgetDrawer(): void {
+    this.widgetDrawerOpen.set(false);
+    this.clearTemplatePreview();
+  }
+
+  protected toggleWidgetDrawer(): void {
+    if (this.widgetDrawerOpen()) {
+      this.closeWidgetDrawer();
+      return;
+    }
+
+    this.openWidgetDrawer();
+  }
+
   protected addWidget(): void {
     const current = this.dashboardWidgets();
     const nextIndex = current.length + 1;
@@ -245,6 +196,24 @@ export class App {
     this.selectedWidgetId.set(id);
   }
 
+  protected addWidgetFromTemplate(template: WidgetTemplate): void {
+    const maxY = this.dashboardWidgets().reduce((highest, widget) => {
+      const bottom = widget.layout.y + widget.layout.h;
+      return bottom > highest ? bottom : highest;
+    }, 0);
+
+    const placement: WidgetDropPreview = {
+      x: 0,
+      y: maxY,
+      w: template.defaultW,
+      h: template.defaultH,
+      title: template.title,
+    };
+
+    this.appendTemplateWidget(template, placement);
+    this.closeWidgetDrawer();
+  }
+
   protected onTemplateDropped(event: CdkDragDrop<DashboardWidget[], WidgetTemplate[]>): void {
     const preview = this.dropPreview();
     this.clearTemplatePreview();
@@ -267,35 +236,8 @@ export class App {
       return;
     }
 
-    const id = `widget-custom-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-    const newWidget: DashboardWidget = {
-      id,
-      title: template.title,
-      fixed: false,
-      layout: {
-        x: placement.x,
-        y: placement.y,
-        w: template.defaultW,
-        h: template.defaultH,
-      },
-      item: {
-        metadata: {
-          id,
-          name: template.title,
-          artifactType: template.artifactType,
-          fields: [],
-        },
-        style: {
-          tone: template.tone,
-        },
-        data: {
-          summary: template.summary,
-        },
-      },
-    };
-
-    this.dashboardWidgets.update((widgets) => [...widgets, newWidget]);
-    this.selectedWidgetId.set(id);
+    this.appendTemplateWidget(template, placement);
+    this.closeWidgetDrawer();
   }
 
   protected onTemplateDragStarted(template: WidgetTemplate): void {
@@ -465,6 +407,38 @@ export class App {
   private clearTemplatePreview(): void {
     this.activeTemplate.set(undefined);
     this.dropPreview.set(undefined);
+  }
+
+  private appendTemplateWidget(template: WidgetTemplate, placement: WidgetDropPreview): void {
+    const id = `widget-custom-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const newWidget: DashboardWidget = {
+      id,
+      title: template.title,
+      fixed: false,
+      layout: {
+        x: placement.x,
+        y: placement.y,
+        w: template.defaultW,
+        h: template.defaultH,
+      },
+      item: {
+        metadata: {
+          id,
+          name: template.title,
+          artifactType: template.artifactType,
+          fields: [],
+        },
+        style: {
+          tone: template.tone,
+        },
+        data: {
+          summary: template.summary,
+        },
+      },
+    };
+
+    this.dashboardWidgets.update((widgets) => [...widgets, newWidget]);
+    this.selectedWidgetId.set(id);
   }
 
   private resolveGridPlacement(

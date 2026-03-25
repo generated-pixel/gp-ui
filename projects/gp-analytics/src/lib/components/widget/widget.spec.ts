@@ -49,7 +49,7 @@ describe('Widget', () => {
     expect(widget.classList.contains('gp-widget--highlighted')).toBe(true);
   });
 
-  it('should render item metadata and points', () => {
+  it('should render item summary and points without metadata details', () => {
     fixture.componentRef.setInput('item', {
       metadata: {
         id: 'item-1',
@@ -75,11 +75,9 @@ describe('Widget', () => {
     const title = fixture.nativeElement.querySelector('.gp-widget-title');
     const summary = fixture.nativeElement.querySelector('.gp-widget-summary');
     const pointRows = fixture.nativeElement.querySelectorAll('.gp-widget-points__row');
-    const meta = fixture.nativeElement.querySelector('.gp-widget-meta')?.textContent ?? '';
 
     expect(title.textContent).toContain('Revenue KPI');
-    expect(meta).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.graphTypeLabel);
-    expect(meta).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.graphTypeBar);
+    expect(fixture.nativeElement.querySelector('.gp-widget-meta')).toBeNull();
     expect(summary.textContent).toContain('Current month performance');
     expect(pointRows.length).toBe(2);
   });
