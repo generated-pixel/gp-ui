@@ -10,6 +10,7 @@ export interface DashboardWidgetLayout {
   maxW?: number;
   maxH?: number;
   locked?: boolean;
+  fixed?: boolean;
 }
 
 export interface DashboardWidget {
@@ -18,6 +19,7 @@ export interface DashboardWidget {
   title?: string;
   highlighted?: boolean;
   locked?: boolean;
+  fixed?: boolean;
   layout: DashboardWidgetLayout;
 }
 

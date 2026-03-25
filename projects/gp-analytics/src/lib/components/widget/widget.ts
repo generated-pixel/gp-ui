@@ -51,38 +51,38 @@ export class Widget {
 
   protected artifactTypeLabel(type: DesignerArtifactType): string {
     if (type === 'graph') {
-      return this.t.widgetArtifactTypeGraph;
+      return this.t.artifactTypeGraph;
     }
 
     if (type === 'kpi') {
-      return this.t.widgetArtifactTypeKpi;
+      return this.t.artifactTypeKpi;
     }
 
-    return this.t.widgetArtifactTypeTabular;
+    return this.t.artifactTypeTabular;
   }
 
   protected graphTypeLabel(type: GraphVisualizationType): string {
     if (type === 'pie') {
-      return this.t.widgetGraphTypePie;
+      return this.t.graphTypePie;
     }
 
     if (type === 'stacked-bar') {
-      return this.t.widgetGraphTypeStackedBar;
+      return this.t.graphTypeStackedBar;
     }
 
     if (type === 'column') {
-      return this.t.widgetGraphTypeColumn;
+      return this.t.graphTypeColumn;
     }
 
     if (type === 'stacked-column') {
-      return this.t.widgetGraphTypeStackedColumn;
+      return this.t.graphTypeStackedColumn;
     }
 
     if (type === 'radial') {
-      return this.t.widgetGraphTypeRadial;
+      return this.t.graphTypeRadial;
     }
 
-    return this.t.widgetGraphTypeBar;
+    return this.t.graphTypeBar;
   }
 
   protected artifactTypeIcon(type: DesignerArtifactType): GpIconName {

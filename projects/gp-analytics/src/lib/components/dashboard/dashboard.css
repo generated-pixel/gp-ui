@@ -13,6 +13,13 @@
   margin-bottom: 1.5rem;
 }
 
+.gp-dashboard-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
 .gp-dashboard-eyebrow {
   margin: 0 0 0.25rem;
   font-size: 0.75rem;
@@ -28,10 +35,39 @@
   color: var(--gp-color-text-primary, #13212b);
 }
 
+.gp-dashboard-shortcuts-toggle {
+  width: 1.65rem;
+  height: 1.65rem;
+  border: 1px solid var(--gp-color-border-strong, #cbd5e1);
+  border-radius: var(--gp-radius-full, 999px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--gp-color-surface, #ffffff);
+  color: var(--gp-color-text-muted, #64748b);
+  cursor: pointer;
+}
+
+.gp-dashboard-shortcuts-toggle:focus-visible {
+  outline: 2px solid var(--gp-color-focus, #93c5fd);
+  outline-offset: 1px;
+  border-color: var(--gp-color-accent-border, #bfdbfe);
+  box-shadow: 0 0 0 3px rgb(147 197 253 / 0.25);
+}
+
 .gp-dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+}
+
+.gp-dashboard-help {
+  margin: 0 0 0.625rem;
+  font-size: 0.78rem;
+  color: var(--gp-color-text-muted, #64748b);
 }
 
 .gp-dashboard-grid--managed {
@@ -52,19 +88,10 @@
 
 .gp-dashboard-tile {
   position: absolute;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 0.25rem;
 }
 
 .gp-dashboard-tile gp-widget {
   height: 100%;
-}
-
-.gp-dashboard-tile__toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .gp-dashboard-tile__move,
@@ -79,6 +106,14 @@
   background: var(--gp-color-surface, #ffffff);
   color: var(--gp-color-text-muted, #64748b);
   cursor: move;
+}
+
+.gp-dashboard-tile__move:focus-visible,
+.gp-dashboard-tile__resize:focus-visible {
+  outline: 2px solid var(--gp-color-focus, #93c5fd);
+  outline-offset: 1px;
+  border-color: var(--gp-color-accent-border, #bfdbfe);
+  box-shadow: 0 0 0 3px rgb(147 197 253 / 0.25);
 }
 
 .gp-dashboard-tile__resize {
@@ -96,6 +131,10 @@
 }
 
 .gp-dashboard-tile__lock-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
   font-size: 0.7rem;
   padding: 0.12rem 0.4rem;
   border-radius: var(--gp-radius-full, 999px);

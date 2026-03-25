@@ -78,8 +78,8 @@ describe('Widget', () => {
     const meta = fixture.nativeElement.querySelector('.gp-widget-meta')?.textContent ?? '';
 
     expect(title.textContent).toContain('Revenue KPI');
-    expect(meta).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.widgetGraphTypeLabel);
-    expect(meta).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.widgetGraphTypeBar);
+    expect(meta).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.graphTypeLabel);
+    expect(meta).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.graphTypeBar);
     expect(summary.textContent).toContain('Current month performance');
     expect(pointRows.length).toBe(2);
   });

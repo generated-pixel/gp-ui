@@ -69,17 +69,17 @@ export class Designer {
     this.iconMapper.graphType(this.selectedGraphType()),
   );
   protected readonly artifactTypeLabels = computed<Record<DesignerArtifactType, string>>(() => ({
-    tabular: this.t.designerArtifactTypeTabular,
-    graph: this.t.designerArtifactTypeGraph,
-    kpi: this.t.designerArtifactTypeKpi,
+    tabular: this.t.artifactTypeTabular,
+    graph: this.t.artifactTypeGraph,
+    kpi: this.t.artifactTypeKpi,
   }));
   protected readonly graphTypeLabels = computed<Record<GraphVisualizationType, string>>(() => ({
-    pie: this.t.designerGraphTypePie,
-    bar: this.t.designerGraphTypeBar,
-    'stacked-bar': this.t.designerGraphTypeStackedBar,
-    column: this.t.designerGraphTypeColumn,
-    'stacked-column': this.t.designerGraphTypeStackedColumn,
-    radial: this.t.designerGraphTypeRadial,
+    pie: this.t.graphTypePie,
+    bar: this.t.graphTypeBar,
+    'stacked-bar': this.t.graphTypeStackedBar,
+    column: this.t.graphTypeColumn,
+    'stacked-column': this.t.graphTypeStackedColumn,
+    radial: this.t.graphTypeRadial,
   }));
   protected readonly artifactHint = computed(() => {
     const type = this.selectedArtifactType();

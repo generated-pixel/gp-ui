@@ -34,6 +34,22 @@
   background: var(--gp-color-surface-muted, #f7fafc);
 }
 
+.gp-widget-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gp-widget-title-start {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.gp-widget-title-start:empty {
+  display: none;
+}
+
 .gp-widget-title {
   margin: 0;
   font-size: 1rem;

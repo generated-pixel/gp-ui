@@ -54,6 +54,13 @@ export class Dashboard {
   protected readonly resolvedTitle = computed(() => this.title() ?? this.t.dashboardDefaultTitle);
   protected readonly hasManagedWidgets = computed(() => this.widgets().length > 0);
   protected readonly managedWidgets = this.managedWidgetsState.asReadonly();
+  protected readonly keyboardHelpId = 'gp-dashboard-keyboard-help';
+  protected readonly keyboardHelpVisible = signal(false);
+  protected readonly keyboardHelpToggleLabel = computed(() =>
+    this.keyboardHelpVisible()
+      ? this.t.dashboardKeyboardHelpHideLabel
+      : this.t.dashboardKeyboardHelpShowLabel,
+  );
   protected readonly gridWidthPx = computed(
     () => this.columns() * this.cellWidth() + (this.columns() - 1) * this.gridGap(),
   );
@@ -120,7 +127,7 @@ export class Dashboard {
   }
 
   protected startMove(event: PointerEvent, widget: DashboardWidget): void {
-    if (this.isWidgetLocked(widget)) {
+    if (this.isWidgetLocked(widget) || this.isWidgetFixed(widget)) {
       return;
     }
 
@@ -150,7 +157,7 @@ export class Dashboard {
   }
 
   protected onMoveKeydown(event: KeyboardEvent, widget: DashboardWidget): void {
-    if (this.isWidgetLocked(widget) || this.locked()) {
+    if (this.isWidgetLocked(widget) || this.isWidgetFixed(widget) || this.locked()) {
       return;
     }
 
@@ -195,6 +202,14 @@ export class Dashboard {
 
   protected isWidgetLocked(widget: DashboardWidget): boolean {
     return this.locked() || widget.locked === true || widget.layout.locked === true;
+  }
+
+  protected isWidgetFixed(widget: DashboardWidget): boolean {
+    return widget.fixed === true || widget.layout.fixed === true;
+  }
+
+  protected toggleKeyboardHelp(): void {
+    this.keyboardHelpVisible.update((visible) => !visible);
   }
 
   protected tileLeftPx(widget: DashboardWidget): number {

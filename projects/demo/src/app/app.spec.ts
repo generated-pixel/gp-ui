@@ -1,10 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { DEFAULT_GP_ANALYTICS_TRANSLATIONS, GP_ANALYTICS_TRANSLATIONS } from 'gp-analytics';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [
+        {
+          provide: GP_ANALYTICS_TRANSLATIONS,
+          useValue: DEFAULT_GP_ANALYTICS_TRANSLATIONS,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -18,6 +25,6 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, demo');
+    expect(compiled.querySelector('h1')?.textContent).toContain('GP Analytics — Demo');
   });
 });

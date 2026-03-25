@@ -69,6 +69,49 @@ describe('Dashboard', () => {
     expect(tiles.length).toBe(2);
   });
 
+  it('should keep keyboard help collapsed by default', () => {
+    fixture.componentRef.setInput('widgets', MANAGED_WIDGETS);
+    fixture.detectChanges();
+
+    const help = fixture.nativeElement.querySelector('#gp-dashboard-keyboard-help');
+    expect(help).toBeTruthy();
+    expect(help.hidden).toBe(true);
+
+    const moveButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__move',
+    );
+    const resizeButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__resize',
+    );
+    expect(moveButton.getAttribute('aria-describedby')).toBeNull();
+    expect(resizeButton.getAttribute('aria-describedby')).toBeNull();
+  });
+
+  it('should expand keyboard help and link controls via aria-describedby', () => {
+    fixture.componentRef.setInput('widgets', MANAGED_WIDGETS);
+    fixture.detectChanges();
+
+    const toggleButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-shortcuts-toggle',
+    );
+    toggleButton.click();
+    fixture.detectChanges();
+
+    const help = fixture.nativeElement.querySelector('#gp-dashboard-keyboard-help');
+    expect(help.hidden).toBe(false);
+    expect(help.textContent).toContain(DEFAULT_GP_ANALYTICS_TRANSLATIONS.dashboardKeyboardHint);
+    expect(toggleButton.getAttribute('aria-expanded')).toBe('true');
+
+    const moveButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__move',
+    );
+    const resizeButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__resize',
+    );
+    expect(moveButton.getAttribute('aria-describedby')).toBe('gp-dashboard-keyboard-help');
+    expect(resizeButton.getAttribute('aria-describedby')).toBe('gp-dashboard-keyboard-help');
+  });
+
   it('should not start move interaction for a locked widget', () => {
     fixture.componentRef.setInput('widgets', [
       {
@@ -82,6 +125,25 @@ describe('Dashboard', () => {
       '.gp-dashboard-tile__move',
     );
     expect(moveButton.disabled).toBe(true);
+  });
+
+  it('should disable move but keep resize enabled for a fixed widget', () => {
+    fixture.componentRef.setInput('widgets', [
+      {
+        ...MANAGED_WIDGETS[0],
+        fixed: true,
+      },
+    ]);
+    fixture.detectChanges();
+
+    const moveButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__move',
+    );
+    const resizeButton: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.gp-dashboard-tile__resize',
+    );
+    expect(moveButton.disabled).toBe(true);
+    expect(resizeButton.disabled).toBe(false);
   });
 
   it('should emit widgetsChange after a move interaction', () => {

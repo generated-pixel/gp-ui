@@ -1,10 +1,29 @@
 <section class="gp-dashboard" [ngStyle]="themeStyle()" [attr.aria-label]="t.dashboardAriaLabel">
   <div class="gp-dashboard-header">
     <p class="gp-dashboard-eyebrow">{{ t.dashboardEyebrow }}</p>
-    <h2 class="gp-dashboard-title">{{ resolvedTitle() }}</h2>
+    <div class="gp-dashboard-header__row">
+      <h2 class="gp-dashboard-title">{{ resolvedTitle() }}</h2>
+      @if (hasManagedWidgets()) {
+        <button
+          class="gp-dashboard-shortcuts-toggle"
+          type="button"
+          [attr.aria-label]="keyboardHelpToggleLabel()"
+          [attr.aria-expanded]="keyboardHelpVisible()"
+          [attr.aria-controls]="keyboardHelpId"
+          [title]="keyboardHelpToggleLabel()"
+          (click)="toggleKeyboardHelp()"
+        >
+          ?
+        </button>
+      }
+    </div>
   </div>
 
   @if (hasManagedWidgets()) {
+    <p class="gp-dashboard-help" [id]="keyboardHelpId" [hidden]="!keyboardHelpVisible()">
+      {{ t.dashboardKeyboardHint }}
+    </p>
+
     <div
       class="gp-dashboard-grid gp-dashboard-grid--managed"
       [style.--gp-dashboard-cell-width]="cellWidth() + 'px'"
@@ -18,18 +37,25 @@
         <article
           class="gp-dashboard-tile"
           [class.gp-dashboard-tile--locked]="isWidgetLocked(widget)"
+          [class.gp-dashboard-tile--fixed]="isWidgetFixed(widget)"
           [style.left.px]="tileLeftPx(widget)"
           [style.top.px]="tileTopPx(widget)"
           [style.width.px]="tileWidthPx(widget)"
           [style.height.px]="tileHeightPx(widget)"
           role="listitem"
         >
-          <div class="gp-dashboard-tile__toolbar">
+          <gp-widget
+            [item]="widget.item"
+            [title]="widget.title"
+            [highlighted]="widget.highlighted ?? false"
+          >
             <button
+              gpWidgetTitleStart
               class="gp-dashboard-tile__move"
               type="button"
-              [disabled]="isWidgetLocked(widget)"
-              [attr.aria-label]="'Move widget'"
+              [disabled]="isWidgetLocked(widget) || isWidgetFixed(widget)"
+              [attr.aria-label]="isWidgetFixed(widget) ? 'Widget position fixed' : 'Move widget'"
+              [attr.aria-describedby]="keyboardHelpVisible() ? keyboardHelpId : null"
               aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
               title="Move widget"
               (pointerdown)="startMove($event, widget)"
@@ -37,23 +63,20 @@
             >
               <gp-icon [name]="'drag-handle'" [size]="14"></gp-icon>
             </button>
+          </gp-widget>
 
-            @if (isWidgetLocked(widget)) {
-              <span class="gp-dashboard-tile__lock-badge">Locked</span>
-            }
-          </div>
-
-          <gp-widget
-            [item]="widget.item"
-            [title]="widget.title"
-            [highlighted]="widget.highlighted ?? false"
-          />
+          @if (isWidgetLocked(widget) || isWidgetFixed(widget)) {
+            <span class="gp-dashboard-tile__lock-badge">{{
+              isWidgetLocked(widget) ? 'Locked' : 'Fixed position'
+            }}</span>
+          }
 
           <button
             class="gp-dashboard-tile__resize"
             type="button"
             [disabled]="isWidgetLocked(widget)"
             [attr.aria-label]="'Resize widget'"
+            [attr.aria-describedby]="keyboardHelpVisible() ? keyboardHelpId : null"
             aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown"
             title="Resize widget"
             (pointerdown)="startResize($event, widget)"

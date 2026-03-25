@@ -7,7 +7,12 @@
   [attr.aria-label]="t.widgetAriaLabel"
 >
   <div class="gp-widget-header">
-    <h3 class="gp-widget-title">{{ resolvedTitle() }}</h3>
+    <div class="gp-widget-title-row">
+      <span class="gp-widget-title-start">
+        <ng-content select="[gpWidgetTitleStart]"></ng-content>
+      </span>
+      <h3 class="gp-widget-title">{{ resolvedTitle() }}</h3>
+    </div>
   </div>
 
   @if (item(); as designedItem) {
@@ -24,7 +29,7 @@
       </p>
       @if (designedItem.metadata.artifactType === 'graph' && designedItem.metadata.graphType) {
         <p class="gp-widget-meta__line">
-          <span class="gp-widget-meta__label">{{ t.widgetGraphTypeLabel }}</span>
+          <span class="gp-widget-meta__label">{{ t.graphTypeLabel }}</span>
           <span class="gp-widget-meta__value">
             <gp-icon [name]="graphTypeIcon(designedItem.metadata.graphType)" [size]="13"></gp-icon>
             <span>{{ graphTypeLabel(designedItem.metadata.graphType) }}</span>

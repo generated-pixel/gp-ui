@@ -2,29 +2,22 @@ export interface GpAnalyticsTranslations {
   dashboardAriaLabel: string;
   dashboardEyebrow: string;
   dashboardDefaultTitle: string;
+  dashboardKeyboardHint: string;
+  dashboardKeyboardHelpShowLabel: string;
+  dashboardKeyboardHelpHideLabel: string;
   designerAriaLabel: string;
-  designerOutputOrderAriaLabel: string;
   designerEyebrow: string;
   designerDefaultTitle: string;
   designerDescription: string;
   designerCreateLabel: string;
-  designerArtifactTypeTabular: string;
-  designerArtifactTypeGraph: string;
-  designerArtifactTypeKpi: string;
-  designerGraphTypeLabel: string;
-  designerGraphTypePie: string;
-  designerGraphTypeBar: string;
-  designerGraphTypeStackedBar: string;
-  designerGraphTypeColumn: string;
-  designerGraphTypeStackedColumn: string;
-  designerGraphTypeRadial: string;
-  designerHintTabular: string;
-  designerHintGraph: string;
-  designerHintKpi: string;
+  designerOutputOrderAriaLabel: string;
+  designerOutputOrderLabel: string;
   designerPanelAvailableFields: string;
   designerPanelPreview: string;
   designerPanelSelectedFields: string;
-  designerOutputOrderLabel: string;
+  designerHintTabular: string;
+  designerHintGraph: string;
+  designerHintKpi: string;
   designerPreviewRefreshButton: string;
   designerPreviewRefreshAriaLabel: string;
   designerPreviewEmpty: string;
@@ -36,6 +29,26 @@ export interface GpAnalyticsTranslations {
   designerPreviewSummaryTabular: string;
   designerPreviewSummaryGraph: string;
   designerPreviewSummaryKpi: string;
+  designerErrorAtLeastOneField: string;
+  designerErrorGraphNeedsXAxis: string;
+  designerErrorGraphNeedsYAxis: string;
+  designerErrorKpiNeedsValueField: string;
+  designerErrorKpiValueMustBeNumeric: string;
+  designerErrorKpiTooManyFields: string;
+  artifactTypeTabular: string;
+  artifactTypeGraph: string;
+  artifactTypeKpi: string;
+  graphTypeLabel: string;
+  graphTypePie: string;
+  graphTypeBar: string;
+  graphTypeStackedBar: string;
+  graphTypeColumn: string;
+  graphTypeStackedColumn: string;
+  graphTypeRadial: string;
+  graphRoleXAxisLabel: string;
+  graphRoleYAxisLabel: string;
+  graphRoleSeriesLabel: string;
+  graphRoleTooltipLabel: string;
   fieldPickerEmptyMessage: string;
   fieldListEmptyAriaLabel: string;
   fieldListEmptyMessage: string;
@@ -64,10 +77,6 @@ export interface GpAnalyticsTranslations {
   aggregationMaxLabel: string;
   aggregationCountLabel: string;
   aggregationCountDistinctLabel: string;
-  graphRoleXAxisLabel: string;
-  graphRoleYAxisLabel: string;
-  graphRoleSeriesLabel: string;
-  graphRoleTooltipLabel: string;
   columnFormatDefaultLabel: string;
   columnFormatNumber0Label: string;
   columnFormatNumber2Label: string;
@@ -84,22 +93,6 @@ export interface GpAnalyticsTranslations {
   widgetItemNoValueLabel: string;
   widgetItemBooleanTrueLabel: string;
   widgetItemBooleanFalseLabel: string;
-  widgetArtifactTypeTabular: string;
-  widgetArtifactTypeGraph: string;
-  widgetArtifactTypeKpi: string;
-  widgetGraphTypeLabel: string;
-  widgetGraphTypePie: string;
-  widgetGraphTypeBar: string;
-  widgetGraphTypeStackedBar: string;
-  widgetGraphTypeColumn: string;
-  widgetGraphTypeStackedColumn: string;
-  widgetGraphTypeRadial: string;
-  designerErrorAtLeastOneField: string;
-  designerErrorGraphNeedsXAxis: string;
-  designerErrorGraphNeedsYAxis: string;
-  designerErrorKpiNeedsValueField: string;
-  designerErrorKpiValueMustBeNumeric: string;
-  designerErrorKpiTooManyFields: string;
 }
 
 export interface GpAnalyticsFormattingConfig {
@@ -145,31 +138,25 @@ export const DEFAULT_GP_ANALYTICS_TRANSLATIONS: GpAnalyticsTranslations = {
   dashboardAriaLabel: 'Dashboard',
   dashboardEyebrow: 'Dashboard',
   dashboardDefaultTitle: 'Dashboard',
+  dashboardKeyboardHint:
+    'Keyboard: use arrow keys on move or resize controls to adjust widgets by one grid unit.',
+  dashboardKeyboardHelpShowLabel: 'Show keyboard shortcuts',
+  dashboardKeyboardHelpHideLabel: 'Hide keyboard shortcuts',
   designerAriaLabel: 'Designer',
-  designerOutputOrderAriaLabel: 'Field display order',
   designerEyebrow: 'Designer',
   designerDefaultTitle: 'Designer',
   designerDescription: 'Design and configure your analytics components.',
   designerCreateLabel: 'You are creating',
-  designerArtifactTypeTabular: 'Tabular data',
-  designerArtifactTypeGraph: 'Graph',
-  designerArtifactTypeKpi: 'KPI',
-  designerGraphTypeLabel: 'Graph type',
-  designerGraphTypePie: 'Pie',
-  designerGraphTypeBar: 'Bar',
-  designerGraphTypeStackedBar: 'Stacked bar',
-  designerGraphTypeColumn: 'Column',
-  designerGraphTypeStackedColumn: 'Stacked column',
-  designerGraphTypeRadial: 'Radial',
+  designerOutputOrderAriaLabel: 'Field display order',
+  designerOutputOrderLabel: 'Output order:',
+  designerPanelAvailableFields: 'Available Fields',
+  designerPanelPreview: 'Preview',
+  designerPanelSelectedFields: 'Selected Fields (order matters)',
   designerHintTabular: 'Tabular mode: supports multiple sort columns and per-column formatting.',
   designerHintGraph:
     'Graph mode: assign each selected field a role such as x-axis, y-axis, series, or tooltip.',
   designerHintKpi:
     'KPI mode: one required numeric value field plus one optional numeric compare field.',
-  designerPanelAvailableFields: 'Available Fields',
-  designerPanelPreview: 'Preview',
-  designerPanelSelectedFields: 'Selected Fields (order matters)',
-  designerOutputOrderLabel: 'Output order:',
   designerPreviewRefreshButton: 'Refresh preview',
   designerPreviewRefreshAriaLabel: 'Refresh preview data',
   designerPreviewEmpty: 'Preview has not been generated yet.',
@@ -181,6 +168,26 @@ export const DEFAULT_GP_ANALYTICS_TRANSLATIONS: GpAnalyticsTranslations = {
   designerPreviewSummaryTabular: 'Preview of tabular output generated from current selection.',
   designerPreviewSummaryGraph: 'Preview of graph output generated from current selection.',
   designerPreviewSummaryKpi: 'Preview of KPI output generated from current selection.',
+  designerErrorAtLeastOneField: 'Select at least one field.',
+  designerErrorGraphNeedsXAxis: 'Graph requires at least one field assigned to x-axis.',
+  designerErrorGraphNeedsYAxis: 'Graph requires at least one field assigned to y-axis.',
+  designerErrorKpiNeedsValueField: 'KPI requires a numeric value field.',
+  designerErrorKpiValueMustBeNumeric: 'KPI value field must be numeric.',
+  designerErrorKpiTooManyFields: 'KPI supports a value field and one optional compare field only.',
+  artifactTypeTabular: 'Tabular data',
+  artifactTypeGraph: 'Graph',
+  artifactTypeKpi: 'KPI',
+  graphTypeLabel: 'Graph type',
+  graphTypePie: 'Pie',
+  graphTypeBar: 'Bar',
+  graphTypeStackedBar: 'Stacked bar',
+  graphTypeColumn: 'Column',
+  graphTypeStackedColumn: 'Stacked column',
+  graphTypeRadial: 'Radial',
+  graphRoleXAxisLabel: 'X-axis',
+  graphRoleYAxisLabel: 'Y-axis',
+  graphRoleSeriesLabel: 'Series',
+  graphRoleTooltipLabel: 'Tooltip',
   fieldPickerEmptyMessage: 'No datasets available.',
   fieldListEmptyAriaLabel: 'Drop zone',
   fieldListEmptyMessage: 'Drag fields here',
@@ -209,10 +216,6 @@ export const DEFAULT_GP_ANALYTICS_TRANSLATIONS: GpAnalyticsTranslations = {
   aggregationMaxLabel: 'Maximum',
   aggregationCountLabel: 'Count',
   aggregationCountDistinctLabel: 'Count Distinct',
-  graphRoleXAxisLabel: 'X-axis',
-  graphRoleYAxisLabel: 'Y-axis',
-  graphRoleSeriesLabel: 'Series',
-  graphRoleTooltipLabel: 'Tooltip',
   columnFormatDefaultLabel: 'Default',
   columnFormatNumber0Label: 'Number (0 decimals)',
   columnFormatNumber2Label: 'Number (2 decimals)',
@@ -229,22 +232,6 @@ export const DEFAULT_GP_ANALYTICS_TRANSLATIONS: GpAnalyticsTranslations = {
   widgetItemNoValueLabel: 'No value',
   widgetItemBooleanTrueLabel: 'True',
   widgetItemBooleanFalseLabel: 'False',
-  widgetArtifactTypeTabular: 'Tabular data',
-  widgetArtifactTypeGraph: 'Graph',
-  widgetArtifactTypeKpi: 'KPI',
-  widgetGraphTypeLabel: 'Graph type',
-  widgetGraphTypePie: 'Pie',
-  widgetGraphTypeBar: 'Bar',
-  widgetGraphTypeStackedBar: 'Stacked bar',
-  widgetGraphTypeColumn: 'Column',
-  widgetGraphTypeStackedColumn: 'Stacked column',
-  widgetGraphTypeRadial: 'Radial',
-  designerErrorAtLeastOneField: 'Select at least one field.',
-  designerErrorGraphNeedsXAxis: 'Graph requires at least one field assigned to x-axis.',
-  designerErrorGraphNeedsYAxis: 'Graph requires at least one field assigned to y-axis.',
-  designerErrorKpiNeedsValueField: 'KPI requires a numeric value field.',
-  designerErrorKpiValueMustBeNumeric: 'KPI value field must be numeric.',
-  designerErrorKpiTooManyFields: 'KPI supports a value field and one optional compare field only.',
 };
 
 export const DEFAULT_GP_ANALYTICS_FORMATTING: GpAnalyticsFormattingConfig = {
