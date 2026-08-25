@@ -22,9 +22,21 @@ if (['patch', 'minor', 'major'].includes(releaseType)) {
   newVersion = parts.join('.');
 }
 
-pkg.version = newVersion;
-fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
-console.log(`Updated package.json to version: ${newVersion}`);
+const packagePaths = [
+  path.join(__dirname, '../package.json'),
+  path.join(__dirname, '../packages/gp-ui/package.json'),
+  path.join(__dirname, '../packages/gp-ui-theme/package.json'),
+  path.join(__dirname, '../packages/gp-ui-icons/package.json')
+];
+
+packagePaths.forEach(p => {
+  if (fs.existsSync(p)) {
+    const json = JSON.parse(fs.readFileSync(p, 'utf8'));
+    json.version = newVersion;
+    fs.writeFileSync(p, JSON.stringify(json, null, 2) + '\n');
+    console.log(`Updated ${path.relative(path.join(__dirname, '..'), p)} to version: ${newVersion}`);
+  }
+});
 
 // Update CHANGELOG.md
 const changelogPath = path.join(__dirname, '../CHANGELOG.md');

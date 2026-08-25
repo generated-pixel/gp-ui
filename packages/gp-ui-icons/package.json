@@ -1,6 +1,6 @@
 {
-  "name": "gp-ui-icons",
-  "version": "1.0.0",
+  "name": "@generatedpixel/gp-ui-icons",
+  "version": "0.1.0",
   "description": "Lightweight SVG Icon System for gp-ui",
   "keywords": [
     "icons",
@@ -8,7 +8,18 @@
     "gp-ui"
   ],
   "author": "Generated Pixel",
+  "contributors": [
+    {
+      "name": "Graeme Gorman",
+      "email": "graeme@generatedpixel.dev"
+    }
+  ],
+  "homepage": "https://generatedpixel.dev/",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/generated-pixel/gp-ui.git"
+  },
   "peerDependencies": {
     "@angular/common": ">=18.0.0",
     "@angular/core": ">=18.0.0"

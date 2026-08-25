@@ -1,6 +1,6 @@
 {
   "name": "gp-ui-monorepo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "gp-ui - Complete Enterprise Angular UI Component Framework",
   "private": true,
   "workspaces": [
@@ -21,7 +21,9 @@
     "build-storybook": "storybook build",
     "lint": "node tools/lint.js",
     "package": "node tools/package-release.js",
-    "release": "node tools/release.js"
+    "release": "node tools/release.js",
+    "publish:all": "powershell -ExecutionPolicy Bypass -File ./publish-all.ps1",
+    "publish:dry-run": "powershell -ExecutionPolicy Bypass -File ./publish-all.ps1 -DryRun"
   },
   "repository": {
     "type": "git",
@@ -37,6 +39,13 @@
     "gp-ui"
   ],
   "author": "Generated Pixel",
+  "contributors": [
+    {
+      "name": "Graeme Gorman",
+      "email": "graeme@generatedpixel.dev"
+    }
+  ],
+  "homepage": "https://generatedpixel.dev/",
   "license": "MIT",
   "devDependencies": {
     "@angular/build": "^22.1.5",
