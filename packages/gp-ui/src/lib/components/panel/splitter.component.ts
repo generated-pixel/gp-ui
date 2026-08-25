@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -5,20 +6,10 @@ import { CommonModule } from '@angular/common';
   selector: 'gp-splitter-panel',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="gp-splitter-panel" [style.flex-basis.%]="size">
-      <ng-content />
-    </div>
-  `,
-  styles: [`
-    .gp-splitter-panel {
-      flex: 1;
-      overflow: auto;
-      padding: 1rem;
-    }
-  `]
+  templateUrl: './splitter.component.html',
+  styleUrl: './splitter.component.scss'
 })
-export class GpSplitterPanelComponent {
+export class GpSplitterPanelComponent extends GpBaseComponent {
   @Input() size = 50;
   @Input() minSize = 10;
 }
@@ -49,6 +40,6 @@ export class GpSplitterPanelComponent {
     }
   `]
 })
-export class GpSplitterComponent {
+export class GpSplitterComponent extends GpBaseComponent {
   @Input() layout: 'horizontal' | 'vertical' = 'horizontal';
 }

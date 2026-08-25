@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, OnInit, OnDestroy, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -13,67 +14,10 @@ import { GpButtonComponent } from '../button/button.component';
   imports: [CommonModule, GpIconComponent, GpDialogComponent, GpButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <gp-dialog
-      [header]="confirmation()?.header || header"
-      [visibleProp]="visible()"
-      [width]="width"
-      (visibleChange)="onVisibleChange($event)"
-    >
-      <div class="gp-confirm-dialog-body">
-        @if (confirmation()?.icon || icon) {
-          <gp-icon
-            [name]="confirmation()?.icon || icon"
-            size="2em"
-            class="gp-confirm-dialog-icon"
-          />
-        }
-        <span class="gp-confirm-dialog-message">{{ confirmation()?.message || message }}</span>
-      </div>
-
-      <div footer class="gp-confirm-dialog-footer">
-        @if (confirmation()?.rejectVisible !== false) {
-          <gp-button
-            [label]="confirmation()?.rejectLabel || rejectLabel"
-            [icon]="confirmation()?.rejectIcon || 'times'"
-            variant="outlined"
-            severity="secondary"
-            (onClickEvent)="reject()"
-          />
-        }
-        @if (confirmation()?.acceptVisible !== false) {
-          <gp-button
-            [label]="confirmation()?.acceptLabel || acceptLabel"
-            [icon]="confirmation()?.acceptIcon || 'check'"
-            severity="primary"
-            (onClickEvent)="accept()"
-          />
-        }
-      </div>
-    </gp-dialog>
-  `,
-  styles: [`
-    .gp-confirm-dialog-body {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .gp-confirm-dialog-icon {
-      color: var(--gp-primary);
-      flex-shrink: 0;
-    }
-    .gp-confirm-dialog-message {
-      font-size: var(--gp-font-size-base);
-      color: var(--gp-text-color);
-    }
-    .gp-confirm-dialog-footer {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: flex-end;
-    }
-  `]
+  templateUrl: './confirm-dialog.component.html',
+  styleUrl: './confirm-dialog.component.scss'
 })
-export class GpConfirmDialogComponent implements OnInit, OnDestroy {
+export class GpConfirmDialogComponent extends GpBaseComponent implements OnInit, OnDestroy {
   private confirmationService = inject(GpConfirmationService);
 
   @Input() header = 'Confirmation';

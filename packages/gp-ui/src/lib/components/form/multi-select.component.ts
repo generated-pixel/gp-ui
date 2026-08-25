@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener, ContentChild, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -21,188 +22,14 @@ export type GpMultiSelectDisplay = 'comma' | 'chip';
       multi: true
     }
   ],
-  template: `
-    <div
-      class="gp-multiselect"
-      [class.gp-select-open]="overlayVisible()"
-      [class.gp-select-disabled]="disabled"
-      [class.gp-input-invalid]="invalid"
-      (click)="toggleOverlay($event)"
-      tabindex="0"
-      role="combobox"
-      [attr.aria-expanded]="overlayVisible()"
-      [attr.aria-label]="ariaLabel || placeholder || 'Multi-Select'"
-    >
-      <div class="gp-multiselect-label-container">
-        @if (selectedOptions().length > 0) {
-          @if (display === 'chip') {
-            <div class="gp-multiselect-chips">
-              @for (item of selectedOptions(); track $index) {
-                <span class="gp-multiselect-chip">
-                  <span>{{ item.label }}</span>
-                  <button
-                    type="button"
-                    class="gp-multiselect-chip-remove"
-                    aria-label="Remove item"
-                    (click)="removeItem(item, $event)"
-                  >
-                    <gp-icon name="times" size="0.65em" />
-                  </button>
-                </span>
-              }
-            </div>
-          } @else {
-            <span class="gp-select-label">
-              @if (selectedOptions().length <= maxSelectedLabels) {
-                {{ selectedLabelsText() }}
-              } @else {
-                {{ selectedOptions().length }} items selected
-              }
-            </span>
-          }
-        } @else {
-          <span class="gp-select-label gp-select-placeholder">{{ placeholder }}</span>
-        }
-      </div>
-
-      <div class="gp-select-triggers">
-        @if (showClear && selectedOptions().length > 0 && !disabled) {
-          <button
-            type="button"
-            class="gp-select-clear-btn"
-            aria-label="Clear selection"
-            (click)="clear($event)"
-          >
-            <gp-icon name="times" size="0.8em" />
-          </button>
-        }
-        <gp-icon [name]="overlayVisible() ? 'chevron-up' : 'chevron-down'" size="0.85em" class="gp-select-arrow" />
-      </div>
-
-      @if (overlayVisible()) {
-        <div class="gp-select-overlay" role="listbox" (click)="$event.stopPropagation()">
-          <div class="gp-multiselect-header">
-            @if (showSelectAll) {
-              <gp-checkbox
-                [binary]="true"
-                [value]="isAllSelected()"
-                (onChange)="toggleSelectAll()"
-              />
-            }
-            @if (filter) {
-              <div class="gp-select-filter-container gp-w-full">
-                <input
-                  type="text"
-                  class="gp-inputtext gp-select-filter-input"
-                  [placeholder]="filterPlaceholder"
-                  [value]="filterText()"
-                  (input)="onFilterInput($event)"
-                  aria-label="Filter items"
-                />
-                <gp-icon name="search" size="0.85em" class="gp-select-filter-icon" />
-              </div>
-            }
-          </div>
-
-          <ul class="gp-select-items">
-            @for (opt of filteredOptions(); track $index) {
-              <li
-                class="gp-select-item gp-multiselect-item"
-                [class.gp-select-item-selected]="isSelected(opt)"
-                [class.gp-select-item-disabled]="opt.disabled"
-                role="option"
-                [attr.aria-selected]="isSelected(opt)"
-                (click)="toggleOption(opt, $event)"
-              >
-                <gp-checkbox [binary]="true" [value]="isSelected(opt)" />
-                <span>{{ opt.label }}</span>
-              </li>
-            } @empty {
-              <li class="gp-select-empty-message">{{ emptyFilterMessage }}</li>
-            }
-          </ul>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .gp-multiselect {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      width: 100%;
-      min-height: var(--gp-input-height);
-      background: var(--gp-input-bg);
-      border: 1px solid var(--gp-input-border);
-      border-radius: var(--gp-border-radius);
-      padding: 0.25rem var(--gp-input-padding-x);
-      cursor: pointer;
-      user-select: none;
-      outline: none;
-      transition: border-color var(--gp-transition-duration), box-shadow var(--gp-transition-duration);
-    }
-    .gp-multiselect:hover:not(.gp-select-disabled) {
-      border-color: var(--gp-input-border-hover);
-    }
-    .gp-multiselect:focus-visible, .gp-select-open {
-      border-color: var(--gp-input-border-focus);
-      box-shadow: var(--gp-focus-ring);
-    }
-    .gp-multiselect-label-container {
-      flex: 1;
-      overflow: hidden;
-    }
-    .gp-multiselect-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.25rem;
-    }
-    .gp-multiselect-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: var(--gp-surface-hover);
-      color: var(--gp-text-color);
-      font-size: var(--gp-font-size-xs);
-      padding: 0.2rem 0.5rem;
-      border-radius: var(--gp-border-radius-full);
-    }
-    .gp-multiselect-chip-remove {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--gp-text-color-muted);
-      padding: 0;
-      display: inline-flex;
-      border-radius: 50%;
-    }
-    .gp-multiselect-chip-remove:hover {
-      color: var(--gp-danger);
-    }
-    .gp-multiselect-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem;
-      border-bottom: 1px solid var(--gp-surface-divider);
-    }
-    .gp-multiselect-header .gp-select-filter-container {
-      padding: 0;
-      border: none;
-    }
-    .gp-multiselect-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-  `]
+  templateUrl: './multi-select.component.html',
+  styleUrl: './multi-select.component.scss'
 })
-export class GpMultiSelectComponent implements ControlValueAccessor {
+export class GpMultiSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() options: (GpSelectItem | any)[] = [];
   @Input() optionLabel = 'label';
   @Input() optionValue = 'value';
-  @Input() placeholder = 'Select items';
+  @Input() override placeholder = 'Select items';
   @Input() filterPlaceholder = 'Search...';
   @Input() emptyFilterMessage = 'No results found';
   @Input() display: GpMultiSelectDisplay = 'comma';
@@ -210,21 +37,23 @@ export class GpMultiSelectComponent implements ControlValueAccessor {
   @Input() filter = true;
   @Input() showClear = false;
   @Input() showSelectAll = true;
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() invalid = false;
-  @Input() ariaLabel = '';
+  @Input() override disabled = false;
+  @Input() override readonly = false;
+  @Input() override invalid = false;
+  @Input() override ariaLabel = '';
 
   @Output() onChange = new EventEmitter<{ value: any[]; originalEvent: Event }>();
 
-  protected value = signal<any[]>([]);
+  public override value = signal<any[]>([]);
   protected overlayVisible = signal<boolean>(false);
   protected filterText = signal<string>('');
 
-  private onChangeCallback: (value: any[]) => void = () => {};
-  private onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -278,19 +107,19 @@ export class GpMultiSelectComponent implements ControlValueAccessor {
     return opts.every(opt => this.isSelected(opt));
   }
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     this.value.set(Array.isArray(value) ? value : []);
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

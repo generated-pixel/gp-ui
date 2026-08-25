@@ -7,6 +7,11 @@ export * from './lib/config/gp-translation.interface';
 export * from './lib/config/gp-translations.presets';
 export * from './lib/config/gp-config.service';
 
+// Base Architecture
+export * from './lib/base/gp-base.component';
+export * from './lib/base/gp-editable-base.component';
+export * from './lib/base/gp-base-control-value-accessor';
+
 // Utilities
 export * from './lib/utils/unique-id';
 export * from './lib/utils/object-utils';

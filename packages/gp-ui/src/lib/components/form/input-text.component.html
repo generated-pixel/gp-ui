@@ -1,0 +1,42 @@
+<div
+      class="gp-input-wrapper"
+      [class.gp-input-disabled]="disabled"
+      [class.gp-input-filled]="!!value()"
+      [class.gp-input-invalid]="invalid"
+      [class.gp-input-with-prefix]="!!iconLeft"
+      [class.gp-input-with-suffix]="!!iconRight || (clearable && !!value())"
+    >
+      @if (iconLeft) {
+        <gp-icon [name]="iconLeft" class="gp-input-icon gp-input-icon-left" />
+      }
+
+      <input
+        [id]="inputId"
+        [type]="type"
+        [value]="value()"
+        [placeholder]="placeholder"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        [attr.maxlength]="maxlength || null"
+        [attr.aria-label]="ariaLabel || placeholder || null"
+        [attr.aria-invalid]="invalid"
+        [attr.aria-required]="required"
+        (input)="onInput($event)"
+        (focus)="onFocus($event)"
+        (blur)="onBlur($event)"
+        class="gp-inputtext"
+      />
+
+      @if (clearable && !!value() && !disabled && !readonly) {
+        <button
+          type="button"
+          class="gp-input-clear-btn"
+          aria-label="Clear input"
+          (click)="clear($event)"
+        >
+          <gp-icon name="times" size="0.9em" />
+        </button>
+      } @else if (iconRight) {
+        <gp-icon [name]="iconRight" class="gp-input-icon gp-input-icon-right" />
+      }
+    </div>

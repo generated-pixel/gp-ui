@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, V
   encapsulation: ViewEncapsulation.None,
   template: ``
 })
-export class GpColumnComponent {
+export class GpColumnComponent extends GpBaseComponent {
   @Input() field = '';
   @Input() header = '';
   @Input() sortable = false;

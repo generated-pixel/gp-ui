@@ -1,0 +1,34 @@
+<div class="gp-stepper" [class.gp-stepper-vertical]="orientation === 'vertical'" [id]="id" [class]="styleClass" [ngStyle]="style">
+  <div class="gp-stepper-header-container">
+    @for (step of steps; track $index; let idx = $index; let last = $last) {
+      <div
+        class="gp-stepper-header"
+        [class.gp-stepper-header-active]="step.active"
+        [class.gp-stepper-header-completed]="step.completed"
+        [class.gp-stepper-header-disabled]="step.disabled"
+        (click)="selectStep(idx)"
+        role="button"
+        tabindex="0"
+      >
+        <div class="gp-stepper-number">
+          @if (step.completed) {
+            <gp-icon name="check" size="0.85em" />
+          } @else if (step.icon) {
+            <gp-icon [name]="step.icon" size="0.85em" />
+          } @else {
+            {{ idx + 1 }}
+          }
+        </div>
+        <span class="gp-stepper-title">{{ step.label }}</span>
+      </div>
+
+      @if (!last) {
+        <div class="gp-stepper-separator" [class.gp-stepper-separator-active]="step.completed"></div>
+      }
+    }
+  </div>
+
+  <div class="gp-stepper-panels">
+    <ng-content />
+  </div>
+</div>

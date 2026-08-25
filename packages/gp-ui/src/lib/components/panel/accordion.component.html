@@ -1,0 +1,33 @@
+<div class="gp-accordion" [id]="id" [class]="styleClass" [ngStyle]="style">
+  @for (tab of tabs; track $index) {
+    <div
+      class="gp-accordion-tab"
+      [class.gp-accordion-tab-active]="tab.selected"
+      [class.gp-accordion-tab-disabled]="tab.disabled"
+    >
+      <div
+        class="gp-accordion-header"
+        (click)="toggleTab(tab)"
+        role="button"
+        [attr.aria-expanded]="tab.selected"
+        tabindex="0"
+      >
+        <gp-icon [name]="tab.selected ? 'chevron-down' : 'chevron-right'" size="0.8em" class="gp-accordion-arrow" />
+        <span class="gp-accordion-header-text">{{ tab.header }}</span>
+      </div>
+
+      @if (tab.selected) {
+        <div class="gp-accordion-body">
+          <ng-container *ngTemplateOutlet="tabContentTpl; context: { $implicit: tab }" />
+        </div>
+      }
+    </div>
+  }
+  <ng-content />
+</div>
+
+<ng-template #tabContentTpl let-tab>
+  <div class="gp-accordion-content">
+    <!-- Render tab projected content -->
+  </div>
+</ng-template>

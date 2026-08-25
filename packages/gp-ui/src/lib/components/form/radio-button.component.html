@@ -1,0 +1,23 @@
+<div
+      class="gp-radiobutton"
+      [class.gp-radiobutton-checked]="isChecked()"
+      [class.gp-radiobutton-disabled]="disabled"
+      [class.gp-input-invalid]="invalid"
+      (click)="onClick($event)"
+    >
+      <div
+        class="gp-radiobutton-box"
+        [attr.aria-checked]="isChecked()"
+        [attr.aria-disabled]="disabled"
+        role="radio"
+        tabindex="0"
+        (keydown.space)="$event.preventDefault(); onClick($event)"
+        gpRipple
+      >
+        <div class="gp-radiobutton-icon"></div>
+      </div>
+
+      @if (label) {
+        <label [for]="inputId" class="gp-radiobutton-label">{{ label }}</label>
+      }
+    </div>

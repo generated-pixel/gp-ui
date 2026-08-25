@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -17,120 +18,42 @@ import { GpRippleDirective } from '../../directives/ripple.directive';
       multi: true
     }
   ],
-  template: `
-    <div
-      class="gp-radiobutton"
-      [class.gp-radiobutton-checked]="isChecked()"
-      [class.gp-radiobutton-disabled]="disabled"
-      [class.gp-input-invalid]="invalid"
-      (click)="onClick($event)"
-    >
-      <div
-        class="gp-radiobutton-box"
-        [attr.aria-checked]="isChecked()"
-        [attr.aria-disabled]="disabled"
-        role="radio"
-        tabindex="0"
-        (keydown.space)="$event.preventDefault(); onClick($event)"
-        gpRipple
-      >
-        <div class="gp-radiobutton-icon"></div>
-      </div>
-
-      @if (label) {
-        <label [for]="inputId" class="gp-radiobutton-label">{{ label }}</label>
-      }
-    </div>
-  `,
-  styles: [`
-    .gp-radiobutton {
-      display: inline-flex;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      vertical-align: middle;
-      gap: 0.5rem;
-    }
-    .gp-radiobutton-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.25rem;
-      height: 1.25rem;
-      border: 2px solid var(--gp-input-border);
-      border-radius: 50%;
-      background: var(--gp-input-bg);
-      transition: all var(--gp-transition-duration);
-      outline: none;
-    }
-    .gp-radiobutton:hover:not(.gp-radiobutton-disabled) .gp-radiobutton-box {
-      border-color: var(--gp-input-border-hover);
-    }
-    .gp-radiobutton-box:focus-visible {
-      box-shadow: var(--gp-focus-ring);
-      border-color: var(--gp-primary);
-    }
-    .gp-radiobutton-checked .gp-radiobutton-box {
-      border-color: var(--gp-primary);
-    }
-    .gp-radiobutton-icon {
-      width: 0.625rem;
-      height: 0.625rem;
-      border-radius: 50%;
-      background: var(--gp-primary);
-      transform: scale(0);
-      transition: transform var(--gp-transition-duration) ease-in-out;
-    }
-    .gp-radiobutton-checked .gp-radiobutton-icon {
-      transform: scale(1);
-    }
-    .gp-radiobutton-disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .gp-radiobutton-label {
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color);
-      cursor: inherit;
-    }
-    .gp-input-invalid .gp-radiobutton-box {
-      border-color: var(--gp-danger);
-    }
-  `]
+  templateUrl: './radio-button.component.html',
+  styleUrl: './radio-button.component.scss'
 })
-export class GpRadioButtonComponent implements ControlValueAccessor {
+export class GpRadioButtonComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() inputId = UniqueId.generate('rb_');
-  @Input() name = '';
-  @Input() value: any = null;
+  @Input() override name = '';
+  @Input() override value: any = null;
   @Input() label = '';
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() invalid = false;
+  @Input() override disabled = false;
+  @Input() override readonly = false;
+  @Input() override invalid = false;
 
   @Output() onClickEvent = new EventEmitter<{ value: any; originalEvent: Event }>();
 
   protected model = signal<any>(null);
 
-  private onChangeCallback: (value: any) => void = () => {};
-  private onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
   public isChecked(): boolean {
     return this.model() === this.value;
   }
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     this.model.set(value);
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

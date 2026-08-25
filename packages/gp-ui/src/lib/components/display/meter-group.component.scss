@@ -1,0 +1,38 @@
+.gp-metergroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+    .gp-metergroup-meters {
+      display: flex;
+      height: 0.75rem;
+      background: var(--gp-surface-hover);
+      border-radius: var(--gp-border-radius-full);
+      overflow: hidden;
+    }
+    .gp-metergroup-meter {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+    .gp-metergroup-labels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .gp-metergroup-label-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: var(--gp-font-size-xs);
+      color: var(--gp-text-color-secondary);
+    }
+    .gp-metergroup-label-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+    }
+    .gp-metergroup-label-text {
+      font-weight: 500;
+      color: var(--gp-text-color);
+    }

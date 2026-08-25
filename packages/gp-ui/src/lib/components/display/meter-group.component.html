@@ -1,0 +1,24 @@
+<div class="gp-metergroup">
+      <div class="gp-metergroup-meters">
+        @for (meter of value; track meter.label) {
+          <div
+            class="gp-metergroup-meter"
+            [style.width.%]="meter.value"
+            [style.background-color]="meter.color || 'var(--gp-primary)'"
+          ></div>
+        }
+      </div>
+
+      <div class="gp-metergroup-labels">
+        @for (meter of value; track meter.label) {
+          <div class="gp-metergroup-label-item">
+            <span class="gp-metergroup-label-dot" [style.background-color]="meter.color || 'var(--gp-primary)'"></span>
+            @if (meter.icon) {
+              <gp-icon [name]="meter.icon" size="0.85em" />
+            }
+            <span class="gp-metergroup-label-text">{{ meter.label }}</span>
+            <span class="gp-metergroup-label-val">({{ meter.value }}%)</span>
+          </div>
+        }
+      </div>
+    </div>

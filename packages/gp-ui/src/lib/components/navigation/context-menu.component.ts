@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, HostListener, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../icons/icon.component';
@@ -9,47 +10,10 @@ import { GpMenuItem } from '../button/split-button.component';
   imports: [CommonModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    @if (visible()) {
-      <div
-        class="gp-menu gp-menu-popup gp-context-menu"
-        [style.top.px]="position().y"
-        [style.left.px]="position().x"
-        role="menu"
-        (click)="$event.stopPropagation()"
-      >
-        <ul class="gp-menu-list">
-          @for (item of model; track $index) {
-            @if (item.separator) {
-              <li class="gp-menu-separator" role="separator"></li>
-            } @else {
-              <li
-                class="gp-menu-item"
-                [class.gp-menu-item-disabled]="item.disabled"
-                role="menuitem"
-                (click)="onItemClick(item, $event)"
-              >
-                <div class="gp-menu-item-link">
-                  @if (item.icon) {
-                    <gp-icon [name]="item.icon" class="gp-menu-item-icon" />
-                  }
-                  <span class="gp-menu-item-text">{{ item.label }}</span>
-                </div>
-              </li>
-            }
-          }
-        </ul>
-      </div>
-    }
-  `,
-  styles: [`
-    .gp-context-menu {
-      position: fixed !important;
-      z-index: 1200;
-    }
-  `]
+  templateUrl: './context-menu.component.html',
+  styleUrl: './context-menu.component.scss'
 })
-export class GpContextMenuComponent {
+export class GpContextMenuComponent extends GpBaseComponent {
   @Input() model: GpMenuItem[] = [];
 
   protected visible = signal<boolean>(false);

@@ -1,0 +1,70 @@
+.gp-multiselect {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      width: 100%;
+      min-height: var(--gp-input-height);
+      background: var(--gp-input-bg);
+      border: 1px solid var(--gp-input-border);
+      border-radius: var(--gp-border-radius);
+      padding: 0.25rem var(--gp-input-padding-x);
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+      transition: border-color var(--gp-transition-duration), box-shadow var(--gp-transition-duration);
+    }
+    .gp-multiselect:hover:not(.gp-select-disabled) {
+      border-color: var(--gp-input-border-hover);
+    }
+    .gp-multiselect:focus-visible, .gp-select-open {
+      border-color: var(--gp-input-border-focus);
+      box-shadow: var(--gp-focus-ring);
+    }
+    .gp-multiselect-label-container {
+      flex: 1;
+      overflow: hidden;
+    }
+    .gp-multiselect-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+    .gp-multiselect-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--gp-surface-hover);
+      color: var(--gp-text-color);
+      font-size: var(--gp-font-size-xs);
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--gp-border-radius-full);
+    }
+    .gp-multiselect-chip-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gp-text-color-muted);
+      padding: 0;
+      display: inline-flex;
+      border-radius: 50%;
+    }
+    .gp-multiselect-chip-remove:hover {
+      color: var(--gp-danger);
+    }
+    .gp-multiselect-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--gp-surface-divider);
+    }
+    .gp-multiselect-header .gp-select-filter-container {
+      padding: 0;
+      border: none;
+    }
+    .gp-multiselect-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }

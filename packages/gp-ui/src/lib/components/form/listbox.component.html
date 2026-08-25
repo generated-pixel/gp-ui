@@ -1,0 +1,37 @@
+<div class="gp-listbox" [class.gp-listbox-disabled]="disabled">
+      @if (filter) {
+        <div class="gp-listbox-header">
+          <div class="gp-select-filter-container gp-w-full">
+            <input
+              type="text"
+              class="gp-inputtext gp-select-filter-input"
+              [placeholder]="filterPlaceholder"
+              [value]="filterText()"
+              (input)="onFilterInput($event)"
+              aria-label="Filter options"
+            />
+            <gp-icon name="search" size="0.85em" class="gp-select-filter-icon" />
+          </div>
+        </div>
+      }
+
+      <ul class="gp-listbox-list" role="listbox" [attr.aria-multiselectable]="multiple">
+        @for (opt of filteredOptions(); track $index) {
+          <li
+            class="gp-listbox-item"
+            [class.gp-listbox-item-selected]="isSelected(opt)"
+            [class.gp-listbox-item-disabled]="opt.disabled"
+            role="option"
+            [attr.aria-selected]="isSelected(opt)"
+            (click)="onOptionClick(opt, $event)"
+          >
+            @if (opt.icon) {
+              <gp-icon [name]="opt.icon" class="gp-listbox-icon" />
+            }
+            <span>{{ opt.label }}</span>
+          </li>
+        } @empty {
+          <li class="gp-listbox-empty">{{ emptyFilterMessage }}</li>
+        }
+      </ul>
+    </div>

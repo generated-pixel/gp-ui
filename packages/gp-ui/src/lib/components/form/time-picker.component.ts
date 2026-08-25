@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -17,155 +18,18 @@ import { UniqueId } from '../../utils/unique-id';
       multi: true
     }
   ],
-  template: `
-    <div class="gp-timepicker" [class.gp-select-open]="overlayVisible()" [class.gp-input-disabled]="disabled">
-      <div class="gp-input-wrapper">
-        <input
-          [id]="inputId"
-          type="text"
-          [value]="displayTime()"
-          [placeholder]="placeholder || (hourFormat === '24' ? 'HH:mm' : 'hh:mm AM/PM')"
-          [disabled]="disabled"
-          [readonly]="true"
-          (click)="toggleOverlay()"
-          class="gp-inputtext gp-timepicker-input"
-          [attr.aria-label]="ariaLabel || 'Time Picker'"
-        />
-        <button
-          type="button"
-          class="gp-datepicker-trigger"
-          (click)="toggleOverlay()"
-          aria-label="Open Time Picker"
-        >
-          <gp-icon name="clock" size="0.9em" />
-        </button>
-      </div>
-
-      @if (overlayVisible()) {
-        <div class="gp-datepicker-panel gp-timepicker-panel" (click)="$event.stopPropagation()">
-          <div class="gp-timepicker-controls">
-            <!-- Hours -->
-            <div class="gp-timepicker-column">
-              <button type="button" class="gp-timepicker-btn" (click)="spinHour(1)" aria-label="Increase hour">
-                <gp-icon name="chevron-up" size="0.75em" />
-              </button>
-              <span class="gp-timepicker-val">{{ formattedHour() }}</span>
-              <button type="button" class="gp-timepicker-btn" (click)="spinHour(-1)" aria-label="Decrease hour">
-                <gp-icon name="chevron-down" size="0.75em" />
-              </button>
-            </div>
-
-            <span class="gp-timepicker-separator">:</span>
-
-            <!-- Minutes -->
-            <div class="gp-timepicker-column">
-              <button type="button" class="gp-timepicker-btn" (click)="spinMinute(stepMinute)" aria-label="Increase minute">
-                <gp-icon name="chevron-up" size="0.75em" />
-              </button>
-              <span class="gp-timepicker-val">{{ formattedMinute() }}</span>
-              <button type="button" class="gp-timepicker-btn" (click)="spinMinute(-stepMinute)" aria-label="Decrease minute">
-                <gp-icon name="chevron-down" size="0.75em" />
-              </button>
-            </div>
-
-            @if (showSeconds) {
-              <span class="gp-timepicker-separator">:</span>
-              <div class="gp-timepicker-column">
-                <button type="button" class="gp-timepicker-btn" (click)="spinSecond(stepSecond)" aria-label="Increase second">
-                  <gp-icon name="chevron-up" size="0.75em" />
-                </button>
-                <span class="gp-timepicker-val">{{ formattedSecond() }}</span>
-                <button type="button" class="gp-timepicker-btn" (click)="spinSecond(-stepSecond)" aria-label="Decrease second">
-                  <gp-icon name="chevron-down" size="0.75em" />
-                </button>
-              </div>
-            }
-
-            @if (hourFormat === '12') {
-              <div class="gp-timepicker-column gp-timepicker-ampm">
-                <button type="button" class="gp-timepicker-ampm-btn" (click)="toggleAmPm()">
-                  {{ isPm() ? 'PM' : 'AM' }}
-                </button>
-              </div>
-            }
-          </div>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .gp-timepicker {
-      display: inline-block;
-      position: relative;
-      width: 100%;
-    }
-    .gp-timepicker-input {
-      padding-right: 2.5rem;
-      cursor: pointer;
-    }
-    .gp-timepicker-panel {
-      width: auto;
-      min-width: 14rem;
-    }
-    .gp-timepicker-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.5rem;
-    }
-    .gp-timepicker-column {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .gp-timepicker-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--gp-text-color-secondary);
-      padding: 0.25rem;
-      display: inline-flex;
-    }
-    .gp-timepicker-btn:hover {
-      color: var(--gp-primary);
-    }
-    .gp-timepicker-val {
-      font-size: 1.25rem;
-      font-weight: 600;
-      min-width: 2rem;
-      text-align: center;
-    }
-    .gp-timepicker-separator {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--gp-text-color-muted);
-    }
-    .gp-timepicker-ampm-btn {
-      background: var(--gp-surface-hover);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius-sm);
-      font-size: var(--gp-font-size-sm);
-      font-weight: 600;
-      padding: 0.35rem 0.65rem;
-      cursor: pointer;
-      color: var(--gp-text-color);
-    }
-    .gp-timepicker-ampm-btn:hover {
-      background: var(--gp-primary-light);
-      color: var(--gp-primary);
-    }
-  `]
+  templateUrl: './time-picker.component.html',
+  styleUrl: './time-picker.component.scss'
 })
-export class GpTimePickerComponent implements ControlValueAccessor {
+export class GpTimePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() inputId = UniqueId.generate('tp_');
   @Input() hourFormat: '12' | '24' = '12';
   @Input() showSeconds = false;
   @Input() stepMinute = 1;
   @Input() stepSecond = 1;
-  @Input() placeholder = '';
-  @Input() disabled = false;
-  @Input() ariaLabel = '';
+  @Input() override placeholder = '';
+  @Input() override disabled = false;
+  @Input() override ariaLabel = '';
 
   @Output() onChange = new EventEmitter<{ value: string }>();
 
@@ -175,10 +39,12 @@ export class GpTimePickerComponent implements ControlValueAccessor {
   protected isPm = signal<boolean>(false);
   protected overlayVisible = signal<boolean>(false);
 
-  private onChangeCallback: (value: any) => void = () => {};
-  private onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -207,7 +73,7 @@ export class GpTimePickerComponent implements ControlValueAccessor {
     return `${h}:${m}${s}${ampm}`;
   });
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     if (!value) return;
     if (value instanceof Date) {
       this.hours.set(value.getHours());
@@ -226,15 +92,15 @@ export class GpTimePickerComponent implements ControlValueAccessor {
     }
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

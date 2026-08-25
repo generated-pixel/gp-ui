@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,71 +12,10 @@ export type GpDividerAlign = 'left' | 'center' | 'right' | 'top' | 'bottom';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div
-      class="gp-divider"
-      [class]="'gp-divider-' + layout + ' gp-divider-' + type + ' gp-divider-align-' + align"
-      role="separator"
-      [attr.aria-orientation]="layout"
-    >
-      <div class="gp-divider-content">
-        <ng-content />
-      </div>
-    </div>
-  `,
-  styles: [`
-    .gp-divider {
-      display: flex;
-      position: relative;
-      align-items: center;
-      justify-content: center;
-    }
-    .gp-divider-horizontal {
-      width: 100%;
-      margin: 1rem 0;
-    }
-    .gp-divider-horizontal::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      border-top: 1px solid var(--gp-surface-divider);
-    }
-    .gp-divider-vertical {
-      min-height: 100%;
-      margin: 0 1rem;
-    }
-    .gp-divider-vertical::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      height: 100%;
-      border-left: 1px solid var(--gp-surface-divider);
-    }
-    .gp-divider-dashed::before {
-      border-style: dashed !important;
-    }
-    .gp-divider-dotted::before {
-      border-style: dotted !important;
-    }
-    .gp-divider-content {
-      position: relative;
-      z-index: 1;
-      padding: 0 0.5rem;
-      background: var(--gp-surface-ground);
-      color: var(--gp-text-color-secondary);
-      font-size: var(--gp-font-size-xs);
-      font-weight: 500;
-    }
-    .gp-divider-align-left { justify-content: flex-start; }
-    .gp-divider-align-left .gp-divider-content { margin-left: 1rem; }
-    .gp-divider-align-right { justify-content: flex-end; }
-    .gp-divider-align-right .gp-divider-content { margin-right: 1rem; }
-  `]
+  templateUrl: './divider.component.html',
+  styleUrl: './divider.component.scss'
 })
-export class GpDividerComponent {
+export class GpDividerComponent extends GpBaseComponent {
   @Input() layout: GpDividerLayout = 'horizontal';
   @Input() type: GpDividerType = 'solid';
   @Input() align: GpDividerAlign = 'center';

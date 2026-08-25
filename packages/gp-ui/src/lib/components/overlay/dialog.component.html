@@ -1,0 +1,56 @@
+@if (visible()) {
+      <div
+        class="gp-dialog-mask"
+        [class.gp-dialog-mask-modal]="modal"
+        [style.z-index]="zIndex()"
+        (click)="onMaskClick($event)"
+      >
+        <div
+          class="gp-dialog"
+          [class.gp-dialog-maximized]="maximized()"
+          [style.width]="width"
+          [style.max-width]="maxWidth"
+          role="dialog"
+          [attr.aria-modal]="modal"
+          [attr.aria-labelledby]="headerId"
+          gpFocusTrap
+          (click)="$event.stopPropagation()"
+        >
+          <div class="gp-dialog-header">
+            <span [id]="headerId" class="gp-dialog-title">{{ header }}</span>
+            <div class="gp-dialog-header-icons">
+              @if (maximizable) {
+                <button
+                  type="button"
+                  class="gp-dialog-header-icon"
+                  (click)="toggleMaximize()"
+                  [attr.aria-label]="maximized() ? 'Restore dialog' : 'Maximize dialog'"
+                >
+                  <gp-icon [name]="maximized() ? 'compress' : 'expand'" size="0.85em" />
+                </button>
+              }
+              @if (closable) {
+                <button
+                  type="button"
+                  class="gp-dialog-header-icon"
+                  (click)="close()"
+                  aria-label="Close dialog"
+                >
+                  <gp-icon name="times" size="0.85em" />
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="gp-dialog-content">
+            <ng-content />
+          </div>
+
+          @if (showFooter) {
+            <div class="gp-dialog-footer">
+              <ng-content select="[footer]" />
+            </div>
+          }
+        </div>
+      </div>
+    }

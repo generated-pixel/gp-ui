@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, signal, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -7,33 +8,10 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    @if (visible()) {
-      <div
-        class="gp-popover"
-        [style.top.px]="top()"
-        [style.left.px]="left()"
-        (click)="$event.stopPropagation()"
-      >
-        <ng-content />
-      </div>
-    }
-  `,
-  styles: [`
-    .gp-popover {
-      position: absolute;
-      background: var(--gp-surface-overlay);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      box-shadow: var(--gp-shadow-lg);
-      padding: 1rem;
-      z-index: 1050;
-      animation: gp-slide-down 0.15s ease-out;
-      min-width: 14rem;
-    }
-  `]
+  templateUrl: './popover.component.html',
+  styleUrl: './popover.component.scss'
 })
-export class GpPopoverComponent {
+export class GpPopoverComponent extends GpBaseComponent {
   @Output() onShow = new EventEmitter<void>();
   @Output() onHide = new EventEmitter<void>();
 
@@ -41,7 +19,9 @@ export class GpPopoverComponent {
   protected top = signal<number>(0);
   protected left = signal<number>(0);
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {

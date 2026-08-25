@@ -1,0 +1,8 @@
+<div
+      class="gp-skeleton"
+      [class.gp-skeleton-circle]="shape === 'circle'"
+      [style.width]="width"
+      [style.height]="height"
+      [style.border-radius]="borderRadius || (shape === 'circle' ? '50%' : null)"
+      aria-hidden="true"
+    ></div>

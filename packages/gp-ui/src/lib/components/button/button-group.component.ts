@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
 
 @Component({
@@ -5,39 +6,9 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@a
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="gp-button-group" [class.gp-button-group-vertical]="vertical" role="group">
-      <ng-content />
-    </div>
-  `,
-  styles: [`
-    .gp-button-group {
-      display: inline-flex;
-    }
-    .gp-button-group > .gp-button:not(:first-child) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      margin-left: -1px;
-    }
-    .gp-button-group > .gp-button:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-    .gp-button-group-vertical {
-      flex-direction: column;
-    }
-    .gp-button-group-vertical > .gp-button:not(:first-child) {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      margin-top: -1px;
-      margin-left: 0;
-    }
-    .gp-button-group-vertical > .gp-button:not(:last-child) {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  `]
+  templateUrl: './button-group.component.html',
+  styleUrl: './button-group.component.scss'
 })
-export class GpButtonGroupComponent {
+export class GpButtonGroupComponent extends GpBaseComponent {
   @Input() vertical = false;
 }

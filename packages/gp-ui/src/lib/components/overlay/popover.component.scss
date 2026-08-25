@@ -1,0 +1,11 @@
+.gp-popover {
+      position: absolute;
+      background: var(--gp-surface-overlay);
+      border: 1px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius);
+      box-shadow: var(--gp-shadow-lg);
+      padding: 1rem;
+      z-index: 1050;
+      animation: gp-slide-down 0.15s ease-out;
+      min-width: 14rem;
+    }

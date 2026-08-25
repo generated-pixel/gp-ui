@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -23,108 +24,35 @@ export interface GpAutoCompleteCompleteEvent {
       multi: true
     }
   ],
-  template: `
-    <div class="gp-autocomplete" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="invalid">
-      <div class="gp-input-wrapper">
-        <input
-          [id]="inputId"
-          type="text"
-          [value]="inputDisplayValue()"
-          [placeholder]="placeholder"
-          [disabled]="disabled"
-          [readonly]="readonly"
-          [attr.aria-label]="ariaLabel || placeholder || 'Auto Complete'"
-          [attr.aria-autocomplete]="'list'"
-          [attr.aria-expanded]="overlayVisible()"
-          (input)="onInput($event)"
-          (focus)="onFocus($event)"
-          (blur)="onBlur()"
-          (keydown)="onKeyDown($event)"
-          class="gp-inputtext"
-        />
-
-        @if (dropdown) {
-          <button
-            type="button"
-            class="gp-autocomplete-dropdown-btn"
-            aria-label="Open suggestions"
-            (click)="toggleDropdown($event)"
-          >
-            <gp-icon name="chevron-down" size="0.85em" />
-          </button>
-        }
-      </div>
-
-      @if (overlayVisible() && suggestions && suggestions.length > 0) {
-        <div class="gp-select-overlay gp-autocomplete-overlay" role="listbox" (click)="$event.stopPropagation()">
-          <ul class="gp-select-items">
-            @for (item of suggestions; track $index) {
-              <li
-                class="gp-select-item"
-                [class.gp-select-item-selected]="$index === activeIndex()"
-                role="option"
-                (click)="selectItem(item, $event)"
-              >
-                <span>{{ getItemLabel(item) }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .gp-autocomplete {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
-    .gp-autocomplete-dropdown-btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 2.25rem;
-      background: var(--gp-surface-section);
-      border: 1px solid var(--gp-input-border);
-      border-left: none;
-      border-top-right-radius: var(--gp-border-radius);
-      border-bottom-right-radius: var(--gp-border-radius);
-      color: var(--gp-text-color-secondary);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .gp-autocomplete-dropdown-btn:hover {
-      background: var(--gp-surface-hover);
-    }
-  `]
+  templateUrl: './autocomplete.component.html',
+  styleUrl: './autocomplete.component.scss'
 })
-export class GpAutoCompleteComponent implements ControlValueAccessor {
+export class GpAutoCompleteComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() inputId = UniqueId.generate('ac_');
   @Input() suggestions: any[] = [];
   @Input() field = '';
-  @Input() placeholder = '';
+  @Input() override placeholder = '';
   @Input() minLength = 1;
   @Input() dropdown = false;
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() invalid = false;
-  @Input() ariaLabel = '';
+  @Input() override disabled = false;
+  @Input() override readonly = false;
+  @Input() override invalid = false;
+  @Input() override ariaLabel = '';
 
   @Output() completeMethod = new EventEmitter<GpAutoCompleteCompleteEvent>();
   @Output() onSelect = new EventEmitter<{ value: any; originalEvent: Event }>();
 
-  protected value = signal<any>(null);
+  public override value = signal<any>(null);
   protected overlayVisible = signal<boolean>(false);
   protected activeIndex = signal<number>(-1);
   protected query = signal<string>('');
 
-  private onChangeCallback: (value: any) => void = () => {};
-  private onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -146,20 +74,20 @@ export class GpAutoCompleteComponent implements ControlValueAccessor {
     return this.getItemLabel(val);
   });
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     this.value.set(value);
     this.query.set(this.getItemLabel(value));
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

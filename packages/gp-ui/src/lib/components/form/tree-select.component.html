@@ -1,0 +1,73 @@
+<div
+      class="gp-select gp-treeselect"
+      [class.gp-select-open]="overlayVisible()"
+      [class.gp-select-disabled]="disabled"
+      (click)="toggleOverlay()"
+      tabindex="0"
+      role="combobox"
+      [attr.aria-expanded]="overlayVisible()"
+      [attr.aria-label]="ariaLabel || placeholder || 'Tree Select'"
+    >
+      <div class="gp-select-label-container">
+        <span class="gp-select-label" [class.gp-select-placeholder]="!selectedNode()">
+          @if (selectedNode()) {
+            @if (selectedNode()?.icon) {
+              <gp-icon [name]="selectedNode()!.icon!" class="gp-treeselect-icon" />
+            }
+            {{ selectedNode()?.label }}
+          } @else {
+            {{ placeholder }}
+          }
+        </span>
+      </div>
+
+      <div class="gp-select-triggers">
+        <gp-icon [name]="overlayVisible() ? 'chevron-up' : 'chevron-down'" size="0.85em" class="gp-select-arrow" />
+      </div>
+
+      @if (overlayVisible()) {
+        <div class="gp-select-overlay gp-treeselect-overlay" (click)="$event.stopPropagation()">
+          <ul class="gp-treeselect-tree" role="tree">
+            @for (node of options; track $index) {
+              <ng-container *ngTemplateOutlet="treeNodeTpl; context: { $implicit: node, level: 0 }" />
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    <ng-template #treeNodeTpl let-node let-level="level">
+      <li class="gp-treeselect-node" [style.padding-left.rem]="level * 1.25" role="treeitem">
+        <div
+          class="gp-treeselect-node-content"
+          [class.gp-treeselect-node-selected]="selectedNode() === node"
+          (click)="selectNode(node, $event)"
+        >
+          @if (node.children && node.children.length > 0) {
+            <button
+              type="button"
+              class="gp-treeselect-toggler"
+              (click)="toggleNode(node, $event)"
+              aria-label="Toggle node"
+            >
+              <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
+            </button>
+          } @else {
+            <span class="gp-treeselect-toggler-spacer"></span>
+          }
+
+          @if (node.icon) {
+            <gp-icon [name]="node.icon" class="gp-treeselect-icon" />
+          }
+          <span class="gp-treeselect-node-label">{{ node.label }}</span>
+        </div>
+
+        @if (node.expanded && node.children && node.children.length > 0) {
+          <ul class="gp-treeselect-sub-tree" role="group">
+            @for (child of node.children; track $index) {
+              <ng-container *ngTemplateOutlet="treeNodeTpl; context: { $implicit: child, level: level + 1 }" />
+            }
+          </ul>
+        }
+      </li>
+    </ng-template>

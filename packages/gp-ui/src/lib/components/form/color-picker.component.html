@@ -1,0 +1,35 @@
+<div class="gp-color-picker" [class.gp-color-picker-disabled]="disabled">
+      <div
+        class="gp-color-picker-preview"
+        [style.background-color]="value()"
+        (click)="toggleOverlay()"
+        tabindex="0"
+        role="button"
+        aria-label="Choose color"
+        (keydown.space)="$event.preventDefault(); toggleOverlay()"
+      ></div>
+
+      @if (overlayVisible()) {
+        <div class="gp-color-picker-overlay">
+          <div class="gp-color-picker-palette">
+            @for (c of presetColors; track c) {
+              <div
+                class="gp-color-picker-swatch"
+                [style.background-color]="c"
+                [class.gp-color-picker-swatch-selected]="value() === c"
+                (click)="selectColor(c)"
+              ></div>
+            }
+          </div>
+          <div class="gp-color-picker-custom">
+            <input
+              type="color"
+              [value]="value()"
+              (input)="onNativeColorInput($event)"
+              class="gp-color-picker-native"
+            />
+            <span class="gp-color-picker-hex">{{ value() }}</span>
+          </div>
+        </div>
+      }
+    </div>

@@ -1,0 +1,71 @@
+.gp-input-wrapper {
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+    }
+    .gp-inputtext {
+      width: 100%;
+      font-family: inherit;
+      font-size: var(--gp-font-size-sm);
+      color: var(--gp-text-color);
+      background: var(--gp-input-bg);
+      border: 1px solid var(--gp-input-border);
+      border-radius: var(--gp-border-radius);
+      padding: var(--gp-input-padding-y) var(--gp-input-padding-x);
+      height: var(--gp-input-height);
+      transition: border-color var(--gp-transition-duration), box-shadow var(--gp-transition-duration);
+      outline: none;
+    }
+    .gp-inputtext:hover:not(:disabled):not([readonly]) {
+      border-color: var(--gp-input-border-hover);
+    }
+    .gp-inputtext:focus-visible {
+      border-color: var(--gp-input-border-focus);
+      box-shadow: var(--gp-focus-ring);
+    }
+    .gp-input-disabled .gp-inputtext {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: var(--gp-surface-ground);
+    }
+    .gp-input-invalid .gp-inputtext {
+      border-color: var(--gp-danger);
+    }
+    .gp-input-invalid .gp-inputtext:focus-visible {
+      box-shadow: var(--gp-focus-ring-danger);
+    }
+    .gp-input-icon {
+      position: absolute;
+      color: var(--gp-text-color-muted);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .gp-input-icon-left {
+      left: 0.75rem;
+    }
+    .gp-input-icon-right {
+      right: 0.75rem;
+    }
+    .gp-input-with-prefix .gp-inputtext {
+      padding-left: 2.25rem;
+    }
+    .gp-input-with-suffix .gp-inputtext {
+      padding-right: 2.25rem;
+    }
+    .gp-input-clear-btn {
+      position: absolute;
+      right: 0.75rem;
+      background: transparent;
+      border: none;
+      color: var(--gp-text-color-muted);
+      cursor: pointer;
+      padding: 0.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .gp-input-clear-btn:hover {
+      color: var(--gp-text-color);
+    }

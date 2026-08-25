@@ -1,0 +1,59 @@
+<div class="gp-menubar gp-megamenu" role="menubar">
+      <ul class="gp-menubar-root-list">
+        @for (item of model; track $index) {
+          <li
+            class="gp-menubar-item"
+            [class.gp-menubar-item-active]="activeItem() === item"
+            (mouseenter)="activeItem.set(item)"
+            (mouseleave)="activeItem.set(null)"
+            role="none"
+          >
+            <a
+              [routerLink]="item.routerLink"
+              [attr.href]="item.url || null"
+              class="gp-menubar-item-link"
+              role="menuitem"
+            >
+              @if (item.icon) {
+                <gp-icon [name]="item.icon" class="gp-menubar-icon" />
+              }
+              <span>{{ item.label }}</span>
+              @if (item.columns && item.columns.length > 0) {
+                <gp-icon name="chevron-down" size="0.75em" class="gp-menubar-submenu-icon" />
+              }
+            </a>
+
+            @if (item.columns && item.columns.length > 0 && activeItem() === item) {
+              <div class="gp-megamenu-panel">
+                <div class="gp-megamenu-grid">
+                  @for (col of item.columns; track $index) {
+                    <div class="gp-megamenu-col">
+                      @if (col.label) {
+                        <div class="gp-megamenu-col-header">{{ col.label }}</div>
+                      }
+                      <ul class="gp-menu-list">
+                        @for (sub of col.items; track $index) {
+                          <li class="gp-menu-item" role="none">
+                            <a
+                              [routerLink]="sub.routerLink"
+                              [attr.href]="sub.url || null"
+                              class="gp-menu-item-link"
+                              (click)="onItemClick(sub, $event)"
+                            >
+                              @if (sub.icon) {
+                                <gp-icon [name]="sub.icon" class="gp-menu-item-icon" />
+                              }
+                              <span>{{ sub.label }}</span>
+                            </a>
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    </div>

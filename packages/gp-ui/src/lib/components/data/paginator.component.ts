@@ -1,3 +1,4 @@
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../icons/icon.component';
@@ -16,144 +17,10 @@ export interface GpPageState {
   imports: [CommonModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="gp-paginator" role="navigation" aria-label="Pagination">
-      @if (showCurrentPageReport) {
-        <span class="gp-paginator-report">{{ pageReport() }}</span>
-      }
-
-      <button
-        type="button"
-        class="gp-paginator-btn"
-        [disabled]="isFirstPage()"
-        (click)="changePage(0)"
-        [attr.aria-label]="translationService.get('pagination')?.firstPage || 'First Page'"
-      >
-        <gp-icon name="angle-double-left" size="0.85em" />
-      </button>
-
-      <button
-        type="button"
-        class="gp-paginator-btn"
-        [disabled]="isFirstPage()"
-        (click)="changePage(page() - 1)"
-        [attr.aria-label]="translationService.get('pagination')?.prevPage || 'Previous Page'"
-      >
-        <gp-icon name="chevron-left" size="0.85em" />
-      </button>
-
-      <div class="gp-paginator-pages">
-        @for (p of visiblePages(); track p) {
-          <button
-            type="button"
-            class="gp-paginator-page"
-            [class.gp-paginator-page-active]="p === page()"
-            (click)="changePage(p)"
-            [attr.aria-current]="p === page() ? 'page' : null"
-          >
-            {{ p + 1 }}
-          </button>
-        }
-      </div>
-
-      <button
-        type="button"
-        class="gp-paginator-btn"
-        [disabled]="isLastPage()"
-        (click)="changePage(page() + 1)"
-        [attr.aria-label]="translationService.get('pagination')?.nextPage || 'Next Page'"
-      >
-        <gp-icon name="chevron-right" size="0.85em" />
-      </button>
-
-      <button
-        type="button"
-        class="gp-paginator-btn"
-        [disabled]="isLastPage()"
-        (click)="changePage(pageCount() - 1)"
-        [attr.aria-label]="translationService.get('pagination')?.lastPage || 'Last Page'"
-      >
-        <gp-icon name="angle-double-right" size="0.85em" />
-      </button>
-
-      @if (rowsPerPageOptions && rowsPerPageOptions.length > 0) {
-        <div class="gp-paginator-rpp">
-          <select
-            [value]="rows"
-            (change)="onRppChange($event)"
-            class="gp-paginator-rpp-select"
-            aria-label="Rows per page"
-          >
-            @for (opt of rowsPerPageOptions; track opt) {
-              <option [value]="opt">{{ opt }} / page</option>
-            }
-          </select>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .gp-paginator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      padding: 0.5rem 1rem;
-      background: var(--gp-surface-card);
-      border-top: 1px solid var(--gp-surface-border);
-      color: var(--gp-text-color-secondary);
-      font-size: var(--gp-font-size-sm);
-    }
-    .gp-paginator-btn, .gp-paginator-page {
-      min-width: 2.25rem;
-      height: 2.25rem;
-      padding: 0 0.5rem;
-      border: 1px solid transparent;
-      border-radius: var(--gp-border-radius);
-      background: transparent;
-      color: var(--gp-text-color);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: inherit;
-      font-size: var(--gp-font-size-sm);
-      transition: all var(--gp-transition-duration);
-    }
-    .gp-paginator-btn:hover:not(:disabled), .gp-paginator-page:hover {
-      background: var(--gp-surface-hover);
-    }
-    .gp-paginator-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-    .gp-paginator-page-active {
-      background: var(--gp-primary-light) !important;
-      color: var(--gp-primary) !important;
-      font-weight: 700;
-      border-color: var(--gp-primary-border);
-    }
-    .gp-paginator-pages {
-      display: inline-flex;
-      gap: 0.25rem;
-    }
-    .gp-paginator-report {
-      margin-right: auto;
-      font-size: var(--gp-font-size-xs);
-    }
-    .gp-paginator-rpp-select {
-      background: var(--gp-input-bg);
-      border: 1px solid var(--gp-input-border);
-      border-radius: var(--gp-border-radius);
-      padding: 0.25rem 0.5rem;
-      color: var(--gp-text-color);
-      font-size: var(--gp-font-size-xs);
-      outline: none;
-    }
-  `]
+  templateUrl: './paginator.component.html',
+  styleUrl: './paginator.component.scss'
 })
-export class GpPaginatorComponent {
+export class GpPaginatorComponent extends GpBaseComponent {
   protected translationService = inject(GpTranslationService);
 
   @Input() totalRecords = 0;

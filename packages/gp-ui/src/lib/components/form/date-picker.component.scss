@@ -1,0 +1,132 @@
+.gp-datepicker {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+    }
+    .gp-datepicker-input {
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+    .gp-datepicker-trigger {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 2.25rem;
+      background: transparent;
+      border: none;
+      color: var(--gp-text-color-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gp-datepicker-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 4px;
+      padding: 0.75rem;
+      background: var(--gp-surface-overlay);
+      border: 1px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius);
+      box-shadow: var(--gp-shadow-lg);
+      z-index: 1050;
+      width: 18rem;
+      animation: gp-slide-down 0.15s ease-out;
+    }
+    .gp-datepicker-inline {
+      position: static;
+      box-shadow: none;
+      border: 1px solid var(--gp-surface-border);
+      width: 100%;
+    }
+    .gp-datepicker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .gp-datepicker-nav-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gp-text-color-secondary);
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--gp-transition-duration);
+    }
+    .gp-datepicker-nav-btn:hover {
+      background: var(--gp-surface-hover);
+      color: var(--gp-text-color);
+    }
+    .gp-datepicker-title {
+      font-weight: 600;
+      font-size: var(--gp-font-size-sm);
+      display: flex;
+      gap: 0.35rem;
+    }
+    .gp-datepicker-calendar {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    .gp-datepicker-weekday {
+      font-size: var(--gp-font-size-xs);
+      color: var(--gp-text-color-muted);
+      font-weight: 600;
+      padding: 0.35rem 0;
+    }
+    .gp-datepicker-day-cell {
+      padding: 0.2rem;
+      cursor: pointer;
+      border-radius: var(--gp-border-radius);
+      font-size: var(--gp-font-size-sm);
+      transition: background var(--gp-transition-duration);
+      outline: none;
+    }
+    .gp-datepicker-day-cell:hover {
+      background: var(--gp-surface-hover);
+    }
+    .gp-datepicker-other-month {
+      color: var(--gp-text-color-disabled);
+    }
+    .gp-datepicker-today {
+      border: 1px solid var(--gp-primary);
+    }
+    .gp-datepicker-selected {
+      background: var(--gp-primary) !important;
+      color: var(--gp-primary-text) !important;
+      font-weight: 600;
+    }
+    .gp-datepicker-day-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+    .gp-datepicker-buttonbar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--gp-surface-divider);
+    }
+    .gp-datepicker-bar-btn {
+      background: none;
+      border: none;
+      color: var(--gp-primary);
+      font-size: var(--gp-font-size-sm);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--gp-border-radius-sm);
+    }
+    .gp-datepicker-bar-btn:hover {
+      background: var(--gp-primary-light);
+    }

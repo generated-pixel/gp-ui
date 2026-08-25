@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -16,95 +17,45 @@ import { UniqueId } from '../../utils/unique-id';
       multi: true
     }
   ],
-  template: `
-    <div class="gp-textarea-wrapper" [class.gp-input-invalid]="invalid" [class.gp-input-disabled]="disabled">
-      <textarea
-        [id]="inputId"
-        [rows]="rows"
-        [cols]="cols"
-        [value]="value()"
-        [placeholder]="placeholder"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [attr.maxlength]="maxlength || null"
-        [attr.aria-label]="ariaLabel || placeholder || null"
-        [attr.aria-invalid]="invalid"
-        [attr.aria-required]="required"
-        [class.gp-textarea-auto-resize]="autoResize"
-        (input)="onInput($event)"
-        (focus)="onFocus($event)"
-        (blur)="onBlur($event)"
-        class="gp-inputtext gp-textarea"
-      ></textarea>
-
-      @if (maxlength && showCounter) {
-        <div class="gp-textarea-counter">
-          {{ value().length }} / {{ maxlength }}
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .gp-textarea-wrapper {
-      position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    .gp-textarea {
-      height: auto;
-      min-height: 4.5rem;
-      resize: vertical;
-      line-height: 1.5;
-    }
-    .gp-textarea-auto-resize {
-      resize: none;
-      overflow-y: hidden;
-    }
-    .gp-textarea-counter {
-      font-size: var(--gp-font-size-xs);
-      color: var(--gp-text-color-muted);
-      text-align: right;
-      margin-top: 0.25rem;
-    }
-  `]
+  templateUrl: './textarea.component.html',
+  styleUrl: './textarea.component.scss'
 })
-export class GpTextareaComponent implements ControlValueAccessor {
+export class GpTextareaComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() inputId = UniqueId.generate('textarea_');
   @Input() rows = 3;
   @Input() cols = 30;
-  @Input() placeholder = '';
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() required = false;
-  @Input() invalid = false;
+  @Input() override placeholder = '';
+  @Input() override disabled = false;
+  @Input() override readonly = false;
+  @Input() override required = false;
+  @Input() override invalid = false;
   @Input() autoResize = false;
   @Input() maxlength?: number;
   @Input() showCounter = true;
-  @Input() ariaLabel = '';
+  @Input() override ariaLabel = '';
 
   @Output() onInputEvent = new EventEmitter<Event>();
   @Output() onFocusEvent = new EventEmitter<FocusEvent>();
   @Output() onBlurEvent = new EventEmitter<FocusEvent>();
 
-  protected value = signal<string>('');
+  public override value = signal<string>('');
 
-  private onChangeCallback: (value: any) => void = () => {};
-  private onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     this.value.set(value != null ? String(value) : '');
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

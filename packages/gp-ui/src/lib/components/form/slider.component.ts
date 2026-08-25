@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -16,84 +17,26 @@ import { UniqueId } from '../../utils/unique-id';
       multi: true
     }
   ],
-  template: `
-    <div
-      class="gp-slider"
-      [class.gp-slider-disabled]="disabled"
-      (mousedown)="onBarMouseDown($event)"
-    >
-      <div class="gp-slider-range" [style.width.%]="percentage()"></div>
-      <span
-        class="gp-slider-handle"
-        [style.left.%]="percentage()"
-        tabindex="0"
-        role="slider"
-        [attr.aria-valuenow]="value()"
-        [attr.aria-valuemin]="min"
-        [attr.aria-valuemax]="max"
-        [attr.aria-disabled]="disabled"
-        (keydown)="onKeyDown($event)"
-      ></span>
-    </div>
-  `,
-  styles: [`
-    .gp-slider {
-      position: relative;
-      height: 0.375rem;
-      background: var(--gp-surface-hover);
-      border-radius: var(--gp-border-radius-full);
-      cursor: pointer;
-      user-select: none;
-      touch-action: none;
-      width: 100%;
-      margin: 0.75rem 0;
-    }
-    .gp-slider-range {
-      position: absolute;
-      height: 100%;
-      background: var(--gp-primary);
-      border-radius: var(--gp-border-radius-full);
-    }
-    .gp-slider-handle {
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 1.125rem;
-      height: 1.125rem;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 2px solid var(--gp-primary);
-      box-shadow: var(--gp-shadow-sm);
-      outline: none;
-      transition: box-shadow var(--gp-transition-duration), transform var(--gp-transition-duration);
-    }
-    .gp-slider-handle:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-    .gp-slider-handle:focus-visible {
-      box-shadow: var(--gp-focus-ring);
-    }
-    .gp-slider-disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-  `]
+  templateUrl: './slider.component.html',
+  styleUrl: './slider.component.scss'
 })
-export class GpSliderComponent implements ControlValueAccessor {
+export class GpSliderComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() min = 0;
   @Input() max = 100;
   @Input() step = 1;
-  @Input() disabled = false;
+  @Input() override disabled = false;
 
   @Output() onChange = new EventEmitter<{ value: number; originalEvent: Event }>();
 
-  protected value = signal<number>(0);
+  public override value = signal<number>(0);
 
   private dragging = false;
-  private onChangeCallback: (value: any) => void = () => {};
-  private onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   protected percentage = computed(() => {
     const val = this.value();
@@ -102,19 +45,19 @@ export class GpSliderComponent implements ControlValueAccessor {
     return Math.min(100, Math.max(0, ((val - this.min) / range) * 100));
   });
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     this.value.set(value != null ? Number(value) : this.min);
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

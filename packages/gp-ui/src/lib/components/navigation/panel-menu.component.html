@@ -1,0 +1,39 @@
+<div class="gp-panelmenu">
+      @for (item of model; track $index) {
+        <div class="gp-panelmenu-panel">
+          <div
+            class="gp-panelmenu-header"
+            [class.gp-panelmenu-header-active]="item.expanded"
+            (click)="toggle(item)"
+          >
+            @if (item.icon) {
+              <gp-icon [name]="item.icon" class="gp-panelmenu-icon" />
+            }
+            <span class="gp-panelmenu-label">{{ item.label }}</span>
+            @if (item.items && item.items.length > 0) {
+              <gp-icon [name]="item.expanded ? 'chevron-down' : 'chevron-right'" size="0.8em" class="gp-panelmenu-arrow" />
+            }
+          </div>
+
+          @if (item.items && item.items.length > 0 && item.expanded) {
+            <ul class="gp-panelmenu-list">
+              @for (sub of item.items; track $index) {
+                <li class="gp-panelmenu-item">
+                  <a
+                    [routerLink]="sub.routerLink"
+                    [attr.href]="sub.url || null"
+                    class="gp-panelmenu-link"
+                    (click)="onItemClick(sub, $event)"
+                  >
+                    @if (sub.icon) {
+                      <gp-icon [name]="sub.icon" size="0.9em" class="gp-panelmenu-icon" />
+                    }
+                    <span>{{ sub.label }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      }
+    </div>

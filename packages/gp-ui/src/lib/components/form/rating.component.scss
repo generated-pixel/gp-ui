@@ -1,0 +1,39 @@
+.gp-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      user-select: none;
+    }
+    .gp-rating-item {
+      cursor: pointer;
+      color: var(--gp-text-color-muted);
+      transition: transform 0.15s, color 0.15s;
+      outline: none;
+      display: inline-flex;
+    }
+    .gp-rating-item:hover:not(.gp-rating-readonly):not(.gp-rating-disabled) {
+      transform: scale(1.15);
+      color: var(--gp-warning);
+    }
+    .gp-rating-item:focus-visible {
+      box-shadow: var(--gp-focus-ring);
+      border-radius: var(--gp-border-radius-sm);
+    }
+    .gp-rating-item-active {
+      color: var(--gp-warning);
+    }
+    .gp-rating-cancel {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gp-danger);
+      padding: 0;
+      display: inline-flex;
+    }
+    .gp-rating-readonly .gp-rating-item,
+    .gp-rating-disabled .gp-rating-item {
+      cursor: default;
+    }
+    .gp-rating-disabled {
+      opacity: 0.6;
+    }

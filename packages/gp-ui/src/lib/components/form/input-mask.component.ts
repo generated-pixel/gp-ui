@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -16,60 +17,39 @@ import { UniqueId } from '../../utils/unique-id';
       multi: true
     }
   ],
-  template: `
-    <div class="gp-input-wrapper" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="invalid">
-      <input
-        [id]="inputId"
-        type="text"
-        [value]="value()"
-        [placeholder]="placeholder || mask"
-        [disabled]="disabled"
-        [readonly]="readonly"
-        [attr.aria-label]="ariaLabel || placeholder || 'Masked Input'"
-        [attr.aria-invalid]="invalid"
-        (input)="onInput($event)"
-        (blur)="onTouchedCallback()"
-        class="gp-inputtext"
-      />
-    </div>
-  `,
-  styles: [`
-    gp-input-mask {
-      display: inline-block;
-      width: 100%;
-    }
-  `]
+  templateUrl: './input-mask.component.html',
+  styleUrl: './input-mask.component.scss'
 })
-export class GpInputMaskComponent implements ControlValueAccessor {
+export class GpInputMaskComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() inputId = UniqueId.generate('mask_');
   @Input() mask = ''; // e.g. "(999) 999-9999" or "99/99/9999"
   @Input() slotChar = '_';
-  @Input() placeholder = '';
-  @Input() disabled = false;
-  @Input() readonly = false;
-  @Input() invalid = false;
-  @Input() ariaLabel = '';
+  @Input() override placeholder = '';
+  @Input() override disabled = false;
+  @Input() override readonly = false;
+  @Input() override invalid = false;
+  @Input() override ariaLabel = '';
 
   @Output() onComplete = new EventEmitter<string>();
 
-  protected value = signal<string>('');
+  public override value = signal<string>('');
 
-  private onChangeCallback: (value: any) => void = () => {};
-  public onTouchedCallback: () => void = () => {};
+  // Inherited onChangeCallback
+  // Inherited onTouchedCallback
 
-  public writeValue(value: any): void {
+  public override writeValue(value: any): void {
     this.value.set(value ? this.format(value) : '');
   }
 
-  public registerOnChange(fn: any): void {
+  public override registerOnChange(fn: any): void {
     this.onChangeCallback = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public override registerOnTouched(fn: any): void {
     this.onTouchedCallback = fn;
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public override setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

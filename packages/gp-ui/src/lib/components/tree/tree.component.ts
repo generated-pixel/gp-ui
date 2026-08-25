@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../icons/icon.component';
@@ -12,136 +13,11 @@ export type GpTreeSelectionMode = 'single' | 'multiple' | 'checkbox' | null;
   imports: [CommonModule, GpIconComponent, GpCheckboxComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="gp-tree" role="tree" [attr.aria-multiselectable]="selectionMode === 'multiple' || selectionMode === 'checkbox'">
-      @if (filter) {
-        <div class="gp-tree-filter-container">
-          <input
-            type="text"
-            class="gp-inputtext gp-tree-filter-input"
-            [placeholder]="filterPlaceholder"
-            [value]="filterText()"
-            (input)="onFilterInput($event)"
-            aria-label="Filter tree"
-          />
-          <gp-icon name="search" size="0.85em" class="gp-tree-filter-icon" />
-        </div>
-      }
-
-      <ul class="gp-tree-container">
-        @for (node of filteredNodes(); track node.key || $index) {
-          <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, level: 0 }" />
-        } @empty {
-          <li class="gp-tree-empty-message">{{ emptyMessage }}</li>
-        }
-      </ul>
-    </div>
-
-    <ng-template #nodeTemplate let-node let-level="level">
-      <li class="gp-tree-node" role="treeitem" [attr.aria-expanded]="node.expanded" [style.padding-left.rem]="level * 1.25">
-        <div
-          class="gp-tree-node-content"
-          [class.gp-tree-node-selected]="isNodeSelected(node)"
-          (click)="onNodeClick(node, $event)"
-        >
-          @if (node.children && node.children.length > 0) {
-            <button
-              type="button"
-              class="gp-treeselect-toggler"
-              (click)="toggleNode(node, $event)"
-              aria-label="Toggle node"
-            >
-              <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
-            </button>
-          } @else {
-            <span class="gp-treeselect-toggler-spacer"></span>
-          }
-
-          @if (selectionMode === 'checkbox') {
-            <gp-checkbox
-              [binary]="true"
-              [value]="isNodeSelected(node)"
-              (onChange)="toggleCheckboxSelection(node)"
-            />
-          }
-
-          @if (node.icon) {
-            <gp-icon [name]="node.icon" class="gp-tree-node-icon" />
-          }
-
-          <span class="gp-tree-node-label">{{ node.label }}</span>
-        </div>
-
-        @if (node.expanded && node.children && node.children.length > 0) {
-          <ul class="gp-tree-sub-tree" role="group">
-            @for (child of node.children; track child.key || $index) {
-              <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: child, level: level + 1 }" />
-            }
-          </ul>
-        }
-      </li>
-    </ng-template>
-  `,
-  styles: [`
-    .gp-tree {
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      padding: 0.5rem;
-      width: 100%;
-    }
-    .gp-tree-filter-container {
-      position: relative;
-      margin-bottom: 0.5rem;
-    }
-    .gp-tree-filter-input {
-      padding-right: 2rem;
-      height: 2.25rem;
-    }
-    .gp-tree-filter-icon {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gp-text-color-muted);
-    }
-    .gp-tree-container, .gp-tree-sub-tree {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .gp-tree-node-content {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.35rem 0.5rem;
-      border-radius: var(--gp-border-radius);
-      cursor: pointer;
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color);
-      transition: background var(--gp-transition-duration);
-    }
-    .gp-tree-node-content:hover {
-      background: var(--gp-surface-hover);
-    }
-    .gp-tree-node-selected {
-      background: var(--gp-primary-light) !important;
-      color: var(--gp-primary) !important;
-      font-weight: 600;
-    }
-    .gp-tree-node-icon {
-      color: var(--gp-primary);
-    }
-    .gp-tree-empty-message {
-      padding: 1rem;
-      text-align: center;
-      color: var(--gp-text-color-muted);
-      font-size: var(--gp-font-size-sm);
-    }
-  `]
+  templateUrl: './tree.component.html',
+  styleUrl: './tree.component.scss'
 })
-export class GpTreeComponent {
-  @Input() value: GpTreeNode[] = [];
+export class GpTreeComponent extends GpEditableBaseComponent {
+  @Input() override value: GpTreeNode[] = [];
   @Input() selectionMode: GpTreeSelectionMode = null;
   @Input() selection: any = null;
   @Input() filter = false;

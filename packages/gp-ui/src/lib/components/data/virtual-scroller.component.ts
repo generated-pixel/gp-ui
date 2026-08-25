@@ -1,3 +1,4 @@
+import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
 import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -7,43 +8,10 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div
-      class="gp-virtual-scroller"
-      [style.height]="scrollHeight"
-      (scroll)="onScroll($event)"
-      tabindex="0"
-    >
-      <div class="gp-virtual-scroller-spacer" [style.height.px]="totalHeight()"></div>
-      <div class="gp-virtual-scroller-content" [style.transform]="'translateY(' + offsetY() + 'px)'">
-        @for (item of visibleItems(); track $index) {
-          <div class="gp-virtual-scroller-item" [style.height.px]="itemSize">
-            <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }" />
-          </div>
-        }
-      </div>
-    </div>
-  `,
-  styles: [`
-    .gp-virtual-scroller {
-      position: relative;
-      overflow-y: auto;
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-    }
-    .gp-virtual-scroller-spacer {
-      width: 100%;
-    }
-    .gp-virtual-scroller-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-    }
-  `]
+  templateUrl: './virtual-scroller.component.html',
+  styleUrl: './virtual-scroller.component.scss'
 })
-export class GpVirtualScrollerComponent {
+export class GpVirtualScrollerComponent extends GpEditableBaseComponent {
   @Input() items: any[] = [];
   @Input() itemSize = 48;
   @Input() scrollHeight = '20rem';

@@ -1,0 +1,11 @@
+<span
+      class="gp-tag"
+      [class]="'gp-tag-' + severity"
+      [class.gp-tag-rounded]="rounded"
+    >
+      @if (icon) {
+        <gp-icon [name]="icon" size="0.85em" class="gp-tag-icon" />
+      }
+      <span class="gp-tag-value">{{ value }}</span>
+      <ng-content />
+    </span>

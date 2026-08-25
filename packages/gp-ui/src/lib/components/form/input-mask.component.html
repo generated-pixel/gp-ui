@@ -1,0 +1,15 @@
+<div class="gp-input-wrapper" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="invalid">
+      <input
+        [id]="inputId"
+        type="text"
+        [value]="value()"
+        [placeholder]="placeholder || mask"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        [attr.aria-label]="ariaLabel || placeholder || 'Masked Input'"
+        [attr.aria-invalid]="invalid"
+        (input)="onInput($event)"
+        (blur)="onTouchedCallback()"
+        class="gp-inputtext"
+      />
+    </div>

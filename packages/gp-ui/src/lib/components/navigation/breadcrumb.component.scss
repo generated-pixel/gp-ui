@@ -1,0 +1,36 @@
+.gp-breadcrumb {
+      padding: 0.5rem 0.75rem;
+      background: var(--gp-surface-card);
+      border: 1px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius);
+    }
+    .gp-breadcrumb-list {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 0.5rem;
+    }
+    .gp-breadcrumb-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--gp-text-color-secondary);
+      text-decoration: none;
+      font-size: var(--gp-font-size-sm);
+      transition: color var(--gp-transition-duration);
+    }
+    .gp-breadcrumb-link:hover {
+      color: var(--gp-primary);
+    }
+    .gp-breadcrumb-separator {
+      color: var(--gp-text-color-muted);
+      display: inline-flex;
+    }
+    .gp-breadcrumb-current {
+      font-size: var(--gp-font-size-sm);
+      color: var(--gp-text-color);
+      font-weight: 600;
+    }

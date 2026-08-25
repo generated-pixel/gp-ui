@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { GpBaseComponent } from '../../base/gp-base.component';
+import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation, AfterContentInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../icons/icon.component';
 
@@ -6,18 +7,12 @@ import { GpIconComponent } from '../../icons/icon.component';
   selector: 'gp-tab-panel',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    @if (selected) {
-      <div class="gp-tabpanel-content" role="tabpanel">
-        <ng-content />
-      </div>
-    }
-  `
+  template: '<ng-content />'
 })
-export class GpTabPanelComponent {
+export class GpTabPanelComponent extends GpBaseComponent {
   @Input() header = '';
   @Input() icon = '';
-  @Input() disabled = false;
+  @Input() override disabled = false;
   @Input() closable = false;
   @Input() selected = false;
 }
@@ -28,111 +23,10 @@ export class GpTabPanelComponent {
   imports: [CommonModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="gp-tabview">
-      <div class="gp-tabview-nav-container">
-        <ul class="gp-tabview-nav" role="tablist">
-          @for (tab of tabPanels; track $index) {
-            <li
-              class="gp-tabview-header"
-              [class.gp-tabview-header-active]="tab.selected"
-              [class.gp-tabview-header-disabled]="tab.disabled"
-              role="presentation"
-            >
-              <button
-                type="button"
-                class="gp-tabview-nav-link"
-                [disabled]="tab.disabled"
-                (click)="selectTab(tab)"
-                role="tab"
-                [attr.aria-selected]="tab.selected"
-              >
-                @if (tab.icon) {
-                  <gp-icon [name]="tab.icon" size="0.9em" />
-                }
-                <span>{{ tab.header }}</span>
-
-                @if (tab.closable) {
-                  <button
-                    type="button"
-                    class="gp-tabview-close-btn"
-                    (click)="closeTab(tab, $event)"
-                    aria-label="Close tab"
-                  >
-                    <gp-icon name="times" size="0.7em" />
-                  </button>
-                }
-              </button>
-            </li>
-          }
-        </ul>
-      </div>
-
-      <div class="gp-tabview-panels">
-        <ng-content />
-      </div>
-    </div>
-  `,
-  styles: [`
-    .gp-tabview {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-    .gp-tabview-nav-container {
-      border-bottom: 2px solid var(--gp-surface-border);
-      position: relative;
-    }
-    .gp-tabview-nav {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      gap: 0.5rem;
-    }
-    .gp-tabview-nav-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.25rem;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      font-size: var(--gp-font-size-sm);
-      font-weight: 500;
-      color: var(--gp-text-color-secondary);
-      cursor: pointer;
-      font-family: inherit;
-      transition: all var(--gp-transition-duration);
-    }
-    .gp-tabview-nav-link:hover:not(:disabled) {
-      color: var(--gp-text-color);
-      border-bottom-color: var(--gp-input-border-hover);
-    }
-    .gp-tabview-header-active .gp-tabview-nav-link {
-      color: var(--gp-primary) !important;
-      border-bottom-color: var(--gp-primary) !important;
-      font-weight: 600;
-    }
-    .gp-tabview-close-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--gp-text-color-muted);
-      padding: 0.15rem;
-      display: inline-flex;
-      border-radius: 50%;
-    }
-    .gp-tabview-close-btn:hover {
-      color: var(--gp-danger);
-    }
-    .gp-tabview-panels {
-      padding: 1rem 0;
-    }
-  `]
+  templateUrl: './tabs.component.html',
+  styleUrl: './tabs.component.scss'
 })
-export class GpTabsComponent {
+export class GpTabsComponent extends GpBaseComponent implements AfterContentInit {
   @ContentChildren(GpTabPanelComponent) tabPanels!: QueryList<GpTabPanelComponent>;
 
   @Input() activeIndex = 0;

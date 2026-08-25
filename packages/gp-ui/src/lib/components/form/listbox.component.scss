@@ -1,0 +1,55 @@
+.gp-listbox {
+      background: var(--gp-surface-card);
+      border: 1px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+    }
+    .gp-listbox-header {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--gp-surface-divider);
+    }
+    .gp-listbox-header .gp-select-filter-container {
+      position: relative;
+    }
+    .gp-listbox-list {
+      list-style: none;
+      margin: 0;
+      padding: 0.35rem 0;
+      max-height: 14rem;
+      overflow-y: auto;
+    }
+    .gp-listbox-item {
+      padding: 0.5rem 0.75rem;
+      font-size: var(--gp-font-size-sm);
+      color: var(--gp-text-color);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background var(--gp-transition-duration);
+    }
+    .gp-listbox-item:hover:not(.gp-listbox-item-disabled) {
+      background: var(--gp-surface-hover);
+    }
+    .gp-listbox-item-selected {
+      background: var(--gp-primary-light);
+      color: var(--gp-primary);
+      font-weight: 600;
+    }
+    .gp-listbox-item-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .gp-listbox-empty {
+      padding: 0.75rem;
+      font-size: var(--gp-font-size-sm);
+      color: var(--gp-text-color-muted);
+      text-align: center;
+    }
+    .gp-listbox-disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
