@@ -8,11 +8,11 @@ import {
   GpSliderComponent,
   GpColorPickerComponent,
   GpBadgeComponent,
-  GpCardComponent,
   GpProgressBarComponent
 } from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
-import { GpIconComponent } from 'gp-ui-icons';
+import { DocCodeComponent } from '../../shared/doc-code.component';
+import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
 @Component({
   selector: 'app-theming-page',
@@ -26,21 +26,24 @@ import { GpIconComponent } from 'gp-ui-icons';
     GpSliderComponent,
     GpColorPickerComponent,
     GpBadgeComponent,
-    GpProgressBarComponent
+    GpProgressBarComponent,
+    DocCodeComponent,
+    DocApiTableComponent
   ],
   template: `
     <div class="page-container">
       <div class="page-header">
-        <h1>Design Tokens & Theme Playground</h1>
+        <h1>Design Tokens & Theming System</h1>
         <p class="page-desc">
-          Customize design tokens at runtime and instantly see them applied across all components.
+          gp-ui is built on standard CSS Custom Properties (CSS variables), allowing complete runtime customization of colors, typography, elevations, spacing, and dark mode transitions without rebuilding.
         </p>
       </div>
 
+      <!-- Live Theme Customizer Playground -->
       <div class="theme-playground-grid">
         <!-- Controls Panel -->
         <div class="theme-controls-card">
-          <h3>Theme Customizer</h3>
+          <h3>Interactive Theme Customizer</h3>
 
           <div class="control-group">
             <label>Primary Brand Color</label>
@@ -90,18 +93,22 @@ import { GpIconComponent } from 'gp-ui-icons';
           </div>
         </div>
       </div>
+
+      <!-- Custom CSS Variables Guide -->
+      <div class="doc-section" style="margin-top: 2rem;">
+        <h2 class="doc-section-title">Overriding Tokens in CSS</h2>
+        <p class="doc-section-desc">Override any gp-ui design token globally or within a specific component container:</p>
+        <doc-code [code]="cssOverrideCode" language="css" />
+      </div>
+
+      <!-- Token Reference Table -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Core CSS Custom Properties</h2>
+        <doc-api-table title="Design Tokens" [properties]="tokenList" />
+      </div>
     </div>
   `,
   styles: [`
-    .page-header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      margin: 0 0 0.5rem 0;
-    }
-    .page-desc {
-      color: var(--gp-text-color-secondary);
-      margin: 0 0 2rem 0;
-    }
     .theme-playground-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -169,6 +176,32 @@ export class ThemingPageComponent {
   brandPalette = [
     '#6366f1', '#3b82f6', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444',
     '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#06b6d4', '#64748b'
+  ];
+
+  cssOverrideCode = `:root {
+  --gp-primary: #6366f1;
+  --gp-primary-hover: #4f46e5;
+  --gp-border-radius: 8px;
+  --gp-font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Dark mode theme scope */
+[data-theme="gp-dark"] {
+  --gp-surface-ground: #090d16;
+  --gp-surface-card: #131b2e;
+  --gp-surface-border: #1e293b;
+  --gp-text-color: #f8fafc;
+}`;
+
+  tokenList: DocApiProperty[] = [
+    { name: '--gp-primary', type: 'color', default: '#6366f1', description: 'Primary brand accent color used in buttons, active states, and highlights.' },
+    { name: '--gp-primary-hover', type: 'color', default: '#4f46e5', description: 'Interactive hover color for primary elements.' },
+    { name: '--gp-surface-ground', type: 'color', default: '#f8fafc', description: 'Main page and background canvas surface color.' },
+    { name: '--gp-surface-card', type: 'color', default: '#ffffff', description: 'Surface color for elevated cards, dialogs, and panels.' },
+    { name: '--gp-surface-border', type: 'color', default: '#e2e8f0', description: 'Default border stroke color.' },
+    { name: '--gp-text-color', type: 'color', default: '#0f172a', description: 'Primary foreground text color.' },
+    { name: '--gp-text-color-secondary', type: 'color', default: '#64748b', description: 'Secondary descriptive text color.' },
+    { name: '--gp-border-radius', type: 'length', default: '6px', description: 'Standard corner radius for buttons and inputs.' }
   ];
 
   public onPrimaryColorChange(color: string): void {

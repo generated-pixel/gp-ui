@@ -1,75 +1,80 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpTagComponent, GpCardComponent } from 'gp-ui';
-import { GpIconComponent } from 'gp-ui-icons';
+import { RouterModule } from '@angular/router';
+import { GpButtonComponent, GpTagComponent, GpIconComponent } from 'gp-ui';
+import { DocCodeComponent } from '../../shared/doc-code.component';
 
 @Component({
   selector: 'app-getting-started',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpTagComponent, GpIconComponent],
+  imports: [CommonModule, RouterModule, GpButtonComponent, GpTagComponent, GpIconComponent, DocCodeComponent],
   template: `
     <div class="page-container">
       <div class="hero-section">
         <div class="hero-badge">
-          <gp-tag value="v1.0.0 Stable" severity="primary" [rounded]="true" />
-          <gp-tag value="Angular 19/20 Standalone" severity="success" [rounded]="true" />
+          <gp-tag value="v0.1.0" severity="primary" [rounded]="true" />
+          <gp-tag value="Angular 18/19 Standalone" severity="success" [rounded]="true" />
         </div>
-        <h1 class="hero-title">gp-ui Component Framework</h1>
+        <h1 class="hero-title">&#64;generatedpixel/gp-ui</h1>
         <p class="hero-subtitle">
-          An enterprise-grade, design-token-driven Angular UI component framework. Built with signals, standalone components, full accessibility, internationalization, and rich theme customization.
+          An enterprise-grade, design-token-driven Angular UI component framework. Built with signals, standalone components, 2-tier base component inheritance, full accessibility, internationalization, and modular theme customization.
         </p>
 
         <div class="hero-actions">
-          <gp-button label="Explore Components" icon="chevron-right" iconPos="right" severity="primary" size="lg" />
-          <gp-button label="GitHub Repository" icon="code" variant="outlined" severity="secondary" size="lg" />
+          <a routerLink="/buttons">
+            <gp-button label="Explore Components" icon="chevron-right" iconPos="right" severity="primary" size="lg" />
+          </a>
+          <a href="https://github.com/generated-pixel/gp-ui" target="_blank" rel="noopener">
+            <gp-button label="GitHub Repository" icon="code" variant="outlined" severity="secondary" size="lg" />
+          </a>
         </div>
       </div>
 
+      <!-- Installation -->
       <div class="doc-section">
         <h2 class="doc-section-title">
           <gp-icon name="download" size="1em" />
-          Installation
+          NPM Installation
         </h2>
-        <p class="doc-section-desc">Install gp-ui and its companion packages using npm or pnpm:</p>
-        <div class="doc-code-box">
-          <pre><code>npm install gp-ui gp-ui-theme gp-ui-icons</code></pre>
-        </div>
+        <p class="doc-section-desc">Install the core UI library and companion theme tokens via npm or pnpm:</p>
+        <doc-code [code]="installCode" language="bash" />
       </div>
 
+      <!-- Theme Setup -->
       <div class="doc-section">
         <h2 class="doc-section-title">
           <gp-icon name="palette" size="1em" />
-          Importing Theme Styles
+          Theme Stylesheet Setup
         </h2>
-        <p class="doc-section-desc">Add the core theme tokens and stylesheets to your <code>angular.json</code> or root <code>styles.scss</code>:</p>
-        <div class="doc-code-box">
-          <pre><code>// In styles.scss:
-&#64;import 'gp-ui-theme/src/themes/gp-light.css';
-&#64;import 'gp-ui-theme/src/themes/gp-dark.css';
-&#64;import 'gp-ui-theme/src/index.css';</code></pre>
-        </div>
+        <p class="doc-section-desc">Include the design tokens and themes in your <code>angular.json</code> or global <code>styles.scss</code>:</p>
+        <doc-code [code]="themeCode" language="scss" />
       </div>
 
+      <!-- Standalone Component Usage -->
       <div class="doc-section">
         <h2 class="doc-section-title">
           <gp-icon name="code" size="1em" />
-          Usage in Standalone Components
+          Usage in Standalone Angular Components
         </h2>
-        <p class="doc-section-desc">Import components directly into your standalone Angular components:</p>
-        <div class="doc-code-box">
-          <pre><code>import {{ '{' }} Component {{ '}' }} from '&#64;angular/core';
-import {{ '{' }} GpButtonComponent, GpInputTextComponent, GpTableComponent {{ '}' }} from 'gp-ui';
+        <p class="doc-section-desc">Import any of the 40+ standalone UI components directly in your component's <code>imports</code> array:</p>
+        <doc-code [code]="usageCode" language="typescript" />
+      </div>
 
-&#64;Component({{ '{' }}
-  selector: 'app-my-feature',
-  standalone: true,
-  imports: [GpButtonComponent, GpInputTextComponent, GpTableComponent],
-  template: \`
-    &lt;gp-button label="Save Changes" severity="primary" /&gt;
-  \`
-{{ '}' }})
-export class MyFeatureComponent {{ '{' }} {{ '}' }}</code></pre>
-        </div>
+      <!-- Architecture -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="layer-group" size="1em" />
+          2-Tier Base Component Architecture
+        </h2>
+        <p class="doc-section-desc">All components in the library follow a clean two-tier inheritance hierarchy:</p>
+        <ul class="arch-list">
+          <li>
+            <strong><code>GpBaseComponent</code></strong>: Base for display-only and layout containers (Buttons, Panels, Dialogs, Avatars, Tabs). Provides auto-generated unique IDs, <code>styleClass</code>, <code>style</code>, <code>ariaLabel</code>, and <code>disabled</code> state.
+          </li>
+          <li>
+            <strong><code>GpEditableBaseComponent&lt;T&gt;</code></strong>: Extends <code>GpBaseComponent</code> for all value-bearing and form controls (InputText, Select, Checkbox, Slider, Table, DataView). Implements <code>ControlValueAccessor</code> with <code>value</code>, <code>valueChange</code>, validation flags, and form state callbacks.
+          </li>
+        </ul>
       </div>
     </div>
   `,
@@ -107,6 +112,38 @@ export class MyFeatureComponent {{ '{' }} {{ '}' }}</code></pre>
       gap: 1rem;
       flex-wrap: wrap;
     }
+    .hero-actions a {
+      text-decoration: none;
+    }
+    .arch-list {
+      padding-left: 1.5rem;
+      line-height: 1.8;
+      color: var(--gp-text-color);
+    }
   `]
 })
-export class GettingStartedComponent {}
+export class GettingStartedComponent {
+  installCode = `npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme`;
+
+  themeCode = `// In styles.scss:
+@import '@generatedpixel/gp-ui-theme/src/themes/gp-light.css';
+@import '@generatedpixel/gp-ui-theme/src/themes/gp-dark.css';
+@import '@generatedpixel/gp-ui-theme/src/index.css';`;
+
+  usageCode = `import { Component } from '@angular/core';
+import { GpButtonComponent, GpInputTextComponent, GpTableComponent } from '@generatedpixel/gp-ui';
+
+@Component({
+  selector: 'app-my-view',
+  standalone: true,
+  imports: [GpButtonComponent, GpInputTextComponent, GpTableComponent],
+  template: \`
+    <gp-button label="Save Changes" severity="primary" (onClickEvent)="onSave()" />
+  \`
+})
+export class MyViewComponent {
+  onSave(): void {
+    console.log('Saved!');
+  }
+}`;
+}

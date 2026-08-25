@@ -9,6 +9,8 @@ import {
   GpPopoverComponent,
   GpTooltipDirective
 } from 'gp-ui';
+import { DocCodeComponent } from '../../shared/doc-code.component';
+import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
 @Component({
   selector: 'app-overlay-demo',
@@ -20,7 +22,9 @@ import {
     GpConfirmDialogComponent,
     GpDrawerComponent,
     GpPopoverComponent,
-    GpTooltipDirective
+    GpTooltipDirective,
+    DocCodeComponent,
+    DocApiTableComponent
   ],
   template: `
     <div class="page-container">
@@ -28,12 +32,22 @@ import {
 
       <div class="page-header">
         <h1>Overlay & Modal Components</h1>
-        <p class="page-desc">Centralized overlay infrastructure with focus trapping, z-index management, and responsive placement.</p>
+        <p class="page-desc">
+          Centralized overlay infrastructure featuring focus trapping, dynamic z-index layering, off-canvas drawers, popovers, and programmatic confirmation dialogs.
+        </p>
       </div>
 
-      <!-- Dialog & Modals -->
+      <!-- Import Section -->
       <div class="doc-section">
-        <h2 class="doc-section-title">Dialog / Modal</h2>
+        <h2 class="doc-section-title">Import</h2>
+        <p class="doc-section-desc">Import overlay components and services:</p>
+        <doc-code [code]="importCode" language="typescript" />
+      </div>
+
+      <!-- Live Overlays Demo -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Interactive Overlays</h2>
+        <p class="doc-section-desc">Click below to trigger modal dialogs, programmatic confirm dialogs, slide-out drawers, popovers, and tooltips:</p>
         <div class="doc-demo-box">
           <gp-button label="Show Dialog" (onClickEvent)="dialog.show()" />
           <gp-button label="Confirmation Dialog" severity="danger" (onClickEvent)="confirmDelete()" />
@@ -41,6 +55,7 @@ import {
           <gp-button label="Toggle Popover" severity="info" (onClickEvent)="popover.toggle($event)" />
           <gp-button label="Hover for Tooltip" [gpTooltip]="'This is an accessible tooltip!'" severity="contrast" />
         </div>
+        <doc-code [code]="overlayCode" language="html" />
       </div>
 
       <!-- Dialog Component instance -->
@@ -65,10 +80,60 @@ import {
           <gp-button label="Got it" size="sm" (onClickEvent)="popover.hide()" />
         </div>
       </gp-popover>
+
+      <!-- Programmatic Confirmation Service Guide -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Programmatic Confirmation Dialog Guide</h2>
+        <p class="doc-section-desc">Trigger confirmation prompts from TypeScript using <code>GpConfirmationService</code>:</p>
+        <doc-code [code]="confirmServiceCode" language="typescript" />
+      </div>
+
+      <!-- API Reference -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">API Reference</h2>
+        <doc-api-table title="GpDialogComponent Properties (Inputs)" [properties]="dialogProperties" />
+        <doc-api-table title="GpDrawerComponent Properties (Inputs)" [properties]="drawerProperties" />
+      </div>
     </div>
   `
 })
 export class OverlayDemoComponent {
+  importCode = `import {
+  GpDialogComponent,
+  GpConfirmDialogComponent,
+  GpConfirmationService,
+  GpDrawerComponent,
+  GpPopoverComponent,
+  GpTooltipDirective
+} from '@generatedpixel/gp-ui';`;
+
+  overlayCode = `<!-- Modal Dialog -->
+<gp-button label="Show Dialog" (onClickEvent)="dialog.show()" />
+<gp-dialog #dialog header="Dialog Title" [maximizable]="true">
+  <p>Dialog body content...</p>
+  <div footer>
+    <gp-button label="Close" (onClickEvent)="dialog.close()" />
+  </div>
+</gp-dialog>
+
+<!-- Tooltip Directive -->
+<gp-button label="Hover me" [gpTooltip]="'Helpful tooltip information'" />`;
+
+  confirmServiceCode = `export class MyComponent {
+  private confirmationService = inject(GpConfirmationService);
+
+  deleteItem(): void {
+    this.confirmationService.confirm({
+      header: 'Delete Item',
+      message: 'Are you sure you want to proceed?',
+      icon: 'exclamation-triangle',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      accept: () => console.log('Deleted!')
+    });
+  }
+}`;
+
   private confirmationService = inject(GpConfirmationService);
 
   public confirmDelete(): void {
@@ -81,4 +146,18 @@ export class OverlayDemoComponent {
       accept: () => alert('Record deleted!')
     });
   }
+
+  dialogProperties: DocApiProperty[] = [
+    { name: 'header', type: 'string', default: "''", description: 'Title text in dialog header bar.' },
+    { name: 'visible', type: 'boolean', default: 'false', description: 'Controls modal open/close state.' },
+    { name: 'modal', type: 'boolean', default: 'true', description: 'Renders a backdrop overlay mask behind the dialog.' },
+    { name: 'closable', type: 'boolean', default: 'true', description: 'Renders a top-right close icon button.' },
+    { name: 'maximizable', type: 'boolean', default: 'false', description: 'Renders a maximize/restore viewport toggle.' }
+  ];
+
+  drawerProperties: DocApiProperty[] = [
+    { name: 'header', type: 'string', default: "''", description: 'Header title text.' },
+    { name: 'position', type: "'left' | 'right' | 'top' | 'bottom'", default: "'left'", description: 'Sliding origin side.' },
+    { name: 'visible', type: 'boolean', default: 'false', description: 'Controls drawer open/close visibility.' }
+  ];
 }

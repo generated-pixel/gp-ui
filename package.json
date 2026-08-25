@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "start": "ng serve gp-ui-demo",
+    "dev": "ng serve gp-ui-demo",
     "build": "node tools/build-all.js",
     "build:lib": "ng build gp-ui",
     "build:theme": "node tools/build-theme.js",

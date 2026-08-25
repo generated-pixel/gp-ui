@@ -25,6 +25,8 @@ import {
   GpButtonComponent,
   GpCardComponent
 } from 'gp-ui';
+import { DocCodeComponent } from '../../shared/doc-code.component';
+import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
 @Component({
   selector: 'app-forms-demo',
@@ -54,13 +56,24 @@ import {
     GpTimePickerComponent,
     GpFileUploadComponent,
     GpButtonComponent,
-    GpCardComponent
+    GpCardComponent,
+    DocCodeComponent,
+    DocApiTableComponent
   ],
   template: `
     <div class="page-container">
       <div class="page-header">
-        <h1>Form Components</h1>
-        <p class="page-desc">20 production-ready form controls with full Angular Reactive Forms & ControlValueAccessor support.</p>
+        <h1>Form Controls & Inputs</h1>
+        <p class="page-desc">
+          20 production-ready form controls featuring seamless two-way binding, Reactive Forms (ControlValueAccessor), custom styling tokens, and accessible validation states.
+        </p>
+      </div>
+
+      <!-- Import Section -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Import</h2>
+        <p class="doc-section-desc">Import required form controls alongside Angular's ReactiveFormsModule:</p>
+        <doc-code [code]="importCode" language="typescript" />
       </div>
 
       <!-- Reactive Form Container -->
@@ -68,6 +81,7 @@ import {
         <!-- Text Inputs -->
         <div class="doc-section">
           <h2 class="doc-section-title">Text Inputs & Textarea</h2>
+          <p class="doc-section-desc">Supports icons, clear buttons, prefixes/suffixes, and auto-resizing textareas.</p>
           <div class="form-grid">
             <div class="form-field">
               <label>Full Name (Required)</label>
@@ -99,6 +113,7 @@ import {
         <!-- Selection Controls -->
         <div class="doc-section">
           <h2 class="doc-section-title">Select, MultiSelect & Autocomplete</h2>
+          <p class="doc-section-desc">Dropdown pickers, multi-select with chips, typeahead search, and tree selectors.</p>
           <div class="form-grid">
             <div class="form-field">
               <label>Country (Single Select with Filter)</label>
@@ -131,6 +146,7 @@ import {
         <!-- Date & Time Pickers -->
         <div class="doc-section">
           <h2 class="doc-section-title">Date & Time Pickers</h2>
+          <p class="doc-section-desc">Interactive calendar datepicker popup and time pickers with 12/24hr formatting.</p>
           <div class="form-grid">
             <div class="form-field">
               <label>Birth Date (Date Picker)</label>
@@ -181,22 +197,36 @@ import {
         <!-- File Upload -->
         <div class="doc-section">
           <h2 class="doc-section-title">File Upload</h2>
+          <p class="doc-section-desc">Drag and drop file upload zone with file size validation and multi-file support.</p>
           <gp-file-upload [multiple]="true" accept="image/*" />
         </div>
 
         <!-- Submit & Form Value Inspector -->
         <div class="doc-section">
+          <h2 class="doc-section-title">Reactive Form State & Actions</h2>
           <div class="form-actions">
             <gp-button label="Submit Form" type="submit" severity="primary" size="lg" />
             <gp-button label="Reset Form" type="button" variant="outlined" severity="secondary" (onClickEvent)="demoForm.reset()" />
           </div>
 
-          <h3 style="margin-top: 1.5rem;">Reactive Form Value Inspector:</h3>
-          <div class="doc-code-box">
-            <pre><code>{{ demoForm.value | json }}</code></pre>
-          </div>
+          <h3 style="margin-top: 1.5rem;">Live Form Values (JSON):</h3>
+          <doc-code [code]="formJson()" language="json" />
         </div>
       </form>
+
+      <!-- Usage Code Example -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Usage Example</h2>
+        <p class="doc-section-desc">How to integrate gp-ui form controls in your Angular component:</p>
+        <doc-code [code]="usageCode" language="typescript" />
+      </div>
+
+      <!-- API Reference -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">API Reference (Common Form Properties)</h2>
+        <p class="doc-section-desc">All form controls inherit from <code>GpEditableBaseComponent</code>:</p>
+        <doc-api-table title="GpEditableBaseComponent Inputs" [properties]="commonFormProperties" />
+      </div>
     </div>
   `,
   styles: [`
@@ -237,6 +267,31 @@ import {
   `]
 })
 export class FormsDemoComponent {
+  importCode = `import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import {
+  GpInputTextComponent,
+  GpSelectComponent,
+  GpCheckboxComponent,
+  GpDatePickerComponent
+} from '@generatedpixel/gp-ui';`;
+
+  usageCode = `@Component({
+  imports: [ReactiveFormsModule, GpInputTextComponent, GpSelectComponent],
+  template: \`
+    <form [formGroup]="form">
+      <gp-input-text formControlName="email" placeholder="user@domain.com" iconLeft="user" />
+      <gp-select formControlName="role" [options]="roles" placeholder="Select Role" />
+    </form>
+  \`
+})
+export class MyFormComponent {
+  form = new FormGroup({
+    email: new FormControl('', Validators.email),
+    role: new FormControl('admin')
+  });
+  roles = [{ label: 'Admin', value: 'admin' }, { label: 'Member', value: 'member' }];
+}`;
+
   demoForm = new FormGroup({
     fullName: new FormControl('Alex Morgan', Validators.required),
     password: new FormControl('P@ssword123'),
@@ -296,6 +351,21 @@ export class FormsDemoComponent {
       ]
     }
   ];
+
+  commonFormProperties: DocApiProperty[] = [
+    { name: 'value', type: 'any', default: 'null', description: 'Two-way bound model value or reactive form control value.' },
+    { name: 'name', type: 'string', default: "''", description: 'HTML form control name attribute.' },
+    { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder hint text when input is empty.' },
+    { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables user input and applies disabled visual styling.' },
+    { name: 'readonly', type: 'boolean', default: 'false', description: 'Prevents editing while allowing selection and focus.' },
+    { name: 'required', type: 'boolean', default: 'false', description: 'Marks the field as required for accessibility and form validation.' },
+    { name: 'invalid', type: 'boolean', default: 'false', description: 'Highlights the control with error styling (red border/ring).' },
+    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS classes applied to the control container.' }
+  ];
+
+  protected formJson(): string {
+    return JSON.stringify(this.demoForm.value, null, 2);
+  }
 
   searchCities(event: any): void {
     const q = (event.query || '').toLowerCase();

@@ -5,9 +5,10 @@ import {
   GpColumnComponent,
   GpButtonComponent,
   GpTagComponent,
-  GpDataViewComponent,
-  GpVirtualScrollerComponent
+  GpDataViewComponent
 } from 'gp-ui';
+import { DocCodeComponent } from '../../shared/doc-code.component';
+import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
 @Component({
   selector: 'app-data-demo',
@@ -18,18 +19,30 @@ import {
     GpColumnComponent,
     GpButtonComponent,
     GpTagComponent,
-    GpDataViewComponent
+    GpDataViewComponent,
+    DocCodeComponent,
+    DocApiTableComponent
   ],
   template: `
     <div class="page-container">
       <div class="page-header">
-        <h1>Enterprise Data Components</h1>
-        <p class="page-desc">High-performance data tables with sorting, filtering, selection, pagination, and export hooks.</p>
+        <h1>Data Table & Collection Components</h1>
+        <p class="page-desc">
+          High-performance data management components featuring column sorting, paginated browsing, multi-row selection, CSV export, and list/grid layout viewports.
+        </p>
+      </div>
+
+      <!-- Import Section -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Import</h2>
+        <p class="doc-section-desc">Import data components into your standalone component:</p>
+        <doc-code [code]="importCode" language="typescript" />
       </div>
 
       <!-- Feature-packed Data Table -->
       <div class="doc-section">
         <h2 class="doc-section-title">DataTable with Filtering, Selection, Pagination & Export</h2>
+        <p class="doc-section-desc">Enterprise table with multi-column sorting, custom cell templating, row selection, and CSV export.</p>
         <div class="table-actions">
           <gp-button label="Export to CSV" icon="download" severity="secondary" (onClickEvent)="dt.exportCSV('customers.csv')" />
         </div>
@@ -61,13 +74,16 @@ import {
         </gp-table>
 
         <p class="selection-status">
-          Selected {{ selectedCustomers.length }} records.
+          Selected <strong>{{ selectedCustomers.length }}</strong> records.
         </p>
+
+        <doc-code [code]="tableCode" language="html" />
       </div>
 
       <!-- Data View -->
       <div class="doc-section">
         <h2 class="doc-section-title">DataView (Grid & List Switcher)</h2>
+        <p class="doc-section-desc">Responsive collection display supporting custom templates for list and card grid views.</p>
         <gp-data-view [value]="products" layout="grid" [paginator]="true" [rows]="4">
           <ng-template #griditem let-item>
             <div class="product-grid-card">
@@ -93,6 +109,15 @@ import {
             </div>
           </ng-template>
         </gp-data-view>
+
+        <doc-code [code]="dataViewCode" language="html" />
+      </div>
+
+      <!-- API Reference -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">API Reference</h2>
+        <doc-api-table title="GpTableComponent Properties (Inputs)" [properties]="tableProperties" />
+        <doc-api-table title="GpColumnComponent Properties (Inputs)" [properties]="columnProperties" />
       </div>
     </div>
   `,
@@ -103,7 +128,7 @@ import {
       margin-bottom: 0.75rem;
     }
     .selection-status {
-      font-size: var(--gp-font-size-xs);
+      font-size: var(--gp-font-size-sm);
       color: var(--gp-text-color-secondary);
       margin-top: 0.5rem;
     }
@@ -154,6 +179,31 @@ import {
   `]
 })
 export class DataDemoComponent {
+  importCode = `import { GpTableComponent, GpColumnComponent, GpDataViewComponent } from '@generatedpixel/gp-ui';`;
+
+  tableCode = `<gp-table
+  [value]="customers"
+  [paginator]="true"
+  [rows]="5"
+  selectionMode="multiple"
+  [(selection)]="selectedCustomers"
+>
+  <gp-column field="id" header="ID" width="5rem" [sortable]="true" />
+  <gp-column field="name" header="Customer Name" [sortable]="true" />
+  <gp-column field="country" header="Country" [sortable]="true" />
+  <gp-column field="status" header="Status" [sortable]="true">
+    <ng-template #body let-row>
+      <gp-tag [value]="row.status" severity="success" />
+    </ng-template>
+  </gp-column>
+</gp-table>`;
+
+  dataViewCode = `<gp-data-view [value]="products" layout="grid" [paginator]="true" [rows]="6">
+  <ng-template #griditem let-item>
+    <div class="card">{{ item.name }} - \${{ item.price }}</div>
+  </ng-template>
+</gp-data-view>`;
+
   selectedCustomers: any[] = [];
 
   customers = [
@@ -174,5 +224,22 @@ export class DataDemoComponent {
     { name: 'Game Controller', category: 'Electronics', price: 99, inventoryStatus: 'INSTOCK' },
     { name: 'Gaming Set', category: 'Electronics', price: 299, inventoryStatus: 'INSTOCK' },
     { name: 'Gold Phone Case', category: 'Accessories', price: 24, inventoryStatus: 'INSTOCK' }
+  ];
+
+  tableProperties: DocApiProperty[] = [
+    { name: 'value', type: 'any[]', default: '[]', description: 'Array of data records to display.' },
+    { name: 'paginator', type: 'boolean', default: 'false', description: 'Enables built-in paginator at the bottom of the table.' },
+    { name: 'rows', type: 'number', default: '10', description: 'Number of rows shown per page.' },
+    { name: 'rowsPerPageOptions', type: 'number[]', default: '[5, 10, 20]', description: 'Options for rows-per-page dropdown selector.' },
+    { name: 'stripedRows', type: 'boolean', default: 'false', description: 'Applies alternating zebra-stripe background colors to rows.' },
+    { name: 'selectionMode', type: "'single' | 'multiple' | null", default: 'null', description: 'Specifies row selection mode.' },
+    { name: 'selection', type: 'any | any[]', default: 'null', description: 'Currently selected item or array of selected items.' }
+  ];
+
+  columnProperties: DocApiProperty[] = [
+    { name: 'field', type: 'string', default: "''", description: 'Property key name from each data object.' },
+    { name: 'header', type: 'string', default: "''", description: 'Header column title.' },
+    { name: 'sortable', type: 'boolean', default: 'false', description: 'Enables interactive header sort click sorting.' },
+    { name: 'width', type: 'string', default: "''", description: 'Custom CSS width for the column (e.g. "8rem").' }
   ];
 }
