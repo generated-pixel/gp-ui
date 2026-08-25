@@ -1,0 +1,38 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "gp-ui": ["packages/gp-ui/src/public-api.ts"],
+      "gp-ui/*": ["packages/gp-ui/src/*"],
+      "gp-ui-theme": ["packages/gp-ui-theme/src/index.ts"],
+      "gp-ui-theme/*": ["packages/gp-ui-theme/*"],
+      "gp-ui-icons": ["packages/gp-ui-icons/src/public-api.ts"],
+      "gp-ui-icons/*": ["packages/gp-ui-icons/src/*"]
+    },
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

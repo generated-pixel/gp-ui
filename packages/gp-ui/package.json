@@ -1,0 +1,30 @@
+{
+  "name": "gp-ui",
+  "version": "1.0.0",
+  "description": "Production-grade Angular UI Component Framework",
+  "keywords": [
+    "angular",
+    "ui",
+    "components",
+    "accessible",
+    "design-tokens",
+    "gp-ui"
+  ],
+  "author": "Generated Pixel",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/generated-pixel/gp-ui.git"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0",
+    "@angular/forms": ">=18.0.0",
+    "@angular/router": ">=18.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

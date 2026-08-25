@@ -1,0 +1,16 @@
+{
+  "name": "gp-ui-theme",
+  "version": "1.0.0",
+  "description": "Design Token Driven Theming System for gp-ui",
+  "main": "src/index.js",
+  "style": "src/index.css",
+  "keywords": [
+    "design-tokens",
+    "theme",
+    "css-variables",
+    "dark-mode",
+    "gp-ui"
+  ],
+  "author": "Generated Pixel",
+  "license": "MIT"
+}

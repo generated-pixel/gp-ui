@@ -1,0 +1,18 @@
+{
+  "name": "consumer-test",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^22.1.3",
+    "@angular/core": "^22.1.3",
+    "@angular/forms": "^22.1.3",
+    "@angular/platform-browser": "^22.1.3",
+    "@angular/router": "^22.1.3",
+    "gp-ui": "file:../../dist/packages/gp-ui",
+    "gp-ui-theme": "file:../../dist/packages/gp-ui-theme",
+    "gp-ui-icons": "file:../../dist/packages/gp-ui-icons",
+    "rxjs": "^7.8.2",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.16.2"
+  }
+}

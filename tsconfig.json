@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/gp-ui/tsconfig.lib.json"
+    },
+    {
+      "path": "./packages/gp-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./apps/gp-ui-demo/tsconfig.app.json"
+    }
+  ]
+}

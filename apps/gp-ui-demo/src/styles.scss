@@ -1,0 +1,74 @@
+/* Demo Application Styles */
+:root {
+  --gp-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --app-sidebar-width: 280px;
+  --app-header-height: 64px;
+}
+
+body {
+  font-family: var(--gp-font-family);
+  background-color: var(--gp-surface-ground);
+  color: var(--gp-text-color);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Documentation Content Card */
+.doc-section {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-md);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--gp-shadow-sm);
+}
+
+.doc-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: var(--gp-text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doc-section-desc {
+  font-size: 0.925rem;
+  color: var(--gp-text-color-secondary);
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.doc-demo-box {
+  padding: 1.5rem;
+  background: var(--gp-surface-ground);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.doc-code-box {
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 1rem;
+  border-radius: var(--gp-border-radius);
+  font-size: 0.85rem;
+  overflow-x: auto;
+  position: relative;
+}
+
+.doc-code-box pre {
+  margin: 0;
+}

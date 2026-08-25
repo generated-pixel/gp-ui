@@ -1,0 +1,68 @@
+{
+  "name": "gp-ui-monorepo",
+  "version": "1.0.0",
+  "description": "gp-ui - Complete Enterprise Angular UI Component Framework",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "start": "ng serve gp-ui-demo",
+    "build": "node tools/build-all.js",
+    "build:lib": "ng build gp-ui",
+    "build:theme": "node tools/build-theme.js",
+    "build:icons": "node tools/build-icons.js",
+    "build:demo": "ng build gp-ui-demo",
+    "test": "node tools/run-tests.js",
+    "test:consumer": "node tools/validate-consumer.js",
+    "generate": "node tools/generate-component.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "node tools/lint.js",
+    "package": "node tools/package-release.js",
+    "release": "node tools/release.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/generated-pixel/gp-ui.git"
+  },
+  "keywords": [
+    "angular",
+    "components",
+    "ui-framework",
+    "design-system",
+    "accessibility",
+    "theming",
+    "gp-ui"
+  ],
+  "author": "Generated Pixel",
+  "license": "MIT",
+  "devDependencies": {
+    "@angular/build": "^22.1.5",
+    "@angular/cli": "^22.1.5",
+    "@angular/compiler-cli": "^22.1.3",
+    "@types/jasmine": "^6.0.0",
+    "@types/node": "^26.3.0",
+    "jasmine-core": "^7.0.2",
+    "karma": "^6.4.4",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.3.0",
+    "ng-packagr": "^22.1.1",
+    "rxjs": "^7.8.2",
+    "typescript": "^6.0.3",
+    "zone.js": "^0.16.2"
+  },
+  "dependencies": {
+    "@angular/animations": "^22.1.3",
+    "@angular/common": "^22.1.3",
+    "@angular/compiler": "^22.1.3",
+    "@angular/core": "^22.1.3",
+    "@angular/forms": "^22.1.3",
+    "@angular/platform-browser": "^22.1.3",
+    "@angular/platform-browser-dynamic": "^22.1.3",
+    "@angular/router": "^22.1.3"
+  }
+}

@@ -1,0 +1,175 @@
+/**
+ * gp-ui Global Styles, Reset, Utilities & Keyframes
+ */
+@import './themes/gp-light.css';
+@import './themes/gp-dark.css';
+
+/* Box Sizing & Typography */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--gp-font-family);
+  font-size: var(--gp-font-size-base);
+  color: var(--gp-text-color);
+  background-color: var(--gp-surface-ground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Form Control Reset */
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/* Ripple Effect Styles */
+.gp-ink {
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 100%;
+  transform: scale(0);
+  pointer-events: none;
+}
+
+.gp-ink-active {
+  animation: gp-ripple 0.55s linear;
+}
+
+@keyframes gp-ripple {
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+/* Tooltip Styles */
+.gp-tooltip {
+  position: absolute;
+  padding: 0.375rem 0.75rem;
+  background-color: var(--gp-contrast);
+  color: var(--gp-contrast-text);
+  font-size: var(--gp-font-size-xs);
+  font-weight: 500;
+  border-radius: var(--gp-border-radius);
+  box-shadow: var(--gp-shadow-md);
+  pointer-events: none;
+  animation: gp-fade-in 0.15s ease-out;
+  white-space: nowrap;
+}
+
+/* Animations */
+@keyframes gp-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gp-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gp-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gp-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gp-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gp-skeleton-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Utility classes */
+.gp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.gp-unselectable {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.gp-flex {
+  display: flex;
+}
+
+.gp-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.gp-items-center {
+  align-items: center;
+}
+
+.gp-justify-between {
+  justify-content: space-between;
+}
+
+.gp-gap-2 {
+  gap: 0.5rem;
+}
+
+.gp-gap-4 {
+  gap: 1rem;
+}
+
+.gp-w-full {
+  width: 100%;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}

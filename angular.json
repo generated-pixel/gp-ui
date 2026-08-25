@@ -1,0 +1,112 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "packages",
+  "projects": {
+    "gp-ui": {
+      "projectType": "library",
+      "root": "packages/gp-ui",
+      "sourceRoot": "packages/gp-ui/src",
+      "prefix": "gp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/gp-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/gp-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/gp-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/gp-ui/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        }
+      }
+    },
+    "gp-ui-demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/gp-ui-demo",
+      "sourceRoot": "apps/gp-ui-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/apps/gp-ui-demo",
+            "index": "apps/gp-ui-demo/src/index.html",
+            "browser": "apps/gp-ui-demo/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "apps/gp-ui-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/gp-ui-demo/public"
+              }
+            ],
+            "styles": [
+              "packages/gp-ui-theme/src/themes/gp-light.css",
+              "packages/gp-ui-theme/src/themes/gp-dark.css",
+              "packages/gp-ui-theme/src/index.css",
+              "apps/gp-ui-demo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "20kb",
+                  "maximumError": "40kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "gp-ui-demo:build:production"
+            },
+            "development": {
+              "buildTarget": "gp-ui-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}
