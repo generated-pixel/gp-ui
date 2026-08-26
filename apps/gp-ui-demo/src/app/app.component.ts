@@ -283,26 +283,24 @@ export interface ComponentCatalogueItem {
       text-transform: uppercase;
     }
     .pride-flag-small {
-      width: 2.25rem;
-      height: 1.5rem;
-      border-radius: 2px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-      background: repeating-linear-gradient(
-        90deg,
-        #e40303 0,
-        #e40303 calc(100% / 7),
-        #ff8c00 calc(100% / 7),
-        #ff8c00 calc(100% * 2 / 7),
-        #ffff41 calc(100% * 2 / 7),
-        #ffff41 calc(100% * 3 / 7),
-        #008026 calc(100% * 3 / 7),
-        #008026 calc(100% * 4 / 7),
-        #0000f9 calc(100% * 4 / 7),
-        #0000f9 calc(100% * 5 / 7),
-        #86007d calc(100% * 5 / 7),
-        #86007d calc(100% * 6 / 7),
-        #e40303 calc(100% * 6 / 7),
-        #e40303 100%
+      width: 2rem;
+      height: 1.35rem;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+      background: linear-gradient(
+        180deg,
+        #e40303 0%,
+        #e40303 16.666%,
+        #ff8c00 16.666%,
+        #ff8c00 33.333%,
+        #ffed00 33.333%,
+        #ffed00 50%,
+        #008026 50%,
+        #008026 66.666%,
+        #004dff 66.666%,
+        #004dff 83.333%,
+        #750787 83.333%,
+        #750787 100%
       );
     }
     .back-to-site-btn {
@@ -549,22 +547,20 @@ export interface ComponentCatalogueItem {
     }
     .pride-flag-banner {
       height: 4px;
-      background: repeating-linear-gradient(
+      background: linear-gradient(
         90deg,
-        #e40303 0,
-        #e40303 calc(100% / 7),
-        #ff8c00 calc(100% / 7),
-        #ff8c00 calc(100% * 2 / 7),
-        #ffff41 calc(100% * 2 / 7),
-        #ffff41 calc(100% * 3 / 7),
-        #008026 calc(100% * 3 / 7),
-        #008026 calc(100% * 4 / 7),
-        #0000f9 calc(100% * 4 / 7),
-        #0000f9 calc(100% * 5 / 7),
-        #86007d calc(100% * 5 / 7),
-        #86007d calc(100% * 6 / 7),
-        #e40303 calc(100% * 6 / 7),
-        #e40303 100%
+        #e40303 0%,
+        #e40303 16.666%,
+        #ff8c00 16.666%,
+        #ff8c00 33.333%,
+        #ffed00 33.333%,
+        #ffed00 50%,
+        #008026 50%,
+        #008026 66.666%,
+        #004dff 66.666%,
+        #004dff 83.333%,
+        #750787 83.333%,
+        #750787 100%
       );
     }
     .app-main-home {
