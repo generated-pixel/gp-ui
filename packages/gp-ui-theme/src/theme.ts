@@ -1,48 +1,26 @@
 /**
  * Design Token & Theme Management System for gp-ui
- * Supports multi-theme architecture where every theme includes both Light & Dark modes.
+ * Supports JSON / TypeScript token architecture across Primitives, Semantic, and Component layers.
+ * Injects compiled theme styles directly into document <head> at runtime.
  */
+import {
+  GpThemeDefinition,
+  GpThemeOverride,
+  GpThemeMode,
+  GpColorScheme,
+  GpThemeMeta,
+  GpThemeState,
+  GpThemeTokens
+} from './tokens/types';
+import { builtInThemes, defaultTheme } from './tokens/presets';
+import { baseTheme } from './tokens/base-theme';
+import { extendTheme, themeToCss } from './tokens/compiler';
 
-export interface GpThemeTokens {
-  primaryColor?: string;
-  primaryHover?: string;
-  primaryActive?: string;
-  borderRadius?: string;
-  fontSize?: string;
-  fontFamily?: string;
-  surfaceGround?: string;
-  surfaceCard?: string;
-  textColor?: string;
-}
-
-export type GpThemeMode = 'light' | 'dark' | 'system' | 'gp-light' | 'gp-dark';
-
-export interface GpThemeMeta {
-  id: string;
-  name: string;
-  description: string;
-  primaryColor: string;
-  accentColor: string;
-  lightSurface: string;
-  darkSurface: string;
-}
-
-export interface GpThemeState {
-  theme: string;
-  mode: GpThemeMode;
-  activeMode: 'light' | 'dark';
-  isDark: boolean;
-}
-
-export interface GpCustomThemeDefinition {
-  id: string;
-  name: string;
-  description?: string;
-  primaryColor?: string;
-  accentColor?: string;
-  lightTokens: Record<string, string>;
-  darkTokens: Record<string, string>;
-}
+export * from './tokens/types';
+export * from './tokens/primitives';
+export * from './tokens/base-theme';
+export * from './tokens/compiler';
+export * from './tokens/presets';
 
 export class GpThemeManager {
   private static currentTheme = 'default';
@@ -50,91 +28,34 @@ export class GpThemeManager {
   private static systemDarkQuery: MediaQueryList | null = null;
   private static initialized = false;
   private static listeners: Set<(state: GpThemeState) => void> = new Set();
-  private static customThemes: Map<string, GpThemeMeta> = new Map();
-
-  public static readonly BUILT_IN_THEMES: GpThemeMeta[] = [
-    {
-      id: 'default',
-      name: 'Default (Indigo & Slate)',
-      description: 'Clean, modern enterprise styling with deep indigo accents.',
-      primaryColor: '#6366f1',
-      accentColor: '#818cf8',
-      lightSurface: '#f8fafc',
-      darkSurface: '#0b0f19'
-    },
-    {
-      id: 'ocean',
-      name: 'Ocean (Azure & Cyan)',
-      description: 'Vibrant oceanic palette with refreshing cyan and deep azure hues.',
-      primaryColor: '#0891b2',
-      accentColor: '#22d3ee',
-      lightSurface: '#f0f9ff',
-      darkSurface: '#03131e'
-    },
-    {
-      id: 'emerald',
-      name: 'Emerald (Forest & Mint)',
-      description: 'Natural forest green tones with crisp mint highlights.',
-      primaryColor: '#059669',
-      accentColor: '#34d399',
-      lightSurface: '#f6fbf8',
-      darkSurface: '#021a14'
-    },
-    {
-      id: 'sunset',
-      name: 'Sunset (Amber & Coral)',
-      description: 'Warm golden sunset tones with energetic amber & coral accents.',
-      primaryColor: '#d97706',
-      accentColor: '#fbbf24',
-      lightSurface: '#fffdfa',
-      darkSurface: '#1c0f06'
-    },
-    {
-      id: 'amethyst',
-      name: 'Amethyst (Royal Violet)',
-      description: 'Sophisticated luxury royal violet & lavender accents.',
-      primaryColor: '#9333ea',
-      accentColor: '#c084fc',
-      lightSurface: '#faf7fd',
-      darkSurface: '#140824'
-    },
-    {
-      id: 'rose',
-      name: 'Rose (Ruby & Rose)',
-      description: 'Modern and energetic pink ruby with refined rose accents.',
-      primaryColor: '#e11d48',
-      accentColor: '#fb7185',
-      lightSurface: '#fffafa',
-      darkSurface: '#1c050c'
-    },
-    {
-      id: 'nord',
-      name: 'Nord (Arctic & Frost)',
-      description: 'Arctic ice tones with cool muted polar slate surfaces.',
-      primaryColor: '#0d9488',
-      accentColor: '#88c0d0',
-      lightSurface: '#eceff4',
-      darkSurface: '#242933'
-    },
-    {
-      id: 'cyberpunk',
-      name: 'Cyberpunk (Neon Amber & Cyan)',
-      description: 'High-contrast tech palette with luminous neon amber and cyan in obsidian space.',
-      primaryColor: '#ca8a04',
-      accentColor: '#facc15',
-      lightSurface: '#f8fafc',
-      darkSurface: '#07070a'
-    }
-  ];
+  private static registeredDefinitions: Map<string, GpThemeDefinition> = new Map();
 
   /**
-   * Initializes theme manager, detecting OS system color-scheme preference
-   * and listening for real-time OS preference changes.
+   * Built-in themes mapped to metadata
    */
-  public static initSystemTheme(defaultTheme = 'default', defaultMode: GpThemeMode = 'system'): GpThemeMode {
+  public static readonly BUILT_IN_THEMES: GpThemeMeta[] = builtInThemes.map((t) => ({
+    id: t.id,
+    name: t.name,
+    description: t.description,
+    primaryColor: t.light.semantic.primary.main,
+    accentColor: t.dark.semantic.primary.main,
+    lightSurface: t.light.semantic.surfaces.ground,
+    darkSurface: t.dark.semantic.surfaces.ground
+  }));
+
+  /**
+   * Initializes theme manager, detecting OS system color-scheme preference,
+   * injecting theme styles directly into <head>, and listening for real-time OS preference changes.
+   */
+  public static initSystemTheme(defaultThemeName = 'default', defaultMode: GpThemeMode = 'system'): GpThemeMode {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
       return 'light';
     }
+
+    // Populate built-in definitions
+    builtInThemes.forEach((t) => {
+      GpThemeManager.registeredDefinitions.set(t.id, t);
+    });
 
     if (GpThemeManager.initialized) {
       return GpThemeManager.getActiveMode();
@@ -153,7 +74,7 @@ export class GpThemeManager {
     if (savedTheme) {
       GpThemeManager.currentTheme = savedTheme;
     } else {
-      GpThemeManager.currentTheme = defaultTheme;
+      GpThemeManager.currentTheme = defaultThemeName;
     }
 
     // Check stored mode preference (with fallback for legacy 'gp-theme-preference')
@@ -169,6 +90,9 @@ export class GpThemeManager {
     } else {
       GpThemeManager.currentMode = defaultMode;
     }
+
+    // Inject all built-in themes into <head> so sub-trees with data-gp-theme also work
+    GpThemeManager.injectAllThemes();
 
     GpThemeManager.applyDomTheme();
     GpThemeManager.initialized = true;
@@ -195,7 +119,7 @@ export class GpThemeManager {
   }
 
   /**
-   * Alias for getActiveMode, or returns active theme name if called for legacy theme checks
+   * Legacy alias for getActiveMode
    */
   public static getActiveTheme(): 'gp-light' | 'gp-dark' {
     return GpThemeManager.getActiveMode() === 'dark' ? 'gp-dark' : 'gp-light';
@@ -209,42 +133,98 @@ export class GpThemeManager {
   }
 
   /**
-   * Returns the current theme name (e.g. 'default', 'ocean', 'emerald', etc.)
+   * Returns the current theme name/id (e.g. 'default', 'ocean', 'emerald', etc.)
    */
   public static getThemeName(): string {
     return GpThemeManager.currentTheme;
   }
 
   /**
-   * Backwards compatible theme getter.
+   * Backwards compatible theme getter
    */
   public static getTheme(): string {
     return GpThemeManager.currentTheme;
   }
 
   /**
-   * Sets the theme name (e.g. 'default', 'ocean', 'emerald', etc.)
-   * Also supports legacy mode strings ('gp-light', 'gp-dark', 'system') for full backwards compatibility.
+   * Returns the full JSON / TypeScript theme definition for the current or specified theme ID.
    */
-  public static setTheme(theme: string, persist = true): void {
+  public static getThemeDefinition(themeId?: string): GpThemeDefinition {
+    const id = themeId || GpThemeManager.currentTheme;
+    return (
+      GpThemeManager.registeredDefinitions.get(id) ||
+      builtInThemes.find((t) => t.id === id) ||
+      defaultTheme
+    );
+  }
+
+  /**
+   * Returns all registered theme definition objects (built-in + dynamically registered).
+   */
+  public static getAllThemeDefinitions(): GpThemeDefinition[] {
+    const defs: GpThemeDefinition[] = [];
+    GpThemeManager.registeredDefinitions.forEach((def) => defs.push(def));
+    return defs;
+  }
+
+  /**
+   * Injects the compiled CSS for a specific theme definition directly into document <head>.
+   */
+  public static injectTheme(themeOrId: GpThemeDefinition | string): void {
     if (typeof document === 'undefined') return;
 
-    if (theme === 'gp-light') {
-      GpThemeManager.setMode('light', persist);
-      return;
+    const themeDef =
+      typeof themeOrId === 'string'
+        ? GpThemeManager.getThemeDefinition(themeOrId)
+        : themeOrId;
+
+    let styleEl = document.getElementById(`gp-theme-${themeDef.id}`) as HTMLStyleElement | null;
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = `gp-theme-${themeDef.id}`;
+      styleEl.setAttribute('data-gp-theme-id', themeDef.id);
+      document.head.appendChild(styleEl);
     }
-    if (theme === 'gp-dark') {
-      GpThemeManager.setMode('dark', persist);
-      return;
-    }
-    if (theme === 'system') {
-      GpThemeManager.setMode('system', persist);
-      return;
+    styleEl.textContent = themeToCss(themeDef);
+  }
+
+  /**
+   * Injects compiled CSS for all registered and built-in themes into document <head>.
+   */
+  public static injectAllThemes(): void {
+    if (typeof document === 'undefined') return;
+    GpThemeManager.registeredDefinitions.forEach((def) => {
+      GpThemeManager.injectTheme(def);
+    });
+  }
+
+  /**
+   * Sets the active theme by ID or definition and ensures its styles are injected into <head>.
+   */
+  public static setTheme(theme: string | GpThemeDefinition, persist = true): void {
+    if (typeof document === 'undefined') return;
+
+    if (typeof theme === 'object') {
+      GpThemeManager.registerTheme(theme);
+      GpThemeManager.currentTheme = theme.id;
+    } else {
+      if (theme === 'gp-light') {
+        GpThemeManager.setMode('light', persist);
+        return;
+      }
+      if (theme === 'gp-dark') {
+        GpThemeManager.setMode('dark', persist);
+        return;
+      }
+      if (theme === 'system') {
+        GpThemeManager.setMode('system', persist);
+        return;
+      }
+      GpThemeManager.currentTheme = theme;
     }
 
-    GpThemeManager.currentTheme = theme;
     if (persist && typeof localStorage !== 'undefined') {
-      localStorage.setItem('gp-theme-name', theme);
+      localStorage.setItem('gp-theme-name', GpThemeManager.currentTheme);
     }
 
     GpThemeManager.applyDomTheme();
@@ -262,7 +242,6 @@ export class GpThemeManager {
     GpThemeManager.currentMode = normalizedMode;
     if (persist && typeof localStorage !== 'undefined') {
       localStorage.setItem('gp-theme-mode', normalizedMode);
-      // Legacy key compatibility
       localStorage.setItem('gp-theme-preference', normalizedMode === 'system' ? 'system' : `gp-${normalizedMode}`);
     }
 
@@ -277,7 +256,7 @@ export class GpThemeManager {
   }
 
   /**
-   * Toggles between 'light' and 'dark' mode while preserving current theme
+   * Toggles between 'light' and 'dark' mode
    */
   public static toggleMode(): 'light' | 'dark' {
     const current = GpThemeManager.getActiveMode();
@@ -298,11 +277,19 @@ export class GpThemeManager {
    * Returns metadata for all available themes (built-in + dynamically registered)
    */
   public static getAvailableThemes(): GpThemeMeta[] {
-    const list = [...GpThemeManager.BUILT_IN_THEMES];
-    GpThemeManager.customThemes.forEach((meta) => {
-      list.push(meta);
+    const list: GpThemeMeta[] = [];
+    GpThemeManager.registeredDefinitions.forEach((def) => {
+      list.push({
+        id: def.id,
+        name: def.name,
+        description: def.description || '',
+        primaryColor: def.light.semantic.primary.main,
+        accentColor: def.dark.semantic.primary.main,
+        lightSurface: def.light.semantic.surfaces.ground,
+        darkSurface: def.dark.semantic.surfaces.ground
+      });
     });
-    return list;
+    return list.length > 0 ? list : GpThemeManager.BUILT_IN_THEMES;
   }
 
   /**
@@ -330,72 +317,42 @@ export class GpThemeManager {
   }
 
   /**
-   * Dynamically registers a custom theme definition at runtime.
+   * Dynamically registers a custom theme definition (or theme override based on baseTheme) at runtime,
+   * compiling and injecting its styles directly into <head>.
    */
-  public static registerTheme(def: GpCustomThemeDefinition): void {
-    const meta: GpThemeMeta = {
-      id: def.id,
-      name: def.name,
-      description: def.description || 'Custom User Theme',
-      primaryColor: def.primaryColor || def.lightTokens['--gp-primary'] || '#6366f1',
-      accentColor: def.accentColor || def.darkTokens['--gp-primary'] || '#818cf8',
-      lightSurface: def.lightTokens['--gp-surface-ground'] || '#f8fafc',
-      darkSurface: def.darkTokens['--gp-surface-ground'] || '#0b0f19'
-    };
+  public static registerTheme(themeOrOverride: GpThemeDefinition | GpThemeOverride): GpThemeDefinition {
+    // If it's a partial override, extend from baseTheme
+    const fullDefinition: GpThemeDefinition =
+      'primitives' in themeOrOverride &&
+      'light' in themeOrOverride &&
+      'dark' in themeOrOverride &&
+      (themeOrOverride as any).light?.semantic &&
+      (themeOrOverride as any).dark?.semantic
+        ? (themeOrOverride as GpThemeDefinition)
+        : extendTheme(themeOrOverride as GpThemeOverride, baseTheme);
 
-    GpThemeManager.customThemes.set(def.id, meta);
+    GpThemeManager.registeredDefinitions.set(fullDefinition.id, fullDefinition);
 
-    if (typeof document !== 'undefined') {
-      let styleEl = document.getElementById('gp-custom-themes') as HTMLStyleElement | null;
-      if (!styleEl) {
-        styleEl = document.createElement('style');
-        styleEl.id = 'gp-custom-themes';
-        document.head.appendChild(styleEl);
-      }
+    // Compile and inject CSS into DOM <head>
+    GpThemeManager.injectTheme(fullDefinition);
 
-      const lightCss = Object.entries(def.lightTokens)
-        .map(([k, v]) => `  ${k.startsWith('--gp-') ? k : `--gp-${k}`}: ${v};`)
-        .join('\n');
-
-      const darkCss = Object.entries(def.darkTokens)
-        .map(([k, v]) => `  ${k.startsWith('--gp-') ? k : `--gp-${k}`}: ${v};`)
-        .join('\n');
-
-      const rules = `
-/* Custom Theme: ${def.name} (Light) */
-:root[data-gp-theme="${def.id}"],
-[data-gp-theme="${def.id}"],
-[data-gp-theme="${def.id}"][data-gp-mode="light"],
-.gp-theme-${def.id},
-.gp-theme-${def.id}.gp-light {
-${lightCss}
-}
-
-/* Custom Theme: ${def.name} (Dark) */
-:root[data-gp-theme="${def.id}"][data-gp-mode="dark"],
-[data-gp-theme="${def.id}"][data-gp-mode="dark"],
-.gp-theme-${def.id}.gp-dark,
-[data-gp-theme="${def.id}"].gp-dark {
-${darkCss}
-}
-`;
-      styleEl.textContent += rules;
-    }
+    return fullDefinition;
   }
 
   private static applyDomTheme(): void {
     if (typeof document === 'undefined') return;
 
-    const root = document.documentElement;
     const theme = GpThemeManager.currentTheme;
     const effectiveMode = GpThemeManager.getActiveMode();
     const legacyTheme = effectiveMode === 'dark' ? 'gp-dark' : 'gp-light';
 
-    // Set dataset attributes
+    // Ensure the theme's CSS is injected in <head>
+    GpThemeManager.injectTheme(theme);
+
+    const root = document.documentElement;
     root.setAttribute('data-gp-theme', theme);
     root.setAttribute('data-gp-mode', effectiveMode);
 
-    // Remove legacy classes and existing gp-theme-* classes
     const classesToRemove: string[] = ['gp-light', 'gp-dark'];
     root.classList.forEach((cls) => {
       if (cls.startsWith('gp-theme-')) {
@@ -404,11 +361,9 @@ ${darkCss}
     });
     root.classList.remove(...classesToRemove);
 
-    // Add updated classes
     root.classList.add(`gp-theme-${theme}`);
     root.classList.add(legacyTheme);
 
-    // Notify listeners
     const state = GpThemeManager.getState();
     GpThemeManager.listeners.forEach((listener) => {
       try {

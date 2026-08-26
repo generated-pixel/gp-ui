@@ -1,7 +1,6 @@
 /**
  * gp-ui Global Styles, Reset, Utilities & Keyframes
  */
-@import './themes/all.css';
 
 /* Box Sizing & Typography */
 *, *::before, *::after {

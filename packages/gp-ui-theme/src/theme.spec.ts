@@ -1,102 +1,211 @@
-import { GpThemeManager, GpThemeMode } from './theme';
+import {
+  GpThemeManager,
+  baseTheme,
+  extendTheme,
+  modeTokensToCssVars,
+  themeToCss,
+  defaultTheme,
+  oceanTheme,
+  emeraldTheme,
+  sunsetTheme,
+  amethystTheme,
+  roseTheme,
+  nordTheme,
+  cyberpunkTheme,
+  defaultPrimitives
+} from './index';
 
-describe('GpThemeManager', () => {
+describe('TypeScript & JSON Theme Architecture', () => {
   beforeEach(() => {
-    // Reset custom tokens and reset theme/mode
     GpThemeManager.resetCustomTokens();
   });
 
-  it('should have built-in themes defined', () => {
-    const themes = GpThemeManager.getAvailableThemes();
-    expect(themes.length).toBeGreaterThanOrEqual(8);
-    const ids = themes.map(t => t.id);
-    expect(ids).toContain('default');
-    expect(ids).toContain('ocean');
-    expect(ids).toContain('emerald');
-    expect(ids).toContain('sunset');
-    expect(ids).toContain('amethyst');
-    expect(ids).toContain('rose');
-    expect(ids).toContain('nord');
-    expect(ids).toContain('cyberpunk');
-  });
-
-  it('should set and get theme name', () => {
-    GpThemeManager.setTheme('ocean', false);
-    expect(GpThemeManager.getThemeName()).toBe('ocean');
-    expect(GpThemeManager.getTheme()).toBe('ocean');
-
-    GpThemeManager.setTheme('sunset', false);
-    expect(GpThemeManager.getThemeName()).toBe('sunset');
-  });
-
-  it('should set and get mode', () => {
-    GpThemeManager.setMode('dark', false);
-    expect(GpThemeManager.getMode()).toBe('dark');
-    expect(GpThemeManager.getActiveMode()).toBe('dark');
-    expect(GpThemeManager.isDark()).toBe(true);
-
-    GpThemeManager.setMode('light', false);
-    expect(GpThemeManager.getMode()).toBe('light');
-    expect(GpThemeManager.getActiveMode()).toBe('light');
-    expect(GpThemeManager.isDark()).toBe(false);
-  });
-
-  it('should toggle mode correctly', () => {
-    GpThemeManager.setMode('light', false);
-    const nextMode = GpThemeManager.toggleMode();
-    expect(nextMode).toBe('dark');
-    expect(GpThemeManager.getActiveMode()).toBe('dark');
-
-    const backToLight = GpThemeManager.toggleMode();
-    expect(backToLight).toBe('light');
-    expect(GpThemeManager.getActiveMode()).toBe('light');
-  });
-
-  it('should support dynamic theme registration', () => {
-    GpThemeManager.registerTheme({
-      id: 'custom-gold',
-      name: 'Custom Gold',
-      description: 'Gold themed layout',
-      primaryColor: '#eab308',
-      lightTokens: {
-        '--gp-primary': '#eab308',
-        '--gp-surface-ground': '#fefce8'
-      },
-      darkTokens: {
-        '--gp-primary': '#fde047',
-        '--gp-surface-ground': '#1a1805'
-      }
+  describe('baseTheme structure', () => {
+    it('should have complete primitives defined', () => {
+      expect(baseTheme.primitives).toBeDefined();
+      expect(baseTheme.primitives.colors.indigo[500]).toBe('#6366f1');
+      expect(baseTheme.primitives.typography.fontSize.base).toBe('1rem');
+      expect(baseTheme.primitives.borderRadius.base).toBe('6px');
+      expect(baseTheme.primitives.transitions.duration.normal).toBe('150ms');
     });
 
-    const themes = GpThemeManager.getAvailableThemes();
-    expect(themes.map(t => t.id)).toContain('custom-gold');
+    it('should have complete light and dark semantic tokens', () => {
+      expect(baseTheme.light.semantic.primary.main).toBe('#4f46e5');
+      expect(baseTheme.light.semantic.surfaces.ground).toBe('#f8fafc');
+      expect(baseTheme.light.semantic.text.primary).toBe('#1e293b');
 
-    GpThemeManager.setTheme('custom-gold', false);
-    expect(GpThemeManager.getThemeName()).toBe('custom-gold');
-  });
-
-  it('should notify state subscribers on change', () => {
-    let callCount = 0;
-    let lastState: any = null;
-
-    const unsubscribe = GpThemeManager.onChange((state) => {
-      callCount++;
-      lastState = state;
+      expect(baseTheme.dark.semantic.primary.main).toBe('#818cf8');
+      expect(baseTheme.dark.semantic.surfaces.ground).toBe('#0b0f19');
+      expect(baseTheme.dark.semantic.text.primary).toBe('#f8fafc');
     });
 
-    expect(callCount).toBe(1); // Immediate initial invocation
+    it('should have component styles for light and dark', () => {
+      expect(baseTheme.light.components?.button?.height).toBe('2.5rem');
+      expect(baseTheme.light.components?.input?.bg).toBe('#ffffff');
 
-    GpThemeManager.setTheme('amethyst', false);
-    expect(callCount).toBe(2);
-    expect(lastState.theme).toBe('amethyst');
+      expect(baseTheme.dark.components?.button?.height).toBe('2.5rem');
+      expect(baseTheme.dark.components?.input?.bg).toBe('#0f172a');
+    });
+  });
 
-    GpThemeManager.setMode('dark', false);
-    expect(callCount).toBe(3);
-    expect(lastState.activeMode).toBe('dark');
+  describe('extendTheme', () => {
+    it('should create a new theme by overriding only specific tokens and inheriting the rest', () => {
+      const customTheme = extendTheme({
+        id: 'gold-custom',
+        name: 'Gold Custom',
+        light: {
+          semantic: {
+            primary: {
+              main: '#eab308',
+              text: '#000000',
+              hover: '#ca8a04',
+              active: '#a16207',
+              light: '#fef9c3'
+            }
+          }
+        },
+        dark: {
+          semantic: {
+            primary: {
+              main: '#fde047',
+              text: '#000000',
+              hover: '#fef08a',
+              active: '#fef9c3',
+              light: 'rgba(234, 179, 8, 0.2)'
+            }
+          }
+        }
+      });
 
-    unsubscribe();
+      expect(customTheme.id).toBe('gold-custom');
+      expect(customTheme.name).toBe('Gold Custom');
+      // Overridden tokens
+      expect(customTheme.light.semantic.primary.main).toBe('#eab308');
+      expect(customTheme.dark.semantic.primary.main).toBe('#fde047');
+      // Inherited tokens from baseTheme
+      expect(customTheme.light.semantic.surfaces.ground).toBe(baseTheme.light.semantic.surfaces.ground);
+      expect(customTheme.dark.semantic.surfaces.ground).toBe(baseTheme.dark.semantic.surfaces.ground);
+      expect(customTheme.primitives.typography.fontSize.base).toBe('1rem');
+      expect(customTheme.light.components?.button?.height).toBe('2.5rem');
+    });
+  });
 
-    GpThemeManager.setTheme('emerald', false);
-    expect(callCount).toBe(3); // Should not increase after unsubscribe
+  describe('CSS Compiler', () => {
+    it('should convert theme tokens to CSS variable map', () => {
+      const lightVars = modeTokensToCssVars(defaultTheme, 'light');
+      expect(lightVars['--gp-primary']).toBe('#4f46e5');
+      expect(lightVars['--gp-surface-ground']).toBe('#f8fafc');
+      expect(lightVars['--gp-text-color']).toBe('#1e293b');
+      expect(lightVars['--gp-button-height']).toBe('2.5rem');
+      expect(lightVars['--gp-input-bg']).toBe('#ffffff');
+
+      const darkVars = modeTokensToCssVars(defaultTheme, 'dark');
+      expect(darkVars['--gp-primary']).toBe('#818cf8');
+      expect(darkVars['--gp-surface-ground']).toBe('#0b0f19');
+      expect(darkVars['--gp-text-color']).toBe('#f8fafc');
+      expect(darkVars['--gp-input-bg']).toBe('#0f172a');
+    });
+
+    it('should generate complete CSS rules with selector scoping and dark mode media queries', () => {
+      const css = themeToCss(oceanTheme);
+      expect(css).toContain('data-gp-theme="ocean"');
+      expect(css).toContain('data-gp-mode="light"');
+      expect(css).toContain('data-gp-mode="dark"');
+      expect(css).toContain('@media (prefers-color-scheme: dark)');
+      expect(css).toContain('--gp-primary: #0891b2;');
+      expect(css).toContain('--gp-primary: #22d3ee;');
+    });
+  });
+
+  describe('Theme Presets', () => {
+    it('should include all 8 built-in themes created via extendTheme', () => {
+      const presets = [
+        defaultTheme,
+        oceanTheme,
+        emeraldTheme,
+        sunsetTheme,
+        amethystTheme,
+        roseTheme,
+        nordTheme,
+        cyberpunkTheme
+      ];
+
+      expect(presets.length).toBe(8);
+      presets.forEach((p) => {
+        expect(p.id).toBeDefined();
+        expect(p.name).toBeDefined();
+        expect(p.light.semantic.primary.main).toBeDefined();
+        expect(p.dark.semantic.primary.main).toBeDefined();
+        expect(p.light.semantic.surfaces.ground).toBeDefined();
+        expect(p.dark.semantic.surfaces.ground).toBeDefined();
+      });
+    });
+  });
+
+  describe('GpThemeManager Integration', () => {
+    it('should return complete theme definition objects', () => {
+      GpThemeManager.initSystemTheme();
+      const def = GpThemeManager.getThemeDefinition('ocean');
+      expect(def.id).toBe('ocean');
+      expect(def.light.semantic.primary.main).toBe('#0891b2');
+    });
+
+    it('should dynamically register and apply custom themes at runtime', () => {
+      const registered = GpThemeManager.registerTheme({
+        id: 'runtime-emerald',
+        name: 'Runtime Emerald',
+        light: {
+          semantic: {
+            primary: {
+              main: '#10b981',
+              text: '#ffffff',
+              hover: '#059669',
+              active: '#047857',
+              light: '#ecfdf5'
+            }
+          }
+        },
+        dark: {
+          semantic: {
+            primary: {
+              main: '#34d399',
+              text: '#022c22',
+              hover: '#6ee7b7',
+              active: '#a7f3d0',
+              light: 'rgba(16, 185, 129, 0.2)'
+            }
+          }
+        }
+      });
+
+      expect(registered.id).toBe('runtime-emerald');
+      GpThemeManager.setTheme('runtime-emerald', false);
+      expect(GpThemeManager.getThemeName()).toBe('runtime-emerald');
+
+      const retrieved = GpThemeManager.getThemeDefinition('runtime-emerald');
+      expect(retrieved.light.semantic.primary.main).toBe('#10b981');
+      // Inherited from baseTheme
+      expect(retrieved.light.components?.button?.height).toBe('2.5rem');
+    });
+
+    it('should switch mode and notify subscribers', () => {
+      let stateSnapshot: any = null;
+      const unsub = GpThemeManager.onChange((s) => {
+        stateSnapshot = s;
+      });
+
+      GpThemeManager.setTheme('sunset', false);
+      expect(stateSnapshot.theme).toBe('sunset');
+
+      GpThemeManager.setMode('dark', false);
+      expect(stateSnapshot.activeMode).toBe('dark');
+      expect(stateSnapshot.isDark).toBe(true);
+
+      GpThemeManager.toggleMode();
+      expect(stateSnapshot.activeMode).toBe('light');
+      expect(stateSnapshot.isDark).toBe(false);
+
+      unsub();
+    });
   });
 });

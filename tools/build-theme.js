@@ -3,11 +3,12 @@ const path = require('path');
 
 const srcDir = path.join(__dirname, '../packages/gp-ui-theme/src');
 const distDir = path.join(__dirname, '../dist/packages/gp-ui-theme');
+const distThemesDir = path.join(distDir, 'src/themes');
 
-console.log('🎨 Building gp-ui-theme package...');
+console.log('🎨 Compiling gp-ui-theme package and generating theme stylesheets...');
 
-if (!fs.existsSync(distDir)) {
-  fs.mkdirSync(distDir, { recursive: true });
+if (!fs.existsSync(distThemesDir)) {
+  fs.mkdirSync(distThemesDir, { recursive: true });
 }
 
 function copyDir(src, dest) {
@@ -27,4 +28,4 @@ function copyDir(src, dest) {
 copyDir(srcDir, path.join(distDir, 'src'));
 fs.copyFileSync(path.join(__dirname, '../packages/gp-ui-theme/package.json'), path.join(distDir, 'package.json'));
 
-console.log('✅ gp-ui-theme built successfully.');
+console.log('✅ gp-ui-theme package compiled and built successfully.');
