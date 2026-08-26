@@ -94,6 +94,10 @@ if (-not $SkipBump) {
     }
   }
 
+  # Sync package-lock.json
+  Write-Host "  [SYNC] Updating package-lock.json..." -ForegroundColor DarkCyan
+  npm install --package-lock-only --silent
+
   # Update CHANGELOG.md
   $ChangelogPath = Join-Path $ScriptDir "CHANGELOG.md"
   $Today = (Get-Date).ToString("yyyy-MM-dd")
