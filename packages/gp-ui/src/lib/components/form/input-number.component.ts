@@ -41,20 +41,16 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
 
   @Output() onValueChange = new EventEmitter<number | null>();
 
-  public override value = signal<number | null>(null);
-
   protected displayValue = computed(() => {
-    const val = this.value();
+    const val = this.internalValue();
     if (val === null || val === undefined) return '';
     return String(val);
   });
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   public override writeValue(value: any): void {
     const num = value !== null && value !== undefined && value !== '' ? Number(value) : null;
-    this.value.set(num);
+    this.value = num;
+    this.internalValue.set(num);
   }
 
   public override registerOnChange(fn: any): void {
@@ -71,40 +67,36 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
 
   public spin(delta: number): void {
     if (this.disabled || this.readonly) return;
-    let current = this.value() ?? 0;
+    let current = this.internalValue() ?? 0;
     let next = current + delta;
     if (this.min !== undefined && next < this.min) next = this.min;
     if (this.max !== undefined && next > this.max) next = this.max;
 
-    this.value.set(next);
-    this.onChangeCallback(next);
+    this.updateValue(next);
     this.onValueChange.emit(next);
   }
 
   protected onInput(event: Event): void {
     const text = (event.target as HTMLInputElement).value;
     if (text === '') {
-      this.value.set(null);
-      this.onChangeCallback(null);
+      this.updateValue(null);
       this.onValueChange.emit(null);
       return;
     }
     const num = parseFloat(text);
     if (!isNaN(num)) {
-      this.value.set(num);
-      this.onChangeCallback(num);
+      this.updateValue(num);
       this.onValueChange.emit(num);
     }
   }
 
   protected onBlur(): void {
-    this.onTouchedCallback();
-    let current = this.value();
+    this.handleControlBlur();
+    let current = this.internalValue();
     if (current !== null) {
       if (this.min !== undefined && current < this.min) current = this.min;
       if (this.max !== undefined && current > this.max) current = this.max;
-      this.value.set(current);
-      this.onChangeCallback(current);
+      this.updateValue(current);
     }
   }
 

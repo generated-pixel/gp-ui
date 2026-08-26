@@ -12,6 +12,9 @@ export * from './lib/base/gp-base.component';
 export * from './lib/base/gp-editable-base.component';
 export * from './lib/base/gp-base-control-value-accessor';
 
+// Validation & Side Effects Architecture
+export * from './lib/validation';
+
 // Utilities
 export * from './lib/utils/unique-id';
 export * from './lib/utils/object-utils';

@@ -40,13 +40,10 @@ export class GpInputTextComponent extends GpEditableBaseComponent implements Con
   @Output() onBlurEvent = new EventEmitter<FocusEvent>();
   @Output() onClearEvent = new EventEmitter<void>();
 
-  public override value = signal<string>('');
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   public override writeValue(value: any): void {
-    this.value.set(value != null ? String(value) : '');
+    const str = value != null ? String(value) : '';
+    this.value = str;
+    this.internalValue.set(str);
   }
 
   public override registerOnChange(fn: any): void {
@@ -64,7 +61,7 @@ export class GpInputTextComponent extends GpEditableBaseComponent implements Con
   protected onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.value.set(input.value);
-    this.onChangeCallback(input.value);
+    this.updateValue(input.value);
     this.onInputEvent.emit(event);
   }
 
@@ -73,14 +70,14 @@ export class GpInputTextComponent extends GpEditableBaseComponent implements Con
   }
 
   protected onBlur(event: FocusEvent): void {
-    this.onTouchedCallback();
+    this.handleControlBlur();
     this.onBlurEvent.emit(event);
   }
 
   protected clear(event: MouseEvent): void {
     event.stopPropagation();
     this.value.set('');
-    this.onChangeCallback('');
+    this.updateValue('');
     this.onClearEvent.emit();
   }
 }

@@ -23,7 +23,10 @@ import {
   GpTimePickerComponent,
   GpFileUploadComponent,
   GpButtonComponent,
-  GpCardComponent
+  GpCardComponent,
+  GpValidators,
+  GpFormDirective,
+  GpFormErrorComponent
 } from 'gp-ui';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
@@ -57,6 +60,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpFileUploadComponent,
     GpButtonComponent,
     GpCardComponent,
+    GpFormDirective,
+    GpFormErrorComponent,
     DocCodeComponent,
     DocApiTableComponent
   ],
@@ -214,6 +219,105 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         </div>
       </form>
 
+      <!-- Declarative Form Validation & Side Effects Showcase -->
+      <div class="doc-section" style="border: 2px solid var(--gp-primary); border-radius: var(--gp-border-radius-lg, 8px); padding: 1.5rem; background: var(--gp-surface-card);">
+        <h2 class="doc-section-title" style="color: var(--gp-primary); display: flex; align-items: center; gap: 0.5rem;">
+          <span>⚡ Integrated Form Validation &amp; Side Effects</span>
+        </h2>
+        <p class="doc-section-desc">
+          gp-ui includes a comprehensive validation and event-driven side effect pipeline directly in <code>GpEditableBaseComponent</code>.
+          Validate synchronously, asynchronously, trigger cascading side effects, and map external API errors with <code>[gpForm]</code> and <code>GpValidators</code>.
+        </p>
+
+        <form gpForm #valForm="gpForm" (gpSubmit)="onValidationSubmit($event)" (gpInvalidSubmit)="onValidationInvalid($event)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Email Address (Required + Email format)</label>
+              <gp-input-text
+                #emailInput
+                name="email"
+                placeholder="developer@example.com"
+                [validators]="[GpValidators.required(), GpValidators.email()]"
+                iconLeft="envelope"
+              />
+              <gp-form-error [control]="emailInput" />
+            </div>
+
+            <div class="form-field">
+              <label>Username (Async availability check + Min 4 chars)</label>
+              <gp-input-text
+                #usernameInput
+                name="username"
+                placeholder="Try typing 'admin' or 'developer'"
+                [validators]="[GpValidators.required(), GpValidators.minLength(4), checkUsernameAvailable]"
+                iconLeft="user"
+              />
+              <gp-form-error [control]="usernameInput" />
+              @if (usernameInput.isPending()) {
+                <small style="color: var(--gp-info); font-size: 0.75rem;">⏳ Checking username availability...</small>
+              }
+            </div>
+
+            <div class="form-field">
+              <label>Base Price ($) (Min 10 + Side Effect calculates Total)</label>
+              <gp-input-number
+                #priceInput
+                name="basePrice"
+                [value]="100"
+                [validators]="[GpValidators.required(), GpValidators.min(10)]"
+                [valueEffect]="calculateTotalTaxEffect"
+              />
+              <gp-form-error [control]="priceInput" />
+            </div>
+
+            <div class="form-field">
+              <label>Calculated Estimated Total (Dynamic Side Effect)</label>
+              <gp-input-text
+                name="totalWithTax"
+                [value]="'$' + calculatedTotal.toFixed(2) + ' (includes 15% estimated tax)'"
+                [readonly]="true"
+              />
+            </div>
+          </div>
+
+          <div class="form-actions" style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+            <gp-button label="Submit &amp; Validate with gpForm" type="submit" severity="primary" icon="check" />
+            <gp-button
+              label="Simulate Server 422 Errors"
+              type="button"
+              variant="outlined"
+              severity="danger"
+              icon="alert-circle"
+              (onClickEvent)="simulateServerErrors(valForm)"
+            />
+            <gp-button
+              label="Clear Errors"
+              type="button"
+              variant="text"
+              severity="secondary"
+              (onClickEvent)="valForm.clearErrors()"
+            />
+            <gp-button
+              label="Reset Form"
+              type="button"
+              variant="text"
+              severity="secondary"
+              (onClickEvent)="valForm.reset()"
+            />
+          </div>
+
+          @if (validationStatusMessage) {
+            <div
+              style="margin-top: 1rem; padding: 0.75rem 1rem; border-radius: var(--gp-border-radius); font-size: 0.85rem;"
+              [style.background]="isValidationSuccess ? 'var(--gp-success-light, #ecfdf5)' : 'var(--gp-danger-light, #fef2f2)'"
+              [style.color]="isValidationSuccess ? 'var(--gp-success, #059669)' : 'var(--gp-danger, #dc2626)'"
+            >
+              {{ validationStatusMessage }}
+            </div>
+          }
+        </form>
+      </div>
+
       <!-- Usage Code Example -->
       <div class="doc-section">
         <h2 class="doc-section-title">Usage Example</h2>
@@ -370,6 +474,51 @@ export class MyFormComponent {
   searchCities(event: any): void {
     const q = (event.query || '').toLowerCase();
     this.filteredCities = this.cities.filter(c => c.toLowerCase().includes(q));
+  }
+
+  public GpValidators = GpValidators;
+  public calculatedTotal = 115;
+  public validationStatusMessage = '';
+  public isValidationSuccess = false;
+
+  public checkUsernameAvailable = GpValidators.async(
+    async (val: any) => {
+      if (!val || typeof val !== 'string') return null;
+      // Simulate remote network verification delay
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      const normalized = val.trim().toLowerCase();
+      if (normalized === 'admin' || normalized === 'developer' || normalized === 'root') {
+        return `Username "${val}" is already taken. Please choose another.`;
+      }
+      return true;
+    },
+    'unique_username'
+  );
+
+  public calculateTotalTaxEffect = async (newVal: any): Promise<void> => {
+    const num = Number(newVal) || 0;
+    this.calculatedTotal = num * 1.15;
+  };
+
+  public onValidationSubmit(event: any): void {
+    this.isValidationSuccess = true;
+    this.validationStatusMessage = `✅ Form submission succeeded! Validated values: ${JSON.stringify(event.values)}`;
+  }
+
+  public onValidationInvalid(event: any): void {
+    this.isValidationSuccess = false;
+    const fieldNames = Object.keys(event.errors).join(', ');
+    this.validationStatusMessage = `❌ Form validation failed on fields: [${fieldNames}]. First invalid field has been automatically focused.`;
+  }
+
+  public simulateServerErrors(form: any): void {
+    form.setErrors({
+      email: 'Server API (422): Email address is on the global blocklist',
+      username: 'Server API (422): Username flagged by security policy',
+      basePrice: 'Server API (422): Pricing requires manager authorization'
+    });
+    this.isValidationSuccess = false;
+    this.validationStatusMessage = '⚠️ Simulated external HTTP 422 server validation errors injected onto fields.';
   }
 
   onSubmit(): void {

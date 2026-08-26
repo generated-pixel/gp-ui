@@ -1,18 +1,40 @@
-import { Directive, Input, Output, EventEmitter, signal } from '@angular/core';
+import {
+  Directive,
+  Input,
+  Output,
+  EventEmitter,
+  signal,
+  computed,
+  inject,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  Optional
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { GpBaseComponent } from './gp-base.component';
+import {
+  GpValidatorFn,
+  GpValidationError,
+  GpValidationTrigger,
+  GpValueEffectFn,
+  GpValidationState
+} from '../validation/types';
 
 /**
  * Editable Base Component for all value-bearing and form-related gp-ui components.
  * Inherits core identity and styling from GpBaseComponent, adding value state management,
- * validation flags, and ControlValueAccessor support.
+ * integrated validation pipeline, async side effects, and ControlValueAccessor support.
  */
 @Directive()
-export abstract class GpEditableBaseComponent<T = any> extends GpBaseComponent implements ControlValueAccessor {
+export abstract class GpEditableBaseComponent<T = any>
+  extends GpBaseComponent
+  implements ControlValueAccessor, OnInit, OnDestroy
+{
   /** Value bound to the component */
   @Input() value: any = null;
 
-  /** Form field name */
+  /** Form field identifier name */
   @Input() name = '';
 
   /** Field placeholder text */
@@ -24,20 +46,73 @@ export abstract class GpEditableBaseComponent<T = any> extends GpBaseComponent i
   /** Readonly state */
   @Input() readonly = false;
 
-  /** Invalid / validation error state */
+  /** Override invalid / validation error state */
   @Input() invalid = false;
+
+  /** Array of validator functions to execute against this control */
+  @Input() validators: GpValidatorFn<T>[] = [];
+
+  /** Triggers on which validation automatically runs */
+  @Input() validateOn: GpValidationTrigger[] = ['change', 'blur'];
+
+  /** Custom static override error message */
+  @Input() errorMessage = '';
+
+  /** Informational helper text displayed below the field */
+  @Input() helperText = '';
+
+  /** Custom side-effect function executed whenever the value changes or validates */
+  @Input() valueEffect?: GpValueEffectFn<T>;
 
   /** Output emitted whenever the value changes */
   @Output() valueChange = new EventEmitter<T>();
 
-  /** Reactive signal holding current internal value */
-  protected internalValue: any = signal<T | null>(null);
+  /** Output emitted whenever validation completes with current validation state */
+  @Output() onValidate = new EventEmitter<GpValidationState<T>>();
+
+  /** Output emitted when the component passes validation */
+  @Output() onValid = new EventEmitter<T>();
+
+  /** Output emitted when validation fails with error details */
+  @Output() onInvalid = new EventEmitter<GpValidationError[]>();
+
+  /** Output emitted after a side effect execution completes */
+  @Output() onEffectComplete = new EventEmitter<{ value: T; error?: any }>();
+
+  /** Reactive signals for internal state */
+  public internalValue = signal<T | null>(null);
+  public errors = signal<GpValidationError[]>([]);
+  public isPending = signal<boolean>(false);
+  public isTouched = signal<boolean>(false);
+  public isDirty = signal<boolean>(false);
+
+  /** Computed validation flags */
+  public isValid = computed(() => this.errors().length === 0 && !this.invalid);
+  public isInvalid = computed(() => this.invalid || this.errors().length > 0);
+  public firstError = computed(() => {
+    if (this.errorMessage) return this.errorMessage;
+    const errs = this.errors();
+    return errs.length > 0 ? errs[0].message : null;
+  });
 
   /** Internal change callback for Angular reactive/template-driven forms */
   protected onChangeCallback: (value: any) => void = () => {};
 
   /** Internal touched callback for Angular forms */
   protected onTouchedCallback: () => void = () => {};
+
+  private lastValidatedValue: any = undefined;
+
+  private hostEl = inject(ElementRef, { optional: true });
+
+  public ngOnInit(): void {
+    if (this.value !== null && this.value !== undefined) {
+      this.internalValue.set(this.value);
+    }
+  }
+
+  public ngOnDestroy(): void {
+  }
 
   /** Writes a new value to the element from the forms API or model */
   public writeValue(val: any): void {
@@ -60,17 +135,173 @@ export abstract class GpEditableBaseComponent<T = any> extends GpBaseComponent i
     this.disabled = isDisabled;
   }
 
-  /** Helper method to update value, trigger CVA callbacks, and emit valueChange */
-  public updateValue(newVal: T): void {
+  /**
+   * Updates component value, triggers validation (if configured for 'change'),
+   * executes side-effects, and notifies listeners.
+   */
+  public async updateValue(newVal: T): Promise<void> {
+    const prevVal = this.internalValue();
     this.value = newVal;
     this.internalValue.set(newVal);
+    this.isDirty.set(true);
+
     this.onChangeCallback(newVal);
     this.valueChange.emit(newVal);
+
+    // Run validation if trigger includes 'change'
+    if (this.validateOn.includes('change')) {
+      await this.validate();
+    }
+
+    // Execute custom side-effect if provided
+    if (this.valueEffect) {
+      try {
+        this.isPending.set(true);
+        await this.valueEffect(newVal, prevVal, this);
+        this.onEffectComplete.emit({ value: newVal });
+      } catch (err) {
+        this.onEffectComplete.emit({ value: newVal, error: err });
+      } finally {
+        this.isPending.set(false);
+      }
+    }
+  }
+
+  /**
+   * Handles control blur events, marks control as touched,
+   * and runs validation if configured for 'blur'.
+   */
+  public async handleControlBlur(): Promise<void> {
+    this.markAsTouched();
+    if (this.validateOn.includes('blur')) {
+      await this.validate();
+    }
+  }
+
+  /**
+   * Manually executes validation pipeline against current value.
+   * Returns true if valid, false if invalid.
+   */
+  public async validate(): Promise<boolean> {
+    const currentVal = this.internalValue() as T;
+    const collectedErrors: GpValidationError[] = [];
+
+    // Built-in 'required' check if @Input() required is set and not already in validators
+    if (this.required) {
+      const isRequiredEmpty =
+        currentVal === null ||
+        currentVal === undefined ||
+        (typeof currentVal === 'string' && currentVal.trim().length === 0) ||
+        (Array.isArray(currentVal) && currentVal.length === 0) ||
+        (typeof currentVal === 'boolean' && !currentVal);
+
+      if (isRequiredEmpty) {
+        collectedErrors.push({
+          rule: 'required',
+          message: this.errorMessage || `${this.name || 'This field'} is required`
+        });
+      }
+    }
+
+    // Run configured validators
+    if (this.validators && this.validators.length > 0) {
+      this.isPending.set(true);
+      try {
+        for (const validator of this.validators) {
+          const err = await validator(currentVal, this);
+          if (err) {
+            collectedErrors.push(err);
+          }
+        }
+      } finally {
+        this.isPending.set(false);
+      }
+    }
+
+    this.errors.set(collectedErrors);
+    this.lastValidatedValue = currentVal;
+
+    const state: GpValidationState<T> = {
+      value: currentVal,
+      isValid: collectedErrors.length === 0 && !this.invalid,
+      isInvalid: collectedErrors.length > 0 || this.invalid,
+      isPending: this.isPending(),
+      isTouched: this.isTouched(),
+      isDirty: this.isDirty(),
+      errors: collectedErrors,
+      firstError: this.firstError()
+    };
+
+    this.onValidate.emit(state);
+
+    if (state.isValid) {
+      this.onValid.emit(currentVal);
+      return true;
+    } else {
+      this.onInvalid.emit(collectedErrors);
+      return false;
+    }
+  }
+
+  /**
+   * Sets external validation errors (e.g. from server API response or custom validation).
+   */
+  public setErrors(errors: GpValidationError[] | string[]): void {
+    if (!errors || errors.length === 0) {
+      this.clearErrors();
+      return;
+    }
+
+    const normalized: GpValidationError[] = errors.map((err) =>
+      typeof err === 'string' ? { rule: 'external', message: err } : err
+    );
+
+    this.errors.set(normalized);
+    this.onInvalid.emit(normalized);
+  }
+
+  /**
+   * Clears all validation errors from the control.
+   */
+  public clearErrors(): void {
+    this.errors.set([]);
+    this.invalid = false;
+  }
+
+  /**
+   * Resets the control value and clears touched/dirty/validation states.
+   */
+  public reset(defaultValue: T | null = null): void {
+    this.value = defaultValue;
+    this.internalValue.set(defaultValue);
+    this.isDirty.set(false);
+    this.isTouched.set(false);
+    this.clearErrors();
+    this.onChangeCallback(defaultValue);
+    this.valueChange.emit(defaultValue as T);
   }
 
   /** Marks the control as touched */
   public markAsTouched(): void {
+    this.isTouched.set(true);
     this.onTouchedCallback();
+  }
+
+  /** Marks the control as dirty */
+  public markAsDirty(): void {
+    this.isDirty.set(true);
+  }
+
+  /** Focuses the native element if available */
+  public focus(): void {
+    if (typeof document !== 'undefined' && this.hostEl?.nativeElement) {
+      const inputEl = this.hostEl.nativeElement.querySelector('input, textarea, select, button, [tabindex="0"]');
+      if (inputEl) {
+        inputEl.focus();
+      } else {
+        this.hostEl.nativeElement.focus?.();
+      }
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
+import { GpBaseComponent } from '../../base/gp-base.component';
 import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../icons/icon.component';
@@ -12,8 +12,8 @@ import { GpIconComponent } from '../../icons/icon.component';
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.scss'
 })
-export class GpCarouselComponent extends GpEditableBaseComponent implements OnInit, OnDestroy {
-  @Input() override value: any[] = [];
+export class GpCarouselComponent extends GpBaseComponent implements OnInit, OnDestroy {
+  @Input() value: any[] = [];
   @Input() circular = true;
   @Input() autoplayInterval = 0;
   @Input() showIndicators = true;
