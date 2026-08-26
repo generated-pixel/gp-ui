@@ -30,7 +30,7 @@ export interface DocApiProperty {
             </tr>
           </thead>
           <tbody>
-            @for (prop of properties; track prop.name) {
+            @for (prop of properties; track prop.name || $index) {
               <tr>
                 <td class="doc-prop-name">
                   <code>{{ prop.name }}</code>
@@ -49,6 +49,12 @@ export interface DocApiProperty {
                 }
                 <td class="doc-prop-desc">{{ prop.description }}</td>
               </tr>
+            } @empty {
+              <tr>
+                <td [attr.colspan]="hasDefaults ? 4 : 3" class="doc-empty-row">
+                  No properties specified.
+                </td>
+              </tr>
             }
           </tbody>
         </table>
@@ -58,22 +64,22 @@ export interface DocApiProperty {
   styles: [`
     .doc-api-container {
       margin: 1.5rem 0;
-      background: var(--gp-surface-card, #ffffff);
-      border: 1px solid var(--gp-surface-border, #e2e8f0);
+      background: var(--gp-surface-card);
+      border: 1px solid var(--gp-surface-border);
       border-radius: var(--gp-border-radius-md, 8px);
       overflow: hidden;
       box-shadow: var(--gp-shadow-sm, 0 1px 3px rgba(0,0,0,0.05));
     }
     .doc-api-header {
       padding: 0.85rem 1.25rem;
-      background: var(--gp-surface-ground, #f8fafc);
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+      background: var(--gp-surface-section, var(--gp-surface-ground));
+      border-bottom: 1px solid var(--gp-surface-border);
     }
     .doc-api-title {
       margin: 0;
       font-size: 1rem;
       font-weight: 700;
-      color: var(--gp-text-color, #0f172a);
+      color: var(--gp-text-color);
     }
     .doc-table-wrapper {
       overflow-x: auto;
@@ -87,14 +93,14 @@ export interface DocApiProperty {
     .doc-api-table th {
       padding: 0.75rem 1.25rem;
       font-weight: 600;
-      color: var(--gp-text-color-secondary, #64748b);
-      background: var(--gp-surface-ground, #f8fafc);
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+      color: var(--gp-text-color-secondary);
+      background: var(--gp-surface-ground);
+      border-bottom: 1px solid var(--gp-surface-border);
     }
     .doc-api-table td {
       padding: 0.85rem 1.25rem;
-      border-bottom: 1px solid var(--gp-surface-divider, #f1f5f9);
-      color: var(--gp-text-color, #334155);
+      border-bottom: 1px solid var(--gp-surface-border);
+      color: var(--gp-text-color);
       vertical-align: top;
     }
     .doc-api-table tr:last-child td {
@@ -102,8 +108,8 @@ export interface DocApiProperty {
     }
     .doc-prop-name code {
       font-weight: 700;
-      color: var(--gp-primary, #3b82f6);
-      background: var(--gp-primary-light, #eff6ff);
+      color: var(--gp-primary);
+      background: var(--gp-primary-light, rgba(59,130,246,0.1));
       padding: 0.15rem 0.4rem;
       border-radius: 4px;
       font-family: 'JetBrains Mono', monospace;
@@ -116,20 +122,25 @@ export interface DocApiProperty {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.775rem;
       font-weight: 600;
-      background: var(--gp-surface-ground, #f1f5f9);
-      color: var(--gp-text-color-secondary, #475569);
-      border: 1px solid var(--gp-surface-border, #e2e8f0);
+      background: var(--gp-surface-ground);
+      color: var(--gp-text-color-secondary);
+      border: 1px solid var(--gp-surface-border);
     }
     .doc-prop-default code {
-      color: #e11d48;
+      color: var(--gp-danger, #e11d48);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
     }
     .doc-none {
-      color: var(--gp-text-color-muted, #94a3b8);
+      color: var(--gp-text-color-muted);
     }
     .doc-prop-desc {
       line-height: 1.5;
+    }
+    .doc-empty-row {
+      text-align: center;
+      padding: 2rem !important;
+      color: var(--gp-text-color-muted);
     }
   `]
 })

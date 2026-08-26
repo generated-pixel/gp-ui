@@ -8,18 +8,19 @@
       <!-- Global Search / Header Slot -->
       @if (globalFilterFields.length > 0 || captionTemplate) {
         <div class="gp-datatable-header">
-          <ng-content select="[caption]" />
+          <div class="gp-datatable-caption">
+            <ng-content select="[caption]" />
+          </div>
           @if (globalFilterFields.length > 0) {
             <div class="gp-datatable-global-filter">
-              <input
-                type="text"
-                class="gp-inputtext"
+              <gp-input-text
+                iconLeft="search"
                 [placeholder]="globalFilterPlaceholder"
                 [value]="globalFilterText()"
-                (input)="onGlobalFilterInput($event)"
-                aria-label="Global search table"
+                [clearable]="true"
+                (onInputEvent)="onGlobalFilterInput($event)"
+                (onClearEvent)="clearGlobalFilter()"
               />
-              <gp-icon name="search" size="0.85em" class="gp-datatable-search-icon" />
             </div>
           }
         </div>

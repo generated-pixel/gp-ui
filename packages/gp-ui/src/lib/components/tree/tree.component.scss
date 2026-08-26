@@ -1,25 +1,13 @@
 .gp-tree {
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      padding: 0.5rem;
-      width: 100%;
-    }
-    .gp-tree-filter-container {
-      position: relative;
-      margin-bottom: 0.5rem;
-    }
-    .gp-tree-filter-input {
-      padding-right: 2rem;
-      height: 2.25rem;
-    }
-    .gp-tree-filter-icon {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gp-text-color-muted);
-    }
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  padding: 0.5rem;
+  width: 100%;
+}
+.gp-tree-filter-container {
+  margin-bottom: 0.5rem;
+}
     .gp-tree-container, .gp-tree-sub-tree {
       list-style: none;
       margin: 0;

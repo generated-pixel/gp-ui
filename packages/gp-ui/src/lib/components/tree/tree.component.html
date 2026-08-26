@@ -1,15 +1,14 @@
 <div class="gp-tree" role="tree" [attr.aria-multiselectable]="selectionMode === 'multiple' || selectionMode === 'checkbox'">
       @if (filter) {
         <div class="gp-tree-filter-container">
-          <input
-            type="text"
-            class="gp-inputtext gp-tree-filter-input"
+          <gp-input-text
+            iconLeft="search"
             [placeholder]="filterPlaceholder"
             [value]="filterText()"
-            (input)="onFilterInput($event)"
-            aria-label="Filter tree"
+            [clearable]="true"
+            (onInputEvent)="onFilterInput($event)"
+            (onClearEvent)="clearFilter()"
           />
-          <gp-icon name="search" size="0.85em" class="gp-tree-filter-icon" />
         </div>
       }
 

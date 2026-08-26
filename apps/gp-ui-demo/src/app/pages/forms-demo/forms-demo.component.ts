@@ -327,9 +327,14 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
       <!-- API Reference -->
       <div class="doc-section">
-        <h2 class="doc-section-title">API Reference (Common Form Properties)</h2>
-        <p class="doc-section-desc">All form controls inherit from <code>GpEditableBaseComponent</code>:</p>
+        <h2 class="doc-section-title">API Reference (Form Controls &amp; Validation)</h2>
+        <p class="doc-section-desc">All form controls inherit from <code>GpEditableBaseComponent</code>, providing unified data binding, validation pipelines, and event hooks:</p>
+        
         <doc-api-table title="GpEditableBaseComponent Inputs" [properties]="commonFormProperties" />
+        <doc-api-table title="GpEditableBaseComponent Outputs / Events" [properties]="formOutputs" />
+        <doc-api-table title="GpEditableBaseComponent Public Methods &amp; Signals" [properties]="formMethods" />
+        <doc-api-table title="GpFormDirective ([gpForm]) API" [properties]="formDirectiveProperties" />
+        <doc-api-table title="GpFormErrorComponent (<gp-form-error>) Inputs" [properties]="formErrorProperties" />
       </div>
     </div>
   `,
@@ -464,7 +469,52 @@ export class MyFormComponent {
     { name: 'readonly', type: 'boolean', default: 'false', description: 'Prevents editing while allowing selection and focus.' },
     { name: 'required', type: 'boolean', default: 'false', description: 'Marks the field as required for accessibility and form validation.' },
     { name: 'invalid', type: 'boolean', default: 'false', description: 'Highlights the control with error styling (red border/ring).' },
-    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS classes applied to the control container.' }
+    { name: 'validators', type: 'GpValidatorFn[]', default: '[]', description: 'Array of synchronous and asynchronous validation rules (e.g. GpValidators.required()).' },
+    { name: 'validateOn', type: "('change' | 'blur' | 'submit' | 'manual')[]", default: "['change', 'blur']", description: 'User interaction events that trigger validation.' },
+    { name: 'valueEffect', type: 'GpValueEffectFn', default: 'null', description: 'Side effect function executed asynchronously whenever the control value updates.' },
+    { name: 'errorMessage', type: 'string', default: "''", description: 'Manual or external error message overriding automatic validator messages.' },
+    { name: 'helperText', type: 'string', default: "''", description: 'Secondary descriptive or instructional text displayed beneath the control.' },
+    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS classes applied to the control container.' },
+    { name: 'style', type: '{ [k: string]: any }', default: 'null', description: 'Custom inline styles applied to the host element.' },
+    { name: 'ariaLabel', type: 'string', default: "''", description: 'Accessible ARIA label for screen readers.' }
+  ];
+
+  formOutputs: DocApiProperty[] = [
+    { name: 'onValidate', type: 'EventEmitter<GpValidationState>', description: 'Emitted whenever validation completes with current validity and errors.' },
+    { name: 'onValid', type: 'EventEmitter<any>', description: 'Emitted when validation succeeds with valid value.' },
+    { name: 'onInvalid', type: 'EventEmitter<GpValidationError[]>', description: 'Emitted when validation fails with list of error descriptors.' },
+    { name: 'onEffectComplete', type: 'EventEmitter<{ value: any }>', description: 'Emitted when asynchronous valueEffect execution resolves.' }
+  ];
+
+  formMethods: DocApiProperty[] = [
+    { name: 'validate()', type: '() => Promise<boolean>', description: 'Triggers validation against all assigned validator rules and updates error signals.' },
+    { name: 'setErrors(errors)', type: '(errors: GpValidationError[] | string[] | string) => void', description: 'Injects external error messages (e.g. HTTP 422 API responses) directly onto the control.' },
+    { name: 'clearErrors()', type: '() => void', description: 'Clears all validation errors and restores valid state.' },
+    { name: 'reset()', type: '() => void', description: 'Resets value to initial state and resets touched/dirty/error signals.' },
+    { name: 'focus()', type: '() => void', description: 'Focuses the native input/control element.' },
+    { name: 'isValid()', type: 'Signal<boolean>', description: 'Reactive signal returning true if control has no errors.' },
+    { name: 'isInvalid()', type: 'Signal<boolean>', description: 'Reactive signal returning true if control is touched/dirty and has errors.' },
+    { name: 'isPending()', type: 'Signal<boolean>', description: 'Reactive signal returning true while asynchronous validators are executing.' },
+    { name: 'errors()', type: 'Signal<GpValidationError[]>', description: 'Reactive signal containing list of current validation errors.' },
+    { name: 'firstError()', type: 'Signal<GpValidationError | null>', description: 'Reactive signal containing the first validation error message descriptor.' }
+  ];
+
+  formDirectiveProperties: DocApiProperty[] = [
+    { name: '(gpSubmit)', type: 'EventEmitter<GpFormSubmitEvent>', description: 'Emitted on form submission when ALL child controls pass validation. Contains validated values map.' },
+    { name: '(gpInvalidSubmit)', type: 'EventEmitter<GpFormInvalidEvent>', description: 'Emitted on form submission when any control fails validation. Automatically focuses first invalid control.' },
+    { name: 'validateAll()', type: '() => Promise<boolean>', description: 'Concurrently runs validation across all registered child controls.' },
+    { name: 'setErrors(errorsMap)', type: '(errors: Record<string, string | string[]>) => void', description: 'Maps server-side HTTP 422 error object directly to child controls matching field names.' },
+    { name: 'clearErrors()', type: '() => void', description: 'Clears errors on all registered child form controls.' },
+    { name: 'reset()', type: '() => void', description: 'Resets all registered child controls.' },
+    { name: 'getValues()', type: '() => Record<string, any>', description: 'Extracts a key-value object containing current values of all named controls.' },
+    { name: 'getControl(name)', type: '(name: string) => GpEditableBaseComponent | undefined', description: 'Finds a child form control by its name attribute.' }
+  ];
+
+  formErrorProperties: DocApiProperty[] = [
+    { name: 'control', type: 'GpEditableBaseComponent', default: 'null', description: 'Reference to a GpEditableBaseComponent control instance to automatically display its validation errors.' },
+    { name: 'errors', type: 'GpValidationError[] | string[]', default: '[]', description: 'Explicit array of error messages or validation error objects to display.' },
+    { name: 'message', type: 'string', default: "''", description: 'Single error message string to display.' },
+    { name: 'showIcon', type: 'boolean', default: 'true', description: 'Whether to render the warning alert icon before the error message.' }
   ];
 
   protected formJson(): string {

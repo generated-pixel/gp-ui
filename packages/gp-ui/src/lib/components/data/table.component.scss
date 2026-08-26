@@ -1,36 +1,31 @@
 .gp-datatable {
-      position: relative;
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-    .gp-datatable-header {
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--gp-surface-border);
-      background: var(--gp-surface-card);
-    }
-    .gp-datatable-global-filter {
-      position: relative;
-      width: 16rem;
-    }
-    .gp-datatable-global-filter .gp-inputtext {
-      padding-right: 2rem;
-      height: 2.25rem;
-    }
-    .gp-datatable-search-icon {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gp-text-color-muted);
-    }
+  position: relative;
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.gp-datatable-header {
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--gp-surface-border);
+  background: var(--gp-surface-card);
+}
+.gp-datatable-caption {
+  flex: 1;
+  min-width: 0;
+}
+.gp-datatable-global-filter {
+  width: 16rem;
+  max-width: 100%;
+}
     .gp-datatable-wrapper {
       overflow-x: auto;
       width: 100%;

@@ -7,6 +7,7 @@ import { GpColumnComponent } from './column.component';
 import { GpPaginatorComponent, GpPageState } from './paginator.component';
 import { GpCheckboxComponent } from '../form/checkbox.component';
 import { GpRadioButtonComponent } from '../form/radio-button.component';
+import { GpInputTextComponent } from '../form/input-text.component';
 import { ObjectUtils } from '../../utils/object-utils';
 import { GpTranslationService } from '../../config/gp-config.service';
 
@@ -15,7 +16,15 @@ export type GpSelectionMode = 'single' | 'multiple' | null;
 @Component({
   selector: 'gp-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent, GpPaginatorComponent, GpCheckboxComponent, GpRadioButtonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    GpIconComponent,
+    GpPaginatorComponent,
+    GpCheckboxComponent,
+    GpRadioButtonComponent,
+    GpInputTextComponent
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './table.component.html',
@@ -203,6 +212,11 @@ export class GpTableComponent extends GpEditableBaseComponent {
   protected onGlobalFilterInput(event: Event): void {
     const q = (event.target as HTMLInputElement).value;
     this.globalFilterText.set(q);
+    this.first.set(0);
+  }
+
+  public clearGlobalFilter(): void {
+    this.globalFilterText.set('');
     this.first.set(0);
   }
 

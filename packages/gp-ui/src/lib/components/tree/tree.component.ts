@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEn
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../icons/icon.component';
 import { GpCheckboxComponent } from '../form/checkbox.component';
+import { GpInputTextComponent } from '../form/input-text.component';
 import { GpTreeNode } from './tree-node.interface';
 
 export type GpTreeSelectionMode = 'single' | 'multiple' | 'checkbox' | null;
@@ -10,7 +11,7 @@ export type GpTreeSelectionMode = 'single' | 'multiple' | 'checkbox' | null;
 @Component({
   selector: 'gp-tree',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpCheckboxComponent],
+  imports: [CommonModule, GpIconComponent, GpCheckboxComponent, GpInputTextComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './tree.component.html',
@@ -106,5 +107,9 @@ export class GpTreeComponent extends GpEditableBaseComponent {
 
   protected onFilterInput(event: Event): void {
     this.filterText.set((event.target as HTMLInputElement).value);
+  }
+
+  public clearFilter(): void {
+    this.filterText.set('');
   }
 }
