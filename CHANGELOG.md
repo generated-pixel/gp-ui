@@ -23,3 +23,7 @@
 ## [0.1.4] - 2026-08-26
 - Release of @generatedpixel gp-ui suite v0.1.4
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, and @generatedpixel/gp-ui-icons
+
+## [0.1.5] - 2026-08-26
+- Release of @generatedpixel gp-ui suite v0.1.5
+- Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, and @generatedpixel/gp-ui-icons
