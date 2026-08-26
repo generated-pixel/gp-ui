@@ -1,61 +1,62 @@
-<div class="gp-dataview" [class.gp-dataview-list]="layout === 'list'" [class.gp-dataview-grid]="layout === 'grid'">
-      @if (headerTemplate || layoutOptions) {
-        <div class="gp-dataview-header">
-          <div class="gp-dataview-header-content">
-            <ng-content select="[header]" />
-          </div>
+<div class="gp-dataview" [class.gp-dataview-list]="layoutSignal() === 'list'" [class.gp-dataview-grid]="layoutSignal() === 'grid'">
+  @if (headerTemplate || layoutOptions) {
+    <div class="gp-dataview-header">
+      <div class="gp-dataview-header-content">
+        <ng-content select="[header]" />
+      </div>
 
-          @if (layoutOptions) {
-            <div class="gp-dataview-layout-options">
-              <button
-                type="button"
-                class="gp-dataview-layout-btn"
-                [class.gp-dataview-layout-btn-active]="layout === 'list'"
-                (click)="setLayout('list')"
-                aria-label="List view"
-              >
-                <gp-icon name="bars" size="0.9em" />
-              </button>
-              <button
-                type="button"
-                class="gp-dataview-layout-btn"
-                [class.gp-dataview-layout-btn-active]="layout === 'grid'"
-                (click)="setLayout('grid')"
-                aria-label="Grid view"
-              >
-                <gp-icon name="window" size="0.9em" />
-              </button>
-            </div>
-          }
+      @if (layoutOptions) {
+        <div class="gp-dataview-layout-options">
+          <button
+            type="button"
+            class="gp-dataview-layout-btn"
+            [class.gp-dataview-layout-btn-active]="layoutSignal() === 'list'"
+            (click)="setLayout('list')"
+            aria-label="List view"
+          >
+            <gp-icon name="bars" size="0.9em" />
+          </button>
+          <button
+            type="button"
+            class="gp-dataview-layout-btn"
+            [class.gp-dataview-layout-btn-active]="layoutSignal() === 'grid'"
+            (click)="setLayout('grid')"
+            aria-label="Grid view"
+          >
+            <gp-icon name="window" size="0.9em" />
+          </button>
         </div>
       }
+    </div>
+  }
 
-      <div class="gp-dataview-content">
-        @if (layout === 'list') {
-          <div class="gp-dataview-list-grid">
-            @for (item of displayedValue(); track $index) {
-              <div class="gp-dataview-list-item">
-                <ng-container *ngTemplateOutlet="listItemTemplate || itemTemplate; context: { $implicit: item }" />
-              </div>
-            }
-          </div>
-        } @else {
-          <div class="gp-dataview-grid-grid">
-            @for (item of displayedValue(); track $index) {
-              <div class="gp-dataview-grid-item">
-                <ng-container *ngTemplateOutlet="gridItemTemplate || itemTemplate; context: { $implicit: item }" />
-              </div>
-            }
+  <div class="gp-dataview-content">
+    @if (layoutSignal() === 'list') {
+      <div class="gp-dataview-list-grid">
+        @for (item of displayedValue(); track $index) {
+          <div class="gp-dataview-list-item">
+            <ng-container *ngTemplateOutlet="listItemTemplate || itemTemplate; context: { $implicit: item }" />
           </div>
         }
       </div>
+    } @else {
+      <div class="gp-dataview-grid-grid">
+        @for (item of displayedValue(); track $index) {
+          <div class="gp-dataview-grid-item">
+            <ng-container *ngTemplateOutlet="gridItemTemplate || itemTemplate; context: { $implicit: item }" />
+          </div>
+        }
+      </div>
+    }
+  </div>
 
-      @if (paginator) {
-        <gp-paginator
-          [totalRecords]="value.length"
-          [rows]="rows"
-          [first]="first()"
-          (onPageChange)="onPaginationChange($event)"
-        />
-      }
-    </div>
+  @if (paginator) {
+    <gp-paginator
+      [totalRecords]="totalRecordsCount()"
+      [rows]="rowsSignal()"
+      [first]="firstSignal()"
+      [rowsPerPageOptions]="rowsPerPageOptions"
+      (onPageChange)="onPaginationChange($event)"
+    />
+  }
+</div>
