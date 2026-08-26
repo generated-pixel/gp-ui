@@ -1,7 +1,6 @@
 # `@generatedpixel/gp-ui` — Enterprise Angular UI Component Framework
 
 [![CI - Build & Test](https://github.com/generated-pixel/gp-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/generated-pixel/gp-ui/actions/workflows/ci.yml)
-[![Deploy to Firebase](https://github.com/generated-pixel/gp-ui/actions/workflows/firebase-deploy.yml/badge.svg)](https://github.com/generated-pixel/gp-ui/actions/workflows/firebase-deploy.yml)
 [![npm version](https://img.shields.io/npm/v/@generatedpixel/gp-ui.svg?style=flat&color=blue)](https://www.npmjs.com/package/@generatedpixel/gp-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
