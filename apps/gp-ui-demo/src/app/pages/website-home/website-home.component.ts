@@ -53,7 +53,7 @@ export class WebsiteHomeComponent {
       id: 'frontend',
       title: 'Frontend Development',
       description: 'Build responsive, performant web applications with TypeScript, modern Angular architecture, and accessible UI frameworks.',
-      chips: ['Frontend Architecture', 'Angular 18/19', 'TypeScript', 'Design Systems']
+      chips: ['Frontend Architecture', 'Angular 22', 'TypeScript', 'Design Systems']
     },
     {
       id: 'backend',

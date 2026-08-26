@@ -13,7 +13,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
       <div class="hero-section">
         <div class="hero-badge">
           <gp-tag value="v0.1.0" severity="primary" [rounded]="true" />
-          <gp-tag value="Angular 18/19 Standalone" severity="success" [rounded]="true" />
+          <gp-tag value="Angular 22 Standalone" severity="success" [rounded]="true" />
         </div>
         <h1 class="hero-title">&#64;generatedpixel/gp-ui</h1>
         <p class="hero-subtitle">
