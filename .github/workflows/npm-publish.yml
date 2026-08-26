@@ -1,0 +1,62 @@
+name: Publish to NPM
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version Bump Type (patch, minor, major) or skip'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - skip
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22 & NPM Registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org/'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Quality Verification
+        run: |
+          npm run lint
+          npm test
+          npm run test:consumer
+
+      - name: Build All Monorepo Packages
+        run: npm run build
+
+      - name: Publish Packages to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "Publishing @generatedpixel/gp-ui-theme..."
+          cd dist/packages/gp-ui-theme && npm publish --access public
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-ui-icons..."
+          cd dist/packages/gp-ui-icons && npm publish --access public
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-ui..."
+          cd dist/packages/gp-ui && npm publish --access public
+          cd ../../..

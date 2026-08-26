@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-ui-theme",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Design Token Driven Theming System for gp-ui",
   "main": "src/index.js",
   "style": "src/index.css",
@@ -18,7 +18,7 @@
       "email": "graeme@generatedpixel.dev"
     }
   ],
-  "homepage": "https://generatedpixel.dev/",
+  "homepage": "https://generatedpixel.dev/getting-started",
   "license": "MIT",
   "repository": {
     "type": "git",

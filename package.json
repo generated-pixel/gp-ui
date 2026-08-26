@@ -1,6 +1,6 @@
 {
   "name": "gp-ui-monorepo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "gp-ui - Complete Enterprise Angular UI Component Framework",
   "private": true,
   "workspaces": [
@@ -47,7 +47,7 @@
       "email": "graeme@generatedpixel.dev"
     }
   ],
-  "homepage": "https://generatedpixel.dev/",
+  "homepage": "https://generatedpixel.dev/getting-started",
   "license": "MIT",
   "devDependencies": {
     "@angular/build": "^22.1.5",

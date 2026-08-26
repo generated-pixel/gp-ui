@@ -14,20 +14,28 @@ function checkFiles(dir) {
       checkFiles(fullPath);
     } else if (entry.name.endsWith('.component.ts')) {
       const content = fs.readFileSync(fullPath, 'utf8');
-      // Rule 1: Must be standalone: true
-      if (!content.includes('standalone: true')) {
-        console.error(`❌ [Lint Error] Component must be standalone: ${fullPath}`);
-        errors++;
+
+      // Skip base directive classes (which are abstract @Directive rather than @Component)
+      if (entry.name.startsWith('gp-base') || entry.name.startsWith('gp-editable-base')) {
+        continue;
       }
-      // Rule 2: Must use OnPush ChangeDetection
-      if (!content.includes('ChangeDetectionStrategy.OnPush')) {
-        console.error(`❌ [Lint Error] Component must use ChangeDetectionStrategy.OnPush: ${fullPath}`);
-        errors++;
-      }
-      // Rule 3: Must not import from third-party component libraries
-      if (content.includes('primeng') || content.includes('@angular/material')) {
-        console.error(`❌ [Lint Error] Component must not depend on third-party UI libraries: ${fullPath}`);
-        errors++;
+
+      if (content.includes('@Component(')) {
+        // Rule 1: Must be standalone: true
+        if (!content.includes('standalone: true')) {
+          console.error(`❌ [Lint Error] Component must be standalone: ${fullPath}`);
+          errors++;
+        }
+        // Rule 2: Must use OnPush ChangeDetection
+        if (!content.includes('ChangeDetectionStrategy.OnPush')) {
+          console.error(`❌ [Lint Error] Component must use ChangeDetectionStrategy.OnPush: ${fullPath}`);
+          errors++;
+        }
+        // Rule 3: Must not import from third-party component libraries
+        if (content.includes('primeng') || content.includes('@angular/material')) {
+          console.error(`❌ [Lint Error] Component must not depend on third-party UI libraries: ${fullPath}`);
+          errors++;
+        }
       }
     }
   }

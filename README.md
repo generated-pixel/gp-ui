@@ -1,6 +1,11 @@
-# `gp-ui` — Enterprise Angular UI Component Framework
+# `@generatedpixel/gp-ui` — Enterprise Angular UI Component Framework
 
-`gp-ui` is a production-quality, independent Angular component framework inspired by PrimeNG, built from the ground up for modern Angular applications.
+[![CI - Build & Test](https://github.com/generated-pixel/gp-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/generated-pixel/gp-ui/actions/workflows/ci.yml)
+[![Deploy to Firebase](https://github.com/generated-pixel/gp-ui/actions/workflows/firebase-deploy.yml/badge.svg)](https://github.com/generated-pixel/gp-ui/actions/workflows/firebase-deploy.yml)
+[![npm version](https://img.shields.io/npm/v/@generatedpixel/gp-ui.svg?style=flat&color=blue)](https://www.npmjs.com/package/@generatedpixel/gp-ui)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+`@generatedpixel/gp-ui` is a production-quality, independent Angular component framework inspired by PrimeNG, built from the ground up for modern Angular applications.
 
 ---
 
@@ -18,10 +23,10 @@
 
 ## 📦 Installation
 
-Install `gp-ui` and companion packages into any Angular application:
+Install `@generatedpixel/gp-ui` and companion packages into any Angular application:
 
-```powershell
-npm install gp-ui gp-ui-theme gp-ui-icons
+```bash
+npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme @generatedpixel/gp-ui-icons
 ```
 
 ---
@@ -33,9 +38,9 @@ Import the base token stylesheet and default theme into your `angular.json` or `
 
 ```scss
 /* styles.scss */
-@import 'gp-ui-theme/src/themes/gp-light.css';
-@import 'gp-ui-theme/src/themes/gp-dark.css';
-@import 'gp-ui-theme/src/index.css';
+@import '@generatedpixel/gp-ui-theme/src/themes/gp-light.css';
+@import '@generatedpixel/gp-ui-theme/src/themes/gp-dark.css';
+@import '@generatedpixel/gp-ui-theme/src/index.css';
 ```
 
 ### 2. Use in Standalone Angular Components

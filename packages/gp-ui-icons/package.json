@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-ui-icons",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight SVG Icon System for gp-ui",
   "keywords": [
     "icons",
@@ -14,7 +14,7 @@
       "email": "graeme@generatedpixel.dev"
     }
   ],
-  "homepage": "https://generatedpixel.dev/",
+  "homepage": "https://generatedpixel.dev/getting-started",
   "license": "MIT",
   "repository": {
     "type": "git",
