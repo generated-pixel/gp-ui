@@ -8,7 +8,8 @@ import {
   GpInputTextComponent,
   GpProgressBarComponent,
   GpSwitchComponent,
-  GpBadgeComponent
+  GpBadgeComponent,
+  GP_UI_VERSION
 } from 'gp-ui';
 import { GpIconComponent } from 'gp-ui-icons';
 
@@ -48,6 +49,7 @@ export interface WebsiteService {
   styleUrls: ['./website-home.component.scss']
 })
 export class WebsiteHomeComponent {
+  protected readonly version = GP_UI_VERSION;
   services: WebsiteService[] = [
     {
       id: 'frontend',

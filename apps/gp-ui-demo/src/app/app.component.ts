@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
-import { GpBadgeComponent, GpDirectionService } from 'gp-ui';
+import { GpBadgeComponent, GpDirectionService, GP_UI_VERSION } from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 
@@ -187,7 +187,7 @@ export interface ComponentCatalogueItem {
           <!-- Sidebar Navigation -->
           <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
             <div class="sidebar-header-note">
-              <span>gp-ui Framework v0.1.0</span>
+              <span>gp-ui Framework v{{ version }}</span>
             </div>
             <nav class="sidebar-nav">
               @for (cat of categories(); track cat) {
@@ -669,6 +669,7 @@ export interface ComponentCatalogueItem {
   `]
 })
 export class AppComponent {
+  protected readonly version = GP_UI_VERSION;
   private router = inject(Router);
   private directionService = inject(GpDirectionService);
 

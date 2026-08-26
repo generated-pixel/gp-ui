@@ -2,6 +2,9 @@
  * gp-ui - Public API Entrypoint
  */
 
+// Version
+export * from './lib/version';
+
 // Configuration & Internationalization
 export * from './lib/config/gp-translation.interface';
 export * from './lib/config/gp-translations.presets';

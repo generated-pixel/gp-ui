@@ -94,6 +94,13 @@ if (-not $SkipBump) {
     }
   }
 
+  # Update version.ts
+  $VersionTsPath = Join-Path $ScriptDir "packages/gp-ui/src/lib/version.ts"
+  if (Test-Path $VersionTsPath) {
+    Set-Content -Path $VersionTsPath -Value "/**`n * Current version of the @generatedpixel/gp-ui library suite.`n */`nexport const GP_UI_VERSION = '$NewVersion';`n" -NoNewline
+    Write-Host "  [UPDATED] packages/gp-ui/src/lib/version.ts -> version $NewVersion" -ForegroundColor DarkCyan
+  }
+
   # Sync package-lock.json
   Write-Host "  [SYNC] Updating package-lock.json..." -ForegroundColor DarkCyan
   npm install --package-lock-only --silent

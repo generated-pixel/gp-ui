@@ -55,7 +55,7 @@
               <span class="widget-label">Quick Input &amp; Status Tags</span>
               <gp-input-text placeholder="Try typing in gp-ui input..." iconLeft="search" [clearable]="true" />
               <div class="widget-row" style="margin-top: 0.5rem;">
-                <gp-tag value="Active v0.1.0" severity="success" [rounded]="true" icon="check" />
+                <gp-tag [value]="'Active v' + version" severity="success" [rounded]="true" icon="check" />
                 <gp-tag value="Signals Ready" severity="info" [rounded]="true" />
                 <gp-tag value="WCAG A11y" severity="primary" [rounded]="true" />
               </div>

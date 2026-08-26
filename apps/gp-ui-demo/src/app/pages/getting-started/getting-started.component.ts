@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { GpButtonComponent, GpTagComponent, GpIconComponent } from 'gp-ui';
+import { GpButtonComponent, GpTagComponent, GpIconComponent, GP_UI_VERSION } from 'gp-ui';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
     <div class="page-container">
       <div class="hero-section">
         <div class="hero-badge">
-          <gp-tag value="v0.1.0" severity="primary" [rounded]="true" />
+          <gp-tag [value]="'v' + version" severity="primary" [rounded]="true" />
           <gp-tag value="Angular 22 Standalone" severity="success" [rounded]="true" />
         </div>
         <h1 class="hero-title">&#64;generatedpixel/gp-ui</h1>
@@ -123,6 +123,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
   `]
 })
 export class GettingStartedComponent {
+  protected readonly version = GP_UI_VERSION;
   installCode = `npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme`;
 
   themeCode = `// In styles.scss:
