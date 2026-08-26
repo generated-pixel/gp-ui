@@ -126,9 +126,19 @@ export class GettingStartedComponent {
   installCode = `npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme`;
 
   themeCode = `// In styles.scss:
-@import '@generatedpixel/gp-ui-theme/src/themes/gp-light.css';
-@import '@generatedpixel/gp-ui-theme/src/themes/gp-dark.css';
-@import '@generatedpixel/gp-ui-theme/src/index.css';`;
+// Import all preset themes (Default, Ocean, Emerald, Sunset, Amethyst, Rose, Nord, Cyberpunk)
+@import '@generatedpixel/gp-ui-theme/src/index.css';
+
+// Or import specific theme stylesheets:
+// @import '@generatedpixel/gp-ui-theme/src/themes/ocean.css';
+// @import '@generatedpixel/gp-ui-theme/src/themes/emerald.css';
+
+// Switch theme and mode dynamically in TypeScript:
+import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
+
+GpThemeManager.setTheme('ocean'); // 'default' | 'ocean' | 'emerald' | 'sunset' | 'amethyst' | 'rose' | 'nord' | 'cyberpunk'
+GpThemeManager.setMode('dark');   // 'light' | 'dark' | 'system'
+GpThemeManager.toggleMode();      // Toggles between light and dark mode`;
 
   usageCode = `import { Component } from '@angular/core';
 import { GpButtonComponent, GpInputTextComponent, GpTableComponent } from '@generatedpixel/gp-ui';

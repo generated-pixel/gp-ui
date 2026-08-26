@@ -1,0 +1,12 @@
+/**
+ * gp-ui All Themes Aggregator
+ * Imports all built-in themes with their light and dark modes
+ */
+@import './default.css';
+@import './ocean.css';
+@import './emerald.css';
+@import './sunset.css';
+@import './amethyst.css';
+@import './rose.css';
+@import './nord.css';
+@import './cyberpunk.css';

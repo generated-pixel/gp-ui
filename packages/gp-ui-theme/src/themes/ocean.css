@@ -1,0 +1,245 @@
+/**
+ * gp-ui Ocean Theme (Deep Azure & Cyan)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Ocean Theme)
+   ========================================================================== */
+:root[data-gp-theme="ocean"],
+[data-gp-theme="ocean"],
+[data-gp-theme="ocean"][data-gp-mode="light"],
+.gp-theme-ocean,
+.gp-theme-ocean.gp-light {
+  /* Primitive Color Palette - Ocean / Cyan */
+  --gp-primary-50: #ecfeff;
+  --gp-primary-100: #cffafe;
+  --gp-primary-200: #a5f3fc;
+  --gp-primary-300: #67e8f9;
+  --gp-primary-400: #22d3ee;
+  --gp-primary-500: #06b6d4;
+  --gp-primary-600: #0891b2;
+  --gp-primary-700: #0e7490;
+  --gp-primary-800: #155e75;
+  --gp-primary-900: #164e63;
+  --gp-primary-950: #083344;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #0891b2;
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: #0e7490;
+  --gp-primary-active: #155e75;
+  --gp-primary-light: #ecfeff;
+  --gp-primary-border: #a5f3fc;
+
+  /* Status / Severity Colors */
+  --gp-secondary: #475569;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #334155;
+  --gp-secondary-light: #f1f5f9;
+
+  --gp-success: #059669;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #047857;
+  --gp-success-light: #ecfdf5;
+  --gp-success-border: #a7f3d0;
+
+  --gp-info: #0284c7;
+  --gp-info-text: #ffffff;
+  --gp-info-hover: #0369a1;
+  --gp-info-light: #f0f9ff;
+  --gp-info-border: #bae6fd;
+
+  --gp-warning: #d97706;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #b45309;
+  --gp-warning-light: #fffbeb;
+  --gp-warning-border: #fde68a;
+
+  --gp-danger: #e11d48;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #be123c;
+  --gp-danger-light: #fff1f2;
+  --gp-danger-border: #fecdd3;
+
+  --gp-contrast: #082f49;
+  --gp-contrast-text: #ffffff;
+  --gp-contrast-hover: #0c4a6e;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #f0f9ff;
+  --gp-surface-section: #e0f2fe;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #f0fdfa;
+  --gp-surface-active: #ccfbf1;
+  --gp-surface-border: #bae6fd;
+  --gp-surface-divider: #e0f2fe;
+
+  /* Typography & Text */
+  --gp-text-color: #0c4a6e;
+  --gp-text-color-secondary: #0369a1;
+  --gp-text-color-muted: #64748b;
+  --gp-text-color-disabled: #cbd5e1;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(6, 182, 212, 0.3);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(225, 29, 72, 0.3);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(8, 145, 178, 0.06);
+  --gp-shadow-md: 0 4px 6px -1px rgba(8, 145, 178, 0.08), 0 2px 4px -1px rgba(8, 145, 178, 0.04);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(8, 145, 178, 0.1), 0 4px 6px -2px rgba(8, 145, 178, 0.05);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(8, 145, 178, 0.12), 0 10px 10px -5px rgba(8, 145, 178, 0.04);
+
+  /* Radius */
+  --gp-border-radius-sm: 6px;
+  --gp-border-radius: 10px;
+  --gp-border-radius-md: 14px;
+  --gp-border-radius-lg: 18px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #bae6fd;
+  --gp-input-border-hover: #38bdf8;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(8, 47, 73, 0.5);
+}
+
+/* ==========================================================================
+   Dark Mode (Ocean Theme)
+   ========================================================================== */
+:root[data-gp-theme="ocean"][data-gp-mode="dark"],
+[data-gp-theme="ocean"][data-gp-mode="dark"],
+.gp-theme-ocean.gp-dark,
+[data-gp-theme="ocean"].gp-dark {
+  /* Primitive Color Palette - Deep Ocean */
+  --gp-primary-50: #083344;
+  --gp-primary-100: #164e63;
+  --gp-primary-200: #155e75;
+  --gp-primary-300: #0e7490;
+  --gp-primary-400: #0891b2;
+  --gp-primary-500: #06b6d4;
+  --gp-primary-600: #22d3ee;
+  --gp-primary-700: #67e8f9;
+  --gp-primary-800: #a5f3fc;
+  --gp-primary-900: #cffafe;
+  --gp-primary-950: #ecfeff;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #22d3ee;
+  --gp-primary-text: #083344;
+  --gp-primary-hover: #67e8f9;
+  --gp-primary-active: #a5f3fc;
+  --gp-primary-light: rgba(6, 182, 212, 0.18);
+  --gp-primary-border: rgba(6, 182, 212, 0.4);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #94a3b8;
+  --gp-secondary-text: #083344;
+  --gp-secondary-hover: #cbd5e1;
+  --gp-secondary-light: rgba(148, 163, 184, 0.15);
+
+  --gp-success: #34d399;
+  --gp-success-text: #022c22;
+  --gp-success-hover: #6ee7b7;
+  --gp-success-light: rgba(16, 185, 129, 0.15);
+  --gp-success-border: rgba(16, 185, 129, 0.35);
+
+  --gp-info: #38bdf8;
+  --gp-info-text: #082f49;
+  --gp-info-hover: #7dd3fc;
+  --gp-info-light: rgba(14, 165, 233, 0.15);
+  --gp-info-border: rgba(14, 165, 233, 0.35);
+
+  --gp-warning: #fbbf24;
+  --gp-warning-text: #451a03;
+  --gp-warning-hover: #fcd34d;
+  --gp-warning-light: rgba(245, 158, 11, 0.15);
+  --gp-warning-border: rgba(245, 158, 11, 0.35);
+
+  --gp-danger: #fb7185;
+  --gp-danger-text: #4c0519;
+  --gp-danger-hover: #fda4af;
+  --gp-danger-light: rgba(244, 63, 94, 0.15);
+  --gp-danger-border: rgba(244, 63, 94, 0.35);
+
+  --gp-contrast: #f0f9ff;
+  --gp-contrast-text: #083344;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #03131e;
+  --gp-surface-section: #072235;
+  --gp-surface-card: #0b2d46;
+  --gp-surface-overlay: #0b2d46;
+  --gp-surface-hover: #123e5f;
+  --gp-surface-active: #194f78;
+  --gp-surface-border: #154569;
+  --gp-surface-divider: #154569;
+
+  /* Typography & Text */
+  --gp-text-color: #f0f9ff;
+  --gp-text-color-secondary: #7dd3fc;
+  --gp-text-color-muted: #38bdf8;
+  --gp-text-color-disabled: #475569;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(34, 211, 238, 0.35);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(251, 113, 133, 0.35);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+
+  /* Component specific tokens */
+  --gp-input-bg: #072235;
+  --gp-input-border: #154569;
+  --gp-input-border-hover: #0284c7;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(2, 10, 16, 0.8);
+}
+
+/* System dark mode for ocean */
+@media (prefers-color-scheme: dark) {
+  :root[data-gp-theme="ocean"]:not([data-gp-mode="light"]),
+  [data-gp-theme="ocean"]:not([data-gp-mode="light"]),
+  .gp-theme-ocean:not(.gp-light) {
+    --gp-primary-50: #083344;
+    --gp-primary-100: #164e63;
+    --gp-primary-200: #155e75;
+    --gp-primary-300: #0e7490;
+    --gp-primary-400: #0891b2;
+    --gp-primary-500: #06b6d4;
+    --gp-primary-600: #22d3ee;
+    --gp-primary-700: #67e8f9;
+    --gp-primary-800: #a5f3fc;
+    --gp-primary-900: #cffafe;
+    --gp-primary-950: #ecfeff;
+
+    --gp-primary: #22d3ee;
+    --gp-primary-text: #083344;
+    --gp-primary-hover: #67e8f9;
+    --gp-primary-active: #a5f3fc;
+    --gp-primary-light: rgba(6, 182, 212, 0.18);
+    --gp-primary-border: rgba(6, 182, 212, 0.4);
+
+    --gp-surface-ground: #03131e;
+    --gp-surface-section: #072235;
+    --gp-surface-card: #0b2d46;
+    --gp-surface-overlay: #0b2d46;
+    --gp-surface-hover: #123e5f;
+    --gp-surface-active: #194f78;
+    --gp-surface-border: #154569;
+    --gp-surface-divider: #154569;
+
+    --gp-text-color: #f0f9ff;
+    --gp-text-color-secondary: #7dd3fc;
+    --gp-text-color-muted: #38bdf8;
+    --gp-text-color-disabled: #475569;
+
+    --gp-input-bg: #072235;
+    --gp-input-border: #154569;
+  }
+}

@@ -1,0 +1,245 @@
+/**
+ * gp-ui Nord Theme (Arctic Ice & Slate Frost)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Nord Theme)
+   ========================================================================== */
+:root[data-gp-theme="nord"],
+[data-gp-theme="nord"],
+[data-gp-theme="nord"][data-gp-mode="light"],
+.gp-theme-nord,
+.gp-theme-nord.gp-light {
+  /* Primitive Color Palette - Nord Frost */
+  --gp-primary-50: #f0fdfa;
+  --gp-primary-100: #ccfbf1;
+  --gp-primary-200: #99f6e4;
+  --gp-primary-300: #5eead4;
+  --gp-primary-400: #2dd4bf;
+  --gp-primary-500: #14b8a6;
+  --gp-primary-600: #0d9488;
+  --gp-primary-700: #0f766e;
+  --gp-primary-800: #115e59;
+  --gp-primary-900: #134e4a;
+  --gp-primary-950: #042f2e;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #0d9488;
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: #0f766e;
+  --gp-primary-active: #115e59;
+  --gp-primary-light: #f0fdfa;
+  --gp-primary-border: #99f6e4;
+
+  /* Status / Severity Colors */
+  --gp-secondary: #4c566a;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #3b4252;
+  --gp-secondary-light: #eceff4;
+
+  --gp-success: #a3be8c;
+  --gp-success-text: #2e3440;
+  --gp-success-hover: #8fbcbb;
+  --gp-success-light: #f6fbf7;
+  --gp-success-border: #d8dee9;
+
+  --gp-info: #88c0d0;
+  --gp-info-text: #2e3440;
+  --gp-info-hover: #81a1c1;
+  --gp-info-light: #f0f7f9;
+  --gp-info-border: #d8dee9;
+
+  --gp-warning: #ebcb8b;
+  --gp-warning-text: #2e3440;
+  --gp-warning-hover: #d08770;
+  --gp-warning-light: #fefbf3;
+  --gp-warning-border: #e5e9f0;
+
+  --gp-danger: #bf616a;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #a54e56;
+  --gp-danger-light: #faf0f1;
+  --gp-danger-border: #e5e9f0;
+
+  --gp-contrast: #2e3440;
+  --gp-contrast-text: #eceff4;
+  --gp-contrast-hover: #3b4252;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #eceff4;
+  --gp-surface-section: #e5e9f0;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #e5e9f0;
+  --gp-surface-active: #d8dee9;
+  --gp-surface-border: #d8dee9;
+  --gp-surface-divider: #e5e9f0;
+
+  /* Typography & Text */
+  --gp-text-color: #2e3440;
+  --gp-text-color-secondary: #4c566a;
+  --gp-text-color-muted: #88c0d0;
+  --gp-text-color-disabled: #d8dee9;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(13, 148, 136, 0.28);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(191, 97, 106, 0.28);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(46, 52, 64, 0.05);
+  --gp-shadow-md: 0 4px 6px -1px rgba(46, 52, 64, 0.08), 0 2px 4px -1px rgba(46, 52, 64, 0.03);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(46, 52, 64, 0.09), 0 4px 6px -2px rgba(46, 52, 64, 0.04);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(46, 52, 64, 0.1), 0 10px 10px -5px rgba(46, 52, 64, 0.04);
+
+  /* Radius */
+  --gp-border-radius-sm: 4px;
+  --gp-border-radius: 6px;
+  --gp-border-radius-md: 8px;
+  --gp-border-radius-lg: 12px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #d8dee9;
+  --gp-input-border-hover: #88c0d0;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(46, 52, 64, 0.45);
+}
+
+/* ==========================================================================
+   Dark Mode (Nord Theme)
+   ========================================================================== */
+:root[data-gp-theme="nord"][data-gp-mode="dark"],
+[data-gp-theme="nord"][data-gp-mode="dark"],
+.gp-theme-nord.gp-dark,
+[data-gp-theme="nord"].gp-dark {
+  /* Primitive Color Palette - Nord Frost in Dark Space */
+  --gp-primary-50: #042f2e;
+  --gp-primary-100: #134e4a;
+  --gp-primary-200: #115e59;
+  --gp-primary-300: #0f766e;
+  --gp-primary-400: #0d9488;
+  --gp-primary-500: #14b8a6;
+  --gp-primary-600: #2dd4bf;
+  --gp-primary-700: #5eead4;
+  --gp-primary-800: #99f6e4;
+  --gp-primary-900: #ccfbf1;
+  --gp-primary-950: #f0fdfa;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #88c0d0;
+  --gp-primary-text: #2e3440;
+  --gp-primary-hover: #81a1c1;
+  --gp-primary-active: #8fbcbb;
+  --gp-primary-light: rgba(136, 192, 208, 0.18);
+  --gp-primary-border: rgba(136, 192, 208, 0.4);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #d8dee9;
+  --gp-secondary-text: #2e3440;
+  --gp-secondary-hover: #e5e9f0;
+  --gp-secondary-light: rgba(216, 222, 233, 0.15);
+
+  --gp-success: #a3be8c;
+  --gp-success-text: #2e3440;
+  --gp-success-hover: #b8d4a3;
+  --gp-success-light: rgba(163, 190, 140, 0.15);
+  --gp-success-border: rgba(163, 190, 140, 0.35);
+
+  --gp-info: #81a1c1;
+  --gp-info-text: #2e3440;
+  --gp-info-hover: #5e81ac;
+  --gp-info-light: rgba(129, 161, 193, 0.15);
+  --gp-info-border: rgba(129, 161, 193, 0.35);
+
+  --gp-warning: #ebcb8b;
+  --gp-warning-text: #2e3440;
+  --gp-warning-hover: #f3dcac;
+  --gp-warning-light: rgba(235, 203, 139, 0.15);
+  --gp-warning-border: rgba(235, 203, 139, 0.35);
+
+  --gp-danger: #bf616a;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #d07982;
+  --gp-danger-light: rgba(191, 97, 106, 0.15);
+  --gp-danger-border: rgba(191, 97, 106, 0.35);
+
+  --gp-contrast: #eceff4;
+  --gp-contrast-text: #2e3440;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #242933;
+  --gp-surface-section: #2e3440;
+  --gp-surface-card: #3b4252;
+  --gp-surface-overlay: #3b4252;
+  --gp-surface-hover: #434c5e;
+  --gp-surface-active: #4c566a;
+  --gp-surface-border: #4c566a;
+  --gp-surface-divider: #4c566a;
+
+  /* Typography & Text */
+  --gp-text-color: #eceff4;
+  --gp-text-color-secondary: #d8dee9;
+  --gp-text-color-muted: #88c0d0;
+  --gp-text-color-disabled: #4c566a;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(136, 192, 208, 0.35);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(191, 97, 106, 0.35);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+
+  /* Component specific tokens */
+  --gp-input-bg: #2e3440;
+  --gp-input-border: #4c566a;
+  --gp-input-border-hover: #88c0d0;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(36, 41, 51, 0.8);
+}
+
+/* System dark mode for nord */
+@media (prefers-color-scheme: dark) {
+  :root[data-gp-theme="nord"]:not([data-gp-mode="light"]),
+  [data-gp-theme="nord"]:not([data-gp-mode="light"]),
+  .gp-theme-nord:not(.gp-light) {
+    --gp-primary-50: #042f2e;
+    --gp-primary-100: #134e4a;
+    --gp-primary-200: #115e59;
+    --gp-primary-300: #0f766e;
+    --gp-primary-400: #0d9488;
+    --gp-primary-500: #14b8a6;
+    --gp-primary-600: #2dd4bf;
+    --gp-primary-700: #5eead4;
+    --gp-primary-800: #99f6e4;
+    --gp-primary-900: #ccfbf1;
+    --gp-primary-950: #f0fdfa;
+
+    --gp-primary: #88c0d0;
+    --gp-primary-text: #2e3440;
+    --gp-primary-hover: #81a1c1;
+    --gp-primary-active: #8fbcbb;
+    --gp-primary-light: rgba(136, 192, 208, 0.18);
+    --gp-primary-border: rgba(136, 192, 208, 0.4);
+
+    --gp-surface-ground: #242933;
+    --gp-surface-section: #2e3440;
+    --gp-surface-card: #3b4252;
+    --gp-surface-overlay: #3b4252;
+    --gp-surface-hover: #434c5e;
+    --gp-surface-active: #4c566a;
+    --gp-surface-border: #4c566a;
+    --gp-surface-divider: #4c566a;
+
+    --gp-text-color: #eceff4;
+    --gp-text-color-secondary: #d8dee9;
+    --gp-text-color-muted: #88c0d0;
+    --gp-text-color-disabled: #4c566a;
+
+    --gp-input-bg: #2e3440;
+    --gp-input-border: #4c566a;
+  }
+}

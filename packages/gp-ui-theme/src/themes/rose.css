@@ -1,0 +1,245 @@
+/**
+ * gp-ui Rose Theme (Vibrant Ruby & Rose Pink)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Rose Theme)
+   ========================================================================== */
+:root[data-gp-theme="rose"],
+[data-gp-theme="rose"],
+[data-gp-theme="rose"][data-gp-mode="light"],
+.gp-theme-rose,
+.gp-theme-rose.gp-light {
+  /* Primitive Color Palette - Rose */
+  --gp-primary-50: #fff1f2;
+  --gp-primary-100: #ffe4e6;
+  --gp-primary-200: #fecdd3;
+  --gp-primary-300: #fda4af;
+  --gp-primary-400: #fb7185;
+  --gp-primary-500: #f43f5e;
+  --gp-primary-600: #e11d48;
+  --gp-primary-700: #be123c;
+  --gp-primary-800: #9f1239;
+  --gp-primary-900: #881337;
+  --gp-primary-950: #4c0519;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #e11d48;
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: #be123c;
+  --gp-primary-active: #9f1239;
+  --gp-primary-light: #fff1f2;
+  --gp-primary-border: #fecdd3;
+
+  /* Status / Severity Colors */
+  --gp-secondary: #64748b;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #475569;
+  --gp-secondary-light: #f1f5f9;
+
+  --gp-success: #10b981;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #059669;
+  --gp-success-light: #ecfdf5;
+  --gp-success-border: #a7f3d0;
+
+  --gp-info: #0ea5e9;
+  --gp-info-text: #ffffff;
+  --gp-info-hover: #0284c7;
+  --gp-info-light: #f0f9ff;
+  --gp-info-border: #bae6fd;
+
+  --gp-warning: #f59e0b;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #d97706;
+  --gp-warning-light: #fffbeb;
+  --gp-warning-border: #fde68a;
+
+  --gp-danger: #9f1239;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #881337;
+  --gp-danger-light: #fff1f2;
+  --gp-danger-border: #fda4af;
+
+  --gp-contrast: #4c0519;
+  --gp-contrast-text: #ffffff;
+  --gp-contrast-hover: #881337;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #fffafa;
+  --gp-surface-section: #fef1f3;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #fff1f2;
+  --gp-surface-active: #ffe4e6;
+  --gp-surface-border: #fecdd3;
+  --gp-surface-divider: #fef1f3;
+
+  /* Typography & Text */
+  --gp-text-color: #4c0519;
+  --gp-text-color-secondary: #9f1239;
+  --gp-text-color-muted: #f43f5e;
+  --gp-text-color-disabled: #cbd5e1;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(244, 63, 94, 0.28);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(159, 18, 57, 0.28);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(225, 29, 72, 0.05);
+  --gp-shadow-md: 0 4px 6px -1px rgba(225, 29, 72, 0.08), 0 2px 4px -1px rgba(225, 29, 72, 0.03);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(225, 29, 72, 0.09), 0 4px 6px -2px rgba(225, 29, 72, 0.04);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(225, 29, 72, 0.1), 0 10px 10px -5px rgba(225, 29, 72, 0.04);
+
+  /* Radius */
+  --gp-border-radius-sm: 6px;
+  --gp-border-radius: 10px;
+  --gp-border-radius-md: 14px;
+  --gp-border-radius-lg: 18px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #fecdd3;
+  --gp-input-border-hover: #fb7185;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(76, 5, 25, 0.45);
+}
+
+/* ==========================================================================
+   Dark Mode (Rose Theme)
+   ========================================================================== */
+:root[data-gp-theme="rose"][data-gp-mode="dark"],
+[data-gp-theme="rose"][data-gp-mode="dark"],
+.gp-theme-rose.gp-dark,
+[data-gp-theme="rose"].gp-dark {
+  /* Primitive Color Palette - Rose in Dark Space */
+  --gp-primary-50: #4c0519;
+  --gp-primary-100: #881337;
+  --gp-primary-200: #9f1239;
+  --gp-primary-300: #be123c;
+  --gp-primary-400: #e11d48;
+  --gp-primary-500: #f43f5e;
+  --gp-primary-600: #fb7185;
+  --gp-primary-700: #fda4af;
+  --gp-primary-800: #fecdd3;
+  --gp-primary-900: #ffe4e6;
+  --gp-primary-950: #fff1f2;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #fb7185;
+  --gp-primary-text: #4c0519;
+  --gp-primary-hover: #fda4af;
+  --gp-primary-active: #fecdd3;
+  --gp-primary-light: rgba(244, 63, 94, 0.18);
+  --gp-primary-border: rgba(244, 63, 94, 0.4);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #94a3b8;
+  --gp-secondary-text: #4c0519;
+  --gp-secondary-hover: #cbd5e1;
+  --gp-secondary-light: rgba(148, 163, 184, 0.15);
+
+  --gp-success: #34d399;
+  --gp-success-text: #022c22;
+  --gp-success-hover: #6ee7b7;
+  --gp-success-light: rgba(16, 185, 129, 0.15);
+  --gp-success-border: rgba(16, 185, 129, 0.35);
+
+  --gp-info: #38bdf8;
+  --gp-info-text: #082f49;
+  --gp-info-hover: #7dd3fc;
+  --gp-info-light: rgba(14, 165, 233, 0.15);
+  --gp-info-border: rgba(14, 165, 233, 0.35);
+
+  --gp-warning: #fbbf24;
+  --gp-warning-text: #451a03;
+  --gp-warning-hover: #fcd34d;
+  --gp-warning-light: rgba(245, 158, 11, 0.15);
+  --gp-warning-border: rgba(245, 158, 11, 0.35);
+
+  --gp-danger: #fca5a5;
+  --gp-danger-text: #450a0a;
+  --gp-danger-hover: #fecaca;
+  --gp-danger-light: rgba(239, 68, 68, 0.15);
+  --gp-danger-border: rgba(239, 68, 68, 0.35);
+
+  --gp-contrast: #fff1f2;
+  --gp-contrast-text: #4c0519;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #1c050c;
+  --gp-surface-section: #2e0915;
+  --gp-surface-card: #420f1f;
+  --gp-surface-overlay: #420f1f;
+  --gp-surface-hover: #58162b;
+  --gp-surface-active: #6e1d37;
+  --gp-surface-border: #5d192f;
+  --gp-surface-divider: #5d192f;
+
+  /* Typography & Text */
+  --gp-text-color: #fff1f2;
+  --gp-text-color-secondary: #fecdd3;
+  --gp-text-color-muted: #fb7185;
+  --gp-text-color-disabled: #64748b;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(251, 113, 133, 0.35);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(252, 165, 165, 0.35);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+
+  /* Component specific tokens */
+  --gp-input-bg: #2e0915;
+  --gp-input-border: #5d192f;
+  --gp-input-border-hover: #f43f5e;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(28, 5, 12, 0.8);
+}
+
+/* System dark mode for rose */
+@media (prefers-color-scheme: dark) {
+  :root[data-gp-theme="rose"]:not([data-gp-mode="light"]),
+  [data-gp-theme="rose"]:not([data-gp-mode="light"]),
+  .gp-theme-rose:not(.gp-light) {
+    --gp-primary-50: #4c0519;
+    --gp-primary-100: #881337;
+    --gp-primary-200: #9f1239;
+    --gp-primary-300: #be123c;
+    --gp-primary-400: #e11d48;
+    --gp-primary-500: #f43f5e;
+    --gp-primary-600: #fb7185;
+    --gp-primary-700: #fda4af;
+    --gp-primary-800: #fecdd3;
+    --gp-primary-900: #ffe4e6;
+    --gp-primary-950: #fff1f2;
+
+    --gp-primary: #fb7185;
+    --gp-primary-text: #4c0519;
+    --gp-primary-hover: #fda4af;
+    --gp-primary-active: #fecdd3;
+    --gp-primary-light: rgba(244, 63, 94, 0.18);
+    --gp-primary-border: rgba(244, 63, 94, 0.4);
+
+    --gp-surface-ground: #1c050c;
+    --gp-surface-section: #2e0915;
+    --gp-surface-card: #420f1f;
+    --gp-surface-overlay: #420f1f;
+    --gp-surface-hover: #58162b;
+    --gp-surface-active: #6e1d37;
+    --gp-surface-border: #5d192f;
+    --gp-surface-divider: #5d192f;
+
+    --gp-text-color: #fff1f2;
+    --gp-text-color-secondary: #fecdd3;
+    --gp-text-color-muted: #fb7185;
+    --gp-text-color-disabled: #64748b;
+
+    --gp-input-bg: #2e0915;
+    --gp-input-border: #5d192f;
+  }
+}

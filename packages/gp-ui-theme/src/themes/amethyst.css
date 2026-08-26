@@ -1,0 +1,245 @@
+/**
+ * gp-ui Amethyst Theme (Royal Violet & Lavender)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Amethyst Theme)
+   ========================================================================== */
+:root[data-gp-theme="amethyst"],
+[data-gp-theme="amethyst"],
+[data-gp-theme="amethyst"][data-gp-mode="light"],
+.gp-theme-amethyst,
+.gp-theme-amethyst.gp-light {
+  /* Primitive Color Palette - Violet */
+  --gp-primary-50: #faf5ff;
+  --gp-primary-100: #f3e8ff;
+  --gp-primary-200: #e9d5ff;
+  --gp-primary-300: #d8b4fe;
+  --gp-primary-400: #c084fc;
+  --gp-primary-500: #a855f7;
+  --gp-primary-600: #9333ea;
+  --gp-primary-700: #7e22ce;
+  --gp-primary-800: #6b21a8;
+  --gp-primary-900: #581c87;
+  --gp-primary-950: #3b0764;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #9333ea;
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: #7e22ce;
+  --gp-primary-active: #6b21a8;
+  --gp-primary-light: #faf5ff;
+  --gp-primary-border: #e9d5ff;
+
+  /* Status / Severity Colors */
+  --gp-secondary: #64748b;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #475569;
+  --gp-secondary-light: #f1f5f9;
+
+  --gp-success: #10b981;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #059669;
+  --gp-success-light: #ecfdf5;
+  --gp-success-border: #a7f3d0;
+
+  --gp-info: #0ea5e9;
+  --gp-info-text: #ffffff;
+  --gp-info-hover: #0284c7;
+  --gp-info-light: #f0f9ff;
+  --gp-info-border: #bae6fd;
+
+  --gp-warning: #f59e0b;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #d97706;
+  --gp-warning-light: #fffbeb;
+  --gp-warning-border: #fde68a;
+
+  --gp-danger: #ef4444;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #dc2626;
+  --gp-danger-light: #fef2f2;
+  --gp-danger-border: #fecaca;
+
+  --gp-contrast: #3b0764;
+  --gp-contrast-text: #ffffff;
+  --gp-contrast-hover: #581c87;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #faf7fd;
+  --gp-surface-section: #f3ecfb;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #faf5ff;
+  --gp-surface-active: #f3e8ff;
+  --gp-surface-border: #e9d5ff;
+  --gp-surface-divider: #f3ecfb;
+
+  /* Typography & Text */
+  --gp-text-color: #3b0764;
+  --gp-text-color-secondary: #7e22ce;
+  --gp-text-color-muted: #a855f7;
+  --gp-text-color-disabled: #cbd5e1;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(168, 85, 247, 0.28);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(239, 68, 68, 0.28);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(147, 51, 234, 0.05);
+  --gp-shadow-md: 0 4px 6px -1px rgba(147, 51, 234, 0.08), 0 2px 4px -1px rgba(147, 51, 234, 0.03);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(147, 51, 234, 0.09), 0 4px 6px -2px rgba(147, 51, 234, 0.04);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(147, 51, 234, 0.1), 0 10px 10px -5px rgba(147, 51, 234, 0.04);
+
+  /* Radius */
+  --gp-border-radius-sm: 6px;
+  --gp-border-radius: 10px;
+  --gp-border-radius-md: 14px;
+  --gp-border-radius-lg: 18px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #e9d5ff;
+  --gp-input-border-hover: #c084fc;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(59, 7, 100, 0.45);
+}
+
+/* ==========================================================================
+   Dark Mode (Amethyst Theme)
+   ========================================================================== */
+:root[data-gp-theme="amethyst"][data-gp-mode="dark"],
+[data-gp-theme="amethyst"][data-gp-mode="dark"],
+.gp-theme-amethyst.gp-dark,
+[data-gp-theme="amethyst"].gp-dark {
+  /* Primitive Color Palette - Amethyst in Dark Space */
+  --gp-primary-50: #3b0764;
+  --gp-primary-100: #581c87;
+  --gp-primary-200: #6b21a8;
+  --gp-primary-300: #7e22ce;
+  --gp-primary-400: #9333ea;
+  --gp-primary-500: #a855f7;
+  --gp-primary-600: #c084fc;
+  --gp-primary-700: #d8b4fe;
+  --gp-primary-800: #e9d5ff;
+  --gp-primary-900: #f3e8ff;
+  --gp-primary-950: #faf5ff;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #c084fc;
+  --gp-primary-text: #3b0764;
+  --gp-primary-hover: #d8b4fe;
+  --gp-primary-active: #e9d5ff;
+  --gp-primary-light: rgba(168, 85, 247, 0.18);
+  --gp-primary-border: rgba(168, 85, 247, 0.4);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #94a3b8;
+  --gp-secondary-text: #3b0764;
+  --gp-secondary-hover: #cbd5e1;
+  --gp-secondary-light: rgba(148, 163, 184, 0.15);
+
+  --gp-success: #34d399;
+  --gp-success-text: #022c22;
+  --gp-success-hover: #6ee7b7;
+  --gp-success-light: rgba(16, 185, 129, 0.15);
+  --gp-success-border: rgba(16, 185, 129, 0.35);
+
+  --gp-info: #38bdf8;
+  --gp-info-text: #082f49;
+  --gp-info-hover: #7dd3fc;
+  --gp-info-light: rgba(14, 165, 233, 0.15);
+  --gp-info-border: rgba(14, 165, 233, 0.35);
+
+  --gp-warning: #fbbf24;
+  --gp-warning-text: #451a03;
+  --gp-warning-hover: #fcd34d;
+  --gp-warning-light: rgba(245, 158, 11, 0.15);
+  --gp-warning-border: rgba(245, 158, 11, 0.35);
+
+  --gp-danger: #f87171;
+  --gp-danger-text: #450a0a;
+  --gp-danger-hover: #fca5a5;
+  --gp-danger-light: rgba(239, 68, 68, 0.15);
+  --gp-danger-border: rgba(239, 68, 68, 0.35);
+
+  --gp-contrast: #faf5ff;
+  --gp-contrast-text: #3b0764;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #140824;
+  --gp-surface-section: #220e3a;
+  --gp-surface-card: #2e144f;
+  --gp-surface-overlay: #2e144f;
+  --gp-surface-hover: #401d6d;
+  --gp-surface-active: #53268c;
+  --gp-surface-border: #441f73;
+  --gp-surface-divider: #441f73;
+
+  /* Typography & Text */
+  --gp-text-color: #faf5ff;
+  --gp-text-color-secondary: #e9d5ff;
+  --gp-text-color-muted: #c084fc;
+  --gp-text-color-disabled: #64748b;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(192, 132, 252, 0.35);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(248, 113, 113, 0.35);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+
+  /* Component specific tokens */
+  --gp-input-bg: #220e3a;
+  --gp-input-border: #441f73;
+  --gp-input-border-hover: #a855f7;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(20, 8, 36, 0.8);
+}
+
+/* System dark mode for amethyst */
+@media (prefers-color-scheme: dark) {
+  :root[data-gp-theme="amethyst"]:not([data-gp-mode="light"]),
+  [data-gp-theme="amethyst"]:not([data-gp-mode="light"]),
+  .gp-theme-amethyst:not(.gp-light) {
+    --gp-primary-50: #3b0764;
+    --gp-primary-100: #581c87;
+    --gp-primary-200: #6b21a8;
+    --gp-primary-300: #7e22ce;
+    --gp-primary-400: #9333ea;
+    --gp-primary-500: #a855f7;
+    --gp-primary-600: #c084fc;
+    --gp-primary-700: #d8b4fe;
+    --gp-primary-800: #e9d5ff;
+    --gp-primary-900: #f3e8ff;
+    --gp-primary-950: #faf5ff;
+
+    --gp-primary: #c084fc;
+    --gp-primary-text: #3b0764;
+    --gp-primary-hover: #d8b4fe;
+    --gp-primary-active: #e9d5ff;
+    --gp-primary-light: rgba(168, 85, 247, 0.18);
+    --gp-primary-border: rgba(168, 85, 247, 0.4);
+
+    --gp-surface-ground: #140824;
+    --gp-surface-section: #220e3a;
+    --gp-surface-card: #2e144f;
+    --gp-surface-overlay: #2e144f;
+    --gp-surface-hover: #401d6d;
+    --gp-surface-active: #53268c;
+    --gp-surface-border: #441f73;
+    --gp-surface-divider: #441f73;
+
+    --gp-text-color: #faf5ff;
+    --gp-text-color-secondary: #e9d5ff;
+    --gp-text-color-muted: #c084fc;
+    --gp-text-color-disabled: #64748b;
+
+    --gp-input-bg: #220e3a;
+    --gp-input-border: #441f73;
+  }
+}

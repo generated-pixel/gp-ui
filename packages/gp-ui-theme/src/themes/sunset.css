@@ -1,0 +1,245 @@
+/**
+ * gp-ui Sunset Theme (Warm Amber & Coral)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Sunset Theme)
+   ========================================================================== */
+:root[data-gp-theme="sunset"],
+[data-gp-theme="sunset"],
+[data-gp-theme="sunset"][data-gp-mode="light"],
+.gp-theme-sunset,
+.gp-theme-sunset.gp-light {
+  /* Primitive Color Palette - Sunset Amber / Orange */
+  --gp-primary-50: #fffbeb;
+  --gp-primary-100: #fef3c7;
+  --gp-primary-200: #fde68a;
+  --gp-primary-300: #fcd34d;
+  --gp-primary-400: #fbbf24;
+  --gp-primary-500: #f59e0b;
+  --gp-primary-600: #d97706;
+  --gp-primary-700: #b45309;
+  --gp-primary-800: #92400e;
+  --gp-primary-900: #78350f;
+  --gp-primary-950: #451a03;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #d97706;
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: #b45309;
+  --gp-primary-active: #92400e;
+  --gp-primary-light: #fffbeb;
+  --gp-primary-border: #fde68a;
+
+  /* Status / Severity Colors */
+  --gp-secondary: #78716c;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #57534e;
+  --gp-secondary-light: #f5f5f4;
+
+  --gp-success: #16a34a;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #15803d;
+  --gp-success-light: #f0fdf4;
+  --gp-success-border: #bbf7d0;
+
+  --gp-info: #0284c7;
+  --gp-info-text: #ffffff;
+  --gp-info-hover: #0369a1;
+  --gp-info-light: #f0f9ff;
+  --gp-info-border: #bae6fd;
+
+  --gp-warning: #ea580c;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #c2410c;
+  --gp-warning-light: #fff7ed;
+  --gp-warning-border: #fed7aa;
+
+  --gp-danger: #dc2626;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #b91c1c;
+  --gp-danger-light: #fef2f2;
+  --gp-danger-border: #fecaca;
+
+  --gp-contrast: #451a03;
+  --gp-contrast-text: #ffffff;
+  --gp-contrast-hover: #78350f;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #fffdfa;
+  --gp-surface-section: #fef8ee;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #fff7ed;
+  --gp-surface-active: #ffedd5;
+  --gp-surface-border: #fed7aa;
+  --gp-surface-divider: #fef8ee;
+
+  /* Typography & Text */
+  --gp-text-color: #451a03;
+  --gp-text-color-secondary: #92400e;
+  --gp-text-color-muted: #a8a29e;
+  --gp-text-color-disabled: #d6d3d1;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(245, 158, 11, 0.3);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(220, 38, 38, 0.3);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(217, 119, 6, 0.06);
+  --gp-shadow-md: 0 4px 6px -1px rgba(217, 119, 6, 0.08), 0 2px 4px -1px rgba(217, 119, 6, 0.03);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(217, 119, 6, 0.09), 0 4px 6px -2px rgba(217, 119, 6, 0.04);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(217, 119, 6, 0.1), 0 10px 10px -5px rgba(217, 119, 6, 0.04);
+
+  /* Radius */
+  --gp-border-radius-sm: 6px;
+  --gp-border-radius: 10px;
+  --gp-border-radius-md: 14px;
+  --gp-border-radius-lg: 18px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #fde68a;
+  --gp-input-border-hover: #f59e0b;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(69, 26, 3, 0.45);
+}
+
+/* ==========================================================================
+   Dark Mode (Sunset Theme)
+   ========================================================================== */
+:root[data-gp-theme="sunset"][data-gp-mode="dark"],
+[data-gp-theme="sunset"][data-gp-mode="dark"],
+.gp-theme-sunset.gp-dark,
+[data-gp-theme="sunset"].gp-dark {
+  /* Primitive Color Palette - Twilight / Amber in Dark Space */
+  --gp-primary-50: #451a03;
+  --gp-primary-100: #78350f;
+  --gp-primary-200: #92400e;
+  --gp-primary-300: #b45309;
+  --gp-primary-400: #d97706;
+  --gp-primary-500: #f59e0b;
+  --gp-primary-600: #fbbf24;
+  --gp-primary-700: #fcd34d;
+  --gp-primary-800: #fde68a;
+  --gp-primary-900: #fef3c7;
+  --gp-primary-950: #fffbeb;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #fbbf24;
+  --gp-primary-text: #451a03;
+  --gp-primary-hover: #fcd34d;
+  --gp-primary-active: #fde68a;
+  --gp-primary-light: rgba(245, 158, 11, 0.18);
+  --gp-primary-border: rgba(245, 158, 11, 0.4);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #a8a29e;
+  --gp-secondary-text: #451a03;
+  --gp-secondary-hover: #d6d3d1;
+  --gp-secondary-light: rgba(168, 162, 158, 0.15);
+
+  --gp-success: #34d399;
+  --gp-success-text: #022c22;
+  --gp-success-hover: #6ee7b7;
+  --gp-success-light: rgba(16, 185, 129, 0.15);
+  --gp-success-border: rgba(16, 185, 129, 0.35);
+
+  --gp-info: #38bdf8;
+  --gp-info-text: #082f49;
+  --gp-info-hover: #7dd3fc;
+  --gp-info-light: rgba(14, 165, 233, 0.15);
+  --gp-info-border: rgba(14, 165, 233, 0.35);
+
+  --gp-warning: #fb923c;
+  --gp-warning-text: #431407;
+  --gp-warning-hover: #fdba74;
+  --gp-warning-light: rgba(249, 115, 22, 0.15);
+  --gp-warning-border: rgba(249, 115, 22, 0.35);
+
+  --gp-danger: #f87171;
+  --gp-danger-text: #450a0a;
+  --gp-danger-hover: #fca5a5;
+  --gp-danger-light: rgba(239, 68, 68, 0.15);
+  --gp-danger-border: rgba(239, 68, 68, 0.35);
+
+  --gp-contrast: #fffbeb;
+  --gp-contrast-text: #451a03;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #1c0f06;
+  --gp-surface-section: #2e170a;
+  --gp-surface-card: #3f2212;
+  --gp-surface-overlay: #3f2212;
+  --gp-surface-hover: #542f1b;
+  --gp-surface-active: #6c3c23;
+  --gp-surface-border: #5a341e;
+  --gp-surface-divider: #5a341e;
+
+  /* Typography & Text */
+  --gp-text-color: #fffbeb;
+  --gp-text-color-secondary: #fde68a;
+  --gp-text-color-muted: #fcd34d;
+  --gp-text-color-disabled: #78716c;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(251, 191, 36, 0.35);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(248, 113, 113, 0.35);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+
+  /* Component specific tokens */
+  --gp-input-bg: #2e170a;
+  --gp-input-border: #5a341e;
+  --gp-input-border-hover: #f59e0b;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(28, 15, 6, 0.8);
+}
+
+/* System dark mode for sunset */
+@media (prefers-color-scheme: dark) {
+  :root[data-gp-theme="sunset"]:not([data-gp-mode="light"]),
+  [data-gp-theme="sunset"]:not([data-gp-mode="light"]),
+  .gp-theme-sunset:not(.gp-light) {
+    --gp-primary-50: #451a03;
+    --gp-primary-100: #78350f;
+    --gp-primary-200: #92400e;
+    --gp-primary-300: #b45309;
+    --gp-primary-400: #d97706;
+    --gp-primary-500: #f59e0b;
+    --gp-primary-600: #fbbf24;
+    --gp-primary-700: #fcd34d;
+    --gp-primary-800: #fde68a;
+    --gp-primary-900: #fef3c7;
+    --gp-primary-950: #fffbeb;
+
+    --gp-primary: #fbbf24;
+    --gp-primary-text: #451a03;
+    --gp-primary-hover: #fcd34d;
+    --gp-primary-active: #fde68a;
+    --gp-primary-light: rgba(245, 158, 11, 0.18);
+    --gp-primary-border: rgba(245, 158, 11, 0.4);
+
+    --gp-surface-ground: #1c0f06;
+    --gp-surface-section: #2e170a;
+    --gp-surface-card: #3f2212;
+    --gp-surface-overlay: #3f2212;
+    --gp-surface-hover: #542f1b;
+    --gp-surface-active: #6c3c23;
+    --gp-surface-border: #5a341e;
+    --gp-surface-divider: #5a341e;
+
+    --gp-text-color: #fffbeb;
+    --gp-text-color-secondary: #fde68a;
+    --gp-text-color-muted: #fcd34d;
+    --gp-text-color-disabled: #78716c;
+
+    --gp-input-bg: #2e170a;
+    --gp-input-border: #5a341e;
+  }
+}

@@ -11,7 +11,7 @@
 ## 🌟 Key Features
 
 - **50+ High-Performance Components**: Form controls, Buttons, Data presentation, Trees, Navigation, Dialogs/Overlays, Panels, Feedback, and Media display.
-- **Design-Token Theming Engine (`gp-ui-theme`)**: Full runtime theming, CSS variables, `gp-light` & `gp-dark` modes, and custom palette injection.
+- **Design-Token Theming Engine (`@generatedpixel/gp-ui-theme`)**: Full multi-theme architecture where every theme (Default, Ocean, Emerald, Sunset, Amethyst, Rose, Nord, Cyberpunk) includes both Light and Dark modes, CSS variables, runtime theme switching, and dynamic palette injection.
 - **Icon Infrastructure (`gp-ui-icons` & `<gp-icon>`)**: Lightweight, tree-shakeable SVG registry with 40+ built-in utility icons.
 - **Internationalization (i18n) & Bidirectional RTL**: Configurable translation bundles, date/number formatting, and instant RTL layout support.
 - **Modern Angular Architecture**: Standalone components, `ChangeDetectionStrategy.OnPush`, Angular Signals, and typed Reactive Forms (`ControlValueAccessor`).
@@ -33,13 +33,22 @@ npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme @generatedpixel/gp
 ## 🚀 Getting Started
 
 ### 1. Include Theming Styles
-Import the base token stylesheet and default theme into your `angular.json` or `styles.scss`:
+Import all preset themes and base utilities into your `angular.json` or `styles.scss`:
 
 ```scss
 /* styles.scss */
-@import '@generatedpixel/gp-ui-theme/src/themes/gp-light.css';
-@import '@generatedpixel/gp-ui-theme/src/themes/gp-dark.css';
 @import '@generatedpixel/gp-ui-theme/src/index.css';
+```
+
+Or switch themes and modes in TypeScript at runtime:
+```typescript
+import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
+
+// Switch theme ('default', 'ocean', 'emerald', 'sunset', 'amethyst', 'rose', 'nord', 'cyberpunk')
+GpThemeManager.setTheme('ocean');
+
+// Switch mode ('light', 'dark', or 'system')
+GpThemeManager.setMode('dark');
 ```
 
 ### 2. Use in Standalone Angular Components

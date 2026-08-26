@@ -1,0 +1,320 @@
+/**
+ * gp-ui Default Theme (Indigo & Slate)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Default Theme)
+   ========================================================================== */
+:root,
+:root[data-gp-theme="default"],
+:root[data-gp-theme="gp"],
+[data-gp-theme="default"],
+[data-gp-theme="gp"],
+.gp-theme-default,
+.gp-theme-gp,
+.gp-light,
+[data-gp-theme="gp-light"] {
+  /* Primitive Color Palette - Indigo */
+  --gp-primary-50: #eef2ff;
+  --gp-primary-100: #e0e7ff;
+  --gp-primary-200: #c7d2fe;
+  --gp-primary-300: #a5b4fc;
+  --gp-primary-400: #818cf8;
+  --gp-primary-500: #6366f1;
+  --gp-primary-600: #4f46e5;
+  --gp-primary-700: #4338ca;
+  --gp-primary-800: #3730a3;
+  --gp-primary-900: #312e81;
+  --gp-primary-950: #1e1b4b;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: var(--gp-primary-600);
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: var(--gp-primary-700);
+  --gp-primary-active: var(--gp-primary-800);
+  --gp-primary-light: var(--gp-primary-50);
+  --gp-primary-border: var(--gp-primary-300);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #64748b;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #475569;
+  --gp-secondary-light: #f1f5f9;
+
+  --gp-success: #10b981;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #059669;
+  --gp-success-light: #ecfdf5;
+  --gp-success-border: #a7f3d0;
+
+  --gp-info: #0ea5e9;
+  --gp-info-text: #ffffff;
+  --gp-info-hover: #0284c7;
+  --gp-info-light: #f0f9ff;
+  --gp-info-border: #bae6fd;
+
+  --gp-warning: #f59e0b;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #d97706;
+  --gp-warning-light: #fffbeb;
+  --gp-warning-border: #fde68a;
+
+  --gp-danger: #ef4444;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #dc2626;
+  --gp-danger-light: #fef2f2;
+  --gp-danger-border: #fecaca;
+
+  --gp-contrast: #0f172a;
+  --gp-contrast-text: #ffffff;
+  --gp-contrast-hover: #1e293b;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #f8fafc;
+  --gp-surface-section: #f1f5f9;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #f1f5f9;
+  --gp-surface-active: #e2e8f0;
+  --gp-surface-border: #e2e8f0;
+  --gp-surface-divider: #e2e8f0;
+
+  /* Typography & Text */
+  --gp-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --gp-font-size-xs: 0.75rem;
+  --gp-font-size-sm: 0.875rem;
+  --gp-font-size-base: 1rem;
+  --gp-font-size-lg: 1.125rem;
+  --gp-font-size-xl: 1.25rem;
+  --gp-font-size-2xl: 1.5rem;
+  --gp-font-size-3xl: 1.875rem;
+
+  --gp-text-color: #1e293b;
+  --gp-text-color-secondary: #64748b;
+  --gp-text-color-muted: #94a3b8;
+  --gp-text-color-disabled: #cbd5e1;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(239, 68, 68, 0.25);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Radius */
+  --gp-border-radius-sm: 4px;
+  --gp-border-radius: 6px;
+  --gp-border-radius-md: 8px;
+  --gp-border-radius-lg: 12px;
+  --gp-border-radius-full: 9999px;
+
+  /* Transitions */
+  --gp-transition-duration: 150ms;
+  --gp-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #cbd5e1;
+  --gp-input-border-hover: #94a3b8;
+  --gp-input-border-focus: var(--gp-primary);
+  --gp-input-padding-x: 0.75rem;
+  --gp-input-padding-y: 0.5rem;
+  --gp-input-height: 2.5rem;
+
+  --gp-button-padding-x: 1rem;
+  --gp-button-padding-y: 0.5rem;
+  --gp-button-height: 2.5rem;
+
+  --gp-mask-bg: rgba(15, 23, 42, 0.45);
+}
+
+/* ==========================================================================
+   Dark Mode (Default Theme)
+   ========================================================================== */
+:root[data-gp-mode="dark"],
+:root[data-gp-theme="default"][data-gp-mode="dark"],
+:root[data-gp-theme="gp"][data-gp-mode="dark"],
+[data-gp-theme="default"][data-gp-mode="dark"],
+[data-gp-theme="gp"][data-gp-mode="dark"],
+.gp-theme-default.gp-dark,
+.gp-theme-gp.gp-dark,
+.gp-dark,
+[data-gp-theme="gp-dark"] {
+  /* Primitive Color Palette - Violet / Indigo in Dark space */
+  --gp-primary-50: #1e1b4b;
+  --gp-primary-100: #312e81;
+  --gp-primary-200: #3730a3;
+  --gp-primary-300: #4338ca;
+  --gp-primary-400: #4f46e5;
+  --gp-primary-500: #6366f1;
+  --gp-primary-600: #818cf8;
+  --gp-primary-700: #a5b4fc;
+  --gp-primary-800: #c7d2fe;
+  --gp-primary-900: #e0e7ff;
+  --gp-primary-950: #eef2ff;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #818cf8;
+  --gp-primary-text: #0f172a;
+  --gp-primary-hover: #a5b4fc;
+  --gp-primary-active: #c7d2fe;
+  --gp-primary-light: rgba(99, 102, 241, 0.15);
+  --gp-primary-border: rgba(99, 102, 241, 0.4);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #94a3b8;
+  --gp-secondary-text: #0f172a;
+  --gp-secondary-hover: #cbd5e1;
+  --gp-secondary-light: rgba(148, 163, 184, 0.15);
+
+  --gp-success: #34d399;
+  --gp-success-text: #022c22;
+  --gp-success-hover: #6ee7b7;
+  --gp-success-light: rgba(16, 185, 129, 0.15);
+  --gp-success-border: rgba(16, 185, 129, 0.35);
+
+  --gp-info: #38bdf8;
+  --gp-info-text: #082f49;
+  --gp-info-hover: #7dd3fc;
+  --gp-info-light: rgba(14, 165, 233, 0.15);
+  --gp-info-border: rgba(14, 165, 233, 0.35);
+
+  --gp-warning: #fbbf24;
+  --gp-warning-text: #451a03;
+  --gp-warning-hover: #fcd34d;
+  --gp-warning-light: rgba(245, 158, 11, 0.15);
+  --gp-warning-border: rgba(245, 158, 11, 0.35);
+
+  --gp-danger: #f87171;
+  --gp-danger-text: #450a0a;
+  --gp-danger-hover: #fca5a5;
+  --gp-danger-light: rgba(239, 68, 68, 0.15);
+  --gp-danger-border: rgba(239, 68, 68, 0.35);
+
+  --gp-contrast: #f8fafc;
+  --gp-contrast-text: #0f172a;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #0b0f19;
+  --gp-surface-section: #111827;
+  --gp-surface-card: #1e293b;
+  --gp-surface-overlay: #1e293b;
+  --gp-surface-hover: #334155;
+  --gp-surface-active: #475569;
+  --gp-surface-border: #334155;
+  --gp-surface-divider: #334155;
+
+  /* Typography & Text */
+  --gp-text-color: #f8fafc;
+  --gp-text-color-secondary: #94a3b8;
+  --gp-text-color-muted: #64748b;
+  --gp-text-color-disabled: #475569;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(129, 140, 248, 0.35);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(248, 113, 113, 0.35);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+
+  /* Component specific tokens */
+  --gp-input-bg: #0f172a;
+  --gp-input-border: #334155;
+  --gp-input-border-hover: #64748b;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(0, 0, 0, 0.75);
+}
+
+/* System dark mode preference when mode is system / not forced to light */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-gp-mode="light"]):not([data-gp-theme="gp-light"]),
+  :root[data-gp-theme="default"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme="gp"]:not([data-gp-mode="light"]),
+  [data-gp-theme="default"]:not([data-gp-mode="light"]),
+  [data-gp-theme="gp"]:not([data-gp-mode="light"]) {
+    --gp-primary-50: #1e1b4b;
+    --gp-primary-100: #312e81;
+    --gp-primary-200: #3730a3;
+    --gp-primary-300: #4338ca;
+    --gp-primary-400: #4f46e5;
+    --gp-primary-500: #6366f1;
+    --gp-primary-600: #818cf8;
+    --gp-primary-700: #a5b4fc;
+    --gp-primary-800: #c7d2fe;
+    --gp-primary-900: #e0e7ff;
+    --gp-primary-950: #eef2ff;
+
+    --gp-primary: #818cf8;
+    --gp-primary-text: #0f172a;
+    --gp-primary-hover: #a5b4fc;
+    --gp-primary-active: #c7d2fe;
+    --gp-primary-light: rgba(99, 102, 241, 0.15);
+    --gp-primary-border: rgba(99, 102, 241, 0.4);
+
+    --gp-secondary: #94a3b8;
+    --gp-secondary-text: #0f172a;
+    --gp-secondary-hover: #cbd5e1;
+    --gp-secondary-light: rgba(148, 163, 184, 0.15);
+
+    --gp-success: #34d399;
+    --gp-success-text: #022c22;
+    --gp-success-hover: #6ee7b7;
+    --gp-success-light: rgba(16, 185, 129, 0.15);
+    --gp-success-border: rgba(16, 185, 129, 0.35);
+
+    --gp-info: #38bdf8;
+    --gp-info-text: #082f49;
+    --gp-info-hover: #7dd3fc;
+    --gp-info-light: rgba(14, 165, 233, 0.15);
+    --gp-info-border: rgba(14, 165, 233, 0.35);
+
+    --gp-warning: #fbbf24;
+    --gp-warning-text: #451a03;
+    --gp-warning-hover: #fcd34d;
+    --gp-warning-light: rgba(245, 158, 11, 0.15);
+    --gp-warning-border: rgba(245, 158, 11, 0.35);
+
+    --gp-danger: #f87171;
+    --gp-danger-text: #450a0a;
+    --gp-danger-hover: #fca5a5;
+    --gp-danger-light: rgba(239, 68, 68, 0.15);
+    --gp-danger-border: rgba(239, 68, 68, 0.35);
+
+    --gp-contrast: #f8fafc;
+    --gp-contrast-text: #0f172a;
+    --gp-contrast-hover: #ffffff;
+
+    --gp-surface-ground: #0b0f19;
+    --gp-surface-section: #111827;
+    --gp-surface-card: #1e293b;
+    --gp-surface-overlay: #1e293b;
+    --gp-surface-hover: #334155;
+    --gp-surface-active: #475569;
+    --gp-surface-border: #334155;
+    --gp-surface-divider: #334155;
+
+    --gp-text-color: #f8fafc;
+    --gp-text-color-secondary: #94a3b8;
+    --gp-text-color-muted: #64748b;
+    --gp-text-color-disabled: #475569;
+
+    --gp-focus-ring: 0 0 0 3px rgba(129, 140, 248, 0.35);
+    --gp-focus-ring-danger: 0 0 0 3px rgba(248, 113, 113, 0.35);
+    --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+
+    --gp-input-bg: #0f172a;
+    --gp-input-border: #334155;
+    --gp-input-border-hover: #64748b;
+    --gp-input-border-focus: var(--gp-primary);
+
+    --gp-mask-bg: rgba(0, 0, 0, 0.75);
+  }
+}

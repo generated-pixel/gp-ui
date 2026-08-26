@@ -91,12 +91,59 @@ export interface ComponentCatalogueItem {
               <a href="#contact" class="cta-link-header">Book Call</a>
             }
 
+            <!-- Theme Palette Selector Dropdown -->
+            <div class="theme-switcher-container">
+              <button
+                type="button"
+                class="header-icon-btn theme-palette-btn"
+                (click)="toggleThemeMenu()"
+                [attr.aria-expanded]="themeMenuOpen()"
+                aria-label="Select Theme Preset"
+                title="Theme: {{ currentThemeName() }} (Click to Change)"
+              >
+                <gp-icon name="palette" size="1.2em" />
+                <span class="theme-dot-indicator" [style.backgroundColor]="currentThemeColor()"></span>
+              </button>
+
+              @if (themeMenuOpen()) {
+                <div class="theme-dropdown-backdrop" (click)="closeThemeMenu()"></div>
+                <div class="theme-dropdown-menu">
+                  <div class="theme-dropdown-header">
+                    <span>Theme Presets</span>
+                    <span class="theme-mode-badge">{{ isDark() ? 'Dark Mode' : 'Light Mode' }}</span>
+                  </div>
+                  <div class="theme-list">
+                    @for (t of availableThemes; track t.id) {
+                      <button
+                        type="button"
+                        class="theme-option-btn"
+                        [class.theme-option-active]="activeThemeId() === t.id"
+                        (click)="selectTheme(t.id)"
+                      >
+                        <div class="theme-swatch-pair">
+                          <span class="theme-swatch" [style.backgroundColor]="t.primaryColor"></span>
+                          <span class="theme-swatch" [style.backgroundColor]="t.accentColor"></span>
+                        </div>
+                        <div class="theme-meta">
+                          <span class="theme-name">{{ t.name }}</span>
+                        </div>
+                        @if (activeThemeId() === t.id) {
+                          <gp-icon name="check" size="0.9em" class="theme-check-icon" />
+                        }
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Light / Dark Mode Toggle Button -->
             <button
               type="button"
               class="header-icon-btn"
-              (click)="toggleTheme()"
-              [attr.aria-label]="isDark() ? 'Switch to Light Theme' : 'Switch to Dark Theme'"
-              [title]="isDark() ? 'Theme: Dark (Click for Light)' : 'Theme: Light (Click for Dark)'"
+              (click)="toggleThemeMode()"
+              [attr.aria-label]="isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+              [title]="isDark() ? 'Mode: Dark (Click for Light)' : 'Mode: Light (Click for Dark)'"
             >
               <gp-icon [name]="isDark() ? 'sun' : 'moon'" size="1.2em" />
             </button>
@@ -393,10 +440,112 @@ export interface ComponentCatalogueItem {
       cursor: pointer;
       text-decoration: none;
       transition: all 0.15s ease;
+      position: relative;
     }
     .header-icon-btn:hover {
       background: var(--gp-surface-hover, rgba(255, 255, 255, 0.1));
       color: var(--gp-primary, #38bdf8);
+    }
+    .theme-switcher-container {
+      position: relative;
+    }
+    .theme-dot-indicator {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1px solid var(--gp-surface-card);
+    }
+    .theme-dropdown-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+    }
+    .theme-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      width: 17.5rem;
+      background: var(--gp-surface-card, #0f172a);
+      border: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.15));
+      border-radius: var(--gp-border-radius-md, 8px);
+      box-shadow: var(--gp-shadow-xl);
+      padding: 0.5rem;
+      z-index: 160;
+      animation: gp-slide-down 0.15s ease-out;
+    }
+    .theme-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.4rem 0.5rem 0.5rem;
+      border-bottom: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.1));
+      margin-bottom: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gp-text-color-muted, #94a3b8);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .theme-mode-badge {
+      font-size: 0.7rem;
+      color: var(--gp-primary);
+      text-transform: none;
+      font-weight: 600;
+    }
+    .theme-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      max-height: 20rem;
+      overflow-y: auto;
+    }
+    .theme-option-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: var(--gp-border-radius, 6px);
+      border: none;
+      background: transparent;
+      color: var(--gp-text-color);
+      cursor: pointer;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background-color 0.12s ease;
+    }
+    .theme-option-btn:hover {
+      background: var(--gp-surface-hover, rgba(255, 255, 255, 0.08));
+    }
+    .theme-option-active {
+      background: var(--gp-primary-light, rgba(99, 102, 241, 0.15)) !important;
+      color: var(--gp-primary) !important;
+      font-weight: 700;
+    }
+    .theme-swatch-pair {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .theme-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    }
+    .theme-meta {
+      flex: 1;
+    }
+    .theme-name {
+      display: block;
+      font-size: 0.85rem;
+    }
+    .theme-check-icon {
+      color: var(--gp-primary);
     }
     .pride-flag-banner {
       height: 4px;
@@ -526,7 +675,23 @@ export class AppComponent {
   protected currentUrl = signal<string>('/');
   protected searchQuery = signal<string>('');
   protected isDark = signal<boolean>(true);
+  protected activeThemeId = signal<string>('default');
   protected sidebarOpen = signal<boolean>(false);
+  protected themeMenuOpen = signal<boolean>(false);
+
+  public availableThemes = GpThemeManager.getAvailableThemes();
+
+  protected currentThemeName = computed(() => {
+    const id = this.activeThemeId();
+    const match = this.availableThemes.find(t => t.id === id);
+    return match ? match.name : id;
+  });
+
+  protected currentThemeColor = computed(() => {
+    const id = this.activeThemeId();
+    const match = this.availableThemes.find(t => t.id === id);
+    return match ? match.primaryColor : '#6366f1';
+  });
 
   protected isHomePage = computed(() => {
     const url = this.currentUrl();
@@ -535,7 +700,7 @@ export class AppComponent {
 
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
-    { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'New' },
+    { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
     { name: 'i18n & RTL', route: '/i18n', category: 'General', icon: 'globe' },
     { name: 'Buttons & Actions', route: '/buttons', category: 'Components', icon: 'check' },
     { name: 'Form Controls (20)', route: '/forms', category: 'Components', icon: 'edit', badge: '20' },
@@ -550,17 +715,13 @@ export class AppComponent {
 
   constructor() {
     // Initialize theme based on OS system setting (or saved user preference)
-    const active = GpThemeManager.initSystemTheme();
-    this.isDark.set(active === 'gp-dark');
+    GpThemeManager.initSystemTheme();
 
-    // Dynamically react to OS system dark/light mode preference changes
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (GpThemeManager.getTheme() === 'system') {
-          this.isDark.set(e.matches);
-        }
-      });
-    }
+    // Subscribe to real-time theme manager changes
+    GpThemeManager.onChange((state) => {
+      this.isDark.set(state.isDark);
+      this.activeThemeId.set(state.theme);
+    });
 
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
@@ -592,9 +753,21 @@ export class AppComponent {
     this.searchQuery.set((event.target as HTMLInputElement).value);
   }
 
-  public toggleTheme(): void {
-    const next = GpThemeManager.toggleTheme();
-    this.isDark.set(next === 'gp-dark');
+  public toggleThemeMenu(): void {
+    this.themeMenuOpen.update(v => !v);
+  }
+
+  public closeThemeMenu(): void {
+    this.themeMenuOpen.set(false);
+  }
+
+  public selectTheme(themeId: string): void {
+    GpThemeManager.setTheme(themeId);
+    this.themeMenuOpen.set(false);
+  }
+
+  public toggleThemeMode(): void {
+    GpThemeManager.toggleMode();
   }
 
   public toggleRtl(): void {
@@ -609,3 +782,4 @@ export class AppComponent {
     this.sidebarOpen.set(false);
   }
 }
+

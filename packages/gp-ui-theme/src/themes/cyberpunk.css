@@ -1,0 +1,254 @@
+/**
+ * gp-ui Cyberpunk Theme (Neon Amber, Electric Cyan & Deep Obsidian)
+ * Includes both Light and Dark mode tokens
+ */
+
+/* ==========================================================================
+   Light Mode (Cyberpunk Theme)
+   ========================================================================== */
+:root[data-gp-theme="cyberpunk"],
+[data-gp-theme="cyberpunk"],
+[data-gp-theme="cyberpunk"][data-gp-mode="light"],
+.gp-theme-cyberpunk,
+.gp-theme-cyberpunk.gp-light {
+  /* Primitive Color Palette - Neon Gold / Amber */
+  --gp-primary-50: #fefce8;
+  --gp-primary-100: #fef9c3;
+  --gp-primary-200: #fef08a;
+  --gp-primary-300: #fde047;
+  --gp-primary-400: #facc15;
+  --gp-primary-500: #eab308;
+  --gp-primary-600: #ca8a04;
+  --gp-primary-700: #a16207;
+  --gp-primary-800: #854d0e;
+  --gp-primary-900: #713f12;
+  --gp-primary-950: #422006;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #ca8a04;
+  --gp-primary-text: #000000;
+  --gp-primary-hover: #a16207;
+  --gp-primary-active: #854d0e;
+  --gp-primary-light: #fef9c3;
+  --gp-primary-border: #facc15;
+
+  /* Status / Severity Colors */
+  --gp-secondary: #0891b2;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #0e7490;
+  --gp-secondary-light: #ecfeff;
+
+  --gp-success: #10b981;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #059669;
+  --gp-success-light: #ecfdf5;
+  --gp-success-border: #a7f3d0;
+
+  --gp-info: #06b6d4;
+  --gp-info-text: #000000;
+  --gp-info-hover: #0891b2;
+  --gp-info-light: #ecfeff;
+  --gp-info-border: #67e8f9;
+
+  --gp-warning: #f59e0b;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #d97706;
+  --gp-warning-light: #fffbeb;
+  --gp-warning-border: #fde68a;
+
+  --gp-danger: #f43f5e;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #e11d48;
+  --gp-danger-light: #fff1f2;
+  --gp-danger-border: #fecdd3;
+
+  --gp-contrast: #0f172a;
+  --gp-contrast-text: #facc15;
+  --gp-contrast-hover: #1e293b;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #f8fafc;
+  --gp-surface-section: #f1f5f9;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #fef9c3;
+  --gp-surface-active: #fef08a;
+  --gp-surface-border: #e2e8f0;
+  --gp-surface-divider: #e2e8f0;
+
+  /* Typography & Text */
+  --gp-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --gp-text-color: #0f172a;
+  --gp-text-color-secondary: #475569;
+  --gp-text-color-muted: #94a3b8;
+  --gp-text-color-disabled: #cbd5e1;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(234, 179, 8, 0.4);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(244, 63, 94, 0.4);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  --gp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --gp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --gp-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Radius (Cyberpunk Angular look) */
+  --gp-border-radius-sm: 2px;
+  --gp-border-radius: 4px;
+  --gp-border-radius-md: 6px;
+  --gp-border-radius-lg: 8px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #ffffff;
+  --gp-input-border: #cbd5e1;
+  --gp-input-border-hover: #facc15;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(15, 23, 42, 0.5);
+}
+
+/* ==========================================================================
+   Dark Mode (Cyberpunk Theme)
+   ========================================================================== */
+:root[data-gp-theme="cyberpunk"][data-gp-mode="dark"],
+[data-gp-theme="cyberpunk"][data-gp-mode="dark"],
+.gp-theme-cyberpunk.gp-dark,
+[data-gp-theme="cyberpunk"].gp-dark {
+  /* Primitive Color Palette - High Voltage Neon in Obsidian */
+  --gp-primary-50: #422006;
+  --gp-primary-100: #713f12;
+  --gp-primary-200: #854d0e;
+  --gp-primary-300: #a16207;
+  --gp-primary-400: #ca8a04;
+  --gp-primary-500: #eab308;
+  --gp-primary-600: #facc15;
+  --gp-primary-700: #fde047;
+  --gp-primary-800: #fef08a;
+  --gp-primary-900: #fef9c3;
+  --gp-primary-950: #fefce8;
+
+  /* Semantic Theme Tokens */
+  --gp-primary: #facc15;
+  --gp-primary-text: #050505;
+  --gp-primary-hover: #fde047;
+  --gp-primary-active: #fef08a;
+  --gp-primary-light: rgba(250, 204, 21, 0.2);
+  --gp-primary-border: rgba(250, 204, 21, 0.5);
+
+  /* Status / Severity Colors */
+  --gp-secondary: #00f0ff;
+  --gp-secondary-text: #050505;
+  --gp-secondary-hover: #70f7ff;
+  --gp-secondary-light: rgba(0, 240, 255, 0.2);
+
+  --gp-success: #00ff66;
+  --gp-success-text: #000000;
+  --gp-success-hover: #5cff9a;
+  --gp-success-light: rgba(0, 255, 102, 0.2);
+  --gp-success-border: rgba(0, 255, 102, 0.4);
+
+  --gp-info: #00f0ff;
+  --gp-info-text: #000000;
+  --gp-info-hover: #70f7ff;
+  --gp-info-light: rgba(0, 240, 255, 0.2);
+  --gp-info-border: rgba(0, 240, 255, 0.4);
+
+  --gp-warning: #ff8800;
+  --gp-warning-text: #000000;
+  --gp-warning-hover: #ffaa40;
+  --gp-warning-light: rgba(255, 136, 0, 0.2);
+  --gp-warning-border: rgba(255, 136, 0, 0.4);
+
+  --gp-danger: #ff0055;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #ff4d88;
+  --gp-danger-light: rgba(255, 0, 85, 0.2);
+  --gp-danger-border: rgba(255, 0, 85, 0.4);
+
+  --gp-contrast: #00f0ff;
+  --gp-contrast-text: #050505;
+  --gp-contrast-hover: #ffffff;
+
+  /* Surfaces & Backgrounds */
+  --gp-surface-ground: #07070a;
+  --gp-surface-section: #0e0e14;
+  --gp-surface-card: #151520;
+  --gp-surface-overlay: #151520;
+  --gp-surface-hover: #222233;
+  --gp-surface-active: #2f2f47;
+  --gp-surface-border: #28283c;
+  --gp-surface-divider: #28283c;
+
+  /* Typography & Text */
+  --gp-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --gp-text-color: #fefce8;
+  --gp-text-color-secondary: #00f0ff;
+  --gp-text-color-muted: #ca8a04;
+  --gp-text-color-disabled: #475569;
+
+  /* Focus, Shadows & Elevation */
+  --gp-focus-ring: 0 0 0 3px rgba(250, 204, 21, 0.4);
+  --gp-focus-ring-danger: 0 0 0 3px rgba(255, 0, 85, 0.4);
+  --gp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.8);
+  --gp-shadow-md: 0 4px 10px -1px rgba(250, 204, 21, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --gp-shadow-lg: 0 10px 20px -3px rgba(0, 240, 255, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+  --gp-shadow-xl: 0 20px 30px -5px rgba(250, 204, 21, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.6);
+
+  /* Radius (Cyberpunk Angular look) */
+  --gp-border-radius-sm: 2px;
+  --gp-border-radius: 4px;
+  --gp-border-radius-md: 6px;
+  --gp-border-radius-lg: 8px;
+  --gp-border-radius-full: 9999px;
+
+  /* Component specific tokens */
+  --gp-input-bg: #0e0e14;
+  --gp-input-border: #28283c;
+  --gp-input-border-hover: #00f0ff;
+  --gp-input-border-focus: var(--gp-primary);
+
+  --gp-mask-bg: rgba(5, 5, 8, 0.85);
+}
+
+/* System dark mode for cyberpunk */
+@media (prefers-color-scheme: dark) {
+  :root[data-gp-theme="cyberpunk"]:not([data-gp-mode="light"]),
+  [data-gp-theme="cyberpunk"]:not([data-gp-mode="light"]),
+  .gp-theme-cyberpunk:not(.gp-light) {
+    --gp-primary-50: #422006;
+    --gp-primary-100: #713f12;
+    --gp-primary-200: #854d0e;
+    --gp-primary-300: #a16207;
+    --gp-primary-400: #ca8a04;
+    --gp-primary-500: #eab308;
+    --gp-primary-600: #facc15;
+    --gp-primary-700: #fde047;
+    --gp-primary-800: #fef08a;
+    --gp-primary-900: #fef9c3;
+    --gp-primary-950: #fefce8;
+
+    --gp-primary: #facc15;
+    --gp-primary-text: #050505;
+    --gp-primary-hover: #fde047;
+    --gp-primary-active: #fef08a;
+    --gp-primary-light: rgba(250, 204, 21, 0.2);
+    --gp-primary-border: rgba(250, 204, 21, 0.5);
+
+    --gp-surface-ground: #07070a;
+    --gp-surface-section: #0e0e14;
+    --gp-surface-card: #151520;
+    --gp-surface-overlay: #151520;
+    --gp-surface-hover: #222233;
+    --gp-surface-active: #2f2f47;
+    --gp-surface-border: #28283c;
+    --gp-surface-divider: #28283c;
+
+    --gp-text-color: #fefce8;
+    --gp-text-color-secondary: #00f0ff;
+    --gp-text-color-muted: #ca8a04;
+    --gp-text-color-disabled: #475569;
+
+    --gp-input-bg: #0e0e14;
+    --gp-input-border: #28283c;
+  }
+}

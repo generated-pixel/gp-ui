@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -8,9 +8,11 @@ import {
   GpSliderComponent,
   GpColorPickerComponent,
   GpBadgeComponent,
+  GpTagComponent,
   GpProgressBarComponent
 } from 'gp-ui';
-import { GpThemeManager } from 'gp-ui-theme';
+import { GpThemeManager, GpThemeMeta, GpThemeMode } from 'gp-ui-theme';
+import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
@@ -26,27 +28,123 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpSliderComponent,
     GpColorPickerComponent,
     GpBadgeComponent,
+    GpTagComponent,
     GpProgressBarComponent,
+    GpIconComponent,
     DocCodeComponent,
     DocApiTableComponent
   ],
   template: `
     <div class="page-container">
       <div class="page-header">
-        <h1>Design Tokens & Theming System</h1>
+        <div class="header-badge-row">
+          <gp-tag value="Multi-Theme Architecture" severity="primary" [rounded]="true" />
+          <gp-tag value="Light & Dark Modes" severity="success" [rounded]="true" />
+        </div>
+        <h1>Design Tokens & Multi-Theme System</h1>
         <p class="page-desc">
-          gp-ui is built on standard CSS Custom Properties (CSS variables), allowing complete runtime customization of colors, typography, elevations, spacing, and dark mode transitions without rebuilding.
+          gp-ui features a comprehensive multi-theme architecture where <strong>every theme includes built-in Light and Dark modes</strong>.
+          Seamlessly switch themes, toggle color modes, dynamically register custom palettes at runtime, or customize design tokens globally without rebuilds.
         </p>
       </div>
 
-      <!-- Live Theme Customizer Playground -->
+      <!-- Section 1: Theme Gallery -->
+      <div class="doc-section">
+        <div class="section-title-bar">
+          <h2 class="doc-section-title">
+            <gp-icon name="palette" size="1em" />
+            Built-In Theme Presets
+          </h2>
+          <div class="mode-toggle-group">
+            <span class="mode-label">Color Scheme:</span>
+            <button
+              type="button"
+              class="mode-btn"
+              [class.mode-btn-active]="currentMode() === 'light'"
+              (click)="setMode('light')"
+            >
+              <gp-icon name="sun" size="0.9em" />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
+              class="mode-btn"
+              [class.mode-btn-active]="currentMode() === 'dark'"
+              (click)="setMode('dark')"
+            >
+              <gp-icon name="moon" size="0.9em" />
+              <span>Dark</span>
+            </button>
+            <button
+              type="button"
+              class="mode-btn"
+              [class.mode-btn-active]="currentMode() === 'system'"
+              (click)="setMode('system')"
+            >
+              <gp-icon name="sliders" size="0.9em" />
+              <span>System</span>
+            </button>
+          </div>
+        </div>
+        <p class="doc-section-desc">
+          Select any of the 8 curated themes below. Each theme adapts automatically to the selected Light or Dark color scheme.
+        </p>
+
+        <div class="theme-cards-grid">
+          @for (theme of themes(); track theme.id) {
+            <div
+              class="theme-card"
+              [class.theme-card-active]="activeThemeId() === theme.id"
+              (click)="selectTheme(theme.id)"
+            >
+              <div class="theme-card-header">
+                <div class="theme-title-wrap">
+                  <span class="theme-card-name">{{ theme.name }}</span>
+                  <span class="theme-card-id"><code>data-gp-theme="{{ theme.id }}"</code></span>
+                </div>
+                @if (activeThemeId() === theme.id) {
+                  <span class="active-badge">
+                    <gp-icon name="check" size="0.85em" />
+                    <span>Active</span>
+                  </span>
+                }
+              </div>
+
+              <p class="theme-card-desc">{{ theme.description }}</p>
+
+              <!-- Color Ramp Bar -->
+              <div class="theme-swatch-bar">
+                <div class="swatch-item" [style.backgroundColor]="theme.primaryColor" title="Primary Color"></div>
+                <div class="swatch-item" [style.backgroundColor]="theme.accentColor" title="Accent Highlight"></div>
+                <div class="swatch-item" [style.backgroundColor]="theme.lightSurface" title="Light Surface"></div>
+                <div class="swatch-item" [style.backgroundColor]="theme.darkSurface" title="Dark Surface"></div>
+              </div>
+
+              <div class="theme-card-footer">
+                <gp-button
+                  [label]="activeThemeId() === theme.id ? 'Selected' : 'Apply Theme'"
+                  [variant]="activeThemeId() === theme.id ? 'filled' : 'outlined'"
+                  [severity]="activeThemeId() === theme.id ? 'primary' : 'secondary'"
+                  size="sm"
+                  (onClickEvent)="selectTheme(theme.id)"
+                />
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Section 2: Live Component Studio Playground -->
       <div class="theme-playground-grid">
         <!-- Controls Panel -->
         <div class="theme-controls-card">
-          <h3>Interactive Theme Customizer</h3>
+          <div class="controls-card-header">
+            <h3>Live Token Tweaker</h3>
+            <gp-button label="Reset Tokens" variant="text" severity="secondary" size="sm" (onClickEvent)="resetTokens()" />
+          </div>
 
           <div class="control-group">
-            <label>Primary Brand Color</label>
+            <label>Primary Brand Override</label>
             <div class="color-picker-row">
               <gp-color-picker [presetColors]="brandPalette" (onChange)="onPrimaryColorChange($event.value)" />
               <span class="color-val">{{ primaryColor() }}</span>
@@ -59,62 +157,263 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           </div>
 
           <div class="control-group">
-            <label>Dark Mode</label>
-            <gp-switch (onChange)="toggleDarkMode($event.checked)" />
+            <label>Dark Mode Switch</label>
+            <gp-switch (onChange)="toggleDarkModeSwitch($event.checked)" />
           </div>
 
-          <div class="control-actions">
-            <gp-button label="Reset to Default" variant="outlined" severity="secondary" (onClickEvent)="resetTheme()" />
+          <!-- Dynamic Theme Creator -->
+          <div class="custom-theme-creator-box">
+            <h4>Create &amp; Register Custom Theme</h4>
+            <p class="creator-desc">Register a brand new theme at runtime using the <code>GpThemeManager.registerTheme()</code> API:</p>
+            
+            <div class="creator-inputs">
+              <gp-input-text
+                placeholder="Theme Name (e.g. Neon Lime)"
+                (onInputEvent)="onNewThemeNameInput($event)"
+              />
+              <div class="creator-color-pickers">
+                <div class="creator-pick-item">
+                  <span>Primary:</span>
+                  <gp-color-picker (onChange)="onNewThemePrimaryChange($event.value)" />
+                </div>
+                <div class="creator-pick-item">
+                  <span>Dark Surface:</span>
+                  <gp-color-picker (onChange)="onNewThemeDarkBgChange($event.value)" />
+                </div>
+              </div>
+              <gp-button
+                label="Register &amp; Activate Theme"
+                icon="plus"
+                severity="primary"
+                size="sm"
+                (onClickEvent)="registerCustomTheme()"
+              />
+            </div>
           </div>
         </div>
 
         <!-- Live Preview Panel -->
         <div class="theme-preview-card">
-          <h3>Live Token Preview</h3>
+          <div class="preview-card-header">
+            <h3>Live Component Preview</h3>
+            <span class="theme-status-tag">
+              Theme: <strong>{{ activeThemeId() }}</strong> ({{ isDarkMode() ? 'Dark' : 'Light' }})
+            </span>
+          </div>
 
           <div class="preview-group">
-            <h4>Buttons & Badges</h4>
+            <h4>Button Severities &amp; Variants</h4>
             <div class="preview-row">
               <gp-button label="Primary" severity="primary" />
               <gp-button label="Success" severity="success" />
+              <gp-button label="Info" severity="info" />
+              <gp-button label="Warning" severity="warning" />
+              <gp-button label="Danger" severity="danger" />
               <gp-button label="Outlined" variant="outlined" severity="primary" />
+            </div>
+          </div>
+
+          <div class="preview-group">
+            <h4>Tags &amp; Badges</h4>
+            <div class="preview-row">
               <gp-badge value="42" severity="primary" />
+              <gp-badge value="New" severity="success" />
+              <gp-tag value="Active Mode: {{ isDarkMode() ? 'Dark' : 'Light' }}" severity="primary" />
+              <gp-tag value="Theme: {{ activeThemeId() }}" severity="secondary" />
             </div>
           </div>
 
           <div class="preview-group">
             <h4>Form Controls</h4>
-            <gp-input-text placeholder="Themed Input Text..." />
+            <div class="preview-form-col">
+              <gp-input-text placeholder="Themed Input Text..." />
+            </div>
           </div>
 
           <div class="preview-group">
-            <h4>Progress & Sliders</h4>
-            <gp-progress-bar [value]="75" />
+            <h4>Progress &amp; Sliders</h4>
+            <gp-progress-bar [value]="68" />
+          </div>
+
+          <div class="preview-group">
+            <h4>Themed Card Container</h4>
+            <div class="themed-subcard">
+              <h5>Container Surface &amp; Border</h5>
+              <p>This sub-container automatically inherits the active theme's surface, border, and text tokens.</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Custom CSS Variables Guide -->
+      <!-- Section 3: HTML & CSS Usage Guide -->
       <div class="doc-section" style="margin-top: 2rem;">
-        <h2 class="doc-section-title">Overriding Tokens in CSS</h2>
-        <p class="doc-section-desc">Override any gp-ui design token globally or within a specific component container:</p>
+        <h2 class="doc-section-title">
+          <gp-icon name="code" size="1em" />
+          How to Use Theming in Your Application
+        </h2>
+        <p class="doc-section-desc">
+          gp-ui supports setting themes and modes via HTML attributes, CSS variables, and the TypeScript <code>GpThemeManager</code> API.
+        </p>
+
+        <h3 class="subsection-title">1. TypeScript API (Recommended)</h3>
+        <doc-code [code]="tsUsageCode" language="typescript" />
+
+        <h3 class="subsection-title" style="margin-top: 1.5rem;">2. HTML Data Attributes &amp; Scoped Sub-Trees</h3>
+        <doc-code [code]="htmlUsageCode" language="html" />
+
+        <h3 class="subsection-title" style="margin-top: 1.5rem;">3. CSS Variable Overrides</h3>
         <doc-code [code]="cssOverrideCode" language="css" />
       </div>
 
-      <!-- Token Reference Table -->
+      <!-- Section 4: Token Reference Table -->
       <div class="doc-section">
-        <h2 class="doc-section-title">Core CSS Custom Properties</h2>
+        <h2 class="doc-section-title">
+          <gp-icon name="bars" size="1em" />
+          Core Design Tokens Reference
+        </h2>
         <doc-api-table title="Design Tokens" [properties]="tokenList" />
       </div>
     </div>
   `,
   styles: [`
+    .header-badge-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .section-title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .mode-toggle-group {
+      display: inline-flex;
+      align-items: center;
+      background: var(--gp-surface-ground);
+      border: 1px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius, 6px);
+      padding: 0.2rem;
+      gap: 0.2rem;
+    }
+    .mode-label {
+      font-size: var(--gp-font-size-xs);
+      font-weight: 600;
+      color: var(--gp-text-color-secondary);
+      padding: 0 0.5rem;
+    }
+    .mode-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--gp-border-radius-sm, 4px);
+      border: none;
+      background: transparent;
+      color: var(--gp-text-color-secondary);
+      font-size: var(--gp-font-size-xs);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .mode-btn:hover {
+      color: var(--gp-text-color);
+      background: var(--gp-surface-hover);
+    }
+    .mode-btn-active {
+      background: var(--gp-primary) !important;
+      color: var(--gp-primary-text) !important;
+    }
+    .theme-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .theme-card {
+      background: var(--gp-surface-ground);
+      border: 2px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius-md);
+      padding: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .theme-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--gp-primary-hover);
+      box-shadow: var(--gp-shadow-md);
+    }
+    .theme-card-active {
+      border-color: var(--gp-primary);
+      background: var(--gp-surface-card);
+      box-shadow: var(--gp-shadow-md);
+    }
+    .theme-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    .theme-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .theme-card-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--gp-text-color);
+    }
+    .theme-card-id code {
+      font-size: 0.72rem;
+      color: var(--gp-text-color-muted);
+    }
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: var(--gp-primary-light);
+      color: var(--gp-primary);
+      border: 1px solid var(--gp-primary-border);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+    }
+    .theme-card-desc {
+      font-size: 0.82rem;
+      color: var(--gp-text-color-secondary);
+      line-height: 1.4;
+      margin: 0 0 1rem 0;
+      flex: 1;
+    }
+    .theme-swatch-bar {
+      display: flex;
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 1px solid var(--gp-surface-border);
+    }
+    .swatch-item {
+      flex: 1;
+    }
+    .theme-card-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
     .theme-playground-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.5rem;
+      margin-top: 1.5rem;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .theme-playground-grid { grid-template-columns: 1fr; }
     }
     .theme-controls-card, .theme-preview-card {
@@ -124,11 +423,20 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       padding: 1.5rem;
       box-shadow: var(--gp-shadow-sm);
     }
-    .theme-controls-card h3, .theme-preview-card h3 {
-      margin-top: 0;
+    .controls-card-header, .preview-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 1.25rem;
+    }
+    .controls-card-header h3, .preview-card-header h3 {
+      margin: 0;
       font-size: 1.25rem;
       font-weight: 700;
+    }
+    .theme-status-tag {
+      font-size: 0.75rem;
+      color: var(--gp-text-color-secondary);
     }
     .control-group {
       display: flex;
@@ -151,6 +459,40 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       font-size: var(--gp-font-size-sm);
       color: var(--gp-text-color-secondary);
     }
+    .custom-theme-creator-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--gp-surface-ground);
+      border: 1px dashed var(--gp-surface-border);
+      border-radius: var(--gp-border-radius);
+    }
+    .custom-theme-creator-box h4 {
+      margin: 0 0 0.4rem 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .creator-desc {
+      font-size: 0.78rem;
+      color: var(--gp-text-color-secondary);
+      margin: 0 0 0.75rem 0;
+    }
+    .creator-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .creator-color-pickers {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .creator-pick-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--gp-text-color);
+    }
     .preview-group {
       margin-bottom: 1.5rem;
     }
@@ -167,42 +509,149 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       gap: 0.75rem;
       flex-wrap: wrap;
     }
+    .preview-form-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .themed-subcard {
+      background: var(--gp-surface-section);
+      border: 1px solid var(--gp-surface-border);
+      border-radius: var(--gp-border-radius);
+      padding: 1rem;
+    }
+    .themed-subcard h5 {
+      margin: 0 0 0.25rem 0;
+      font-size: 0.9rem;
+    }
+    .themed-subcard p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--gp-text-color-secondary);
+    }
+    .subsection-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 1rem 0 0.5rem 0;
+      color: var(--gp-text-color);
+    }
   `]
 })
-export class ThemingPageComponent {
+export class ThemingPageComponent implements OnInit, OnDestroy {
+  protected activeThemeId = signal<string>('default');
+  protected currentMode = signal<GpThemeMode>('system');
+  protected isDarkMode = signal<boolean>(false);
   protected primaryColor = signal<string>('#6366f1');
   protected borderRadius = signal<number>(6);
+  protected themes = signal<GpThemeMeta[]>(GpThemeManager.getAvailableThemes());
+
+  newThemeName = 'Neon Lime';
+  newThemePrimary = '#84cc16';
+  newThemeDarkBg = '#0d1a04';
+
+  private unsubscribeThemeListener: (() => void) | null = null;
 
   brandPalette = [
     '#6366f1', '#3b82f6', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444',
     '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#06b6d4', '#64748b'
   ];
 
-  cssOverrideCode = `:root {
-  --gp-primary: #6366f1;
-  --gp-primary-hover: #4f46e5;
+  tsUsageCode = `import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
+
+// 1. Switch Theme Presets ('default', 'ocean', 'emerald', 'sunset', 'amethyst', 'rose', 'nord', 'cyberpunk')
+GpThemeManager.setTheme('ocean');
+
+// 2. Switch Mode ('light', 'dark', or 'system')
+GpThemeManager.setMode('dark');
+
+// 3. Toggle Mode between Light and Dark
+GpThemeManager.toggleMode();
+
+// 4. Subscribe to theme/mode changes in real time
+const unsubscribe = GpThemeManager.onChange((state) => {
+  console.log('Active Theme:', state.theme);
+  console.log('Mode Setting:', state.mode);
+  console.log('Is Dark Effective:', state.isDark);
+});
+
+// 5. Dynamically register a new custom theme at runtime
+GpThemeManager.registerTheme({
+  id: 'corporate-gold',
+  name: 'Corporate Gold',
+  primaryColor: '#eab308',
+  lightTokens: {
+    '--gp-primary': '#ca8a04',
+    '--gp-surface-ground': '#fefce8'
+  },
+  darkTokens: {
+    '--gp-primary': '#facc15',
+    '--gp-surface-ground': '#1a1805'
+  }
+});`;
+
+  htmlUsageCode = `<!-- Apply Theme and Mode to the entire document -->
+<html data-gp-theme="ocean" data-gp-mode="dark">
+  ...
+</html>
+
+<!-- Or scope a specific theme/mode to a sub-container or dialog -->
+<div data-gp-theme="sunset" data-gp-mode="light" class="themed-card">
+  <h3>Golden Sunset Panel</h3>
+  <gp-button label="Themed Button" severity="primary" />
+</div>`;
+
+  cssOverrideCode = `/* Override specific design tokens globally */
+:root {
   --gp-border-radius: 8px;
   --gp-font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Dark mode theme scope */
-[data-theme="gp-dark"] {
-  --gp-surface-ground: #090d16;
-  --gp-surface-card: #131b2e;
-  --gp-surface-border: #1e293b;
-  --gp-text-color: #f8fafc;
+/* Override tokens for a specific theme or dark mode scope */
+[data-gp-theme="ocean"][data-gp-mode="dark"] {
+  --gp-surface-ground: #020f18;
+  --gp-surface-card: #08243a;
+  --gp-primary: #38bdf8;
 }`;
 
   tokenList: DocApiProperty[] = [
-    { name: '--gp-primary', type: 'color', default: '#6366f1', description: 'Primary brand accent color used in buttons, active states, and highlights.' },
-    { name: '--gp-primary-hover', type: 'color', default: '#4f46e5', description: 'Interactive hover color for primary elements.' },
-    { name: '--gp-surface-ground', type: 'color', default: '#f8fafc', description: 'Main page and background canvas surface color.' },
-    { name: '--gp-surface-card', type: 'color', default: '#ffffff', description: 'Surface color for elevated cards, dialogs, and panels.' },
-    { name: '--gp-surface-border', type: 'color', default: '#e2e8f0', description: 'Default border stroke color.' },
-    { name: '--gp-text-color', type: 'color', default: '#0f172a', description: 'Primary foreground text color.' },
-    { name: '--gp-text-color-secondary', type: 'color', default: '#64748b', description: 'Secondary descriptive text color.' },
-    { name: '--gp-border-radius', type: 'length', default: '6px', description: 'Standard corner radius for buttons and inputs.' }
+    { name: '--gp-primary', type: 'color', default: 'varies by theme', description: 'Primary brand color for buttons, active navigation, focus highlights, and controls.' },
+    { name: '--gp-primary-text', type: 'color', default: '#ffffff', description: 'Contrasting text color for primary filled elements.' },
+    { name: '--gp-primary-hover', type: 'color', default: 'varies by theme', description: 'Interactive hover color for primary elements.' },
+    { name: '--gp-primary-light', type: 'color', default: 'varies by theme', description: 'Subtle translucent background for active items and badges.' },
+    { name: '--gp-surface-ground', type: 'color', default: 'varies by theme', description: 'Main canvas and background surface color.' },
+    { name: '--gp-surface-card', type: 'color', default: 'varies by theme', description: 'Elevated card, panel, and dialog surface color.' },
+    { name: '--gp-surface-border', type: 'color', default: 'varies by theme', description: 'Structural border and divider stroke color.' },
+    { name: '--gp-text-color', type: 'color', default: 'varies by theme', description: 'Primary foreground text color.' },
+    { name: '--gp-text-color-secondary', type: 'color', default: 'varies by theme', description: 'Secondary descriptive text color.' },
+    { name: '--gp-border-radius', type: 'length', default: '6px (theme configurable)', description: 'Standard corner radius for buttons, inputs, and cards.' }
   ];
+
+  ngOnInit(): void {
+    this.unsubscribeThemeListener = GpThemeManager.onChange((state) => {
+      this.activeThemeId.set(state.theme);
+      this.currentMode.set(state.mode);
+      this.isDarkMode.set(state.isDark);
+      this.themes.set(GpThemeManager.getAvailableThemes());
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.unsubscribeThemeListener) {
+      this.unsubscribeThemeListener();
+    }
+  }
+
+  public selectTheme(themeId: string): void {
+    GpThemeManager.setTheme(themeId);
+  }
+
+  public setMode(mode: GpThemeMode): void {
+    GpThemeManager.setMode(mode);
+  }
+
+  public toggleDarkModeSwitch(dark: boolean): void {
+    GpThemeManager.setMode(dark ? 'dark' : 'light');
+  }
 
   public onPrimaryColorChange(color: string): void {
     this.primaryColor.set(color);
@@ -214,13 +663,52 @@ export class ThemingPageComponent {
     GpThemeManager.setCustomToken('--gp-border-radius', `${radius}px`);
   }
 
-  public toggleDarkMode(dark: boolean): void {
-    GpThemeManager.setTheme(dark ? 'gp-dark' : 'gp-light');
+  public onNewThemeNameInput(e: Event): void {
+    const val = (e.target as HTMLInputElement).value;
+    if (val) this.newThemeName = val;
   }
 
-  public resetTheme(): void {
+  public onNewThemePrimaryChange(val: string): void {
+    this.newThemePrimary = val;
+  }
+
+  public onNewThemeDarkBgChange(val: string): void {
+    this.newThemeDarkBg = val;
+  }
+
+  public resetTokens(): void {
     GpThemeManager.resetCustomTokens();
-    this.primaryColor.set('#6366f1');
     this.borderRadius.set(6);
+    this.primaryColor.set('#6366f1');
+  }
+
+  public registerCustomTheme(): void {
+    const id = this.newThemeName.toLowerCase().replace(/\s+/g, '-');
+    GpThemeManager.registerTheme({
+      id,
+      name: this.newThemeName,
+      description: `Custom registered theme with ${this.newThemePrimary} accent.`,
+      primaryColor: this.newThemePrimary,
+      accentColor: this.newThemePrimary,
+      lightTokens: {
+        '--gp-primary': this.newThemePrimary,
+        '--gp-primary-text': '#ffffff',
+        '--gp-surface-ground': '#fafcf8',
+        '--gp-surface-card': '#ffffff',
+        '--gp-surface-border': '#e2e8f0',
+        '--gp-text-color': '#1a2e05'
+      },
+      darkTokens: {
+        '--gp-primary': this.newThemePrimary,
+        '--gp-primary-text': '#000000',
+        '--gp-surface-ground': this.newThemeDarkBg,
+        '--gp-surface-card': '#162808',
+        '--gp-surface-border': '#274310',
+        '--gp-text-color': '#f7fee7'
+      }
+    });
+
+    this.themes.set(GpThemeManager.getAvailableThemes());
+    GpThemeManager.setTheme(id);
   }
 }
