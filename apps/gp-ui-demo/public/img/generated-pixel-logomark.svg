@@ -1,0 +1,27 @@
+<svg width="96" height="96" viewBox="0 0 96 96"
+    xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+    <title id="title">Generated Pixel Logo Mark</title>
+    <desc id="desc">An isometric grid of squares forming the letter G</desc>
+    <defs>
+        <linearGradient id="gpGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5de4ff" />
+            <stop offset="50%" stop-color="#6f7dff" />
+            <stop offset="100%" stop-color="#a855f7" />
+        </linearGradient>
+    </defs>
+    <rect width="96" height="96" rx="18" fill="#0b1220" />
+    <g fill="url(#gpGradient)" transform="translate(16,16)">
+        <rect x="0" y="0" width="16" height="16" rx="4" />
+        <rect x="24" y="0" width="16" height="16" rx="4" />
+        <rect x="48" y="0" width="16" height="16" rx="4" />
+        <rect x="0" y="24" width="16" height="16" rx="4" />
+        <rect x="0" y="48" width="16" height="16" rx="4" />
+        <rect x="24" y="48" width="16" height="16" rx="4" />
+        <rect x="48" y="48" width="16" height="16" rx="4" />
+        <rect x="48" y="24" width="16" height="16" rx="4" />
+    </g>
+    <g fill="#0b1220" opacity="0.55" transform="translate(16,16)">
+        <rect x="36" y="24" width="8" height="16" rx="2" />
+        <rect x="24" y="36" width="16" height="8" rx="2" />
+    </g>
+</svg>

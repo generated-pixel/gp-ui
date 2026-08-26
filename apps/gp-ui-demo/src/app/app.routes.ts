@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { WebsiteHomeComponent } from './pages/website-home/website-home.component';
 import { GettingStartedComponent } from './pages/getting-started/getting-started.component';
 import { ThemingPageComponent } from './pages/theming/theming.component';
 import { I18nPageComponent } from './pages/i18n/i18n.component';
@@ -13,7 +14,8 @@ import { FeedbackDemoComponent } from './pages/feedback-demo/feedback-demo.compo
 import { DisplayDemoComponent } from './pages/display-demo/display-demo.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'getting-started', pathMatch: 'full' },
+  { path: '', component: WebsiteHomeComponent },
+  { path: 'docs', redirectTo: 'getting-started', pathMatch: 'full' },
   { path: 'getting-started', component: GettingStartedComponent },
   { path: 'theming', component: ThemingPageComponent },
   { path: 'i18n', component: I18nPageComponent },
@@ -26,5 +28,5 @@ export const routes: Routes = [
   { path: 'panels', component: PanelsDemoComponent },
   { path: 'feedback', component: FeedbackDemoComponent },
   { path: 'display', component: DisplayDemoComponent },
-  { path: '**', redirectTo: 'getting-started' }
+  { path: '**', redirectTo: '' }
 ];

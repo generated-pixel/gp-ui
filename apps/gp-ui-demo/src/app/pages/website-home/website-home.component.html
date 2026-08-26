@@ -1,0 +1,265 @@
+<div class="site-wrapper">
+  <!-- Hero Section -->
+  <section id="top" class="hero-section">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="site-shell hero-layout">
+      <div class="hero-copy">
+        <div class="hero-badge-row">
+          <gp-tag value="Software Studio" severity="primary" [rounded]="true" />
+          <gp-tag value="Open Source" severity="success" [rounded]="true" />
+        </div>
+        <h1>Web &amp; C# Development</h1>
+        <p>
+          Building fast, reliable web applications with modern frontend stacks and ASP.NET Core. Creators of the <strong>gp-ui</strong> enterprise Angular design system.
+        </p>
+        <ul class="hero-highlights">
+          <li>Modern web applications &amp; Angular design systems</li>
+          <li>ASP.NET Core APIs &amp; cloud-native microservices</li>
+          <li>Full-stack architecture, testing &amp; deployment</li>
+        </ul>
+
+        <div class="hero-cta-group">
+          <a routerLink="/getting-started" class="hero-primary-btn">
+            <gp-icon name="layer-group" size="1em" />
+            <span>Explore gp-ui Framework</span>
+            <gp-icon name="chevron-right" size="0.8em" />
+          </a>
+          <a href="#contact" class="hero-secondary-btn">
+            <span>Book a Discovery Call</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Live Interactive gp-ui Showcase Card on Homepage -->
+      <div class="hero-showcase">
+        <div class="showcase-card">
+          <div class="showcase-header">
+            <div class="showcase-badge">
+              <span class="showcase-dot"></span>
+              <span>gp-ui Live Component Preview</span>
+            </div>
+            <a routerLink="/getting-started" class="showcase-link">View All Docs ↗</a>
+          </div>
+
+          <div class="showcase-body">
+            <div class="showcase-widget">
+              <span class="widget-label">Button Severities &amp; Ripple</span>
+              <div class="widget-row">
+                <gp-button label="Primary" severity="primary" size="sm" />
+                <gp-button label="Success" severity="success" size="sm" icon="check" />
+                <gp-button label="Outlined" variant="outlined" severity="primary" size="sm" />
+              </div>
+            </div>
+
+            <div class="showcase-widget">
+              <span class="widget-label">Quick Input &amp; Status Tags</span>
+              <gp-input-text placeholder="Try typing in gp-ui input..." iconLeft="search" [clearable]="true" />
+              <div class="widget-row" style="margin-top: 0.5rem;">
+                <gp-tag value="Active v0.1.0" severity="success" [rounded]="true" icon="check" />
+                <gp-tag value="Signals Ready" severity="info" [rounded]="true" />
+                <gp-tag value="WCAG A11y" severity="primary" [rounded]="true" />
+              </div>
+            </div>
+
+            <div class="showcase-widget">
+              <span class="widget-label">Interactive Progress &amp; Switch</span>
+              <gp-progress-bar [value]="78" />
+              <div class="widget-row" style="justify-content: space-between; margin-top: 0.5rem;">
+                <gp-switch label="Real-time Synchronization" [ngModel]="true" />
+                <gp-badge value="99.9%" severity="success" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured gp-ui Banner Section -->
+  <section class="gp-ui-featured-section">
+    <div class="site-shell">
+      <div class="featured-banner-card">
+        <div class="featured-banner-content">
+          <div class="featured-badge">FEATURED RELEASE</div>
+          <h2>&#64;generatedpixel/gp-ui</h2>
+          <p>
+            Our open-source enterprise Angular UI framework featuring 40+ standalone components, design tokens, 2-tier base inheritance, accessibility, and internationalization.
+          </p>
+          <div class="featured-actions">
+            <a routerLink="/getting-started">
+              <gp-button label="Read Documentation &amp; User Guide" icon="file" severity="primary" size="lg" />
+            </a>
+            <a routerLink="/buttons">
+              <gp-button label="Interactive Component Catalogue" icon="window" variant="outlined" severity="contrast" size="lg" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Do (Services) Section -->
+  <section id="services" class="services-section">
+    <div class="site-shell">
+      <div class="section-heading">
+        <div>
+          <h2>What we do</h2>
+          <p>Full-stack frontend architecture and robust ASP.NET Core development.</p>
+        </div>
+        <a href="#contact" class="text-link">Book a discovery call</a>
+      </div>
+
+      <div class="service-grid">
+        @for (service of services; track service.id) {
+          <article class="service-card">
+            <div class="service-card__glow" aria-hidden="true"></div>
+            <div class="service-card__content">
+              <h3>{{ service.title }}</h3>
+              <p>{{ service.description }}</p>
+              <ul class="chip-list">
+                @for (chip of service.chips; track chip) {
+                  <li>{{ chip }}</li>
+                }
+              </ul>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio-section">
+    <div class="site-shell">
+      <div class="section-heading">
+        <div>
+          <h2>Portfolio &amp; Open Source</h2>
+          <p>Selected client work, software products, and open source frameworks from Generated Pixel.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-grid">
+        @for (project of projects; track project.id) {
+          <article class="portfolio-card">
+            <div class="portfolio-card__content">
+              <p class="portfolio-card__eyebrow">{{ project.eyebrow }}</p>
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.description }}</p>
+              <div class="portfolio-card__actions">
+                <a
+                  [href]="project.url"
+                  class="portfolio-inline-link"
+                  target="_blank"
+                  rel="noopener"
+                  >{{ project.url }}</a
+                >
+                @if (project.isInternal) {
+                  <a [routerLink]="project.url" class="portfolio-visit-btn">
+                    {{ project.visitText }} &rarr;
+                  </a>
+                } @else {
+                  <a
+                    [href]="project.url"
+                    class="portfolio-visit-btn"
+                    target="_blank"
+                    rel="noopener"
+                    >{{ project.visitText }} &rarr;</a
+                  >
+                }
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <div class="contact-section__backdrop" aria-hidden="true"></div>
+    <div class="site-shell contact-layout">
+      <div class="contact-heading">
+        <h2>Let&apos;s build together</h2>
+        <p style="color: var(--text-soft); margin-top: 0.5rem; max-width: 36rem;">
+          Have a project in mind, need custom component design systems, or want to consult on ASP.NET Core and Angular? Let's connect.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <a
+          class="contact-card"
+          href="https://cal.com/generated-pixel"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="contact-card__label">Book a workshop</span>
+          <span class="contact-card__value">cal.com/generated-pixel</span>
+          <span class="contact-card__action">Schedule Time ↗</span>
+        </a>
+
+        <a class="contact-card" href="mailto:hello@generatedpixel.dev">
+          <span class="contact-card__label">Email</span>
+          <span class="contact-card__value">hello@generatedpixel.dev</span>
+          <span class="contact-card__action">Send Message ↗</span>
+        </a>
+
+        <a
+          class="contact-card"
+          href="https://github.com/generated-pixel"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="contact-card__label">Follow our build logs</span>
+          <span class="contact-card__value">&#64;generated-pixel</span>
+          <span class="contact-card__action">GitHub ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="pride-flag-banner" aria-hidden="true"></div>
+    <div class="site-shell footer-layout">
+      <div class="footer-brand">
+        <div class="footer-brand__row">
+          <img
+            src="/img/generated-pixel-logomark.svg"
+            alt="Generated Pixel logo"
+            class="footer-brand__logo"
+          />
+          <div>
+            <span class="footer-brand__name">Generated Pixel</span>
+            <span class="footer-brand__tag">Software development studio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-mascot">
+        <img src="/img/kitten.png" alt="Kitten mascot" class="kitten-image" />
+      </div>
+
+      <div class="footer-links">
+        <div>
+          <p class="footer-links__label">Contact</p>
+          <ul>
+            <li>
+              <a href="mailto:hello@generatedpixel.dev">hello@generatedpixel.dev</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-links__label">Connect</p>
+          <ul>
+            <li><a href="https://github.com/generated-pixel" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a routerLink="/getting-started">gp-ui Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-footer__meta">
+      <p>&copy; 2026 Generated Pixel. Crafted with pride and love.</p>
+    </div>
+  </footer>
+</div>

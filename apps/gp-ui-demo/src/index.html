@@ -1,15 +1,27 @@
 <!doctype html>
-<html lang="en" data-gp-theme="gp-light">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>gp-ui — Enterprise Angular UI Component Framework</title>
+  <title>Generated Pixel — Software Studio & gp-ui Framework</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="gp-ui is a complete, production-quality Angular UI component framework featuring design-token theming, accessibility, and internationalization.">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="description" content="Generated Pixel software studio crafting web, .NET and cloud-native products. Creators of gp-ui enterprise Angular component framework.">
+  <link rel="icon" type="image/svg+xml" href="/img/generated-pixel-favicon.svg">
+  <link rel="apple-touch-icon" href="/img/generated-pixel-logomark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    (function() {
+      try {
+        var stored = localStorage.getItem('gp-theme-preference');
+        var isDark = stored === 'gp-dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var theme = isDark ? 'gp-dark' : 'gp-light';
+        document.documentElement.setAttribute('data-gp-theme', theme);
+        document.documentElement.classList.add(theme);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
