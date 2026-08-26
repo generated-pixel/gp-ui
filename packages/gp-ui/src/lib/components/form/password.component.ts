@@ -32,15 +32,11 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
   @Input() feedback = true;
   @Input() override ariaLabel = '';
 
-  public override value = signal<string>('');
   protected showPassword = signal<boolean>(false);
   protected focused = signal<boolean>(false);
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   protected strengthScore = computed(() => {
-    const val = this.value();
+    const val = this.internalValue() as string;
     if (!val) return 0;
     let score = 0;
     if (val.length >= 8) score++;
@@ -67,7 +63,9 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
   });
 
   public override writeValue(value: any): void {
-    this.value.set(value != null ? String(value) : '');
+    const str = value != null ? String(value) : '';
+    this.value = str;
+    this.internalValue.set(str);
   }
 
   public override registerOnChange(fn: any): void {
@@ -84,13 +82,12 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
 
   protected onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.value.set(input.value);
-    this.onChangeCallback(input.value);
+    this.updateValue(input.value);
   }
 
   protected onBlur(): void {
     this.focused.set(false);
-    this.onTouchedCallback();
+    this.handleControlBlur();
   }
 
   protected toggleShowPassword(event: MouseEvent): void {

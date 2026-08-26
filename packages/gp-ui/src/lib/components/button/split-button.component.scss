@@ -1,58 +1,99 @@
 .gp-split-button {
-      display: inline-flex;
-      position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+
+  > gp-button {
+    display: inline-flex;
+    position: relative;
+
+    &:hover,
+    &:focus-within {
+      z-index: 2;
     }
-    .gp-split-button > .gp-button:first-child {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+  }
+
+  /* Left / Main Button */
+  > gp-button:first-child .gp-button {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  /* Right / Dropdown Button */
+  > gp-button.gp-split-button-dropdown {
+    margin-left: -1px;
+
+    .gp-button {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      min-width: 2.25rem;
     }
-    .gp-split-button > .gp-split-button-dropdown .gp-button {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      margin-left: -1px;
-      padding-left: 0.4rem;
-      padding-right: 0.4rem;
+  }
+
+  &.gp-split-button-expanded {
+    > gp-button.gp-split-button-dropdown {
+      z-index: 3;
     }
-    .gp-menu-overlay {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      margin-top: 4px;
-      background: var(--gp-surface-overlay);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      box-shadow: var(--gp-shadow-lg);
-      min-width: 12rem;
-      z-index: 1050;
-      padding: 0.35rem 0;
-      animation: gp-slide-down 0.15s ease-out;
-    }
-    .gp-menu-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .gp-menu-item {
-      padding: 0.5rem 0.75rem;
-      cursor: pointer;
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color);
-      transition: background var(--gp-transition-duration);
-    }
-    .gp-menu-item:hover:not(.gp-menu-item-disabled) {
-      background: var(--gp-surface-hover);
-    }
-    .gp-menu-item-disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .gp-menu-item-content {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .gp-menu-separator {
-      height: 1px;
-      background: var(--gp-surface-divider);
-      margin: 0.35rem 0;
-    }
+  }
+}
+
+.gp-menu-overlay.gp-split-button-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--gp-surface-overlay);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  box-shadow: var(--gp-shadow-lg);
+  min-width: 12rem;
+  z-index: 1050;
+  padding: 0.35rem 0;
+  animation: gp-slide-down 0.15s ease-out;
+}
+
+.gp-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gp-menu-item {
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+  transition: background var(--gp-transition-duration), color var(--gp-transition-duration);
+}
+
+.gp-menu-item:hover:not(.gp-menu-item-disabled) {
+  background: var(--gp-surface-hover);
+  color: var(--gp-primary);
+}
+
+.gp-menu-item-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gp-menu-item-content {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gp-menu-item-icon {
+  color: var(--gp-text-color-muted);
+}
+
+.gp-menu-item:hover:not(.gp-menu-item-disabled) .gp-menu-item-icon {
+  color: var(--gp-primary);
+}
+
+.gp-menu-separator {
+  height: 1px;
+  background: var(--gp-surface-divider);
+  margin: 0.35rem 0;
+}

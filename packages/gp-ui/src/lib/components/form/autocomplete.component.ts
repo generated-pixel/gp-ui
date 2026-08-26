@@ -42,21 +42,17 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   @Output() completeMethod = new EventEmitter<GpAutoCompleteCompleteEvent>();
   @Output() onSelect = new EventEmitter<{ value: any; originalEvent: Event }>();
 
-  public override value = signal<any>(null);
   protected overlayVisible = signal<boolean>(false);
   protected activeIndex = signal<number>(-1);
   protected query = signal<string>('');
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
-  constructor(private el: ElementRef) {
+  constructor(private hostElRef: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+    if (!this.hostElRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
@@ -69,13 +65,14 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   protected inputDisplayValue = computed(() => {
-    const val = this.value();
+    const val = this.internalValue();
     if (val == null) return this.query();
     return this.getItemLabel(val);
   });
 
   public override writeValue(value: any): void {
-    this.value.set(value);
+    this.value = value;
+    this.internalValue.set(value);
     this.query.set(this.getItemLabel(value));
   }
 
@@ -94,8 +91,7 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   protected onInput(event: Event): void {
     const q = (event.target as HTMLInputElement).value;
     this.query.set(q);
-    this.value.set(q);
-    this.onChangeCallback(q);
+    this.updateValue(q);
 
     if (q.length >= this.minLength) {
       this.completeMethod.emit({ originalEvent: event, query: q });
@@ -113,7 +109,7 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   protected onBlur(): void {
-    this.onTouchedCallback();
+    this.handleControlBlur();
   }
 
   public toggleDropdown(event: MouseEvent): void {
@@ -128,10 +124,9 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   public selectItem(item: any, event: MouseEvent): void {
-    this.value.set(item);
+    this.updateValue(item);
     this.query.set(this.getItemLabel(item));
-    this.onChangeCallback(item);
-    this.onTouchedCallback();
+    this.handleControlBlur();
     this.onSelect.emit({ value: item, originalEvent: event });
     this.overlayVisible.set(false);
   }

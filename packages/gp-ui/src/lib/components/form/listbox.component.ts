@@ -32,11 +32,7 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
 
   @Output() onChange = new EventEmitter<{ value: any; originalEvent: Event }>();
 
-  public override value = signal<any>(null);
   protected filterText = signal<string>('');
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
 
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
     return (this.options || []).map(opt => {
@@ -57,7 +53,7 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
   });
 
   public isSelected(opt: GpSelectItem): boolean {
-    const current = this.value();
+    const current = this.internalValue();
     if (this.multiple) {
       return Array.isArray(current) && current.some(v => ObjectUtils.equals(v, opt.value));
     }
@@ -65,7 +61,8 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
   }
 
   public override writeValue(value: any): void {
-    this.value.set(value);
+    this.value = value;
+    this.internalValue.set(value);
   }
 
   public override registerOnChange(fn: any): void {
@@ -85,7 +82,7 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
 
     let next: any;
     if (this.multiple) {
-      const current = Array.isArray(this.value()) ? this.value() : [];
+      const current = Array.isArray(this.internalValue()) ? (this.internalValue() as any[]) : [];
       if (this.isSelected(opt)) {
         next = current.filter((v: any) => !ObjectUtils.equals(v, opt.value));
       } else {
@@ -95,9 +92,8 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
       next = opt.value;
     }
 
-    this.value.set(next);
-    this.onChangeCallback(next);
-    this.onTouchedCallback();
+    this.updateValue(next);
+    this.handleControlBlur();
     this.onChange.emit({ value: next, originalEvent: event });
   }
 

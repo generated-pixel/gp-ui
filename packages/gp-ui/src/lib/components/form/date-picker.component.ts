@@ -47,20 +47,16 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   @Output() onSelect = new EventEmitter<Date>();
   @Output() onChange = new EventEmitter<{ value: Date | null }>();
 
-  public override value = signal<Date | null>(null);
   protected viewDate = signal<Date>(new Date());
   protected overlayVisible = signal<boolean>(false);
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
-  constructor(private el: ElementRef) {
+  constructor(private hostElRef: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.inline && !this.el.nativeElement.contains(event.target)) {
+    if (!this.inline && !this.hostElRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
@@ -78,7 +74,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   });
 
   protected formattedValue = computed(() => {
-    const d = this.value();
+    const d = this.internalValue() as Date;
     if (!d) return '';
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const dd = String(d.getDate()).padStart(2, '0');
@@ -93,7 +89,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const daysInPrevMonth = new Date(year, month, 0).getDate();
 
-    const selected = this.value();
+    const selected = this.internalValue() as Date;
     const today = new Date();
 
     const days: CalendarDay[] = [];
@@ -151,7 +147,8 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
 
   public override writeValue(value: any): void {
     const d = value instanceof Date ? value : (value ? new Date(value) : null);
-    this.value.set(d);
+    this.value = d;
+    this.internalValue.set(d);
     if (d) {
       this.viewDate.set(new Date(d.getTime()));
     }
@@ -185,9 +182,8 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   public selectDate(date: Date): void {
-    this.value.set(date);
-    this.onChangeCallback(date);
-    this.onTouchedCallback();
+    this.updateValue(date);
+    this.handleControlBlur();
     this.onSelect.emit(date);
     this.onChange.emit({ value: date });
     if (!this.inline) {
@@ -200,9 +196,8 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   public clear(): void {
-    this.value.set(null);
-    this.onChangeCallback(null);
-    this.onTouchedCallback();
+    this.updateValue(null);
+    this.handleControlBlur();
     this.onChange.emit({ value: null });
     if (!this.inline) {
       this.overlayVisible.set(false);

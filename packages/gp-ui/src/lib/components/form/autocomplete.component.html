@@ -1,48 +1,49 @@
-<div class="gp-autocomplete" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="invalid">
-      <div class="gp-input-wrapper">
-        <input
-          [id]="inputId"
-          type="text"
-          [value]="inputDisplayValue()"
-          [placeholder]="placeholder"
-          [disabled]="disabled"
-          [readonly]="readonly"
-          [attr.aria-label]="ariaLabel || placeholder || 'Auto Complete'"
-          [attr.aria-autocomplete]="'list'"
-          [attr.aria-expanded]="overlayVisible()"
-          (input)="onInput($event)"
-          (focus)="onFocus($event)"
-          (blur)="onBlur()"
-          (keydown)="onKeyDown($event)"
-          class="gp-inputtext"
-        />
+<div class="gp-autocomplete" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="isInvalid()">
+  <div class="gp-input-wrapper">
+    <input
+      [id]="inputId"
+      type="text"
+      [value]="inputDisplayValue()"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [attr.aria-label]="ariaLabel || placeholder || 'Auto Complete'"
+      [attr.aria-autocomplete]="'list'"
+      [attr.aria-expanded]="overlayVisible()"
+      [attr.aria-invalid]="isInvalid()"
+      (input)="onInput($event)"
+      (focus)="onFocus($event)"
+      (blur)="onBlur()"
+      (keydown)="onKeyDown($event)"
+      class="gp-inputtext"
+    />
 
-        @if (dropdown) {
-          <button
-            type="button"
-            class="gp-autocomplete-dropdown-btn"
-            aria-label="Open suggestions"
-            (click)="toggleDropdown($event)"
+    @if (dropdown) {
+      <button
+        type="button"
+        class="gp-autocomplete-dropdown-btn"
+        aria-label="Open suggestions"
+        (click)="toggleDropdown($event)"
+      >
+        <gp-icon name="chevron-down" size="0.85em" />
+      </button>
+    }
+  </div>
+
+  @if (overlayVisible() && suggestions && suggestions.length > 0) {
+    <div class="gp-select-overlay gp-autocomplete-overlay" role="listbox" (click)="$event.stopPropagation()">
+      <ul class="gp-select-items">
+        @for (item of suggestions; track $index) {
+          <li
+            class="gp-select-item"
+            [class.gp-select-item-selected]="$index === activeIndex()"
+            role="option"
+            (click)="selectItem(item, $event)"
           >
-            <gp-icon name="chevron-down" size="0.85em" />
-          </button>
+            <span>{{ getItemLabel(item) }}</span>
+          </li>
         }
-      </div>
-
-      @if (overlayVisible() && suggestions && suggestions.length > 0) {
-        <div class="gp-select-overlay gp-autocomplete-overlay" role="listbox" (click)="$event.stopPropagation()">
-          <ul class="gp-select-items">
-            @for (item of suggestions; track $index) {
-              <li
-                class="gp-select-item"
-                [class.gp-select-item-selected]="$index === activeIndex()"
-                role="option"
-                (click)="selectItem(item, $event)"
-              >
-                <span>{{ getItemLabel(item) }}</span>
-              </li>
-            }
-          </ul>
-        </div>
-      }
+      </ul>
     </div>
+  }
+</div>

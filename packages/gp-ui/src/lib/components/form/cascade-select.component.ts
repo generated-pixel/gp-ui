@@ -3,8 +3,6 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEn
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../icons/icon.component';
-import { UniqueId } from '../../utils/unique-id';
-import { ObjectUtils } from '../../utils/object-utils';
 
 export interface GpCascadeSelectItem {
   name: string;
@@ -40,33 +38,30 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
 
   @Output() onChange = new EventEmitter<{ value: any }>();
 
-  public override value = signal<any>(null);
   protected overlayVisible = signal<boolean>(false);
   protected activeItemLevel1 = signal<any>(null);
   protected activeItemLevel2 = signal<any>(null);
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
-  constructor(private el: ElementRef) {
+  constructor(private hostElRef: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+    if (!this.hostElRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
 
   protected selectedLabel = computed(() => {
-    const val = this.value();
+    const val = this.internalValue();
     if (!val) return '';
     return typeof val === 'object' ? val[this.optionLabel] : String(val);
   });
 
   public override writeValue(value: any): void {
-    this.value.set(value);
+    this.value = value;
+    this.internalValue.set(value);
   }
 
   public override registerOnChange(fn: any): void {
@@ -99,9 +94,8 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
     const children = item[this.optionGroupChildren];
     if (!children || children.length === 0) {
       const val = this.optionValue ? item[this.optionValue] || item : item;
-      this.value.set(val);
-      this.onChangeCallback(val);
-      this.onTouchedCallback();
+      this.updateValue(val);
+      this.handleControlBlur();
       this.onChange.emit({ value: val });
       this.overlayVisible.set(false);
     }

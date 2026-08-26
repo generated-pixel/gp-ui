@@ -49,20 +49,16 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   @Output() onChange = new EventEmitter<{ value: any; originalEvent: Event }>();
   @Output() onFilter = new EventEmitter<{ query: string }>();
 
-  public override value = signal<any>(null);
   protected overlayVisible = signal<boolean>(false);
   protected filterText = signal<string>('');
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
-  constructor(private el: ElementRef) {
+  constructor(private hostElRef: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+    if (!this.hostElRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
@@ -91,17 +87,18 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   });
 
   protected selectedItem = computed<GpSelectItem | undefined>(() => {
-    const val = this.value();
+    const val = this.internalValue();
     if (val === null || val === undefined) return undefined;
     return this.normalizedOptions().find(opt => ObjectUtils.equals(opt.value, val));
   });
 
   public isSelected(opt: GpSelectItem): boolean {
-    return ObjectUtils.equals(this.value(), opt.value);
+    return ObjectUtils.equals(this.internalValue(), opt.value);
   }
 
   public override writeValue(value: any): void {
-    this.value.set(value);
+    this.value = value;
+    this.internalValue.set(value);
   }
 
   public override registerOnChange(fn: any): void {
@@ -123,9 +120,8 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
 
   public selectItem(opt: GpSelectItem, event: MouseEvent): void {
     if (opt.disabled) return;
-    this.value.set(opt.value);
-    this.onChangeCallback(opt.value);
-    this.onTouchedCallback();
+    this.updateValue(opt.value);
+    this.handleControlBlur();
     this.onChange.emit({ value: opt.value, originalEvent: event });
     this.overlayVisible.set(false);
     this.filterText.set('');
@@ -133,9 +129,8 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
 
   public clear(event: MouseEvent): void {
     event.stopPropagation();
-    this.value.set(null);
-    this.onChangeCallback(null);
-    this.onTouchedCallback();
+    this.updateValue(null);
+    this.handleControlBlur();
     this.onChange.emit({ value: null, originalEvent: event });
   }
 

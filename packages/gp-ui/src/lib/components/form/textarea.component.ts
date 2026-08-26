@@ -1,5 +1,5 @@
 import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UniqueId } from '../../utils/unique-id';
@@ -38,13 +38,10 @@ export class GpTextareaComponent extends GpEditableBaseComponent implements Cont
   @Output() onFocusEvent = new EventEmitter<FocusEvent>();
   @Output() onBlurEvent = new EventEmitter<FocusEvent>();
 
-  public override value = signal<string>('');
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   public override writeValue(value: any): void {
-    this.value.set(value != null ? String(value) : '');
+    const str = value != null ? String(value) : '';
+    this.value = str;
+    this.internalValue.set(str);
   }
 
   public override registerOnChange(fn: any): void {
@@ -65,8 +62,7 @@ export class GpTextareaComponent extends GpEditableBaseComponent implements Cont
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-    this.value.set(textarea.value);
-    this.onChangeCallback(textarea.value);
+    this.updateValue(textarea.value);
     this.onInputEvent.emit(event);
   }
 
@@ -75,7 +71,7 @@ export class GpTextareaComponent extends GpEditableBaseComponent implements Cont
   }
 
   protected onBlur(event: FocusEvent): void {
-    this.onTouchedCallback();
+    this.handleControlBlur();
     this.onBlurEvent.emit(event);
   }
 }

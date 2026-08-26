@@ -1,5 +1,5 @@
 import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, computed, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UniqueId } from '../../utils/unique-id';
@@ -28,25 +28,23 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
 
   @Output() onChange = new EventEmitter<{ value: number; originalEvent: Event }>();
 
-  public override value = signal<number>(0);
-
   private dragging = false;
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
 
   constructor(private el: ElementRef) {
     super();
   }
 
   protected percentage = computed(() => {
-    const val = this.value();
+    const val = Number(this.internalValue()) || 0;
     const range = this.max - this.min;
     if (range <= 0) return 0;
     return Math.min(100, Math.max(0, ((val - this.min) / range) * 100));
   });
 
   public override writeValue(value: any): void {
-    this.value.set(value != null ? Number(value) : this.min);
+    const num = value != null ? Number(value) : this.min;
+    this.value = num;
+    this.internalValue.set(num);
   }
 
   public override registerOnChange(fn: any): void {
@@ -78,12 +76,14 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
   onMouseUp(): void {
     if (this.dragging) {
       this.dragging = false;
-      this.onTouchedCallback();
+      this.handleControlBlur();
     }
   }
 
   private updateValueFromPosition(clientX: number): void {
-    const rect = this.el.nativeElement.querySelector('.gp-slider').getBoundingClientRect();
+    const sliderEl = this.el.nativeElement.querySelector('.gp-slider');
+    if (!sliderEl) return;
+    const rect = sliderEl.getBoundingClientRect();
     const pos = (clientX - rect.left) / rect.width;
     const clampedPos = Math.min(1, Math.max(0, pos));
     let rawValue = this.min + clampedPos * (this.max - this.min);
@@ -94,14 +94,14 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
     }
 
     const finalVal = Math.min(this.max, Math.max(this.min, rawValue));
-    this.value.set(finalVal);
-    this.onChangeCallback(finalVal);
+    this.updateValue(finalVal);
     this.onChange.emit({ value: finalVal, originalEvent: new CustomEvent('change') });
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
     if (this.disabled) return;
-    let next = this.value();
+    const current = Number(this.internalValue()) || 0;
+    let next = current;
     if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
       next = Math.min(this.max, next + this.step);
       event.preventDefault();
@@ -109,9 +109,8 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
       next = Math.max(this.min, next - this.step);
       event.preventDefault();
     }
-    if (next !== this.value()) {
-      this.value.set(next);
-      this.onChangeCallback(next);
+    if (next !== current) {
+      this.updateValue(next);
       this.onChange.emit({ value: next, originalEvent: event });
     }
   }

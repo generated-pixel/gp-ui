@@ -1,5 +1,5 @@
 import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener, ContentChild, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../icons/icon.component';
@@ -44,20 +44,16 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   @Output() onChange = new EventEmitter<{ value: any[]; originalEvent: Event }>();
 
-  public override value = signal<any[]>([]);
   protected overlayVisible = signal<boolean>(false);
   protected filterText = signal<string>('');
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
-  constructor(private el: ElementRef) {
+  constructor(private hostElRef: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+    if (!this.hostElRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
@@ -86,7 +82,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   });
 
   protected selectedOptions = computed<GpSelectItem[]>(() => {
-    const vals = this.value() || [];
+    const vals = (this.internalValue() as any[]) || [];
     return this.normalizedOptions().filter(opt =>
       vals.some(v => ObjectUtils.equals(v, opt.value))
     );
@@ -97,7 +93,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   });
 
   public isSelected(opt: GpSelectItem): boolean {
-    const vals = this.value() || [];
+    const vals = (this.internalValue() as any[]) || [];
     return vals.some(v => ObjectUtils.equals(v, opt.value));
   }
 
@@ -108,7 +104,9 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   }
 
   public override writeValue(value: any): void {
-    this.value.set(Array.isArray(value) ? value : []);
+    const arr = Array.isArray(value) ? value : [];
+    this.value = arr;
+    this.internalValue.set(arr);
   }
 
   public override registerOnChange(fn: any): void {
@@ -130,16 +128,15 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   public toggleOption(opt: GpSelectItem, event: MouseEvent): void {
     if (opt.disabled) return;
-    const current = this.value() || [];
+    const current = (this.internalValue() as any[]) || [];
     let next: any[];
     if (this.isSelected(opt)) {
       next = current.filter(v => !ObjectUtils.equals(v, opt.value));
     } else {
       next = [...current, opt.value];
     }
-    this.value.set(next);
-    this.onChangeCallback(next);
-    this.onTouchedCallback();
+    this.updateValue(next);
+    this.handleControlBlur();
     this.onChange.emit({ value: next, originalEvent: event });
   }
 
@@ -151,17 +148,15 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   public toggleSelectAll(): void {
     const allSelected = this.isAllSelected();
     const next = allSelected ? [] : this.normalizedOptions().filter(o => !o.disabled).map(o => o.value);
-    this.value.set(next);
-    this.onChangeCallback(next);
-    this.onTouchedCallback();
+    this.updateValue(next);
+    this.handleControlBlur();
     this.onChange.emit({ value: next, originalEvent: new CustomEvent('change') });
   }
 
   public clear(event: MouseEvent): void {
     event.stopPropagation();
-    this.value.set([]);
-    this.onChangeCallback([]);
-    this.onTouchedCallback();
+    this.updateValue([]);
+    this.handleControlBlur();
     this.onChange.emit({ value: [], originalEvent: event });
   }
 

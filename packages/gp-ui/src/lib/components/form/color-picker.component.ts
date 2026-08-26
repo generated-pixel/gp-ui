@@ -29,25 +29,23 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
 
   @Output() onChange = new EventEmitter<{ value: string }>();
 
-  public override value = signal<string>('#6366f1');
   protected overlayVisible = signal<boolean>(false);
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
-  constructor(private el: ElementRef) {
+  constructor(private hostElementRef: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+    if (!this.hostElementRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
 
   public override writeValue(value: any): void {
-    this.value.set(value || '#6366f1');
+    const col = value || '#6366f1';
+    this.value = col;
+    this.internalValue.set(col);
   }
 
   public override registerOnChange(fn: any): void {
@@ -68,17 +66,15 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
   }
 
   public selectColor(color: string): void {
-    this.value.set(color);
-    this.onChangeCallback(color);
-    this.onTouchedCallback();
+    this.updateValue(color);
+    this.handleControlBlur();
     this.onChange.emit({ value: color });
     this.overlayVisible.set(false);
   }
 
   protected onNativeColorInput(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
-    this.value.set(val);
-    this.onChangeCallback(val);
+    this.updateValue(val);
     this.onChange.emit({ value: val });
   }
 }

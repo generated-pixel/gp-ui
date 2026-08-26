@@ -1,5 +1,5 @@
 import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../icons/icon.component';
@@ -32,17 +32,14 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
   @Output() onRate = new EventEmitter<{ value: number }>();
   @Output() onCancel = new EventEmitter<void>();
 
-  public override value = signal<number | null>(null);
-
   protected get starsArray(): number[] {
     return Array.from({ length: this.stars });
   }
 
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   public override writeValue(value: any): void {
-    this.value.set(value != null ? Number(value) : null);
+    const val = value != null ? Number(value) : null;
+    this.value = val;
+    this.internalValue.set(val);
   }
 
   public override registerOnChange(fn: any): void {
@@ -59,17 +56,15 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
 
   public rate(star: number): void {
     if (this.readonly || this.disabled) return;
-    this.value.set(star);
-    this.onChangeCallback(star);
-    this.onTouchedCallback();
+    this.updateValue(star);
+    this.handleControlBlur();
     this.onRate.emit({ value: star });
   }
 
   public clear(): void {
     if (this.readonly || this.disabled) return;
-    this.value.set(null);
-    this.onChangeCallback(null);
-    this.onTouchedCallback();
+    this.updateValue(null);
+    this.handleControlBlur();
     this.onCancel.emit();
   }
 }

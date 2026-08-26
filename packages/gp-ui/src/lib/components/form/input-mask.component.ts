@@ -1,5 +1,5 @@
 import { GpEditableBaseComponent } from '../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UniqueId } from '../../utils/unique-id';
@@ -32,13 +32,10 @@ export class GpInputMaskComponent extends GpEditableBaseComponent implements Con
 
   @Output() onComplete = new EventEmitter<string>();
 
-  public override value = signal<string>('');
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   public override writeValue(value: any): void {
-    this.value.set(value ? this.format(value) : '');
+    const formatted = value ? this.format(value) : '';
+    this.value = formatted;
+    this.internalValue.set(formatted);
   }
 
   public override registerOnChange(fn: any): void {
@@ -57,12 +54,15 @@ export class GpInputMaskComponent extends GpEditableBaseComponent implements Con
     const input = event.target as HTMLInputElement;
     const formatted = this.format(input.value);
     input.value = formatted;
-    this.value.set(formatted);
-    this.onChangeCallback(formatted);
+    this.updateValue(formatted);
 
     if (this.mask && formatted.length === this.mask.length && !formatted.includes(this.slotChar)) {
       this.onComplete.emit(formatted);
     }
+  }
+
+  protected onBlur(): void {
+    this.handleControlBlur();
   }
 
   private format(val: string): string {
