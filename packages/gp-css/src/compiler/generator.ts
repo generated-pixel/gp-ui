@@ -40,6 +40,7 @@ export class GpCssGenerator {
 
     let mediaQuery: string | undefined = undefined;
     const pseudoClasses: string[] = [];
+    let customSelectorPrefix = "";
 
     for (const mod of modifiers) {
       if (this.tokens.breakpoints[mod]) {
@@ -48,26 +49,36 @@ export class GpCssGenerator {
         pseudoClasses.push(":hover");
       } else if (mod === "focus") {
         pseudoClasses.push(":focus");
+      } else if (mod === "focus-within") {
+        pseudoClasses.push(":focus-within");
+      } else if (mod === "focus-visible") {
+        pseudoClasses.push(":focus-visible");
       } else if (mod === "active") {
         pseudoClasses.push(":active");
       } else if (mod === "disabled") {
         pseudoClasses.push(":disabled");
+      } else if (mod === "first") {
+        pseudoClasses.push(":first-child");
+      } else if (mod === "last") {
+        pseudoClasses.push(":last-child");
+      } else if (mod === "odd") {
+        pseudoClasses.push(":nth-child(odd)");
+      } else if (mod === "even") {
+        pseudoClasses.push(":nth-child(even)");
+      } else if (mod === "peer-hover") {
+        customSelectorPrefix = ".peer:hover ";
+      } else if (mod === "peer-focus") {
+        customSelectorPrefix = ".peer:focus ";
       } else if (mod === "group-hover") {
-        // Selector transform
+        customSelectorPrefix = ".group:hover ";
       } else if (mod === "dark") {
-        // Dark mode selector transform
+        customSelectorPrefix = ".dark ";
       }
     }
 
     const escapedClassName = escapeSelector(candidate);
-    let selector = `.${escapedClassName}`;
+    let selector = `${customSelectorPrefix}.${escapedClassName}`;
 
-    if (modifiers.includes("group-hover")) {
-      selector = `.group:hover .${escapedClassName}`;
-    }
-    if (modifiers.includes("dark")) {
-      selector = `.dark .${escapedClassName}`;
-    }
     if (pseudoClasses.length > 0) {
       selector += pseudoClasses.join("");
     }
@@ -103,6 +114,10 @@ export class GpCssGenerator {
       "flex-auto": "flex: 1 1 auto;",
       "flex-initial": "flex: 0 1 auto;",
       "flex-none": "flex: none;",
+      grow: "flex-grow: 1;",
+      "grow-0": "flex-grow: 0;",
+      shrink: "flex-shrink: 1;",
+      "shrink-0": "flex-shrink: 0;",
 
       // Align Items
       "items-start": "align-items: flex-start;",
@@ -141,7 +156,7 @@ export class GpCssGenerator {
       "place-content-center": "place-content: center;",
       "place-content-between": "place-content: space-between;",
 
-      // Text Alignment & Styling
+      // Text Alignment, Clipping & Styling
       "text-left": "text-align: left;",
       "text-center": "text-align: center;",
       "text-right": "text-align: right;",
@@ -156,6 +171,7 @@ export class GpCssGenerator {
       "line-through": "text-decoration-line: line-through;",
       "no-underline": "text-decoration-line: none;",
       truncate: "overflow: hidden; text-overflow: ellipsis; white-space: nowrap;",
+      "bg-clip-text": "-webkit-background-clip: text; background-clip: text;",
 
       // Positioning Primitives
       relative: "position: relative;",
@@ -188,16 +204,80 @@ export class GpCssGenerator {
       "select-all": "user-select: all;",
       "select-text": "user-select: text;",
 
-      // Transitions
+      // Transforms
+      transform: "transform: translate(var(--gp-translate-x, 0), var(--gp-translate-y, 0)) rotate(var(--gp-rotate, 0)) scaleX(var(--gp-scale-x, 1)) scaleY(var(--gp-scale-y, 1));",
+      "transform-gpu": "transform: translate3d(var(--gp-translate-x, 0), var(--gp-translate-y, 0), 0) rotate(var(--gp-rotate, 0)) scaleX(var(--gp-scale-x, 1)) scaleY(var(--gp-scale-y, 1));",
+
+      // Transitions & Timing
       "transition-all": "transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;",
       transition: "transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 200ms;",
+      "ease-linear": "transition-timing-function: linear;",
+      "ease-in": "transition-timing-function: cubic-bezier(0.4, 0, 1, 1);",
+      "ease-out": "transition-timing-function: cubic-bezier(0, 0, 0.2, 1);",
+      "ease-in-out": "transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);",
     };
 
     if (displayMap[candidate]) {
       return displayMap[candidate];
     }
 
-    // 2. gp-theme Preset Glassmorphism & Visual Effects
+    // 2. Keyframe Animations & Duration
+    if (candidate.startsWith("animate-")) {
+      const animKey = candidate.slice(8);
+      if (this.tokens.animations[animKey]) {
+        return `animation: ${this.tokens.animations[animKey]};`;
+      }
+    }
+    if (candidate.startsWith("duration-")) {
+      const ms = candidate.slice(9);
+      if (/^[0-9]+$/.test(ms)) return `transition-duration: ${ms}ms; animation-duration: ${ms}ms;`;
+    }
+    if (candidate.startsWith("delay-")) {
+      const ms = candidate.slice(6);
+      if (/^[0-9]+$/.test(ms)) return `transition-delay: ${ms}ms; animation-delay: ${ms}ms;`;
+    }
+
+    // 3. Transforms: Scale, Rotate, Translate
+    if (candidate.startsWith("scale-")) {
+      const sc = candidate.slice(6);
+      if (this.tokens.transforms.scale[sc]) {
+        const val = this.tokens.transforms.scale[sc];
+        return `--gp-scale-x: ${val}; --gp-scale-y: ${val}; transform: scale(${val});`;
+      }
+    }
+    if (candidate.startsWith("rotate-")) {
+      const rot = candidate.slice(7);
+      if (this.tokens.transforms.rotate[rot]) {
+        const val = this.tokens.transforms.rotate[rot];
+        return `--gp-rotate: ${val}; transform: rotate(${val});`;
+      }
+    }
+    if (candidate.startsWith("-rotate-")) {
+      const rot = "-" + candidate.slice(8);
+      if (this.tokens.transforms.rotate[rot]) {
+        const val = this.tokens.transforms.rotate[rot];
+        return `--gp-rotate: ${val}; transform: rotate(${val});`;
+      }
+    }
+
+    // 4. Ring Focus Utilities
+    if (candidate.startsWith("ring")) {
+      if (candidate === "ring") {
+        return "box-shadow: 0 0 0 var(--gp-ring-width, 3px) var(--gp-ring-color, var(--gp-primary, #6366f1));";
+      }
+      if (candidate.startsWith("ring-")) {
+        const key = candidate.slice(5);
+        if (this.tokens.ringWidth[key]) {
+          return `--gp-ring-width: ${this.tokens.ringWidth[key]}; box-shadow: 0 0 0 ${this.tokens.ringWidth[key]} var(--gp-ring-color, var(--gp-primary, #6366f1));`;
+        }
+        const val = this.resolveValueOrArbitrary(key, this.tokens.colors);
+        if (val) {
+          return `--gp-ring-color: ${val}; box-shadow: 0 0 0 var(--gp-ring-width, 3px) ${val};`;
+        }
+      }
+    }
+
+    // 5. Preset Glassmorphism & Visual Effects
     if (candidate === "glass" || candidate === "glass-panel") {
       return "background: var(--gp-surface-card, var(--panel, rgba(15, 23, 42, 0.78))); border: 1px solid var(--gp-surface-border, var(--panel-border, rgba(148, 163, 184, 0.18))); backdrop-filter: blur(12px); box-shadow: var(--gp-shadow-md, 0 8px 32px 0 rgba(0, 0, 0, 0.37));";
     }
@@ -208,7 +288,7 @@ export class GpCssGenerator {
       return "box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);";
     }
 
-    // 3. Spacing: Padding, Margin, Gap
+    // 6. Spacing: Padding, Margin, Gap
     const spacingPropMap: Record<string, string[]> = {
       p: ["padding"],
       px: ["padding-left", "padding-right"],
@@ -239,7 +319,35 @@ export class GpCssGenerator {
       }
     }
 
-    // 4. Colors: Background, Text, Border
+    // 7. Colors: Background, Text, Border, Gradients
+    if (candidate.startsWith("bg-gradient-to-")) {
+      const dir = candidate.slice(15);
+      const dirMap: Record<string, string> = {
+        r: "to right",
+        l: "to left",
+        t: "to top",
+        b: "to bottom",
+        br: "to bottom right",
+        bl: "to bottom left",
+        tr: "to top right",
+        tl: "to top left",
+      };
+      if (dirMap[dir]) {
+        return `background-image: linear-gradient(${dirMap[dir]}, var(--gp-gradient-stops, var(--gp-from, transparent), var(--gp-to, transparent)));`;
+      }
+    }
+
+    if (candidate.startsWith("from-")) {
+      const valKey = candidate.slice(5);
+      const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
+      if (val) return `--gp-from: ${val}; --gp-gradient-stops: var(--gp-from), var(--gp-to, transparent);`;
+    }
+    if (candidate.startsWith("to-")) {
+      const valKey = candidate.slice(3);
+      const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
+      if (val) return `--gp-to: ${val};`;
+    }
+
     if (candidate.startsWith("bg-")) {
       const valKey = candidate.slice(3);
       if (this.tokens.gradients[valKey]) {
@@ -251,6 +359,7 @@ export class GpCssGenerator {
 
     if (candidate.startsWith("text-")) {
       const valKey = candidate.slice(5);
+      if (valKey === "transparent") return "color: transparent;";
       if (this.tokens.fontSize[valKey]) {
         const [size, leading] = this.tokens.fontSize[valKey];
         return `font-size: ${size}; line-height: ${leading};`;
@@ -272,7 +381,7 @@ export class GpCssGenerator {
       if (val) return `border-color: ${val}; border-style: solid;`;
     }
 
-    // 5. Border Radius
+    // 8. Border Radius
     if (candidate.startsWith("rounded")) {
       if (candidate === "rounded") {
         return `border-radius: ${this.tokens.borderRadius['DEFAULT']};`;
@@ -282,7 +391,7 @@ export class GpCssGenerator {
       if (val) return `border-radius: ${val};`;
     }
 
-    // 6. Font Weight
+    // 9. Font Weight
     const fontWeightMap: Record<string, string> = {
       "font-thin": "font-weight: 100;",
       "font-extralight": "font-weight: 200;",
@@ -296,7 +405,7 @@ export class GpCssGenerator {
     };
     if (fontWeightMap[candidate]) return fontWeightMap[candidate];
 
-    // 7. Font Family
+    // 10. Font Family
     if (candidate.startsWith("font-")) {
       const familyKey = candidate.slice(5);
       if (this.tokens.fontFamily[familyKey]) {
@@ -304,7 +413,7 @@ export class GpCssGenerator {
       }
     }
 
-    // 8. Box Shadow
+    // 11. Box Shadow
     if (candidate.startsWith("shadow")) {
       if (candidate === "shadow") return `box-shadow: ${this.tokens.boxShadow['DEFAULT']};`;
       const valKey = candidate.slice(7);
@@ -312,7 +421,7 @@ export class GpCssGenerator {
       if (val) return `box-shadow: ${val};`;
     }
 
-    // 9. Backdrop Blur
+    // 12. Backdrop Blur & Filters
     if (candidate.startsWith("backdrop-blur")) {
       if (candidate === "backdrop-blur") return `backdrop-filter: blur(${this.tokens.backdropBlur['DEFAULT']});`;
       const valKey = candidate.slice(14);
@@ -320,7 +429,7 @@ export class GpCssGenerator {
       if (val) return `backdrop-filter: blur(${val});`;
     }
 
-    // 10. Grid Columns & Rows
+    // 13. Grid Columns & Rows & Order
     if (candidate.startsWith("grid-cols-")) {
       const cols = candidate.slice(10);
       if (cols === "none") return "grid-template-columns: none;";
@@ -344,7 +453,15 @@ export class GpCssGenerator {
       if (/^[0-9]+$/.test(span)) return `grid-row: span ${span} / span ${span};`;
     }
 
-    // 11. Opacity
+    if (candidate.startsWith("order-")) {
+      const ord = candidate.slice(6);
+      if (ord === "first") return "order: -9999;";
+      if (ord === "last") return "order: 9999;";
+      if (ord === "none") return "order: 0;";
+      if (/^[0-9]+$/.test(ord)) return `order: ${ord};`;
+    }
+
+    // 14. Opacity & Z-Index
     if (candidate.startsWith("opacity-")) {
       const op = candidate.slice(8);
       if (/^[0-9]+$/.test(op)) {
@@ -353,14 +470,13 @@ export class GpCssGenerator {
       }
     }
 
-    // 12. Z-Index
     if (candidate.startsWith("z-")) {
       const zKey = candidate.slice(2);
       if (this.tokens.zIndex[zKey]) return `z-index: ${this.tokens.zIndex[zKey]};`;
       if (/^[0-9]+$/.test(zKey)) return `z-index: ${zKey};`;
     }
 
-    // 13. Width & Height sizing utilities
+    // 15. Width & Height Sizing
     if (candidate.startsWith("w-")) {
       const valKey = candidate.slice(2);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.spacing);

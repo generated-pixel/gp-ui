@@ -7,7 +7,7 @@ export type { GeneratorOptions, GeneratedRule } from "./compiler/generator.js";
 export { processDirectives } from "./compiler/directives.js";
 export { defaultTokens } from "./tokens/default-tokens.js";
 export type { GpThemeTokens } from "./tokens/default-tokens.js";
-
-export function defineConfig(config: import("./compiler/index.js").CompileConfig) {
-  return config;
-}
+export { definePlugin } from "./compiler/plugins.js";
+export type { GpCssPlugin, PluginContext } from "./compiler/plugins.js";
+export { defineConfig } from "./compiler/config.js";
+export type { GpCssUserConfig } from "./compiler/config.js";

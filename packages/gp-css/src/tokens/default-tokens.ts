@@ -10,6 +10,12 @@ export interface GpThemeTokens {
   gradients: Record<string, string>;
   transitionDuration: Record<string, string>;
   zIndex: Record<string, string>;
+  animations: Record<string, string>;
+  transforms: {
+    scale: Record<string, string>;
+    rotate: Record<string, string>;
+  };
+  ringWidth: Record<string, string>;
 }
 
 export const defaultTokens: GpThemeTokens = {
@@ -95,6 +101,11 @@ export const defaultTokens: GpThemeTokens = {
     "cyan-700": "#0e7490",
     "cyan-800": "#155e75",
     "cyan-900": "#164e63",
+
+    // Teal Palette
+    "teal-400": "#2dd4bf",
+    "teal-500": "#14b8a6",
+    "teal-600": "#0d9488",
 
     // Purple / Indigo Palette
     "purple-400": "#c084fc",
@@ -230,5 +241,53 @@ export const defaultTokens: GpThemeTokens = {
     "50": "50",
     modal: "100",
     tooltip: "200",
+  },
+
+  animations: {
+    spin: "gp-spin 1s linear infinite",
+    pulse: "gp-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+    bounce: "gp-bounce 1s infinite",
+    "fade-in": "gp-fadeIn 0.3s ease-out forwards",
+    "slide-up": "gp-slideUp 0.3s ease-out forwards",
+    shimmer: "gp-shimmer 2s linear infinite",
+    "glow-pulse": "gp-glowPulse 2s infinite alternate",
+  },
+
+  transforms: {
+    scale: {
+      "0": "0",
+      "50": "0.5",
+      "75": "0.75",
+      "90": "0.9",
+      "95": "0.95",
+      "100": "1",
+      "105": "1.05",
+      "110": "1.1",
+      "125": "1.25",
+      "150": "1.5",
+    },
+    rotate: {
+      "0": "0deg",
+      "1": "1deg",
+      "2": "2deg",
+      "3": "3deg",
+      "6": "6deg",
+      "12": "12deg",
+      "45": "45deg",
+      "90": "90deg",
+      "180": "180deg",
+      "-45": "-45deg",
+      "-90": "-90deg",
+      "-180": "-180deg",
+    },
+  },
+
+  ringWidth: {
+    "0": "0px",
+    "1": "1px",
+    DEFAULT: "3px",
+    "2": "2px",
+    "4": "4px",
+    "8": "8px",
   },
 };

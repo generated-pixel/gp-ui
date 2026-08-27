@@ -5,12 +5,14 @@ import type { GeneratorOptions, GeneratedRule } from "./generator.js";
 import { processDirectives } from "./directives.js";
 import { defaultTokens } from "../tokens/default-tokens.js";
 import type { GpThemeTokens } from "../tokens/default-tokens.js";
+import { GpCssPlugin } from "./plugins.js";
 
 export interface CompileConfig {
-  content?: string[]; // Raw content strings or file contents to scan
-  inputCss?: string; // Base CSS input containing @gp-css directives
+  content?: string[];
+  inputCss?: string;
   prefix?: string;
   tokens?: GpThemeTokens;
+  plugins?: GpCssPlugin[];
   minify?: boolean;
 }
 
@@ -25,7 +27,19 @@ export function compile(config: CompileConfig = {}): CompileResult {
   const generator = new GpCssGenerator({ tokens, prefix: config.prefix });
   const candidates = new Set<string>();
 
-  // Scan content provided
+  const customUtilities = new Map<string, string>();
+  const customComponents: string[] = [];
+
+  if (config.plugins) {
+    for (const plugin of config.plugins) {
+      plugin({
+        tokens,
+        addUtility: (name, css) => customUtilities.set(name, css),
+        addComponent: (selector, css) => customComponents.push(`${selector} { ${css} }`),
+      });
+    }
+  }
+
   if (config.content) {
     for (const src of config.content) {
       const found = scanContent(src);
@@ -35,9 +49,16 @@ export function compile(config: CompileConfig = {}): CompileResult {
     }
   }
 
-  // Generate rules for scanned candidates
   const standardRules: GeneratedRule[] = [];
   const mediaRules: Map<string, GeneratedRule[]> = new Map();
+
+  for (const [name, cssText] of customUtilities.entries()) {
+    standardRules.push({
+      className: name,
+      selector: `.${name}`,
+      cssText: `.${name} { ${cssText} }`,
+    });
+  }
 
   for (const candidate of candidates) {
     const rule = generator.generateRule(candidate);
@@ -53,8 +74,11 @@ export function compile(config: CompileConfig = {}): CompileResult {
     }
   }
 
-  // Build compiled utilities CSS
   let utilitiesCss = standardRules.map((r) => r.cssText).join("\n");
+
+  if (customComponents.length > 0) {
+    utilitiesCss = customComponents.join("\n") + "\n" + utilitiesCss;
+  }
 
   for (const [mediaQuery, rules] of mediaRules.entries()) {
     utilitiesCss += `\n@media ${mediaQuery} {\n` + rules.map((r) => `  ${r.cssText}`).join("\n") + `\n}`;
@@ -81,8 +105,8 @@ export function compile(config: CompileConfig = {}): CompileResult {
 
 function minifyCss(css: string): string {
   return css
-    .replace(/\/\*[\s\S]*?\*\//g, "") // remove comments
-    .replace(/\s+/g, " ") // collapse whitespace
-    .replace(/\s*([{}:;,])\s*/g, "$1") // strip around punctuation
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s*([{}:;,])\s*/g, "$1")
     .trim();
 }

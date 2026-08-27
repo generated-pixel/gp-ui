@@ -16,13 +16,11 @@ export function processDirectives(
   let output = cssInput;
   let hasUtilitiesDirective = false;
 
-  // Process @gp-css theme; directive (injects CSS variable definitions for gp-theme)
   if (output.includes("@gp-css theme;")) {
     const themeVars = generateThemeCssVariables(tokens);
     output = output.replace("@gp-css theme;", themeVars);
   }
 
-  // Process @gp-css base; directive
   if (output.includes("@gp-css base;")) {
     const baseStyles = `
 *, ::before, ::after {
@@ -40,21 +38,49 @@ html {
 body {
   margin: 0;
   line-height: inherit;
-  color: ${tokens.colors["text-main"]};
-  background-color: ${tokens.colors["bg-top"]};
+  color: ${tokens.colors['text-main']};
+  background-color: ${tokens.colors['bg-top']};
+}
+
+@keyframes gp-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes gp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes gp-bounce {
+  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); }
+  50% { transform: translateY(0); animation-timing-function: cubic-bezier(0,0,0.2,1); }
+}
+@keyframes gp-fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gp-slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gp-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes gp-glowPulse {
+  from { box-shadow: 0 0 15px rgba(103, 232, 249, 0.2); }
+  to { box-shadow: 0 0 35px rgba(103, 232, 249, 0.5); }
 }
 `;
     output = output.replace("@gp-css base;", baseStyles);
   }
 
-  // Process @gp-css components; directive
   if (output.includes("@gp-css components;")) {
     const componentStyles = `
 .gp-card {
   background: ${tokens.colors['panel']};
-  border: 1px solid ${tokens.colors["panel-border"]};
+  border: 1px solid ${tokens.colors['panel-border']};
   border-radius: ${tokens.borderRadius['xl']};
-  padding: ${tokens.spacing["6"]};
+  padding: ${tokens.spacing['6']};
   box-shadow: ${tokens.boxShadow['panel']};
   backdrop-filter: blur(12px);
 }
@@ -62,7 +88,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: ${tokens.spacing["2.5"]} ${tokens.spacing["5"]};
+  padding: ${tokens.spacing['2.5']} ${tokens.spacing['5']};
   font-weight: 600;
   border-radius: ${tokens.borderRadius['lg']};
   transition: all 150ms ease;
@@ -80,20 +106,17 @@ body {
     output = output.replace("@gp-css components;", componentStyles);
   }
 
-  // Process @gp-css utilities; directive
   if (output.includes("@gp-css utilities;")) {
     hasUtilitiesDirective = true;
     output = output.replace("@gp-css utilities;", generatedUtilitiesCss);
   }
 
-  // Process @apply directives within rules (e.g. .my-btn { @apply flex items-center bg-accent; })
   output = output.replace(/@apply\s+([^;}]+);?/g, (_, classesStr) => {
     const classes = classesStr.trim().split(/\s+/);
     const rules: string[] = [];
     for (const cls of classes) {
       const rule = generator.generateRule(cls);
       if (rule) {
-        // Strip selector wrapper to get raw properties
         const match = rule.cssText.match(/\{([^}]+)\}/);
         if (match) {
           rules.push(match[1].trim());
@@ -109,9 +132,7 @@ body {
 function generateThemeCssVariables(tokens: GpThemeTokens): string {
   const vars: string[] = [":root {"];
   for (const [key, val] of Object.entries(tokens.colors)) {
-    if (!val.startsWith("var(")) {
-      vars.push(`  --gp-color-${key}: ${val};`);
-    }
+    vars.push(`  --gp-color-${key}: ${val};`);
   }
   for (const [key, val] of Object.entries(tokens.borderRadius)) {
     vars.push(`  --gp-radius-${key}: ${val};`);
