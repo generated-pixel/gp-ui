@@ -764,6 +764,7 @@ export class AppComponent {
     { name: 'Tag', route: '/component/tag', category: 'Feedback', icon: 'tag' },
     { name: 'Chip', route: '/component/chip', category: 'Display', icon: 'chip' },
     { name: 'Image', route: '/component/image', category: 'Display', icon: 'image' },
+    { name: 'Icon', route: '/component/icon', category: 'Display', icon: 'star' },
     { name: 'Avatar', route: '/component/avatar', category: 'Display', icon: 'star' },
     { name: 'Carousel', route: '/component/carousel', category: 'Display', icon: 'slides' },
     { name: 'Timeline', route: '/component/timeline', category: 'Display', icon: 'timeline' },

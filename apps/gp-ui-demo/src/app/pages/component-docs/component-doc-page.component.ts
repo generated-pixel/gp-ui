@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GpButtonComponent, GpBadgeComponent, GpMenuItem } from 'gp-ui';
+import { GpIconComponent, GP_DEFAULT_ICONS } from 'gp-ui-icons';
 import { DocApiTableComponent } from '../../shared/doc-api-table.component';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { getComponentDoc } from './component-docs.data';
@@ -9,7 +10,7 @@ import { getComponentDoc } from './component-docs.data';
 @Component({
   selector: 'app-component-doc-page',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpBadgeComponent, DocCodeComponent, DocApiTableComponent],
+  imports: [CommonModule, GpButtonComponent, GpBadgeComponent, GpIconComponent, DocCodeComponent, DocApiTableComponent],
   template: `
     @if (doc) {
       <div class="page-container">
@@ -41,6 +42,28 @@ import { getComponentDoc } from './component-docs.data';
             <doc-api-table title="Events" [properties]="doc.events" [hasDefaults]="false" />
           }
         </div>
+
+        @if (doc.slug === 'icon') {
+          <div class="doc-section">
+            <div class="icon-header-row">
+              <h2 class="doc-section-title" style="margin: 0;">Available Icons ({{ filteredIconNames.length }})</h2>
+              <input
+                type="text"
+                placeholder="Search icons..."
+                class="icon-search-input"
+                (input)="onIconSearch($any($event.target).value)"
+              />
+            </div>
+            <div class="icon-grid">
+              @for (iconName of filteredIconNames; track iconName) {
+                <div class="icon-card">
+                  <gp-icon [name]="iconName" size="1.75em" />
+                  <span class="icon-name">{{ iconName }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
       </div>
     } @else {
       <div class="page-container">
@@ -112,6 +135,13 @@ import { getComponentDoc } from './component-docs.data';
         @case ('badge') {
           <gp-badge [value]="'New'" severity="primary" />
         }
+        @case ('icon') {
+          <div style="display:flex; align-items:center; gap:0.75rem; min-width:220px;">
+            <gp-icon name="search" size="1.5em" />
+            <gp-icon name="check-circle" size="1.5em" color="var(--gp-success)" />
+            <gp-icon name="star-fill" size="1.5em" color="var(--gp-warning)" />
+          </div>
+        }
         @default {
           <gp-button label="Example" severity="primary" />
         }
@@ -139,11 +169,74 @@ import { getComponentDoc } from './component-docs.data';
         border-radius: var(--gp-border-radius-md, 8px);
         background: var(--gp-surface-card);
       }
+      .icon-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .icon-search-input {
+        padding: 0.5rem 0.75rem;
+        border-radius: var(--gp-border-radius-md, 6px);
+        border: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-card);
+        color: var(--gp-text-color);
+        font-size: 0.9rem;
+        outline: none;
+        min-width: 200px;
+      }
+      .icon-search-input:focus {
+        border-color: var(--gp-primary-color, #6366f1);
+      }
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.75rem;
+      }
+      .icon-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem 0.5rem;
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius-md, 8px);
+        background: var(--gp-surface-card);
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+      .icon-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--gp-primary-color, #6366f1);
+      }
+      .icon-name {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary);
+        font-family: monospace;
+        word-break: break-all;
+        text-align: center;
+      }
     `
   ]
 })
 export class ComponentDocPageComponent implements OnInit {
   doc: ReturnType<typeof getComponentDoc>;
+  allIconNames: string[] = Object.keys(GP_DEFAULT_ICONS);
+  searchTerm = '';
+
+  get filteredIconNames(): string[] {
+    if (!this.searchTerm.trim()) {
+      return this.allIconNames;
+    }
+    const term = this.searchTerm.toLowerCase();
+    return this.allIconNames.filter(name => name.toLowerCase().includes(term));
+  }
+
+  onIconSearch(value: string): void {
+    this.searchTerm = value;
+  }
 
   constructor(private route: ActivatedRoute) {}
 

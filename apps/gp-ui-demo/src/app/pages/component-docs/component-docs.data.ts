@@ -967,6 +967,23 @@ export const componentDocs: ComponentDocDefinition[] = [
     ]
   },
   {
+    slug: 'icon',
+    name: 'Icon',
+    category: 'Display',
+    icon: 'star',
+    description: 'SVG icon component backed by the gp-icons registry for consistent utility and action visuals.',
+    importStatement: `import { GpIconComponent } from 'gp-ui-icons';`,
+    exampleCode: `<gp-icon name="search" size="1.5em" />\n<gp-icon name="check-circle" size="1.5em" color="var(--gp-success)" />`,
+    properties: [
+      { name: 'name', type: 'string', default: "''", description: 'Icon key looked up in the gp-icons registry.' },
+      { name: 'size', type: 'string | number', default: "'1em'", description: 'Icon width and height size.' },
+      { name: 'color', type: 'string', default: "''", description: 'Custom CSS color applied to the SVG.' },
+      { name: 'spin', type: 'boolean', default: 'false', description: 'Applies a rotating spinner animation.' },
+      { name: 'rotate', type: 'number', default: '0', description: 'Rotation in degrees for the icon.' },
+      { name: 'ariaLabel', type: 'string', default: "''", description: 'Accessible label announced by screen readers.' }
+    ]
+  },
+  {
     slug: 'avatar',
     name: 'Avatar',
     category: 'Display',
