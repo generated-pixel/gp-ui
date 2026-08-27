@@ -1,283 +1,163 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { GpButtonComponent, GpTagComponent, GpIconComponent, GP_UI_VERSION } from 'gp-ui';
+import { DocApiProperty, DocApiTableComponent } from '../../shared/doc-api-table.component';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 
 @Component({
   selector: 'app-gp-css-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    GpButtonComponent,
-    GpTagComponent,
-    GpIconComponent,
-    DocCodeComponent
-  ],
+  imports: [DocCodeComponent, DocApiTableComponent],
   template: `
     <div class="page-container">
-      <div class="hero-section">
-        <div class="hero-badge">
-          <gp-tag [value]="'v' + version" severity="primary" [rounded]="true" />
-          <gp-tag value="Utility-First Engine" severity="success" [rounded]="true" />
-        </div>
-        <h1 class="hero-title">&#64;generatedpixel/gp-css</h1>
-        <p class="hero-subtitle">
-          Generated Pixel's utility-first CSS framework and compiler engine. Tailored for maximum synergy with <strong>gp-theme</strong> design tokens and <strong>gp-ui</strong> component primitives.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#directives">
-            <gp-button label="Explore Directives" icon="code" severity="primary" size="lg" />
-          </a>
-          <a href="#tokens">
-            <gp-button label="Theme Token Bridge" icon="palette" variant="outlined" severity="secondary" size="lg" />
-          </a>
-        </div>
+      <div class="page-header">
+        <h1>gp-css</h1>
+        <p class="page-desc">A utility-first CSS compiler with Generated Pixel theme tokens, responsive variants, and a programmatic API.</p>
       </div>
 
-      <!-- Live Interactive Showcase -->
-      <div class="doc-section">
-        <h2 class="doc-section-title">
-          <gp-icon name="sparkles" size="1em" />
-          Interactive Utility Showcase
-        </h2>
-        <p class="doc-section-desc">Experience <code>gp-css</code> utility classes live with glassmorphism, glow effects, and responsive layout styling:</p>
+      <section class="doc-section">
+        <h2 class="doc-section-title">Installation</h2>
+        <p class="doc-section-desc">Install the compiler as a development dependency, then add directives to the application's global stylesheet.</p>
+        <doc-code [code]="installCode" language="bash" />
+      </section>
 
-        <div class="showcase-card">
-          <div class="flex-row">
-            <div class="flex-left">
-              <div class="badge-icon">GP</div>
-              <div>
-                <h3 class="card-title">gp-css + gp-ui + gp-theme</h3>
-                <p class="card-subtitle">Design Token Driven Utility Engine</p>
-              </div>
-            </div>
-            <div class="tag-row">
-              <gp-tag value="JIT Scanner" severity="primary" />
-              <gp-tag value="Zero Config" severity="info" />
-            </div>
-          </div>
-
-          <p class="card-desc">
-            <code>gp-css</code> extracts classes like <code>bg-panel</code>, <code>glass</code>, <code>glow</code>, <code>text-accent</code>, <code>p-6</code>, <code>rounded-2xl</code> directly from HTML/TS templates and produces optimized atomic stylesheets.
-          </p>
-
-          <div class="btn-row">
-            <gp-button label="Primary Action" severity="primary" (onClickEvent)="onDemoClick()" />
-            <gp-button label="Secondary Action" variant="outlined" severity="secondary" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Installation & Directives -->
-      <div class="doc-section" id="directives">
-        <h2 class="doc-section-title">
-          <gp-icon name="download" size="1em" />
-          Directives & CSS Entrypoint
-        </h2>
-        <p class="doc-section-desc">Add <code>&#64;gp-css</code> directives to your main <code>styles.css</code> or <code>styles.scss</code> file:</p>
+      <section class="doc-section">
+        <h2 class="doc-section-title">Directives</h2>
+        <p class="doc-section-desc">Directives inject theme variables, base styles, component helpers, and the utilities discovered from application content.</p>
         <doc-code [code]="directivesCode" language="css" />
-      </div>
+        <doc-api-table title="Available directives" [properties]="directives" />
+      </section>
 
-      <!-- Theme Token Mapping -->
-      <div class="doc-section" id="tokens">
-        <h2 class="doc-section-title">
-          <gp-icon name="palette" size="1em" />
-          Native Token Synergy (gp-theme)
-        </h2>
-        <p class="doc-section-desc"><code>gp-css</code> maps directly to CSS variable design tokens provided by <code>gp-theme</code>:</p>
+      <section class="doc-section">
+        <h2 class="doc-section-title">CLI</h2>
+        <p class="doc-section-desc">The CLI scans <code>src</code> and <code>public</code>, writes <code>dist/gp-css.css</code>, and uses <code>src/styles.css</code> as its entrypoint when present.</p>
+        <doc-code [code]="cliCode" language="bash" />
+      </section>
 
-        <div class="grid-table">
-          <div class="grid-row grid-header">
-            <div>Utility Class</div>
-            <div>CSS Output / Resolved Property</div>
-            <div>Design Token</div>
-          </div>
-          <div class="grid-row">
-            <div><code>bg-panel</code></div>
-            <div><code>background-color: var(--panel)</code></div>
-            <div><code>rgba(15, 23, 42, 0.78)</code></div>
-          </div>
-          <div class="grid-row">
-            <div><code>text-accent</code></div>
-            <div><code>color: var(--accent)</code></div>
-            <div><code>#67e8f9</code></div>
-          </div>
-          <div class="grid-row">
-            <div><code>glass</code></div>
-            <div><code>backdrop-filter: blur(12px); border: 1px solid var(--panel-border)</code></div>
-            <div>Glassmorphic Container</div>
-          </div>
-          <div class="grid-row">
-            <div><code>glow</code></div>
-            <div><code>box-shadow: 0 0 25px rgba(103, 232, 249, 0.35)</code></div>
-            <div>Cyan Glow Effect</div>
-          </div>
+      <section class="doc-section">
+        <h2 class="doc-section-title">Configuration</h2>
+        <p class="doc-section-desc">Use <code>defineConfig</code> to type a compiler configuration for programmatic builds or shared build tooling.</p>
+        <doc-code [code]="configCode" language="typescript" />
+        <doc-api-table title="CompileConfig" [properties]="compileConfig" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-section-title">Programmatic API</h2>
+        <p class="doc-section-desc">Pass source strings to <code>compile</code> to scan utility candidates and generate a stylesheet.</p>
+        <doc-code [code]="apiCode" language="typescript" />
+        <doc-api-table title="Exports" [properties]="apiExports" [hasDefaults]="false" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-section-title">Utility Reference</h2>
+        <p class="doc-section-desc">Utilities are generated only when discovered in the content passed to the compiler or scanned by the CLI.</p>
+        <div class="utility-grid">
+          @for (group of utilityGroups; track group.title) {
+            <div class="utility-group">
+              <h3>{{ group.title }}</h3>
+              <p>{{ group.description }}</p>
+              <doc-code [code]="group.example" language="html" />
+            </div>
+          }
         </div>
-      </div>
+      </section>
 
-      <!-- Programmatic Usage -->
-      <div class="doc-section">
-        <h2 class="doc-section-title">
-          <gp-icon name="code" size="1em" />
-          CLI & Compiler API
-        </h2>
-        <p class="doc-section-desc">Compile utility CSS programmatically or via CLI:</p>
-        <doc-code [code]="cliCode" language="typescript" />
-      </div>
+      <section class="doc-section">
+        <h2 class="doc-section-title">Variants and Arbitrary Values</h2>
+        <p class="doc-section-desc">Prefix a utility with a responsive breakpoint or state variant. Values in square brackets are passed through as CSS values; use underscores for spaces.</p>
+        <doc-code [code]="variantsCode" language="html" />
+        <div class="variant-list">
+          <code>sm:</code><code>md:</code><code>lg:</code><code>xl:</code><code>2xl:</code>
+          <code>hover:</code><code>focus:</code><code>active:</code><code>disabled:</code><code>group-hover:</code><code>dark:</code>
+        </div>
+      </section>
     </div>
   `,
   styles: [`
-    .page-container {
-      max-width: 960px;
-    }
-    .hero-section {
-      padding: 3rem 0 2rem 0;
-      margin-bottom: 2rem;
-    }
-    .hero-badge {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .hero-title {
-      font-size: 2.75rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin: 0 0 1rem 0;
-      background: linear-gradient(135deg, #22d3ee 0%, #a855f7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-subtitle {
-      font-size: 1.15rem;
-      color: var(--gp-text-color-secondary);
-      line-height: 1.6;
-      max-width: 48rem;
-      margin: 0 0 2rem 0;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .hero-actions a {
-      text-decoration: none;
-    }
-    .showcase-card {
-      border: 1px solid rgba(94, 234, 212, 0.25);
-      border-radius: 1rem;
-      background: rgba(15, 23, 42, 0.85);
-      padding: 1.75rem;
-      margin-bottom: 2rem;
-    }
-    .flex-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .flex-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .badge-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 0.75rem;
-      background: linear-gradient(135deg, #22d3ee, #14b8a6);
-      color: #020617;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card-title {
-      margin: 0;
-      font-weight: 700;
-      color: #fff;
-      font-size: 1.1rem;
-    }
-    .card-subtitle {
-      margin: 0;
-      color: #94a3b8;
-      font-size: 0.875rem;
-    }
-    .tag-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .card-desc {
-      color: #cbd5e1;
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-    .btn-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-    .grid-table {
-      border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.2));
-      border-radius: 0.75rem;
-      overflow: hidden;
-    }
-    .grid-row {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1.5fr;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
-      font-size: 0.9rem;
-    }
-    .grid-header {
-      background: rgba(30, 41, 59, 0.6);
-      font-weight: 700;
-      color: var(--gp-text-color);
-    }
-    code {
-      color: #5eead4;
-      background: rgba(15, 23, 42, 0.6);
-      padding: 0.15rem 0.4rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-    }
+    .page-container { max-width: 960px; }
+    .page-header { padding: 2.5rem 0 2rem; }
+    .page-header h1 { margin: 0 0 0.75rem; font-size: 2.5rem; font-weight: 800; letter-spacing: 0; }
+    .page-desc { max-width: 44rem; margin: 0; color: var(--gp-text-color-secondary); font-size: 1.05rem; line-height: 1.6; }
+    .utility-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .utility-group { border: 1px solid var(--gp-surface-border); border-radius: 6px; padding: 1rem; background: var(--gp-surface-ground); }
+    .utility-group h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+    .utility-group p { min-height: 3rem; margin: 0 0 1rem; color: var(--gp-text-color-secondary); font-size: 0.875rem; line-height: 1.45; }
+    .utility-group .doc-code-box { margin: 0; }
+    .variant-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .variant-list code { padding: 0.25rem 0.45rem; border: 1px solid var(--gp-surface-border); border-radius: 4px; background: var(--gp-surface-ground); color: var(--gp-primary); }
+    @media (max-width: 680px) { .utility-grid { grid-template-columns: 1fr; } .page-header { padding-top: 1.5rem; } }
   `]
 })
 export class GpCssPageComponent {
-  protected readonly version = GP_UI_VERSION;
+  readonly installCode = `npm install --save-dev @generatedpixel/gp-css`;
 
-  directivesCode = `/* styles.css */
+  readonly directivesCode = `/* src/styles.css */
 @gp-css theme;
 @gp-css base;
 @gp-css components;
 
-.custom-card {
-  @apply flex items-center justify-between p-6 bg-panel glass rounded-xl;
+.profile-card {
+  @apply flex items-center gap-4 p-6 bg-surface-card rounded-xl shadow-md;
 }
 
 @gp-css utilities;`;
 
-  cliCode = `// CLI usage:
-// npx gp-css build --minify
+  readonly cliCode = `npx gp-css init
+npx gp-css build --minify
+npx gp-css watch`;
 
-// Programmatic compilation in Node/TypeScript:
-import { compile } from '@generatedpixel/gp-css';
+  readonly configCode = `import { defineConfig } from '@generatedpixel/gp-css';
+
+export default defineConfig({
+  content: ['<div class="flex p-4 bg-primary"></div>'],
+  prefix: '',
+  minify: true
+});`;
+
+  readonly apiCode = `import { compile } from '@generatedpixel/gp-css';
 
 const result = compile({
-  content: ['<div class="flex items-center p-4 bg-panel glass"></div>'],
+  content: ['<button class="flex items-center gap-2 p-3 bg-primary text-white rounded-lg"></button>'],
+  inputCss: '@gp-css utilities;',
   minify: true
 });
 
-console.log(result.css);`;
+console.log(result.css);
+console.log(result.scannedCandidatesCount, result.matchedRulesCount);`;
 
-  onDemoClick(): void {
-    console.log('gp-css demo clicked!');
-  }
+  readonly variantsCode = `<div class="p-[18px] md:flex hover:bg-primary focus:bg-secondary">
+  <span class="text-[1.125rem] lg:text-xl">Responsive content</span>
+</div>`;
+
+  readonly directives: DocApiProperty[] = [
+    { name: '@gp-css theme;', type: 'CSS directive', description: 'Adds CSS custom properties for non-variable default theme tokens.' },
+    { name: '@gp-css base;', type: 'CSS directive', description: 'Adds the compiler base reset and document-level defaults.' },
+    { name: '@gp-css components;', type: 'CSS directive', description: 'Adds gp-card, gp-btn, and gp-btn-primary helper classes.' },
+    { name: '@gp-css utilities;', type: 'CSS directive', description: 'Replaces the directive with generated utility rules.' },
+    { name: '@apply', type: 'CSS directive', description: 'Expands recognized utilities into declarations within a CSS rule.' }
+  ];
+
+  readonly compileConfig: DocApiProperty[] = [
+    { name: 'content', type: 'string[]', default: '[]', description: 'Source strings scanned for utility candidates.' },
+    { name: 'inputCss', type: 'string', default: 'default directives', description: 'CSS entrypoint containing gp-css directives.' },
+    { name: 'prefix', type: 'string', default: "''", description: 'Optional prefix removed before a utility is resolved.' },
+    { name: 'tokens', type: 'GpThemeTokens', default: 'defaultTokens', description: 'Token set for generated colors, spacing, breakpoints, and effects.' },
+    { name: 'minify', type: 'boolean', default: 'false', description: 'Removes comments and unnecessary whitespace from output.' }
+  ];
+
+  readonly apiExports: DocApiProperty[] = [
+    { name: 'compile(config)', type: 'CompileResult', description: 'Scans content and returns CSS plus candidate and rule counts.' },
+    { name: 'defineConfig(config)', type: 'CompileConfig', description: 'Returns a typed compiler configuration.' },
+    { name: 'scanContent(content)', type: 'Set<string>', description: 'Extracts utility candidates from a source string.' },
+    { name: 'GpCssGenerator', type: 'class', description: 'Generates a CSS rule for an individual utility candidate.' },
+    { name: 'processDirectives(css, generator, utilities)', type: 'DirectiveProcessResult', description: 'Expands directives and @apply rules.' },
+    { name: 'defaultTokens', type: 'GpThemeTokens', description: 'Default colors, typography, spacing, breakpoints, and effects.' }
+  ];
+
+  readonly utilityGroups = [
+    { title: 'Layout', description: 'Display, flex direction and behavior, alignment, positioning, sizing, overflow, and selection.', example: '<div class="flex flex-col items-center justify-between w-full min-h-screen overflow-auto"></div>' },
+    { title: 'Grid', description: 'Grid display, column and row counts, and column or row spans.', example: '<div class="grid grid-cols-3 gap-4"><article class="col-span-2"></article></div>' },
+    { title: 'Spacing', description: 'Padding, margin, and gap use the configured spacing scale or arbitrary values.', example: '<div class="p-6 mx-auto gap-x-4 mt-[18px]"></div>' },
+    { title: 'Colors and Type', description: 'Backgrounds, text colors, text sizes, alignment, decoration, weight, and families.', example: '<p class="text-lg font-semibold text-primary text-center"></p>' },
+    { title: 'Borders and Effects', description: 'Border widths and colors, radius, shadows, backdrop blur, glass, and glow.', example: '<div class="border border-surface-border rounded-xl shadow-lg glass glow"></div>' },
+    { title: 'State and Layering', description: 'Opacity, z-index, transitions, pointer events, and interactive modifiers.', example: '<button class="z-modal opacity-90 transition hover:bg-primary disabled:opacity-50"></button>' }
+  ];
 }
