@@ -81,10 +81,10 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
     return 0;
   }
 
-  public rate(star: number, event?: MouseEvent): void {
+  public rate(star: number, event?: MouseEvent | Event): void {
     if (this.readonly || this.disabled) return;
 
-    const nextValue = this.allowHalfStars && event && event.currentTarget
+    const nextValue = this.allowHalfStars && event instanceof MouseEvent && event.currentTarget
       ? this.resolveHalfValue(star, event)
       : star;
 
