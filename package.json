@@ -1,6 +1,6 @@
 {
   "name": "gp-ui-monorepo",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "gp-ui - Complete Enterprise Angular UI Component Framework",
   "private": true,
   "workspaces": [
