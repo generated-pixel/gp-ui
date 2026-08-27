@@ -26,16 +26,14 @@ export interface ComponentCatalogueItem {
     GpIconComponent
   ],
   template: `
-    <div class="app-layout" [class.is-docs-mode]="!isHomePage()">
+    <div class="app-layout">
       <!-- Top Navigation Header -->
       <header class="app-header">
         <div class="site-shell-header">
           <div class="header-left">
-            @if (!isHomePage()) {
-              <button class="mobile-menu-btn" (click)="toggleSidebar()" aria-label="Toggle navigation">
-                <gp-icon name="bars" size="1.25em" />
-              </button>
-            }
+            <button class="mobile-menu-btn" (click)="toggleSidebar()" aria-label="Toggle navigation">
+              <gp-icon name="bars" size="1.25em" />
+            </button>
 
             <a routerLink="/" class="brand-mark">
               <img
@@ -44,53 +42,29 @@ export interface ComponentCatalogueItem {
                 class="brand-mark__logo"
               />
               <span class="brand-mark__text">
-                <span class="brand-mark__name">Generated Pixel</span>
-                <span class="brand-mark__tag">Software Studio</span>
+                <span class="brand-mark__name">gp-ui</span>
+                <span class="brand-mark__tag">Component Library</span>
               </span>
               <span class="pride-flag-small" aria-hidden="true"></span>
             </a>
-
-            @if (!isHomePage()) {
-              <a routerLink="/" class="back-to-site-btn">
-                <gp-icon name="chevron-left" size="0.8em" />
-                <span>Studio Website</span>
-              </a>
-            }
           </div>
 
-          <!-- If in Docs Mode: Search Bar -->
-          @if (!isHomePage()) {
-            <div class="header-center">
-              <div class="search-input-wrap">
-                <gp-icon name="search" size="0.9em" class="search-icon" />
-                <input
-                  type="text"
-                  class="search-input"
-                  placeholder="Search components (e.g. table, select, dialog)..."
-                  [value]="searchQuery()"
-                  (input)="onSearchInput($event)"
-                  aria-label="Search component catalogue"
-                />
-              </div>
+          <!-- Component Search Bar -->
+          <div class="header-center">
+            <div class="search-input-wrap">
+              <gp-icon name="search" size="0.9em" class="search-icon" />
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search components (e.g. table, select, dialog)..."
+                [value]="searchQuery()"
+                (input)="onSearchInput($event)"
+                aria-label="Search component catalogue"
+              />
             </div>
-          } @else {
-            <!-- If on Home: Navigation Links -->
-            <nav class="home-nav-links">
-              <a href="#services" class="nav-anchor">Services</a>
-              <a href="#portfolio" class="nav-anchor">Portfolio</a>
-              <a href="#contact" class="nav-anchor">Contact</a>
-              <a routerLink="/getting-started" class="nav-docs-badge">
-                <gp-icon name="layer-group" size="0.9em" />
-                <span>gp-ui Docs &amp; Demo</span>
-              </a>
-            </nav>
-          }
+          </div>
 
           <div class="header-right">
-            @if (isHomePage()) {
-              <a href="#contact" class="cta-link-header">Book Call</a>
-            }
-
             <!-- Theme Palette Selector Dropdown -->
             <div class="theme-switcher-container">
               <button
@@ -148,17 +122,16 @@ export interface ComponentCatalogueItem {
               <gp-icon [name]="isDark() ? 'sun' : 'moon'" size="1.2em" />
             </button>
 
-            @if (!isHomePage()) {
-              <button
-                type="button"
-                class="header-icon-btn"
-                (click)="toggleRtl()"
-                aria-label="Toggle RTL Direction"
-                title="Toggle Text Direction (LTR / RTL)"
-              >
-                <gp-icon name="globe" size="1.2em" />
-              </button>
-            }
+            <!-- RTL Direction Toggle Button -->
+            <button
+              type="button"
+              class="header-icon-btn"
+              (click)="toggleRtl()"
+              aria-label="Toggle RTL Direction"
+              title="Toggle Text Direction (LTR / RTL)"
+            >
+              <gp-icon name="globe" size="1.2em" />
+            </button>
 
             <a
               href="https://github.com/generated-pixel/gp-ui"
@@ -175,53 +148,45 @@ export interface ComponentCatalogueItem {
         <div class="pride-flag-banner" aria-hidden="true"></div>
       </header>
 
-      <!-- Layout Body -->
-      @if (isHomePage()) {
-        <!-- Full-Width Website Homepage -->
-        <main class="app-main-home">
+      <!-- Layout Body (Docs Mode with Sidebar) -->
+      <div class="app-body">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
+          <div class="sidebar-header-note">
+            <span>gp-ui Framework v{{ version }}</span>
+          </div>
+          <nav class="sidebar-nav">
+            @for (cat of categories(); track cat) {
+              <div class="nav-category">
+                <div class="nav-category-title">{{ cat }}</div>
+                <ul class="nav-items">
+                  @for (item of getItemsForCategory(cat); track item.route) {
+                    <li class="nav-item">
+                      <a
+                        [routerLink]="item.route"
+                        routerLinkActive="nav-link-active"
+                        class="nav-link"
+                        (click)="closeSidebarOnMobile()"
+                      >
+                        <gp-icon [name]="item.icon" size="0.9em" class="nav-icon" />
+                        <span class="nav-label">{{ item.name }}</span>
+                        @if (item.badge) {
+                          <gp-badge [value]="item.badge" severity="primary" size="sm" />
+                        }
+                      </a>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </nav>
+        </aside>
+
+        <!-- Main Docs View -->
+        <main class="app-main-docs">
           <router-outlet />
         </main>
-      } @else {
-        <!-- Documentation & Interactive User Guide Mode with Sidebar -->
-        <div class="app-body">
-          <!-- Sidebar Navigation -->
-          <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
-            <div class="sidebar-header-note">
-              <span>gp-ui Framework v{{ version }}</span>
-            </div>
-            <nav class="sidebar-nav">
-              @for (cat of categories(); track cat) {
-                <div class="nav-category">
-                  <div class="nav-category-title">{{ cat }}</div>
-                  <ul class="nav-items">
-                    @for (item of getItemsForCategory(cat); track item.route) {
-                      <li class="nav-item">
-                        <a
-                          [routerLink]="item.route"
-                          routerLinkActive="nav-link-active"
-                          class="nav-link"
-                          (click)="closeSidebarOnMobile()"
-                        >
-                          <gp-icon [name]="item.icon" size="0.9em" class="nav-icon" />
-                          <span class="nav-label">{{ item.name }}</span>
-                          @if (item.badge) {
-                            <gp-badge [value]="item.badge" severity="primary" size="sm" />
-                          }
-                        </a>
-                      </li>
-                    }
-                  </ul>
-                </div>
-              }
-            </nav>
-          </aside>
-
-          <!-- Main Docs View -->
-          <main class="app-main-docs">
-            <router-outlet />
-          </main>
-        </div>
-      }
+      </div>
     </div>
   `,
   styles: [`
@@ -303,24 +268,6 @@ export interface ComponentCatalogueItem {
         #750787 100%
       );
     }
-    .back-to-site-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 999px;
-      background: var(--gp-surface-hover, rgba(255, 255, 255, 0.08));
-      border: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.15));
-      color: var(--gp-text-color-secondary, #cbd5e1);
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.15s ease;
-    }
-    .back-to-site-btn:hover {
-      background: var(--gp-surface-active, rgba(255, 255, 255, 0.16));
-      color: var(--gp-text-color, #ffffff);
-    }
     .mobile-menu-btn {
       display: none;
       background: none;
@@ -331,43 +278,6 @@ export interface ComponentCatalogueItem {
     }
     @media (max-width: 900px) {
       .mobile-menu-btn { display: inline-flex; }
-    }
-    .home-nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    @media (max-width: 768px) {
-      .home-nav-links { display: none; }
-    }
-    .nav-anchor {
-      color: var(--gp-text-color-secondary, #cbd5e1);
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: color 0.15s ease;
-    }
-    .nav-anchor:hover {
-      color: var(--gp-primary, #67e8f9);
-    }
-    .nav-docs-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.4rem 0.9rem;
-      border-radius: 999px;
-      background: var(--gp-primary-light, rgba(14, 165, 233, 0.15));
-      border: 1px solid var(--gp-primary-border, rgba(14, 165, 233, 0.5));
-      color: var(--gp-primary, #67e8f9);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.15s ease;
-    }
-    .nav-docs-badge:hover {
-      background: var(--gp-primary, #0ea5e9);
-      color: #ffffff;
-      transform: translateY(-1px);
     }
     .header-center {
       flex: 1;
@@ -408,22 +318,6 @@ export interface ComponentCatalogueItem {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-    }
-    .cta-link-header {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.45rem 1rem;
-      border-radius: 999px;
-      border: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.25));
-      color: var(--gp-text-color, #ffffff);
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.15s ease;
-    }
-    .cta-link-header:hover {
-      background: var(--gp-surface-hover, rgba(255, 255, 255, 0.1));
-      border-color: var(--gp-primary, #ffffff);
     }
     .header-icon-btn {
       width: 2.25rem;
@@ -563,10 +457,6 @@ export interface ComponentCatalogueItem {
         #750787 100%
       );
     }
-    .app-main-home {
-      flex: 1;
-      width: 100%;
-    }
     .app-body {
       display: flex;
       flex: 1;
@@ -690,11 +580,6 @@ export class AppComponent {
     return match ? match.primaryColor : '#6366f1';
   });
 
-  protected isHomePage = computed(() => {
-    const url = this.currentUrl();
-    return url === '/' || url === '' || url.startsWith('/#') || url.startsWith('/?');
-  });
-
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
     { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
@@ -779,4 +664,3 @@ export class AppComponent {
     this.sidebarOpen.set(false);
   }
 }
-
