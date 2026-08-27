@@ -9,7 +9,6 @@ import {
   GpDividerComponent,
   GpSplitterComponent,
   GpSplitterPanelComponent,
-  GpScrollPanelComponent,
   GpButtonComponent
 } from 'gp-ui';
 import { DocCodeComponent } from '../../shared/doc-code.component';
@@ -28,7 +27,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpDividerComponent,
     GpSplitterComponent,
     GpSplitterPanelComponent,
-    GpScrollPanelComponent,
     GpButtonComponent,
     DocCodeComponent,
     DocApiTableComponent

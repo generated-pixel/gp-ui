@@ -13,6 +13,7 @@ export interface ComponentCatalogueItem {
   category: string;
   icon: string;
   badge?: string;
+  children?: ComponentCatalogueItem[];
 }
 
 @Component({
@@ -46,6 +47,18 @@ export interface ComponentCatalogueItem {
                 <span class="brand-mark__tag">Component Library</span>
               </span>
               <span class="pride-flag-small" aria-hidden="true"></span>
+            </a>
+
+            <a
+              class="company-link"
+              href="https://generatedpixel.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Generated Pixel home"
+              title="Generated Pixel"
+            >
+              <span class="company-link__label">Built by</span>
+              <span class="company-link__brand">Generated Pixel</span>
             </a>
           </div>
 
@@ -174,6 +187,24 @@ export interface ComponentCatalogueItem {
                           <gp-badge [value]="item.badge" severity="primary" size="sm" />
                         }
                       </a>
+
+                      @if (item.children?.length) {
+                        <ul class="nav-subitems">
+                          @for (child of item.children; track child.route) {
+                            <li class="nav-subitem">
+                              <a
+                                [routerLink]="child.route"
+                                routerLinkActive="nav-link-active"
+                                class="nav-link nav-link-sub"
+                                (click)="closeSidebarOnMobile()"
+                              >
+                                <gp-icon [name]="child.icon" size="0.85em" class="nav-icon" />
+                                <span class="nav-label">{{ child.name }}</span>
+                              </a>
+                            </li>
+                          }
+                        </ul>
+                      }
                     </li>
                   }
                 </ul>
@@ -187,6 +218,20 @@ export interface ComponentCatalogueItem {
           <router-outlet />
         </main>
       </div>
+
+      <footer class="site-footer">
+        <div class="site-footer__inner">
+          <span class="site-footer__label">Powered by</span>
+          <a
+            class="site-footer__link"
+            href="https://generatedpixel.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Generated Pixel
+          </a>
+        </div>
+      </footer>
     </div>
   `,
   styles: [`
@@ -225,6 +270,35 @@ export interface ComponentCatalogueItem {
       align-items: center;
       gap: 0.75rem;
       text-decoration: none;
+    }
+    .company-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(168, 85, 247, 0.1));
+      color: var(--gp-text-color, #ffffff);
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.08);
+      transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease;
+    }
+    .company-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(96, 165, 250, 0.8);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(168, 85, 247, 0.14));
+    }
+    .company-link__label {
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+    .company-link__brand {
+      font-size: 0.82rem;
+      line-height: 1;
     }
     .brand-mark__logo {
       width: 2.5rem;
@@ -537,11 +611,25 @@ export interface ComponentCatalogueItem {
       color: var(--gp-primary, #38bdf8) !important;
       font-weight: 700;
     }
+    .nav-link-sub {
+      margin-left: 0.8rem;
+      padding-left: 0.8rem;
+      font-size: 0.82rem;
+      border-left: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.2));
+    }
     .nav-icon {
       color: inherit;
     }
     .nav-label {
       flex: 1;
+    }
+    .nav-subitems {
+      list-style: none;
+      margin: 0.25rem 0 0.5rem;
+      padding: 0;
+    }
+    .nav-subitem {
+      list-style: none;
     }
     .app-main-docs {
       flex: 1;
@@ -549,8 +637,37 @@ export interface ComponentCatalogueItem {
       max-width: 1200px;
       overflow-x: hidden;
     }
+    .site-footer {
+      border-top: 1px solid var(--gp-surface-border, rgba(51, 65, 85, 0.4));
+      background: rgba(15, 23, 42, 0.7);
+    }
+    .site-footer__inner {
+      width: min(100% - 3rem, 74rem);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 0 1.25rem;
+      font-size: 0.8rem;
+      color: var(--gp-text-color-secondary, #94a3b8);
+    }
+    .site-footer__label {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.68rem;
+    }
+    .site-footer__link {
+      color: var(--gp-primary, #60a5fa);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .site-footer__link:hover {
+      text-decoration: underline;
+    }
     @media (max-width: 600px) {
       .app-main-docs { padding: 1.25rem; }
+      .site-footer__inner { width: min(100% - 1.5rem, 74rem); }
     }
   `]
 })
@@ -584,15 +701,74 @@ export class AppComponent {
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
     { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
     { name: 'i18n & RTL', route: '/i18n', category: 'General', icon: 'globe' },
-    { name: 'Buttons & Actions', route: '/buttons', category: 'Components', icon: 'check' },
-    { name: 'Form Controls (20)', route: '/forms', category: 'Components', icon: 'edit', badge: '20' },
-    { name: 'Data Presentation', route: '/data', category: 'Components', icon: 'bars' },
-    { name: 'Tree & Hierarchies', route: '/tree', category: 'Components', icon: 'folder' },
-    { name: 'Navigation & Menus', route: '/navigation', category: 'Components', icon: 'window' },
-    { name: 'Overlays & Dialogs', route: '/overlays', category: 'Components', icon: 'sliders' },
-    { name: 'Panels & Layouts', route: '/panels', category: 'Components', icon: 'layer-group' },
-    { name: 'Feedback & Messages', route: '/feedback', category: 'Components', icon: 'info-circle' },
-    { name: 'Display & Media', route: '/display', category: 'Components', icon: 'star' }
+    { name: 'Button', route: '/component/button', category: 'Components', icon: 'check' },
+    { name: 'Split Button', route: '/component/split-button', category: 'Components', icon: 'check' },
+    { name: 'Speed Dial', route: '/component/speed-dial', category: 'Components', icon: 'check' },
+    { name: 'Button Group', route: '/component/button-group', category: 'Components', icon: 'layer-group' },
+    { name: 'Toggle Button', route: '/component/toggle-button', category: 'Components', icon: 'toggle-on' },
+    { name: 'Input Text', route: '/component/input-text', category: 'Form Controls', icon: 'edit' },
+    { name: 'Textarea', route: '/component/textarea', category: 'Form Controls', icon: 'align-left' },
+    { name: 'Password', route: '/component/password', category: 'Form Controls', icon: 'lock' },
+    { name: 'Input Number', route: '/component/input-number', category: 'Form Controls', icon: 'calculator' },
+    { name: 'Checkbox', route: '/component/checkbox', category: 'Form Controls', icon: 'check-square' },
+    { name: 'Radio Button', route: '/component/radio-button', category: 'Form Controls', icon: 'circle-dot' },
+    { name: 'Switch', route: '/component/switch', category: 'Form Controls', icon: 'toggle-on' },
+    { name: 'Slider', route: '/component/slider', category: 'Form Controls', icon: 'sliders' },
+    { name: 'Rating', route: '/component/rating', category: 'Form Controls', icon: 'star' },
+    { name: 'Color Picker', route: '/component/color-picker', category: 'Form Controls', icon: 'palette' },
+    { name: 'Input Mask', route: '/component/input-mask', category: 'Form Controls', icon: 'grid' },
+    { name: 'Select', route: '/component/select', category: 'Form Controls', icon: 'edit' },
+    { name: 'Multi Select', route: '/component/multi-select', category: 'Form Controls', icon: 'list-check' },
+    { name: 'Listbox', route: '/component/listbox', category: 'Form Controls', icon: 'list' },
+    { name: 'Autocomplete', route: '/component/autocomplete', category: 'Form Controls', icon: 'search' },
+    { name: 'Cascade Select', route: '/component/cascade-select', category: 'Form Controls', icon: 'sitemap' },
+    { name: 'Tree Select', route: '/component/tree-select', category: 'Form Controls', icon: 'folder-tree' },
+    { name: 'Date Picker', route: '/component/date-picker', category: 'Form Controls', icon: 'calendar' },
+    { name: 'Time Picker', route: '/component/time-picker', category: 'Form Controls', icon: 'clock' },
+    { name: 'File Upload', route: '/component/file-upload', category: 'Form Controls', icon: 'upload' },
+    { name: 'Paginator', route: '/component/paginator', category: 'Data Presentation', icon: 'bars' },
+    { name: 'Column', route: '/component/column', category: 'Data Presentation', icon: 'table' },
+    { name: 'Table', route: '/component/table', category: 'Data Presentation', icon: 'bars' },
+    { name: 'Tree Table', route: '/component/tree-table', category: 'Data Presentation', icon: 'sitemap' },
+    { name: 'Data View', route: '/component/data-view', category: 'Data Presentation', icon: 'list' },
+    { name: 'Virtual Scroller', route: '/component/virtual-scroller', category: 'Data Presentation', icon: 'scroll' },
+    { name: 'Tree', route: '/component/tree', category: 'Tree & Hierarchy', icon: 'folder-tree' },
+    { name: 'Org Chart', route: '/component/org-chart', category: 'Tree & Hierarchy', icon: 'network' },
+    { name: 'Menu', route: '/component/menu', category: 'Navigation', icon: 'menu' },
+    { name: 'Menubar', route: '/component/menubar', category: 'Navigation', icon: 'bars' },
+    { name: 'Context Menu', route: '/component/context-menu', category: 'Navigation', icon: 'context-menu' },
+    { name: 'Tiered Menu', route: '/component/tiered-menu', category: 'Navigation', icon: 'sitemap' },
+    { name: 'Mega Menu', route: '/component/mega-menu', category: 'Navigation', icon: 'grid' },
+    { name: 'Panel Menu', route: '/component/panel-menu', category: 'Navigation', icon: 'folder' },
+    { name: 'Breadcrumb', route: '/component/breadcrumb', category: 'Navigation', icon: 'home' },
+    { name: 'Tabs', route: '/component/tabs', category: 'Navigation', icon: 'window' },
+    { name: 'Stepper', route: '/component/stepper', category: 'Navigation', icon: 'route' },
+    { name: 'Dock', route: '/component/dock', category: 'Navigation', icon: 'dock' },
+    { name: 'Toolbar', route: '/component/toolbar', category: 'Navigation', icon: 'tool' },
+    { name: 'Dialog', route: '/component/dialog', category: 'Overlays', icon: 'sliders' },
+    { name: 'Confirm Dialog', route: '/component/confirm-dialog', category: 'Overlays', icon: 'confirm' },
+    { name: 'Drawer', route: '/component/drawer', category: 'Overlays', icon: 'panel-right' },
+    { name: 'Popover', route: '/component/popover', category: 'Overlays', icon: 'message-circle' },
+    { name: 'Card', route: '/component/card', category: 'Panels', icon: 'layer-group' },
+    { name: 'Accordion', route: '/component/accordion', category: 'Panels', icon: 'chevron-down' },
+    { name: 'Fieldset', route: '/component/fieldset', category: 'Panels', icon: 'window' },
+    { name: 'Divider', route: '/component/divider', category: 'Panels', icon: 'separator' },
+    { name: 'Splitter', route: '/component/splitter', category: 'Panels', icon: 'resize' },
+    { name: 'Scroll Panel', route: '/component/scroll-panel', category: 'Panels', icon: 'scroll' },
+    { name: 'Toast', route: '/component/toast', category: 'Feedback', icon: 'bell' },
+    { name: 'Message', route: '/component/message', category: 'Feedback', icon: 'info-circle' },
+    { name: 'Progress Bar', route: '/component/progress-bar', category: 'Feedback', icon: 'progress' },
+    { name: 'Progress Spinner', route: '/component/progress-spinner', category: 'Feedback', icon: 'spinner' },
+    { name: 'Skeleton', route: '/component/skeleton', category: 'Feedback', icon: 'shimmer' },
+    { name: 'Badge', route: '/component/badge', category: 'Feedback', icon: 'info-circle' },
+    { name: 'Tag', route: '/component/tag', category: 'Feedback', icon: 'tag' },
+    { name: 'Chip', route: '/component/chip', category: 'Display', icon: 'chip' },
+    { name: 'Image', route: '/component/image', category: 'Display', icon: 'image' },
+    { name: 'Avatar', route: '/component/avatar', category: 'Display', icon: 'star' },
+    { name: 'Carousel', route: '/component/carousel', category: 'Display', icon: 'slides' },
+    { name: 'Timeline', route: '/component/timeline', category: 'Display', icon: 'timeline' },
+    { name: 'Meter Group', route: '/component/meter-group', category: 'Display', icon: 'meter' },
+    { name: 'Empty State', route: '/component/empty-state', category: 'Display', icon: 'sparkles' }
   ];
 
   constructor() {

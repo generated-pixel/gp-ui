@@ -58,3 +58,11 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Firebase
+.firebase/
+.firebaserc
+firebase-debug.log*
+*.firebase
+hosting/.cache/
+
