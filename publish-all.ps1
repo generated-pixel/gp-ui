@@ -3,7 +3,7 @@
   Automates version bumping, building, and publishing all gp-ui packages to npmjs.
 
 .DESCRIPTION
-  Synchronizes versions across all monorepo packages (gp-ui, gp-ui-theme, gp-ui-icons),
+  Synchronizes versions across all monorepo packages (gp-ui, gp-ui-theme, gp-ui-icons, gp-css),
   updates CHANGELOG.md, builds all distribution bundles, and publishes them with public access.
 
 .PARAMETER ReleaseType
@@ -50,7 +50,8 @@ $PackagePaths = @(
   (Join-Path $ScriptDir "package.json"),
   (Join-Path $ScriptDir "packages/gp-ui/package.json"),
   (Join-Path $ScriptDir "packages/gp-ui-theme/package.json"),
-  (Join-Path $ScriptDir "packages/gp-ui-icons/package.json")
+  (Join-Path $ScriptDir "packages/gp-ui-icons/package.json"),
+  (Join-Path $ScriptDir "packages/gp-css/package.json")
 )
 
 # 1. Version Handling
@@ -97,7 +98,11 @@ if (-not $SkipBump) {
   # Update version.ts
   $VersionTsPath = Join-Path $ScriptDir "packages/gp-ui/src/lib/version.ts"
   if (Test-Path $VersionTsPath) {
-    Set-Content -Path $VersionTsPath -Value "/**`n * Current version of the @generatedpixel/gp-ui library suite.`n */`nexport const GP_UI_VERSION = '$NewVersion';`n" -NoNewline
+    Set-Content -Path $VersionTsPath -Value "/**
+ * Current version of the @generatedpixel/gp-ui library suite.
+ */
+export const GP_UI_VERSION = '$NewVersion';
+" -NoNewline
     Write-Host "  [UPDATED] packages/gp-ui/src/lib/version.ts -> version $NewVersion" -ForegroundColor DarkCyan
   }
 
@@ -108,9 +113,14 @@ if (-not $SkipBump) {
   # Update CHANGELOG.md
   $ChangelogPath = Join-Path $ScriptDir "CHANGELOG.md"
   $Today = (Get-Date).ToString("yyyy-MM-dd")
-  $entry = "`n## [$NewVersion] - $Today`n- Release of @generatedpixel gp-ui suite v$NewVersion`n- Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, and @generatedpixel/gp-ui-icons`n"
+  $entry = "
+## [$NewVersion] - $Today
+- Release of @generatedpixel gp-ui suite v$NewVersion
+- Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
+"
 
-  $existing = if (Test-Path $ChangelogPath) { Get-Content -Raw $ChangelogPath } else { "# Changelog`n" }
+  $existing = if (Test-Path $ChangelogPath) { Get-Content -Raw $ChangelogPath } else { "# Changelog
+" }
   Set-Content -Path $ChangelogPath -Value ($existing + $entry) -NoNewline
   Write-Host "  [UPDATED] CHANGELOG.md" -ForegroundColor DarkCyan
   Write-Host ""
@@ -131,7 +141,8 @@ if ($LASTEXITCODE -ne 0) {
 $DistPackages = @(
   (Join-Path $ScriptDir "dist/packages/gp-ui"),
   (Join-Path $ScriptDir "dist/packages/gp-ui-theme"),
-  (Join-Path $ScriptDir "dist/packages/gp-ui-icons")
+  (Join-Path $ScriptDir "dist/packages/gp-ui-icons"),
+  (Join-Path $ScriptDir "dist/packages/gp-css")
 )
 
 $ReadmePath = Join-Path $ScriptDir "README.md"
@@ -182,6 +193,7 @@ if (-not $SkipPublish) {
   Write-Host "  - @generatedpixel/gp-ui@$NewVersion" -ForegroundColor Cyan
   Write-Host "  - @generatedpixel/gp-ui-theme@$NewVersion" -ForegroundColor Cyan
   Write-Host "  - @generatedpixel/gp-ui-icons@$NewVersion" -ForegroundColor Cyan
+  Write-Host "  - @generatedpixel/gp-css@$NewVersion" -ForegroundColor Cyan
 } else {
   Write-Host ""
   Write-Host "Publishing skipped as requested. Artifacts are ready in dist/packages/." -ForegroundColor Yellow

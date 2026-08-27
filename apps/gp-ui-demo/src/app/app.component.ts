@@ -699,6 +699,7 @@ export class AppComponent {
 
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
+    { name: 'gp-css Engine', route: '/gp-css', category: 'General', icon: 'sparkles', badge: 'v1.0.0' },
     { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
     { name: 'i18n & RTL', route: '/i18n', category: 'General', icon: 'globe' },
     { name: 'Button', route: '/component/button', category: 'Components', icon: 'check' },

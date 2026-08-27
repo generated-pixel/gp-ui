@@ -18,12 +18,21 @@ body {
   transition: background-color var(--gp-transition-duration, 150ms) ease, color var(--gp-transition-duration, 150ms) ease;
 }
 
-/* Base Form Control Reset */
+/* Base Form Control & Link Reset */
 input, button, select, textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   color: inherit;
+}
+
+a, a:visited {
+  color: var(--gp-primary, #38bdf8);
+  text-decoration: none;
+}
+
+a:hover, a:focus-visible {
+  color: var(--gp-primary-hover, #0284c7);
 }
 
 /* Ripple Effect Styles */

@@ -21,7 +21,10 @@
       "gp-ui-theme": ["packages/gp-ui-theme/src/index.ts"],
       "gp-ui-theme/*": ["packages/gp-ui-theme/*"],
       "gp-ui-icons": ["packages/gp-ui-icons/src/public-api.ts"],
-      "gp-ui-icons/*": ["packages/gp-ui-icons/src/*"]
+      "gp-ui-icons/*": ["packages/gp-ui-icons/src/*"],
+      "@generatedpixel/gp-css": ["packages/gp-css/src/index.ts"],
+      "@generatedpixel/gp-css/*": ["packages/gp-css/src/*"],
+      "gp-css": ["packages/gp-css/src/index.ts"]
     },
     "strict": true,
     "noImplicitOverride": true,

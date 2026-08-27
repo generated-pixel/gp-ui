@@ -90,6 +90,17 @@
     .gp-button-tonal.gp-button-primary { background: var(--gp-primary-light); color: var(--gp-primary); }
     .gp-button-tonal.gp-button-primary:hover:not(:disabled) { background: var(--gp-primary-200); }
 
+    /* Link */
+    .gp-button-link {
+      background: transparent;
+      border-color: transparent;
+      padding: 0;
+    }
+    .gp-button-link.gp-button-primary { color: var(--gp-primary); }
+    .gp-button-link.gp-button-primary:hover:not(:disabled) { text-decoration: underline; color: var(--gp-primary-hover); }
+    .gp-button-link.gp-button-secondary { color: var(--gp-secondary); }
+    .gp-button-link.gp-button-secondary:hover:not(:disabled) { text-decoration: underline; }
+
     /* Rounded & Icons */
     .gp-button-rounded {
       border-radius: var(--gp-border-radius-full);

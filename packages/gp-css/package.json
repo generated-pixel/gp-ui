@@ -1,0 +1,30 @@
+{
+  "name": "@generatedpixel/gp-css",
+  "version": "0.1.7",
+  "description": "Utility-first CSS engine designed for Generated Pixel design system with native gp-ui and gp-theme integration",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "gp-css": "./bin/gp-css.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-strip-types test/compiler.test.ts"
+  },
+  "keywords": [
+    "css",
+    "tailwindcss",
+    "utility-first",
+    "gp-ui",
+    "gp-theme",
+    "generated-pixel",
+    "design-tokens"
+  ],
+  "author": "Generated Pixel",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

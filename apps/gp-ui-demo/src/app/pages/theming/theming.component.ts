@@ -255,13 +255,19 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           gp-ui uses a 3-tier token hierarchy: <strong>Primitives</strong> (raw scales), <strong>Semantic</strong> (contextual Light &amp; Dark tokens), and <strong>Components</strong> (component styles). Themes are built by extending the master <code>baseTheme</code> with <code>extendTheme()</code>.
         </p>
 
-        <h3 class="subsection-title">1. Extending the Base Theme in TypeScript</h3>
+        <h3 class="subsection-title">1. Including gp-css (@generatedpixel/gp-ui-theme)</h3>
+        <p class="doc-section-desc">
+          <code>gp-css</code> is provided by <code>@generatedpixel/gp-ui-theme</code>. Import the core index CSS and optional theme presets into your <code>styles.scss</code> or <code>angular.json</code>:
+        </p>
+        <doc-code [code]="gpCssImportCode" language="scss" />
+
+        <h3 class="subsection-title" style="margin-top: 1.5rem;">2. Extending the Base Theme in TypeScript</h3>
         <doc-code [code]="extendThemeCode" language="typescript" />
 
-        <h3 class="subsection-title" style="margin-top: 1.5rem;">2. Theme Manager Runtime API</h3>
+        <h3 class="subsection-title" style="margin-top: 1.5rem;">3. Theme Manager Runtime API</h3>
         <doc-code [code]="tsUsageCode" language="typescript" />
 
-        <h3 class="subsection-title" style="margin-top: 1.5rem;">3. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
+        <h3 class="subsection-title" style="margin-top: 1.5rem;">4. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
         <doc-code [code]="htmlUsageCode" language="html" />
       </div>
 
@@ -555,6 +561,13 @@ export class ThemingPageComponent implements OnInit, OnDestroy {
     '#6366f1', '#3b82f6', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444',
     '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#06b6d4', '#64748b'
   ];
+
+  gpCssImportCode = `// 1. Core global reset, layout utilities, animations & ripple effects
+@import '@generatedpixel/gp-ui-theme/src/index.css';
+
+// 2. Default light & dark themes (or import all built-in themes)
+@import '@generatedpixel/gp-ui-theme/src/themes/default.css';
+// @import '@generatedpixel/gp-ui-theme/src/themes/all.css'; // Includes ocean, emerald, sunset, etc.`;
 
   extendThemeCode = `import { baseTheme, extendTheme, GpThemeManager } from '@generatedpixel/gp-ui-theme';
 
