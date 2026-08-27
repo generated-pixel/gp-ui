@@ -7,6 +7,12 @@ import { GpBadgeComponent, GpDirectionService, GP_UI_VERSION } from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export interface ComponentCatalogueItem {
   name: string;
   route: string;
@@ -786,8 +792,15 @@ export class AppComponent {
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
       .subscribe((e: any) => {
-        this.currentUrl.set(e.urlAfterRedirects || e.url || '/');
+        const url = e.urlAfterRedirects || e.url || '/';
+        this.currentUrl.set(url);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (typeof window.gtag === 'function') {
+          window.gtag('config', 'G-E0GPEPPLFV', {
+            page_path: url
+          });
+        }
       });
   }
 
