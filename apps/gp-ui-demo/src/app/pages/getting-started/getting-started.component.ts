@@ -21,7 +21,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         </p>
 
         <div class="hero-actions">
-          <a routerLink="/buttons">
+          <a routerLink="/component/button">
             <gp-button label="Explore Components" icon="chevron-right" iconPos="right" severity="primary" size="lg" />
           </a>
           <a href="https://github.com/generated-pixel/gp-ui" target="_blank" rel="noopener">

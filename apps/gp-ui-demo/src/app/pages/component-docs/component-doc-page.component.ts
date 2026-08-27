@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GpButtonComponent, GpBadgeComponent, GpMenuItem } from 'gp-ui';
 import { GpIconComponent, GP_DEFAULT_ICONS } from 'gp-ui-icons';
@@ -238,12 +238,14 @@ export class ComponentDocPageComponent implements OnInit {
     this.searchTerm = value;
   }
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const slug = params.get('component');
       this.doc = slug ? getComponentDoc(slug) : undefined;
+      this.searchTerm = '';
+      this.cdr.markForCheck();
     });
   }
 }
