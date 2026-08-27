@@ -24,8 +24,7 @@
     "package": "node tools/package-release.js",
     "release": "node tools/release.js",
     "publish:all": "powershell -ExecutionPolicy Bypass -File ./publish-all.ps1",
-    "publish:dry-run": "powershell -ExecutionPolicy Bypass -File ./publish-all.ps1 -DryRun",
-    "deploy": "npm run build && firebase deploy"
+    "publish:dry-run": "powershell -ExecutionPolicy Bypass -File ./publish-all.ps1 -DryRun"
   },
   "repository": {
     "type": "git",
