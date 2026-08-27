@@ -22,6 +22,15 @@ import { GpIconComponent } from '../../icons/icon.component';
 })
 export class GpRatingComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() stars = 5;
+  @Input() set max(value: number) {
+    if (value != null && value > 0) {
+      this.stars = value;
+    }
+  }
+  get max(): number {
+    return this.stars;
+  }
+  @Input() allowHalfStars = false;
   @Input() override readonly = false;
   @Input() override disabled = false;
   @Input() cancel = true;
@@ -39,7 +48,7 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
   public override writeValue(value: any): void {
     const val = value != null ? Number(value) : null;
     this.value = val;
-    this.internalValue.set(val);
+    this.internalValue.set(Number.isFinite(val) ? val : null);
   }
 
   public override registerOnChange(fn: any): void {
@@ -54,11 +63,34 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
     this.disabled = isDisabled;
   }
 
-  public rate(star: number): void {
+  public isStarActive(index: number): boolean {
+    const value = this.internalValue() ?? 0;
+    return value >= index + 1;
+  }
+
+  public isStarHalf(index: number): boolean {
+    if (!this.allowHalfStars) return false;
+    const value = this.internalValue() ?? 0;
+    return value > index && value < index + 1;
+  }
+
+  public getStarFillWidth(index: number): number {
+    const value = this.internalValue() ?? 0;
+    if (value >= index + 1) return 100;
+    if (this.allowHalfStars && value > index && value < index + 1) return 50;
+    return 0;
+  }
+
+  public rate(star: number, event?: MouseEvent): void {
     if (this.readonly || this.disabled) return;
-    this.updateValue(star);
+
+    const nextValue = this.allowHalfStars && event && event.currentTarget
+      ? this.resolveHalfValue(star, event)
+      : star;
+
+    this.updateValue(nextValue);
     this.handleControlBlur();
-    this.onRate.emit({ value: star });
+    this.onRate.emit({ value: nextValue });
   }
 
   public clear(): void {
@@ -66,5 +98,16 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
     this.updateValue(null);
     this.handleControlBlur();
     this.onCancel.emit();
+  }
+
+  private resolveHalfValue(star: number, event: MouseEvent): number {
+    const target = event.currentTarget as HTMLElement | null;
+    if (!target) return star;
+
+    const rect = target.getBoundingClientRect();
+    const relativeX = event.clientX - rect.left;
+    const ratio = rect.width === 0 ? 0 : relativeX / rect.width;
+
+    return ratio < 0.5 ? star - 0.5 : star;
   }
 }
