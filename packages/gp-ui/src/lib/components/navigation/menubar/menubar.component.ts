@@ -1,9 +1,15 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  HostListener,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
+import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 
 export interface GpMenubarItem extends GpMenuItem {
   items?: GpMenubarItem[];
@@ -18,30 +24,61 @@ export interface GpMenubarItem extends GpMenuItem {
   templateUrl: './menubar.component.html',
   styleUrl: './menubar.component.scss'
 })
-export class GpMenubarComponent extends GpBaseComponent {
-  @Input() model: GpMenubarItem[] = [];
+export class GpMenubarComponent extends GpMenuBaseComponent<GpMenubarItem> {
+  public activeSubItem = signal<GpMenubarItem | null>(null);
 
-  protected activeItem = signal<GpMenubarItem | null>(null);
-
-  public onItemMouseEnter(item: GpMenubarItem): void {
-    if (item.items && item.items.length > 0) {
-      this.activeItem.set(item);
+  @HostListener('document:click', ['$event'])
+  override onDocumentClick(event: MouseEvent): void {
+    if (this.menuHostEl?.nativeElement && !this.menuHostEl.nativeElement.contains(event.target)) {
+      this.close();
     }
   }
 
-  public onItemMouseLeave(item: GpMenubarItem): void {
-    if (this.activeItem() === item) {
-      this.activeItem.set(null);
+  @HostListener('document:keydown.escape')
+  override onEscape(): void {
+    this.close();
+  }
+
+  public onItemMouseEnter(item: GpMenubarItem): void {
+    if (this.activeItem() !== null || (item.items && item.items.length > 0)) {
+      this.activeItem.set(item);
+      this.activeSubItem.set(null);
+    }
+  }
+
+  public onSubItemMouseEnter(subItem: GpMenubarItem): void {
+    if (subItem.items && subItem.items.length > 0) {
+      this.activeSubItem.set(subItem);
+    } else {
+      this.activeSubItem.set(null);
+    }
+  }
+
+  public onRootItemClick(item: GpMenubarItem, event: MouseEvent): void {
+    if (item.disabled) {
+      return;
+    }
+    if (item.items && item.items.length > 0) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (this.activeItem() === item) {
+        this.close();
+      } else {
+        this.activeItem.set(item);
+        this.activeSubItem.set(null);
+      }
+    } else {
+      this.onItemClick(item, event);
     }
   }
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) {
-      return;
-    }
-    if (item.command) {
-      item.command({ originalEvent: event, item });
-    }
+    this.handleMenuItemClick(item as GpMenubarItem, event);
+    this.close();
+  }
+
+  public close(): void {
     this.activeItem.set(null);
+    this.activeSubItem.set(null);
   }
 }

@@ -1,18 +1,15 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  forwardRef,
-  signal
+  forwardRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UniqueId } from '../../../utils/unique-id';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
+import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.component';
 
 @Component({
   selector: 'gp-radio-button',
@@ -30,48 +27,22 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
   templateUrl: './radio-button.component.html',
   styleUrl: './radio-button.component.scss'
 })
-export class GpRadioButtonComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('rb_');
-  @Input() override name = '';
-  @Input() override value: any = null;
-  @Input() label = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-
-  @Output() onClickEvent = new EventEmitter<{ value: any; originalEvent: Event }>();
-
-  protected model = signal<any>(null);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
+export class GpRadioButtonComponent extends GpCheckableBaseComponent implements ControlValueAccessor {
+  public inputId = input<string>(UniqueId.generate('rb_'));
+  public label = input<string>('');
 
   public isChecked(): boolean {
-    return this.model() === this.value;
-  }
-
-  public override writeValue(value: any): void {
-    this.model.set(value);
-  }
-
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    return this.internalValue() === this.valueInput();
   }
 
   public onClick(event: Event): void {
-    if (this.disabled || this.readonly || this.isChecked()) return;
+    if (this.isEffectivelyDisabled() || this.readonly() || this.isChecked()) {
+      return;
+    }
 
-    this.model.set(this.value);
-    this.onChangeCallback(this.value);
-    this.onTouchedCallback();
-    this.onClickEvent.emit({ value: this.value, originalEvent: event });
+    const val = this.valueInput();
+    this.updateValue(val);
+    this.onChange.emit({ checked: true, originalEvent: event });
+    this.onClickEvent.emit(event);
   }
 }

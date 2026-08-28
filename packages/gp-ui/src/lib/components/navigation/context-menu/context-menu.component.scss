@@ -1,4 +1,114 @@
 .gp-context-menu {
   position: fixed !important;
   z-index: 1200;
+  min-width: 13rem;
+  background: var(--gp-surface-overlay, var(--gp-surface-card));
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  box-shadow: var(--gp-shadow-xl, 0 10px 25px -5px rgba(0, 0, 0, 0.15));
+  padding: 0.35rem 0;
+  box-sizing: border-box;
+  animation: gp-context-fade-in 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gp-context-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.gp-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gp-menu-item {
+  position: relative;
+}
+
+.gp-menu-item-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  color: var(--gp-text-color);
+  text-decoration: none;
+  font-size: var(--gp-font-size-sm);
+  cursor: pointer;
+  border-radius: var(--gp-border-radius-sm, 4px);
+  margin: 0 0.25rem;
+  transition: background var(--gp-transition-duration), color var(--gp-transition-duration);
+}
+
+.gp-menu-item:hover:not(.gp-menu-item-disabled) > .gp-menu-item-link,
+.gp-menu-item-active > .gp-menu-item-link {
+  background: var(--gp-surface-hover);
+  color: var(--gp-primary);
+}
+
+.gp-menu-item-icon {
+  color: var(--gp-text-color-secondary);
+  font-size: 1.1em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.gp-menu-item:hover:not(.gp-menu-item-disabled) .gp-menu-item-icon,
+.gp-menu-item-active .gp-menu-item-icon {
+  color: var(--gp-primary);
+}
+
+.gp-menu-item-text {
+  flex: 1;
+}
+
+.gp-menu-item-badge {
+  background: var(--gp-primary-light, rgba(59, 130, 246, 0.12));
+  color: var(--gp-primary, #3b82f6);
+  font-size: var(--gp-font-size-xs, 0.725rem);
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--gp-border-radius-full, 9999px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.gp-menu-item-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.gp-menu-separator {
+  height: 1px;
+  background: var(--gp-surface-divider, var(--gp-surface-border));
+  margin: 0.35rem 0;
+}
+
+.gp-menu-submenu-icon {
+  margin-left: auto;
+  color: var(--gp-text-color-muted);
+}
+
+.gp-context-submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 2px;
+  background: var(--gp-surface-overlay, var(--gp-surface-card));
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  box-shadow: var(--gp-shadow-xl, 0 10px 25px -5px rgba(0, 0, 0, 0.15));
+  min-width: 12.5rem;
+  padding: 0.35rem 0;
+  z-index: 1250;
+  animation: gp-context-fade-in 0.15s ease-out;
 }

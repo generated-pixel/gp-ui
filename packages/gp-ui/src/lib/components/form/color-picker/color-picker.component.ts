@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -31,8 +30,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrl: './color-picker.component.scss'
 })
 export class GpColorPickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() override disabled = false;
-  @Input() presetColors = [
+  public presetColors = input<string[]>([
     '#6366f1',
     '#4f46e5',
     '#3b82f6',
@@ -51,9 +49,9 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
     '#ffffff',
     '#000000',
     '#f1f5f9'
-  ];
+  ]);
 
-  @Output() onChange = new EventEmitter<{ value: string }>();
+  public onChange = output<{ value: string }>();
 
   protected overlayVisible = signal<boolean>(false);
 
@@ -70,7 +68,6 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
 
   public override writeValue(value: any): void {
     const col = value || '#6366f1';
-    this.value = col;
     this.internalValue.set(col);
   }
 
@@ -82,12 +79,8 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggleOverlay(): void {
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     this.overlayVisible.update((v) => !v);

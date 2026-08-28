@@ -1,7 +1,6 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -11,7 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
-import { UniqueId } from '../../../utils/unique-id';
+import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
 
 @Component({
   selector: 'gp-password',
@@ -29,21 +28,14 @@ import { UniqueId } from '../../../utils/unique-id';
   templateUrl: './password.component.html',
   styleUrl: './password.component.scss'
 })
-export class GpPasswordComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('password_');
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override required = false;
-  @Input() override invalid = false;
-  @Input() toggleMask = true;
-  @Input() feedback = true;
-  @Input() override ariaLabel = '';
+export class GpPasswordComponent extends GpInputBaseComponent<string> implements ControlValueAccessor {
+  public toggleMask = input<boolean>(true);
+  public feedback = input<boolean>(true);
 
-  protected showPassword = signal<boolean>(false);
-  protected focused = signal<boolean>(false);
+  public showPassword = signal<boolean>(false);
+  public focused = signal<boolean>(false);
 
-  protected strengthScore = computed(() => {
+  public strengthScore = computed(() => {
     const val = this.internalValue() as string;
     if (!val) {
       return 0;
@@ -64,7 +56,7 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
     return score;
   });
 
-  protected strengthLevel = computed(() => {
+  public strengthLevel = computed(() => {
     const s = this.strengthScore();
     if (s <= 1) {
       return 'weak';
@@ -78,7 +70,7 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
     return 'very-strong';
   });
 
-  protected strengthLabel = computed(() => {
+  public strengthLabel = computed(() => {
     const s = this.strengthScore();
     if (s <= 1) {
       return 'Weak password';
@@ -94,34 +86,22 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
 
   public override writeValue(value: any): void {
     const str = value != null ? String(value) : '';
-    this.value = str;
     this.internalValue.set(str);
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
+  public override handleFocus(event: FocusEvent): void {
+    this.focused.set(true);
+    super.handleFocus(event);
   }
 
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  protected onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.updateValue(input.value);
-  }
-
-  protected onBlur(): void {
+  public override handleBlur(event: FocusEvent): void {
     this.focused.set(false);
-    this.handleControlBlur();
+    super.handleBlur(event);
   }
 
-  protected toggleShowPassword(event: MouseEvent): void {
+  public toggleShowPassword(event: MouseEvent): void {
     event.preventDefault();
+    event.stopPropagation();
     this.showPassword.update((v) => !v);
   }
 }

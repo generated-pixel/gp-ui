@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpBadgeSeverity } from '../badge/badge.component';
@@ -14,8 +14,8 @@ import { GpBadgeSeverity } from '../badge/badge.component';
   styleUrl: './tag.component.scss'
 })
 export class GpTagComponent extends GpBaseComponent {
-  @Input() value = '';
-  @Input() severity: GpBadgeSeverity = 'primary';
-  @Input() icon = '';
-  @Input() rounded = false;
+  public value = input<string>('');
+  public severity = input<GpBadgeSeverity>('primary');
+  public icon = input<string>('');
+  public rounded = input<boolean>(false);
 }

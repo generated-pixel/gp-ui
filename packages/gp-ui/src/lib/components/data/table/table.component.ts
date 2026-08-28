@@ -1,11 +1,10 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
+import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  ContentChildren,
-  QueryList,
+  input,
+  model,
+  output,
+  contentChildren,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
@@ -42,32 +41,31 @@ export type GpSelectionMode = 'single' | 'multiple' | null;
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class GpTableComponent extends GpEditableBaseComponent {
+export class GpTableComponent extends GpBaseComponent {
   protected translationService = inject(GpTranslationService);
 
-  @ContentChildren(GpColumnComponent) columns!: QueryList<GpColumnComponent>;
+  public columns = contentChildren(GpColumnComponent);
 
-  @Input() override value: any[] = [];
-  @Input() paginator = false;
-  @Input() rows = 10;
-  @Input() rowsPerPageOptions: number[] = [5, 10, 25, 50];
-  @Input() stripedRows = false;
-  @Input() showGridlines = false;
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
-  @Input() scrollHeight = '';
-  @Input() selectionMode: GpSelectionMode = null;
-  @Input() selection: any = null;
-  @Input() dataKey = 'id';
-  @Input() rowExpansion = false;
-  @Input() globalFilterFields: string[] = [];
-  @Input() globalFilterPlaceholder = 'Global search...';
-  @Input() captionTemplate?: any;
+  public value = input<any[]>([]);
+  public paginator = input<boolean>(false);
+  public rows = model<number>(10);
+  public rowsPerPageOptions = input<number[]>([5, 10, 25, 50]);
+  public stripedRows = input<boolean>(false);
+  public showGridlines = input<boolean>(false);
+  public size = input<'sm' | 'md' | 'lg'>('md');
+  public scrollHeight = input<string>('');
+  public selectionMode = input<GpSelectionMode>(null);
+  public selection = model<any>(null);
+  public dataKey = input<string>('id');
+  public rowExpansion = input<boolean>(false);
+  public globalFilterFields = input<string[]>([]);
+  public globalFilterPlaceholder = input<string>('Global search...');
+  public captionTemplate = input<any>(undefined);
 
-  @Output() selectionChange = new EventEmitter<any>();
-  @Output() onRowSelect = new EventEmitter<{ data: any; originalEvent: Event }>();
-  @Output() onRowUnselect = new EventEmitter<{ data: any; originalEvent: Event }>();
-  @Output() onSort = new EventEmitter<{ field: string; order: number }>();
-  @Output() onPage = new EventEmitter<GpPageState>();
+  public onRowSelect = output<{ data: any; originalEvent: Event }>();
+  public onRowUnselect = output<{ data: any; originalEvent: Event }>();
+  public onSort = output<{ field: string; order: number }>();
+  public onPage = output<GpPageState>();
 
   protected sortField = signal<string>('');
   protected sortOrder = signal<number>(1);
@@ -80,15 +78,17 @@ export class GpTableComponent extends GpEditableBaseComponent {
   }
 
   public rowTrackBy(row: any, index: number): any {
-    return this.dataKey ? (row[this.dataKey] ?? index) : index;
+    const key = this.dataKey();
+    return key ? (row[key] ?? index) : index;
   }
 
   protected filteredRows = computed<any[]>(() => {
-    let rows = this.value || [];
+    let rows = this.value() || [];
     const q = this.globalFilterText().toLowerCase().trim();
-    if (q && this.globalFilterFields.length > 0) {
+    const fields = this.globalFilterFields();
+    if (q && fields.length > 0) {
       rows = rows.filter((row) => {
-        return this.globalFilterFields.some((field) => {
+        return fields.some((field) => {
           const val = this.resolveFieldData(row, field);
           return val != null && String(val).toLowerCase().includes(q);
         });
@@ -126,21 +126,21 @@ export class GpTableComponent extends GpEditableBaseComponent {
 
   protected displayedRows = computed<any[]>(() => {
     const rows = this.sortedRows();
-    if (!this.paginator) {
+    if (!this.paginator()) {
       return rows;
     }
     const start = this.first();
-    return rows.slice(start, start + this.rows);
+    return rows.slice(start, start + this.rows());
   });
 
   protected totalRecordsCount = computed(() => this.filteredRows().length);
 
   protected totalColumnsCount = computed(() => {
-    let count = this.columns ? this.columns.length : 0;
-    if (this.rowExpansion) {
+    let count = this.columns() ? this.columns().length : 0;
+    if (this.rowExpansion()) {
       count++;
     }
-    if (this.selectionMode) {
+    if (this.selectionMode()) {
       count++;
     }
     return count;
@@ -157,59 +157,64 @@ export class GpTableComponent extends GpEditableBaseComponent {
   }
 
   public isRowSelected(row: any): boolean {
-    if (!this.selection) {
+    const sel = this.selection();
+    if (!sel) {
       return false;
     }
-    if (this.selectionMode === 'single') {
-      return ObjectUtils.equals(this.selection, row, this.dataKey);
+    const mode = this.selectionMode();
+    const key = this.dataKey();
+    if (mode === 'single') {
+      return ObjectUtils.equals(sel, row, key);
     }
-    if (this.selectionMode === 'multiple' && Array.isArray(this.selection)) {
-      return this.selection.some((r) => ObjectUtils.equals(r, row, this.dataKey));
+    if (mode === 'multiple' && Array.isArray(sel)) {
+      return sel.some((r) => ObjectUtils.equals(r, row, key));
     }
     return false;
   }
 
   public isAllSelected(): boolean {
     const rows = this.displayedRows();
-    if (!rows.length || !Array.isArray(this.selection)) return false;
+    const sel = this.selection();
+    if (!rows.length || !Array.isArray(sel)) return false;
     return rows.every((r) => this.isRowSelected(r));
   }
 
   public toggleSelectAll(): void {
     const rows = this.displayedRows();
+    const sel = this.selection();
+    const key = this.dataKey();
     let next: any[];
     if (this.isAllSelected()) {
-      next = (this.selection || []).filter((sel: any) => !rows.some((r) => ObjectUtils.equals(r, sel, this.dataKey)));
+      next = (sel || []).filter((s: any) => !rows.some((r) => ObjectUtils.equals(r, s, key)));
     } else {
-      const current = Array.isArray(this.selection) ? this.selection : [];
+      const current = Array.isArray(sel) ? sel : [];
       const newItems = rows.filter((r) => !this.isRowSelected(r));
       next = [...current, ...newItems];
     }
-    this.selection = next;
-    this.selectionChange.emit(next);
+    this.selection.set(next);
   }
 
   public toggleRowSelection(row: any): void {
-    let current = Array.isArray(this.selection) ? [...this.selection] : [];
+    const sel = this.selection();
+    const key = this.dataKey();
+    let current = Array.isArray(sel) ? [...sel] : [];
     if (this.isRowSelected(row)) {
-      current = current.filter((r) => !ObjectUtils.equals(r, row, this.dataKey));
+      current = current.filter((r) => !ObjectUtils.equals(r, row, key));
       this.onRowUnselect.emit({ data: row, originalEvent: new CustomEvent('unselect') });
     } else {
       current.push(row);
       this.onRowSelect.emit({ data: row, originalEvent: new CustomEvent('select') });
     }
-    this.selection = current;
-    this.selectionChange.emit(current);
+    this.selection.set(current);
   }
 
   public selectSingleRow(row: any): void {
-    this.selection = row;
-    this.selectionChange.emit(row);
+    this.selection.set(row);
     this.onRowSelect.emit({ data: row, originalEvent: new CustomEvent('select') });
   }
 
   public onRowClick(row: any, event: MouseEvent): void {
-    if (this.selectionMode === 'single') {
+    if (this.selectionMode() === 'single') {
       this.selectSingleRow(row);
     }
   }
@@ -231,7 +236,7 @@ export class GpTableComponent extends GpEditableBaseComponent {
 
   public onPaginationChange(state: GpPageState): void {
     this.first.set(state.first);
-    this.rows = state.rows;
+    this.rows.set(state.rows);
     this.onPage.emit(state);
   }
 
@@ -251,11 +256,11 @@ export class GpTableComponent extends GpEditableBaseComponent {
    */
   public exportCSV(filename = 'export.csv'): void {
     const rows = this.sortedRows();
-    const cols = this.columns.toArray();
-    let csv = cols.map((c) => `"${c.header}"`).join(',') + '\r\n';
+    const cols = this.columns();
+    let csv = cols.map((c) => `"${c.header()}"`).join(',') + '\r\n';
 
     rows.forEach((r) => {
-      const line = cols.map((c) => `"${this.resolveFieldData(r, c.field) ?? ''}"`).join(',');
+      const line = cols.map((c) => `"${this.resolveFieldData(r, c.field()) ?? ''}"`).join(',');
       csv += line + '\r\n';
     });
 

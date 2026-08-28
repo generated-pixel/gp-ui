@@ -15,89 +15,179 @@ export interface ComponentDocDefinition {
 const baseComponentProperties: DocApiProperty[] = [
   {
     name: 'id',
-    type: 'string',
+    type: 'input<string>',
     default: "UniqueId.generate('gp_')",
-    description: 'Unique element identifier attached to the component.'
+    description: 'Unique element identifier signal attached to the component host.'
   },
   {
     name: 'styleClass',
-    type: 'string',
+    type: 'input<string>',
     default: "''",
-    description: 'Custom CSS class names applied to the component host.'
+    description: 'Custom CSS class names signal applied to the component host.'
   },
   {
     name: 'style',
-    type: '{ [klass: string]: any } | null',
+    type: 'input<{ [klass: string]: any } | null>',
     default: 'null',
-    description: 'Custom inline styling applied to the root element.'
+    description: 'Custom inline styling signal applied to the root element.'
   },
-  { name: 'ariaLabel', type: 'string', default: "''", description: 'Accessible label used for screen readers.' },
-  { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables interactive behavior and user input.' }
+  { name: 'ariaLabel', type: 'input<string>', default: "''", description: 'Accessible label signal used for screen readers.' },
+  { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Signal disabling interactive behavior and user input.' }
 ];
 
 const editableBaseProperties: DocApiProperty[] = [
-  { name: 'value', type: 'any', default: 'null', description: 'Current value bound to the control.' },
-  { name: 'name', type: 'string', default: "''", description: 'Form field name used by the surrounding form APIs.' },
+  { name: 'value', type: 'input<T | null> / model<T>', default: 'null', description: 'Current value signal bound to the control.' },
+  { name: 'name', type: 'input<string>', default: "''", description: 'Form field name signal used by the surrounding form APIs.' },
   {
     name: 'placeholder',
-    type: 'string',
+    type: 'input<string>',
     default: "''",
-    description: 'Placeholder text shown when the field is empty.'
+    description: 'Placeholder text signal shown when the field is empty.'
   },
-  { name: 'required', type: 'boolean', default: 'false', description: 'Marks the field as required.' },
-  { name: 'readonly', type: 'boolean', default: 'false', description: 'Makes the control read-only.' },
+  { name: 'required', type: 'input<boolean>', default: 'false', description: 'Signal marking the field as required.' },
+  { name: 'readonly', type: 'input<boolean>', default: 'false', description: 'Signal making the control read-only.' },
   {
     name: 'invalid',
-    type: 'boolean',
+    type: 'input<boolean>',
     default: 'false',
-    description: 'Overrides the component validation state when set to true.'
+    description: 'Signal overriding the component validation state when set to true.'
   },
   {
     name: 'validators',
-    type: 'GpValidatorFn<T>[]',
+    type: 'input<GpValidatorFn<T>[]>',
     default: '[]',
     description: 'Validator functions applied to the field value.'
   },
   {
     name: 'validateOn',
-    type: "('change' | 'blur')[]",
+    type: "input<('change' | 'blur')[]>",
     default: "['change', 'blur']",
-    description: 'When the control validates during user interactions.'
+    description: 'Triggers when the control validates during user interactions.'
   },
   {
     name: 'errorMessage',
-    type: 'string',
+    type: 'input<string>',
     default: "''",
-    description: 'Custom validation message used when validation fails.'
+    description: 'Custom validation message signal used when validation fails.'
   },
-  { name: 'helperText', type: 'string', default: "''", description: 'Additional context displayed below the field.' },
+  { name: 'helperText', type: 'input<string>', default: "''", description: 'Additional helper context displayed below the field.' },
   {
     name: 'valueEffect',
-    type: 'GpValueEffectFn<T>',
+    type: 'input<GpValueEffectFn<T>>',
     default: 'undefined',
-    description: 'Optional callback executed when the value updates.'
+    description: 'Optional effect callback executed when the value updates.'
   }
 ];
 
 const editableBaseEvents: DocApiProperty[] = [
-  { name: 'valueChange', type: 'EventEmitter<T>', description: 'Emitted whenever the field value changes.' },
+  { name: 'valueChange', type: 'output<T>()', description: 'Emitted whenever the field value changes via two-way signal binding.' },
   {
     name: 'onValidate',
-    type: 'EventEmitter<GpValidationState<T>>',
+    type: 'output<GpValidationState<T>>()',
     description: 'Emitted after validation completes with the current validation state.'
   },
-  { name: 'onValid', type: 'EventEmitter<T>', description: 'Emitted when the field passes validation.' },
+  { name: 'onValid', type: 'output<T>()', description: 'Emitted when the field passes validation.' },
   {
     name: 'onInvalid',
-    type: 'EventEmitter<GpValidationError[]>',
+    type: 'output<GpValidationError[]>()',
     description: 'Emitted when validation fails and includes the error list.'
   },
   {
     name: 'onEffectComplete',
-    type: 'EventEmitter<{ value: T; error?: any }>',
+    type: 'output<{ value: T; error?: any }>()',
     description: 'Emitted after any value effect completes.'
   }
 ];
+
+const buttonBaseProperties: DocApiProperty[] = [
+  { name: 'label', type: 'input<string>', default: "''", description: 'Button text label signal.' },
+  { name: 'icon', type: 'input<string>', default: "''", description: 'Icon name signal rendered on the button.' },
+  { name: 'iconPos', type: "input<'left' | 'right' | 'top' | 'bottom'>", default: "'left'", description: 'Position of the icon relative to the label.' },
+  { name: 'variant', type: "input<'solid' | 'outlined' | 'text' | 'link'>", default: "'solid'", description: 'Visual button variant style signal.' },
+  { name: 'severity', type: "input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'>", default: "'primary'", description: 'Semantic color severity accent.' },
+  { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Size scale of the button.' },
+  { name: 'rounded', type: 'input<boolean>', default: 'false', description: 'Fully rounded pill border radius flag.' },
+  { name: 'raised', type: 'input<boolean>', default: 'false', description: 'Elevated box shadow styling flag.' },
+  { name: 'fluid', type: 'input<boolean>', default: 'false', description: 'Full 100% width button layout flag.' },
+  { name: 'loading', type: 'input<boolean>', default: 'false', description: 'Displays an animated spinner indicator and disables clicking.' },
+  { name: 'badge', type: 'input<string>', default: "''", description: 'Badge counter or tag text rendered on the button.' }
+];
+
+const buttonBaseEvents: DocApiProperty[] = [
+  { name: 'onClickEvent', type: 'output<MouseEvent>()', description: 'Emitted on click interaction.' },
+  { name: 'onFocusEvent', type: 'output<FocusEvent>()', description: 'Emitted when button receives focus.' },
+  { name: 'onBlurEvent', type: 'output<FocusEvent>()', description: 'Emitted when button loses focus.' },
+  { name: 'onKeyDownEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keydown event.' },
+  { name: 'onKeyUpEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keyup event.' },
+  { name: 'onMouseEnterEvent', type: 'output<MouseEvent>()', description: 'Emitted on mouse enter.' },
+  { name: 'onMouseLeaveEvent', type: 'output<MouseEvent>()', description: 'Emitted on mouse leave.' },
+  { name: 'onDoubleClickEvent', type: 'output<MouseEvent>()', description: 'Emitted on double click.' }
+];
+
+const inputBaseProperties: DocApiProperty[] = [
+  { name: 'inputId', type: 'input<string>', default: "UniqueId.generate('input_')", description: 'HTML id attribute attached to the underlying input.' },
+  { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Size scale of the input.' },
+  { name: 'variant', type: "input<'outlined' | 'filled'>", default: "'outlined'", description: 'Visual appearance variant.' },
+  { name: 'clearable', type: 'input<boolean>', default: 'false', description: 'Displays a clear button when text is present.' },
+  { name: 'autofocus', type: 'input<boolean>', default: 'false', description: 'Auto-focuses the input on render.' },
+  { name: 'tabindex', type: 'input<number | undefined>', default: 'undefined', description: 'Tab index attribute.' },
+  { name: 'maxlength', type: 'input<number | undefined>', default: 'undefined', description: 'Maximum character limit allowed.' },
+  { name: 'autocomplete', type: 'input<string>', default: "'off'", description: 'Browser autocomplete attribute.' }
+];
+
+const inputBaseEvents: DocApiProperty[] = [
+  { name: 'onInputEvent', type: 'output<Event>()', description: 'Emitted whenever user enters input.' },
+  { name: 'onFocusEvent', type: 'output<FocusEvent>()', description: 'Emitted when input receives focus.' },
+  { name: 'onBlurEvent', type: 'output<FocusEvent>()', description: 'Emitted when input loses focus.' },
+  { name: 'onKeyDownEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keydown.' },
+  { name: 'onKeyUpEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keyup.' },
+  { name: 'onClearEvent', type: 'output<void>()', description: 'Emitted when user clears the input.' }
+];
+
+const menuBaseProperties: DocApiProperty[] = [
+  { name: 'model', type: 'input<T[]>', default: '[]', description: 'Array of hierarchical or flat menu items.' },
+  { name: 'popup', type: 'input<boolean>', default: 'false', description: 'Whether the menu opens as an anchored popup overlay.' },
+  { name: 'autoZIndex', type: 'input<boolean>', default: 'true', description: 'Automatically manage elevation z-index layer.' }
+];
+
+const menuBaseEvents: DocApiProperty[] = [
+  { name: 'onItemClickEvent', type: 'output<{ originalEvent: Event; item: T }>()', description: 'Emitted when a menu item is clicked.' },
+  { name: 'onShow', type: 'output<void>()', description: 'Emitted when popup overlay opens.' },
+  { name: 'onHide', type: 'output<void>()', description: 'Emitted when popup overlay closes.' }
+];
+
+const overlayBaseProperties: DocApiProperty[] = [
+  { name: 'header', type: 'input<string>', default: "''", description: 'Title header text rendered in the overlay header.' },
+  { name: 'modal', type: 'input<boolean>', default: 'true', description: 'Dims and blocks background interaction when open.' },
+  { name: 'closable', type: 'input<boolean>', default: 'true', description: 'Shows an interactive close button in the header.' },
+  { name: 'closeOnEscape', type: 'input<boolean>', default: 'true', description: 'Closes the overlay when user presses the Escape key.' },
+  { name: 'dismissableMask', type: 'input<boolean>', default: 'false', description: 'Closes overlay when clicking the backdrop mask.' },
+  { name: 'visible', type: 'model<boolean>', default: 'false', description: 'Two-way bound signal controlling overlay visibility [(visible)].' }
+];
+
+const overlayBaseEvents: DocApiProperty[] = [
+  { name: 'visibleChange', type: 'output<boolean>()', description: 'Emitted on visibility change for two-way binding.' },
+  { name: 'onShow', type: 'output<void>()', description: 'Emitted when overlay opens.' },
+  { name: 'onHide', type: 'output<void>()', description: 'Emitted when overlay closes.' }
+];
+
+const panelBaseProperties: DocApiProperty[] = [
+  { name: 'header', type: 'input<string>', default: "''", description: 'Header title text.' },
+  { name: 'subheader', type: 'input<string>', default: "''", description: 'Subtitle description text.' },
+  { name: 'toggleable', type: 'input<boolean>', default: 'false', description: 'Allows collapsing/expanding the panel content.' }
+];
+
+const panelBaseEvents: DocApiProperty[] = [
+  { name: 'onToggle', type: 'output<{ collapsed: boolean }>()', description: 'Emitted when panel toggles.' },
+  { name: 'onExpand', type: 'output<void>()', description: 'Emitted when panel expands.' },
+  { name: 'onCollapse', type: 'output<void>()', description: 'Emitted when panel collapses.' }
+];
+
+const buttonDocSlugs = new Set<string>(['button', 'split-button', 'speed-dial', 'toggle-button']);
+const inputDocSlugs = new Set<string>(['input-text', 'textarea', 'password', 'input-number', 'input-mask', 'autocomplete']);
+const menuDocSlugs = new Set<string>(['menu', 'menubar', 'context-menu', 'tiered-menu', 'mega-menu', 'panel-menu', 'dock', 'breadcrumb']);
+const overlayDocSlugs = new Set<string>(['dialog', 'drawer', 'confirm-dialog', 'popover']);
+const panelDocSlugs = new Set<string>(['panel', 'card', 'fieldset']);
 
 const editableDocSlugs = new Set<string>([
   'input-text',
@@ -124,16 +214,66 @@ const editableDocSlugs = new Set<string>([
 ]);
 
 function withInheritedApi(doc: ComponentDocDefinition): ComponentDocDefinition {
-  const includesEditableBase = editableDocSlugs.has(doc.slug);
+  const isEditable = editableDocSlugs.has(doc.slug);
+  const isButton = buttonDocSlugs.has(doc.slug);
+  const isInput = inputDocSlugs.has(doc.slug);
+  const isMenu = menuDocSlugs.has(doc.slug);
+  const isOverlay = overlayDocSlugs.has(doc.slug);
+  const isPanel = panelDocSlugs.has(doc.slug);
+
+  const extraProps: DocApiProperty[] = [];
+  const extraEvents: DocApiProperty[] = [];
+
+  if (isEditable) {
+    extraProps.push(...editableBaseProperties);
+    extraEvents.push(...editableBaseEvents);
+  }
+  if (isButton && doc.slug !== 'button') {
+    extraProps.push(...buttonBaseProperties);
+    extraEvents.push(...buttonBaseEvents);
+  }
+  if (isInput && doc.slug !== 'input-text') {
+    extraProps.push(...inputBaseProperties);
+    extraEvents.push(...inputBaseEvents);
+  }
+  if (isMenu && doc.slug !== 'menu') {
+    extraProps.push(...menuBaseProperties);
+    extraEvents.push(...menuBaseEvents);
+  }
+  if (isOverlay && doc.slug !== 'dialog') {
+    extraProps.push(...overlayBaseProperties);
+    extraEvents.push(...overlayBaseEvents);
+  }
+  if (isPanel && doc.slug !== 'panel') {
+    extraProps.push(...panelBaseProperties);
+    extraEvents.push(...panelBaseEvents);
+  }
+
+  // Deduplicate properties by name
+  const allProps = [...baseComponentProperties, ...extraProps, ...doc.properties];
+  const uniqueProps: DocApiProperty[] = [];
+  const seenProps = new Set<string>();
+  for (const p of allProps) {
+    if (!seenProps.has(p.name)) {
+      seenProps.add(p.name);
+      uniqueProps.push(p);
+    }
+  }
+
+  const allEvents = [...extraEvents, ...(doc.events ?? [])];
+  const uniqueEvents: DocApiProperty[] = [];
+  const seenEvents = new Set<string>();
+  for (const e of allEvents) {
+    if (!seenEvents.has(e.name)) {
+      seenEvents.add(e.name);
+      uniqueEvents.push(e);
+    }
+  }
 
   return {
     ...doc,
-    properties: [
-      ...baseComponentProperties,
-      ...(includesEditableBase ? editableBaseProperties : []),
-      ...doc.properties
-    ],
-    events: [...(includesEditableBase ? editableBaseEvents : []), ...(doc.events ?? [])]
+    properties: uniqueProps,
+    events: uniqueEvents
   };
 }
 
@@ -170,7 +310,7 @@ export const componentDocs: ComponentDocDefinition[] = [
       }
     ],
     events: [
-      { name: 'onClickEvent', type: 'EventEmitter<MouseEvent>', description: 'Emitted when the button is clicked.' }
+      { name: 'onClickEvent', type: 'output<MouseEvent>()', description: 'Emitted when the button is clicked.' }
     ]
   },
   {
@@ -704,9 +844,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     icon: 'timeline',
     description: 'Temporal sequence for events, activities, and historical content.',
     importStatement: `import { GpTimelineComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-timeline [events]="history" />`,
+    exampleCode: `<gp-timeline [value]="history" />`,
     properties: [
-      { name: 'events', type: 'any[]', default: '[]', description: 'Items displayed in order along the timeline.' }
+      { name: 'value', type: 'input<GpTimelineEvent[]>', default: '[]', description: 'Items displayed in order along the timeline.' }
     ]
   },
   {
@@ -716,9 +856,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     icon: 'meter',
     description: 'Group of value meters representing allocations or progress summaries.',
     importStatement: `import { GpMeterGroupComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-meter-group [values]="[45, 30, 25]" />`,
+    exampleCode: `<gp-meter-group [value]="demoMeterItems" />`,
     properties: [
-      { name: 'values', type: 'number[]', default: '[]', description: 'Meter values shown across the group.' }
+      { name: 'value', type: 'input<GpMeterItem[]>', default: '[]', description: 'List of meter item objects to render.' }
     ]
   },
   {

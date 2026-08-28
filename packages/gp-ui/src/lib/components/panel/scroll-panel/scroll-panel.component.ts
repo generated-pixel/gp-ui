@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,6 +12,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './scroll-panel.component.scss'
 })
 export class GpScrollPanelComponent extends GpBaseComponent {
-  @Input() height = '15rem';
-  @Input() maxHeight = '';
+  public height = input<string>('15rem');
+  public maxHeight = input<string>('');
 }

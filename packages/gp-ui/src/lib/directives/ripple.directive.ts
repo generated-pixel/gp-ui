@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, inject, booleanAttribute } from '@angular/core';
+import { Directive, ElementRef, HostListener, input, inject, booleanAttribute } from '@angular/core';
 import { GpConfig } from '../config/gp-config.service';
 
 @Directive({
@@ -9,11 +9,11 @@ export class GpRippleDirective {
   private el = inject(ElementRef);
   private config = inject(GpConfig);
 
-  @Input({ transform: booleanAttribute }) gpRipple: boolean = true;
+  public gpRipple = input<boolean, unknown>(true, { transform: booleanAttribute });
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
-    if (!this.config.ripple() || !this.gpRipple) {
+    if (!this.config.ripple() || !this.gpRipple()) {
       return;
     }
 

@@ -1,9 +1,9 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
+  computed,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal
@@ -23,17 +23,17 @@ export type GpMessageSeverity = 'success' | 'info' | 'warning' | 'error' | 'seco
   styleUrl: './message.component.scss'
 })
 export class GpMessageComponent extends GpBaseComponent {
-  @Input() severity: GpMessageSeverity = 'info';
-  @Input() text = '';
-  @Input() icon = '';
-  @Input() closable = false;
+  public severity = input<GpMessageSeverity>('info');
+  public text = input<string>('');
+  public icon = input<string>('');
+  public closable = input<boolean>(false);
 
-  @Output() onClose = new EventEmitter<void>();
+  public onClose = output<void>();
 
   protected visible = signal<boolean>(true);
 
-  protected defaultIcon(): string {
-    switch (this.severity) {
+  protected defaultIcon = computed(() => {
+    switch (this.severity()) {
       case 'success':
         return 'check-circle';
       case 'warning':
@@ -43,7 +43,7 @@ export class GpMessageComponent extends GpBaseComponent {
       default:
         return 'info-circle';
     }
-  }
+  });
 
   public close(): void {
     this.visible.set(false);

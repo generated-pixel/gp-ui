@@ -23,8 +23,18 @@ import { GpTreeComponent, GpOrgChartComponent, GpTreeNode } from 'gp-ui';
 
       <!-- Organization Chart -->
       <div class="doc-section">
-        <h2 class="doc-section-title">Organization Chart</h2>
-        <gp-org-chart [value]="orgRoot" />
+        <h2 class="doc-section-title">Organization Chart (Interactive &amp; Collapsible)</h2>
+        <p class="doc-section-desc">
+          Hierarchical organizational structure with collapsible nodes, connector lines, and selection support.
+        </p>
+        <div style="width: 100%; overflow-x: auto; background: var(--gp-surface-ground); border-radius: 8px; padding: 1.5rem 0.5rem; border: 1px solid var(--gp-surface-border);">
+          <gp-org-chart [value]="orgRoot" selectionMode="single" [(selection)]="selectedOrgNode" />
+        </div>
+        @if (selectedOrgNode) {
+          <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: var(--gp-surface-card); border-radius: 6px; border: 1px solid var(--gp-primary-light);">
+            Selected Node: <strong>{{ selectedOrgNode.label }}</strong> ({{ selectedOrgNode.data?.title || 'Team Member' }})
+          </div>
+        }
       </div>
     </div>
   `,
@@ -37,6 +47,8 @@ import { GpTreeComponent, GpOrgChartComponent, GpTreeNode } from 'gp-ui';
   ]
 })
 export class TreeDemoComponent {
+  selectedOrgNode: GpTreeNode | null = null;
+
   filesTree: GpTreeNode[] = [
     {
       key: '0',
@@ -72,21 +84,38 @@ export class TreeDemoComponent {
   ];
 
   orgRoot: GpTreeNode = {
-    label: 'CEO - Sarah Connor',
+    label: 'Sarah Connor',
     icon: 'user',
+    data: { title: 'Chief Executive Officer', department: 'Executive' },
     children: [
       {
-        label: 'CTO - John Connor',
+        label: 'John Connor',
         icon: 'user',
+        data: { title: 'Chief Technology Officer', department: 'Engineering' },
         children: [
-          { label: 'Engineering Lead', icon: 'user' },
-          { label: 'DevOps Lead', icon: 'user' }
+          {
+            label: 'Elena Rostova',
+            icon: 'user',
+            data: { title: 'Lead Architect', department: 'Platform' }
+          },
+          {
+            label: 'Marcus Wright',
+            icon: 'user',
+            data: { title: 'Principal Engineer', department: 'Infrastructure' }
+          }
         ]
       },
       {
-        label: 'CFO - Kyle Reese',
+        label: 'Kyle Reese',
         icon: 'user',
-        children: [{ label: 'Accounting Manager', icon: 'user' }]
+        data: { title: 'Chief Financial Officer', department: 'Finance' },
+        children: [
+          {
+            label: 'Katherine Brewster',
+            icon: 'user',
+            data: { title: 'Finance Director', department: 'Accounting' }
+          }
+        ]
       }
     ]
   };

@@ -1,30 +1,45 @@
 <button
-  [type]="type"
-  [disabled]="disabled || loading"
-  [class]="buttonClass()"
-  [attr.aria-label]="ariaLabel || label || null"
-  [attr.aria-disabled]="disabled || loading"
-  [attr.aria-busy]="loading"
-  (click)="onClick($event)"
+  [type]="type()"
+  [disabled]="disabled() || loading()"
+  [class]="baseButtonClasses()"
+  [attr.aria-label]="ariaLabel() || label() || null"
+  [attr.aria-disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading()"
+  [attr.autofocus]="autofocus() ? '' : null"
+  [attr.tabindex]="tabindex() !== undefined ? tabindex() : (disabled() ? -1 : 0)"
+  (click)="onButtonClick($event)"
+  (focus)="onButtonFocus($event)"
+  (blur)="onButtonBlur($event)"
+  (keydown)="onButtonKeyDown($event)"
+  (keyup)="onButtonKeyUp($event)"
+  (mouseenter)="onButtonMouseEnter($event)"
+  (mouseleave)="onButtonMouseLeave($event)"
+  (dblclick)="onButtonDoubleClick($event)"
   gpRipple
 >
-  @if (loading) {
-    <gp-icon [name]="loadingIcon" [spin]="true" class="gp-button-loading-icon" />
-  } @else if (icon && (iconPos === 'left' || iconPos === 'top')) {
-    <gp-icon [name]="icon" class="gp-button-icon" />
+  @if (loading()) {
+    <gp-icon [name]="loadingIcon()" [spin]="true" class="gp-button-loading-icon" />
+  } @else if (icon() && (iconPos() === 'left' || iconPos() === 'top')) {
+    <gp-icon [name]="icon()" class="gp-button-icon" />
   }
 
-  @if (label) {
-    <span class="gp-button-label">{{ label }}</span>
+  @if (label()) {
+    <span class="gp-button-label">{{ label() }}</span>
   }
 
   <ng-content />
 
-  @if (!loading && icon && (iconPos === 'right' || iconPos === 'bottom')) {
-    <gp-icon [name]="icon" class="gp-button-icon" />
+  @if (!loading() && icon() && (iconPos() === 'right' || iconPos() === 'bottom')) {
+    <gp-icon [name]="icon()" class="gp-button-icon" />
   }
 
-  @if (badge) {
-    <span class="gp-button-badge" [class.gp-button-badge-danger]="badgeSeverity === 'danger'">{{ badge }}</span>
+  @if (badge()) {
+    <span
+      class="gp-button-badge"
+      [class.gp-button-badge-danger]="badgeSeverity() === 'danger'"
+      [class]="'gp-badge-' + badgeSeverity()"
+    >
+      {{ badge() }}
+    </span>
   }
 </button>

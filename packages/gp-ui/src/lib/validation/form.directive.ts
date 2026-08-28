@@ -1,11 +1,9 @@
 import {
   Directive,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   HostListener,
-  ContentChildren,
-  QueryList,
+  contentChildren,
   ElementRef,
   inject
 } from '@angular/core';
@@ -32,28 +30,28 @@ import { GpFormSubmitEvent, GpFormInvalidEvent, GpValidationError } from './type
 export class GpFormDirective {
   private el = inject(ElementRef);
 
-  /** Manually registered or query-discovered child controls */
-  @ContentChildren(GpEditableBaseComponent, { descendants: true })
-  protected queryControls?: QueryList<GpEditableBaseComponent>;
+  /** Query-discovered child controls */
+  protected queryControls = contentChildren(GpEditableBaseComponent, { descendants: true });
 
   private manualControls: Map<string, GpEditableBaseComponent> = new Map();
 
   /** Whether to automatically focus the first invalid field on failed submit */
-  @Input() autoFocusInvalid = true;
+  public autoFocusInvalid = input<boolean>(true);
 
   /** Event emitted when form submission succeeds with valid state */
-  @Output() gpSubmit = new EventEmitter<GpFormSubmitEvent>();
+  public gpSubmit = output<GpFormSubmitEvent>();
 
   /** Event emitted when form submission is attempted but fails validation */
-  @Output() gpInvalidSubmit = new EventEmitter<GpFormInvalidEvent>();
+  public gpInvalidSubmit = output<GpFormInvalidEvent>();
 
   /**
    * Returns all active controls registered with this form.
    */
   public getControls(): GpEditableBaseComponent[] {
     const list: GpEditableBaseComponent[] = [];
-    if (this.queryControls) {
-      list.push(...this.queryControls.toArray());
+    const queried = this.queryControls();
+    if (queried && queried.length > 0) {
+      list.push(...queried);
     }
     this.manualControls.forEach((ctrl) => {
       if (!list.includes(ctrl)) {
@@ -67,7 +65,7 @@ export class GpFormDirective {
    * Manually registers an editable control.
    */
   public registerControl(control: GpEditableBaseComponent): void {
-    const key = control.name || `control_${this.manualControls.size}`;
+    const key = control.name() || `control_${this.manualControls.size}`;
     this.manualControls.set(key, control);
   }
 
@@ -75,7 +73,7 @@ export class GpFormDirective {
    * Unregisters a control.
    */
   public unregisterControl(control: GpEditableBaseComponent): void {
-    const key = control.name;
+    const key = control.name();
     if (key) {
       this.manualControls.delete(key);
     }
@@ -88,7 +86,7 @@ export class GpFormDirective {
     const values: Record<string, any> = {};
     const controls = this.getControls();
     controls.forEach((ctrl, index) => {
-      const key = ctrl.name || `field_${index}`;
+      const key = ctrl.name() || `field_${index}`;
       values[key] = ctrl.value;
     });
     return values;
@@ -101,7 +99,7 @@ export class GpFormDirective {
     const map: Record<string, GpEditableBaseComponent> = {};
     const controls = this.getControls();
     controls.forEach((ctrl, index) => {
-      const key = ctrl.name || `field_${index}`;
+      const key = ctrl.name() || `field_${index}`;
       map[key] = ctrl;
     });
     return map;
@@ -206,7 +204,7 @@ export class GpFormDirective {
       const controls = this.getControls();
       for (const ctrl of controls) {
         if (ctrl.isInvalid()) {
-          const key = ctrl.name || 'field';
+          const key = ctrl.name() || 'field';
           errors[key] = ctrl.errors();
           if (!firstInvalidControl) {
             firstInvalidControl = ctrl;
@@ -214,7 +212,7 @@ export class GpFormDirective {
         }
       }
 
-      if (this.autoFocusInvalid && firstInvalidControl) {
+      if (this.autoFocusInvalid() && firstInvalidControl) {
         firstInvalidControl.focus();
       }
 

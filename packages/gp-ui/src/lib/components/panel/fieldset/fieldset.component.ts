@@ -1,7 +1,7 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
+import { GpPanelBaseComponent } from '../../../base/gp-panel-base.component';
 
 @Component({
   selector: 'gp-fieldset',
@@ -12,13 +12,6 @@ import { GpIconComponent } from '../../../icons/icon.component';
   templateUrl: './fieldset.component.html',
   styleUrl: './fieldset.component.scss'
 })
-export class GpFieldsetComponent extends GpBaseComponent {
-  @Input() legend = '';
-  @Input() toggleable = false;
-
-  protected collapsed = signal<boolean>(false);
-
-  public toggle(): void {
-    this.collapsed.update((v) => !v);
-  }
+export class GpFieldsetComponent extends GpPanelBaseComponent {
+  public legend = input<string>('', { alias: 'legend' });
 }

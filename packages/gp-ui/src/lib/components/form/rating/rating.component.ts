@@ -1,12 +1,12 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  forwardRef
+  forwardRef,
+  computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -29,33 +29,21 @@ import { GpIconComponent } from '../../../icons/icon.component';
   styleUrl: './rating.component.scss'
 })
 export class GpRatingComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() stars = 5;
-  @Input() set max(value: number) {
-    if (value != null && value > 0) {
-      this.stars = value;
-    }
-  }
-  get max(): number {
-    return this.stars;
-  }
-  @Input() allowHalfStars = false;
-  @Input() override readonly = false;
-  @Input() override disabled = false;
-  @Input() cancel = true;
-  @Input() onIcon = 'star-fill';
-  @Input() offIcon = 'star';
-  @Input() override ariaLabel = '';
+  public stars = input<number>(5);
+  public max = input<number | undefined>(undefined);
+  public allowHalfStars = input<boolean>(false);
+  public cancel = input<boolean>(true);
+  public onIcon = input<string>('star-fill');
+  public offIcon = input<string>('star');
 
-  @Output() onRate = new EventEmitter<{ value: number }>();
-  @Output() onCancel = new EventEmitter<void>();
+  public onRate = output<{ value: number }>();
+  public onCancel = output<void>();
 
-  protected get starsArray(): number[] {
-    return Array.from({ length: this.stars });
-  }
+  protected effectiveStars = computed(() => this.max() ?? this.stars());
+  protected starsArray = computed(() => Array.from({ length: this.effectiveStars() }));
 
   public override writeValue(value: any): void {
     const val = value != null ? Number(value) : null;
-    this.value = val;
     this.internalValue.set(Number.isFinite(val) ? val : null);
   }
 
@@ -67,17 +55,13 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public isStarActive(index: number): boolean {
     const value = this.internalValue() ?? 0;
     return value >= index + 1;
   }
 
   public isStarHalf(index: number): boolean {
-    if (!this.allowHalfStars) {
+    if (!this.allowHalfStars()) {
       return false;
     }
     const value = this.internalValue() ?? 0;
@@ -89,19 +73,19 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
     if (value >= index + 1) {
       return 100;
     }
-    if (this.allowHalfStars && value > index && value < index + 1) {
+    if (this.allowHalfStars() && value > index && value < index + 1) {
       return 50;
     }
     return 0;
   }
 
   public rate(star: number, event?: MouseEvent | Event): void {
-    if (this.readonly || this.disabled) {
+    if (this.readonly() || this.isEffectivelyDisabled()) {
       return;
     }
 
     const nextValue =
-      this.allowHalfStars && event instanceof MouseEvent && event.currentTarget
+      this.allowHalfStars() && event instanceof MouseEvent && event.currentTarget
         ? this.resolveHalfValue(star, event)
         : star;
 
@@ -111,7 +95,7 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
   }
 
   public clear(): void {
-    if (this.readonly || this.disabled) {
+    if (this.readonly() || this.isEffectivelyDisabled()) {
       return;
     }
     this.updateValue(null);

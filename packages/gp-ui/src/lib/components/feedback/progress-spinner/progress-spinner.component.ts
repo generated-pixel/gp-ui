@@ -1,5 +1,5 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { GpBaseComponent } from '../../../base/gp-base.component';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './progress-spinner.component.html',
   styleUrl: './progress-spinner.component.scss'
 })
-export class GpProgressSpinnerComponent extends GpEditableBaseComponent {
-  @Input() strokeWidth = '2.5rem';
+export class GpProgressSpinnerComponent extends GpBaseComponent {
+  public strokeWidth = input<string>('2.5rem');
+  public value = input<number>(0);
 }

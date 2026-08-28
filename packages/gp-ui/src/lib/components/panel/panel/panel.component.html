@@ -1,9 +1,9 @@
 <div class="gp-panel" [class.gp-panel-collapsed]="collapsed()">
   <div class="gp-panel-header">
-    <span class="gp-panel-title">{{ header }}</span>
+    <span class="gp-panel-title">{{ header() }}</span>
     <div class="gp-panel-icons">
       <ng-content select="[icons]" />
-      @if (toggleable) {
+      @if (toggleable()) {
         <button type="button" class="gp-panel-toggle-btn" (click)="toggle()" aria-label="Toggle panel">
           <gp-icon [name]="collapsed() ? 'chevron-down' : 'chevron-up'" size="0.85em" />
         </button>
@@ -17,7 +17,7 @@
     </div>
   }
 
-  @if (!collapsed() && showFooter) {
+  @if (!collapsed() && showFooter()) {
     <div class="gp-panel-footer">
       <ng-content select="[footer]" />
     </div>

@@ -1,7 +1,7 @@
 <span
   class="gp-badge"
-  [class]="'gp-badge-' + severity + ' gp-badge-' + size"
-  [class.gp-badge-dot]="!value && value !== 0"
+  [class]="'gp-badge-' + severity() + ' gp-badge-' + size()"
+  [class.gp-badge-dot]="!value() && value() !== 0"
 >
-  {{ value }}
+  {{ value() }}
 </span>

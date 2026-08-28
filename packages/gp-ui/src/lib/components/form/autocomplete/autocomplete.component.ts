@@ -1,16 +1,17 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
   signal,
   computed,
   ElementRef,
-  HostListener
+  HostListener,
+  OnDestroy,
+  WritableSignal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -39,27 +40,49 @@ export interface GpAutoCompleteCompleteEvent {
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss'
 })
-export class GpAutoCompleteComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('ac_');
-  @Input() suggestions: any[] = [];
-  @Input() field = '';
-  @Input() override placeholder = '';
-  @Input() minLength = 1;
-  @Input() dropdown = false;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+export class GpAutoCompleteComponent extends GpEditableBaseComponent implements ControlValueAccessor, OnDestroy {
+  public inputId = input<string>(UniqueId.generate('ac_'));
+  public suggestions = input<any[]>([]);
+  public field = input<string>('');
+  public minLength = input<number>(3);
+  public minCharacters = input<number | undefined>(undefined);
+  public debounce = input<number>(250);
+  public delay = input<number | undefined>(undefined);
+  public minLengthSignal = input<WritableSignal<boolean> | undefined>(undefined);
+  public minLengthHitSignal = input<WritableSignal<boolean> | undefined>(undefined);
+  public dropdown = input<boolean>(false);
 
-  @Output() completeMethod = new EventEmitter<GpAutoCompleteCompleteEvent>();
-  @Output() onSelect = new EventEmitter<{ value: any; originalEvent: Event }>();
+  public completeMethod = output<GpAutoCompleteCompleteEvent>();
+  public onSelect = output<{ value: any; originalEvent: Event }>();
+  public onMinLengthHit = output<boolean>();
+  public minLengthChange = output<boolean>();
 
   protected overlayVisible = signal<boolean>(false);
   protected activeIndex = signal<number>(-1);
   protected query = signal<string>('');
 
+  private debounceTimer: any = null;
+
+  public get effectiveMinLength(): number {
+    return this.minCharacters() ?? this.minLength();
+  }
+
+  public get effectiveDebounce(): number {
+    return this.delay() ?? this.debounce();
+  }
+
+  public isMinLengthMet = computed(() => (this.query() || '').length >= this.effectiveMinLength);
+  public minLengthHit = computed(() => (this.query() || '').length >= this.effectiveMinLength);
+
   constructor(private hostElRef: ElementRef) {
     super();
+  }
+
+  public override ngOnDestroy(): void {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    super.ngOnDestroy();
   }
 
   @HostListener('document:click', ['$event'])
@@ -76,8 +99,9 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
     if (typeof item === 'string') {
       return item;
     }
-    if (this.field) {
-      return ObjectUtils.resolveFieldData(item, this.field);
+    const fieldKey = this.field();
+    if (fieldKey) {
+      return ObjectUtils.resolveFieldData(item, fieldKey);
     }
     return item.label || item.name || String(item);
   }
@@ -91,9 +115,10 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   });
 
   public override writeValue(value: any): void {
-    this.value = value;
     this.internalValue.set(value);
-    this.query.set(this.getItemLabel(value));
+    const label = this.getItemLabel(value);
+    this.query.set(label);
+    this.updateMinLengthState(label.length >= this.effectiveMinLength);
   }
 
   public override registerOnChange(fn: any): void {
@@ -104,8 +129,17 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+  private updateMinLengthState(isHit: boolean): void {
+    const sig1 = this.minLengthSignal();
+    if (sig1) {
+      sig1.set(isHit);
+    }
+    const sig2 = this.minLengthHitSignal();
+    if (sig2) {
+      sig2.set(isHit);
+    }
+    this.onMinLengthHit.emit(isHit);
+    this.minLengthChange.emit(isHit);
   }
 
   protected onInput(event: Event): void {
@@ -113,16 +147,26 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
     this.query.set(q);
     this.updateValue(q);
 
-    if (q.length >= this.minLength) {
-      this.completeMethod.emit({ originalEvent: event, query: q });
-      this.overlayVisible.set(true);
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
+    }
+
+    const minLengthMet = q.length >= this.effectiveMinLength;
+    this.updateMinLengthState(minLengthMet);
+
+    if (minLengthMet) {
+      this.debounceTimer = setTimeout(() => {
+        this.completeMethod.emit({ originalEvent: event, query: q });
+        this.overlayVisible.set(true);
+      }, this.effectiveDebounce);
     } else {
       this.overlayVisible.set(false);
     }
   }
 
   protected onFocus(event: FocusEvent): void {
-    if (this.dropdown && !this.query()) {
+    if (this.dropdown() && !this.query()) {
       this.completeMethod.emit({ originalEvent: event, query: '' });
       this.overlayVisible.set(true);
     }
@@ -134,7 +178,7 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
 
   public toggleDropdown(event: MouseEvent): void {
     event.stopPropagation();
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     if (!this.overlayVisible()) {
@@ -147,27 +191,30 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
 
   public selectItem(item: any, event: MouseEvent): void {
     this.updateValue(item);
-    this.query.set(this.getItemLabel(item));
+    const label = this.getItemLabel(item);
+    this.query.set(label);
+    this.updateMinLengthState(label.length >= this.effectiveMinLength);
     this.handleControlBlur();
     this.onSelect.emit({ value: item, originalEvent: event });
     this.overlayVisible.set(false);
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (!this.overlayVisible() || !this.suggestions.length) {
+    const suggs = this.suggestions();
+    if (!this.overlayVisible() || !suggs || !suggs.length) {
       return;
     }
 
     if (event.key === 'ArrowDown') {
-      this.activeIndex.update((i) => (i + 1) % this.suggestions.length);
+      this.activeIndex.update((i) => (i + 1) % suggs.length);
       event.preventDefault();
     } else if (event.key === 'ArrowUp') {
-      this.activeIndex.update((i) => (i <= 0 ? this.suggestions.length - 1 : i - 1));
+      this.activeIndex.update((i) => (i <= 0 ? suggs.length - 1 : i - 1));
       event.preventDefault();
     } else if (event.key === 'Enter') {
       const idx = this.activeIndex();
-      if (idx >= 0 && idx < this.suggestions.length) {
-        this.selectItem(this.suggestions[idx], event as any);
+      if (idx >= 0 && idx < suggs.length) {
+        this.selectItem(suggs[idx], event as any);
         event.preventDefault();
       }
     } else if (event.key === 'Escape') {

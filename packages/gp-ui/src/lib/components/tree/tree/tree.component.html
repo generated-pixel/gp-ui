@@ -1,13 +1,13 @@
 <div
   class="gp-tree"
   role="tree"
-  [attr.aria-multiselectable]="selectionMode === 'multiple' || selectionMode === 'checkbox'"
+  [attr.aria-multiselectable]="selectionMode() === 'multiple' || selectionMode() === 'checkbox'"
 >
-  @if (filter) {
+  @if (filter()) {
     <div class="gp-tree-filter-container">
       <gp-input-text
         iconLeft="search"
-        [placeholder]="filterPlaceholder"
+        [placeholder]="filterPlaceholder()"
         [value]="filterText()"
         [clearable]="true"
         (onInputEvent)="onFilterInput($event)"
@@ -20,7 +20,7 @@
     @for (node of filteredNodes(); track node.key || $index) {
       <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, level: 0 }" />
     } @empty {
-      <li class="gp-tree-empty-message">{{ emptyMessage }}</li>
+      <li class="gp-tree-empty-message">{{ emptyMessage() }}</li>
     }
   </ul>
 </div>
@@ -40,7 +40,7 @@
         <span class="gp-treeselect-toggler-spacer"></span>
       }
 
-      @if (selectionMode === 'checkbox') {
+      @if (selectionMode() === 'checkbox') {
         <gp-checkbox [binary]="true" [value]="isNodeSelected(node)" (onChange)="toggleCheckboxSelection(node)" />
       }
 

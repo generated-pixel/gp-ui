@@ -1,9 +1,7 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   ElementRef,
@@ -11,8 +9,15 @@ import {
   signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpButtonSeverity, GpButtonSize, GpButtonVariant } from '../button/button.component';
+import { RouterModule } from '@angular/router';
+import { GpButtonComponent } from '../button/button.component';
 import { GpIconComponent } from '../../../icons/icon.component';
+import {
+  GpButtonBaseComponent,
+  GpButtonSeverity,
+  GpButtonSize,
+  GpButtonVariant
+} from '../../../base/gp-button-base.component';
 
 export interface GpMenuItem {
   label?: string;
@@ -23,29 +28,31 @@ export interface GpMenuItem {
   disabled?: boolean;
   separator?: boolean;
   badge?: string;
+  items?: GpMenuItem[];
+  target?: string;
+  title?: string;
+  expanded?: boolean;
 }
 
 @Component({
   selector: 'gp-split-button',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, RouterModule, GpButtonComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './split-button.component.html',
   styleUrl: './split-button.component.scss'
 })
-export class GpSplitButtonComponent extends GpBaseComponent {
-  @Input() label = '';
-  @Input() icon = '';
-  @Input() model: GpMenuItem[] = [];
-  @Input() severity: GpButtonSeverity = 'primary';
-  @Input() variant: GpButtonVariant = 'filled';
-  @Input() size: GpButtonSize = 'md';
-  @Input() override disabled = false;
+export class GpSplitButtonComponent extends GpButtonBaseComponent {
+  public model = input<GpMenuItem[]>([]);
+  public dropdownIcon = input<string>('chevron-down');
 
-  @Output() onClickEvent = new EventEmitter<MouseEvent>();
+  public onDropdownClick = output<MouseEvent>();
+  public onOpen = output<void>();
+  public onClose = output<void>();
+  public onMenuItemClick = output<{ originalEvent: Event; item: GpMenuItem }>();
 
-  protected overlayVisible = signal<boolean>(false);
+  public overlayVisible = signal<boolean>(false);
 
   constructor(private el: ElementRef) {
     super();
@@ -53,27 +60,63 @@ export class GpSplitButtonComponent extends GpBaseComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.overlayVisible.set(false);
+    if (this.overlayVisible() && !this.el.nativeElement.contains(event.target)) {
+      this.close();
     }
   }
 
-  protected onDefaultClick(event: MouseEvent): void {
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.overlayVisible()) {
+      this.close();
+    }
+  }
+
+  public onDefaultClick(event: MouseEvent): void {
+    if (this.disabled() || this.loading()) {
+      return;
+    }
     this.onClickEvent.emit(event);
   }
 
-  protected toggleOverlay(event: MouseEvent): void {
+  public toggleOverlay(event: MouseEvent): void {
+    if (this.disabled() || this.loading()) {
+      return;
+    }
     event.stopPropagation();
-    this.overlayVisible.update((v) => !v);
+    const next = !this.overlayVisible();
+    this.overlayVisible.set(next);
+    this.onDropdownClick.emit(event);
+
+    if (next) {
+      this.onOpen.emit();
+    } else {
+      this.onClose.emit();
+    }
   }
 
-  protected onItemClick(item: GpMenuItem, event: MouseEvent): void {
+  public open(): void {
+    if (!this.overlayVisible() && !this.disabled()) {
+      this.overlayVisible.set(true);
+      this.onOpen.emit();
+    }
+  }
+
+  public close(): void {
+    if (this.overlayVisible()) {
+      this.overlayVisible.set(false);
+      this.onClose.emit();
+    }
+  }
+
+  public onItemClick(item: GpMenuItem, event: MouseEvent): void {
     if (item.disabled) {
       return;
     }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }
-    this.overlayVisible.set(false);
+    this.onMenuItemClick.emit({ originalEvent: event, item });
+    this.close();
   }
 }

@@ -1,13 +1,36 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import {
+  Component,
+  input,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
+import { GpButtonComponent } from '../../button/button/button.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
+import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
+
+export interface GpMegaMenuSubItem extends GpMenuItem {
+  description?: string;
+  iconColor?: string;
+  iconBg?: string;
+  badgeSeverity?: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
+}
 
 export interface GpMegaMenuColumn {
   label?: string;
-  items: GpMenuItem[];
+  icon?: string;
+  items: GpMegaMenuSubItem[];
+  featured?: {
+    title: string;
+    description?: string;
+    image?: string;
+    actionLabel?: string;
+    actionUrl?: string;
+    actionCommand?: () => void;
+  };
 }
 
 export interface GpMegaMenuItem extends GpMenuItem {
@@ -18,24 +41,63 @@ export interface GpMegaMenuItem extends GpMenuItem {
 @Component({
   selector: 'gp-mega-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpIconComponent],
+  imports: [CommonModule, RouterModule, GpIconComponent, GpButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './mega-menu.component.html',
   styleUrl: './mega-menu.component.scss'
 })
-export class GpMegaMenuComponent extends GpBaseComponent {
-  @Input() model: GpMegaMenuItem[] = [];
+export class GpMegaMenuComponent extends GpMenuBaseComponent<GpMegaMenuItem> {
+  public orientation = input<'horizontal' | 'vertical'>('horizontal');
 
-  protected activeItem = signal<GpMegaMenuItem | null>(null);
+  @HostListener('document:click', ['$event'])
+  override onDocumentClick(event: MouseEvent): void {
+    if (this.menuHostEl?.nativeElement && !this.menuHostEl.nativeElement.contains(event.target)) {
+      this.close();
+    }
+  }
 
-  public onItemClick(item: any, event: MouseEvent): void {
+  @HostListener('document:keydown.escape')
+  override onEscape(): void {
+    this.close();
+  }
+
+  public onItemMouseEnter(item: GpMegaMenuItem): void {
+    if (this.activeItem() !== null || (item.columns && item.columns.length > 0)) {
+      this.activeItem.set(item);
+    }
+  }
+
+  public onRootItemClick(item: GpMegaMenuItem, event: MouseEvent): void {
     if (item.disabled) {
       return;
     }
-    if (item.command) {
-      item.command({ originalEvent: event, item });
+    if (item.columns && item.columns.length > 0) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (this.activeItem() === item) {
+        this.close();
+      } else {
+        this.activeItem.set(item);
+      }
+    } else {
+      this.onItemClick(item, event);
     }
+  }
+
+  public onItemClick(item: any, event: MouseEvent): void {
+    this.handleMenuItemClick(item, event);
+    this.close();
+  }
+
+  public onFeaturedClick(featured: NonNullable<GpMegaMenuColumn['featured']>, event: MouseEvent): void {
+    if (featured.actionCommand) {
+      featured.actionCommand();
+    }
+    this.close();
+  }
+
+  public close(): void {
     this.activeItem.set(null);
   }
 }

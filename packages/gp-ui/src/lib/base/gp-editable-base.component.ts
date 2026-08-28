@@ -1,15 +1,13 @@
 import {
   Directive,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   signal,
   computed,
   inject,
   ElementRef,
   OnInit,
-  OnDestroy,
-  Optional
+  OnDestroy
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { GpBaseComponent } from './gp-base.component';
@@ -31,53 +29,53 @@ export abstract class GpEditableBaseComponent<T = any>
   extends GpBaseComponent
   implements ControlValueAccessor, OnInit, OnDestroy
 {
-  /** Value bound to the component */
-  @Input() value: any = null;
+  /** Initial or bound value property */
+  public valueInput = input<any>(null, { alias: 'value' });
 
   /** Form field identifier name */
-  @Input() name = '';
+  public name = input<string>('');
 
   /** Field placeholder text */
-  @Input() placeholder = '';
+  public placeholder = input<string>('');
 
   /** Required field flag */
-  @Input() required = false;
+  public required = input<boolean>(false);
 
   /** Readonly state */
-  @Input() readonly = false;
+  public readonly = input<boolean>(false);
 
   /** Override invalid / validation error state */
-  @Input() invalid = false;
+  public invalid = input<boolean>(false);
 
   /** Array of validator functions to execute against this control */
-  @Input() validators: GpValidatorFn<T>[] = [];
+  public validators = input<GpValidatorFn<T>[]>([]);
 
   /** Triggers on which validation automatically runs */
-  @Input() validateOn: GpValidationTrigger[] = ['change', 'blur'];
+  public validateOn = input<GpValidationTrigger[]>(['change', 'blur']);
 
   /** Custom static override error message */
-  @Input() errorMessage = '';
+  public errorMessage = input<string>('');
 
   /** Informational helper text displayed below the field */
-  @Input() helperText = '';
+  public helperText = input<string>('');
 
   /** Custom side-effect function executed whenever the value changes or validates */
-  @Input() valueEffect?: GpValueEffectFn<T>;
+  public valueEffect = input<GpValueEffectFn<T> | undefined>(undefined);
 
   /** Output emitted whenever the value changes */
-  @Output() valueChange = new EventEmitter<T>();
+  public valueChange = output<T>();
 
   /** Output emitted whenever validation completes with current validation state */
-  @Output() onValidate = new EventEmitter<GpValidationState<T>>();
+  public onValidate = output<GpValidationState<T>>();
 
   /** Output emitted when the component passes validation */
-  @Output() onValid = new EventEmitter<T>();
+  public onValid = output<T>();
 
   /** Output emitted when validation fails with error details */
-  @Output() onInvalid = new EventEmitter<GpValidationError[]>();
+  public onInvalid = output<GpValidationError[]>();
 
   /** Output emitted after a side effect execution completes */
-  @Output() onEffectComplete = new EventEmitter<{ value: T; error?: any }>();
+  public onEffectComplete = output<{ value: T; error?: any }>();
 
   /** Reactive signals for internal state */
   public internalValue = signal<T | null>(null);
@@ -85,13 +83,26 @@ export abstract class GpEditableBaseComponent<T = any>
   public isPending = signal<boolean>(false);
   public isTouched = signal<boolean>(false);
   public isDirty = signal<boolean>(false);
+  public internalDisabled = signal<boolean>(false);
+
+  /** Value accessor getter / setter for compatibility with template & CVA */
+  public get value(): any {
+    return this.internalValue();
+  }
+  public set value(val: any) {
+    this.internalValue.set(val !== undefined ? val : null);
+  }
+
+  /** Effective disabled state taking into account both input signal and CVA forms API */
+  public isEffectivelyDisabled = computed(() => this.disabled() || this.internalDisabled());
 
   /** Computed validation flags */
-  public isValid = computed(() => this.errors().length === 0 && !this.invalid);
-  public isInvalid = computed(() => this.invalid || this.errors().length > 0);
+  public isValid = computed(() => this.errors().length === 0 && !this.invalid());
+  public isInvalid = computed(() => this.invalid() || this.errors().length > 0);
   public firstError = computed(() => {
-    if (this.errorMessage) {
-      return this.errorMessage;
+    const customMsg = this.errorMessage();
+    if (customMsg) {
+      return customMsg;
     }
     const errs = this.errors();
     return errs.length > 0 ? errs[0].message : null;
@@ -105,11 +116,12 @@ export abstract class GpEditableBaseComponent<T = any>
 
   private lastValidatedValue: any = undefined;
 
-  private hostEl = inject(ElementRef, { optional: true });
+  private hostElement = inject(ElementRef, { optional: true });
 
   public ngOnInit(): void {
-    if (this.value !== null && this.value !== undefined) {
-      this.internalValue.set(this.value);
+    const val = this.valueInput();
+    if (val !== null && val !== undefined) {
+      this.internalValue.set(val);
     }
   }
 
@@ -117,7 +129,6 @@ export abstract class GpEditableBaseComponent<T = any>
 
   /** Writes a new value to the element from the forms API or model */
   public writeValue(val: any): void {
-    this.value = val;
     this.internalValue.set(val !== undefined ? val : null);
   }
 
@@ -133,7 +144,7 @@ export abstract class GpEditableBaseComponent<T = any>
 
   /** Sets the disabled state from forms API */
   public setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.internalDisabled.set(isDisabled);
   }
 
   /**
@@ -142,7 +153,6 @@ export abstract class GpEditableBaseComponent<T = any>
    */
   public async updateValue(newVal: T): Promise<void> {
     const prevVal = this.internalValue();
-    this.value = newVal;
     this.internalValue.set(newVal);
     this.isDirty.set(true);
 
@@ -150,15 +160,16 @@ export abstract class GpEditableBaseComponent<T = any>
     this.valueChange.emit(newVal);
 
     // Run validation if trigger includes 'change'
-    if (this.validateOn.includes('change')) {
+    if (this.validateOn().includes('change')) {
       await this.validate();
     }
 
     // Execute custom side-effect if provided
-    if (this.valueEffect) {
+    const effect = this.valueEffect();
+    if (effect) {
       try {
         this.isPending.set(true);
-        await this.valueEffect(newVal, prevVal, this);
+        await effect(newVal, prevVal as any, this);
         this.onEffectComplete.emit({ value: newVal });
       } catch (err) {
         this.onEffectComplete.emit({ value: newVal, error: err });
@@ -174,7 +185,7 @@ export abstract class GpEditableBaseComponent<T = any>
    */
   public async handleControlBlur(): Promise<void> {
     this.markAsTouched();
-    if (this.validateOn.includes('blur')) {
+    if (this.validateOn().includes('blur')) {
       await this.validate();
     }
   }
@@ -187,8 +198,8 @@ export abstract class GpEditableBaseComponent<T = any>
     const currentVal = this.internalValue() as T;
     const collectedErrors: GpValidationError[] = [];
 
-    // Built-in 'required' check if @Input() required is set and not already in validators
-    if (this.required) {
+    // Built-in 'required' check if required() is set and not already in validators
+    if (this.required()) {
       const isRequiredEmpty =
         currentVal === null ||
         currentVal === undefined ||
@@ -199,16 +210,17 @@ export abstract class GpEditableBaseComponent<T = any>
       if (isRequiredEmpty) {
         collectedErrors.push({
           rule: 'required',
-          message: this.errorMessage || `${this.name || 'This field'} is required`
+          message: this.errorMessage() || `${this.name() || 'This field'} is required`
         });
       }
     }
 
     // Run configured validators
-    if (this.validators && this.validators.length > 0) {
+    const validatorList = this.validators();
+    if (validatorList && validatorList.length > 0) {
       this.isPending.set(true);
       try {
-        for (const validator of this.validators) {
+        for (const validator of validatorList) {
           const err = await validator(currentVal, this);
           if (err) {
             collectedErrors.push(err);
@@ -224,8 +236,8 @@ export abstract class GpEditableBaseComponent<T = any>
 
     const state: GpValidationState<T> = {
       value: currentVal,
-      isValid: collectedErrors.length === 0 && !this.invalid,
-      isInvalid: collectedErrors.length > 0 || this.invalid,
+      isValid: collectedErrors.length === 0 && !this.invalid(),
+      isInvalid: collectedErrors.length > 0 || this.invalid(),
       isPending: this.isPending(),
       isTouched: this.isTouched(),
       isDirty: this.isDirty(),
@@ -266,14 +278,12 @@ export abstract class GpEditableBaseComponent<T = any>
    */
   public clearErrors(): void {
     this.errors.set([]);
-    this.invalid = false;
   }
 
   /**
    * Resets the control value and clears touched/dirty/validation states.
    */
   public reset(defaultValue: T | null = null): void {
-    this.value = defaultValue;
     this.internalValue.set(defaultValue);
     this.isDirty.set(false);
     this.isTouched.set(false);
@@ -295,12 +305,12 @@ export abstract class GpEditableBaseComponent<T = any>
 
   /** Focuses the native element if available */
   public focus(): void {
-    if (typeof document !== 'undefined' && this.hostEl?.nativeElement) {
-      const inputEl = this.hostEl.nativeElement.querySelector('input, textarea, select, button, [tabindex="0"]');
+    if (typeof document !== 'undefined' && this.hostElement?.nativeElement) {
+      const inputEl = this.hostElement.nativeElement.querySelector('input, textarea, select, button, [tabindex="0"]');
       if (inputEl) {
         inputEl.focus();
       } else {
-        this.hostEl.nativeElement.focus?.();
+        this.hostElement.nativeElement.focus?.();
       }
     }
   }

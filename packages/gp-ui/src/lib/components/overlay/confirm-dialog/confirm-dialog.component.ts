@@ -1,7 +1,7 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
+  input,
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
@@ -29,12 +29,12 @@ import { GpButtonComponent } from '../../button/button/button.component';
 export class GpConfirmDialogComponent extends GpBaseComponent implements OnInit, OnDestroy {
   private confirmationService = inject(GpConfirmationService);
 
-  @Input() header = 'Confirmation';
-  @Input() message = 'Are you sure you want to proceed?';
-  @Input() icon = 'info-circle';
-  @Input() acceptLabel = 'Yes';
-  @Input() rejectLabel = 'No';
-  @Input() width = '26rem';
+  public header = input<string>('Confirmation');
+  public message = input<string>('Are you sure you want to proceed?');
+  public icon = input<string>('info-circle');
+  public acceptLabel = input<string>('Yes');
+  public rejectLabel = input<string>('No');
+  public width = input<string>('26rem');
 
   protected visible = signal<boolean>(false);
   protected confirmation = signal<GpConfirmation | null>(null);

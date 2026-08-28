@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal
@@ -30,20 +29,18 @@ export interface GpFileItem {
   styleUrl: './file-upload.component.scss'
 })
 export class GpFileUploadComponent extends GpEditableBaseComponent {
-  @Input() override name = '';
-  @Input() accept = '';
-  @Input() multiple = false;
-  @Input() maxFileSize?: number;
-  @Input() chooseLabel = 'Choose files or drag & drop';
-  @Input() dragDropLabel = 'PNG, JPG, PDF up to 10MB';
-  @Input() uploadLabel = 'Upload';
-  @Input() cancelLabel = 'Clear';
-  @Input() icon = 'upload';
-  @Input() override disabled = false;
+  public accept = input<string>('');
+  public multiple = input<boolean>(false);
+  public maxFileSize = input<number | undefined>(undefined);
+  public chooseLabel = input<string>('Choose files or drag & drop');
+  public dragDropLabel = input<string>('PNG, JPG, PDF up to 10MB');
+  public uploadLabel = input<string>('Upload');
+  public cancelLabel = input<string>('Clear');
+  public icon = input<string>('upload');
 
-  @Output() onSelect = new EventEmitter<{ files: File[] }>();
-  @Output() onUpload = new EventEmitter<{ files: File[] }>();
-  @Output() onClear = new EventEmitter<void>();
+  public onSelect = output<{ files: File[] }>();
+  public onUpload = output<{ files: File[] }>();
+  public onClear = output<void>();
 
   protected files = signal<GpFileItem[]>([]);
   protected dragOver = signal<boolean>(false);
@@ -59,10 +56,10 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
   }
 
   public onFileSelect(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.handleFiles(Array.from(input.files));
-      input.value = '';
+    const inputEl = event.target as HTMLInputElement;
+    if (inputEl.files) {
+      this.handleFiles(Array.from(inputEl.files));
+      inputEl.value = '';
     }
   }
 
@@ -80,8 +77,9 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
   }
 
   private handleFiles(selectedFiles: File[]): void {
+    const maxLimit = this.maxFileSize();
     const valid = selectedFiles.filter((f) => {
-      if (this.maxFileSize && f.size > this.maxFileSize) {
+      if (maxLimit && f.size > maxLimit) {
         return false;
       }
       return true;
@@ -94,7 +92,7 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
       type: f.type
     }));
 
-    if (this.multiple) {
+    if (this.multiple()) {
       this.files.update((prev) => [...prev, ...items]);
     } else {
       this.files.set(items.slice(0, 1));

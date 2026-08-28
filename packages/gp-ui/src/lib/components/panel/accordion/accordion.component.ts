@@ -1,13 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  ContentChildren,
-  QueryList,
+  input,
+  model,
+  output,
+  contentChildren,
   ChangeDetectionStrategy,
-  ViewEncapsulation
+  ViewEncapsulation,
+  signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -19,9 +19,8 @@ import { GpIconComponent } from '../../../icons/icon.component';
   template: '<ng-content />'
 })
 export class GpAccordionTabComponent extends GpBaseComponent {
-  @Input() header = '';
-  @Input() override disabled = false;
-  @Input() selected = false;
+  public header = input<string>('');
+  public selected = model<boolean>(false);
 }
 
 @Component({
@@ -34,24 +33,24 @@ export class GpAccordionTabComponent extends GpBaseComponent {
   styleUrl: './accordion.component.scss'
 })
 export class GpAccordionComponent extends GpBaseComponent {
-  @ContentChildren(GpAccordionTabComponent) tabs!: QueryList<GpAccordionTabComponent>;
+  public tabs = contentChildren(GpAccordionTabComponent);
 
-  @Input() multiple = false;
-  @Output() onClose = new EventEmitter<{ index: number }>();
-  @Output() onOpen = new EventEmitter<{ index: number }>();
+  public multiple = input<boolean>(false);
+  public onClose = output<{ index: number }>();
+  public onOpen = output<{ index: number }>();
 
   public toggleTab(tab: GpAccordionTabComponent): void {
-    if (tab.disabled) {
+    if (tab.disabled()) {
       return;
     }
-    const isOpened = tab.selected;
-    if (!this.multiple && !isOpened) {
-      this.tabs.forEach((t) => (t.selected = false));
+    const isOpened = tab.selected();
+    if (!this.multiple() && !isOpened) {
+      this.tabs().forEach((t) => t.selected.set(false));
     }
-    tab.selected = !isOpened;
+    tab.selected.set(!isOpened);
 
-    const idx = this.tabs.toArray().indexOf(tab);
-    if (tab.selected) {
+    const idx = this.tabs().indexOf(tab);
+    if (tab.selected()) {
       this.onOpen.emit({ index: idx });
     } else {
       this.onClose.emit({ index: idx });

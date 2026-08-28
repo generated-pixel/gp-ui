@@ -1,4 +1,4 @@
-<div class="gp-toast" [class]="'gp-toast-' + position" [style.z-index]="zIndex()" role="region" aria-live="polite">
+<div class="gp-toast" [class]="'gp-toast-' + position()" [style.z-index]="zIndex()" role="region" aria-live="polite">
   @for (msg of messages(); track msg.id) {
     <div class="gp-toast-message" [class]="'gp-toast-message-' + (msg.severity || 'info')" role="alert">
       <gp-icon [name]="getSeverityIcon(msg.severity)" size="1.25em" class="gp-toast-icon" />

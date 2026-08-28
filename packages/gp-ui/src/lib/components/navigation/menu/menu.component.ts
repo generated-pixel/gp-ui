@@ -1,17 +1,14 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
+  input,
   ChangeDetectionStrategy,
-  ViewEncapsulation,
-  ElementRef,
-  HostListener,
-  signal
+  ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
+import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 
 @Component({
   selector: 'gp-menu',
@@ -22,46 +19,10 @@ import { GpMenuItem } from '../../button/split-button/split-button.component';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class GpMenuComponent extends GpBaseComponent {
-  @Input() model: GpMenuItem[] = [];
-  @Input() popup = false;
-
-  protected visible = signal<boolean>(false);
-
-  constructor(private el: ElementRef) {
-    super();
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (this.popup && !this.el.nativeElement.contains(event.target)) {
-      this.visible.set(false);
-    }
-  }
-
-  public toggle(event: MouseEvent): void {
-    event.stopPropagation();
-    this.visible.update((v) => !v);
-  }
-
-  public show(event: MouseEvent): void {
-    event.stopPropagation();
-    this.visible.set(true);
-  }
-
-  public hide(): void {
-    this.visible.set(false);
-  }
+export class GpMenuComponent extends GpMenuBaseComponent<GpMenuItem> {
+  public appendTo = input<string>('body');
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) {
-      return;
-    }
-    if (item.command) {
-      item.command({ originalEvent: event, item });
-    }
-    if (this.popup) {
-      this.hide();
-    }
+    this.handleMenuItemClick(item, event);
   }
 }

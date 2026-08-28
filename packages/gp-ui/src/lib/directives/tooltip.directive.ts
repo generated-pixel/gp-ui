@@ -1,5 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, inject } from '@angular/core';
-import { DomHandler } from '../utils/dom-handler';
+import { Directive, ElementRef, HostListener, input, OnDestroy, inject } from '@angular/core';
 import { ZIndexService } from '../overlay/z-index.service';
 
 export type GpTooltipPosition = 'top' | 'bottom' | 'left' | 'right';
@@ -12,11 +11,11 @@ export class GpTooltipDirective implements OnDestroy {
   private el = inject(ElementRef);
   private zIndexService = inject(ZIndexService);
 
-  @Input() gpTooltip = '';
-  @Input() tooltipPosition: GpTooltipPosition = 'top';
-  @Input() tooltipDisabled = false;
-  @Input() showDelay = 150;
-  @Input() hideDelay = 100;
+  public gpTooltip = input<string>('');
+  public tooltipPosition = input<GpTooltipPosition>('top');
+  public tooltipDisabled = input<boolean>(false);
+  public showDelay = input<number>(150);
+  public hideDelay = input<number>(100);
 
   private tooltipEl: HTMLElement | null = null;
   private showTimeout: any;
@@ -24,17 +23,17 @@ export class GpTooltipDirective implements OnDestroy {
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    if (this.tooltipDisabled || !this.gpTooltip) {
+    if (this.tooltipDisabled() || !this.gpTooltip()) {
       return;
     }
     clearTimeout(this.hideTimeout);
-    this.showTimeout = setTimeout(() => this.show(), this.showDelay);
+    this.showTimeout = setTimeout(() => this.show(), this.showDelay());
   }
 
   @HostListener('mouseleave')
   onMouseLeave(): void {
     clearTimeout(this.showTimeout);
-    this.hideTimeout = setTimeout(() => this.hide(), this.hideDelay);
+    this.hideTimeout = setTimeout(() => this.hide(), this.hideDelay());
   }
 
   @HostListener('focus')
@@ -48,13 +47,13 @@ export class GpTooltipDirective implements OnDestroy {
   }
 
   private show(): void {
-    if (this.tooltipEl || !this.gpTooltip) {
+    if (this.tooltipEl || !this.gpTooltip()) {
       return;
     }
 
     this.tooltipEl = document.createElement('div');
-    this.tooltipEl.className = `gp-tooltip gp-tooltip-${this.tooltipPosition}`;
-    this.tooltipEl.textContent = this.gpTooltip;
+    this.tooltipEl.className = `gp-tooltip gp-tooltip-${this.tooltipPosition()}`;
+    this.tooltipEl.textContent = this.gpTooltip();
     this.tooltipEl.setAttribute('role', 'tooltip');
     this.tooltipEl.style.zIndex = `${this.zIndexService.get('tooltip')}`;
     this.tooltipEl.style.position = 'absolute';
@@ -77,7 +76,7 @@ export class GpTooltipDirective implements OnDestroy {
     let top = 0;
     let left = 0;
 
-    switch (this.tooltipPosition) {
+    switch (this.tooltipPosition()) {
       case 'top':
         top = hostRect.top + scrollY - tooltipRect.height - 6;
         left = hostRect.left + scrollX + (hostRect.width - tooltipRect.width) / 2;

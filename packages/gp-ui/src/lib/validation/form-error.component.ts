@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpEditableBaseComponent } from '../base/gp-editable-base.component';
 import { GpValidationError } from './types';
@@ -17,7 +17,7 @@ import { GpIconComponent } from '../icons/icon.component';
   template: `
     @if (hasErrors()) {
       <div class="gp-form-error-container" role="alert" aria-live="polite">
-        @if (showFirstOnly && firstErrorMessage()) {
+        @if (showFirstOnly() && firstErrorMessage()) {
           <div class="gp-form-error-item">
             <gp-icon name="alert-circle" size="0.85em" class="gp-form-error-icon" />
             <span class="gp-form-error-text">{{ firstErrorMessage() }}</span>
@@ -70,53 +70,61 @@ import { GpIconComponent } from '../icons/icon.component';
 })
 export class GpFormErrorComponent {
   /** Target control to observe for validation errors */
-  @Input() control?: GpEditableBaseComponent;
+  public control = input<GpEditableBaseComponent | undefined>();
 
   /** Explicit errors array */
-  @Input() errors?: GpValidationError[] | string[] | null;
+  public errors = input<GpValidationError[] | string[] | null | undefined>();
 
   /** Single error message override */
-  @Input() message?: string | null;
+  public message = input<string | null | undefined>();
 
   /** Whether to show only the first error or all errors (defaults to true) */
-  @Input() showFirstOnly = true;
+  public showFirstOnly = input<boolean>(true);
 
   public hasErrors(): boolean {
-    if (this.message) {
+    if (this.message()) {
       return true;
     }
-    if (this.control) {
-      return this.control.isInvalid();
+    const ctrl = this.control();
+    if (ctrl) {
+      return ctrl.isInvalid();
     }
-    if (this.errors && this.errors.length > 0) {
+    const errs = this.errors();
+    if (errs && errs.length > 0) {
       return true;
     }
     return false;
   }
 
   public firstErrorMessage(): string | null {
-    if (this.message) {
-      return this.message;
+    const msg = this.message();
+    if (msg) {
+      return msg;
     }
-    if (this.control) {
-      return this.control.firstError();
+    const ctrl = this.control();
+    if (ctrl) {
+      return ctrl.firstError();
     }
-    if (this.errors && this.errors.length > 0) {
-      const first = this.errors[0];
+    const errs = this.errors();
+    if (errs && errs.length > 0) {
+      const first = errs[0];
       return typeof first === 'string' ? first : first.message;
     }
     return null;
   }
 
   public getErrorList(): GpValidationError[] {
-    if (this.message) {
-      return [{ rule: 'explicit', message: this.message }];
+    const msg = this.message();
+    if (msg) {
+      return [{ rule: 'explicit', message: msg }];
     }
-    if (this.control) {
-      return this.control.errors();
+    const ctrl = this.control();
+    if (ctrl) {
+      return ctrl.errors();
     }
-    if (this.errors) {
-      return this.errors.map((err) => (typeof err === 'string' ? { rule: 'explicit', message: err } : err));
+    const errs = this.errors();
+    if (errs) {
+      return errs.map((err) => (typeof err === 'string' ? { rule: 'explicit', message: err } : err));
     }
     return [];
   }

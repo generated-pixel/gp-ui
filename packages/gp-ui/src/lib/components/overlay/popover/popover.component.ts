@@ -1,9 +1,7 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
@@ -22,8 +20,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './popover.component.scss'
 })
 export class GpPopoverComponent extends GpBaseComponent {
-  @Output() onShow = new EventEmitter<void>();
-  @Output() onHide = new EventEmitter<void>();
+  public onShow = output<void>();
+  public onHide = output<void>();
 
   protected visible = signal<boolean>(false);
   protected top = signal<number>(0);
@@ -50,9 +48,9 @@ export class GpPopoverComponent extends GpBaseComponent {
   }
 
   public show(event: MouseEvent, target?: HTMLElement): void {
-    const el = target || (event.currentTarget as HTMLElement);
-    if (el) {
-      const rect = el.getBoundingClientRect();
+    const targetEl = target || (event.currentTarget as HTMLElement);
+    if (targetEl) {
+      const rect = targetEl.getBoundingClientRect();
       this.top.set(rect.bottom + window.scrollY + 6);
       this.left.set(rect.left + window.scrollX);
     }

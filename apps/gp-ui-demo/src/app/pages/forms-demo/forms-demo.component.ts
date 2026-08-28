@@ -140,6 +140,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
                 [options]="skillsList"
                 display="chip"
                 placeholder="Select skills"
+                [showClear]="true"
               />
             </div>
 

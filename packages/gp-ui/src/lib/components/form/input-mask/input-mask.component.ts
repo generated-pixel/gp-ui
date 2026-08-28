@@ -1,16 +1,14 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { UniqueId } from '../../../utils/unique-id';
+import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
 
 @Component({
   selector: 'gp-input-mask',
@@ -28,61 +26,41 @@ import { UniqueId } from '../../../utils/unique-id';
   templateUrl: './input-mask.component.html',
   styleUrl: './input-mask.component.scss'
 })
-export class GpInputMaskComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('mask_');
-  @Input() mask = ''; // e.g. "(999) 999-9999" or "99/99/9999"
-  @Input() slotChar = '_';
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+export class GpInputMaskComponent extends GpInputBaseComponent<string> implements ControlValueAccessor {
+  public mask = input<string>('');
+  public slotChar = input<string>('_');
 
-  @Output() onComplete = new EventEmitter<string>();
+  public onComplete = output<string>();
 
   public override writeValue(value: any): void {
     const formatted = value ? this.format(value) : '';
-    this.value = formatted;
     this.internalValue.set(formatted);
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  protected onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const formatted = this.format(input.value);
-    input.value = formatted;
+  public override handleInput(event: Event): void {
+    const inputEl = event.target as HTMLInputElement;
+    const formatted = this.format(inputEl.value);
+    inputEl.value = formatted;
     this.updateValue(formatted);
+    this.onInputEvent.emit(event);
 
-    if (this.mask && formatted.length === this.mask.length && !formatted.includes(this.slotChar)) {
+    const maskPattern = this.mask();
+    if (maskPattern && formatted.length === maskPattern.length && !formatted.includes(this.slotChar())) {
       this.onComplete.emit(formatted);
     }
   }
 
-  protected onBlur(): void {
-    this.handleControlBlur();
-  }
-
   private format(val: string): string {
-    if (!this.mask || !val) {
+    const maskPattern = this.mask();
+    if (!maskPattern || !val) {
       return val || '';
     }
     const digits = val.replace(/\D/g, '');
     let digitIdx = 0;
     let result = '';
 
-    for (let i = 0; i < this.mask.length; i++) {
-      const maskChar = this.mask[i];
+    for (let i = 0; i < maskPattern.length; i++) {
+      const maskChar = maskPattern[i];
       if (maskChar === '9') {
         if (digitIdx < digits.length) {
           result += digits[digitIdx++];
@@ -90,7 +68,6 @@ export class GpInputMaskComponent extends GpEditableBaseComponent implements Con
           break;
         }
       } else if (maskChar === 'a') {
-        // letter slot
         if (digitIdx < val.length && /[a-zA-Z]/.test(val[digitIdx])) {
           result += val[digitIdx++];
         } else {

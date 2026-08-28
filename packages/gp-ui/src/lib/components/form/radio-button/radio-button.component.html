@@ -1,14 +1,14 @@
 <div
   class="gp-radiobutton"
   [class.gp-radiobutton-checked]="isChecked()"
-  [class.gp-radiobutton-disabled]="disabled"
-  [class.gp-input-invalid]="invalid"
+  [class.gp-radiobutton-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-invalid]="isInvalid()"
   (click)="onClick($event)"
 >
   <div
     class="gp-radiobutton-box"
     [attr.aria-checked]="isChecked()"
-    [attr.aria-disabled]="disabled"
+    [attr.aria-disabled]="isEffectivelyDisabled()"
     role="radio"
     tabindex="0"
     (keydown.space)="$event.preventDefault(); onClick($event)"
@@ -17,7 +17,7 @@
     <div class="gp-radiobutton-icon"></div>
   </div>
 
-  @if (label) {
-    <label [for]="inputId" class="gp-radiobutton-label">{{ label }}</label>
+  @if (label()) {
+    <label [for]="inputId()" class="gp-radiobutton-label">{{ label() }}</label>
   }
 </div>

@@ -1,19 +1,17 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
-  signal
+  effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
+import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.component';
 
 @Component({
   selector: 'gp-checkbox',
@@ -31,73 +29,63 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss'
 })
-export class GpCheckboxComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('chk_');
-  @Input() label = '';
-  @Input() override value: any = null;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() binary = true;
+export class GpCheckboxComponent extends GpCheckableBaseComponent implements ControlValueAccessor {
+  public inputId = input<string>(UniqueId.generate('chk_'));
+  public label = input<string>('');
+  public checkedInput = input<boolean | undefined>(undefined, { alias: 'checked' });
 
-  @Output() onChange = new EventEmitter<{ checked: boolean; value: any; originalEvent: Event }>();
-
-  protected model = signal<any>(false);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
+  constructor() {
+    super();
+    effect(() => {
+      const isChecked = this.checkedInput();
+      if (isChecked !== undefined) {
+        this.internalValue.set(isChecked);
+      }
+    });
+  }
 
   public isChecked(): boolean {
-    const val = this.model();
-    if (this.binary) {
+    const val = this.internalValue();
+    const optVal = this.valueInput();
+    if (this.binary()) {
+      if (typeof val === 'boolean') {
+        return val;
+      }
+      if (typeof optVal === 'boolean') {
+        return optVal;
+      }
       return !!val;
     }
     if (Array.isArray(val)) {
-      return val.includes(this.value);
+      return val.includes(optVal);
     }
-    return val === this.value;
-  }
-
-  public override writeValue(value: any): void {
-    this.model.set(value);
-  }
-
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    return val === optVal;
   }
 
   public onClick(event: Event): void {
-    if (this.disabled || this.readonly) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
 
+    const optVal = this.valueInput();
     let nextValue: any;
-    if (this.binary) {
+    if (this.binary()) {
       nextValue = !this.isChecked();
     } else {
-      const current = this.model();
+      const current = this.internalValue();
       if (Array.isArray(current)) {
         if (this.isChecked()) {
-          nextValue = current.filter((item) => item !== this.value);
+          nextValue = current.filter((item: any) => item !== optVal);
         } else {
-          nextValue = [...current, this.value];
+          nextValue = [...current, optVal];
         }
       } else {
-        nextValue = this.isChecked() ? null : this.value;
+        nextValue = this.isChecked() ? null : optVal;
       }
     }
 
-    this.model.set(nextValue);
-    this.onChangeCallback(nextValue);
-    this.onTouchedCallback();
-    this.onChange.emit({ checked: this.isChecked(), value: nextValue, originalEvent: event });
+    this.updateValue(nextValue);
+    this.onChange.emit({ checked: this.isChecked(), originalEvent: event });
+    this.onClickEvent.emit(event);
   }
 }

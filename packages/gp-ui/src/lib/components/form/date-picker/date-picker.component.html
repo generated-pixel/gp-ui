@@ -1,31 +1,31 @@
 <div
   class="gp-datepicker"
   [class.gp-select-open]="overlayVisible()"
-  [class.gp-input-disabled]="disabled"
-  [class.gp-input-invalid]="invalid"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-invalid]="isInvalid()"
 >
   <div class="gp-input-wrapper">
     <input
-      [id]="inputId"
+      [id]="inputId()"
       type="text"
       [value]="formattedValue()"
-      [placeholder]="placeholder || dateFormat"
-      [disabled]="disabled"
-      [readonly]="readonly || !inline"
-      [attr.aria-label]="ariaLabel || placeholder || 'Date Picker'"
-      (click)="inline ? null : toggleOverlay()"
+      [placeholder]="placeholder() || dateFormat()"
+      [disabled]="isEffectivelyDisabled()"
+      [readonly]="readonly() || !inline()"
+      [attr.aria-label]="ariaLabel() || placeholder() || 'Date Picker'"
+      (click)="inline() ? null : toggleOverlay()"
       class="gp-inputtext gp-datepicker-input"
     />
 
-    @if (!inline) {
+    @if (!inline()) {
       <button type="button" class="gp-datepicker-trigger" (click)="toggleOverlay()" aria-label="Open Calendar">
-        <gp-icon [name]="icon" size="0.9em" />
+        <gp-icon [name]="icon()" size="0.9em" />
       </button>
     }
   </div>
 
-  @if (inline || overlayVisible()) {
-    <div class="gp-datepicker-panel" [class.gp-datepicker-inline]="inline" (click)="$event.stopPropagation()">
+  @if (inline() || overlayVisible()) {
+    <div class="gp-datepicker-panel" [class.gp-datepicker-inline]="inline()" (click)="$event.stopPropagation()">
       <div class="gp-datepicker-header">
         <button type="button" class="gp-datepicker-nav-btn" (click)="prevMonth()" aria-label="Previous Month">
           <gp-icon name="chevron-left" size="0.85em" />
@@ -71,7 +71,7 @@
         </tbody>
       </table>
 
-      @if (showButtonBar) {
+      @if (showButtonBar()) {
         <div class="gp-datepicker-buttonbar">
           <button type="button" class="gp-datepicker-bar-btn" (click)="selectToday()">
             {{ translationService.get('today') }}

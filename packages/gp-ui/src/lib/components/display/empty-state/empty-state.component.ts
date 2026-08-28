@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -13,7 +13,7 @@ import { GpIconComponent } from '../../../icons/icon.component';
   styleUrl: './empty-state.component.scss'
 })
 export class GpEmptyStateComponent extends GpBaseComponent {
-  @Input() title = 'No records found';
-  @Input() message = 'There is currently no data to display.';
-  @Input() icon = 'search';
+  public title = input<string>('No records found');
+  public message = input<string>('There is currently no data to display.');
+  public icon = input<string>('search');
 }

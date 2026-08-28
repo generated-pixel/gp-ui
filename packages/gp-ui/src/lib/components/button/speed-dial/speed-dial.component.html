@@ -1,22 +1,35 @@
-<div class="gp-speed-dial" [class]="'gp-speed-dial-direction-' + direction">
+<div
+  class="gp-speed-dial"
+  [class]="'gp-speed-dial-direction-' + direction()"
+  [class]="styleClass()"
+  [style]="style()"
+>
   <gp-button
-    [icon]="visible() ? hideIcon : showIcon"
+    [icon]="visible() ? hideIcon() : showIcon()"
+    [severity]="buttonSeverity()"
+    [variant]="buttonVariant()"
+    [size]="size()"
     [rounded]="true"
     [iconOnly]="true"
-    [disabled]="disabled"
-    (onClickEvent)="toggle()"
+    [disabled]="disabled()"
+    [ariaLabel]="ariaLabel() || (visible() ? 'Close speed dial actions' : 'Open speed dial actions')"
+    (onClickEvent)="onTriggerClick($event)"
+    (onFocusEvent)="onButtonFocus($event)"
+    (onBlurEvent)="onButtonBlur($event)"
     class="gp-speed-dial-button"
   />
 
   @if (visible()) {
     <ul class="gp-speed-dial-list" role="menu">
-      @for (item of model; track $index) {
+      @for (item of model(); track $index) {
         <li class="gp-speed-dial-item" role="none">
           <gp-button
             [icon]="item.icon || 'star'"
             [severity]="'secondary'"
             [rounded]="true"
             [size]="'sm'"
+            [gpTooltip]="item.label || ''"
+            [tooltipPosition]="direction() === 'up' ? 'left' : direction() === 'down' ? 'left' : 'top'"
             [disabled]="item.disabled || false"
             (onClickEvent)="onItemClick(item, $event)"
             class="gp-speed-dial-action"

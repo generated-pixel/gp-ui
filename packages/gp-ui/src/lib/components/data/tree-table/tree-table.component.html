@@ -3,15 +3,15 @@
     <table class="gp-datatable-table" role="table">
       <thead class="gp-datatable-thead">
         <tr role="row">
-          @for (col of columns; track col.field || $index) {
-            <th class="gp-datatable-th" [style.width]="col.width || null" scope="col">
-              {{ col.header }}
+          @for (col of columns(); track col.field() || $index) {
+            <th class="gp-datatable-th" [style.width]="col.width() || null" scope="col">
+              {{ col.header() }}
             </th>
           }
         </tr>
       </thead>
       <tbody class="gp-datatable-tbody">
-        @for (node of value; track node.key || $index) {
+        @for (node of value(); track node.key || $index) {
           <ng-container *ngTemplateOutlet="treeRowTpl; context: { $implicit: node, level: 0 }" />
         }
       </tbody>
@@ -21,7 +21,7 @@
 
 <ng-template #treeRowTpl let-node let-level="level">
   <tr class="gp-datatable-row">
-    @for (col of columns; track col.field || $index; let colIndex = $index) {
+    @for (col of columns(); track col.field() || $index; let colIndex = $index) {
       <td class="gp-datatable-td">
         @if (colIndex === 0) {
           <div class="gp-treetable-toggler-container" [style.padding-left.rem]="level * 1.5">
@@ -40,13 +40,13 @@
             @if (node.icon) {
               <gp-icon [name]="node.icon" size="0.9em" class="gp-treetable-icon" />
             }
-            <span>{{ node.data ? node.data[col.field] : node.label }}</span>
+            <span>{{ node.data ? node.data[col.field()] : node.label }}</span>
           </div>
         } @else {
-          @if (col.bodyTemplate) {
-            <ng-container *ngTemplateOutlet="col.bodyTemplate; context: { $implicit: node, column: col }" />
+          @if (col.bodyTemplate()) {
+            <ng-container *ngTemplateOutlet="col.bodyTemplate()!; context: { $implicit: node, column: col }" />
           } @else {
-            {{ node.data ? node.data[col.field] : '' }}
+            {{ node.data ? node.data[col.field()] : '' }}
           }
         }
       </td>

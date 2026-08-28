@@ -1,4 +1,4 @@
-import { Component, Input, computed, inject, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { Component, input, computed, inject, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { GpIconRegistry } from './icon-registry.service';
@@ -12,14 +12,14 @@ import { GpIconRegistry } from './icon-registry.service';
   template: `
     <span
       class="gp-icon"
-      [class.gp-icon-spin]="spin"
-      [style.width]="size"
-      [style.height]="size"
-      [style.color]="color || null"
-      [style.transform]="rotate ? 'rotate(' + rotate + 'deg)' : null"
-      [attr.aria-hidden]="ariaHidden"
-      [attr.aria-label]="ariaLabel || null"
-      [attr.role]="ariaLabel ? 'img' : 'presentation'"
+      [class.gp-icon-spin]="spin()"
+      [style.width]="size()"
+      [style.height]="size()"
+      [style.color]="color() || null"
+      [style.transform]="rotate() ? 'rotate(' + rotate() + 'deg)' : null"
+      [attr.aria-hidden]="ariaHidden()"
+      [attr.aria-label]="ariaLabel() || null"
+      [attr.role]="ariaLabel() ? 'img' : 'presentation'"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -67,20 +67,16 @@ export class GpIconComponent {
   private registry = inject(GpIconRegistry);
   private sanitizer = inject(DomSanitizer);
 
-  @Input() set name(val: string) {
-    this._name.set(val);
-  }
-  @Input() size = '1em';
-  @Input() color = '';
-  @Input() spin = false;
-  @Input() rotate = 0;
-  @Input() ariaHidden = true;
-  @Input() ariaLabel = '';
-
-  private _name = signal<string>('');
+  public name = input<string>('');
+  public size = input<string>('1em');
+  public color = input<string>('');
+  public spin = input<boolean>(false);
+  public rotate = input<number>(0);
+  public ariaHidden = input<boolean>(true);
+  public ariaLabel = input<string>('');
 
   protected safeSvg = computed<SafeHtml>(() => {
-    const raw = this.registry.get(this._name()) || '';
+    const raw = this.registry.get(this.name()) || '';
     return this.sanitizer.bypassSecurityTrustHtml(raw);
   });
 }

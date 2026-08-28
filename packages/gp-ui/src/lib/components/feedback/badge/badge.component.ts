@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type GpBadgeSeverity = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast';
@@ -15,7 +15,7 @@ export type GpBadgeSize = 'sm' | 'md' | 'lg';
   styleUrl: './badge.component.scss'
 })
 export class GpBadgeComponent extends GpBaseComponent {
-  @Input() value?: string | number;
-  @Input() severity: GpBadgeSeverity = 'primary';
-  @Input() size: GpBadgeSize = 'md';
+  public value = input<string | number | undefined>(undefined);
+  public severity = input<GpBadgeSeverity>('primary');
+  public size = input<GpBadgeSize>('md');
 }

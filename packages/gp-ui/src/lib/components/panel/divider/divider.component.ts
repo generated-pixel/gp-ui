@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type GpDividerLayout = 'horizontal' | 'vertical';
@@ -16,7 +16,7 @@ export type GpDividerAlign = 'left' | 'center' | 'right' | 'top' | 'bottom';
   styleUrl: './divider.component.scss'
 })
 export class GpDividerComponent extends GpBaseComponent {
-  @Input() layout: GpDividerLayout = 'horizontal';
-  @Input() type: GpDividerType = 'solid';
-  @Input() align: GpDividerAlign = 'center';
+  public layout = input<GpDividerLayout>('horizontal');
+  public type = input<GpDividerType>('solid');
+  public align = input<GpDividerAlign>('center');
 }

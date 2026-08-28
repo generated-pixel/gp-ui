@@ -1,20 +1,20 @@
 <gp-dialog
-  [header]="confirmation()?.header || header"
+  [header]="confirmation()?.header || header()"
   [visibleProp]="visible()"
-  [width]="width"
+  [width]="width()"
   (visibleChange)="onVisibleChange($event)"
 >
   <div class="gp-confirm-dialog-body">
-    @if (confirmation()?.icon || icon) {
-      <gp-icon [name]="confirmation()?.icon || icon" size="2em" class="gp-confirm-dialog-icon" />
+    @if (confirmation()?.icon || icon()) {
+      <gp-icon [name]="confirmation()?.icon || icon()" size="2em" class="gp-confirm-dialog-icon" />
     }
-    <span class="gp-confirm-dialog-message">{{ confirmation()?.message || message }}</span>
+    <span class="gp-confirm-dialog-message">{{ confirmation()?.message || message() }}</span>
   </div>
 
   <div footer class="gp-confirm-dialog-footer">
     @if (confirmation()?.rejectVisible !== false) {
       <gp-button
-        [label]="confirmation()?.rejectLabel || rejectLabel"
+        [label]="confirmation()?.rejectLabel || rejectLabel()"
         [icon]="confirmation()?.rejectIcon || 'times'"
         variant="outlined"
         severity="secondary"
@@ -23,7 +23,7 @@
     }
     @if (confirmation()?.acceptVisible !== false) {
       <gp-button
-        [label]="confirmation()?.acceptLabel || acceptLabel"
+        [label]="confirmation()?.acceptLabel || acceptLabel()"
         [icon]="confirmation()?.acceptIcon || 'check'"
         severity="primary"
         (onClickEvent)="accept()"

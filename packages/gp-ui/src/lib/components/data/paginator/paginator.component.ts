@@ -1,13 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
   computed,
+  effect,
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -33,57 +33,37 @@ export interface GpPageState {
 export class GpPaginatorComponent extends GpBaseComponent {
   protected translationService = inject(GpTranslationService);
 
-  private _totalRecords = signal<number>(0);
-  private _rows = signal<number>(10);
-  private _first = signal<number>(0);
-  private _pageLinkSize = signal<number>(5);
+  public totalRecords = input<number>(0);
+  public rows = input<number>(10);
+  public first = input<number>(0);
+  public pageLinkSize = input<number>(5);
+  public rowsPerPageOptions = input<number[]>([]);
+  public showCurrentPageReport = input<boolean>(true);
 
-  @Input()
-  public set totalRecords(val: number) {
-    this._totalRecords.set(Number(val) || 0);
-  }
-  public get totalRecords(): number {
-    return this._totalRecords();
-  }
+  public onPageChange = output<GpPageState>();
 
-  @Input()
-  public set rows(val: number) {
-    this._rows.set(Number(val) || 10);
-  }
-  public get rows(): number {
-    return this._rows();
-  }
+  protected internalFirst = signal<number>(0);
+  protected internalRows = signal<number>(10);
 
-  @Input()
-  public set first(val: number) {
-    this._first.set(Number(val) || 0);
+  constructor() {
+    super();
+    effect(() => {
+      this.internalFirst.set(this.first());
+    });
+    effect(() => {
+      this.internalRows.set(this.rows());
+    });
   }
-  public get first(): number {
-    return this._first();
-  }
-
-  @Input()
-  public set pageLinkSize(val: number) {
-    this._pageLinkSize.set(Number(val) || 5);
-  }
-  public get pageLinkSize(): number {
-    return this._pageLinkSize();
-  }
-
-  @Input() rowsPerPageOptions: number[] = [];
-  @Input() showCurrentPageReport = true;
-
-  @Output() onPageChange = new EventEmitter<GpPageState>();
 
   protected pageCount = computed(() => {
-    const total = this._totalRecords();
-    const r = this._rows() || 1;
+    const total = this.totalRecords();
+    const r = this.internalRows() || 1;
     return Math.max(1, Math.ceil(total / r));
   });
 
   protected page = computed(() => {
-    const f = this._first();
-    const r = this._rows() || 1;
+    const f = this.internalFirst();
+    const r = this.internalRows() || 1;
     return Math.max(0, Math.floor(f / r));
   });
 
@@ -91,9 +71,9 @@ export class GpPaginatorComponent extends GpBaseComponent {
   protected isLastPage = computed(() => this.page() >= this.pageCount() - 1);
 
   protected pageReport = computed(() => {
-    const total = this._totalRecords();
-    const f = this._first();
-    const r = this._rows();
+    const total = this.totalRecords();
+    const f = this.internalFirst();
+    const r = this.internalRows();
     const firstRec = total === 0 ? 0 : f + 1;
     const lastRec = Math.min(f + r, total);
     const template =
@@ -107,7 +87,7 @@ export class GpPaginatorComponent extends GpBaseComponent {
   protected visiblePages = computed<number[]>(() => {
     const count = this.pageCount();
     const current = this.page();
-    const size = Math.min(this._pageLinkSize(), count);
+    const size = Math.min(this.pageLinkSize(), count);
 
     let start = Math.max(0, current - Math.floor(size / 2));
     let end = start + size - 1;
@@ -129,9 +109,9 @@ export class GpPaginatorComponent extends GpBaseComponent {
     const targetPage = Math.max(0, Math.min(p, maxPage));
     if (targetPage === this.page()) return;
 
-    const r = this._rows();
+    const r = this.internalRows();
     const nextFirst = targetPage * r;
-    this._first.set(nextFirst);
+    this.internalFirst.set(nextFirst);
 
     this.onPageChange.emit({
       first: nextFirst,
@@ -143,8 +123,8 @@ export class GpPaginatorComponent extends GpBaseComponent {
 
   public onRppChange(event: Event): void {
     const newRows = parseInt((event.target as HTMLSelectElement).value, 10);
-    this._rows.set(newRows);
-    this._first.set(0);
+    this.internalRows.set(newRows);
+    this.internalFirst.set(0);
     this.onPageChange.emit({
       first: 0,
       rows: newRows,

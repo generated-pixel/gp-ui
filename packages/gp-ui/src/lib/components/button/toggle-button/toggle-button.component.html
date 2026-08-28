@@ -1,17 +1,34 @@
 <button
   type="button"
-  [disabled]="disabled"
-  [class.gp-toggle-button-checked]="checked()"
+  [disabled]="isEffectivelyDisabled()"
+  [class]="toggleButtonClass()"
+  [style]="style()"
   [attr.aria-pressed]="checked()"
-  (click)="toggle()"
-  class="gp-button gp-toggle-button"
+  [attr.aria-label]="ariaLabel() || (checked() ? onLabel() : offLabel())"
+  [attr.autofocus]="autofocus() ? '' : null"
+  [attr.tabindex]="tabindex() !== undefined ? tabindex() : (isEffectivelyDisabled() ? -1 : 0)"
+  (click)="toggle($event)"
+  (focus)="onFocus($event)"
+  (blur)="onBlur($event)"
+  (keydown)="onKeyDown($event)"
+  (keyup)="onKeyUp($event)"
   gpRipple
 >
-  @if (checked() && onIcon) {
-    <gp-icon [name]="onIcon" class="gp-button-icon" />
-  } @else if (!checked() && offIcon) {
-    <gp-icon [name]="offIcon" class="gp-button-icon" />
+  @if (iconPos() === 'left' || iconPos() === 'top') {
+    @if (checked() && onIcon()) {
+      <gp-icon [name]="onIcon()" class="gp-button-icon" />
+    } @else if (!checked() && offIcon()) {
+      <gp-icon [name]="offIcon()" class="gp-button-icon" />
+    }
   }
 
-  <span class="gp-button-label">{{ checked() ? onLabel : offLabel }}</span>
+  <span class="gp-button-label">{{ checked() ? onLabel() : offLabel() }}</span>
+
+  @if (iconPos() === 'right' || iconPos() === 'bottom') {
+    @if (checked() && onIcon()) {
+      <gp-icon [name]="onIcon()" class="gp-button-icon" />
+    } @else if (!checked() && offIcon()) {
+      <gp-icon [name]="offIcon()" class="gp-button-icon" />
+    }
+  }
 </button>

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core';
+import { Directive, ElementRef, input, OnInit, inject } from '@angular/core';
 
 @Directive({
   selector: '[gpAutoFocus]',
@@ -7,10 +7,10 @@ import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core';
 export class GpAutoFocusDirective implements OnInit {
   private el = inject(ElementRef);
 
-  @Input() gpAutoFocus = true;
+  public gpAutoFocus = input<boolean>(true);
 
   ngOnInit(): void {
-    if (this.gpAutoFocus) {
+    if (this.gpAutoFocus()) {
       setTimeout(() => {
         const host = this.el.nativeElement;
         if (typeof host.focus === 'function') {

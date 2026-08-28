@@ -1,16 +1,16 @@
 <div
   class="gp-select gp-cascade-select"
   [class.gp-select-open]="overlayVisible()"
-  [class.gp-select-disabled]="disabled"
+  [class.gp-select-disabled]="isEffectivelyDisabled()"
   (click)="toggleOverlay()"
   tabindex="0"
   role="combobox"
   [attr.aria-expanded]="overlayVisible()"
-  [attr.aria-label]="ariaLabel || placeholder || 'Cascade Select'"
+  [attr.aria-label]="ariaLabel() || placeholder() || 'Cascade Select'"
 >
   <div class="gp-select-label-container">
     <span class="gp-select-label" [class.gp-select-placeholder]="!selectedLabel()">
-      {{ selectedLabel() || placeholder }}
+      {{ selectedLabel() || placeholder() }}
     </span>
   </div>
 
@@ -22,32 +22,32 @@
     <div class="gp-select-overlay gp-cascade-select-overlay" (click)="$event.stopPropagation()">
       <div class="gp-cascade-select-panels">
         <ul class="gp-select-items gp-cascade-panel">
-          @for (item of options; track $index) {
+          @for (item of options(); track $index) {
             <li
               class="gp-select-item gp-cascade-item"
               [class.gp-select-item-selected]="item === activeItemLevel1()"
               (mouseenter)="onLevel1Hover(item)"
               (click)="onItemClick(item, 1)"
             >
-              <span>{{ item[optionLabel] }}</span>
-              @if (item[optionGroupChildren] && item[optionGroupChildren].length > 0) {
+              <span>{{ item[optionLabel()] }}</span>
+              @if (item[optionGroupChildren()] && item[optionGroupChildren()].length > 0) {
                 <gp-icon name="chevron-right" size="0.75em" />
               }
             </li>
           }
         </ul>
 
-        @if (activeItemLevel1() && activeItemLevel1()?.[optionGroupChildren]?.length) {
+        @if (activeItemLevel1() && activeItemLevel1()?.[optionGroupChildren()]?.length) {
           <ul class="gp-select-items gp-cascade-panel">
-            @for (sub of activeItemLevel1()![optionGroupChildren]; track $index) {
+            @for (sub of activeItemLevel1()![optionGroupChildren()]; track $index) {
               <li
                 class="gp-select-item gp-cascade-item"
                 [class.gp-select-item-selected]="sub === activeItemLevel2()"
                 (mouseenter)="onLevel2Hover(sub)"
                 (click)="onItemClick(sub, 2)"
               >
-                <span>{{ sub[optionLabel] }}</span>
-                @if (sub[optionGroupChildren] && sub[optionGroupChildren].length > 0) {
+                <span>{{ sub[optionLabel()] }}</span>
+                @if (sub[optionGroupChildren()] && sub[optionGroupChildren()].length > 0) {
                   <gp-icon name="chevron-right" size="0.75em" />
                 }
               </li>
@@ -55,11 +55,11 @@
           </ul>
         }
 
-        @if (activeItemLevel2() && activeItemLevel2()?.[optionGroupChildren]?.length) {
+        @if (activeItemLevel2() && activeItemLevel2()?.[optionGroupChildren()]?.length) {
           <ul class="gp-select-items gp-cascade-panel">
-            @for (sub2 of activeItemLevel2()![optionGroupChildren]; track $index) {
+            @for (sub2 of activeItemLevel2()![optionGroupChildren()]; track $index) {
               <li class="gp-select-item gp-cascade-item" (click)="onItemClick(sub2, 3)">
-                <span>{{ sub2[optionLabel] }}</span>
+                <span>{{ sub2[optionLabel()] }}</span>
               </li>
             }
           </ul>

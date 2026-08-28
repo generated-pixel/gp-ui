@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -26,16 +26,16 @@ export class GpAvatarGroupComponent extends GpBaseComponent {}
   template: `
     <div
       class="gp-avatar"
-      [class]="'gp-avatar-' + size + ' gp-avatar-' + shape"
-      [style.background-color]="bgColor || null"
-      [style.color]="textColor || null"
+      [class]="'gp-avatar-' + size() + ' gp-avatar-' + shape()"
+      [style.background-color]="bgColor() || null"
+      [style.color]="textColor() || null"
     >
-      @if (image) {
-        <img [src]="image" [alt]="label || 'avatar'" class="gp-avatar-img" />
-      } @else if (icon) {
-        <gp-icon [name]="icon" [size]="iconSize()" class="gp-avatar-icon" />
-      } @else if (label) {
-        <span class="gp-avatar-text">{{ label }}</span>
+      @if (image()) {
+        <img [src]="image()" [alt]="label() || 'avatar'" class="gp-avatar-img" />
+      } @else if (icon()) {
+        <gp-icon [name]="icon()" [size]="iconSize()" class="gp-avatar-icon" />
+      } @else if (label()) {
+        <span class="gp-avatar-text">{{ label() }}</span>
       }
       <ng-content />
     </div>
@@ -81,16 +81,16 @@ export class GpAvatarGroupComponent extends GpBaseComponent {}
   ]
 })
 export class GpAvatarComponent extends GpBaseComponent {
-  @Input() label = '';
-  @Input() icon = '';
-  @Input() image = '';
-  @Input() size: GpAvatarSize = 'normal';
-  @Input() shape: GpAvatarShape = 'square';
-  @Input() bgColor = '';
-  @Input() textColor = '';
+  public label = input<string>('');
+  public icon = input<string>('');
+  public image = input<string>('');
+  public size = input<GpAvatarSize>('normal');
+  public shape = input<GpAvatarShape>('square');
+  public bgColor = input<string>('');
+  public textColor = input<string>('');
 
-  protected iconSize(): string {
-    switch (this.size) {
+  protected iconSize = computed(() => {
+    switch (this.size()) {
       case 'large':
         return '1.5em';
       case 'xlarge':
@@ -98,5 +98,5 @@ export class GpAvatarComponent extends GpBaseComponent {
       default:
         return '1em';
     }
-  }
+  });
 }

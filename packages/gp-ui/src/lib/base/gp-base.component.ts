@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { UniqueId } from '../utils/unique-id';
 
 /**
@@ -8,17 +8,17 @@ import { UniqueId } from '../utils/unique-id';
 @Directive()
 export abstract class GpBaseComponent {
   /** Unique element identifier */
-  @Input() id: string = UniqueId.generate('gp_');
+  public id = input<string>(UniqueId.generate('gp_'));
 
   /** Custom CSS classes applied to host or root container */
-  @Input() styleClass = '';
+  public styleClass = input<string>('');
 
   /** Custom inline styles applied to host or root container */
-  @Input() style: { [klass: string]: any } | null = null;
+  public style = input<{ [klass: string]: any } | null>(null);
 
   /** Accessible label for screen readers */
-  @Input() ariaLabel = '';
+  public ariaLabel = input<string>('');
 
   /** Disabled state */
-  @Input() disabled = false;
+  public disabled = input<boolean>(false);
 }

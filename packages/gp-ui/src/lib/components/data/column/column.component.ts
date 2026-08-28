@@ -1,5 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  contentChild,
+  TemplateRef,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 
 @Component({
   selector: 'gp-column',
@@ -9,16 +16,16 @@ import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, V
   template: ``
 })
 export class GpColumnComponent extends GpBaseComponent {
-  @Input() field = '';
-  @Input() header = '';
-  @Input() sortable = false;
-  @Input() filterable = false;
-  @Input() filterMatchMode = 'contains';
-  @Input() width = '';
-  @Input() frozen = false;
-  @Input() align: 'left' | 'center' | 'right' = 'left';
+  public field = input<string>('');
+  public header = input<string>('');
+  public sortable = input<boolean>(false);
+  public filterable = input<boolean>(false);
+  public filterMatchMode = input<string>('contains');
+  public width = input<string>('');
+  public frozen = input<boolean>(false);
+  public align = input<'left' | 'center' | 'right'>('left');
 
-  @ContentChild('header') headerTemplate?: TemplateRef<any>;
-  @ContentChild('body') bodyTemplate?: TemplateRef<any>;
-  @ContentChild('filter') filterTemplate?: TemplateRef<any>;
+  public headerTemplate = contentChild<TemplateRef<any>>('header');
+  public bodyTemplate = contentChild<TemplateRef<any>>('body');
+  public filterTemplate = contentChild<TemplateRef<any>>('filter');
 }

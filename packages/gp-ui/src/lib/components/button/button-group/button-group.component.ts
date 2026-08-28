@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, input } from '@angular/core';
 
 @Component({
   selector: 'gp-button-group',
@@ -10,5 +10,5 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from '@a
   styleUrl: './button-group.component.scss'
 })
 export class GpButtonGroupComponent extends GpBaseComponent {
-  @Input() vertical = false;
+  public vertical = input<boolean>(false);
 }

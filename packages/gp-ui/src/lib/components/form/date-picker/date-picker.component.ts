@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -46,19 +45,14 @@ export interface CalendarDay {
 export class GpDatePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   protected translationService = inject(GpTranslationService);
 
-  @Input() inputId = UniqueId.generate('dp_');
-  @Input() override placeholder = '';
-  @Input() dateFormat = 'mm/dd/yy';
-  @Input() icon = 'calendar';
-  @Input() inline = false;
-  @Input() showButtonBar = true;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('dp_'));
+  public dateFormat = input<string>('mm/dd/yy');
+  public icon = input<string>('calendar');
+  public inline = input<boolean>(false);
+  public showButtonBar = input<boolean>(true);
 
-  @Output() onSelect = new EventEmitter<Date>();
-  @Output() onChange = new EventEmitter<{ value: Date | null }>();
+  public onSelect = output<Date>();
+  public onChange = output<{ value: Date | null }>();
 
   protected viewDate = signal<Date>(new Date());
   protected overlayVisible = signal<boolean>(false);
@@ -69,7 +63,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.inline && !this.hostElRef.nativeElement.contains(event.target)) {
+    if (!this.inline() && !this.hostElRef.nativeElement.contains(event.target)) {
       this.overlayVisible.set(false);
     }
   }
@@ -160,7 +154,6 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
 
   public override writeValue(value: any): void {
     const d = value instanceof Date ? value : value ? new Date(value) : null;
-    this.value = d;
     this.internalValue.set(d);
     if (d) {
       this.viewDate.set(new Date(d.getTime()));
@@ -175,12 +168,8 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggleOverlay(): void {
-    if (this.disabled || this.readonly) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     this.overlayVisible.update((v) => !v);
@@ -201,7 +190,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
     this.handleControlBlur();
     this.onSelect.emit(date);
     this.onChange.emit({ value: date });
-    if (!this.inline) {
+    if (!this.inline()) {
       this.overlayVisible.set(false);
     }
   }
@@ -214,7 +203,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
     this.updateValue(null);
     this.handleControlBlur();
     this.onChange.emit({ value: null });
-    if (!this.inline) {
+    if (!this.inline()) {
       this.overlayVisible.set(false);
     }
   }

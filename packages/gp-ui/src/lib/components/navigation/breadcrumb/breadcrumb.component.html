@@ -1,25 +1,25 @@
 <nav class="gp-breadcrumb" aria-label="Breadcrumb">
   <ol class="gp-breadcrumb-list">
-    @if (home) {
+    @if (home(); as homeItem) {
       <li class="gp-breadcrumb-item">
         <a
-          [routerLink]="home.routerLink"
-          [attr.href]="home.url || null"
+          [routerLink]="homeItem.routerLink"
+          [attr.href]="homeItem.url || null"
           class="gp-breadcrumb-link"
-          (click)="onItemClick(home, $event)"
+          (click)="onItemClick(homeItem, $event)"
           aria-label="Home"
         >
-          <gp-icon [name]="home.icon || 'home'" size="1em" />
+          <gp-icon [name]="homeItem.icon || 'home'" size="1em" />
         </a>
       </li>
-      @if (model && model.length > 0) {
+      @if (model() && model().length > 0) {
         <li class="gp-breadcrumb-separator" aria-hidden="true">
-          <gp-icon [name]="separatorIcon" size="0.75em" />
+          <gp-icon [name]="separatorIcon()" size="0.75em" />
         </li>
       }
     }
 
-    @for (item of model; track $index; let last = $last) {
+    @for (item of model(); track $index; let last = $last) {
       <li class="gp-breadcrumb-item" [class.gp-breadcrumb-item-last]="last">
         @if (last || item.disabled) {
           <span class="gp-breadcrumb-current" aria-current="page">{{ item.label }}</span>
@@ -40,7 +40,7 @@
 
       @if (!last) {
         <li class="gp-breadcrumb-separator" aria-hidden="true">
-          <gp-icon [name]="separatorIcon" size="0.75em" />
+          <gp-icon [name]="separatorIcon()" size="0.75em" />
         </li>
       }
     }

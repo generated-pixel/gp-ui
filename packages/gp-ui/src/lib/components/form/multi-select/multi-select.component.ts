@@ -1,22 +1,16 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
-  signal,
-  computed,
-  ElementRef,
-  HostListener
+  computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpCheckboxComponent } from '../checkbox/checkbox.component';
-import { GpSelectItem } from '../select/select.component';
+import { GpSelectBaseComponent, GpSelectItem } from '../../../base/gp-select-base.component';
 import { ObjectUtils } from '../../../utils/object-utils';
 
 export type GpMultiSelectDisplay = 'comma' | 'chip';
@@ -37,74 +31,69 @@ export type GpMultiSelectDisplay = 'comma' | 'chip';
   templateUrl: './multi-select.component.html',
   styleUrl: './multi-select.component.scss'
 })
-export class GpMultiSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() options: (GpSelectItem | any)[] = [];
-  @Input() optionLabel = 'label';
-  @Input() optionValue = 'value';
-  @Input() override placeholder = 'Select items';
-  @Input() filterPlaceholder = 'Search...';
-  @Input() emptyFilterMessage = 'No results found';
-  @Input() display: GpMultiSelectDisplay = 'comma';
-  @Input() maxSelectedLabels = 3;
-  @Input() filter = true;
-  @Input() showClear = false;
-  @Input() showSelectAll = true;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+export class GpMultiSelectComponent extends GpSelectBaseComponent<any[]> implements ControlValueAccessor {
+  public display = input<GpMultiSelectDisplay>('comma');
+  public maxSelectedLabels = input<number>(3);
+  public maxSelectedCharacters = input<number | undefined>(undefined);
+  public maxCharacters = input<number | undefined>(undefined);
+  public maxSelectedTextLength = input<number | undefined>(undefined);
+  public selectedItemsTop = input<boolean>(true);
+  public showSelectAll = input<boolean>(true);
 
-  @Output() onChange = new EventEmitter<{ value: any[]; originalEvent: Event }>();
+  public override filter = input<boolean>(true);
 
-  protected overlayVisible = signal<boolean>(false);
-  protected filterText = signal<string>('');
-
-  constructor(private hostElRef: ElementRef) {
-    super();
+  public get characterLimit(): number | undefined {
+    return this.maxSelectedCharacters() ?? this.maxCharacters() ?? this.maxSelectedTextLength();
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (!this.hostElRef.nativeElement.contains(event.target)) {
-      this.overlayVisible.set(false);
-    }
-  }
-
-  protected normalizedOptions = computed<GpSelectItem[]>(() => {
-    return (this.options || []).map((opt) => {
-      if (typeof opt === 'object' && opt !== null) {
-        if ('value' in opt && 'label' in opt) {
-          return opt as GpSelectItem;
-        }
-        return {
-          label: opt[this.optionLabel] ?? String(opt),
-          value: this.optionValue ? opt[this.optionValue] : opt,
-          icon: opt.icon,
-          disabled: opt.disabled
-        };
-      }
-      return { label: String(opt), value: opt };
-    });
-  });
-
-  protected filteredOptions = computed<GpSelectItem[]>(() => {
+  public override filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
-    if (!q) {
-      return this.normalizedOptions();
+    const vals = (this.internalValue() as any[]) || [];
+    let list = this.normalizedOptions();
+    if (q) {
+      list = list.filter((opt) => (opt.label || '').toLowerCase().includes(q));
     }
-    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
+    if (this.selectedItemsTop()) {
+      const selected: GpSelectItem[] = [];
+      const unselected: GpSelectItem[] = [];
+      for (const opt of list) {
+        if (vals.some((v) => ObjectUtils.equals(v, opt.value))) {
+          selected.push(opt);
+        } else {
+          unselected.push(opt);
+        }
+      }
+      return [...selected, ...unselected];
+    }
+    return list;
   });
 
-  protected selectedOptions = computed<GpSelectItem[]>(() => {
+  public selectedOptions = computed<GpSelectItem[]>(() => {
     const vals = (this.internalValue() as any[]) || [];
     return this.normalizedOptions().filter((opt) => vals.some((v) => ObjectUtils.equals(v, opt.value)));
   });
 
-  protected selectedLabelsText = computed(() => {
-    return this.selectedOptions()
+  public selectedLabelsText = computed(() => {
+    const fullText = this.selectedOptions()
       .map((o) => o.label)
       .join(', ');
+    const limit = this.characterLimit;
+    if (limit && limit > 0 && fullText.length > limit) {
+      return fullText.slice(0, limit).trim() + '...';
+    }
+    return fullText;
   });
+
+  public formatChipLabel(label?: string): string {
+    if (!label) {
+      return '';
+    }
+    const limit = this.characterLimit;
+    if (limit && limit > 0 && label.length > limit) {
+      return label.slice(0, limit).trim() + '...';
+    }
+    return label;
+  }
 
   public isSelected(opt: GpSelectItem): boolean {
     const vals = (this.internalValue() as any[]) || [];
@@ -121,27 +110,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   public override writeValue(value: any): void {
     const arr = Array.isArray(value) ? value : [];
-    this.value = arr;
     this.internalValue.set(arr);
-  }
-
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  public toggleOverlay(event: MouseEvent): void {
-    if (this.disabled || this.readonly) {
-      return;
-    }
-    this.overlayVisible.update((v) => !v);
   }
 
   public toggleOption(opt: GpSelectItem, event: MouseEvent): void {
@@ -165,7 +134,10 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     this.toggleOption(opt, event);
   }
 
-  public toggleSelectAll(): void {
+  public toggleSelectAll(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     const allSelected = this.isAllSelected();
     const next = allSelected
       ? []
@@ -174,7 +146,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
           .map((o) => o.value);
     this.updateValue(next);
     this.handleControlBlur();
-    this.onChange.emit({ value: next, originalEvent: new CustomEvent('change') });
+    this.onChange.emit({ value: next, originalEvent: event || new CustomEvent('change') });
   }
 
   public clear(event: MouseEvent): void {
@@ -182,10 +154,5 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     this.updateValue([]);
     this.handleControlBlur();
     this.onChange.emit({ value: [], originalEvent: event });
-  }
-
-  protected onFilterInput(event: Event): void {
-    const q = (event.target as HTMLInputElement).value;
-    this.filterText.set(q);
   }
 }

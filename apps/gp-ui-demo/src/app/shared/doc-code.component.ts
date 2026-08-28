@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="doc-code-container">
       <div class="doc-code-header">
-        <span class="doc-code-lang">{{ language.toUpperCase() }}</span>
+        <span class="doc-code-lang">{{ language().toUpperCase() }}</span>
         <button
           type="button"
           class="doc-code-copy-btn"
@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
           }
         </button>
       </div>
-      <pre class="doc-code-pre"><code>{{ code }}</code></pre>
+      <pre class="doc-code-pre"><code>{{ code() }}</code></pre>
     </div>
   `,
   styles: [
@@ -90,16 +90,17 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class DocCodeComponent {
-  @Input() code = '';
-  @Input() language = 'html';
+  public code = input<string>('');
+  public language = input<string>('html');
 
   protected copied = signal(false);
 
   protected copyCode(): void {
-    if (!this.code) {
+    const text = this.code();
+    if (!text) {
       return;
     }
-    navigator.clipboard.writeText(this.code).then(() => {
+    navigator.clipboard.writeText(text).then(() => {
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 2000);
     });

@@ -1,12 +1,12 @@
 <div
   class="gp-select gp-treeselect"
   [class.gp-select-open]="overlayVisible()"
-  [class.gp-select-disabled]="disabled"
+  [class.gp-select-disabled]="isEffectivelyDisabled()"
   (click)="toggleOverlay()"
   tabindex="0"
   role="combobox"
   [attr.aria-expanded]="overlayVisible()"
-  [attr.aria-label]="ariaLabel || placeholder || 'Tree Select'"
+  [attr.aria-label]="ariaLabel() || placeholder() || 'Tree Select'"
 >
   <div class="gp-select-label-container">
     <span class="gp-select-label" [class.gp-select-placeholder]="!selectedNode()">
@@ -16,7 +16,7 @@
         }
         {{ selectedNode()?.label }}
       } @else {
-        {{ placeholder }}
+        {{ placeholder() }}
       }
     </span>
   </div>
@@ -28,7 +28,7 @@
   @if (overlayVisible()) {
     <div class="gp-select-overlay gp-treeselect-overlay" (click)="$event.stopPropagation()">
       <ul class="gp-treeselect-tree" role="tree">
-        @for (node of options; track $index) {
+        @for (node of options(); track $index) {
           <ng-container *ngTemplateOutlet="treeNodeTpl; context: { $implicit: node, level: 0 }" />
         }
       </ul>
