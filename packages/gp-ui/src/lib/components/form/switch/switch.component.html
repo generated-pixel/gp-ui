@@ -12,6 +12,7 @@
     [attr.aria-disabled]="disabled"
     [attr.aria-label]="ariaLabel || null"
     tabindex="0"
+    (keydown.enter)="$event.preventDefault(); toggle($event)"
     (keydown.space)="$event.preventDefault(); toggle($event)"
   >
     <span class="gp-switch-handle"></span>
