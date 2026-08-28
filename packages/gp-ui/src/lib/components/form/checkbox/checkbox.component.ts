@@ -6,8 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  forwardRef,
-  signal
+  forwardRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -34,44 +33,32 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
 export class GpCheckboxComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() inputId = UniqueId.generate('chk_');
   @Input() label = '';
-  @Input() override value: any = null;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
   @Input() binary = true;
+
+  @Input()
+  set checked(val: boolean | undefined) {
+    if (val !== undefined) {
+      this.internalValue.set(val);
+    }
+  }
 
   @Output() onChange = new EventEmitter<{ checked: boolean; value: any; originalEvent: Event }>();
 
-  protected model = signal<any>(false);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
-
   public isChecked(): boolean {
-    const val = this.model();
+    const val = this.internalValue();
     if (this.binary) {
+      if (typeof val === 'boolean') {
+        return val;
+      }
+      if (typeof this.value === 'boolean') {
+        return this.value;
+      }
       return !!val;
     }
     if (Array.isArray(val)) {
       return val.includes(this.value);
     }
     return val === this.value;
-  }
-
-  public override writeValue(value: any): void {
-    this.model.set(value);
-  }
-
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
   }
 
   public onClick(event: Event): void {
@@ -83,7 +70,7 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
     if (this.binary) {
       nextValue = !this.isChecked();
     } else {
-      const current = this.model();
+      const current = this.internalValue();
       if (Array.isArray(current)) {
         if (this.isChecked()) {
           nextValue = current.filter((item) => item !== this.value);
@@ -95,9 +82,7 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
       }
     }
 
-    this.model.set(nextValue);
-    this.onChangeCallback(nextValue);
-    this.onTouchedCallback();
+    this.updateValue(nextValue);
     this.onChange.emit({ checked: this.isChecked(), value: nextValue, originalEvent: event });
   }
 }
