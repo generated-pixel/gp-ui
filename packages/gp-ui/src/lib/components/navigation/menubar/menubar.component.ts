@@ -1,10 +1,7 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  ElementRef,
   HostListener,
   signal
 } from '@angular/core';
@@ -12,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
+import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 
 export interface GpMenubarItem extends GpMenuItem {
   items?: GpMenubarItem[];
@@ -26,25 +24,18 @@ export interface GpMenubarItem extends GpMenuItem {
   templateUrl: './menubar.component.html',
   styleUrl: './menubar.component.scss'
 })
-export class GpMenubarComponent extends GpBaseComponent {
-  public model = input<GpMenubarItem[]>([]);
-
-  public activeItem = signal<GpMenubarItem | null>(null);
+export class GpMenubarComponent extends GpMenuBaseComponent<GpMenubarItem> {
   public activeSubItem = signal<GpMenubarItem | null>(null);
 
-  constructor(private el: ElementRef) {
-    super();
-  }
-
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+  override onDocumentClick(event: MouseEvent): void {
+    if (this.menuHostEl?.nativeElement && !this.menuHostEl.nativeElement.contains(event.target)) {
       this.close();
     }
   }
 
   @HostListener('document:keydown.escape')
-  onEscape(): void {
+  override onEscape(): void {
     this.close();
   }
 
@@ -82,12 +73,7 @@ export class GpMenubarComponent extends GpBaseComponent {
   }
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) {
-      return;
-    }
-    if (item.command) {
-      item.command({ originalEvent: event, item });
-    }
+    this.handleMenuItemClick(item as GpMenubarItem, event);
     this.close();
   }
 

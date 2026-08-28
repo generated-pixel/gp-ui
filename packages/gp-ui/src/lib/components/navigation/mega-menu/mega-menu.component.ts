@@ -1,18 +1,16 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
   input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  ElementRef,
-  HostListener,
-  signal
+  HostListener
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpButtonComponent } from '../../button/button/button.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
+import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 
 export interface GpMegaMenuSubItem extends GpMenuItem {
   description?: string;
@@ -49,25 +47,18 @@ export interface GpMegaMenuItem extends GpMenuItem {
   templateUrl: './mega-menu.component.html',
   styleUrl: './mega-menu.component.scss'
 })
-export class GpMegaMenuComponent extends GpBaseComponent {
-  public model = input<GpMegaMenuItem[]>([]);
+export class GpMegaMenuComponent extends GpMenuBaseComponent<GpMegaMenuItem> {
   public orientation = input<'horizontal' | 'vertical'>('horizontal');
 
-  public activeItem = signal<GpMegaMenuItem | null>(null);
-
-  constructor(private el: ElementRef) {
-    super();
-  }
-
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+  override onDocumentClick(event: MouseEvent): void {
+    if (this.menuHostEl?.nativeElement && !this.menuHostEl.nativeElement.contains(event.target)) {
       this.close();
     }
   }
 
   @HostListener('document:keydown.escape')
-  onEscape(): void {
+  override onEscape(): void {
     this.close();
   }
 
@@ -95,12 +86,7 @@ export class GpMegaMenuComponent extends GpBaseComponent {
   }
 
   public onItemClick(item: any, event: MouseEvent): void {
-    if (item.disabled) {
-      return;
-    }
-    if (item.command) {
-      item.command({ originalEvent: event, item });
-    }
+    this.handleMenuItemClick(item, event);
     this.close();
   }
 

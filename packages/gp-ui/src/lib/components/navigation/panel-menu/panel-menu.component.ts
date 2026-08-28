@@ -1,4 +1,3 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
   input,
@@ -10,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenubarItem } from '../menubar/menubar.component';
+import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 
 @Component({
   selector: 'gp-panel-menu',
@@ -20,8 +20,7 @@ import { GpMenubarItem } from '../menubar/menubar.component';
   templateUrl: './panel-menu.component.html',
   styleUrl: './panel-menu.component.scss'
 })
-export class GpPanelMenuComponent extends GpBaseComponent {
-  public model = input<GpMenubarItem[]>([]);
+export class GpPanelMenuComponent extends GpMenuBaseComponent<GpMenubarItem> {
   public multiple = input<boolean>(true);
 
   protected expandedItems = signal<Set<GpMenubarItem>>(new Set());
@@ -30,7 +29,15 @@ export class GpPanelMenuComponent extends GpBaseComponent {
     return this.expandedItems().has(item);
   }
 
-  public toggle(item: GpMenubarItem, event?: MouseEvent): void {
+  public override toggle(itemOrEvent: any, event?: MouseEvent): void {
+    if (itemOrEvent && typeof itemOrEvent === 'object' && ('label' in itemOrEvent || 'items' in itemOrEvent)) {
+      this.toggleItem(itemOrEvent as GpMenubarItem, event);
+    } else {
+      super.toggle(itemOrEvent);
+    }
+  }
+
+  public toggleItem(item: GpMenubarItem, event?: MouseEvent): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -58,11 +65,9 @@ export class GpPanelMenuComponent extends GpBaseComponent {
       return;
     }
     if (item.items && item.items.length > 0) {
-      this.toggle(item, event);
+      this.toggleItem(item, event);
       return;
     }
-    if (item.command) {
-      item.command({ originalEvent: event, item });
-    }
+    this.handleMenuItemClick(item, event);
   }
 }
