@@ -2,6 +2,8 @@
   class="gp-input-number"
   [class.gp-input-disabled]="disabled"
   [class.gp-input-invalid]="isInvalid()"
+  [class.gp-input-number-has-prefix]="!!prefix"
+  [class.gp-input-number-has-suffix]="!!suffix"
   [class.gp-input-number-buttons-stacked]="showButtons && buttonLayout === 'stacked'"
   [class.gp-input-number-buttons-horizontal]="showButtons && buttonLayout === 'horizontal'"
 >
