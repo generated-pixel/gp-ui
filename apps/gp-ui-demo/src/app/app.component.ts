@@ -6,6 +6,8 @@ import { filter } from 'rxjs/operators';
 import { GpBadgeComponent, GpDirectionService, GP_UI_VERSION } from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
+import { ThemeEditorDialogComponent } from './pages/theming/theme-editor-dialog.component';
+import { ThemeEditorService } from './pages/theming/theme-editor.service';
 
 declare global {
   interface Window {
@@ -25,7 +27,7 @@ export interface ComponentCatalogueItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpIconComponent],
+  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpIconComponent, ThemeEditorDialogComponent],
   template: `
     <div class="app-layout">
       <!-- Top Navigation Header -->
@@ -74,6 +76,17 @@ export interface ComponentCatalogueItem {
           </div>
 
           <div class="header-right">
+            <!-- Prominent Theme Studio Launch Button -->
+            <button
+              type="button"
+              class="header-theme-studio-btn"
+              (click)="themeEditorService.open()"
+              title="Open Interactive Theme Editor Dialog"
+            >
+              <gp-icon name="sliders" size="1.1em" />
+              <span>Theme Studio</span>
+            </button>
+
             <!-- Theme Palette Selector Dropdown -->
             <div class="theme-switcher-container">
               <button
@@ -94,6 +107,16 @@ export interface ComponentCatalogueItem {
                   <div class="theme-dropdown-header">
                     <span>Theme Presets</span>
                     <span class="theme-mode-badge">{{ isDark() ? 'Dark Mode' : 'Light Mode' }}</span>
+                  </div>
+                  <div class="theme-dropdown-studio-cta">
+                    <button
+                      type="button"
+                      class="dropdown-studio-btn"
+                      (click)="themeEditorService.open(); closeThemeMenu()"
+                    >
+                      <gp-icon name="sliders" size="1em" />
+                      <span>Open Theme Editor Studio...</span>
+                    </button>
                   </div>
                   <div class="theme-list">
                     @for (t of availableThemes; track t.id) {
@@ -163,6 +186,14 @@ export interface ComponentCatalogueItem {
         <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
           <div class="sidebar-header-note">
             <span>gp-ui Framework v{{ version }}</span>
+            <button
+              type="button"
+              class="sidebar-studio-btn"
+              (click)="themeEditorService.open(); closeSidebarOnMobile()"
+            >
+              <gp-icon name="sliders" size="0.9em" />
+              <span>Theme Studio</span>
+            </button>
           </div>
           <nav class="sidebar-nav">
             @for (cat of categories(); track cat) {
@@ -214,6 +245,9 @@ export interface ComponentCatalogueItem {
           <router-outlet />
         </main>
       </div>
+
+      <!-- Global Theme Editor Dialog Window -->
+      <app-theme-editor-dialog />
 
       <footer class="site-footer">
         <div class="site-footer__inner">
@@ -415,6 +449,50 @@ export interface ComponentCatalogueItem {
         background: var(--gp-surface-hover, rgba(255, 255, 255, 0.1));
         color: var(--gp-primary, #38bdf8);
       }
+      .header-theme-studio-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid var(--gp-primary, #6366f1);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15));
+        color: var(--gp-text-color, #ffffff);
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .header-theme-studio-btn:hover {
+        background: var(--gp-primary, #6366f1);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        transform: translateY(-1px);
+      }
+      .theme-dropdown-studio-cta {
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.1));
+      }
+      .dropdown-studio-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--gp-primary, #6366f1);
+        background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
+        color: var(--gp-primary, #6366f1);
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .dropdown-studio-btn:hover {
+        background: var(--gp-primary, #6366f1);
+        color: #ffffff;
+      }
       .theme-switcher-container {
         position: relative;
       }
@@ -571,6 +649,28 @@ export interface ComponentCatalogueItem {
         color: var(--gp-primary, #38bdf8);
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .sidebar-studio-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--gp-primary, #6366f1);
+        background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
+        color: var(--gp-primary, #6366f1);
+        font-size: 0.72rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .sidebar-studio-btn:hover {
+        background: var(--gp-primary, #6366f1);
+        color: #ffffff;
       }
       .sidebar-nav {
         padding: 0.75rem 1rem 2rem;
@@ -683,6 +783,7 @@ export interface ComponentCatalogueItem {
 })
 export class AppComponent {
   protected readonly version = GP_UI_VERSION;
+  public themeEditorService = inject(ThemeEditorService);
   private router = inject(Router);
   private directionService = inject(GpDirectionService);
 

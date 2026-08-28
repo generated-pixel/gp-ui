@@ -75,6 +75,8 @@ const componentTokenNames = [
   'timeline',
   'meterGroup',
   'emptyState',
+  'avatar',
+  'treeNode',
   'icon'
 ] as const;
 
@@ -421,5 +423,201 @@ ${mediaSelectors} {
 ${formatVars(darkVars)}
   }
 }
+`;
+}
+
+/**
+ * Converts Hex string to HSL [hue (0-360), saturation (0-1), lightness (0-1)]
+ */
+export function hexToHsl(hex: string): [number, number, number] {
+  if (!hex || typeof hex !== 'string') {
+    return [220, 0.8, 0.5];
+  }
+  let c = hex.replace('#', '').trim();
+  if (c.length === 3) {
+    c = c.split('').map((x) => x + x).join('');
+  }
+  const num = parseInt(c, 16);
+  if (isNaN(num) || c.length !== 6) {
+    return [220, 0.8, 0.5];
+  }
+  const r = ((num >> 16) & 255) / 255;
+  const g = ((num >> 8) & 255) / 255;
+  const b = (num & 255) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+  return [Math.round(h * 360), Number(s.toFixed(3)), Number(l.toFixed(3))];
+}
+
+/**
+ * Converts HSL values to a Hex color string
+ */
+export function hslToHex(h: number, s: number, l: number): string {
+  const clampL = Math.max(0, Math.min(1, l));
+  const clampS = Math.max(0, Math.min(1, s));
+  const normH = ((h % 360) + 360) % 360;
+
+  const c = (1 - Math.abs(2 * clampL - 1)) * clampS;
+  const x = c * (1 - Math.abs(((normH / 60) % 2) - 1));
+  const m = clampL - c / 2;
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  if (0 <= normH && normH < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (60 <= normH && normH < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (120 <= normH && normH < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (180 <= normH && normH < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (240 <= normH && normH < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else if (300 <= normH && normH < 360) {
+    r = c;
+    g = 0;
+    b = x;
+  }
+
+  const toHex = (n: number) => {
+    const hex = Math.round((n + m) * 255).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/**
+ * Generates a full 50-950 color scale ramp from a single base color hex (base is assigned to 500)
+ */
+export function generateColorScale(baseHex: string): {
+  50: string;
+  100: string;
+  200: string;
+  300: string;
+  400: string;
+  500: string;
+  600: string;
+  700: string;
+  800: string;
+  900: string;
+  950: string;
+} {
+  const [h, s, l] = hexToHsl(baseHex);
+  return {
+    50: hslToHex(h, Math.min(s, 0.4), 0.96),
+    100: hslToHex(h, Math.min(s, 0.5), 0.9),
+    200: hslToHex(h, Math.min(s, 0.65), 0.8),
+    300: hslToHex(h, s, 0.68),
+    400: hslToHex(h, s, 0.56),
+    500: baseHex,
+    600: hslToHex(h, Math.min(s * 1.05, 1), Math.max(l * 0.82, 0.15)),
+    700: hslToHex(h, Math.min(s * 1.1, 1), Math.max(l * 0.66, 0.12)),
+    800: hslToHex(h, Math.min(s * 1.15, 1), Math.max(l * 0.5, 0.09)),
+    900: hslToHex(h, Math.min(s * 1.2, 1), Math.max(l * 0.35, 0.06)),
+    950: hslToHex(h, Math.min(s * 1.25, 1), Math.max(l * 0.2, 0.03))
+  };
+}
+
+/**
+ * Serializes a Theme Definition into TypeScript source code for export into Angular projects.
+ */
+export function themeToTypeScript(theme: GpThemeDefinition): string {
+  const varName = (theme.id || 'custom').replace(/[^a-zA-Z0-9]/g, '_') + 'Theme';
+  return `import { GpThemeDefinition, extendTheme } from 'gp-ui-theme';
+
+export const ${varName}: GpThemeDefinition = extendTheme(${JSON.stringify(
+    {
+      id: theme.id || 'custom-theme',
+      name: theme.name || 'Custom Theme',
+      description: theme.description || 'Custom theme generated via gp-ui Theme Editor',
+      primitives: theme.primitives,
+      light: theme.light,
+      dark: theme.dark
+    },
+    null,
+    2
+  )});
+`;
+}
+
+/**
+ * Serializes a Theme Definition into JSON tokens format.
+ */
+export function themeToJson(theme: GpThemeDefinition): string {
+  return JSON.stringify(theme, null, 2);
+}
+
+/**
+ * Returns Angular project integration code snippet for the specified theme.
+ */
+export function themeToAngularSetup(theme: GpThemeDefinition): string {
+  const varName = (theme.id || 'custom').replace(/[^a-zA-Z0-9]/g, '_') + 'Theme';
+  const themeId = theme.id || 'custom-theme';
+  return `/**
+ * Option 1: Angular App Initialization (main.ts or app.config.ts)
+ */
+import { Component, OnInit } from '@angular/core';
+import { GpThemeManager } from 'gp-ui-theme';
+import { ${varName} } from './custom-theme';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  template: '<router-outlet></router-outlet>'
+})
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    // 1. Register custom theme definition
+    GpThemeManager.registerTheme(${varName});
+
+    // 2. Activate the custom theme
+    GpThemeManager.setTheme('${themeId}');
+  }
+}
+
+/**
+ * Option 2: Pure CSS Setup (angular.json)
+ * Save generated theme.css to src/assets/theme.css and reference in angular.json:
+ *
+ * "styles": [
+ *   "src/styles.scss",
+ *   "src/assets/theme.css"
+ * ]
+ *
+ * Then activate using data attribute on <html> element:
+ * <html data-gp-theme="${themeId}">
+ */
 `;
 }

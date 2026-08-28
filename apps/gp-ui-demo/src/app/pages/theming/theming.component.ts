@@ -1,4 +1,4 @@
-import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -16,6 +16,9 @@ import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
+import { ThemeEditorComponent } from './theme-editor.component';
+import { ThemeEditorService } from './theme-editor.service';
+
 @Component({
   selector: 'app-theming-page',
   standalone: true,
@@ -32,7 +35,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpProgressBarComponent,
     GpIconComponent,
     DocCodeComponent,
-    DocApiTableComponent
+    DocApiTableComponent,
+    ThemeEditorComponent
   ],
   template: `
     <div class="page-container">
@@ -47,6 +51,19 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           <strong>every theme includes built-in Light and Dark modes</strong>. Seamlessly switch themes, toggle color
           modes, dynamically register custom palettes at runtime, or customize design tokens globally without rebuilds.
         </p>
+
+        <div class="theme-studio-hero-banner">
+          <div class="hero-text">
+            <h3>Interactive Theme Studio &amp; Token Exporter</h3>
+            <p>Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in an interactive dialog modal.</p>
+          </div>
+          <gp-button
+            label="Launch Theme Studio Dialog"
+            icon="sliders"
+            severity="primary"
+            (onClickEvent)="themeEditorService.open()"
+          />
+        </div>
       </div>
 
       <div class="doc-section">
@@ -152,10 +169,24 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
               </div>
             </div>
           }
-        </div>
       </div>
 
-      <!-- Section 2: Live Component Studio Playground -->
+      <!-- Section 2: Interactive Theme Editor & Code Exporter -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="sliders" size="1em" />
+          Interactive Theme Editor &amp; Token Exporter
+        </h2>
+        <p class="doc-section-desc">
+          Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in real-time.
+          Generate compiled <strong>CSS Stylesheets</strong>, <strong>TypeScript Theme Definitions</strong>,
+          <strong>JSON Tokens</strong>, or <strong>Angular Integration Snippets</strong> ready for use in your own projects.
+        </p>
+
+        <app-theme-editor />
+      </div>
+
+      <!-- Section 3: Quick Token Tweaker Studio -->
       <div class="theme-playground-grid">
         <!-- Controls Panel -->
         <div class="theme-controls-card">
@@ -375,6 +406,29 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       .mode-btn-active {
         background: var(--gp-primary) !important;
         color: var(--gp-primary-text) !important;
+      }
+      .theme-studio-hero-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-top: 1.25rem;
+        padding: 1.25rem 1.5rem;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12));
+        border: 1px solid var(--gp-primary-border, rgba(99, 102, 241, 0.3));
+        border-radius: var(--gp-border-radius-lg, 0.75rem);
+      }
+      .hero-text h3 {
+        margin: 0 0 0.35rem 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--gp-text-color, #1e293b);
+      }
+      .hero-text p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary, #475569);
       }
       .theme-cards-grid {
         display: grid;
@@ -846,6 +900,8 @@ const unsubscribe = GpThemeManager.onChange((state) => {
       description: 'Standard corner radius for buttons, inputs, and cards.'
     }
   ];
+
+  public themeEditorService = inject(ThemeEditorService);
 
   ngOnInit(): void {
     this.unsubscribeThemeListener = GpThemeManager.onChange((state) => {
