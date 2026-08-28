@@ -89,18 +89,46 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
       <div class="doc-section">
         <h2 class="doc-section-title">
           <gp-icon name="layer-group" size="1em" />
-          2-Tier Base Component Architecture
+          Modular Base Component Architecture
         </h2>
-        <p class="doc-section-desc">All components in the library follow a clean two-tier inheritance hierarchy:</p>
+        <p class="doc-section-desc">All components in the library inherit from specialized, signal-driven base classes to eliminate boilerplate and standardize APIs:</p>
         <ul class="arch-list">
           <li>
-            <strong><code>GpBaseComponent</code></strong>: Base for display-only and layout containers (Buttons, Panels, Dialogs, Avatars, Tabs). Provides
-            auto-generated unique IDs, <code>id = input&lt;string&gt;()</code>, <code>styleClass = input&lt;string&gt;()</code>, <code>style = input()</code>, <code>ariaLabel = input&lt;string&gt;()</code>, and
-            <code>disabled = input&lt;boolean&gt;(false)</code> signal state.
+            <strong><code>GpBaseComponent</code></strong>: Foundational root base for all components. Provides auto-generated unique IDs,
+            <code>id = input&lt;string&gt;()</code>, <code>styleClass = input&lt;string&gt;()</code>, <code>style = input()</code>,
+            <code>ariaLabel = input&lt;string&gt;()</code>, and <code>disabled = input&lt;boolean&gt;(false)</code> signal state.
           </li>
           <li>
-            <strong><code>GpEditableBaseComponent&lt;T&gt;</code></strong>: Extends <code>GpBaseComponent</code> for all value-bearing and form controls (InputText, Select,
-            Checkbox, Slider, Rating, DatePicker). Implements <code>ControlValueAccessor</code> with <code>name</code>, <code>placeholder</code>, <code>required</code>, <code>readonly</code>, <code>invalid</code> signal inputs, <code>onValidate</code>, <code>onValid</code>, <code>onInvalid</code> output signals, and <code>isEffectivelyDisabled</code> computed signal.
+            <strong><code>GpButtonBaseComponent</code></strong>: Base for all button variants (<code>GpButtonComponent</code>, <code>GpSplitButtonComponent</code>, <code>GpSpeedDialComponent</code>, <code>GpToggleButtonComponent</code>).
+            Standardizes <code>label</code>, <code>icon</code>, <code>iconPos</code>, <code>variant</code>, <code>severity</code>, <code>size</code>, <code>loading</code>, <code>badge</code>, and full focus, blur, mouse, and keyboard event outputs.
+          </li>
+          <li>
+            <strong><code>GpEditableBaseComponent&lt;T&gt;</code></strong>: Foundational base for all value-bearing and form controls. Implements Angular
+            <code>ControlValueAccessor</code> with <code>name</code>, <code>placeholder</code>, <code>required</code>, <code>readonly</code>, <code>invalid</code> signal inputs, <code>onValidate</code>, <code>onValid</code>, <code>onInvalid</code> output signals, and integrated validation pipeline.
+          </li>
+          <li>
+            <strong><code>GpInputBaseComponent&lt;T&gt;</code></strong>: Extends <code>GpEditableBaseComponent</code> for text-like inputs (<code>GpInputTextComponent</code>, <code>GpTextareaComponent</code>, <code>GpPasswordComponent</code>, <code>GpInputMaskComponent</code>, <code>GpInputNumberComponent</code>).
+            Standardizes <code>inputId</code>, <code>size</code>, <code>variant</code>, <code>clearable</code>, <code>autofocus</code>, <code>tabindex</code>, <code>maxlength</code>, and <code>onInputEvent</code>, <code>onFocusEvent</code>, <code>onBlurEvent</code>, <code>onClearEvent</code>.
+          </li>
+          <li>
+            <strong><code>GpSelectBaseComponent&lt;T&gt;</code></strong>: Extends <code>GpEditableBaseComponent</code> for option dropdowns & listboxes (<code>GpSelectComponent</code>, <code>GpMultiSelectComponent</code>, <code>GpListboxComponent</code>).
+            Provides option normalization, live search filtering, overlay lifecycle, outside-click auto-dismissal, and Escape key listener.
+          </li>
+          <li>
+            <strong><code>GpCheckableBaseComponent</code></strong>: Extends <code>GpEditableBaseComponent</code> for boolean and toggle controls (<code>GpCheckboxComponent</code>, <code>GpRadioButtonComponent</code>, <code>GpSwitchComponent</code>).
+            Provides <code>checked</code> signal state, Space/Enter keyboard toggling, and change events.
+          </li>
+          <li>
+            <strong><code>GpMenuBaseComponent&lt;T&gt;</code></strong>: Base for all menu and navigation overlays (<code>GpMenuComponent</code>, <code>GpMenubarComponent</code>, <code>GpContextMenuComponent</code>, <code>GpTieredMenuComponent</code>, <code>GpMegaMenuComponent</code>, <code>GpPanelMenuComponent</code>, <code>GpDockComponent</code>, <code>GpBreadcrumbComponent</code>).
+            Handles popup mode lifecycle, viewport-boundary collision detection, outside-click auto-dismissal, Escape listener, and item command execution.
+          </li>
+          <li>
+            <strong><code>GpOverlayBaseComponent</code></strong>: Base for floating overlay and modal dialogs (<code>GpDialogComponent</code>, <code>GpDrawerComponent</code>, <code>GpConfirmDialogComponent</code>, <code>GpPopoverComponent</code>).
+            Provides two-way <code>[(visible)]</code> synchronization, modal z-index elevation layering with <code>ZIndexService</code>, mask click handling, and Escape key dismissal.
+          </li>
+          <li>
+            <strong><code>GpPanelBaseComponent</code></strong>: Base for panel and container components (<code>GpPanelComponent</code>, <code>GpCardComponent</code>, <code>GpFieldsetComponent</code>).
+            Provides header/subheader metadata, collapsible toggle state, <code>collapsed</code> signal, and <code>onToggle</code> / <code>onExpand</code> / <code>onCollapse</code> events.
           </li>
         </ul>
       </div>
