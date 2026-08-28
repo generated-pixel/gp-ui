@@ -63,7 +63,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Form Controls & Inputs</h1>
         <p class="page-desc">
-          20 production-ready form controls featuring seamless two-way binding, Reactive Forms (ControlValueAccessor), custom styling tokens, and accessible validation states.
+          20 production-ready form controls featuring seamless two-way binding, Reactive Forms (ControlValueAccessor),
+          custom styling tokens, and accessible validation states.
         </p>
       </div>
 
@@ -103,7 +104,12 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
             <div class="form-field gp-col-span-2">
               <label>Bio (Textarea with Auto-Resize)</label>
-              <gp-textarea formControlName="bio" placeholder="Write a short bio..." [autoResize]="true" [maxlength]="200" />
+              <gp-textarea
+                formControlName="bio"
+                placeholder="Write a short bio..."
+                [autoResize]="true"
+                [maxlength]="200"
+              />
             </div>
           </div>
         </div>
@@ -111,16 +117,30 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <!-- Selection Controls -->
         <div class="doc-section">
           <h2 class="doc-section-title">Select, MultiSelect & Autocomplete</h2>
-          <p class="doc-section-desc">Dropdown pickers, multi-select with chips, typeahead search, and tree selectors.</p>
+          <p class="doc-section-desc">
+            Dropdown pickers, multi-select with chips, typeahead search, and tree selectors.
+          </p>
           <div class="form-grid">
             <div class="form-field">
               <label>Country (Single Select with Filter)</label>
-              <gp-select formControlName="country" [options]="countries" optionLabel="name" optionValue="code" [filter]="true" placeholder="Select country" />
+              <gp-select
+                formControlName="country"
+                [options]="countries"
+                optionLabel="name"
+                optionValue="code"
+                [filter]="true"
+                placeholder="Select country"
+              />
             </div>
 
             <div class="form-field">
               <label>Skills (Multi-Select Chips)</label>
-              <gp-multi-select formControlName="skills" [options]="skillsList" display="chip" placeholder="Select skills" />
+              <gp-multi-select
+                formControlName="skills"
+                [options]="skillsList"
+                display="chip"
+                placeholder="Select skills"
+              />
             </div>
 
             <div class="form-field">
@@ -144,7 +164,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <!-- Date & Time Pickers -->
         <div class="doc-section">
           <h2 class="doc-section-title">Date & Time Pickers</h2>
-          <p class="doc-section-desc">Interactive calendar datepicker popup and time pickers with 12/24hr formatting.</p>
+          <p class="doc-section-desc">
+            Interactive calendar datepicker popup and time pickers with 12/24hr formatting.
+          </p>
           <div class="form-grid">
             <div class="form-field">
               <label>Birth Date (Date Picker)</label>
@@ -195,7 +217,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <!-- File Upload -->
         <div class="doc-section">
           <h2 class="doc-section-title">File Upload</h2>
-          <p class="doc-section-desc">Drag and drop file upload zone with file size validation and multi-file support.</p>
+          <p class="doc-section-desc">
+            Drag and drop file upload zone with file size validation and multi-file support.
+          </p>
           <gp-file-upload [multiple]="true" accept="image/*" />
         </div>
 
@@ -204,7 +228,13 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           <h2 class="doc-section-title">Reactive Form State & Actions</h2>
           <div class="form-actions">
             <gp-button label="Submit Form" type="submit" severity="primary" size="lg" />
-            <gp-button label="Reset Form" type="button" variant="outlined" severity="secondary" (onClickEvent)="demoForm.reset()" />
+            <gp-button
+              label="Reset Form"
+              type="button"
+              variant="outlined"
+              severity="secondary"
+              (onClickEvent)="demoForm.reset()"
+            />
           </div>
 
           <h3 style="margin-top: 1.5rem;">Live Form Values (JSON):</h3>
@@ -213,16 +243,28 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       </form>
 
       <!-- Declarative Form Validation & Side Effects Showcase -->
-      <div class="doc-section" style="border: 2px solid var(--gp-primary); border-radius: var(--gp-border-radius-lg, 8px); padding: 1.5rem; background: var(--gp-surface-card);">
-        <h2 class="doc-section-title" style="color: var(--gp-primary); display: flex; align-items: center; gap: 0.5rem;">
+      <div
+        class="doc-section"
+        style="border: 2px solid var(--gp-primary); border-radius: var(--gp-border-radius-lg, 8px); padding: 1.5rem; background: var(--gp-surface-card);"
+      >
+        <h2
+          class="doc-section-title"
+          style="color: var(--gp-primary); display: flex; align-items: center; gap: 0.5rem;"
+        >
           <span>⚡ Integrated Form Validation &amp; Side Effects</span>
         </h2>
         <p class="doc-section-desc">
-          gp-ui includes a comprehensive validation and event-driven side effect pipeline directly in <code>GpEditableBaseComponent</code>.
-          Validate synchronously, asynchronously, trigger cascading side effects, and map external API errors with <code>[gpForm]</code> and <code>GpValidators</code>.
+          gp-ui includes a comprehensive validation and event-driven side effect pipeline directly in
+          <code>GpEditableBaseComponent</code>. Validate synchronously, asynchronously, trigger cascading side effects,
+          and map external API errors with <code>[gpForm]</code> and <code>GpValidators</code>.
         </p>
 
-        <form gpForm #valForm="gpForm" (gpSubmit)="onValidationSubmit($event)" (gpInvalidSubmit)="onValidationInvalid($event)">
+        <form
+          gpForm
+          #valForm="gpForm"
+          (gpSubmit)="onValidationSubmit($event)"
+          (gpInvalidSubmit)="onValidationInvalid($event)"
+        >
           <div class="form-grid">
             <div class="form-field">
               <label>Email Address (Required + Email format)</label>
@@ -302,7 +344,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           @if (validationStatusMessage) {
             <div
               style="margin-top: 1rem; padding: 0.75rem 1rem; border-radius: var(--gp-border-radius); font-size: 0.85rem;"
-              [style.background]="isValidationSuccess ? 'var(--gp-success-light, #ecfdf5)' : 'var(--gp-danger-light, #fef2f2)'"
+              [style.background]="
+                isValidationSuccess ? 'var(--gp-success-light, #ecfdf5)' : 'var(--gp-danger-light, #fef2f2)'
+              "
               [style.color]="isValidationSuccess ? 'var(--gp-success, #059669)' : 'var(--gp-danger, #dc2626)'"
             >
               {{ validationStatusMessage }}
@@ -321,8 +365,11 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference (Form Controls &amp; Validation)</h2>
-        <p class="doc-section-desc">All form controls inherit from <code>GpEditableBaseComponent</code>, providing unified data binding, validation pipelines, and event hooks:</p>
-        
+        <p class="doc-section-desc">
+          All form controls inherit from <code>GpEditableBaseComponent</code>, providing unified data binding,
+          validation pipelines, and event hooks:
+        </p>
+
         <doc-api-table title="GpEditableBaseComponent Inputs" [properties]="commonFormProperties" />
         <doc-api-table title="GpEditableBaseComponent Outputs / Events" [properties]="formOutputs" />
         <doc-api-table title="GpEditableBaseComponent Public Methods &amp; Signals" [properties]="formMethods" />
@@ -331,42 +378,48 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       </div>
     </div>
   `,
-  styles: [`
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-    @media (max-width: 768px) {
-      .form-grid { grid-template-columns: 1fr; }
-    }
-    .gp-col-span-2 {
-      grid-column: span 2;
-    }
-    @media (max-width: 768px) {
-      .gp-col-span-2 { grid-column: span 1; }
-    }
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .form-field label {
-      font-size: var(--gp-font-size-sm);
-      font-weight: 600;
-      color: var(--gp-text-color);
-    }
-    .radio-row {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-      height: var(--gp-input-height);
-    }
-    .form-actions {
-      display: flex;
-      gap: 1rem;
-    }
-  `]
+  styles: [
+    `
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+      }
+      @media (max-width: 768px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .gp-col-span-2 {
+        grid-column: span 2;
+      }
+      @media (max-width: 768px) {
+        .gp-col-span-2 {
+          grid-column: span 1;
+        }
+      }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .form-field label {
+        font-size: var(--gp-font-size-sm);
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }
+      .radio-row {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        height: var(--gp-input-height);
+      }
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+      }
+    `
+  ]
 })
 export class FormsDemoComponent {
   importCode = `import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
@@ -455,59 +508,208 @@ export class MyFormComponent {
   ];
 
   commonFormProperties: DocApiProperty[] = [
-    { name: 'value', type: 'any', default: 'null', description: 'Two-way bound model value or reactive form control value.' },
+    {
+      name: 'value',
+      type: 'any',
+      default: 'null',
+      description: 'Two-way bound model value or reactive form control value.'
+    },
     { name: 'name', type: 'string', default: "''", description: 'HTML form control name attribute.' },
     { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder hint text when input is empty.' },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables user input and applies disabled visual styling.' },
-    { name: 'readonly', type: 'boolean', default: 'false', description: 'Prevents editing while allowing selection and focus.' },
-    { name: 'required', type: 'boolean', default: 'false', description: 'Marks the field as required for accessibility and form validation.' },
-    { name: 'invalid', type: 'boolean', default: 'false', description: 'Highlights the control with error styling (red border/ring).' },
-    { name: 'validators', type: 'GpValidatorFn[]', default: '[]', description: 'Array of synchronous and asynchronous validation rules (e.g. GpValidators.required()).' },
-    { name: 'validateOn', type: "('change' | 'blur' | 'submit' | 'manual')[]", default: "['change', 'blur']", description: 'User interaction events that trigger validation.' },
-    { name: 'valueEffect', type: 'GpValueEffectFn', default: 'null', description: 'Side effect function executed asynchronously whenever the control value updates.' },
-    { name: 'errorMessage', type: 'string', default: "''", description: 'Manual or external error message overriding automatic validator messages.' },
-    { name: 'helperText', type: 'string', default: "''", description: 'Secondary descriptive or instructional text displayed beneath the control.' },
-    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS classes applied to the control container.' },
-    { name: 'style', type: '{ [k: string]: any }', default: 'null', description: 'Custom inline styles applied to the host element.' },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'Disables user input and applies disabled visual styling.'
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      default: 'false',
+      description: 'Prevents editing while allowing selection and focus.'
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      default: 'false',
+      description: 'Marks the field as required for accessibility and form validation.'
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      default: 'false',
+      description: 'Highlights the control with error styling (red border/ring).'
+    },
+    {
+      name: 'validators',
+      type: 'GpValidatorFn[]',
+      default: '[]',
+      description: 'Array of synchronous and asynchronous validation rules (e.g. GpValidators.required()).'
+    },
+    {
+      name: 'validateOn',
+      type: "('change' | 'blur' | 'submit' | 'manual')[]",
+      default: "['change', 'blur']",
+      description: 'User interaction events that trigger validation.'
+    },
+    {
+      name: 'valueEffect',
+      type: 'GpValueEffectFn',
+      default: 'null',
+      description: 'Side effect function executed asynchronously whenever the control value updates.'
+    },
+    {
+      name: 'errorMessage',
+      type: 'string',
+      default: "''",
+      description: 'Manual or external error message overriding automatic validator messages.'
+    },
+    {
+      name: 'helperText',
+      type: 'string',
+      default: "''",
+      description: 'Secondary descriptive or instructional text displayed beneath the control.'
+    },
+    {
+      name: 'styleClass',
+      type: 'string',
+      default: "''",
+      description: 'Custom CSS classes applied to the control container.'
+    },
+    {
+      name: 'style',
+      type: '{ [k: string]: any }',
+      default: 'null',
+      description: 'Custom inline styles applied to the host element.'
+    },
     { name: 'ariaLabel', type: 'string', default: "''", description: 'Accessible ARIA label for screen readers.' }
   ];
 
   formOutputs: DocApiProperty[] = [
-    { name: 'onValidate', type: 'EventEmitter<GpValidationState>', description: 'Emitted whenever validation completes with current validity and errors.' },
+    {
+      name: 'onValidate',
+      type: 'EventEmitter<GpValidationState>',
+      description: 'Emitted whenever validation completes with current validity and errors.'
+    },
     { name: 'onValid', type: 'EventEmitter<any>', description: 'Emitted when validation succeeds with valid value.' },
-    { name: 'onInvalid', type: 'EventEmitter<GpValidationError[]>', description: 'Emitted when validation fails with list of error descriptors.' },
-    { name: 'onEffectComplete', type: 'EventEmitter<{ value: any }>', description: 'Emitted when asynchronous valueEffect execution resolves.' }
+    {
+      name: 'onInvalid',
+      type: 'EventEmitter<GpValidationError[]>',
+      description: 'Emitted when validation fails with list of error descriptors.'
+    },
+    {
+      name: 'onEffectComplete',
+      type: 'EventEmitter<{ value: any }>',
+      description: 'Emitted when asynchronous valueEffect execution resolves.'
+    }
   ];
 
   formMethods: DocApiProperty[] = [
-    { name: 'validate()', type: '() => Promise<boolean>', description: 'Triggers validation against all assigned validator rules and updates error signals.' },
-    { name: 'setErrors(errors)', type: '(errors: GpValidationError[] | string[] | string) => void', description: 'Injects external error messages (e.g. HTTP 422 API responses) directly onto the control.' },
-    { name: 'clearErrors()', type: '() => void', description: 'Clears all validation errors and restores valid state.' },
-    { name: 'reset()', type: '() => void', description: 'Resets value to initial state and resets touched/dirty/error signals.' },
+    {
+      name: 'validate()',
+      type: '() => Promise<boolean>',
+      description: 'Triggers validation against all assigned validator rules and updates error signals.'
+    },
+    {
+      name: 'setErrors(errors)',
+      type: '(errors: GpValidationError[] | string[] | string) => void',
+      description: 'Injects external error messages (e.g. HTTP 422 API responses) directly onto the control.'
+    },
+    {
+      name: 'clearErrors()',
+      type: '() => void',
+      description: 'Clears all validation errors and restores valid state.'
+    },
+    {
+      name: 'reset()',
+      type: '() => void',
+      description: 'Resets value to initial state and resets touched/dirty/error signals.'
+    },
     { name: 'focus()', type: '() => void', description: 'Focuses the native input/control element.' },
-    { name: 'isValid()', type: 'Signal<boolean>', description: 'Reactive signal returning true if control has no errors.' },
-    { name: 'isInvalid()', type: 'Signal<boolean>', description: 'Reactive signal returning true if control is touched/dirty and has errors.' },
-    { name: 'isPending()', type: 'Signal<boolean>', description: 'Reactive signal returning true while asynchronous validators are executing.' },
-    { name: 'errors()', type: 'Signal<GpValidationError[]>', description: 'Reactive signal containing list of current validation errors.' },
-    { name: 'firstError()', type: 'Signal<GpValidationError | null>', description: 'Reactive signal containing the first validation error message descriptor.' }
+    {
+      name: 'isValid()',
+      type: 'Signal<boolean>',
+      description: 'Reactive signal returning true if control has no errors.'
+    },
+    {
+      name: 'isInvalid()',
+      type: 'Signal<boolean>',
+      description: 'Reactive signal returning true if control is touched/dirty and has errors.'
+    },
+    {
+      name: 'isPending()',
+      type: 'Signal<boolean>',
+      description: 'Reactive signal returning true while asynchronous validators are executing.'
+    },
+    {
+      name: 'errors()',
+      type: 'Signal<GpValidationError[]>',
+      description: 'Reactive signal containing list of current validation errors.'
+    },
+    {
+      name: 'firstError()',
+      type: 'Signal<GpValidationError | null>',
+      description: 'Reactive signal containing the first validation error message descriptor.'
+    }
   ];
 
   formDirectiveProperties: DocApiProperty[] = [
-    { name: '(gpSubmit)', type: 'EventEmitter<GpFormSubmitEvent>', description: 'Emitted on form submission when ALL child controls pass validation. Contains validated values map.' },
-    { name: '(gpInvalidSubmit)', type: 'EventEmitter<GpFormInvalidEvent>', description: 'Emitted on form submission when any control fails validation. Automatically focuses first invalid control.' },
-    { name: 'validateAll()', type: '() => Promise<boolean>', description: 'Concurrently runs validation across all registered child controls.' },
-    { name: 'setErrors(errorsMap)', type: '(errors: Record<string, string | string[]>) => void', description: 'Maps server-side HTTP 422 error object directly to child controls matching field names.' },
+    {
+      name: '(gpSubmit)',
+      type: 'EventEmitter<GpFormSubmitEvent>',
+      description: 'Emitted on form submission when ALL child controls pass validation. Contains validated values map.'
+    },
+    {
+      name: '(gpInvalidSubmit)',
+      type: 'EventEmitter<GpFormInvalidEvent>',
+      description:
+        'Emitted on form submission when any control fails validation. Automatically focuses first invalid control.'
+    },
+    {
+      name: 'validateAll()',
+      type: '() => Promise<boolean>',
+      description: 'Concurrently runs validation across all registered child controls.'
+    },
+    {
+      name: 'setErrors(errorsMap)',
+      type: '(errors: Record<string, string | string[]>) => void',
+      description: 'Maps server-side HTTP 422 error object directly to child controls matching field names.'
+    },
     { name: 'clearErrors()', type: '() => void', description: 'Clears errors on all registered child form controls.' },
     { name: 'reset()', type: '() => void', description: 'Resets all registered child controls.' },
-    { name: 'getValues()', type: '() => Record<string, any>', description: 'Extracts a key-value object containing current values of all named controls.' },
-    { name: 'getControl(name)', type: '(name: string) => GpEditableBaseComponent | undefined', description: 'Finds a child form control by its name attribute.' }
+    {
+      name: 'getValues()',
+      type: '() => Record<string, any>',
+      description: 'Extracts a key-value object containing current values of all named controls.'
+    },
+    {
+      name: 'getControl(name)',
+      type: '(name: string) => GpEditableBaseComponent | undefined',
+      description: 'Finds a child form control by its name attribute.'
+    }
   ];
 
   formErrorProperties: DocApiProperty[] = [
-    { name: 'control', type: 'GpEditableBaseComponent', default: 'null', description: 'Reference to a GpEditableBaseComponent control instance to automatically display its validation errors.' },
-    { name: 'errors', type: 'GpValidationError[] | string[]', default: '[]', description: 'Explicit array of error messages or validation error objects to display.' },
+    {
+      name: 'control',
+      type: 'GpEditableBaseComponent',
+      default: 'null',
+      description:
+        'Reference to a GpEditableBaseComponent control instance to automatically display its validation errors.'
+    },
+    {
+      name: 'errors',
+      type: 'GpValidationError[] | string[]',
+      default: '[]',
+      description: 'Explicit array of error messages or validation error objects to display.'
+    },
     { name: 'message', type: 'string', default: "''", description: 'Single error message string to display.' },
-    { name: 'showIcon', type: 'boolean', default: 'true', description: 'Whether to render the warning alert icon before the error message.' }
+    {
+      name: 'showIcon',
+      type: 'boolean',
+      default: 'true',
+      description: 'Whether to render the warning alert icon before the error message.'
+    }
   ];
 
   protected formJson(): string {
@@ -516,7 +718,7 @@ export class MyFormComponent {
 
   searchCities(event: any): void {
     const q = (event.query || '').toLowerCase();
-    this.filteredCities = this.cities.filter(c => c.toLowerCase().includes(q));
+    this.filteredCities = this.cities.filter((c) => c.toLowerCase().includes(q));
   }
 
   public GpValidators = GpValidators;
@@ -524,19 +726,18 @@ export class MyFormComponent {
   public validationStatusMessage = '';
   public isValidationSuccess = false;
 
-  public checkUsernameAvailable = GpValidators.async(
-    async (val: any) => {
-      if (!val || typeof val !== 'string') return null;
-      // Simulate remote network verification delay
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      const normalized = val.trim().toLowerCase();
-      if (normalized === 'admin' || normalized === 'developer' || normalized === 'root') {
-        return `Username "${val}" is already taken. Please choose another.`;
-      }
-      return true;
-    },
-    'unique_username'
-  );
+  public checkUsernameAvailable = GpValidators.async(async (val: any) => {
+    if (!val || typeof val !== 'string') {
+      return null;
+    }
+    // Simulate remote network verification delay
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    const normalized = val.trim().toLowerCase();
+    if (normalized === 'admin' || normalized === 'developer' || normalized === 'root') {
+      return `Username "${val}" is already taken. Please choose another.`;
+    }
+    return true;
+  }, 'unique_username');
 
   public calculateTotalTaxEffect = async (newVal: any): Promise<void> => {
     const num = Number(newVal) || 0;

@@ -1,0 +1,31 @@
+.gp-megamenu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background: var(--gp-surface-overlay);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  box-shadow: var(--gp-shadow-lg);
+  padding: 1rem;
+  z-index: 1050;
+  animation: gp-slide-down 0.15s ease-out;
+}
+
+.gp-megamenu-grid {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.gp-megamenu-col {
+  min-width: 10rem;
+}
+
+.gp-megamenu-col-header {
+  font-weight: 700;
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-primary);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--gp-surface-divider);
+}

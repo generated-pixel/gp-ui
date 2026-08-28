@@ -1,16 +1,20 @@
 export class DomHandler {
   public static addClass(element: HTMLElement, className: string): void {
     if (element && className) {
-      className.split(' ').forEach(cls => {
-        if (cls) element.classList.add(cls);
+      className.split(' ').forEach((cls) => {
+        if (cls) {
+          element.classList.add(cls);
+        }
       });
     }
   }
 
   public static removeClass(element: HTMLElement, className: string): void {
     if (element && className) {
-      className.split(' ').forEach(cls => {
-        if (cls) element.classList.remove(cls);
+      className.split(' ').forEach((cls) => {
+        if (cls) {
+          element.classList.remove(cls);
+        }
       });
     }
   }
@@ -40,7 +44,9 @@ export class DomHandler {
     appendTo = 'body',
     position: 'bottom' | 'top' | 'left' | 'right' = 'bottom'
   ): void {
-    if (!overlay || !target) return;
+    if (!overlay || !target) {
+      return;
+    }
 
     const targetRect = target.getBoundingClientRect();
     const overlayRect = overlay.getBoundingClientRect();
@@ -103,7 +109,7 @@ export class DomHandler {
     ].join(', ');
 
     return Array.from(element.querySelectorAll<HTMLElement>(focusableSelectors)).filter(
-      el => !el.hasAttribute('disabled') && el.offsetParent !== null
+      (el) => !el.hasAttribute('disabled') && el.offsetParent !== null
     );
   }
 }

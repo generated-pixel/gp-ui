@@ -12,7 +12,9 @@ export function scanContent(content: string, options: ScanOptions = {}): Set<str
   while ((match = classAttrRegex.exec(content)) !== null) {
     const tokens = match[1].trim().split(/\s+/);
     for (const token of tokens) {
-      if (token) candidates.add(token);
+      if (token) {
+        candidates.add(token);
+      }
     }
   }
 
@@ -21,7 +23,7 @@ export function scanContent(content: string, options: ScanOptions = {}): Set<str
   while ((match = templateStringRegex.exec(content)) !== null) {
     const rawStr = match[1].trim();
     // Only process lines that look like space-separated utility class candidate lists
-    if (rawStr.includes(" ") || rawStr.includes(":") || rawStr.includes("-")) {
+    if (rawStr.includes(' ') || rawStr.includes(':') || rawStr.includes('-')) {
       const tokens = rawStr.split(/\s+/);
       for (const token of tokens) {
         if (isValidCandidate(token)) {
@@ -44,16 +46,65 @@ export function scanContent(content: string, options: ScanOptions = {}): Set<str
 }
 
 function isValidCandidate(candidate: string): boolean {
-  if (candidate.length < 2 || candidate.length > 100) return false;
+  if (candidate.length < 2 || candidate.length > 100) {
+    return false;
+  }
   if (/^[0-9]+$/.test(candidate)) return false; // purely numeric
-  if (candidate.startsWith("<") || candidate.startsWith(">") || candidate.startsWith("=") || candidate.startsWith("http")) return false;
-  if (candidate.includes("</") || candidate.includes("/>")) return false;
+  if (
+    candidate.startsWith('<') ||
+    candidate.startsWith('>') ||
+    candidate.startsWith('=') ||
+    candidate.startsWith('http')
+  ) {
+    return false;
+  }
+  if (candidate.includes('</') || candidate.includes('/>')) {
+    return false;
+  }
   // Exclude common HTML tags / attributes / code keywords
   const reserved = new Set([
-    "import", "export", "from", "function", "const", "let", "var", "return", "if", "else",
-    "div", "span", "p", "a", "h1", "h2", "h3", "h4", "h5", "h6", "section", "header", "footer",
-    "main", "button", "input", "label", "form", "svg", "path", "meta", "link", "script",
-    "html", "body", "head", "title", "style", "doctype", "utf-8", "viewport", "content"
+    'import',
+    'export',
+    'from',
+    'function',
+    'const',
+    'let',
+    'var',
+    'return',
+    'if',
+    'else',
+    'div',
+    'span',
+    'p',
+    'a',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'section',
+    'header',
+    'footer',
+    'main',
+    'button',
+    'input',
+    'label',
+    'form',
+    'svg',
+    'path',
+    'meta',
+    'link',
+    'script',
+    'html',
+    'body',
+    'head',
+    'title',
+    'style',
+    'doctype',
+    'utf-8',
+    'viewport',
+    'content'
   ]);
   if (reserved.has(candidate.toLowerCase())) return false;
 

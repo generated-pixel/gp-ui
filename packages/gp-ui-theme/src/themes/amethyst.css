@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Amethyst Theme)
    ========================================================================== */
-:root[data-gp-theme="amethyst"],
-[data-gp-theme="amethyst"],
-[data-gp-theme="amethyst"][data-gp-mode="light"],
+:root[data-gp-theme='amethyst'],
+[data-gp-theme='amethyst'],
+[data-gp-theme='amethyst'][data-gp-mode='light'],
 .gp-theme-amethyst,
 .gp-theme-amethyst.gp-light {
   /* Primitive Color Palette - Violet */
@@ -109,10 +109,10 @@
 /* ==========================================================================
    Dark Mode (Amethyst Theme)
    ========================================================================== */
-:root[data-gp-theme="amethyst"][data-gp-mode="dark"],
-[data-gp-theme="amethyst"][data-gp-mode="dark"],
+:root[data-gp-theme='amethyst'][data-gp-mode='dark'],
+[data-gp-theme='amethyst'][data-gp-mode='dark'],
 .gp-theme-amethyst.gp-dark,
-[data-gp-theme="amethyst"].gp-dark {
+[data-gp-theme='amethyst'].gp-dark {
   /* Primitive Color Palette - Amethyst in Dark Space */
   --gp-primary-50: #3b0764;
   --gp-primary-100: #581c87;
@@ -203,8 +203,8 @@
 
 /* System dark mode for amethyst */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="amethyst"]:not([data-gp-mode="light"]),
-  [data-gp-theme="amethyst"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='amethyst']:not([data-gp-mode='light']),
+  [data-gp-theme='amethyst']:not([data-gp-mode='light']),
   .gp-theme-amethyst:not(.gp-light) {
     --gp-primary-50: #3b0764;
     --gp-primary-100: #581c87;

@@ -36,7 +36,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Display & Media Components</h1>
         <p class="page-desc">
-          Visual display elements including Profile Avatars, Dismissible Chips, Image Lightbox Previews, Multi-Item Carousels, Chronological Timelines, Segmented Meter Groups, and Empty State placeholders.
+          Visual display elements including Profile Avatars, Dismissible Chips, Image Lightbox Previews, Multi-Item
+          Carousels, Chronological Timelines, Segmented Meter Groups, and Empty State placeholders.
         </p>
       </div>
 
@@ -50,7 +51,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Avatar & Group -->
       <div class="doc-section">
         <h2 class="doc-section-title">Avatar & AvatarGroup</h2>
-        <p class="doc-section-desc">User profile representations with text initials, image URLs, or icons, and overlapping avatar stack groups.</p>
+        <p class="doc-section-desc">
+          User profile representations with text initials, image URLs, or icons, and overlapping avatar stack groups.
+        </p>
         <div class="doc-demo-box">
           <gp-avatar label="JD" shape="circle" />
           <gp-avatar icon="user" shape="circle" size="large" />
@@ -80,12 +83,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <h2 class="doc-section-title">Image with Lightbox Preview & Zoom</h2>
         <p class="doc-section-desc">Click the image below to open full-screen zoomable lightbox overlay:</p>
         <div class="doc-demo-box">
-          <gp-image
-            src="https://picsum.photos/300/200"
-            alt="Sample preview"
-            width="240px"
-            [preview]="true"
-          />
+          <gp-image src="https://picsum.photos/300/200" alt="Sample preview" width="240px" [preview]="true" />
         </div>
         <doc-code [code]="imageCode" language="html" />
       </div>
@@ -183,6 +181,11 @@ export class DisplayDemoComponent {
   imageProperties: DocApiProperty[] = [
     { name: 'src', type: 'string', default: "''", description: 'Source image URL.' },
     { name: 'alt', type: 'string', default: "''", description: 'Alternative accessible text.' },
-    { name: 'preview', type: 'boolean', default: 'false', description: 'Enables click-to-open full screen lightbox viewer.' }
+    {
+      name: 'preview',
+      type: 'boolean',
+      default: 'false',
+      description: 'Enables click-to-open full screen lightbox viewer.'
+    }
   ];
 }

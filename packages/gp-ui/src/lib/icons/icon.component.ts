@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  computed,
-  inject,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  signal
-} from '@angular/core';
+import { Component, Input, computed, inject, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { GpIconRegistry } from './icon-registry.service';
@@ -42,28 +34,34 @@ import { GpIconRegistry } from './icon-registry.service';
       ></svg>
     </span>
   `,
-  styles: [`
-    .gp-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 0;
-      vertical-align: -0.125em;
-      flex-shrink: 0;
-    }
-    .gp-icon-svg {
-      width: 100%;
-      height: 100%;
-      display: inline-block;
-    }
-    .gp-icon-spin {
-      animation: gp-icon-spin 1.5s infinite linear;
-    }
-    @keyframes gp-icon-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  `]
+  styles: [
+    `
+      .gp-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
+        vertical-align: -0.125em;
+        flex-shrink: 0;
+      }
+      .gp-icon-svg {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+      }
+      .gp-icon-spin {
+        animation: gp-icon-spin 1.5s infinite linear;
+      }
+      @keyframes gp-icon-spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
+  ]
 })
 export class GpIconComponent {
   private registry = inject(GpIconRegistry);

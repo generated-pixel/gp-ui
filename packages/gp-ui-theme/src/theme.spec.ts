@@ -98,12 +98,52 @@ describe('TypeScript & JSON Theme Architecture', () => {
       expect(lightVars['--gp-text-color']).toBe('#1e293b');
       expect(lightVars['--gp-button-height']).toBe('2.5rem');
       expect(lightVars['--gp-input-bg']).toBe('#ffffff');
+      expect(lightVars['--gp-autocomplete-dropdown-width']).toBe('2.25rem');
+      expect(lightVars['--gp-autocomplete-dropdown-background']).toBe('#f1f5f9');
+      expect(lightVars['--gp-dialog-header-font-size']).toBe('1.25rem');
+      expect(lightVars['--gp-table-header-background']).toBe('#f8fafc');
 
       const darkVars = modeTokensToCssVars(defaultTheme, 'dark');
       expect(darkVars['--gp-primary']).toBe('#818cf8');
       expect(darkVars['--gp-surface-ground']).toBe('#0b0f19');
       expect(darkVars['--gp-text-color']).toBe('#f8fafc');
       expect(darkVars['--gp-input-bg']).toBe('#0f172a');
+      expect(darkVars['--gp-autocomplete-dropdown-background']).toBe('#1e293b');
+      expect(darkVars['--gp-dialog-background']).toBe('#1e293b');
+      expect(darkVars['--gp-table-header-background']).toBe('#111827');
+    });
+
+    it('should provide inherited component token defaults for every component family', () => {
+      const vars = modeTokensToCssVars(defaultTheme, 'light');
+
+      expect(vars['--gp-input-number-button-background']).toBe('transparent');
+      expect(vars['--gp-input-number-button-width']).toBe('1.75rem');
+      expect(vars['--gp-date-picker-panel-background']).toBe('#ffffff');
+      expect(vars['--gp-date-picker-selected-background']).toBe('#4f46e5');
+      expect(vars['--gp-menu-background']).toBe('#ffffff');
+      expect(vars['--gp-tree-background']).toBe('#ffffff');
+      expect(vars['--gp-progress-bar-background']).toBe('#ffffff');
+      expect(vars['--gp-image-background']).toBe('#ffffff');
+      expect(vars['--gp-dialog-border-radius']).toBe('8px');
+
+      const customTheme = extendTheme({
+        id: 'component-token-test',
+        name: 'Component Token Test',
+        light: {
+          components: {
+            menu: { background: '#111827' },
+            inputNumber: { buttonWidth: '2rem' },
+            datePicker: { selectedBackground: '#be123c' }
+          }
+        }
+      });
+      const customVars = modeTokensToCssVars(customTheme, 'light');
+
+      expect(customVars['--gp-menu-background']).toBe('#111827');
+      expect(customVars['--gp-menu-border-radius']).toBe('6px');
+      expect(customVars['--gp-input-number-button-width']).toBe('2rem');
+      expect(customVars['--gp-date-picker-selected-background']).toBe('#be123c');
+      expect(customVars['--gp-date-picker-panel-shadow']).toBe(baseTheme.light.semantic.shadows.lg);
     });
 
     it('should generate complete CSS rules with selector scoping and dark mode media queries', () => {
@@ -206,6 +246,34 @@ describe('TypeScript & JSON Theme Architecture', () => {
       expect(stateSnapshot.isDark).toBe(false);
 
       unsub();
+    });
+
+    it('should resolve W3C token aliases in component definitions', () => {
+      const aliasTheme = extendTheme({
+        id: 'alias-test',
+        name: 'Alias Test',
+        light: {
+          semantic: baseTheme.light.semantic,
+          components: {
+            button: {
+              background: '{semantic.primary.main}',
+              borderRadius: '{primitives.borderRadius.md}'
+            }
+          }
+        }
+      });
+
+      const vars = modeTokensToCssVars(aliasTheme, 'light');
+      expect(vars['--gp-button-background']).toBe('#4f46e5');
+      expect(vars['--gp-button-border-radius']).toBe('8px');
+    });
+
+    it('should format component tokens correctly using setComponentToken', () => {
+      GpThemeManager.setComponentToken('dialog', 'header.fontSize', '1.5rem');
+      expect(document.documentElement.style.getPropertyValue('--gp-dialog-header-font-size')).toBe('1.5rem');
+
+      GpThemeManager.setComponentTokens('autocomplete', { dropdown: { width: '3rem' } });
+      expect(document.documentElement.style.getPropertyValue('--gp-autocomplete-dropdown-width')).toBe('3rem');
     });
   });
 });

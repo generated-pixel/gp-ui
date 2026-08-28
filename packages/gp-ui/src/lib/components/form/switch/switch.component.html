@@ -1,0 +1,24 @@
+<div
+  class="gp-switch"
+  [class.gp-switch-checked]="checked()"
+  [class.gp-switch-disabled]="disabled"
+  [class.gp-input-invalid]="invalid"
+  (click)="toggle($event)"
+>
+  <div
+    class="gp-switch-slider"
+    role="switch"
+    [attr.aria-checked]="checked()"
+    [attr.aria-disabled]="disabled"
+    [attr.aria-label]="ariaLabel || null"
+    tabindex="0"
+    (keydown.enter)="$event.preventDefault(); toggle($event)"
+    (keydown.space)="$event.preventDefault(); toggle($event)"
+  >
+    <span class="gp-switch-handle"></span>
+  </div>
+
+  @if (label) {
+    <span class="gp-switch-label">{{ label }}</span>
+  }
+</div>

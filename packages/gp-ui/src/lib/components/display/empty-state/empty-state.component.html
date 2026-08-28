@@ -1,0 +1,14 @@
+<div class="gp-emptystate">
+  @if (icon) {
+    <div class="gp-emptystate-icon-wrap">
+      <gp-icon [name]="icon" size="2.5em" class="gp-emptystate-icon" />
+    </div>
+  }
+  <h4 class="gp-emptystate-title">{{ title }}</h4>
+  @if (message) {
+    <p class="gp-emptystate-message">{{ message }}</p>
+  }
+  <div class="gp-emptystate-actions">
+    <ng-content />
+  </div>
+</div>

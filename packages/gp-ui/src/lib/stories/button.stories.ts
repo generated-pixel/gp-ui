@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { GpButtonComponent } from '../components/button/button.component';
+import { GpButtonComponent } from '../components/button/button/button.component';
 
 const meta: Meta<GpButtonComponent> = {
   title: 'Buttons/Button',

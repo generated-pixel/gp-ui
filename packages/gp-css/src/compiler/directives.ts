@@ -1,6 +1,6 @@
-import { GpCssGenerator } from "./generator.js";
-import { defaultTokens } from "../tokens/default-tokens.js";
-import type { GpThemeTokens } from "../tokens/default-tokens.js";
+import { GpCssGenerator } from './generator.js';
+import { defaultTokens } from '../tokens/default-tokens.js';
+import type { GpThemeTokens } from '../tokens/default-tokens.js';
 
 export interface DirectiveProcessResult {
   css: string;
@@ -16,12 +16,12 @@ export function processDirectives(
   let output = cssInput;
   let hasUtilitiesDirective = false;
 
-  if (output.includes("@gp-css theme;")) {
+  if (output.includes('@gp-css theme;')) {
     const themeVars = generateThemeCssVariables(tokens);
-    output = output.replace("@gp-css theme;", themeVars);
+    output = output.replace('@gp-css theme;', themeVars);
   }
 
-  if (output.includes("@gp-css base;")) {
+  if (output.includes('@gp-css base;')) {
     const baseStyles = `
 *, ::before, ::after {
   box-sizing: border-box;
@@ -71,10 +71,10 @@ body {
   to { box-shadow: 0 0 35px rgba(103, 232, 249, 0.5); }
 }
 `;
-    output = output.replace("@gp-css base;", baseStyles);
+    output = output.replace('@gp-css base;', baseStyles);
   }
 
-  if (output.includes("@gp-css components;")) {
+  if (output.includes('@gp-css components;')) {
     const componentStyles = `
 .gp-card {
   background: ${tokens.colors['panel']};
@@ -103,12 +103,12 @@ body {
   transform: translateY(-1px);
 }
 `;
-    output = output.replace("@gp-css components;", componentStyles);
+    output = output.replace('@gp-css components;', componentStyles);
   }
 
-  if (output.includes("@gp-css utilities;")) {
+  if (output.includes('@gp-css utilities;')) {
     hasUtilitiesDirective = true;
-    output = output.replace("@gp-css utilities;", generatedUtilitiesCss);
+    output = output.replace('@gp-css utilities;', generatedUtilitiesCss);
   }
 
   output = output.replace(/@apply\s+([^;}]+);?/g, (_, classesStr) => {
@@ -123,14 +123,14 @@ body {
         }
       }
     }
-    return rules.join(" ");
+    return rules.join(' ');
   });
 
   return { css: output, hasUtilitiesDirective };
 }
 
 function generateThemeCssVariables(tokens: GpThemeTokens): string {
-  const vars: string[] = [":root {"];
+  const vars: string[] = [':root {'];
   for (const [key, val] of Object.entries(tokens.colors)) {
     vars.push(`  --gp-color-${key}: ${val};`);
   }
@@ -140,6 +140,6 @@ function generateThemeCssVariables(tokens: GpThemeTokens): string {
   for (const [key, val] of Object.entries(tokens.spacing)) {
     vars.push(`  --gp-space-${key}: ${val};`);
   }
-  vars.push("}");
-  return vars.join("\n");
+  vars.push('}');
+  return vars.join('\n');
 }

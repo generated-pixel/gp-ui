@@ -28,11 +28,13 @@ import { GpTreeComponent, GpOrgChartComponent, GpTreeNode } from 'gp-ui';
       </div>
     </div>
   `,
-  styles: [`
-    .tree-container {
-      max-width: 24rem;
-    }
-  `]
+  styles: [
+    `
+      .tree-container {
+        max-width: 24rem;
+      }
+    `
+  ]
 })
 export class TreeDemoComponent {
   filesTree: GpTreeNode[] = [
@@ -54,9 +56,7 @@ export class TreeDemoComponent {
           key: '0-1',
           label: 'Home',
           icon: 'folder',
-          children: [
-            { key: '0-1-0', label: 'Invoices.pdf', icon: 'file' }
-          ]
+          children: [{ key: '0-1-0', label: 'Invoices.pdf', icon: 'file' }]
         }
       ]
     },
@@ -86,9 +86,7 @@ export class TreeDemoComponent {
       {
         label: 'CFO - Kyle Reese',
         icon: 'user',
-        children: [
-          { label: 'Accounting Manager', icon: 'user' }
-        ]
+        children: [{ label: 'Accounting Manager', icon: 'user' }]
       }
     ]
   };

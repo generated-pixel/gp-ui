@@ -26,7 +26,7 @@ for (const filePath of files) {
   let content = fs.readFileSync(filePath, 'utf8');
   const baseName = path.basename(filePath, '.component.ts');
   const dirName = path.dirname(filePath);
-  
+
   // Calculate relative import path to base
   const relToBase = path.relative(dirName, path.join(__dirname, '../packages/gp-ui/src/lib/base')).replace(/\\/g, '/');
 
@@ -42,7 +42,7 @@ for (const filePath of files) {
     const templateContent = templateMatch[1].trim();
     const htmlPath = path.join(dirName, `${baseName}.component.html`);
     fs.writeFileSync(htmlPath, templateContent + '\n', 'utf8');
-    
+
     // Replace template in ts file
     content = content.replace(/template:\s*`[\s\S]*?`/, `templateUrl: './${baseName}.component.html'`);
     hasChanges = true;

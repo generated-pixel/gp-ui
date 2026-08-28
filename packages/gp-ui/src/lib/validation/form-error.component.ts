@@ -33,38 +33,40 @@ import { GpIconComponent } from '../icons/icon.component';
       </div>
     }
   `,
-  styles: [`
-    .gp-form-error-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      margin-top: 0.35rem;
-      animation: gp-form-error-slide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .gp-form-error-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: var(--gp-font-size-xs, 0.75rem);
-      font-weight: 500;
-      color: var(--gp-danger, #ef4444);
-      line-height: 1.3;
-    }
-    .gp-form-error-icon {
-      flex-shrink: 0;
-      color: var(--gp-danger, #ef4444);
-    }
-    @keyframes gp-form-error-slide {
-      from {
-        opacity: 0;
-        transform: translateY(-4px);
+  styles: [
+    `
+      .gp-form-error-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 0.35rem;
+        animation: gp-form-error-slide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      .gp-form-error-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: var(--gp-font-size-xs, 0.75rem);
+        font-weight: 500;
+        color: var(--gp-danger, #ef4444);
+        line-height: 1.3;
       }
-    }
-  `]
+      .gp-form-error-icon {
+        flex-shrink: 0;
+        color: var(--gp-danger, #ef4444);
+      }
+      @keyframes gp-form-error-slide {
+        from {
+          opacity: 0;
+          transform: translateY(-4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    `
+  ]
 })
 export class GpFormErrorComponent {
   /** Target control to observe for validation errors */
@@ -80,7 +82,9 @@ export class GpFormErrorComponent {
   @Input() showFirstOnly = true;
 
   public hasErrors(): boolean {
-    if (this.message) return true;
+    if (this.message) {
+      return true;
+    }
     if (this.control) {
       return this.control.isInvalid();
     }
@@ -91,7 +95,9 @@ export class GpFormErrorComponent {
   }
 
   public firstErrorMessage(): string | null {
-    if (this.message) return this.message;
+    if (this.message) {
+      return this.message;
+    }
     if (this.control) {
       return this.control.firstError();
     }
@@ -110,9 +116,7 @@ export class GpFormErrorComponent {
       return this.control.errors();
     }
     if (this.errors) {
-      return this.errors.map((err) =>
-        typeof err === 'string' ? { rule: 'explicit', message: err } : err
-      );
+      return this.errors.map((err) => (typeof err === 'string' ? { rule: 'explicit', message: err } : err));
     }
     return [];
   }

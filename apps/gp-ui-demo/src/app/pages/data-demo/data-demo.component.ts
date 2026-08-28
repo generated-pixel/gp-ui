@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpTableComponent,
-  GpColumnComponent,
-  GpButtonComponent,
-  GpTagComponent,
-  GpDataViewComponent
-} from 'gp-ui';
+import { GpTableComponent, GpColumnComponent, GpButtonComponent, GpTagComponent, GpDataViewComponent } from 'gp-ui';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
@@ -28,7 +22,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Data Table & Collection Components</h1>
         <p class="page-desc">
-          High-performance data management components featuring column sorting, paginated browsing, multi-row selection, CSV export, and list/grid layout viewports.
+          High-performance data management components featuring column sorting, paginated browsing, multi-row selection,
+          CSV export, and list/grid layout viewports.
         </p>
       </div>
 
@@ -42,9 +37,16 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Feature-packed Data Table -->
       <div class="doc-section">
         <h2 class="doc-section-title">DataTable with Filtering, Selection, Pagination & Export</h2>
-        <p class="doc-section-desc">Enterprise table with multi-column sorting, custom cell templating, row selection, and CSV export.</p>
+        <p class="doc-section-desc">
+          Enterprise table with multi-column sorting, custom cell templating, row selection, and CSV export.
+        </p>
         <div class="table-actions">
-          <gp-button label="Export to CSV" icon="download" severity="secondary" (onClickEvent)="dt.exportCSV('customers.csv')" />
+          <gp-button
+            label="Export to CSV"
+            icon="download"
+            severity="secondary"
+            (onClickEvent)="dt.exportCSV('customers.csv')"
+          />
         </div>
 
         <gp-table
@@ -66,7 +68,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
             <ng-template #body let-row>
               <gp-tag
                 [value]="row.status"
-                [severity]="row.status === 'Active' ? 'success' : (row.status === 'Pending' ? 'warning' : 'danger')"
+                [severity]="row.status === 'Active' ? 'success' : row.status === 'Pending' ? 'warning' : 'danger'"
                 [rounded]="true"
               />
             </ng-template>
@@ -83,7 +85,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Data View -->
       <div class="doc-section">
         <h2 class="doc-section-title">DataView (Grid & List Switcher)</h2>
-        <p class="doc-section-desc">Responsive collection display supporting custom templates for list and card grid views.</p>
+        <p class="doc-section-desc">
+          Responsive collection display supporting custom templates for list and card grid views.
+        </p>
         <gp-data-view [value]="products" layout="grid" [paginator]="true" [rows]="4">
           <ng-template #griditem let-item>
             <div class="product-grid-card">
@@ -121,62 +125,64 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       </div>
     </div>
   `,
-  styles: [`
-    .table-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 0.75rem;
-    }
-    .selection-status {
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color-secondary);
-      margin-top: 0.5rem;
-    }
-    .product-grid-card {
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .product-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .product-category {
-      font-size: var(--gp-font-size-xs);
-      color: var(--gp-text-color-muted);
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    .product-name {
-      font-weight: 700;
-      font-size: var(--gp-font-size-base);
-    }
-    .product-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 0.5rem;
-    }
-    .product-price {
-      font-weight: 800;
-      font-size: 1.15rem;
-      color: var(--gp-primary);
-    }
-    .product-list-card {
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      padding: 0.75rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  `]
+  styles: [
+    `
+      .table-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 0.75rem;
+      }
+      .selection-status {
+        font-size: var(--gp-font-size-sm);
+        color: var(--gp-text-color-secondary);
+        margin-top: 0.5rem;
+      }
+      .product-grid-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .product-category {
+        font-size: var(--gp-font-size-xs);
+        color: var(--gp-text-color-muted);
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .product-name {
+        font-weight: 700;
+        font-size: var(--gp-font-size-base);
+      }
+      .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+      .product-price {
+        font-weight: 800;
+        font-size: 1.15rem;
+        color: var(--gp-primary);
+      }
+      .product-list-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius);
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    `
+  ]
 })
 export class DataDemoComponent {
   importCode = `import { GpTableComponent, GpColumnComponent, GpDataViewComponent } from '@generatedpixel/gp-ui';`;
@@ -228,18 +234,48 @@ export class DataDemoComponent {
 
   tableProperties: DocApiProperty[] = [
     { name: 'value', type: 'any[]', default: '[]', description: 'Array of data records to display.' },
-    { name: 'paginator', type: 'boolean', default: 'false', description: 'Enables built-in paginator at the bottom of the table.' },
+    {
+      name: 'paginator',
+      type: 'boolean',
+      default: 'false',
+      description: 'Enables built-in paginator at the bottom of the table.'
+    },
     { name: 'rows', type: 'number', default: '10', description: 'Number of rows shown per page.' },
-    { name: 'rowsPerPageOptions', type: 'number[]', default: '[5, 10, 20]', description: 'Options for rows-per-page dropdown selector.' },
-    { name: 'stripedRows', type: 'boolean', default: 'false', description: 'Applies alternating zebra-stripe background colors to rows.' },
-    { name: 'selectionMode', type: "'single' | 'multiple' | null", default: 'null', description: 'Specifies row selection mode.' },
-    { name: 'selection', type: 'any | any[]', default: 'null', description: 'Currently selected item or array of selected items.' }
+    {
+      name: 'rowsPerPageOptions',
+      type: 'number[]',
+      default: '[5, 10, 20]',
+      description: 'Options for rows-per-page dropdown selector.'
+    },
+    {
+      name: 'stripedRows',
+      type: 'boolean',
+      default: 'false',
+      description: 'Applies alternating zebra-stripe background colors to rows.'
+    },
+    {
+      name: 'selectionMode',
+      type: "'single' | 'multiple' | null",
+      default: 'null',
+      description: 'Specifies row selection mode.'
+    },
+    {
+      name: 'selection',
+      type: 'any | any[]',
+      default: 'null',
+      description: 'Currently selected item or array of selected items.'
+    }
   ];
 
   columnProperties: DocApiProperty[] = [
     { name: 'field', type: 'string', default: "''", description: 'Property key name from each data object.' },
     { name: 'header', type: 'string', default: "''", description: 'Header column title.' },
-    { name: 'sortable', type: 'boolean', default: 'false', description: 'Enables interactive header sort click sorting.' },
+    {
+      name: 'sortable',
+      type: 'boolean',
+      default: 'false',
+      description: 'Enables interactive header sort click sorting.'
+    },
     { name: 'width', type: 'string', default: "''", description: 'Custom CSS width for the column (e.g. "8rem").' }
   ];
 }

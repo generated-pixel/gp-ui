@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Nord Theme)
    ========================================================================== */
-:root[data-gp-theme="nord"],
-[data-gp-theme="nord"],
-[data-gp-theme="nord"][data-gp-mode="light"],
+:root[data-gp-theme='nord'],
+[data-gp-theme='nord'],
+[data-gp-theme='nord'][data-gp-mode='light'],
 .gp-theme-nord,
 .gp-theme-nord.gp-light {
   /* Primitive Color Palette - Nord Frost */
@@ -109,10 +109,10 @@
 /* ==========================================================================
    Dark Mode (Nord Theme)
    ========================================================================== */
-:root[data-gp-theme="nord"][data-gp-mode="dark"],
-[data-gp-theme="nord"][data-gp-mode="dark"],
+:root[data-gp-theme='nord'][data-gp-mode='dark'],
+[data-gp-theme='nord'][data-gp-mode='dark'],
 .gp-theme-nord.gp-dark,
-[data-gp-theme="nord"].gp-dark {
+[data-gp-theme='nord'].gp-dark {
   /* Primitive Color Palette - Nord Frost in Dark Space */
   --gp-primary-50: #042f2e;
   --gp-primary-100: #134e4a;
@@ -203,8 +203,8 @@
 
 /* System dark mode for nord */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="nord"]:not([data-gp-mode="light"]),
-  [data-gp-theme="nord"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='nord']:not([data-gp-mode='light']),
+  [data-gp-theme='nord']:not([data-gp-mode='light']),
   .gp-theme-nord:not(.gp-light) {
     --gp-primary-50: #042f2e;
     --gp-primary-100: #134e4a;

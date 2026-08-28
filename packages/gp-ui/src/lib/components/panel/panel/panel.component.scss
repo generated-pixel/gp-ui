@@ -1,0 +1,51 @@
+.gp-panel {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-md);
+  overflow: hidden;
+  width: 100%;
+}
+.gp-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.25rem;
+  background: var(--gp-surface-section);
+  border-bottom: 1px solid var(--gp-surface-border);
+}
+.gp-panel-collapsed .gp-panel-header {
+  border-bottom: none;
+}
+.gp-panel-title {
+  font-weight: 700;
+  font-size: var(--gp-font-size-base);
+  color: var(--gp-text-color);
+}
+.gp-panel-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gp-panel-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--gp-text-color-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: inline-flex;
+  border-radius: 50%;
+}
+.gp-panel-toggle-btn:hover {
+  background: var(--gp-surface-hover);
+  color: var(--gp-text-color);
+}
+.gp-panel-content {
+  padding: 1.25rem;
+  color: var(--gp-text-color);
+  line-height: 1.5;
+}
+.gp-panel-footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--gp-surface-divider);
+  background: var(--gp-surface-ground);
+}

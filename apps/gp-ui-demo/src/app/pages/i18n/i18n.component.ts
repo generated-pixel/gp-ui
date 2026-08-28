@@ -17,13 +17,7 @@ import {
 @Component({
   selector: 'app-i18n-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpButtonComponent,
-    GpDatePickerComponent,
-    GpPaginatorComponent,
-    GpConfirmDialogComponent
-  ],
+  imports: [CommonModule, GpButtonComponent, GpDatePickerComponent, GpPaginatorComponent, GpConfirmDialogComponent],
   template: `
     <div class="page-container">
       <gp-confirm-dialog />
@@ -31,7 +25,8 @@ import {
       <div class="page-header">
         <h1>Internationalization (i18n) & RTL</h1>
         <p class="page-desc">
-          gp-ui supports configurable translation bundles, locale-aware date/number formatting, and bidirectional (LTR/RTL) rendering.
+          gp-ui supports configurable translation bundles, locale-aware date/number formatting, and bidirectional
+          (LTR/RTL) rendering.
         </p>
       </div>
 
@@ -39,8 +34,16 @@ import {
         <h2 class="doc-section-title">Active Locale: {{ activeLocale() }}</h2>
         <div class="locale-buttons">
           <gp-button label="English (LTR)" (onClickEvent)="setLocale('English', enBundle, 'ltr')" />
-          <gp-button label="Español (LTR)" severity="secondary" (onClickEvent)="setLocale('Español', esBundle, 'ltr')" />
-          <gp-button label="Deutsch (LTR)" severity="secondary" (onClickEvent)="setLocale('Deutsch', deBundle, 'ltr')" />
+          <gp-button
+            label="Español (LTR)"
+            severity="secondary"
+            (onClickEvent)="setLocale('Español', esBundle, 'ltr')"
+          />
+          <gp-button
+            label="Deutsch (LTR)"
+            severity="secondary"
+            (onClickEvent)="setLocale('Deutsch', deBundle, 'ltr')"
+          />
           <gp-button label="العربية (RTL)" severity="secondary" (onClickEvent)="setLocale('Arabic', arBundle, 'rtl')" />
         </div>
       </div>
@@ -67,13 +70,15 @@ import {
       </div>
     </div>
   `,
-  styles: [`
-    .locale-buttons {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-  `]
+  styles: [
+    `
+      .locale-buttons {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+    `
+  ]
 })
 export class I18nPageComponent {
   private translationService = inject(GpTranslationService);

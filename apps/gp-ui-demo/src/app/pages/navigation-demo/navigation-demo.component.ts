@@ -37,7 +37,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Navigation Components</h1>
         <p class="page-desc">
-          Header Menubars, Context Menus, Breadcrumbs, TabView Panels, Multi-Step Wizards, Toolbars, and macOS-style animated Docks.
+          Header Menubars, Context Menus, Breadcrumbs, TabView Panels, Multi-Step Wizards, Toolbars, and macOS-style
+          animated Docks.
         </p>
       </div>
 
@@ -51,7 +52,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Menubar -->
       <div class="doc-section">
         <h2 class="doc-section-title">Menubar (Multi-Level Navigation)</h2>
-        <p class="doc-section-desc">Top application navigation bar with nested sub-menus and custom start/end content templates.</p>
+        <p class="doc-section-desc">
+          Top application navigation bar with nested sub-menus and custom start/end content templates.
+        </p>
         <gp-menubar [model]="menubarItems">
           <div start>
             <strong style="margin-right: 1rem; color: var(--gp-primary);">GP-UI</strong>
@@ -197,11 +200,7 @@ export class NavigationDemoComponent {
     { label: 'Settings', icon: 'sliders' }
   ];
 
-  breadcrumbItems = [
-    { label: 'Components' },
-    { label: 'Navigation' },
-    { label: 'Breadcrumb' }
-  ];
+  breadcrumbItems = [{ label: 'Components' }, { label: 'Navigation' }, { label: 'Breadcrumb' }];
 
   dockItems = [
     { icon: 'home', label: 'Home' },
@@ -218,7 +217,17 @@ export class NavigationDemoComponent {
 
   stepperProperties: DocApiProperty[] = [
     { name: 'activeStep', type: 'number', default: '0', description: 'Zero-based index of the active step.' },
-    { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Layout orientation of the stepper.' },
-    { name: 'linear', type: 'boolean', default: 'false', description: 'Enforces strictly sequential forward progression.' }
+    {
+      name: 'orientation',
+      type: "'horizontal' | 'vertical'",
+      default: "'horizontal'",
+      description: 'Layout orientation of the stepper.'
+    },
+    {
+      name: 'linear',
+      type: 'boolean',
+      default: 'false',
+      description: 'Enforces strictly sequential forward progression.'
+    }
   ];
 }

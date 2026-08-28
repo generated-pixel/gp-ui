@@ -1,4 +1,4 @@
-import { GpThemeTokens } from "../tokens/default-tokens.js";
+import { GpThemeTokens } from '../tokens/default-tokens.js';
 
 export interface PluginContext {
   tokens: GpThemeTokens;

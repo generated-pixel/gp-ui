@@ -6,7 +6,9 @@ function replaceInDir(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name !== 'icons') replaceInDir(full);
+      if (entry.name !== 'icons') {
+        replaceInDir(full);
+      }
     } else if (entry.name.endsWith('.ts')) {
       let content = fs.readFileSync(full, 'utf8');
       if (content.includes("'gp-ui-icons'")) {

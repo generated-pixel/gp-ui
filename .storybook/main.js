@@ -1,7 +1,5 @@
 module.exports = {
-  stories: [
-    '../packages/gp-ui/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
-  ],
+  stories: ['../packages/gp-ui/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

@@ -37,7 +37,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Messages & Feedback Indicators</h1>
         <p class="page-desc">
-          User feedback mechanisms including service-driven toast alerts, inline contextual messages, determinate/indeterminate progress indicators, animated skeleton loaders, badges, and status tags.
+          User feedback mechanisms including service-driven toast alerts, inline contextual messages,
+          determinate/indeterminate progress indicators, animated skeleton loaders, badges, and status tags.
         </p>
       </div>
 
@@ -178,13 +179,23 @@ export class MyComponent {
   }
 
   messageProperties: DocApiProperty[] = [
-    { name: 'severity', type: "'success' | 'info' | 'warning' | 'error'", default: "'info'", description: 'Semantic color severity.' },
+    {
+      name: 'severity',
+      type: "'success' | 'info' | 'warning' | 'error'",
+      default: "'info'",
+      description: 'Semantic color severity.'
+    },
     { name: 'text', type: 'string', default: "''", description: 'Message body text.' },
     { name: 'closable', type: 'boolean', default: 'false', description: 'Renders a close dismissal icon.' }
   ];
 
   progressBarProperties: DocApiProperty[] = [
     { name: 'value', type: 'number', default: '0', description: 'Percentage completion (0 to 100).' },
-    { name: 'mode', type: "'determinate' | 'indeterminate'", default: "'determinate'", description: 'Animation behavior.' }
+    {
+      name: 'mode',
+      type: "'determinate' | 'indeterminate'",
+      default: "'determinate'",
+      description: 'Animation behavior.'
+    }
   ];
 }

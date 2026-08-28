@@ -29,7 +29,9 @@ export class GpValidators {
   public static email(message = 'Please enter a valid email address'): GpValidatorFn {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return (value: any): GpValidationError | null => {
-      if (!value || typeof value !== 'string') return null;
+      if (!value || typeof value !== 'string') {
+        return null;
+      }
       if (!emailRegex.test(value.trim())) {
         return { rule: 'email', message };
       }
@@ -43,7 +45,9 @@ export class GpValidators {
   public static minLength(min: number, message?: string): GpValidatorFn {
     const msg = message || `Must be at least ${min} characters`;
     return (value: any): GpValidationError | null => {
-      if (value == null) return null;
+      if (value == null) {
+        return null;
+      }
       const length = typeof value === 'string' || Array.isArray(value) ? value.length : 0;
       if (length < min) {
         return { rule: 'minLength', message: msg, params: { min, actual: length } };
@@ -58,7 +62,9 @@ export class GpValidators {
   public static maxLength(max: number, message?: string): GpValidatorFn {
     const msg = message || `Must be at most ${max} characters`;
     return (value: any): GpValidationError | null => {
-      if (value == null) return null;
+      if (value == null) {
+        return null;
+      }
       const length = typeof value === 'string' || Array.isArray(value) ? value.length : 0;
       if (length > max) {
         return { rule: 'maxLength', message: msg, params: { max, actual: length } };
@@ -73,7 +79,9 @@ export class GpValidators {
   public static min(minValue: number, message?: string): GpValidatorFn {
     const msg = message || `Value must be at least ${minValue}`;
     return (value: any): GpValidationError | null => {
-      if (value == null || value === '') return null;
+      if (value == null || value === '') {
+        return null;
+      }
       const num = Number(value);
       if (isNaN(num) || num < minValue) {
         return { rule: 'min', message: msg, params: { min: minValue, actual: num } };
@@ -88,7 +96,9 @@ export class GpValidators {
   public static max(maxValue: number, message?: string): GpValidatorFn {
     const msg = message || `Value must not exceed ${maxValue}`;
     return (value: any): GpValidationError | null => {
-      if (value == null || value === '') return null;
+      if (value == null || value === '') {
+        return null;
+      }
       const num = Number(value);
       if (isNaN(num) || num > maxValue) {
         return { rule: 'max', message: msg, params: { max: maxValue, actual: num } };
@@ -103,7 +113,9 @@ export class GpValidators {
   public static pattern(pattern: RegExp | string, message = 'Invalid format'): GpValidatorFn {
     const regex = typeof pattern === 'string' ? new RegExp(pattern) : pattern;
     return (value: any): GpValidationError | null => {
-      if (!value || typeof value !== 'string') return null;
+      if (!value || typeof value !== 'string') {
+        return null;
+      }
       if (!regex.test(value)) {
         return { rule: 'pattern', message, params: { pattern: regex.toString() } };
       }

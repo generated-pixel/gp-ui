@@ -14,7 +14,7 @@ describe('GpConfirmationService', () => {
   });
 
   it('should emit confirmation on confirm()', (done) => {
-    service.requireConfirmation$.subscribe(conf => {
+    service.requireConfirmation$.subscribe((conf) => {
       expect(conf.message).toBe('Delete this item?');
       done();
     });

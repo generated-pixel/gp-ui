@@ -20,7 +20,9 @@ try {
     cwd: path.join(__dirname, '..')
   });
 
-  console.log('✅ Consumer Validation Succeeded: Clean imports, zero type errors, package consumable as standalone NPM library.');
+  console.log(
+    '✅ Consumer Validation Succeeded: Clean imports, zero type errors, package consumable as standalone NPM library.'
+  );
 } catch (err) {
   console.error('❌ Consumer Validation Failed:', err);
   process.exit(1);

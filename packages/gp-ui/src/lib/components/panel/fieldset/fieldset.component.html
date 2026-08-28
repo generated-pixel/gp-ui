@@ -1,0 +1,14 @@
+<fieldset class="gp-fieldset" [class.gp-fieldset-collapsed]="collapsed()">
+  <legend class="gp-fieldset-legend" (click)="toggleable ? toggle() : null" [class.gp-fieldset-toggleable]="toggleable">
+    @if (toggleable) {
+      <gp-icon [name]="collapsed() ? 'chevron-down' : 'chevron-up'" size="0.75em" class="gp-fieldset-toggler" />
+    }
+    <span class="gp-fieldset-legend-text">{{ legend }}</span>
+  </legend>
+
+  @if (!collapsed()) {
+    <div class="gp-fieldset-content">
+      <ng-content />
+    </div>
+  }
+</fieldset>

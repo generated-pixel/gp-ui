@@ -1,0 +1,37 @@
+.gp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: var(--gp-surface-section);
+  color: var(--gp-text-color);
+  border-radius: var(--gp-border-radius-full);
+  font-size: var(--gp-font-size-sm);
+}
+
+.gp-chip-img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  margin-left: -0.5rem;
+  object-fit: cover;
+}
+
+.gp-chip-icon {
+  color: var(--gp-text-color-secondary);
+}
+
+.gp-chip-remove-btn {
+  background: none;
+  border: none;
+  color: var(--gp-text-color-muted);
+  cursor: pointer;
+  padding: 0.15rem;
+  display: inline-flex;
+  border-radius: 50%;
+  margin-right: -0.25rem;
+}
+
+.gp-chip-remove-btn:hover {
+  color: var(--gp-danger);
+}

@@ -1,0 +1,84 @@
+.gp-carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.gp-carousel-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.gp-carousel-items-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+.gp-carousel-items-slider {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.gp-carousel-item {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
+
+.gp-carousel-nav-btn {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  color: var(--gp-text-color-secondary);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--gp-shadow-md);
+  z-index: 2;
+  transition: all var(--gp-transition-duration);
+}
+
+.gp-carousel-nav-btn:hover:not(:disabled) {
+  background: var(--gp-surface-hover);
+  color: var(--gp-primary);
+}
+
+.gp-carousel-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gp-carousel-indicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.gp-carousel-indicator {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  border: none;
+  background: var(--gp-surface-border);
+  cursor: pointer;
+  transition: all var(--gp-transition-duration);
+  padding: 0;
+}
+
+.gp-carousel-indicator:hover {
+  background: var(--gp-input-border-hover);
+}
+
+.gp-carousel-indicator-active {
+  background: var(--gp-primary);
+  width: 1.5rem;
+  border-radius: var(--gp-border-radius-full);
+}

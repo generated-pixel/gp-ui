@@ -90,7 +90,9 @@ export abstract class GpEditableBaseComponent<T = any>
   public isValid = computed(() => this.errors().length === 0 && !this.invalid);
   public isInvalid = computed(() => this.invalid || this.errors().length > 0);
   public firstError = computed(() => {
-    if (this.errorMessage) return this.errorMessage;
+    if (this.errorMessage) {
+      return this.errorMessage;
+    }
     const errs = this.errors();
     return errs.length > 0 ? errs[0].message : null;
   });
@@ -111,8 +113,7 @@ export abstract class GpEditableBaseComponent<T = any>
     }
   }
 
-  public ngOnDestroy(): void {
-  }
+  public ngOnDestroy(): void {}
 
   /** Writes a new value to the element from the forms API or model */
   public writeValue(val: any): void {

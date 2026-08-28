@@ -59,12 +59,7 @@
                 "input": "apps/gp-ui-demo/public"
               }
             ],
-            "styles": [
-              "packages/gp-ui-theme/src/themes/gp-light.css",
-              "packages/gp-ui-theme/src/themes/gp-dark.css",
-              "packages/gp-ui-theme/src/index.css",
-              "apps/gp-ui-demo/src/styles.scss"
-            ],
+            "styles": ["packages/gp-ui-theme/src/index.css", "apps/gp-ui-demo/src/styles.scss"],
             "scripts": []
           },
           "configurations": {

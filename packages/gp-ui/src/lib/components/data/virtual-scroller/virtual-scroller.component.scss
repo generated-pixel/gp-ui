@@ -1,0 +1,18 @@
+.gp-virtual-scroller {
+  position: relative;
+  overflow-y: auto;
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+}
+
+.gp-virtual-scroller-spacer {
+  width: 100%;
+}
+
+.gp-virtual-scroller-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}

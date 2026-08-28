@@ -1,0 +1,37 @@
+<div class="gp-image" [style.width]="width" [style.height]="height">
+  <img [src]="src" [alt]="alt" [style.width]="width" [style.height]="height" class="gp-image-img" />
+
+  @if (preview) {
+    <div class="gp-image-preview-mask" (click)="showPreview()" role="button" aria-label="Preview image">
+      <gp-icon name="eye" size="1.5em" class="gp-image-preview-icon" />
+    </div>
+  }
+
+  @if (previewVisible()) {
+    <div class="gp-image-mask" [style.z-index]="zIndex()" (click)="hidePreview()">
+      <div class="gp-image-toolbar" (click)="$event.stopPropagation()">
+        <button type="button" class="gp-image-action-btn" (click)="zoomIn()" aria-label="Zoom in">
+          <gp-icon name="plus" size="1em" />
+        </button>
+        <button type="button" class="gp-image-action-btn" (click)="zoomOut()" aria-label="Zoom out">
+          <gp-icon name="minus" size="1em" />
+        </button>
+        <button type="button" class="gp-image-action-btn" (click)="rotateRight()" aria-label="Rotate">
+          <gp-icon name="refresh" size="1em" />
+        </button>
+        <button type="button" class="gp-image-action-btn" (click)="hidePreview()" aria-label="Close preview">
+          <gp-icon name="times" size="1em" />
+        </button>
+      </div>
+
+      <div class="gp-image-preview-container" (click)="$event.stopPropagation()">
+        <img
+          [src]="previewSrc || src"
+          [alt]="alt"
+          class="gp-image-preview-img"
+          [style.transform]="'scale(' + scale() + ') rotate(' + rotate() + 'deg)'"
+        />
+      </div>
+    </div>
+  }
+</div>

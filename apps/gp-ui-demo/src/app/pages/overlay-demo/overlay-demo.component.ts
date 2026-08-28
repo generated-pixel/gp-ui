@@ -33,7 +33,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Overlay & Modal Components</h1>
         <p class="page-desc">
-          Centralized overlay infrastructure featuring focus trapping, dynamic z-index layering, off-canvas drawers, popovers, and programmatic confirmation dialogs.
+          Centralized overlay infrastructure featuring focus trapping, dynamic z-index layering, off-canvas drawers,
+          popovers, and programmatic confirmation dialogs.
         </p>
       </div>
 
@@ -47,7 +48,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Live Overlays Demo -->
       <div class="doc-section">
         <h2 class="doc-section-title">Interactive Overlays</h2>
-        <p class="doc-section-desc">Click below to trigger modal dialogs, programmatic confirm dialogs, slide-out drawers, popovers, and tooltips:</p>
+        <p class="doc-section-desc">
+          Click below to trigger modal dialogs, programmatic confirm dialogs, slide-out drawers, popovers, and tooltips:
+        </p>
         <div class="doc-demo-box">
           <gp-button label="Show Dialog" (onClickEvent)="dialog.show()" />
           <gp-button label="Confirmation Dialog" severity="danger" (onClickEvent)="confirmDelete()" />
@@ -60,7 +63,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
       <!-- Dialog Component instance -->
       <gp-dialog #dialog header="User Profile Details" [maximizable]="true">
-        <p>This is a fully accessible, focus-trapped dialog component with maximize, close, and custom footer actions.</p>
+        <p>
+          This is a fully accessible, focus-trapped dialog component with maximize, close, and custom footer actions.
+        </p>
         <div footer>
           <gp-button label="Cancel" variant="outlined" severity="secondary" (onClickEvent)="dialog.close()" />
           <gp-button label="Save" severity="primary" (onClickEvent)="dialog.close()" />
@@ -76,7 +81,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <gp-popover #popover>
         <div style="padding: 0.25rem;">
           <h4 style="margin: 0 0 0.5rem 0;">Quick Actions</h4>
-          <p style="font-size: 0.85rem; color: var(--gp-text-color-secondary); margin: 0 0 0.75rem 0;">Tethered floating overlay with auto-positioning.</p>
+          <p style="font-size: 0.85rem; color: var(--gp-text-color-secondary); margin: 0 0 0.75rem 0;">
+            Tethered floating overlay with auto-positioning.
+          </p>
           <gp-button label="Got it" size="sm" (onClickEvent)="popover.hide()" />
         </div>
       </gp-popover>
@@ -84,7 +91,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Programmatic Confirmation Service Guide -->
       <div class="doc-section">
         <h2 class="doc-section-title">Programmatic Confirmation Dialog Guide</h2>
-        <p class="doc-section-desc">Trigger confirmation prompts from TypeScript using <code>GpConfirmationService</code>:</p>
+        <p class="doc-section-desc">
+          Trigger confirmation prompts from TypeScript using <code>GpConfirmationService</code>:
+        </p>
         <doc-code [code]="confirmServiceCode" language="typescript" />
       </div>
 
@@ -150,14 +159,29 @@ export class OverlayDemoComponent {
   dialogProperties: DocApiProperty[] = [
     { name: 'header', type: 'string', default: "''", description: 'Title text in dialog header bar.' },
     { name: 'visible', type: 'boolean', default: 'false', description: 'Controls modal open/close state.' },
-    { name: 'modal', type: 'boolean', default: 'true', description: 'Renders a backdrop overlay mask behind the dialog.' },
+    {
+      name: 'modal',
+      type: 'boolean',
+      default: 'true',
+      description: 'Renders a backdrop overlay mask behind the dialog.'
+    },
     { name: 'closable', type: 'boolean', default: 'true', description: 'Renders a top-right close icon button.' },
-    { name: 'maximizable', type: 'boolean', default: 'false', description: 'Renders a maximize/restore viewport toggle.' }
+    {
+      name: 'maximizable',
+      type: 'boolean',
+      default: 'false',
+      description: 'Renders a maximize/restore viewport toggle.'
+    }
   ];
 
   drawerProperties: DocApiProperty[] = [
     { name: 'header', type: 'string', default: "''", description: 'Header title text.' },
-    { name: 'position', type: "'left' | 'right' | 'top' | 'bottom'", default: "'left'", description: 'Sliding origin side.' },
+    {
+      name: 'position',
+      type: "'left' | 'right' | 'top' | 'bottom'",
+      default: "'left'",
+      description: 'Sliding origin side.'
+    },
     { name: 'visible', type: 'boolean', default: 'false', description: 'Controls drawer open/close visibility.' }
   ];
 }

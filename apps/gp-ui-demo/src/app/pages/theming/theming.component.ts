@@ -1,4 +1,4 @@
-import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -16,6 +16,9 @@ import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
+import { ThemeEditorComponent } from './theme-editor.component';
+import { ThemeEditorService } from './theme-editor.service';
+
 @Component({
   selector: 'app-theming-page',
   standalone: true,
@@ -32,7 +35,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpProgressBarComponent,
     GpIconComponent,
     DocCodeComponent,
-    DocApiTableComponent
+    DocApiTableComponent,
+    ThemeEditorComponent
   ],
   template: `
     <div class="page-container">
@@ -43,8 +47,39 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         </div>
         <h1>Design Tokens & Multi-Theme System</h1>
         <p class="page-desc">
-          gp-ui features a comprehensive multi-theme architecture where <strong>every theme includes built-in Light and Dark modes</strong>.
-          Seamlessly switch themes, toggle color modes, dynamically register custom palettes at runtime, or customize design tokens globally without rebuilds.
+          gp-ui features a comprehensive multi-theme architecture where
+          <strong>every theme includes built-in Light and Dark modes</strong>. Seamlessly switch themes, toggle color
+          modes, dynamically register custom palettes at runtime, or customize design tokens globally without rebuilds.
+        </p>
+
+        <div class="theme-studio-hero-banner">
+          <div class="hero-text">
+            <h3>Interactive Theme Studio &amp; Token Exporter</h3>
+            <p>Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in an interactive dialog modal.</p>
+          </div>
+          <gp-button
+            label="Launch Theme Studio Dialog"
+            icon="sliders"
+            severity="primary"
+            (onClickEvent)="themeEditorService.open()"
+          />
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="download" size="1em" />
+          Installation &amp; Startup
+        </h2>
+        <p class="doc-section-desc">
+          Install the theme package, load its global stylesheet, and initialize <code>GpThemeManager</code> once during
+          browser application startup.
+        </p>
+        <doc-code [code]="installationCode" language="bash" />
+        <doc-code [code]="startupCode" language="typescript" />
+        <p class="doc-section-desc">
+          Initialization sets <code>data-gp-theme</code> and <code>data-gp-mode</code> on the document root. The manager
+          also restores persisted choices and follows operating-system changes when mode is <code>system</code>.
         </p>
       </div>
 
@@ -87,7 +122,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           </div>
         </div>
         <p class="doc-section-desc">
-          Select any of the 8 curated themes below. Each theme adapts automatically to the selected Light or Dark color scheme.
+          Select any of the 8 curated themes below. Each theme adapts automatically to the selected Light or Dark color
+          scheme.
         </p>
 
         <div class="theme-cards-grid">
@@ -100,7 +136,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
               <div class="theme-card-header">
                 <div class="theme-title-wrap">
                   <span class="theme-card-name">{{ theme.name }}</span>
-                  <span class="theme-card-id"><code>data-gp-theme="{{ theme.id }}"</code></span>
+                  <span class="theme-card-id"
+                    ><code>data-gp-theme="{{ theme.id }}"</code></span
+                  >
                 </div>
                 @if (activeThemeId() === theme.id) {
                   <span class="active-badge">
@@ -131,16 +169,36 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
               </div>
             </div>
           }
-        </div>
       </div>
 
-      <!-- Section 2: Live Component Studio Playground -->
+      <!-- Section 2: Interactive Theme Editor & Code Exporter -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="sliders" size="1em" />
+          Interactive Theme Editor &amp; Token Exporter
+        </h2>
+        <p class="doc-section-desc">
+          Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in real-time.
+          Generate compiled <strong>CSS Stylesheets</strong>, <strong>TypeScript Theme Definitions</strong>,
+          <strong>JSON Tokens</strong>, or <strong>Angular Integration Snippets</strong> ready for use in your own projects.
+        </p>
+
+        <app-theme-editor />
+      </div>
+
+      <!-- Section 3: Quick Token Tweaker Studio -->
       <div class="theme-playground-grid">
         <!-- Controls Panel -->
         <div class="theme-controls-card">
           <div class="controls-card-header">
             <h3>Live Token Tweaker</h3>
-            <gp-button label="Reset Tokens" variant="text" severity="secondary" size="sm" (onClickEvent)="resetTokens()" />
+            <gp-button
+              label="Reset Tokens"
+              variant="text"
+              severity="secondary"
+              size="sm"
+              (onClickEvent)="resetTokens()"
+            />
           </div>
 
           <div class="control-group">
@@ -164,13 +222,12 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           <!-- Dynamic Theme Creator -->
           <div class="custom-theme-creator-box">
             <h4>Create &amp; Register Custom Theme</h4>
-            <p class="creator-desc">Register a brand new theme at runtime using the <code>GpThemeManager.registerTheme()</code> API:</p>
-            
+            <p class="creator-desc">
+              Register a brand new theme at runtime using the <code>GpThemeManager.registerTheme()</code> API:
+            </p>
+
             <div class="creator-inputs">
-              <gp-input-text
-                placeholder="Theme Name (e.g. Neon Lime)"
-                (onInputEvent)="onNewThemeNameInput($event)"
-              />
+              <gp-input-text placeholder="Theme Name (e.g. Neon Lime)" (onInputEvent)="onNewThemeNameInput($event)" />
               <div class="creator-color-pickers">
                 <div class="creator-pick-item">
                   <span>Primary:</span>
@@ -252,12 +309,15 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           TypeScript &amp; JSON Base Theme Architecture
         </h2>
         <p class="doc-section-desc">
-          gp-ui uses a 3-tier token hierarchy: <strong>Primitives</strong> (raw scales), <strong>Semantic</strong> (contextual Light &amp; Dark tokens), and <strong>Components</strong> (component styles). Themes are built by extending the master <code>baseTheme</code> with <code>extendTheme()</code>.
+          gp-ui uses a 3-tier token hierarchy: <strong>Primitives</strong> (raw scales),
+          <strong>Semantic</strong> (contextual Light &amp; Dark tokens), and <strong>Components</strong> (component
+          styles). Themes are built by extending the master <code>baseTheme</code> with <code>extendTheme()</code>.
         </p>
 
         <h3 class="subsection-title">1. Including gp-css (@generatedpixel/gp-ui-theme)</h3>
         <p class="doc-section-desc">
-          <code>gp-css</code> is provided by <code>@generatedpixel/gp-ui-theme</code>. Import the core index CSS and optional theme presets into your <code>styles.scss</code> or <code>angular.json</code>:
+          <code>gp-css</code> is provided by <code>@generatedpixel/gp-ui-theme</code>. Import the core index CSS and
+          optional theme presets into your <code>styles.scss</code> or <code>angular.json</code>:
         </p>
         <doc-code [code]="gpCssImportCode" language="scss" />
 
@@ -271,6 +331,20 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <doc-code [code]="htmlUsageCode" language="html" />
       </div>
 
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="paint" size="1em" />
+          CSS Variables, Aliases &amp; Lifecycle
+        </h2>
+        <p class="doc-section-desc">
+          Prefer semantic <code>--gp-*</code> variables in authored CSS. Component token paths are flattened to
+          kebab-case, and W3C-style aliases resolve independently for Light and Dark modes.
+        </p>
+        <doc-code [code]="cssVariablesCode" language="css" />
+        <doc-code [code]="aliasCode" language="typescript" />
+        <doc-api-table title="Runtime behavior" [properties]="runtimeBehavior" [hasDefaults]="false" />
+      </div>
+
       <!-- Section 4: Token Reference Table -->
       <div class="doc-section">
         <h2 class="doc-section-title">
@@ -281,267 +355,297 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       </div>
     </div>
   `,
-  styles: [`
-    .header-badge-row {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .section-title-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
-    .mode-toggle-group {
-      display: inline-flex;
-      align-items: center;
-      background: var(--gp-surface-ground);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius, 6px);
-      padding: 0.2rem;
-      gap: 0.2rem;
-    }
-    .mode-label {
-      font-size: var(--gp-font-size-xs);
-      font-weight: 600;
-      color: var(--gp-text-color-secondary);
-      padding: 0 0.5rem;
-    }
-    .mode-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.35rem 0.65rem;
-      border-radius: var(--gp-border-radius-sm, 4px);
-      border: none;
-      background: transparent;
-      color: var(--gp-text-color-secondary);
-      font-size: var(--gp-font-size-xs);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .mode-btn:hover {
-      color: var(--gp-text-color);
-      background: var(--gp-surface-hover);
-    }
-    .mode-btn-active {
-      background: var(--gp-primary) !important;
-      color: var(--gp-primary-text) !important;
-    }
-    .theme-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .theme-card {
-      background: var(--gp-surface-ground);
-      border: 2px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius-md);
-      padding: 1.25rem;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.2s ease;
-    }
-    .theme-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--gp-primary-hover);
-      box-shadow: var(--gp-shadow-md);
-    }
-    .theme-card-active {
-      border-color: var(--gp-primary);
-      background: var(--gp-surface-card);
-      box-shadow: var(--gp-shadow-md);
-    }
-    .theme-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
-    }
-    .theme-title-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-    .theme-card-name {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--gp-text-color);
-    }
-    .theme-card-id code {
-      font-size: 0.72rem;
-      color: var(--gp-text-color-muted);
-    }
-    .active-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      background: var(--gp-primary-light);
-      color: var(--gp-primary);
-      border: 1px solid var(--gp-primary-border);
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.15rem 0.45rem;
-      border-radius: 999px;
-    }
-    .theme-card-desc {
-      font-size: 0.82rem;
-      color: var(--gp-text-color-secondary);
-      line-height: 1.4;
-      margin: 0 0 1rem 0;
-      flex: 1;
-    }
-    .theme-swatch-bar {
-      display: flex;
-      height: 14px;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 1rem;
-      border: 1px solid var(--gp-surface-border);
-    }
-    .swatch-item {
-      flex: 1;
-    }
-    .theme-card-footer {
-      display: flex;
-      justify-content: flex-end;
-    }
-    .theme-playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    @media (max-width: 900px) {
-      .theme-playground-grid { grid-template-columns: 1fr; }
-    }
-    .theme-controls-card, .theme-preview-card {
-      background: var(--gp-surface-card);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius-md);
-      padding: 1.5rem;
-      box-shadow: var(--gp-shadow-sm);
-    }
-    .controls-card-header, .preview-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-    }
-    .controls-card-header h3, .preview-card-header h3 {
-      margin: 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-    .theme-status-tag {
-      font-size: 0.75rem;
-      color: var(--gp-text-color-secondary);
-    }
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
-    }
-    .control-group label {
-      font-size: var(--gp-font-size-sm);
-      font-weight: 600;
-      color: var(--gp-text-color);
-    }
-    .color-picker-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .color-val {
-      font-family: monospace;
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color-secondary);
-    }
-    .custom-theme-creator-box {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: var(--gp-surface-ground);
-      border: 1px dashed var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-    }
-    .custom-theme-creator-box h4 {
-      margin: 0 0 0.4rem 0;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-    .creator-desc {
-      font-size: 0.78rem;
-      color: var(--gp-text-color-secondary);
-      margin: 0 0 0.75rem 0;
-    }
-    .creator-inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .creator-color-pickers {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-    .creator-pick-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      color: var(--gp-text-color);
-    }
-    .preview-group {
-      margin-bottom: 1.5rem;
-    }
-    .preview-group h4 {
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color-secondary);
-      margin: 0 0 0.75rem 0;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .preview-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-    .preview-form-col {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .themed-subcard {
-      background: var(--gp-surface-section);
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      padding: 1rem;
-    }
-    .themed-subcard h5 {
-      margin: 0 0 0.25rem 0;
-      font-size: 0.9rem;
-    }
-    .themed-subcard p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: var(--gp-text-color-secondary);
-    }
-    .subsection-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin: 1rem 0 0.5rem 0;
-      color: var(--gp-text-color);
-    }
-  `]
+  styles: [
+    `
+      .header-badge-row {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .section-title-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .mode-toggle-group {
+        display: inline-flex;
+        align-items: center;
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius, 6px);
+        padding: 0.2rem;
+        gap: 0.2rem;
+      }
+      .mode-label {
+        font-size: var(--gp-font-size-xs);
+        font-weight: 600;
+        color: var(--gp-text-color-secondary);
+        padding: 0 0.5rem;
+      }
+      .mode-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: var(--gp-border-radius-sm, 4px);
+        border: none;
+        background: transparent;
+        color: var(--gp-text-color-secondary);
+        font-size: var(--gp-font-size-xs);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .mode-btn:hover {
+        color: var(--gp-text-color);
+        background: var(--gp-surface-hover);
+      }
+      .mode-btn-active {
+        background: var(--gp-primary) !important;
+        color: var(--gp-primary-text) !important;
+      }
+      .theme-studio-hero-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-top: 1.25rem;
+        padding: 1.25rem 1.5rem;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12));
+        border: 1px solid var(--gp-primary-border, rgba(99, 102, 241, 0.3));
+        border-radius: var(--gp-border-radius-lg, 0.75rem);
+      }
+      .hero-text h3 {
+        margin: 0 0 0.35rem 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--gp-text-color, #1e293b);
+      }
+      .hero-text p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary, #475569);
+      }
+      .theme-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .theme-card {
+        background: var(--gp-surface-ground);
+        border: 2px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius-md);
+        padding: 1.25rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.2s ease;
+      }
+      .theme-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--gp-primary-hover);
+        box-shadow: var(--gp-shadow-md);
+      }
+      .theme-card-active {
+        border-color: var(--gp-primary);
+        background: var(--gp-surface-card);
+        box-shadow: var(--gp-shadow-md);
+      }
+      .theme-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.5rem;
+      }
+      .theme-title-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .theme-card-name {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--gp-text-color);
+      }
+      .theme-card-id code {
+        font-size: 0.72rem;
+        color: var(--gp-text-color-muted);
+      }
+      .active-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: var(--gp-primary-light);
+        color: var(--gp-primary);
+        border: 1px solid var(--gp-primary-border);
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0.15rem 0.45rem;
+        border-radius: 999px;
+      }
+      .theme-card-desc {
+        font-size: 0.82rem;
+        color: var(--gp-text-color-secondary);
+        line-height: 1.4;
+        margin: 0 0 1rem 0;
+        flex: 1;
+      }
+      .theme-swatch-bar {
+        display: flex;
+        height: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        border: 1px solid var(--gp-surface-border);
+      }
+      .swatch-item {
+        flex: 1;
+      }
+      .theme-card-footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .theme-playground-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+      @media (max-width: 900px) {
+        .theme-playground-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .theme-controls-card,
+      .theme-preview-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius-md);
+        padding: 1.5rem;
+        box-shadow: var(--gp-shadow-sm);
+      }
+      .controls-card-header,
+      .preview-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+      }
+      .controls-card-header h3,
+      .preview-card-header h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .theme-status-tag {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary);
+      }
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+      }
+      .control-group label {
+        font-size: var(--gp-font-size-sm);
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }
+      .color-picker-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .color-val {
+        font-family: monospace;
+        font-size: var(--gp-font-size-sm);
+        color: var(--gp-text-color-secondary);
+      }
+      .custom-theme-creator-box {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: var(--gp-surface-ground);
+        border: 1px dashed var(--gp-surface-border);
+        border-radius: var(--gp-border-radius);
+      }
+      .custom-theme-creator-box h4 {
+        margin: 0 0 0.4rem 0;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+      .creator-desc {
+        font-size: 0.78rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0 0 0.75rem 0;
+      }
+      .creator-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .creator-color-pickers {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      .creator-pick-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.8rem;
+        color: var(--gp-text-color);
+      }
+      .preview-group {
+        margin-bottom: 1.5rem;
+      }
+      .preview-group h4 {
+        font-size: var(--gp-font-size-sm);
+        color: var(--gp-text-color-secondary);
+        margin: 0 0 0.75rem 0;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .preview-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .preview-form-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .themed-subcard {
+        background: var(--gp-surface-section);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius);
+        padding: 1rem;
+      }
+      .themed-subcard h5 {
+        margin: 0 0 0.25rem 0;
+        font-size: 0.9rem;
+      }
+      .themed-subcard p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--gp-text-color-secondary);
+      }
+      .subsection-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 1rem 0 0.5rem 0;
+        color: var(--gp-text-color);
+      }
+    `
+  ]
 })
 export class ThemingPageComponent implements OnInit, OnDestroy {
   protected activeThemeId = signal<string>('default');
@@ -558,8 +662,96 @@ export class ThemingPageComponent implements OnInit, OnDestroy {
   private unsubscribeThemeListener: (() => void) | null = null;
 
   brandPalette = [
-    '#6366f1', '#3b82f6', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444',
-    '#ec4899', '#8b5cf6', '#14b8a6', '#f97316', '#06b6d4', '#64748b'
+    '#6366f1',
+    '#3b82f6',
+    '#0ea5e9',
+    '#10b981',
+    '#f59e0b',
+    '#ef4444',
+    '#ec4899',
+    '#8b5cf6',
+    '#14b8a6',
+    '#f97316',
+    '#06b6d4',
+    '#64748b'
+  ];
+
+  installationCode = `npm install @generatedpixel/gp-ui-theme
+
+# Optional companion packages
+npm install @generatedpixel/gp-ui @generatedpixel/gp-css @generatedpixel/gp-ui-icons`;
+
+  startupCode = `import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
+
+// Call once during browser application startup.
+GpThemeManager.initSystemTheme('default', 'system');
+
+GpThemeManager.setTheme('ocean');
+GpThemeManager.setMode('dark');
+
+// Temporary changes do not update localStorage.
+GpThemeManager.setMode('light', false);`;
+
+  cssVariablesCode = `.dashboard-card {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg);
+  color: var(--gp-text-color);
+  box-shadow: var(--gp-shadow-md);
+}
+
+.dashboard-card:focus-visible {
+  box-shadow: var(--gp-focus-ring);
+}`;
+
+  aliasCode = `const compactTheme = extendTheme({
+  id: 'compact',
+  name: 'Compact',
+  light: {
+    components: {
+      card: {
+        bg: '{semantic.surfaces.card}',
+        borderRadius: '{primitives.borderRadius.sm}'
+      }
+    }
+  },
+  dark: {
+    components: {
+      card: {
+        bg: '{semantic.surfaces.card}',
+        borderRadius: '{primitives.borderRadius.sm}'
+      }
+    }
+  }
+});`;
+
+  runtimeBehavior: DocApiProperty[] = [
+    {
+      name: 'Persistence',
+      type: 'localStorage',
+      description: 'setTheme and setMode persist by default under gp-theme-name and gp-theme-mode.'
+    },
+    {
+      name: 'State subscription',
+      type: 'onChange(listener)',
+      description: 'Immediately receives the current state and returns an unsubscribe function.'
+    },
+    {
+      name: 'Scoped themes',
+      type: 'data attributes',
+      description: 'Set data-gp-theme and data-gp-mode together on a subtree for previews or embedded surfaces.'
+    },
+    {
+      name: 'Server rendering',
+      type: 'browser guard',
+      description:
+        'The manager does not access window, document, or localStorage on the server; initialize it after hydration.'
+    },
+    {
+      name: 'Token flattening',
+      type: '--gp-*',
+      description: 'components.dialog.header.fontSize becomes --gp-dialog-header-font-size.'
+    }
   ];
 
   gpCssImportCode = `// 1. Core global reset, layout utilities, animations & ripple effects
@@ -647,17 +839,69 @@ const unsubscribe = GpThemeManager.onChange((state) => {
 </div>`;
 
   tokenList: DocApiProperty[] = [
-    { name: '--gp-primary', type: 'color', default: 'varies by theme', description: 'Primary brand color for buttons, active navigation, focus highlights, and controls.' },
-    { name: '--gp-primary-text', type: 'color', default: '#ffffff', description: 'Contrasting text color for primary filled elements.' },
-    { name: '--gp-primary-hover', type: 'color', default: 'varies by theme', description: 'Interactive hover color for primary elements.' },
-    { name: '--gp-primary-light', type: 'color', default: 'varies by theme', description: 'Subtle translucent background for active items and badges.' },
-    { name: '--gp-surface-ground', type: 'color', default: 'varies by theme', description: 'Main canvas and background surface color.' },
-    { name: '--gp-surface-card', type: 'color', default: 'varies by theme', description: 'Elevated card, panel, and dialog surface color.' },
-    { name: '--gp-surface-border', type: 'color', default: 'varies by theme', description: 'Structural border and divider stroke color.' },
-    { name: '--gp-text-color', type: 'color', default: 'varies by theme', description: 'Primary foreground text color.' },
-    { name: '--gp-text-color-secondary', type: 'color', default: 'varies by theme', description: 'Secondary descriptive text color.' },
-    { name: '--gp-border-radius', type: 'length', default: '6px (theme configurable)', description: 'Standard corner radius for buttons, inputs, and cards.' }
+    {
+      name: '--gp-primary',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Primary brand color for buttons, active navigation, focus highlights, and controls.'
+    },
+    {
+      name: '--gp-primary-text',
+      type: 'color',
+      default: '#ffffff',
+      description: 'Contrasting text color for primary filled elements.'
+    },
+    {
+      name: '--gp-primary-hover',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Interactive hover color for primary elements.'
+    },
+    {
+      name: '--gp-primary-light',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Subtle translucent background for active items and badges.'
+    },
+    {
+      name: '--gp-surface-ground',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Main canvas and background surface color.'
+    },
+    {
+      name: '--gp-surface-card',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Elevated card, panel, and dialog surface color.'
+    },
+    {
+      name: '--gp-surface-border',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Structural border and divider stroke color.'
+    },
+    {
+      name: '--gp-text-color',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Primary foreground text color.'
+    },
+    {
+      name: '--gp-text-color-secondary',
+      type: 'color',
+      default: 'varies by theme',
+      description: 'Secondary descriptive text color.'
+    },
+    {
+      name: '--gp-border-radius',
+      type: 'length',
+      default: '6px (theme configurable)',
+      description: 'Standard corner radius for buttons, inputs, and cards.'
+    }
   ];
+
+  public themeEditorService = inject(ThemeEditorService);
 
   ngOnInit(): void {
     this.unsubscribeThemeListener = GpThemeManager.onChange((state) => {
@@ -698,7 +942,9 @@ const unsubscribe = GpThemeManager.onChange((state) => {
 
   public onNewThemeNameInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;
-    if (val) this.newThemeName = val;
+    if (val) {
+      this.newThemeName = val;
+    }
   }
 
   public onNewThemePrimaryChange(val: string): void {

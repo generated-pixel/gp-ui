@@ -27,22 +27,28 @@ import { GpIconRegistry } from './icon-registry.service';
       [innerHTML]="safeSvg()"
     ></svg>
   `,
-  styles: [`
-    .gp-icon {
-      display: inline-flex;
-      align-self: center;
-      vertical-align: middle;
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-    .gp-icon-spin {
-      animation: gp-icon-spin 1s infinite linear;
-    }
-    @keyframes gp-icon-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  `]
+  styles: [
+    `
+      .gp-icon {
+        display: inline-flex;
+        align-self: center;
+        vertical-align: middle;
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+      }
+      .gp-icon-spin {
+        animation: gp-icon-spin 1s infinite linear;
+      }
+      @keyframes gp-icon-spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
+  ]
 })
 export class GpIconComponent {
   private registry = inject(GpIconRegistry);

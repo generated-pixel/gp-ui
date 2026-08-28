@@ -29,7 +29,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Button Components & Actions</h1>
         <p class="page-desc">
-          Interactive buttons with support for severities, visual variants, sizes, icon positioning, loading states, and floating action menus.
+          Interactive buttons with support for severities, visual variants, sizes, icon positioning, loading states, and
+          floating action menus.
         </p>
       </div>
 
@@ -89,7 +90,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Button Groups & Split Buttons -->
       <div class="doc-section">
         <h2 class="doc-section-title">Button Groups & Split Button</h2>
-        <p class="doc-section-desc">Group actions together or provide dropdown menu options alongside a primary action.</p>
+        <p class="doc-section-desc">
+          Group actions together or provide dropdown menu options alongside a primary action.
+        </p>
         <div class="doc-demo-box">
           <gp-button-group>
             <gp-button label="Left" severity="secondary" />
@@ -177,19 +180,63 @@ export class ButtonsDemoComponent {
   buttonProperties: DocApiProperty[] = [
     { name: 'label', type: 'string', default: "''", description: 'Text label displayed on the button.' },
     { name: 'icon', type: 'string', default: "''", description: 'Icon name from the built-in SVG icon registry.' },
-    { name: 'iconPos', type: "'left' | 'right' | 'top' | 'bottom'", default: "'left'", description: 'Position of the icon relative to the label.' },
-    { name: 'severity', type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'", default: "'primary'", description: 'Semantic color scheme.' },
-    { name: 'variant', type: "'filled' | 'outlined' | 'text' | 'tonal' | 'elevated' | 'link'", default: "'filled'", description: 'Visual style variant.' },
+    {
+      name: 'iconPos',
+      type: "'left' | 'right' | 'top' | 'bottom'",
+      default: "'left'",
+      description: 'Position of the icon relative to the label.'
+    },
+    {
+      name: 'severity',
+      type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'",
+      default: "'primary'",
+      description: 'Semantic color scheme.'
+    },
+    {
+      name: 'variant',
+      type: "'filled' | 'outlined' | 'text' | 'tonal' | 'elevated' | 'link'",
+      default: "'filled'",
+      description: 'Visual style variant.'
+    },
     { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Button size dimensions.' },
-    { name: 'rounded', type: 'boolean', default: 'false', description: 'Renders the button with fully pill-rounded borders.' },
-    { name: 'iconOnly', type: 'boolean', default: 'false', description: 'Renders a square/circle button without text margins.' },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables user interactions and applies disabled styling.' },
-    { name: 'loading', type: 'boolean', default: 'false', description: 'Displays a spinning loading indicator and prevents click events.' },
+    {
+      name: 'rounded',
+      type: 'boolean',
+      default: 'false',
+      description: 'Renders the button with fully pill-rounded borders.'
+    },
+    {
+      name: 'iconOnly',
+      type: 'boolean',
+      default: 'false',
+      description: 'Renders a square/circle button without text margins.'
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'Disables user interactions and applies disabled styling.'
+    },
+    {
+      name: 'loading',
+      type: 'boolean',
+      default: 'false',
+      description: 'Displays a spinning loading indicator and prevents click events.'
+    },
     { name: 'badge', type: 'string', default: "''", description: 'Optional badge value displayed inside the button.' },
-    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS class attached to the root container.' }
+    {
+      name: 'styleClass',
+      type: 'string',
+      default: "''",
+      description: 'Custom CSS class attached to the root container.'
+    }
   ];
 
   buttonEvents: DocApiProperty[] = [
-    { name: 'onClickEvent', type: 'EventEmitter<MouseEvent>', description: 'Fires when the button is clicked and not in disabled/loading state.' }
+    {
+      name: 'onClickEvent',
+      type: 'EventEmitter<MouseEvent>',
+      description: 'Fires when the button is clicked and not in disabled/loading state.'
+    }
   ];
 }

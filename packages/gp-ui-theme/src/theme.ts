@@ -14,7 +14,7 @@ import {
 } from './tokens/types';
 import { builtInThemes, defaultTheme } from './tokens/presets';
 import { baseTheme } from './tokens/base-theme';
-import { extendTheme, themeToCss } from './tokens/compiler';
+import { extendTheme, themeToCss, flattenComponentTokens } from './tokens/compiler';
 
 export * from './tokens/types';
 export * from './tokens/primitives';
@@ -104,7 +104,9 @@ export class GpThemeManager {
    * Returns true if system preference is currently dark mode
    */
   public static isSystemDark(): boolean {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === 'undefined') {
+      return false;
+    }
     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
@@ -151,11 +153,7 @@ export class GpThemeManager {
    */
   public static getThemeDefinition(themeId?: string): GpThemeDefinition {
     const id = themeId || GpThemeManager.currentTheme;
-    return (
-      GpThemeManager.registeredDefinitions.get(id) ||
-      builtInThemes.find((t) => t.id === id) ||
-      defaultTheme
-    );
+    return GpThemeManager.registeredDefinitions.get(id) || builtInThemes.find((t) => t.id === id) || defaultTheme;
   }
 
   /**
@@ -171,12 +169,11 @@ export class GpThemeManager {
    * Injects the compiled CSS for a specific theme definition directly into document <head>.
    */
   public static injectTheme(themeOrId: GpThemeDefinition | string): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
 
-    const themeDef =
-      typeof themeOrId === 'string'
-        ? GpThemeManager.getThemeDefinition(themeOrId)
-        : themeOrId;
+    const themeDef = typeof themeOrId === 'string' ? GpThemeManager.getThemeDefinition(themeOrId) : themeOrId;
 
     let styleEl = document.getElementById(`gp-theme-${themeDef.id}`) as HTMLStyleElement | null;
     if (!styleEl) {
@@ -192,7 +189,9 @@ export class GpThemeManager {
    * Injects compiled CSS for all registered and built-in themes into document <head>.
    */
   public static injectAllThemes(): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
     GpThemeManager.registeredDefinitions.forEach((def) => {
       GpThemeManager.injectTheme(def);
     });
@@ -202,7 +201,9 @@ export class GpThemeManager {
    * Sets the active theme by ID or definition and ensures its styles are injected into <head>.
    */
   public static setTheme(theme: string | GpThemeDefinition, persist = true): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
 
     if (typeof theme === 'object') {
       GpThemeManager.registerTheme(theme);
@@ -234,10 +235,11 @@ export class GpThemeManager {
    * Sets the color mode ('light', 'dark', or 'system')
    */
   public static setMode(mode: GpThemeMode, persist = true): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
 
-    const normalizedMode: GpThemeMode =
-      mode === 'gp-dark' ? 'dark' : mode === 'gp-light' ? 'light' : mode;
+    const normalizedMode: GpThemeMode = mode === 'gp-dark' ? 'dark' : mode === 'gp-light' ? 'light' : mode;
 
     GpThemeManager.currentMode = normalizedMode;
     if (persist && typeof localStorage !== 'undefined') {
@@ -340,7 +342,9 @@ export class GpThemeManager {
   }
 
   private static applyDomTheme(): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
 
     const theme = GpThemeManager.currentTheme;
     const effectiveMode = GpThemeManager.getActiveMode();
@@ -375,7 +379,9 @@ export class GpThemeManager {
   }
 
   public static setCustomToken(name: string, value: string): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
     const varName = name.startsWith('--gp-') ? name : `--gp-${name}`;
     document.documentElement.style.setProperty(varName, value);
   }
@@ -386,8 +392,38 @@ export class GpThemeManager {
     });
   }
 
+  /**
+   * Sets a specific component design token at runtime (e.g. setComponentToken('button', 'background', '#4f46e5'))
+   */
+  public static setComponentToken(component: string, keyPath: string, value: string): void {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    const kebabPath = keyPath
+      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+      .toLowerCase()
+      .replace(/\./g, '-');
+    const varName = `--gp-${component.toLowerCase()}-${kebabPath}`;
+    document.documentElement.style.setProperty(varName, value);
+  }
+
+  /**
+   * Sets multiple component design tokens for a component at runtime
+   */
+  public static setComponentTokens(component: string, tokenObj: Record<string, any>): void {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    const vars = flattenComponentTokens({ [component]: tokenObj }, '--gp');
+    Object.entries(vars).forEach(([varName, val]) => {
+      document.documentElement.style.setProperty(varName, String(val));
+    });
+  }
+
   public static resetCustomTokens(): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === 'undefined') {
+      return;
+    }
     const style = document.documentElement.style;
     const props: string[] = [];
     for (let i = 0; i < style.length; i++) {

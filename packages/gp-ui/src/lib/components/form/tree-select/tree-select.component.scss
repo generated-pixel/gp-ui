@@ -1,0 +1,47 @@
+.gp-treeselect-overlay {
+  padding: 0.5rem 0;
+  max-height: 18rem;
+  overflow-y: auto;
+}
+.gp-treeselect-tree,
+.gp-treeselect-sub-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.gp-treeselect-node-content {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+  transition: background var(--gp-transition-duration);
+}
+.gp-treeselect-node-content:hover {
+  background: var(--gp-surface-hover);
+}
+.gp-treeselect-node-selected {
+  background: var(--gp-primary-light) !important;
+  color: var(--gp-primary) !important;
+  font-weight: 600;
+}
+.gp-treeselect-toggler {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gp-text-color-muted);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.gp-treeselect-toggler-spacer {
+  width: 1.25rem;
+}
+.gp-treeselect-icon {
+  color: var(--gp-primary);
+}

@@ -50,10 +50,14 @@ for (const rel of valueHoldingComponents) {
 
   // Replace import
   content = content.replace(/import\s*\{\s*(GpBaseComponent|GpBaseControlValueAccessor)\s*\}\s*from\s*'[^']+';?/, '');
-  content = `import { GpEditableBaseComponent } from '${relToBase}/gp-editable-base.component';\n` + content.trimStart();
+  content =
+    `import { GpEditableBaseComponent } from '${relToBase}/gp-editable-base.component';\n` + content.trimStart();
 
   // Replace extends
-  content = content.replace(/extends\s+(GpBaseComponent|GpBaseControlValueAccessor)/g, 'extends GpEditableBaseComponent');
+  content = content.replace(
+    /extends\s+(GpBaseComponent|GpBaseControlValueAccessor)/g,
+    'extends GpEditableBaseComponent'
+  );
 
   // Ensure override modifier on value if present
   content = content.replace(/@Input\(\)\s+(?!override\b)value\b/g, '@Input() override value');

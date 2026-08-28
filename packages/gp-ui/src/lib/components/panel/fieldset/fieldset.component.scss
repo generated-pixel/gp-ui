@@ -1,0 +1,37 @@
+.gp-fieldset {
+  border: 1px solid var(--gp-surface-border);
+  background: var(--gp-surface-card);
+  border-radius: var(--gp-border-radius-md);
+  padding: 0.5rem 1.25rem 1.25rem 1.25rem;
+  margin: 0;
+  width: 100%;
+}
+.gp-fieldset-legend {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--gp-surface-border);
+  background: var(--gp-surface-section);
+  border-radius: var(--gp-border-radius);
+  font-weight: 600;
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gp-fieldset-toggleable {
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--gp-transition-duration);
+}
+.gp-fieldset-toggleable:hover {
+  background: var(--gp-surface-hover);
+}
+.gp-fieldset-toggler {
+  color: var(--gp-text-color-muted);
+}
+.gp-fieldset-content {
+  padding-top: 0.5rem;
+  color: var(--gp-text-color);
+  line-height: 1.5;
+  font-size: var(--gp-font-size-sm);
+}

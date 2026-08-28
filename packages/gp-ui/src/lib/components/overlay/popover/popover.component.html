@@ -1,0 +1,5 @@
+@if (visible()) {
+  <div class="gp-popover" [style.top.px]="top()" [style.left.px]="left()" (click)="$event.stopPropagation()">
+    <ng-content />
+  </div>
+}

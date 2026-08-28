@@ -1,0 +1,37 @@
+<div
+  class="gp-rating"
+  [class.gp-rating-readonly]="readonly"
+  [class.gp-rating-disabled]="disabled"
+  role="radiogroup"
+  [attr.aria-label]="ariaLabel || 'Rating'"
+>
+  @if (cancel && !readonly && !disabled) {
+    <button type="button" class="gp-rating-cancel" (click)="clear()" aria-label="Clear rating">
+      <gp-icon name="times-circle" size="1.1em" />
+    </button>
+  }
+
+  @for (star of starsArray; track $index) {
+    <span
+      class="gp-rating-item"
+      [class.gp-rating-item-active]="isStarActive($index)"
+      (click)="rate($index + 1, $event)"
+      (keydown.space)="$event.preventDefault(); rate($index + 1, $event)"
+      tabindex="0"
+      role="radio"
+      [attr.aria-checked]="
+        internalValue() === $index + 1 || (allowHalfStars && internalValue() > $index && internalValue() < $index + 1)
+      "
+      [attr.aria-label]="$index + 1 + ' stars'"
+    >
+      @if (allowHalfStars && isStarHalf($index)) {
+        <span class="gp-rating-half-wrapper">
+          <gp-icon [name]="offIcon" size="1.25em" class="gp-rating-half-off" />
+          <gp-icon [name]="onIcon" size="1.25em" class="gp-rating-half-on" [style.width.%]="50" />
+        </span>
+      } @else {
+        <gp-icon [name]="isStarActive($index) ? onIcon : offIcon" size="1.25em" />
+      }
+    </span>
+  }
+</div>

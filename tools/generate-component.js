@@ -7,12 +7,17 @@ const type = args[0] || 'component';
 const name = args[1];
 
 if (!name) {
-  console.error('❌ Error: Please specify a component name.\nUsage: node tools/generate-component.js component <component-name>');
+  console.error(
+    '❌ Error: Please specify a component name.\nUsage: node tools/generate-component.js component <component-name>'
+  );
   process.exit(1);
 }
 
 const kebabName = name.toLowerCase().replace(/\s+/g, '-');
-const pascalName = kebabName.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join('');
+const pascalName = kebabName
+  .split('-')
+  .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+  .join('');
 const componentClass = `Gp${pascalName}Component`;
 const selector = `gp-${kebabName}`;
 

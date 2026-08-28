@@ -1,0 +1,14 @@
+<div class="gp-slider" [class.gp-slider-disabled]="disabled" (mousedown)="onBarMouseDown($event)">
+  <div class="gp-slider-range" [style.width.%]="percentage()"></div>
+  <span
+    class="gp-slider-handle"
+    [style.left.%]="percentage()"
+    tabindex="0"
+    role="slider"
+    [attr.aria-valuenow]="internalValue()"
+    [attr.aria-valuemin]="min"
+    [attr.aria-valuemax]="max"
+    [attr.aria-disabled]="disabled"
+    (keydown)="onKeyDown($event)"
+  ></span>
+</div>

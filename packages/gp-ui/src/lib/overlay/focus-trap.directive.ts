@@ -12,7 +12,9 @@ export class GpFocusTrapDirective {
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (!this.gpFocusTrap || event.key !== 'Tab') return;
+    if (!this.gpFocusTrap || event.key !== 'Tab') {
+      return;
+    }
 
     const focusables = DomHandler.getFocusableElements(this.el.nativeElement);
     if (focusables.length === 0) {

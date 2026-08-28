@@ -1,0 +1,78 @@
+.gp-color-picker {
+  display: inline-block;
+  position: relative;
+}
+.gp-color-picker-preview {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--gp-border-radius);
+  border: 2px solid var(--gp-surface-border);
+  cursor: pointer;
+  box-shadow: var(--gp-shadow-sm);
+  outline: none;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.gp-color-picker-preview:focus-visible {
+  box-shadow: var(--gp-focus-ring);
+}
+.gp-color-picker-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  padding: 0.75rem;
+  background: var(--gp-surface-overlay);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  box-shadow: var(--gp-shadow-lg);
+  z-index: 1050;
+  width: 14rem;
+  animation: gp-slide-down 0.15s ease-out;
+}
+.gp-color-picker-palette {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+.gp-color-picker-swatch {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--gp-border-radius-sm);
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s;
+}
+.gp-color-picker-swatch:hover {
+  transform: scale(1.2);
+}
+.gp-color-picker-swatch-selected {
+  box-shadow: 0 0 0 2px var(--gp-primary);
+}
+.gp-color-picker-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--gp-surface-divider);
+  padding-top: 0.5rem;
+}
+.gp-color-picker-native {
+  width: 2rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.gp-color-picker-hex {
+  font-size: var(--gp-font-size-xs);
+  font-family: monospace;
+  color: var(--gp-text-color-secondary);
+}
+.gp-color-picker-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

@@ -26,8 +26,14 @@ describe('Validation & Side Effects Architecture', () => {
 
     it('email: should validate email formats', () => {
       const validator = GpValidators.email();
-      expect(validator('not-an-email', null as any)).toEqual({ rule: 'email', message: 'Please enter a valid email address' });
-      expect(validator('missing@domain', null as any)).toEqual({ rule: 'email', message: 'Please enter a valid email address' });
+      expect(validator('not-an-email', null as any)).toEqual({
+        rule: 'email',
+        message: 'Please enter a valid email address'
+      });
+      expect(validator('missing@domain', null as any)).toEqual({
+        rule: 'email',
+        message: 'Please enter a valid email address'
+      });
 
       expect(validator('user@example.com', null as any)).toBeNull();
       expect(validator('dev.user+test@sub.company.org', null as any)).toBeNull();
@@ -36,29 +42,53 @@ describe('Validation & Side Effects Architecture', () => {
 
     it('minLength & maxLength: should validate length constraints', () => {
       const minVal = GpValidators.minLength(5);
-      expect(minVal('abc', null as any)).toEqual({ rule: 'minLength', message: 'Must be at least 5 characters', params: { min: 5, actual: 3 } });
+      expect(minVal('abc', null as any)).toEqual({
+        rule: 'minLength',
+        message: 'Must be at least 5 characters',
+        params: { min: 5, actual: 3 }
+      });
       expect(minVal('abcde', null as any)).toBeNull();
 
       const maxVal = GpValidators.maxLength(5);
-      expect(maxVal('abcdef', null as any)).toEqual({ rule: 'maxLength', message: 'Must be at most 5 characters', params: { max: 5, actual: 6 } });
+      expect(maxVal('abcdef', null as any)).toEqual({
+        rule: 'maxLength',
+        message: 'Must be at most 5 characters',
+        params: { max: 5, actual: 6 }
+      });
       expect(maxVal('abc', null as any)).toBeNull();
     });
 
     it('min & max: should validate numeric constraints', () => {
       const min = GpValidators.min(18, 'Must be at least 18');
-      expect(min(17, null as any)).toEqual({ rule: 'min', message: 'Must be at least 18', params: { min: 18, actual: 17 } });
+      expect(min(17, null as any)).toEqual({
+        rule: 'min',
+        message: 'Must be at least 18',
+        params: { min: 18, actual: 17 }
+      });
       expect(min(18, null as any)).toBeNull();
       expect(min(25, null as any)).toBeNull();
 
       const max = GpValidators.max(100);
-      expect(max(105, null as any)).toEqual({ rule: 'max', message: 'Value must not exceed 100', params: { max: 100, actual: 105 } });
+      expect(max(105, null as any)).toEqual({
+        rule: 'max',
+        message: 'Value must not exceed 100',
+        params: { max: 100, actual: 105 }
+      });
       expect(max(100, null as any)).toBeNull();
     });
 
     it('pattern: should validate against regex pattern', () => {
       const zipValidator = GpValidators.pattern(/^\d{5}$/, 'Must be a 5-digit zip');
-      expect(zipValidator('123', null as any)).toEqual({ rule: 'pattern', message: 'Must be a 5-digit zip', params: { pattern: '/^\\d{5}$/' } });
-      expect(zipValidator('abcde', null as any)).toEqual({ rule: 'pattern', message: 'Must be a 5-digit zip', params: { pattern: '/^\\d{5}$/' } });
+      expect(zipValidator('123', null as any)).toEqual({
+        rule: 'pattern',
+        message: 'Must be a 5-digit zip',
+        params: { pattern: '/^\\d{5}$/' }
+      });
+      expect(zipValidator('abcde', null as any)).toEqual({
+        rule: 'pattern',
+        message: 'Must be a 5-digit zip',
+        params: { pattern: '/^\\d{5}$/' }
+      });
       expect(zipValidator('90210', null as any)).toBeNull();
     });
 
@@ -71,21 +101,21 @@ describe('Validation & Side Effects Architecture', () => {
 
     it('custom: should execute custom validation function', () => {
       const customValidator = GpValidators.custom(
-        (val) => val === 'admin' ? 'Username "admin" is reserved' : true,
+        (val) => (val === 'admin' ? 'Username "admin" is reserved' : true),
         'reserved_user'
       );
-      expect(customValidator('admin', null as any)).toEqual({ rule: 'reserved_user', message: 'Username "admin" is reserved' });
+      expect(customValidator('admin', null as any)).toEqual({
+        rule: 'reserved_user',
+        message: 'Username "admin" is reserved'
+      });
       expect(customValidator('john_doe', null as any)).toBeNull();
     });
 
     it('async: should execute async validator promise', async () => {
-      const asyncValidator = GpValidators.async(
-        async (val) => {
-          await new Promise((r) => setTimeout(r, 10));
-          return val === 'taken@example.com' ? 'Email already registered' : true;
-        },
-        'unique_email'
-      );
+      const asyncValidator = GpValidators.async(async (val) => {
+        await new Promise((r) => setTimeout(r, 10));
+        return val === 'taken@example.com' ? 'Email already registered' : true;
+      }, 'unique_email');
 
       const res1 = await asyncValidator('taken@example.com', null as any);
       expect(res1).toEqual({ rule: 'unique_email', message: 'Email already registered' });
@@ -101,7 +131,11 @@ describe('Validation & Side Effects Architecture', () => {
       );
 
       expect(await composed('', null as any)).toEqual({ rule: 'required', message: 'Required' });
-      expect(await composed('ab', null as any)).toEqual({ rule: 'minLength', message: 'Min length 4', params: { min: 4, actual: 2 } });
+      expect(await composed('ab', null as any)).toEqual({
+        rule: 'minLength',
+        message: 'Min length 4',
+        params: { min: 4, actual: 2 }
+      });
       expect(await composed('valid', null as any)).toBeNull();
     });
   });

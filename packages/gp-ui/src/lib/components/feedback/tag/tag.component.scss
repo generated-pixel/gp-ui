@@ -1,0 +1,41 @@
+.gp-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--gp-border-radius);
+  font-size: var(--gp-font-size-xs);
+  font-weight: 600;
+  line-height: 1;
+}
+.gp-tag-rounded {
+  border-radius: var(--gp-border-radius-full);
+}
+.gp-tag-primary {
+  background: var(--gp-primary-light);
+  color: var(--gp-primary);
+}
+.gp-tag-secondary {
+  background: var(--gp-secondary-light);
+  color: var(--gp-secondary);
+}
+.gp-tag-success {
+  background: var(--gp-success-light);
+  color: var(--gp-success);
+}
+.gp-tag-info {
+  background: var(--gp-info-light);
+  color: var(--gp-info);
+}
+.gp-tag-warning {
+  background: var(--gp-warning-light);
+  color: var(--gp-warning);
+}
+.gp-tag-danger {
+  background: var(--gp-danger-light);
+  color: var(--gp-danger);
+}
+.gp-tag-contrast {
+  background: var(--gp-contrast);
+  color: var(--gp-contrast-text);
+}

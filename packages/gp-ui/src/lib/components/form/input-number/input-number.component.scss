@@ -1,0 +1,109 @@
+.gp-input-number {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+.gp-input-number-input-wrap {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+.gp-input-number-input {
+  width: 100%;
+}
+.gp-input-number-buttons-stacked .gp-input-number-input {
+  padding-right: var(--gp-input-number-button-width);
+}
+.gp-input-number-prefix,
+.gp-input-number-suffix {
+  position: absolute;
+  color: var(--gp-text-color-secondary);
+  font-size: var(--gp-font-size-sm);
+  pointer-events: none;
+}
+.gp-input-number-prefix {
+  left: 0.75rem;
+}
+.gp-input-number-suffix {
+  right: 0.75rem;
+}
+.gp-input-number-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--gp-input-number-horizontal-button-width);
+  min-height: var(--gp-input-height);
+  background: var(--gp-input-number-button-background, transparent);
+  border: none;
+  color: var(--gp-text-color);
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  transition:
+    background-color var(--gp-transition-duration),
+    border-color var(--gp-transition-duration),
+    color var(--gp-transition-duration),
+    box-shadow var(--gp-transition-duration);
+}
+.gp-input-number-btn:hover:not(:disabled) {
+  background: var(--gp-primary-light);
+  color: var(--gp-primary);
+}
+.gp-input-number-btn:focus-visible {
+  position: relative;
+  z-index: 1;
+  box-shadow: var(--gp-focus-ring);
+  outline: none;
+}
+.gp-input-number-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.gp-input-number-btn-stack {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  flex: none;
+  width: var(--gp-input-number-button-width);
+  height: var(--gp-input-height);
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+.gp-input-number-btn-stack .gp-input-number-btn {
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: auto;
+  flex: 1 1 50%;
+}
+.gp-input-number-btn-stack .gp-input-number-btn-up {
+  border-top-right-radius: var(--gp-border-radius);
+}
+.gp-input-number-btn-stack .gp-input-number-btn-down {
+  border-bottom-right-radius: var(--gp-border-radius);
+}
+.gp-input-number-buttons-horizontal .gp-input-number-input {
+  padding-right: var(--gp-input-number-horizontal-button-width);
+  padding-left: var(--gp-input-number-horizontal-button-width);
+  text-align: center;
+}
+.gp-input-number-buttons-horizontal .gp-input-number-btn-down {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  flex: 0 0 var(--gp-input-number-horizontal-button-width);
+  width: var(--gp-input-number-horizontal-button-width);
+}
+.gp-input-number-buttons-horizontal .gp-input-number-btn-up {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  flex: 0 0 var(--gp-input-number-horizontal-button-width);
+  width: var(--gp-input-number-horizontal-button-width);
+}

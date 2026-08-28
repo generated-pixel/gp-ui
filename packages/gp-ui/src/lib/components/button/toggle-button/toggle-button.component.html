@@ -1,0 +1,17 @@
+<button
+  type="button"
+  [disabled]="disabled"
+  [class.gp-toggle-button-checked]="checked()"
+  [attr.aria-pressed]="checked()"
+  (click)="toggle()"
+  class="gp-button gp-toggle-button"
+  gpRipple
+>
+  @if (checked() && onIcon) {
+    <gp-icon [name]="onIcon" class="gp-button-icon" />
+  } @else if (!checked() && offIcon) {
+    <gp-icon [name]="offIcon" class="gp-button-icon" />
+  }
+
+  <span class="gp-button-label">{{ checked() ? onLabel : offLabel }}</span>
+</button>

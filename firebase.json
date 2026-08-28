@@ -2,11 +2,7 @@
   "hosting": {
     "site": "gp-ui-dev",
     "public": "dist/apps/gp-ui-demo/browser",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",

@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Cyberpunk Theme)
    ========================================================================== */
-:root[data-gp-theme="cyberpunk"],
-[data-gp-theme="cyberpunk"],
-[data-gp-theme="cyberpunk"][data-gp-mode="light"],
+:root[data-gp-theme='cyberpunk'],
+[data-gp-theme='cyberpunk'],
+[data-gp-theme='cyberpunk'][data-gp-mode='light'],
 .gp-theme-cyberpunk,
 .gp-theme-cyberpunk.gp-light {
   /* Primitive Color Palette - Neon Gold / Amber */
@@ -77,7 +77,7 @@
   --gp-surface-divider: #e2e8f0;
 
   /* Typography & Text */
-  --gp-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --gp-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --gp-text-color: #0f172a;
   --gp-text-color-secondary: #475569;
   --gp-text-color-muted: #94a3b8;
@@ -110,10 +110,10 @@
 /* ==========================================================================
    Dark Mode (Cyberpunk Theme)
    ========================================================================== */
-:root[data-gp-theme="cyberpunk"][data-gp-mode="dark"],
-[data-gp-theme="cyberpunk"][data-gp-mode="dark"],
+:root[data-gp-theme='cyberpunk'][data-gp-mode='dark'],
+[data-gp-theme='cyberpunk'][data-gp-mode='dark'],
 .gp-theme-cyberpunk.gp-dark,
-[data-gp-theme="cyberpunk"].gp-dark {
+[data-gp-theme='cyberpunk'].gp-dark {
   /* Primitive Color Palette - High Voltage Neon in Obsidian */
   --gp-primary-50: #422006;
   --gp-primary-100: #713f12;
@@ -180,7 +180,7 @@
   --gp-surface-divider: #28283c;
 
   /* Typography & Text */
-  --gp-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --gp-font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --gp-text-color: #fefce8;
   --gp-text-color-secondary: #00f0ff;
   --gp-text-color-muted: #ca8a04;
@@ -212,8 +212,8 @@
 
 /* System dark mode for cyberpunk */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="cyberpunk"]:not([data-gp-mode="light"]),
-  [data-gp-theme="cyberpunk"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='cyberpunk']:not([data-gp-mode='light']),
+  [data-gp-theme='cyberpunk']:not([data-gp-mode='light']),
   .gp-theme-cyberpunk:not(.gp-light) {
     --gp-primary-50: #422006;
     --gp-primary-100: #713f12;
