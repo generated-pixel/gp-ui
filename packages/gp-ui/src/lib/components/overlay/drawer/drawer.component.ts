@@ -41,7 +41,9 @@ export class GpDrawerComponent extends GpBaseComponent {
     if (val !== this.visible()) {
       if (val) {
         this.show();
-      } else this.close();
+      } else {
+        this.close();
+      }
     }
   }
 
