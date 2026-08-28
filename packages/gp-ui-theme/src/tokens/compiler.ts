@@ -9,7 +9,9 @@ import { baseTheme } from './base-theme';
  * Deeply merges two objects, creating a new clone.
  */
 export function deepMerge<T extends object>(target: T, source: any): T {
-  if (!source) return target;
+  if (!source) {
+    return target;
+  }
   const output = { ...target } as any;
 
   if (isObject(target) && isObject(source)) {
@@ -39,8 +41,12 @@ export function extendTheme(overrides: GpThemeOverride, base: GpThemeDefinition 
   const merged = deepMerge(base, overrides) as GpThemeDefinition;
   merged.id = overrides.id;
   merged.name = overrides.name;
-  if (overrides.description) merged.description = overrides.description;
-  if (overrides.author) merged.author = overrides.author;
+  if (overrides.description) {
+    merged.description = overrides.description;
+  }
+  if (overrides.author) {
+    merged.author = overrides.author;
+  }
   return merged;
 }
 
@@ -68,7 +74,9 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   vars['--gp-primary-hover'] = sem.primary.hover;
   vars['--gp-primary-active'] = sem.primary.active;
   vars['--gp-primary-light'] = sem.primary.light;
-  if (sem.primary.border) vars['--gp-primary-border'] = sem.primary.border;
+  if (sem.primary.border) {
+    vars['--gp-primary-border'] = sem.primary.border;
+  }
 
   // 3. Status Colors
   vars['--gp-secondary'] = sem.secondary.main;
@@ -80,25 +88,33 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   vars['--gp-success-text'] = sem.success.text;
   vars['--gp-success-hover'] = sem.success.hover;
   vars['--gp-success-light'] = sem.success.light;
-  if (sem.success.border) vars['--gp-success-border'] = sem.success.border;
+  if (sem.success.border) {
+    vars['--gp-success-border'] = sem.success.border;
+  }
 
   vars['--gp-info'] = sem.info.main;
   vars['--gp-info-text'] = sem.info.text;
   vars['--gp-info-hover'] = sem.info.hover;
   vars['--gp-info-light'] = sem.info.light;
-  if (sem.info.border) vars['--gp-info-border'] = sem.info.border;
+  if (sem.info.border) {
+    vars['--gp-info-border'] = sem.info.border;
+  }
 
   vars['--gp-warning'] = sem.warning.main;
   vars['--gp-warning-text'] = sem.warning.text;
   vars['--gp-warning-hover'] = sem.warning.hover;
   vars['--gp-warning-light'] = sem.warning.light;
-  if (sem.warning.border) vars['--gp-warning-border'] = sem.warning.border;
+  if (sem.warning.border) {
+    vars['--gp-warning-border'] = sem.warning.border;
+  }
 
   vars['--gp-danger'] = sem.danger.main;
   vars['--gp-danger-text'] = sem.danger.text;
   vars['--gp-danger-hover'] = sem.danger.hover;
   vars['--gp-danger-light'] = sem.danger.light;
-  if (sem.danger.border) vars['--gp-danger-border'] = sem.danger.border;
+  if (sem.danger.border) {
+    vars['--gp-danger-border'] = sem.danger.border;
+  }
 
   vars['--gp-contrast'] = sem.contrast.main;
   vars['--gp-contrast-text'] = sem.contrast.text;
@@ -152,9 +168,9 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   // 10. Mask
   vars['--gp-mask-bg'] = sem.mask.bg;
 
-  // 11. Component Specific Tokens (Recursive Flattening)
+  // 11. Component Specific Tokens (Recursive Flattening & W3C Token Alias Resolution)
   if (comp) {
-    const compVars = flattenComponentTokens(comp, '--gp');
+    const compVars = flattenComponentTokens(comp, '--gp', (val) => resolveTokenAlias(val, theme, mode));
     Object.assign(vars, compVars);
   }
 
@@ -165,19 +181,74 @@ function camelToKebab(str: string): string {
   return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-export function flattenComponentTokens(obj: Record<string, any>, prefix = '--gp'): Record<string, string> {
+/**
+ * Resolves W3C-style token aliases (e.g. "{semantic.primary.main}" or "{primitives.borderRadius.md}")
+ */
+export function resolveTokenAlias(val: any, theme: GpThemeDefinition, mode: 'light' | 'dark'): string {
+  if (typeof val !== 'string') {
+    return String(val ?? '');
+  }
+
+  const match = val.match(/^\{([^}]+)\}$/);
+  if (!match) {
+    return val;
+  }
+
+  const path = match[1].split('.');
+  let target: any = null;
+
+  if (path[0] === 'semantic') {
+    target = mode === 'dark' ? theme.dark.semantic : theme.light.semantic;
+    path.shift();
+  } else if (path[0] === 'primitives') {
+    target = theme.primitives;
+    path.shift();
+  } else if (path[0] === 'components') {
+    target = mode === 'dark' ? theme.dark.components : theme.light.components;
+    path.shift();
+  }
+
+  if (!target) {
+    return val;
+  }
+
+  for (const key of path) {
+    if (target && typeof target === 'object' && key in target) {
+      target = target[key];
+    } else {
+      return val;
+    }
+  }
+
+  if (typeof target === 'string' || typeof target === 'number') {
+    return resolveTokenAlias(target, theme, mode);
+  }
+
+  return val;
+}
+
+export function flattenComponentTokens(
+  obj: Record<string, any>,
+  prefix = '--gp',
+  resolver?: (val: any) => string
+): Record<string, string> {
   const vars: Record<string, string> = {};
-  if (!obj || typeof obj !== 'object') return vars;
+  if (!obj || typeof obj !== 'object') {
+    return vars;
+  }
 
   function traverse(current: any, path: string[]) {
-    if (current === null || current === undefined) return;
+    if (current === null || current === undefined) {
+      return;
+    }
     if (typeof current === 'object' && !Array.isArray(current)) {
       Object.keys(current).forEach((key) => {
         traverse(current[key], [...path, camelToKebab(key)]);
       });
     } else {
       const varName = `${prefix}-${path.join('-')}`;
-      vars[varName] = String(current);
+      const rawVal = String(current);
+      vars[varName] = resolver ? resolver(rawVal) : rawVal;
     }
   }
 

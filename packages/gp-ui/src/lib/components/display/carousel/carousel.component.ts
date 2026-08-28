@@ -41,12 +41,16 @@ export class GpCarouselComponent extends GpBaseComponent implements OnInit, OnDe
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) clearInterval(this.intervalId);
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   public next(): void {
     const total = this.value ? this.value.length : 0;
-    if (total === 0) return;
+    if (total === 0) {
+      return;
+    }
     const current = this.activeIndex();
     if (current < total - 1) {
       this.activeIndex.set(current + 1);
@@ -57,7 +61,9 @@ export class GpCarouselComponent extends GpBaseComponent implements OnInit, OnDe
 
   public prev(): void {
     const total = this.value ? this.value.length : 0;
-    if (total === 0) return;
+    if (total === 0) {
+      return;
+    }
     const current = this.activeIndex();
     if (current > 0) {
       this.activeIndex.set(current - 1);

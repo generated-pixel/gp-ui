@@ -808,7 +808,9 @@ export class AppComponent {
 
   protected filteredCatalogue = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
-    if (!q) return this.catalogueItems;
+    if (!q) {
+      return this.catalogueItems;
+    }
     return this.catalogueItems.filter(
       (item) => item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
     );

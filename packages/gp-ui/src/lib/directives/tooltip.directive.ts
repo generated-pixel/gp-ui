@@ -24,7 +24,9 @@ export class GpTooltipDirective implements OnDestroy {
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    if (this.tooltipDisabled || !this.gpTooltip) return;
+    if (this.tooltipDisabled || !this.gpTooltip) {
+      return;
+    }
     clearTimeout(this.hideTimeout);
     this.showTimeout = setTimeout(() => this.show(), this.showDelay);
   }
@@ -46,7 +48,9 @@ export class GpTooltipDirective implements OnDestroy {
   }
 
   private show(): void {
-    if (this.tooltipEl || !this.gpTooltip) return;
+    if (this.tooltipEl || !this.gpTooltip) {
+      return;
+    }
 
     this.tooltipEl = document.createElement('div');
     this.tooltipEl.className = `gp-tooltip gp-tooltip-${this.tooltipPosition}`;
@@ -61,7 +65,9 @@ export class GpTooltipDirective implements OnDestroy {
   }
 
   private align(): void {
-    if (!this.tooltipEl) return;
+    if (!this.tooltipEl) {
+      return;
+    }
     const host = this.el.nativeElement as HTMLElement;
     const hostRect = host.getBoundingClientRect();
     const tooltipRect = this.tooltipEl.getBoundingClientRect();

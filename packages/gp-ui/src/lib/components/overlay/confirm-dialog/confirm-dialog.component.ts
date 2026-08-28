@@ -54,14 +54,18 @@ export class GpConfirmDialogComponent extends GpBaseComponent implements OnInit,
 
   public accept(): void {
     const conf = this.confirmation();
-    if (conf?.accept) conf.accept();
+    if (conf?.accept) {
+      conf.accept();
+    }
     this.confirmationService.onAccept();
     this.visible.set(false);
   }
 
   public reject(): void {
     const conf = this.confirmation();
-    if (conf?.reject) conf.reject();
+    if (conf?.reject) {
+      conf.reject();
+    }
     this.confirmationService.onReject();
     this.visible.set(false);
   }

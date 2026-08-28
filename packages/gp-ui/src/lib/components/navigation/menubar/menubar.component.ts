@@ -36,7 +36,9 @@ export class GpMenubarComponent extends GpBaseComponent {
   }
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

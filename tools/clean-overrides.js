@@ -28,7 +28,9 @@ for (const filePath of files) {
   const isForm = content.includes('extends GpBaseControlValueAccessor');
   const isBase = content.includes('extends GpBaseComponent') || isForm;
 
-  if (!isBase) continue;
+  if (!isBase) {
+    continue;
+  }
 
   const propsToOverride = isForm ? [...baseProps, ...cvaProps] : baseProps;
 

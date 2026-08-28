@@ -2,7 +2,9 @@ export class DomHandler {
   public static addClass(element: HTMLElement, className: string): void {
     if (element && className) {
       className.split(' ').forEach((cls) => {
-        if (cls) element.classList.add(cls);
+        if (cls) {
+          element.classList.add(cls);
+        }
       });
     }
   }
@@ -10,7 +12,9 @@ export class DomHandler {
   public static removeClass(element: HTMLElement, className: string): void {
     if (element && className) {
       className.split(' ').forEach((cls) => {
-        if (cls) element.classList.remove(cls);
+        if (cls) {
+          element.classList.remove(cls);
+        }
       });
     }
   }
@@ -40,7 +44,9 @@ export class DomHandler {
     appendTo = 'body',
     position: 'bottom' | 'top' | 'left' | 'right' = 'bottom'
   ): void {
-    if (!overlay || !target) return;
+    if (!overlay || !target) {
+      return;
+    }
 
     const targetRect = target.getBoundingClientRect();
     const overlayRect = overlay.getBoundingClientRect();

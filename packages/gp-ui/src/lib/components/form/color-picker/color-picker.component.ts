@@ -87,7 +87,9 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
   }
 
   public toggleOverlay(): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 

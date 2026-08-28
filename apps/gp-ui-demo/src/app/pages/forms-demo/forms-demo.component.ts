@@ -727,7 +727,9 @@ export class MyFormComponent {
   public isValidationSuccess = false;
 
   public checkUsernameAvailable = GpValidators.async(async (val: any) => {
-    if (!val || typeof val !== 'string') return null;
+    if (!val || typeof val !== 'string') {
+      return null;
+    }
     // Simulate remote network verification delay
     await new Promise((resolve) => setTimeout(resolve, 600));
     const normalized = val.trim().toLowerCase();

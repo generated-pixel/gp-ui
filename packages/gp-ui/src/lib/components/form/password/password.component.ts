@@ -45,28 +45,50 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
 
   protected strengthScore = computed(() => {
     const val = this.internalValue() as string;
-    if (!val) return 0;
+    if (!val) {
+      return 0;
+    }
     let score = 0;
-    if (val.length >= 8) score++;
-    if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score++;
-    if (/\d/.test(val)) score++;
-    if (/[^a-zA-Z\d]/.test(val)) score++;
+    if (val.length >= 8) {
+      score++;
+    }
+    if (/[a-z]/.test(val) && /[A-Z]/.test(val)) {
+      score++;
+    }
+    if (/\d/.test(val)) {
+      score++;
+    }
+    if (/[^a-zA-Z\d]/.test(val)) {
+      score++;
+    }
     return score;
   });
 
   protected strengthLevel = computed(() => {
     const s = this.strengthScore();
-    if (s <= 1) return 'weak';
-    if (s === 2) return 'medium';
-    if (s === 3) return 'strong';
+    if (s <= 1) {
+      return 'weak';
+    }
+    if (s === 2) {
+      return 'medium';
+    }
+    if (s === 3) {
+      return 'strong';
+    }
     return 'very-strong';
   });
 
   protected strengthLabel = computed(() => {
     const s = this.strengthScore();
-    if (s <= 1) return 'Weak password';
-    if (s === 2) return 'Medium strength';
-    if (s === 3) return 'Strong password';
+    if (s <= 1) {
+      return 'Weak password';
+    }
+    if (s === 2) {
+      return 'Medium strength';
+    }
+    if (s === 3) {
+      return 'Strong password';
+    }
     return 'Very strong password';
   });
 

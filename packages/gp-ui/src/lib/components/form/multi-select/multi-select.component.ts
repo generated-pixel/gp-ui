@@ -73,7 +73,9 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
     return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
-        if ('value' in opt && 'label' in opt) return opt as GpSelectItem;
+        if ('value' in opt && 'label' in opt) {
+          return opt as GpSelectItem;
+        }
         return {
           label: opt[this.optionLabel] ?? String(opt),
           value: this.optionValue ? opt[this.optionValue] : opt,
@@ -87,7 +89,9 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
-    if (!q) return this.normalizedOptions();
+    if (!q) {
+      return this.normalizedOptions();
+    }
     return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
@@ -109,7 +113,9 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   public isAllSelected(): boolean {
     const opts = this.normalizedOptions();
-    if (opts.length === 0) return false;
+    if (opts.length === 0) {
+      return false;
+    }
     return opts.every((opt) => this.isSelected(opt));
   }
 
@@ -132,12 +138,16 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   }
 
   public toggleOverlay(event: MouseEvent): void {
-    if (this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 
   public toggleOption(opt: GpSelectItem, event: MouseEvent): void {
-    if (opt.disabled) return;
+    if (opt.disabled) {
+      return;
+    }
     const current = (this.internalValue() as any[]) || [];
     let next: any[];
     if (this.isSelected(opt)) {

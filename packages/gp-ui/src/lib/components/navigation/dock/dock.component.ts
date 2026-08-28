@@ -22,7 +22,9 @@ export class GpDockComponent extends GpBaseComponent {
   @Input() position: GpDockPosition = 'bottom';
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

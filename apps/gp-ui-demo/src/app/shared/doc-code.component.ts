@@ -96,7 +96,9 @@ export class DocCodeComponent {
   protected copied = signal(false);
 
   protected copyCode(): void {
-    if (!this.code) return;
+    if (!this.code) {
+      return;
+    }
     navigator.clipboard.writeText(this.code).then(() => {
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 2000);

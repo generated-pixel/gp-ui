@@ -82,7 +82,9 @@ export class GpFormErrorComponent {
   @Input() showFirstOnly = true;
 
   public hasErrors(): boolean {
-    if (this.message) return true;
+    if (this.message) {
+      return true;
+    }
     if (this.control) {
       return this.control.isInvalid();
     }
@@ -93,7 +95,9 @@ export class GpFormErrorComponent {
   }
 
   public firstErrorMessage(): string | null {
-    if (this.message) return this.message;
+    if (this.message) {
+      return this.message;
+    }
     if (this.control) {
       return this.control.firstError();
     }

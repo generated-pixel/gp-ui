@@ -381,16 +381,85 @@ export interface GpToastComponentTokens {
   [key: string]: any;
 }
 
+export interface GpGenericComponentTokens {
+  background?: string;
+  color?: string;
+  borderColor?: string;
+  borderRadius?: string;
+  padding?: string;
+  fontSize?: string;
+  shadow?: string;
+  [key: string]: any;
+}
+
 export interface GpComponentTokens {
   button?: GpButtonComponentTokens;
   input?: GpInputComponentTokens;
   card?: GpCardComponentTokens;
   tooltip?: GpTooltipComponentTokens;
   autocomplete?: GpAutocompleteComponentTokens;
+  cascadeSelect?: GpGenericComponentTokens;
+  checkbox?: GpGenericComponentTokens;
+  colorPicker?: GpGenericComponentTokens;
+  datePicker?: GpGenericComponentTokens;
+  fileUpload?: GpGenericComponentTokens;
+  inputMask?: GpGenericComponentTokens;
+  inputNumber?: GpGenericComponentTokens;
+  inputText?: GpInputComponentTokens;
+  listbox?: GpGenericComponentTokens;
+  multiSelect?: GpGenericComponentTokens;
+  password?: GpGenericComponentTokens;
+  radioButton?: GpGenericComponentTokens;
+  rating?: GpGenericComponentTokens;
   select?: GpSelectComponentTokens;
-  dialog?: GpDialogComponentTokens;
+  slider?: GpGenericComponentTokens;
+  switch?: GpGenericComponentTokens;
+  textarea?: GpGenericComponentTokens;
+  timePicker?: GpGenericComponentTokens;
+  treeSelect?: GpGenericComponentTokens;
+  column?: GpGenericComponentTokens;
+  dataView?: GpGenericComponentTokens;
+  paginator?: GpGenericComponentTokens;
   table?: GpTableComponentTokens;
+  treeTable?: GpGenericComponentTokens;
+  virtualScroller?: GpGenericComponentTokens;
+  confirmDialog?: GpGenericComponentTokens;
+  dialog?: GpDialogComponentTokens;
+  drawer?: GpGenericComponentTokens;
+  popover?: GpGenericComponentTokens;
+  breadcrumb?: GpGenericComponentTokens;
+  contextMenu?: GpGenericComponentTokens;
+  dock?: GpGenericComponentTokens;
+  megaMenu?: GpGenericComponentTokens;
+  menu?: GpGenericComponentTokens;
+  menubar?: GpGenericComponentTokens;
+  panelMenu?: GpGenericComponentTokens;
+  stepper?: GpGenericComponentTokens;
+  tabs?: GpGenericComponentTokens;
+  tieredMenu?: GpGenericComponentTokens;
+  toolbar?: GpGenericComponentTokens;
+  accordion?: GpGenericComponentTokens;
+  divider?: GpGenericComponentTokens;
+  fieldset?: GpGenericComponentTokens;
+  panel?: GpGenericComponentTokens;
+  scrollPanel?: GpGenericComponentTokens;
+  splitter?: GpGenericComponentTokens;
+  badge?: GpGenericComponentTokens;
+  message?: GpGenericComponentTokens;
+  progressBar?: GpGenericComponentTokens;
+  progressSpinner?: GpGenericComponentTokens;
+  skeleton?: GpGenericComponentTokens;
+  tag?: GpGenericComponentTokens;
   toast?: GpToastComponentTokens;
+  orgChart?: GpGenericComponentTokens;
+  tree?: GpGenericComponentTokens;
+  avatar?: GpGenericComponentTokens;
+  carousel?: GpGenericComponentTokens;
+  chip?: GpGenericComponentTokens;
+  emptyState?: GpGenericComponentTokens;
+  image?: GpGenericComponentTokens;
+  meterGroup?: GpGenericComponentTokens;
+  timeline?: GpGenericComponentTokens;
   [component: string]: any;
 }
 

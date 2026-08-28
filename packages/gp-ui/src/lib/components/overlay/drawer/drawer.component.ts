@@ -39,8 +39,9 @@ export class GpDrawerComponent extends GpBaseComponent {
 
   @Input() set visibleProp(val: boolean) {
     if (val !== this.visible()) {
-      if (val) this.show();
-      else this.close();
+      if (val) {
+        this.show();
+      } else this.close();
     }
   }
 

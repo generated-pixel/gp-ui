@@ -41,7 +41,9 @@ export class GpAccordionComponent extends GpBaseComponent {
   @Output() onOpen = new EventEmitter<{ index: number }>();
 
   public toggleTab(tab: GpAccordionTabComponent): void {
-    if (tab.disabled) return;
+    if (tab.disabled) {
+      return;
+    }
     const isOpened = tab.selected;
     if (!this.multiple && !isOpened) {
       this.tabs.forEach((t) => (t.selected = false));

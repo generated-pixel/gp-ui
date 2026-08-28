@@ -53,7 +53,9 @@ export class GpTabsComponent extends GpBaseComponent implements AfterContentInit
   }
 
   public selectTab(tab: GpTabPanelComponent): void {
-    if (tab.disabled) return;
+    if (tab.disabled) {
+      return;
+    }
     this.tabPanels.forEach((p) => (p.selected = false));
     tab.selected = true;
     const idx = this.tabPanels.toArray().indexOf(tab);

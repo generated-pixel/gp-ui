@@ -21,7 +21,9 @@ try {
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
       if (entry.isDirectory()) {
-        if (entry.name === 'node_modules') continue;
+        if (entry.name === 'node_modules') {
+          continue;
+        }
         copyDir(srcPath, destPath);
       } else {
         fs.copyFileSync(srcPath, destPath);

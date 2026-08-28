@@ -75,7 +75,9 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
   }
 
   public onClick(event: Event): void {
-    if (this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) {
+      return;
+    }
 
     let nextValue: any;
     if (this.binary) {

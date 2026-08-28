@@ -30,7 +30,9 @@ export class GpMegaMenuComponent extends GpBaseComponent {
   protected activeItem = signal<GpMegaMenuItem | null>(null);
 
   public onItemClick(item: any, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

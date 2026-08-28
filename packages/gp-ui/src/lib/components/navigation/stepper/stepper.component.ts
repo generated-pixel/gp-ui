@@ -52,7 +52,9 @@ export class GpStepperComponent extends GpBaseComponent implements AfterContentI
   }
 
   public selectStep(idx: number): void {
-    if (this.linear && idx > this.activeStep + 1) return;
+    if (this.linear && idx > this.activeStep + 1) {
+      return;
+    }
     this.updateActiveStep(idx);
     this.activeStepChange.emit(idx);
   }
@@ -61,7 +63,9 @@ export class GpStepperComponent extends GpBaseComponent implements AfterContentI
     this.activeStep = idx;
     this.steps.forEach((step, i) => {
       step.active = i === idx;
-      if (i < idx) step.completed = true;
+      if (i < idx) {
+        step.completed = true;
+      }
     });
   }
 

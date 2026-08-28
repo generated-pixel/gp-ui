@@ -4,12 +4,13 @@
   justify-content: center;
   position: relative;
   font-family: inherit;
-  font-weight: 500;
+  font-weight: var(--gp-button-font-weight, 500);
   font-size: var(--gp-font-size-sm);
   line-height: 1.25;
-  padding: 0.5rem 1rem;
+  height: var(--gp-button-height, 2.5rem);
+  padding: var(--gp-button-padding-y, 0.5rem) var(--gp-button-padding-x, 1rem);
   gap: 0.5rem;
-  border-radius: var(--gp-border-radius);
+  border-radius: var(--gp-button-border-radius, var(--gp-border-radius));
   border: 1px solid transparent;
   cursor: pointer;
   user-select: none;

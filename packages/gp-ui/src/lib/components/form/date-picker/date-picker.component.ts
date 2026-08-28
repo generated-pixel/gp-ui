@@ -88,7 +88,9 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
 
   protected formattedValue = computed(() => {
     const d = this.internalValue() as Date;
-    if (!d) return '';
+    if (!d) {
+      return '';
+    }
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const dd = String(d.getDate()).padStart(2, '0');
     const yyyy = d.getFullYear();
@@ -178,7 +180,9 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   public toggleOverlay(): void {
-    if (this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 

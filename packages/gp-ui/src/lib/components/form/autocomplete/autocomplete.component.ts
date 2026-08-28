@@ -70,15 +70,23 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   public getItemLabel(item: any): string {
-    if (item == null) return '';
-    if (typeof item === 'string') return item;
-    if (this.field) return ObjectUtils.resolveFieldData(item, this.field);
+    if (item == null) {
+      return '';
+    }
+    if (typeof item === 'string') {
+      return item;
+    }
+    if (this.field) {
+      return ObjectUtils.resolveFieldData(item, this.field);
+    }
     return item.label || item.name || String(item);
   }
 
   protected inputDisplayValue = computed(() => {
     const val = this.internalValue();
-    if (val == null) return this.query();
+    if (val == null) {
+      return this.query();
+    }
     return this.getItemLabel(val);
   });
 
@@ -126,7 +134,9 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
 
   public toggleDropdown(event: MouseEvent): void {
     event.stopPropagation();
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     if (!this.overlayVisible()) {
       this.completeMethod.emit({ originalEvent: event, query: this.query() });
       this.overlayVisible.set(true);
@@ -144,7 +154,9 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (!this.overlayVisible() || !this.suggestions.length) return;
+    if (!this.overlayVisible() || !this.suggestions.length) {
+      return;
+    }
 
     if (event.key === 'ArrowDown') {
       this.activeIndex.update((i) => (i + 1) % this.suggestions.length);

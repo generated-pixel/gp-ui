@@ -61,7 +61,9 @@ export class GpSwitchComponent extends GpEditableBaseComponent implements Contro
   }
 
   public toggle(event: Event): void {
-    if (this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) {
+      return;
+    }
     const next = !this.checked();
     this.checked.set(next);
     this.onChangeCallback(next);

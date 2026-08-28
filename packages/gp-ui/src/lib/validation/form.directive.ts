@@ -76,7 +76,9 @@ export class GpFormDirective {
    */
   public unregisterControl(control: GpEditableBaseComponent): void {
     const key = control.name;
-    if (key) this.manualControls.delete(key);
+    if (key) {
+      this.manualControls.delete(key);
+    }
   }
 
   /**

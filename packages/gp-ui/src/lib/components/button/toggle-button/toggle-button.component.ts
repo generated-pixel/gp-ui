@@ -58,7 +58,9 @@ export class GpToggleButtonComponent extends GpEditableBaseComponent implements 
   }
 
   public toggle(): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     const next = !this.checked();
     this.checked.set(next);
     this.onChangeCallback(next);

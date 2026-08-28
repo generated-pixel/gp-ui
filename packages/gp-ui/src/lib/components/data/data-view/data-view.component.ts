@@ -80,7 +80,9 @@ export class GpDataViewComponent extends GpBaseComponent {
 
   public displayedValue = computed(() => {
     const data = this._data();
-    if (!this.paginator) return data;
+    if (!this.paginator) {
+      return data;
+    }
     const start = this.firstSignal();
     const r = this.rowsSignal() || 6;
     return data.slice(start, start + r);

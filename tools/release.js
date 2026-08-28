@@ -16,7 +16,9 @@ console.log(`Current version: ${pkg.version}`);
 let newVersion = releaseType;
 if (['patch', 'minor', 'major'].includes(releaseType)) {
   const parts = pkg.version.split('.').map(Number);
-  if (releaseType === 'patch') parts[2]++;
+  if (releaseType === 'patch') {
+    parts[2]++;
+  }
   if (releaseType === 'minor') {
     parts[1]++;
     parts[2] = 0;

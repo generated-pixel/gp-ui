@@ -53,7 +53,9 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
 
   protected displayValue = computed(() => {
     const val = this.internalValue();
-    if (val === null || val === undefined) return '';
+    if (val === null || val === undefined) {
+      return '';
+    }
     return String(val);
   });
 
@@ -76,11 +78,17 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
   }
 
   public spin(delta: number): void {
-    if (this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) {
+      return;
+    }
     let current = this.internalValue() ?? 0;
     let next = current + delta;
-    if (this.min !== undefined && next < this.min) next = this.min;
-    if (this.max !== undefined && next > this.max) next = this.max;
+    if (this.min !== undefined && next < this.min) {
+      next = this.min;
+    }
+    if (this.max !== undefined && next > this.max) {
+      next = this.max;
+    }
 
     this.updateValue(next);
     this.onValueChange.emit(next);
@@ -104,8 +112,12 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
     this.handleControlBlur();
     let current = this.internalValue();
     if (current !== null) {
-      if (this.min !== undefined && current < this.min) current = this.min;
-      if (this.max !== undefined && current > this.max) current = this.max;
+      if (this.min !== undefined && current < this.min) {
+        current = this.min;
+      }
+      if (this.max !== undefined && current > this.max) {
+        current = this.max;
+      }
       this.updateValue(current);
     }
   }

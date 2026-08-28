@@ -77,20 +77,28 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
   }
 
   public isStarHalf(index: number): boolean {
-    if (!this.allowHalfStars) return false;
+    if (!this.allowHalfStars) {
+      return false;
+    }
     const value = this.internalValue() ?? 0;
     return value > index && value < index + 1;
   }
 
   public getStarFillWidth(index: number): number {
     const value = this.internalValue() ?? 0;
-    if (value >= index + 1) return 100;
-    if (this.allowHalfStars && value > index && value < index + 1) return 50;
+    if (value >= index + 1) {
+      return 100;
+    }
+    if (this.allowHalfStars && value > index && value < index + 1) {
+      return 50;
+    }
     return 0;
   }
 
   public rate(star: number, event?: MouseEvent | Event): void {
-    if (this.readonly || this.disabled) return;
+    if (this.readonly || this.disabled) {
+      return;
+    }
 
     const nextValue =
       this.allowHalfStars && event instanceof MouseEvent && event.currentTarget
@@ -103,7 +111,9 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
   }
 
   public clear(): void {
-    if (this.readonly || this.disabled) return;
+    if (this.readonly || this.disabled) {
+      return;
+    }
     this.updateValue(null);
     this.handleControlBlur();
     this.onCancel.emit();
@@ -111,7 +121,9 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
 
   private resolveHalfValue(star: number, event: MouseEvent): number {
     const target = event.currentTarget as HTMLElement | null;
-    if (!target) return star;
+    if (!target) {
+      return star;
+    }
 
     const rect = target.getBoundingClientRect();
     const relativeX = event.clientX - rect.left;

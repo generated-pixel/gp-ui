@@ -20,7 +20,9 @@ export class GpBreadcrumbComponent extends GpBaseComponent {
   @Input() separatorIcon = 'chevron-right';
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

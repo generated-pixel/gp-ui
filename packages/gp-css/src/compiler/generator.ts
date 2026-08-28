@@ -36,7 +36,9 @@ export class GpCssGenerator {
     const modifiers = parts;
 
     const baseCss = this.resolveBaseRule(baseCandidate);
-    if (!baseCss) return null;
+    if (!baseCss) {
+      return null;
+    }
 
     let mediaQuery: string | undefined = undefined;
     const pseudoClasses: string[] = [];
@@ -351,12 +353,16 @@ export class GpCssGenerator {
     if (candidate.startsWith('from-')) {
       const valKey = candidate.slice(5);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
-      if (val) return `--gp-from: ${val}; --gp-gradient-stops: var(--gp-from), var(--gp-to, transparent);`;
+      if (val) {
+        return `--gp-from: ${val};`;
+      }
     }
     if (candidate.startsWith('to-')) {
       const valKey = candidate.slice(3);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
-      if (val) return `--gp-to: ${val};`;
+      if (val) {
+        return `--gp-to: ${val};`;
+      }
     }
 
     if (candidate.startsWith('bg-')) {
@@ -366,12 +372,16 @@ export class GpCssGenerator {
         if (isValidCssValue(gVal)) return `background-image: ${gVal};`;
       }
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
-      if (val) return `background-color: ${val};`;
+      if (val) {
+        return `background-color: ${val};`;
+      }
     }
 
     if (candidate.startsWith('text-')) {
       const valKey = candidate.slice(5);
-      if (valKey === 'transparent') return 'color: transparent;';
+      if (valKey === 'transparent') {
+        return 'color: transparent;';
+      }
       if (this.tokens.fontSize[valKey]) {
         const [size, leading] = this.tokens.fontSize[valKey];
         if (isValidCssValue(size) && isValidCssValue(leading)) {
@@ -379,7 +389,9 @@ export class GpCssGenerator {
         }
       }
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
-      if (val) return `color: ${val};`;
+      if (val) {
+        return `color: ${val};`;
+      }
     }
 
     if (candidate.startsWith('border-')) {
@@ -392,7 +404,9 @@ export class GpCssGenerator {
         return `border-width: ${width}; border-style: solid;`;
       }
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
-      if (val) return `border-color: ${val}; border-style: solid;`;
+      if (val) {
+        return `border-color: ${val};`;
+      }
     }
 
     // 8. Border Radius
@@ -403,7 +417,9 @@ export class GpCssGenerator {
       }
       const valKey = candidate.slice(8);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.borderRadius);
-      if (val) return `border-radius: ${val};`;
+      if (val) {
+        return `border-radius: ${val};`;
+      }
     }
 
     // 9. Font Weight
@@ -418,7 +434,9 @@ export class GpCssGenerator {
       'font-extrabold': 'font-weight: 800;',
       'font-black': 'font-weight: 900;'
     };
-    if (fontWeightMap[candidate]) return fontWeightMap[candidate];
+    if (fontWeightMap[candidate]) {
+      return fontWeightMap[candidate];
+    }
 
     // 10. Font Family
     if (candidate.startsWith('font-')) {
@@ -437,7 +455,9 @@ export class GpCssGenerator {
       }
       const valKey = candidate.slice(7);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.boxShadow);
-      if (val) return `box-shadow: ${val};`;
+      if (val) {
+        return `box-shadow: ${val};`;
+      }
     }
 
     // 12. Backdrop Blur & Filters
@@ -448,41 +468,59 @@ export class GpCssGenerator {
       }
       const valKey = candidate.slice(14);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.backdropBlur);
-      if (val) return `backdrop-filter: blur(${val});`;
+      if (val) {
+        return `backdrop-filter: blur(${val});`;
+      }
     }
 
     // 13. Grid Columns & Rows & Order
     if (candidate.startsWith('grid-cols-')) {
       const cols = candidate.slice(10);
-      if (cols === 'none') return 'grid-template-columns: none;';
+      if (cols === 'none') {
+        return 'grid-template-columns: none;';
+      }
       if (/^[0-9]+$/.test(cols)) return `grid-template-columns: repeat(${cols}, minmax(0, 1fr));`;
       if (cols.startsWith('[') && cols.endsWith(']')) {
         const arbitrary = this.resolveValueOrArbitrary(cols, {});
-        if (arbitrary) return `grid-template-columns: ${arbitrary};`;
+        if (arbitrary) {
+          return `grid-template-columns: ${arbitrary};`;
+        }
       }
     }
     if (candidate.startsWith('col-span-')) {
       const span = candidate.slice(9);
-      if (span === 'full') return 'grid-column: 1 / -1;';
+      if (span === 'full') {
+        return 'grid-column: 1 / -1;';
+      }
       if (/^[0-9]+$/.test(span)) return `grid-column: span ${span} / span ${span};`;
     }
 
     if (candidate.startsWith('grid-rows-')) {
       const rows = candidate.slice(10);
-      if (rows === 'none') return 'grid-template-rows: none;';
+      if (rows === 'none') {
+        return 'grid-template-rows: none;';
+      }
       if (/^[0-9]+$/.test(rows)) return `grid-template-rows: repeat(${rows}, minmax(0, 1fr));`;
     }
     if (candidate.startsWith('row-span-')) {
       const span = candidate.slice(9);
-      if (span === 'full') return 'grid-row: 1 / -1;';
+      if (span === 'full') {
+        return 'grid-row: 1 / -1;';
+      }
       if (/^[0-9]+$/.test(span)) return `grid-row: span ${span} / span ${span};`;
     }
 
     if (candidate.startsWith('order-')) {
       const ord = candidate.slice(6);
-      if (ord === 'first') return 'order: -9999;';
-      if (ord === 'last') return 'order: 9999;';
-      if (ord === 'none') return 'order: 0;';
+      if (ord === 'first') {
+        return 'order: -9999;';
+      }
+      if (ord === 'last') {
+        return 'order: 9999;';
+      }
+      if (ord === 'none') {
+        return 'order: 0;';
+      }
       if (/^[0-9]+$/.test(ord)) return `order: ${ord};`;
     }
 
@@ -508,17 +546,23 @@ export class GpCssGenerator {
     if (candidate.startsWith('w-')) {
       const valKey = candidate.slice(2);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.spacing);
-      if (val) return `width: ${val};`;
+      if (val) {
+        return `width: ${val};`;
+      }
     }
     if (candidate.startsWith('h-')) {
       const valKey = candidate.slice(2);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.spacing);
-      if (val) return `height: ${val};`;
+      if (val) {
+        return `height: ${val};`;
+      }
     }
     if (candidate.startsWith('min-h-')) {
       const valKey = candidate.slice(6);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.spacing);
-      if (val) return `min-height: ${val};`;
+      if (val) {
+        return `min-height: ${val};`;
+      }
     }
 
     return null;
@@ -548,8 +592,12 @@ export class GpCssGenerator {
  * rejecting any dangerous code injection vectors, script tags, or broken structures.
  */
 function isValidCssValue(val: string): boolean {
-  if (!val || typeof val !== 'string') return false;
-  if (val.length > 200) return false; // Guard against ReDoS and oversized input
+  if (!val || typeof val !== 'string') {
+    return false;
+  }
+  if (val.length > 200) {
+    return false;
+  }
 
   // Reject known CSS injection patterns
   if (/[;{}<>]|javascript:|expression\(|url\(\s*["']?data:|@import|@charset/i.test(val)) {
@@ -559,11 +607,16 @@ function isValidCssValue(val: string): boolean {
   // Parentheses balance check
   let depth = 0;
   for (let i = 0; i < val.length; i++) {
-    if (val[i] === '(') depth++;
-    else if (val[i] === ')') depth--;
-    if (depth < 0) return false;
+    if (val[i] === '(') {
+      depth++;
+    } else if (val[i] === ')') depth--;
+    if (depth < 0) {
+      return false;
+    }
   }
-  if (depth !== 0) return false;
+  if (depth !== 0) {
+    return false;
+  }
 
   // Allow standard CSS value grammar: hex colors, numbers, units, calc/rgb/hsl/var functions, keywords
   return /^([a-zA-Z0-9_\-\.\#\,\%\s\(\)\'\"]|var\(--[a-zA-Z0-9_\-]+\))+$/.test(val);

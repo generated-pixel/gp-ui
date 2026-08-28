@@ -106,9 +106,15 @@ export class GpTableComponent extends GpEditableBaseComponent {
       rows.sort((a, b) => {
         const val1 = this.resolveFieldData(a, field);
         const val2 = this.resolveFieldData(b, field);
-        if (val1 == null && val2 != null) return -1 * order;
-        if (val1 != null && val2 == null) return 1 * order;
-        if (val1 == null && val2 == null) return 0;
+        if (val1 == null && val2 != null) {
+          return -1 * order;
+        }
+        if (val1 != null && val2 == null) {
+          return 1 * order;
+        }
+        if (val1 == null && val2 == null) {
+          return 0;
+        }
         if (typeof val1 === 'string' && typeof val2 === 'string') {
           return val1.localeCompare(val2) * order;
         }
@@ -120,7 +126,9 @@ export class GpTableComponent extends GpEditableBaseComponent {
 
   protected displayedRows = computed<any[]>(() => {
     const rows = this.sortedRows();
-    if (!this.paginator) return rows;
+    if (!this.paginator) {
+      return rows;
+    }
     const start = this.first();
     return rows.slice(start, start + this.rows);
   });
@@ -129,8 +137,12 @@ export class GpTableComponent extends GpEditableBaseComponent {
 
   protected totalColumnsCount = computed(() => {
     let count = this.columns ? this.columns.length : 0;
-    if (this.rowExpansion) count++;
-    if (this.selectionMode) count++;
+    if (this.rowExpansion) {
+      count++;
+    }
+    if (this.selectionMode) {
+      count++;
+    }
     return count;
   });
 
@@ -145,7 +157,9 @@ export class GpTableComponent extends GpEditableBaseComponent {
   }
 
   public isRowSelected(row: any): boolean {
-    if (!this.selection) return false;
+    if (!this.selection) {
+      return false;
+    }
     if (this.selectionMode === 'single') {
       return ObjectUtils.equals(this.selection, row, this.dataKey);
     }

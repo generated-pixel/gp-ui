@@ -67,7 +67,9 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
 
   protected selectedLabel = computed(() => {
     const val = this.internalValue();
-    if (!val) return '';
+    if (!val) {
+      return '';
+    }
     return typeof val === 'object' ? val[this.optionLabel] : String(val);
   });
 
@@ -89,7 +91,9 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
   }
 
   public toggleOverlay(): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 

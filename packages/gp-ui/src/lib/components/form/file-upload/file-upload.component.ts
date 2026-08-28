@@ -49,7 +49,9 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
   protected dragOver = signal<boolean>(false);
 
   public formatSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) {
+      return '0 Bytes';
+    }
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -79,7 +81,9 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
 
   private handleFiles(selectedFiles: File[]): void {
     const valid = selectedFiles.filter((f) => {
-      if (this.maxFileSize && f.size > this.maxFileSize) return false;
+      if (this.maxFileSize && f.size > this.maxFileSize) {
+        return false;
+      }
       return true;
     });
 

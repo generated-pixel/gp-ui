@@ -36,14 +36,18 @@ export class GpSpeedDialComponent extends GpBaseComponent {
   protected visible = signal<boolean>(false);
 
   public toggle(): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     const next = !this.visible();
     this.visible.set(next);
     this.onVisibleChange.emit(next);
   }
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

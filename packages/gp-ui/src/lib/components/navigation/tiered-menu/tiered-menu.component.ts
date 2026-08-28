@@ -20,7 +20,9 @@ export class GpTieredMenuComponent extends GpBaseComponent {
   protected activeItem = signal<GpMenubarItem | null>(null);
 
   public onItemClick(item: any, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

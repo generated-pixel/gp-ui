@@ -80,7 +80,9 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
     return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
-        if ('value' in opt && 'label' in opt) return opt as GpSelectItem;
+        if ('value' in opt && 'label' in opt) {
+          return opt as GpSelectItem;
+        }
         return {
           label: opt[this.optionLabel] ?? String(opt),
           value: this.optionValue ? opt[this.optionValue] : opt,
@@ -94,13 +96,17 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
 
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
-    if (!q) return this.normalizedOptions();
+    if (!q) {
+      return this.normalizedOptions();
+    }
     return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
   protected selectedItem = computed<GpSelectItem | undefined>(() => {
     const val = this.internalValue();
-    if (val === null || val === undefined) return undefined;
+    if (val === null || val === undefined) {
+      return undefined;
+    }
     return this.normalizedOptions().find((opt) => ObjectUtils.equals(opt.value, val));
   });
 
@@ -126,12 +132,16 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   }
 
   public toggleOverlay(event: MouseEvent): void {
-    if (this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 
   public selectItem(opt: GpSelectItem, event: MouseEvent): void {
-    if (opt.disabled) return;
+    if (opt.disabled) {
+      return;
+    }
     this.updateValue(opt.value);
     this.handleControlBlur();
     this.onChange.emit({ value: opt.value, originalEvent: event });
@@ -153,7 +163,9 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.overlayVisible.update((v) => !v);

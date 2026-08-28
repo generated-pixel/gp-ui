@@ -12,7 +12,9 @@ export function scanContent(content: string, options: ScanOptions = {}): Set<str
   while ((match = classAttrRegex.exec(content)) !== null) {
     const tokens = match[1].trim().split(/\s+/);
     for (const token of tokens) {
-      if (token) candidates.add(token);
+      if (token) {
+        candidates.add(token);
+      }
     }
   }
 
@@ -44,16 +46,21 @@ export function scanContent(content: string, options: ScanOptions = {}): Set<str
 }
 
 function isValidCandidate(candidate: string): boolean {
-  if (candidate.length < 2 || candidate.length > 100) return false;
+  if (candidate.length < 2 || candidate.length > 100) {
+    return false;
+  }
   if (/^[0-9]+$/.test(candidate)) return false; // purely numeric
   if (
     candidate.startsWith('<') ||
     candidate.startsWith('>') ||
     candidate.startsWith('=') ||
     candidate.startsWith('http')
-  )
+  ) {
     return false;
-  if (candidate.includes('</') || candidate.includes('/>')) return false;
+  }
+  if (candidate.includes('</') || candidate.includes('/>')) {
+    return false;
+  }
   // Exclude common HTML tags / attributes / code keywords
   const reserved = new Set([
     'import',

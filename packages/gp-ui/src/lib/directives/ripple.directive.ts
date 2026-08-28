@@ -13,7 +13,9 @@ export class GpRippleDirective {
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
-    if (!this.config.ripple() || !this.gpRipple) return;
+    if (!this.config.ripple() || !this.gpRipple) {
+      return;
+    }
 
     const host = this.el.nativeElement as HTMLElement;
     const rect = host.getBoundingClientRect();

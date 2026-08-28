@@ -47,7 +47,9 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
     return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
-        if ('value' in opt && 'label' in opt) return opt as GpSelectItem;
+        if ('value' in opt && 'label' in opt) {
+          return opt as GpSelectItem;
+        }
         return {
           label: String(opt.label || opt.name || opt),
           value: opt.value ?? opt,
@@ -61,7 +63,9 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
 
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
-    if (!q) return this.normalizedOptions();
+    if (!q) {
+      return this.normalizedOptions();
+    }
     return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
@@ -91,7 +95,9 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
   }
 
   public onOptionClick(opt: GpSelectItem, event: MouseEvent): void {
-    if (this.disabled || opt.disabled) return;
+    if (this.disabled || opt.disabled) {
+      return;
+    }
 
     let next: any;
     if (this.multiple) {

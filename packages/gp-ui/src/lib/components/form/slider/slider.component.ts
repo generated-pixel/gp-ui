@@ -48,7 +48,9 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
   protected percentage = computed(() => {
     const val = Number(this.internalValue()) || 0;
     const range = this.max - this.min;
-    if (range <= 0) return 0;
+    if (range <= 0) {
+      return 0;
+    }
     return Math.min(100, Math.max(0, ((val - this.min) / range) * 100));
   });
 
@@ -71,7 +73,9 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
   }
 
   protected onBarMouseDown(event: MouseEvent): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     this.dragging = true;
     this.updateValueFromPosition(event.clientX);
   }
@@ -93,7 +97,9 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
 
   private updateValueFromPosition(clientX: number): void {
     const sliderEl = this.el.nativeElement.querySelector('.gp-slider');
-    if (!sliderEl) return;
+    if (!sliderEl) {
+      return;
+    }
     const rect = sliderEl.getBoundingClientRect();
     const pos = (clientX - rect.left) / rect.width;
     const clampedPos = Math.min(1, Math.max(0, pos));
@@ -110,7 +116,9 @@ export class GpSliderComponent extends GpEditableBaseComponent implements Contro
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     const current = Number(this.internalValue()) || 0;
     let next = current;
     if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {

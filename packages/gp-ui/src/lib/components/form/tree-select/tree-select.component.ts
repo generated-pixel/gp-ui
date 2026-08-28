@@ -75,7 +75,9 @@ export class GpTreeSelectComponent extends GpEditableBaseComponent implements Co
   }
 
   public toggleOverlay(): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 

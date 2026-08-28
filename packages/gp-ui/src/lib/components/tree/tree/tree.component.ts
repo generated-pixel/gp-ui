@@ -44,7 +44,9 @@ export class GpTreeComponent extends GpEditableBaseComponent {
 
   protected filteredNodes = computed(() => {
     const q = this.filterText().toLowerCase().trim();
-    if (!q) return this.value;
+    if (!q) {
+      return this.value;
+    }
     return this.filterTreeNodes(this.value, q);
   });
 
@@ -65,7 +67,9 @@ export class GpTreeComponent extends GpEditableBaseComponent {
   }
 
   public isNodeSelected(node: GpTreeNode): boolean {
-    if (!this.selection) return false;
+    if (!this.selection) {
+      return false;
+    }
     if (this.selectionMode === 'single') {
       return this.selection === node;
     }

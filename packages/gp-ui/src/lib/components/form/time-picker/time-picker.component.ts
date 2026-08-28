@@ -68,8 +68,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   protected formattedHour = computed(() => {
     let h = this.hours();
     if (this.hourFormat === '12') {
-      if (h === 0) h = 12;
-      else if (h > 12) h -= 12;
+      if (h === 0) {
+        h = 12;
+      } else if (h > 12) h -= 12;
     }
     return String(h).padStart(2, '0');
   });
@@ -86,7 +87,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   });
 
   public override writeValue(value: any): void {
-    if (!value) return;
+    if (!value) {
+      return;
+    }
     if (value instanceof Date) {
       this.hours.set(value.getHours());
       this.minutes.set(value.getMinutes());
@@ -117,28 +120,36 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   public toggleOverlay(): void {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
     this.overlayVisible.update((v) => !v);
   }
 
   public spinHour(delta: number): void {
     let max = this.hourFormat === '24' ? 24 : 12;
     let h = (this.hours() + delta) % max;
-    if (h < 0) h += max;
+    if (h < 0) {
+      h += max;
+    }
     this.hours.set(h);
     this.emitChange();
   }
 
   public spinMinute(delta: number): void {
     let m = (this.minutes() + delta) % 60;
-    if (m < 0) m += 60;
+    if (m < 0) {
+      m += 60;
+    }
     this.minutes.set(m);
     this.emitChange();
   }
 
   public spinSecond(delta: number): void {
     let s = (this.seconds() + delta) % 60;
-    if (s < 0) s += 60;
+    if (s < 0) {
+      s += 60;
+    }
     this.seconds.set(s);
     this.emitChange();
   }
@@ -146,8 +157,12 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   public toggleAmPm(): void {
     this.isPm.update((v) => !v);
     let h = this.hours();
-    if (this.isPm() && h < 12) this.hours.set(h + 12);
-    if (!this.isPm() && h >= 12) this.hours.set(h - 12);
+    if (this.isPm() && h < 12) {
+      this.hours.set(h + 12);
+    }
+    if (!this.isPm() && h >= 12) {
+      this.hours.set(h - 12);
+    }
     this.emitChange();
   }
 

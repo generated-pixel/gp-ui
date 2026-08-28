@@ -214,5 +214,33 @@ describe('TypeScript & JSON Theme Architecture', () => {
 
       unsub();
     });
+
+    it('should resolve W3C token aliases in component definitions', () => {
+      const aliasTheme = extendTheme({
+        id: 'alias-test',
+        name: 'Alias Test',
+        light: {
+          semantic: baseTheme.light.semantic,
+          components: {
+            button: {
+              background: '{semantic.primary.main}',
+              borderRadius: '{primitives.borderRadius.md}'
+            }
+          }
+        }
+      });
+
+      const vars = modeTokensToCssVars(aliasTheme, 'light');
+      expect(vars['--gp-button-background']).toBe('#4f46e5');
+      expect(vars['--gp-button-border-radius']).toBe('8px');
+    });
+
+    it('should format component tokens correctly using setComponentToken', () => {
+      GpThemeManager.setComponentToken('dialog', 'header.fontSize', '1.5rem');
+      expect(document.documentElement.style.getPropertyValue('--gp-dialog-header-font-size')).toBe('1.5rem');
+
+      GpThemeManager.setComponentTokens('autocomplete', { dropdown: { width: '3rem' } });
+      expect(document.documentElement.style.getPropertyValue('--gp-autocomplete-dropdown-width')).toBe('3rem');
+    });
   });
 });

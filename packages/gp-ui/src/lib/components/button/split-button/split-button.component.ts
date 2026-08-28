@@ -68,7 +68,9 @@ export class GpSplitButtonComponent extends GpBaseComponent {
   }
 
   protected onItemClick(item: GpMenuItem, event: MouseEvent): void {
-    if (item.disabled) return;
+    if (item.disabled) {
+      return;
+    }
     if (item.command) {
       item.command({ originalEvent: event, item });
     }

@@ -777,7 +777,9 @@ const unsubscribe = GpThemeManager.onChange((state) => {
 
   public onNewThemeNameInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;
-    if (val) this.newThemeName = val;
+    if (val) {
+      this.newThemeName = val;
+    }
   }
 
   public onNewThemePrimaryChange(val: string): void {

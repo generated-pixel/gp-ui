@@ -74,7 +74,9 @@ export class GpInputMaskComponent extends GpEditableBaseComponent implements Con
   }
 
   private format(val: string): string {
-    if (!this.mask || !val) return val || '';
+    if (!this.mask || !val) {
+      return val || '';
+    }
     const digits = val.replace(/\D/g, '');
     let digitIdx = 0;
     let result = '';
