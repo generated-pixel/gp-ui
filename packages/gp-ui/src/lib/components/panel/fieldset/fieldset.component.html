@@ -3,7 +3,7 @@
     @if (toggleable()) {
       <gp-icon [name]="collapsed() ? 'chevron-down' : 'chevron-up'" size="0.75em" class="gp-fieldset-toggler" />
     }
-    <span class="gp-fieldset-legend-text">{{ legend() }}</span>
+    <span class="gp-fieldset-legend-text">{{ legend() || header() }}</span>
   </legend>
 
   @if (!collapsed()) {

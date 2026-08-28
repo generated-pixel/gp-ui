@@ -18,6 +18,8 @@ export * from './lib/base/gp-input-base.component';
 export * from './lib/base/gp-select-base.component';
 export * from './lib/base/gp-checkable-base.component';
 export * from './lib/base/gp-menu-base.component';
+export * from './lib/base/gp-overlay-base.component';
+export * from './lib/base/gp-panel-base.component';
 export * from './lib/base/gp-base-control-value-accessor';
 
 // Validation & Side Effects Architecture
