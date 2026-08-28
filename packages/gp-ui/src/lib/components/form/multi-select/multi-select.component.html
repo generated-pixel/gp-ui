@@ -14,8 +14,8 @@
       @if (display === 'chip') {
         <div class="gp-multiselect-chips">
           @for (item of selectedOptions(); track $index) {
-            <span class="gp-multiselect-chip">
-              <span>{{ item.label }}</span>
+            <span class="gp-multiselect-chip" [title]="item.label">
+              <span>{{ formatChipLabel(item.label) }}</span>
               <button
                 type="button"
                 class="gp-multiselect-chip-remove"
@@ -28,7 +28,7 @@
           }
         </div>
       } @else {
-        <span class="gp-select-label">
+        <span class="gp-select-label" [title]="selectedLabelsText()">
           @if (selectedOptions().length <= maxSelectedLabels) {
             {{ selectedLabelsText() }}
           } @else {
@@ -43,7 +43,12 @@
 
   <div class="gp-select-triggers">
     @if (showClear && selectedOptions().length > 0 && !disabled) {
-      <button type="button" class="gp-select-clear-btn" aria-label="Clear selection" (click)="clear($event)">
+      <button
+        type="button"
+        class="gp-select-clear-btn"
+        aria-label="Clear selection"
+        (click)="clear($event)"
+      >
         <gp-icon name="times" size="0.8em" />
       </button>
     }
@@ -52,11 +57,9 @@
 
   @if (overlayVisible()) {
     <div class="gp-select-overlay" role="listbox" (click)="$event.stopPropagation()">
-      <div class="gp-multiselect-header">
-        @if (showSelectAll) {
-          <gp-checkbox [binary]="true" [value]="isAllSelected()" (onChange)="toggleSelectAll()" />
-        }
-        @if (filter) {
+      <!-- SEARCH BOX -->
+      @if (filter) {
+        <div class="gp-multiselect-filter-container">
           <div class="gp-select-filter-container gp-w-full">
             <input
               type="text"
@@ -68,11 +71,20 @@
             />
             <gp-icon name="search" size="0.85em" class="gp-select-filter-icon" />
           </div>
-        }
-      </div>
+        </div>
+      }
 
+      <!-- SELECT ALL -->
+      @if (showSelectAll && filteredOptions().length > 0) {
+        <div class="gp-multiselect-select-all-bar" (click)="toggleSelectAll($event)">
+          <gp-checkbox [binary]="true" [checked]="isAllSelected()" [value]="isAllSelected()" />
+          <span class="gp-multiselect-select-all-label">Select All</span>
+        </div>
+      }
+
+      <!-- ITEMS -->
       <ul class="gp-select-items">
-        @for (opt of filteredOptions(); track $index) {
+        @for (opt of filteredOptions(); track opt.value) {
           <li
             class="gp-select-item gp-multiselect-item"
             [class.gp-select-item-selected]="isSelected(opt)"
@@ -81,7 +93,7 @@
             [attr.aria-selected]="isSelected(opt)"
             (click)="toggleOption(opt, $event)"
           >
-            <gp-checkbox [binary]="true" [value]="isSelected(opt)" />
+            <gp-checkbox [binary]="true" [checked]="isSelected(opt)" [value]="isSelected(opt)" />
             <span>{{ opt.label }}</span>
           </li>
         } @empty {

@@ -46,6 +46,10 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   @Input() emptyFilterMessage = 'No results found';
   @Input() display: GpMultiSelectDisplay = 'comma';
   @Input() maxSelectedLabels = 3;
+  @Input() maxSelectedCharacters?: number;
+  @Input() maxCharacters?: number;
+  @Input() maxSelectedTextLength?: number;
+  @Input() selectedItemsTop = true;
   @Input() filter = true;
   @Input() showClear = false;
   @Input() showSelectAll = true;
@@ -70,6 +74,10 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     }
   }
 
+  protected get characterLimit(): number | undefined {
+    return this.maxSelectedCharacters ?? this.maxCharacters ?? this.maxSelectedTextLength;
+  }
+
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
     return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
@@ -89,10 +97,24 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
-    if (!q) {
-      return this.normalizedOptions();
+    const vals = (this.internalValue() as any[]) || [];
+    let list = this.normalizedOptions();
+    if (q) {
+      list = list.filter((opt) => (opt.label || '').toLowerCase().includes(q));
     }
-    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
+    if (this.selectedItemsTop) {
+      const selected: GpSelectItem[] = [];
+      const unselected: GpSelectItem[] = [];
+      for (const opt of list) {
+        if (vals.some((v) => ObjectUtils.equals(v, opt.value))) {
+          selected.push(opt);
+        } else {
+          unselected.push(opt);
+        }
+      }
+      return [...selected, ...unselected];
+    }
+    return list;
   });
 
   protected selectedOptions = computed<GpSelectItem[]>(() => {
@@ -101,10 +123,26 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   });
 
   protected selectedLabelsText = computed(() => {
-    return this.selectedOptions()
+    const fullText = this.selectedOptions()
       .map((o) => o.label)
       .join(', ');
+    const limit = this.characterLimit;
+    if (limit && limit > 0 && fullText.length > limit) {
+      return fullText.slice(0, limit).trim() + '...';
+    }
+    return fullText;
   });
+
+  public formatChipLabel(label?: string): string {
+    if (!label) {
+      return '';
+    }
+    const limit = this.characterLimit;
+    if (limit && limit > 0 && label.length > limit) {
+      return label.slice(0, limit).trim() + '...';
+    }
+    return label;
+  }
 
   public isSelected(opt: GpSelectItem): boolean {
     const vals = (this.internalValue() as any[]) || [];
@@ -165,7 +203,10 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     this.toggleOption(opt, event);
   }
 
-  public toggleSelectAll(): void {
+  public toggleSelectAll(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     const allSelected = this.isAllSelected();
     const next = allSelected
       ? []
@@ -174,7 +215,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
           .map((o) => o.value);
     this.updateValue(next);
     this.handleControlBlur();
-    this.onChange.emit({ value: next, originalEvent: new CustomEvent('change') });
+    this.onChange.emit({ value: next, originalEvent: event || new CustomEvent('change') });
   }
 
   public clear(event: MouseEvent): void {
