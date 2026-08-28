@@ -1,4 +1,3 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
   input,
@@ -11,7 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
-import { UniqueId } from '../../../utils/unique-id';
+import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
 
 @Component({
   selector: 'gp-input-number',
@@ -29,8 +28,7 @@ import { UniqueId } from '../../../utils/unique-id';
   templateUrl: './input-number.component.html',
   styleUrl: './input-number.component.scss'
 })
-export class GpInputNumberComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('num_'));
+export class GpInputNumberComponent extends GpInputBaseComponent<number> implements ControlValueAccessor {
   public min = input<number | undefined>(undefined);
   public max = input<number | undefined>(undefined);
   public step = input<number>(1);
@@ -43,7 +41,7 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
 
   public onValueChange = output<number | null>();
 
-  protected displayValue = computed(() => {
+  public displayValue = computed(() => {
     const val = this.internalValue();
     if (val === null || val === undefined) {
       return '';
@@ -54,14 +52,6 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
   public override writeValue(value: any): void {
     const num = value !== null && value !== undefined && value !== '' ? Number(value) : null;
     this.internalValue.set(num);
-  }
-
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
   }
 
   public spin(delta: number): void {
@@ -83,11 +73,12 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
     this.onValueChange.emit(next);
   }
 
-  protected onInput(event: Event): void {
+  public override handleInput(event: Event): void {
     const text = (event.target as HTMLInputElement).value;
     if (text === '') {
-      this.updateValue(null);
+      this.updateValue(null as any);
       this.onValueChange.emit(null);
+      this.onInputEvent.emit(event);
       return;
     }
     const num = parseFloat(text);
@@ -95,10 +86,11 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
       this.updateValue(num);
       this.onValueChange.emit(num);
     }
+    this.onInputEvent.emit(event);
   }
 
-  protected onBlur(): void {
-    this.handleControlBlur();
+  public override handleBlur(event: FocusEvent): void {
+    super.handleBlur(event);
     let current = this.internalValue();
     if (current !== null) {
       const minVal = this.min();
@@ -113,7 +105,8 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
     }
   }
 
-  protected onKeyDown(event: KeyboardEvent): void {
+  public override handleKeyDown(event: KeyboardEvent): void {
+    super.handleKeyDown(event);
     if (event.key === 'ArrowUp') {
       this.spin(this.step());
       event.preventDefault();

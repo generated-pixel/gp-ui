@@ -1,4 +1,10 @@
-<div class="gp-input-wrapper" [class.gp-input-disabled]="isEffectivelyDisabled()" [class.gp-input-invalid]="isInvalid()">
+<div
+  class="gp-input-wrapper"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-invalid]="isInvalid()"
+  [class]="styleClass()"
+  [style]="style()"
+>
   <input
     [id]="inputId()"
     type="text"
@@ -6,10 +12,16 @@
     [placeholder]="placeholder() || mask()"
     [disabled]="isEffectivelyDisabled()"
     [readonly]="readonly()"
+    [attr.autofocus]="autofocus() ? '' : null"
+    [attr.tabindex]="tabindex() !== undefined ? tabindex() : (isEffectivelyDisabled() ? -1 : 0)"
     [attr.aria-label]="ariaLabel() || placeholder() || 'Masked Input'"
     [attr.aria-invalid]="isInvalid()"
-    (input)="onInput($event)"
-    (blur)="onBlur()"
+    [attr.aria-required]="required()"
+    (input)="handleInput($event)"
+    (focus)="handleFocus($event)"
+    (blur)="handleBlur($event)"
+    (keydown)="handleKeyDown($event)"
+    (keyup)="handleKeyUp($event)"
     class="gp-inputtext"
   />
 </div>

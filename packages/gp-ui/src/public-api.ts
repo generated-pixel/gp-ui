@@ -14,6 +14,9 @@ export * from './lib/config/gp-config.service';
 export * from './lib/base/gp-base.component';
 export * from './lib/base/gp-button-base.component';
 export * from './lib/base/gp-editable-base.component';
+export * from './lib/base/gp-input-base.component';
+export * from './lib/base/gp-select-base.component';
+export * from './lib/base/gp-checkable-base.component';
 export * from './lib/base/gp-base-control-value-accessor';
 
 // Validation & Side Effects Architecture

@@ -116,7 +116,7 @@ export abstract class GpEditableBaseComponent<T = any>
 
   private lastValidatedValue: any = undefined;
 
-  private hostEl = inject(ElementRef, { optional: true });
+  private hostElement = inject(ElementRef, { optional: true });
 
   public ngOnInit(): void {
     const val = this.valueInput();
@@ -305,12 +305,12 @@ export abstract class GpEditableBaseComponent<T = any>
 
   /** Focuses the native element if available */
   public focus(): void {
-    if (typeof document !== 'undefined' && this.hostEl?.nativeElement) {
-      const inputEl = this.hostEl.nativeElement.querySelector('input, textarea, select, button, [tabindex="0"]');
+    if (typeof document !== 'undefined' && this.hostElement?.nativeElement) {
+      const inputEl = this.hostElement.nativeElement.querySelector('input, textarea, select, button, [tabindex="0"]');
       if (inputEl) {
         inputEl.focus();
       } else {
-        this.hostEl.nativeElement.focus?.();
+        this.hostElement.nativeElement.focus?.();
       }
     }
   }

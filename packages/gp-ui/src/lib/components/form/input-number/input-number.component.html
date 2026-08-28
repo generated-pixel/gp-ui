@@ -6,6 +6,8 @@
   [class.gp-input-number-has-suffix]="!!suffix()"
   [class.gp-input-number-buttons-stacked]="showButtons() && buttonLayout() === 'stacked'"
   [class.gp-input-number-buttons-horizontal]="showButtons() && buttonLayout() === 'horizontal'"
+  [class]="styleClass()"
+  [style]="style()"
 >
   @if (showButtons() && buttonLayout() === 'horizontal') {
     <button
@@ -30,6 +32,8 @@
       [placeholder]="placeholder()"
       [disabled]="isEffectivelyDisabled()"
       [readonly]="readonly()"
+      [attr.autofocus]="autofocus() ? '' : null"
+      [attr.tabindex]="tabindex() !== undefined ? tabindex() : (isEffectivelyDisabled() ? -1 : 0)"
       [attr.aria-label]="ariaLabel() || placeholder() || null"
       [attr.aria-invalid]="isInvalid()"
       [attr.aria-required]="required()"
@@ -37,9 +41,11 @@
       [attr.aria-valuemin]="min()"
       [attr.aria-valuemax]="max()"
       role="spinbutton"
-      (input)="onInput($event)"
-      (blur)="onBlur()"
-      (keydown)="onKeyDown($event)"
+      (input)="handleInput($event)"
+      (focus)="handleFocus($event)"
+      (blur)="handleBlur($event)"
+      (keydown)="handleKeyDown($event)"
+      (keyup)="handleKeyUp($event)"
       class="gp-inputtext gp-input-number-input"
     />
     @if (suffix()) {

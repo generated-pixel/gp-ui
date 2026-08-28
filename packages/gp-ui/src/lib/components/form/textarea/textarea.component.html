@@ -1,4 +1,10 @@
-<div class="gp-textarea-wrapper" [class.gp-input-invalid]="isInvalid()" [class.gp-input-disabled]="isEffectivelyDisabled()">
+<div
+  class="gp-textarea-wrapper"
+  [class.gp-input-invalid]="isInvalid()"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
+  [class]="styleClass()"
+  [style]="style()"
+>
   <textarea
     [id]="inputId()"
     [rows]="rows()"
@@ -8,13 +14,18 @@
     [disabled]="isEffectivelyDisabled()"
     [readonly]="readonly()"
     [attr.maxlength]="maxlength() || null"
+    [attr.minlength]="minlength() || null"
+    [attr.autofocus]="autofocus() ? '' : null"
+    [attr.tabindex]="tabindex() !== undefined ? tabindex() : (isEffectivelyDisabled() ? -1 : 0)"
     [attr.aria-label]="ariaLabel() || placeholder() || null"
     [attr.aria-invalid]="isInvalid()"
     [attr.aria-required]="required()"
     [class.gp-textarea-auto-resize]="autoResize()"
-    (input)="onInput($event)"
-    (focus)="onFocus($event)"
-    (blur)="onBlur($event)"
+    (input)="handleInput($event)"
+    (focus)="handleFocus($event)"
+    (blur)="handleBlur($event)"
+    (keydown)="handleKeyDown($event)"
+    (keyup)="handleKeyUp($event)"
     class="gp-inputtext gp-textarea"
   ></textarea>
 

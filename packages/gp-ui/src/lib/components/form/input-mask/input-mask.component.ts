@@ -1,4 +1,3 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
   input,
@@ -9,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { UniqueId } from '../../../utils/unique-id';
+import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
 
 @Component({
   selector: 'gp-input-mask',
@@ -27,8 +26,7 @@ import { UniqueId } from '../../../utils/unique-id';
   templateUrl: './input-mask.component.html',
   styleUrl: './input-mask.component.scss'
 })
-export class GpInputMaskComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('mask_'));
+export class GpInputMaskComponent extends GpInputBaseComponent<string> implements ControlValueAccessor {
   public mask = input<string>('');
   public slotChar = input<string>('_');
 
@@ -39,28 +37,17 @@ export class GpInputMaskComponent extends GpEditableBaseComponent implements Con
     this.internalValue.set(formatted);
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  protected onInput(event: Event): void {
+  public override handleInput(event: Event): void {
     const inputEl = event.target as HTMLInputElement;
     const formatted = this.format(inputEl.value);
     inputEl.value = formatted;
     this.updateValue(formatted);
+    this.onInputEvent.emit(event);
 
     const maskPattern = this.mask();
     if (maskPattern && formatted.length === maskPattern.length && !formatted.includes(this.slotChar())) {
       this.onComplete.emit(formatted);
     }
-  }
-
-  protected onBlur(): void {
-    this.handleControlBlur();
   }
 
   private format(val: string): string {

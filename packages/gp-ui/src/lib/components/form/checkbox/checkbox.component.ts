@@ -1,8 +1,6 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
   input,
-  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -13,6 +11,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
+import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.component';
 
 @Component({
   selector: 'gp-checkbox',
@@ -30,18 +29,15 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss'
 })
-export class GpCheckboxComponent extends GpEditableBaseComponent implements ControlValueAccessor {
+export class GpCheckboxComponent extends GpCheckableBaseComponent implements ControlValueAccessor {
   public inputId = input<string>(UniqueId.generate('chk_'));
   public label = input<string>('');
-  public binary = input<boolean>(true);
-  public checked = input<boolean | undefined>(undefined);
-
-  public onChange = output<{ checked: boolean; value: any; originalEvent: Event }>();
+  public checkedInput = input<boolean | undefined>(undefined, { alias: 'checked' });
 
   constructor() {
     super();
     effect(() => {
-      const isChecked = this.checked();
+      const isChecked = this.checkedInput();
       if (isChecked !== undefined) {
         this.internalValue.set(isChecked);
       }
@@ -50,19 +46,20 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
 
   public isChecked(): boolean {
     const val = this.internalValue();
+    const optVal = this.valueInput();
     if (this.binary()) {
       if (typeof val === 'boolean') {
         return val;
       }
-      if (typeof this.value === 'boolean') {
-        return this.value;
+      if (typeof optVal === 'boolean') {
+        return optVal;
       }
       return !!val;
     }
     if (Array.isArray(val)) {
-      return val.includes(this.value);
+      return val.includes(optVal);
     }
-    return val === this.value;
+    return val === optVal;
   }
 
   public onClick(event: Event): void {
@@ -70,6 +67,7 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
       return;
     }
 
+    const optVal = this.valueInput();
     let nextValue: any;
     if (this.binary()) {
       nextValue = !this.isChecked();
@@ -77,16 +75,17 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
       const current = this.internalValue();
       if (Array.isArray(current)) {
         if (this.isChecked()) {
-          nextValue = current.filter((item) => item !== this.value);
+          nextValue = current.filter((item: any) => item !== optVal);
         } else {
-          nextValue = [...current, this.value];
+          nextValue = [...current, optVal];
         }
       } else {
-        nextValue = this.isChecked() ? null : this.value;
+        nextValue = this.isChecked() ? null : optVal;
       }
     }
 
     this.updateValue(nextValue);
-    this.onChange.emit({ checked: this.isChecked(), value: nextValue, originalEvent: event });
+    this.onChange.emit({ checked: this.isChecked(), originalEvent: event });
+    this.onClickEvent.emit(event as MouseEvent);
   }
 }
