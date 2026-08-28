@@ -49,6 +49,23 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         </p>
       </div>
 
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="download" size="1em" />
+          Installation &amp; Startup
+        </h2>
+        <p class="doc-section-desc">
+          Install the theme package, load its global stylesheet, and initialize <code>GpThemeManager</code> once during
+          browser application startup.
+        </p>
+        <doc-code [code]="installationCode" language="bash" />
+        <doc-code [code]="startupCode" language="typescript" />
+        <p class="doc-section-desc">
+          Initialization sets <code>data-gp-theme</code> and <code>data-gp-mode</code> on the document root. The manager
+          also restores persisted choices and follows operating-system changes when mode is <code>system</code>.
+        </p>
+      </div>
+
       <!-- Section 1: Theme Gallery -->
       <div class="doc-section">
         <div class="section-title-bar">
@@ -281,6 +298,20 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
         <h3 class="subsection-title" style="margin-top: 1.5rem;">4. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
         <doc-code [code]="htmlUsageCode" language="html" />
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="paint" size="1em" />
+          CSS Variables, Aliases &amp; Lifecycle
+        </h2>
+        <p class="doc-section-desc">
+          Prefer semantic <code>--gp-*</code> variables in authored CSS. Component token paths are flattened to
+          kebab-case, and W3C-style aliases resolve independently for Light and Dark modes.
+        </p>
+        <doc-code [code]="cssVariablesCode" language="css" />
+        <doc-code [code]="aliasCode" language="typescript" />
+        <doc-api-table title="Runtime behavior" [properties]="runtimeBehavior" [hasDefaults]="false" />
       </div>
 
       <!-- Section 4: Token Reference Table -->
@@ -589,6 +620,84 @@ export class ThemingPageComponent implements OnInit, OnDestroy {
     '#f97316',
     '#06b6d4',
     '#64748b'
+  ];
+
+  installationCode = `npm install @generatedpixel/gp-ui-theme
+
+# Optional companion packages
+npm install @generatedpixel/gp-ui @generatedpixel/gp-css @generatedpixel/gp-ui-icons`;
+
+  startupCode = `import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
+
+// Call once during browser application startup.
+GpThemeManager.initSystemTheme('default', 'system');
+
+GpThemeManager.setTheme('ocean');
+GpThemeManager.setMode('dark');
+
+// Temporary changes do not update localStorage.
+GpThemeManager.setMode('light', false);`;
+
+  cssVariablesCode = `.dashboard-card {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg);
+  color: var(--gp-text-color);
+  box-shadow: var(--gp-shadow-md);
+}
+
+.dashboard-card:focus-visible {
+  box-shadow: var(--gp-focus-ring);
+}`;
+
+  aliasCode = `const compactTheme = extendTheme({
+  id: 'compact',
+  name: 'Compact',
+  light: {
+    components: {
+      card: {
+        bg: '{semantic.surfaces.card}',
+        borderRadius: '{primitives.borderRadius.sm}'
+      }
+    }
+  },
+  dark: {
+    components: {
+      card: {
+        bg: '{semantic.surfaces.card}',
+        borderRadius: '{primitives.borderRadius.sm}'
+      }
+    }
+  }
+});`;
+
+  runtimeBehavior: DocApiProperty[] = [
+    {
+      name: 'Persistence',
+      type: 'localStorage',
+      description: 'setTheme and setMode persist by default under gp-theme-name and gp-theme-mode.'
+    },
+    {
+      name: 'State subscription',
+      type: 'onChange(listener)',
+      description: 'Immediately receives the current state and returns an unsubscribe function.'
+    },
+    {
+      name: 'Scoped themes',
+      type: 'data attributes',
+      description: 'Set data-gp-theme and data-gp-mode together on a subtree for previews or embedded surfaces.'
+    },
+    {
+      name: 'Server rendering',
+      type: 'browser guard',
+      description:
+        'The manager does not access window, document, or localStorage on the server; initialize it after hydration.'
+    },
+    {
+      name: 'Token flattening',
+      type: '--gp-*',
+      description: 'components.dialog.header.fontSize becomes --gp-dialog-header-font-size.'
+    }
   ];
 
   gpCssImportCode = `// 1. Core global reset, layout utilities, animations & ripple effects

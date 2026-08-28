@@ -40,6 +40,17 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
           <code>src/styles.css</code> as its entrypoint when present.
         </p>
         <doc-code [code]="cliCode" language="bash" />
+        <doc-api-table title="CLI behavior" [properties]="cliBehavior" [hasDefaults]="false" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-section-title">Content Scanning and CSS Variables</h2>
+        <p class="doc-section-desc">
+          Utility rules are generated only when a complete class name is found in scanned content. Use static class
+          names in templates and use the emitted variables for authored CSS that should follow the active theme.
+        </p>
+        <doc-code [code]="scanningCode" language="html" />
+        <doc-code [code]="cssVariablesCode" language="css" />
       </section>
 
       <section class="doc-section">
@@ -88,6 +99,11 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
           <code>sm:</code><code>md:</code><code>lg:</code><code>xl:</code><code>2xl:</code> <code>hover:</code
           ><code>focus:</code><code>active:</code><code>disabled:</code><code>group-hover:</code><code>dark:</code>
         </div>
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-section-title">Troubleshooting</h2>
+        <doc-api-table title="Common issues" [properties]="troubleshooting" [hasDefaults]="false" />
       </section>
     </div>
   `,
@@ -178,6 +194,33 @@ export class GpCssPageComponent {
   readonly cliCode = `npx gp-css init
 npx gp-css build --minify
 npx gp-css watch`;
+
+  readonly cliBehavior: DocApiProperty[] = [
+    { name: 'init', type: 'command', description: 'Creates gp-css.config.mjs in the current directory.' },
+    { name: 'build', type: 'command', description: 'Scans src and public, then writes dist/gp-css.css.' },
+    { name: 'watch', type: 'command', description: 'Runs the same compilation path as build.' },
+    {
+      name: 'scanned files',
+      type: 'extensions',
+      description:
+        '.html, .ts, .tsx, .js, .jsx, .vue, .svelte, and .css; node_modules, dist, and hidden directories are skipped.'
+    },
+    { name: '--minify', type: 'flag', description: 'Removes comments and unnecessary whitespace from build output.' }
+  ];
+
+  readonly scanningCode = `<div class="md:grid md:grid-cols-2 gap-4 hover:shadow-glow">
+  Static class names are discoverable by the scanner.
+</div>
+
+<!-- Prefer complete classes over runtime fragments such as bg-{{ color }}. -->`;
+
+  readonly cssVariablesCode = `.notice {
+  background: var(--gp-color-panel);
+  border: 1px solid var(--gp-color-panel-border);
+  border-radius: var(--gp-radius-lg);
+  padding: var(--gp-space-4);
+  color: var(--gp-color-text-main);
+}`;
 
   readonly configCode = `import { defineConfig } from '@generatedpixel/gp-css';
 
@@ -280,6 +323,32 @@ console.log(result.scannedCandidatesCount, result.matchedRulesCount);`;
       name: 'defaultTokens',
       type: 'GpThemeTokens',
       description: 'Default colors, typography, spacing, breakpoints, and effects.'
+    }
+  ];
+
+  readonly troubleshooting: DocApiProperty[] = [
+    {
+      name: 'Missing utility',
+      type: 'content',
+      description:
+        'Confirm the full class name is under src or public, uses a supported extension, and is included in content for programmatic builds.'
+    },
+    {
+      name: '@apply has no output',
+      type: 'utility',
+      description: 'Only utilities supported by the generator can be expanded; unsupported classes are ignored.'
+    },
+    {
+      name: 'No generated utilities',
+      type: 'directive',
+      description:
+        'Keep @gp-css utilities; in the input stylesheet and verify that content contains utility candidates.'
+    },
+    {
+      name: 'Runtime theme changes',
+      type: 'gp-ui-theme',
+      description:
+        'gp-css is build-time CSS. Use GpThemeManager and --gp-* variables from @generatedpixel/gp-ui-theme for runtime switching.'
     }
   ];
 

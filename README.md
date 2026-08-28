@@ -29,6 +29,11 @@ Install the core suite and companion utility/theme packages into any Angular app
 npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme @generatedpixel/gp-css @generatedpixel/gp-ui-icons
 ```
 
+Detailed package guides:
+
+- [`@generatedpixel/gp-css`](packages/gp-css/README.md): CLI, directives, utilities, configuration, plugins, and troubleshooting.
+- [`@generatedpixel/gp-ui-theme`](packages/gp-ui-theme/README.md): token architecture, built-in themes, runtime switching, custom themes, and CSS variables.
+
 ---
 
 ## Using `@generatedpixel/gp-css`
