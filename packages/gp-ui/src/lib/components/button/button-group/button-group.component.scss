@@ -3,8 +3,8 @@
   vertical-align: middle;
   position: relative;
 
-  > gp-button,
-  > .gp-button {
+  >gp-button,
+  >.gp-button {
     display: inline-flex;
     position: relative;
 
@@ -16,21 +16,22 @@
   }
 
   /* Non-last children remove right radius */
-  > gp-button:not(:last-child) .gp-button,
-  > .gp-button:not(:last-child) {
+  >gp-button:not(:last-child) .gp-button,
+  >.gp-button:not(:last-child) {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
   }
 
   /* Non-first children remove left radius and overlap adjacent border */
-  > gp-button:not(:first-child),
-  > .gp-button:not(:first-child) {
+  >gp-button:not(:first-child),
+  >.gp-button:not(:first-child) {
     margin-left: -1px;
 
     .gp-button {
       border-top-left-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
     }
+
     &.gp-button {
       border-top-left-radius: 0 !important;
       border-bottom-left-radius: 0 !important;
@@ -38,8 +39,8 @@
   }
 
   /* Middle children have zero radius */
-  > gp-button:not(:first-child):not(:last-child) .gp-button,
-  > .gp-button:not(:first-child):not(:last-child) {
+  >gp-button:not(:first-child):not(:last-child) .gp-button,
+  >.gp-button:not(:first-child):not(:last-child) {
     border-radius: 0 !important;
   }
 
@@ -47,8 +48,8 @@
   &.gp-button-group-vertical {
     flex-direction: column;
 
-    > gp-button,
-    > .gp-button {
+    >gp-button,
+    >.gp-button {
       width: 100%;
       margin-left: 0;
 
@@ -57,16 +58,16 @@
       }
     }
 
-    > gp-button:not(:last-child) .gp-button,
-    > .gp-button:not(:last-child) {
+    >gp-button:not(:last-child) .gp-button,
+    >.gp-button:not(:last-child) {
       border-bottom-left-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
       border-top-right-radius: var(--gp-border-radius) !important;
       border-top-left-radius: var(--gp-border-radius) !important;
     }
 
-    > gp-button:not(:first-child),
-    > .gp-button:not(:first-child) {
+    >gp-button:not(:first-child),
+    >.gp-button:not(:first-child) {
       margin-top: -1px;
       margin-left: 0;
 
@@ -76,6 +77,7 @@
         border-bottom-left-radius: var(--gp-border-radius) !important;
         border-bottom-right-radius: var(--gp-border-radius) !important;
       }
+
       &.gp-button {
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
@@ -84,8 +86,8 @@
       }
     }
 
-    > gp-button:not(:first-child):not(:last-child) .gp-button,
-    > .gp-button:not(:first-child):not(:last-child) {
+    >gp-button:not(:first-child):not(:last-child) .gp-button,
+    >.gp-button:not(:first-child):not(:last-child) {
       border-radius: 0 !important;
     }
   }

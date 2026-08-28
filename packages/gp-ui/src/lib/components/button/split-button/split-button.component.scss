@@ -3,7 +3,7 @@
   vertical-align: middle;
   position: relative;
 
-  > gp-button {
+  >gp-button {
     display: inline-flex;
     position: relative;
 
@@ -14,13 +14,13 @@
   }
 
   /* Left / Main Button */
-  > gp-button:first-child .gp-button {
+  >gp-button:first-child .gp-button {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
   }
 
   /* Right / Dropdown Button */
-  > gp-button.gp-split-button-dropdown {
+  >gp-button.gp-split-button-dropdown {
     margin-left: -1px;
 
     .gp-button {
@@ -33,7 +33,7 @@
   }
 
   &.gp-split-button-expanded {
-    > gp-button.gp-split-button-dropdown {
+    >gp-button.gp-split-button-dropdown {
       z-index: 3;
     }
   }

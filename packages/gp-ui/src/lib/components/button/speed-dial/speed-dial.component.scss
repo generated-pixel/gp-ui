@@ -1,35 +1,40 @@
 .gp-speed-dial {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .gp-speed-dial-list {
-      position: absolute;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 100;
-    }
-    .gp-speed-dial-direction-up .gp-speed-dial-list {
-      flex-direction: column-reverse;
-      bottom: 100%;
-      margin-bottom: 0.5rem;
-    }
-    .gp-speed-dial-direction-down .gp-speed-dial-list {
-      flex-direction: column;
-      top: 100%;
-      margin-top: 0.5rem;
-    }
-    .gp-speed-dial-direction-left .gp-speed-dial-list {
-      flex-direction: row-reverse;
-      right: 100%;
-      margin-right: 0.5rem;
-    }
-    .gp-speed-dial-direction-right .gp-speed-dial-list {
-      flex-direction: row;
-      left: 100%;
-      margin-left: 0.5rem;
-    }
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gp-speed-dial-list {
+  position: absolute;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 100;
+}
+
+.gp-speed-dial-direction-up .gp-speed-dial-list {
+  flex-direction: column-reverse;
+  bottom: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.gp-speed-dial-direction-down .gp-speed-dial-list {
+  flex-direction: column;
+  top: 100%;
+  margin-top: 0.5rem;
+}
+
+.gp-speed-dial-direction-left .gp-speed-dial-list {
+  flex-direction: row-reverse;
+  right: 100%;
+  margin-right: 0.5rem;
+}
+
+.gp-speed-dial-direction-right .gp-speed-dial-list {
+  flex-direction: row;
+  left: 100%;
+  margin-left: 0.5rem;
+}

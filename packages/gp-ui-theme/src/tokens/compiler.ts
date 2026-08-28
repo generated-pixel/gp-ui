@@ -158,24 +158,39 @@ export function modeTokensToCssVars(
   // 10. Mask
   vars['--gp-mask-bg'] = sem.mask.bg;
 
-  // 11. Component Specific Tokens
-  if (comp.button) {
-    if (comp.button.height) vars['--gp-button-height'] = String(comp.button.height);
-    if (comp.button.paddingX) vars['--gp-button-padding-x'] = String(comp.button.paddingX);
-    if (comp.button.paddingY) vars['--gp-button-padding-y'] = String(comp.button.paddingY);
-  }
-  if (comp.input) {
-    if (comp.input.bg) vars['--gp-input-bg'] = String(comp.input.bg);
-    if (comp.input.border) vars['--gp-input-border'] = String(comp.input.border);
-    if (comp.input.borderHover) vars['--gp-input-border-hover'] = String(comp.input.borderHover);
-    if (comp.input.borderFocus) vars['--gp-input-border-focus'] = String(comp.input.borderFocus);
-    if (comp.input.paddingX) vars['--gp-input-padding-x'] = String(comp.input.paddingX);
-    if (comp.input.paddingY) vars['--gp-input-padding-y'] = String(comp.input.paddingY);
-    if (comp.input.height) vars['--gp-input-height'] = String(comp.input.height);
+  // 11. Component Specific Tokens (Recursive Flattening)
+  if (comp) {
+    const compVars = flattenComponentTokens(comp, '--gp');
+    Object.assign(vars, compVars);
   }
 
   return vars;
 }
+
+function camelToKebab(str: string): string {
+  return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
+export function flattenComponentTokens(obj: Record<string, any>, prefix = '--gp'): Record<string, string> {
+  const vars: Record<string, string> = {};
+  if (!obj || typeof obj !== 'object') return vars;
+
+  function traverse(current: any, path: string[]) {
+    if (current === null || current === undefined) return;
+    if (typeof current === 'object' && !Array.isArray(current)) {
+      Object.keys(current).forEach((key) => {
+        traverse(current[key], [...path, camelToKebab(key)]);
+      });
+    } else {
+      const varName = `${prefix}-${path.join('-')}`;
+      vars[varName] = String(current);
+    }
+  }
+
+  traverse(obj, []);
+  return vars;
+}
+
 
 /**
  * Compiles a Theme Definition into a formatted CSS string with Light, Dark, and Media query rules.

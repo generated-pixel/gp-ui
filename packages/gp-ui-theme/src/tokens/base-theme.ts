@@ -129,6 +129,89 @@ export const baseTheme: GpThemeDefinition = {
         paddingX: '0.75rem',
         paddingY: '0.375rem',
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.08)'
+      },
+      autocomplete: {
+        background: '#ffffff',
+        borderColor: '#cbd5e1',
+        borderRadius: '6px',
+        dropdown: {
+          width: '2.25rem',
+          background: '#f1f5f9',
+          borderColor: '#cbd5e1',
+          color: '#64748b',
+          hoverBackground: '#e2e8f0'
+        },
+        overlay: {
+          background: '#ffffff',
+          borderColor: '#e2e8f0',
+          shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        },
+        item: {
+          padding: '0.5rem 0.75rem',
+          borderRadius: '4px',
+          focusBackground: '#f1f5f9',
+          focusColor: '#1e293b',
+          selectedBackground: '#eef2ff',
+          selectedColor: '#4f46e5'
+        }
+      },
+      select: {
+        background: '#ffffff',
+        borderColor: '#cbd5e1',
+        borderHover: '#94a3b8',
+        borderFocus: '#4f46e5',
+        borderRadius: '6px',
+        placeholderColor: '#94a3b8',
+        overlay: {
+          background: '#ffffff',
+          borderColor: '#e2e8f0',
+          shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        },
+        item: {
+          padding: '0.5rem 0.75rem',
+          focusBackground: '#f1f5f9',
+          selectedBackground: '#eef2ff'
+        }
+      },
+      dialog: {
+        background: '#ffffff',
+        borderColor: '#e2e8f0',
+        borderRadius: '8px',
+        shadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+        header: {
+          padding: '1.25rem 1.5rem',
+          fontSize: '1.25rem',
+          fontWeight: 600
+        },
+        content: {
+          padding: '1.5rem'
+        },
+        footer: {
+          padding: '1rem 1.5rem'
+        }
+      },
+      table: {
+        background: '#ffffff',
+        borderColor: '#e2e8f0',
+        header: {
+          background: '#f8fafc',
+          color: '#1e293b',
+          padding: '0.75rem 1rem',
+          fontWeight: 600
+        },
+        row: {
+          hoverBackground: '#f1f5f9',
+          stripedBackground: '#f8fafc',
+          selectedBackground: '#eef2ff'
+        },
+        cell: {
+          padding: '0.75rem 1rem'
+        }
+      },
+      toast: {
+        borderRadius: '8px',
+        shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        padding: '1rem'
       }
     }
   },
@@ -261,7 +344,91 @@ export const baseTheme: GpThemeDefinition = {
         paddingX: '0.75rem',
         paddingY: '0.375rem',
         shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+      },
+      autocomplete: {
+        background: '#0f172a',
+        borderColor: '#334155',
+        borderRadius: '6px',
+        dropdown: {
+          width: '2.25rem',
+          background: '#1e293b',
+          borderColor: '#334155',
+          color: '#94a3b8',
+          hoverBackground: '#334155'
+        },
+        overlay: {
+          background: '#1e293b',
+          borderColor: '#334155',
+          shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+        },
+        item: {
+          padding: '0.5rem 0.75rem',
+          borderRadius: '4px',
+          focusBackground: '#334155',
+          focusColor: '#f8fafc',
+          selectedBackground: 'rgba(99, 102, 241, 0.25)',
+          selectedColor: '#818cf8'
+        }
+      },
+      select: {
+        background: '#0f172a',
+        borderColor: '#334155',
+        borderHover: '#64748b',
+        borderFocus: '#818cf8',
+        borderRadius: '6px',
+        placeholderColor: '#64748b',
+        overlay: {
+          background: '#1e293b',
+          borderColor: '#334155',
+          shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+        },
+        item: {
+          padding: '0.5rem 0.75rem',
+          focusBackground: '#334155',
+          selectedBackground: 'rgba(99, 102, 241, 0.25)'
+        }
+      },
+      dialog: {
+        background: '#1e293b',
+        borderColor: '#334155',
+        borderRadius: '8px',
+        shadow: '0 20px 25px -5px rgba(0, 0, 0, 0.6)',
+        header: {
+          padding: '1.25rem 1.5rem',
+          fontSize: '1.25rem',
+          fontWeight: 600
+        },
+        content: {
+          padding: '1.5rem'
+        },
+        footer: {
+          padding: '1rem 1.5rem'
+        }
+      },
+      table: {
+        background: '#1e293b',
+        borderColor: '#334155',
+        header: {
+          background: '#111827',
+          color: '#f8fafc',
+          padding: '0.75rem 1rem',
+          fontWeight: 600
+        },
+        row: {
+          hoverBackground: '#334155',
+          stripedBackground: '#111827',
+          selectedBackground: 'rgba(99, 102, 241, 0.25)'
+        },
+        cell: {
+          padding: '0.75rem 1rem'
+        }
+      },
+      toast: {
+        borderRadius: '8px',
+        shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)',
+        padding: '1rem'
       }
     }
   }
 };
+

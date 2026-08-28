@@ -1,25 +1,28 @@
 .gp-autocomplete {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
-    .gp-autocomplete-dropdown-btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 2.25rem;
-      background: var(--gp-surface-section);
-      border: 1px solid var(--gp-input-border);
-      border-left: none;
-      border-top-right-radius: var(--gp-border-radius);
-      border-bottom-right-radius: var(--gp-border-radius);
-      color: var(--gp-text-color-secondary);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .gp-autocomplete-dropdown-btn:hover {
-      background: var(--gp-surface-hover);
-    }
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.gp-autocomplete-dropdown-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--gp-autocomplete-dropdown-width, 2.25rem);
+  background: var(--gp-autocomplete-dropdown-background, var(--gp-surface-section));
+  border: 1px solid var(--gp-autocomplete-dropdown-border-color, var(--gp-input-border));
+  border-left: none;
+  border-top-right-radius: var(--gp-autocomplete-border-radius, var(--gp-border-radius));
+  border-bottom-right-radius: var(--gp-autocomplete-border-radius, var(--gp-border-radius));
+  color: var(--gp-autocomplete-dropdown-color, var(--gp-text-color-secondary));
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: var(--gp-autocomplete-dropdown-hover-background, var(--gp-surface-hover));
+  }
+}
+

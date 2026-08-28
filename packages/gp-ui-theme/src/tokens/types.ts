@@ -249,39 +249,137 @@ export interface GpSemanticTokens {
  * Component-specific styling definitions
  */
 export interface GpButtonComponentTokens {
-  height: string;
-  paddingX: string;
-  paddingY: string;
-  borderRadius: string;
-  fontWeight: string | number;
+  height?: string;
+  paddingX?: string;
+  paddingY?: string;
+  borderRadius?: string;
+  fontWeight?: string | number;
+  [key: string]: any;
 }
 
 export interface GpInputComponentTokens {
-  bg: string;
-  border: string;
-  borderHover: string;
-  borderFocus: string;
-  paddingX: string;
-  paddingY: string;
-  height: string;
-  borderRadius: string;
+  bg?: string;
+  border?: string;
+  borderHover?: string;
+  borderFocus?: string;
+  paddingX?: string;
+  paddingY?: string;
+  height?: string;
+  borderRadius?: string;
+  [key: string]: any;
 }
 
 export interface GpCardComponentTokens {
-  bg: string;
-  border: string;
-  borderRadius: string;
-  shadow: string;
+  bg?: string;
+  border?: string;
+  borderRadius?: string;
+  shadow?: string;
+  [key: string]: any;
 }
 
 export interface GpTooltipComponentTokens {
-  bg: string;
-  text: string;
-  fontSize: string;
-  borderRadius: string;
-  paddingX: string;
-  paddingY: string;
-  shadow: string;
+  bg?: string;
+  text?: string;
+  fontSize?: string;
+  borderRadius?: string;
+  paddingX?: string;
+  paddingY?: string;
+  shadow?: string;
+  [key: string]: any;
+}
+
+export interface GpAutocompleteComponentTokens {
+
+  background?: string;
+  borderColor?: string;
+  borderRadius?: string;
+  dropdown?: {
+    width?: string;
+    background?: string;
+    borderColor?: string;
+    color?: string;
+    hoverBackground?: string;
+  };
+  overlay?: {
+    background?: string;
+    borderColor?: string;
+    shadow?: string;
+  };
+  item?: {
+    padding?: string;
+    borderRadius?: string;
+    focusBackground?: string;
+    focusColor?: string;
+    selectedBackground?: string;
+    selectedColor?: string;
+  };
+  [key: string]: any;
+}
+
+export interface GpSelectComponentTokens {
+  background?: string;
+  borderColor?: string;
+  borderHover?: string;
+  borderFocus?: string;
+  borderRadius?: string;
+  placeholderColor?: string;
+  overlay?: {
+    background?: string;
+    borderColor?: string;
+    shadow?: string;
+  };
+  item?: {
+    padding?: string;
+    focusBackground?: string;
+    selectedBackground?: string;
+  };
+  [key: string]: any;
+}
+
+export interface GpDialogComponentTokens {
+  background?: string;
+  borderColor?: string;
+  borderRadius?: string;
+  shadow?: string;
+  header?: {
+    padding?: string;
+    fontSize?: string;
+    fontWeight?: string | number;
+  };
+  content?: {
+    padding?: string;
+  };
+  footer?: {
+    padding?: string;
+  };
+  [key: string]: any;
+}
+
+export interface GpTableComponentTokens {
+  background?: string;
+  borderColor?: string;
+  header?: {
+    background?: string;
+    color?: string;
+    padding?: string;
+    fontWeight?: string | number;
+  };
+  row?: {
+    hoverBackground?: string;
+    stripedBackground?: string;
+    selectedBackground?: string;
+  };
+  cell?: {
+    padding?: string;
+  };
+  [key: string]: any;
+}
+
+export interface GpToastComponentTokens {
+  borderRadius?: string;
+  shadow?: string;
+  padding?: string;
+  [key: string]: any;
 }
 
 export interface GpComponentTokens {
@@ -289,8 +387,14 @@ export interface GpComponentTokens {
   input?: GpInputComponentTokens;
   card?: GpCardComponentTokens;
   tooltip?: GpTooltipComponentTokens;
+  autocomplete?: GpAutocompleteComponentTokens;
+  select?: GpSelectComponentTokens;
+  dialog?: GpDialogComponentTokens;
+  table?: GpTableComponentTokens;
+  toast?: GpToastComponentTokens;
   [component: string]: any;
 }
+
 
 /**
  * Full Theme Definition Structure

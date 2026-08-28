@@ -1,8 +1,9 @@
 .gp-avatar-group {
-      display: inline-flex;
-      align-items: center;
-    }
-    .gp-avatar-group > .gp-avatar:not(:first-child) {
-      margin-left: -0.75rem;
-      border: 2px solid var(--gp-surface-card);
-    }
+  display: inline-flex;
+  align-items: center;
+}
+
+.gp-avatar-group>.gp-avatar:not(:first-child) {
+  margin-left: -0.75rem;
+  border: 2px solid var(--gp-surface-card);
+}
