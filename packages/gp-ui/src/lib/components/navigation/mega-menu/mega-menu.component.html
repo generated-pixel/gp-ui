@@ -1,48 +1,123 @@
-<div class="gp-menubar gp-megamenu" role="menubar">
-  <ul class="gp-menubar-root-list">
+<div
+  class="gp-megamenu"
+  [class.gp-megamenu-vertical]="orientation() === 'vertical'"
+  [class.gp-megamenu-horizontal]="orientation() === 'horizontal'"
+  role="menubar"
+>
+  <div class="gp-megamenu-start">
+    <ng-content select="[start]" />
+  </div>
+
+  <ul class="gp-megamenu-root-list" role="menubar">
     @for (item of model(); track $index) {
       <li
-        class="gp-menubar-item"
-        [class.gp-menubar-item-active]="activeItem() === item"
-        (mouseenter)="activeItem.set(item)"
-        (mouseleave)="activeItem.set(null)"
+        class="gp-megamenu-root-item"
+        [class.gp-megamenu-root-item-active]="activeItem() === item"
+        [class.gp-megamenu-root-item-disabled]="item.disabled"
+        (mouseenter)="onItemMouseEnter(item)"
         role="none"
       >
-        <a [routerLink]="item.routerLink" [attr.href]="item.url || null" class="gp-menubar-item-link" role="menuitem">
+        <a
+          [routerLink]="item.routerLink"
+          [attr.href]="item.url || null"
+          [attr.target]="item.target || null"
+          class="gp-megamenu-root-link"
+          (click)="onRootItemClick(item, $event)"
+          role="menuitem"
+          [attr.aria-haspopup]="item.columns ? 'true' : null"
+          [attr.aria-expanded]="activeItem() === item"
+          [attr.tabindex]="item.disabled ? -1 : 0"
+        >
           @if (item.icon) {
-            <gp-icon [name]="item.icon" class="gp-menubar-icon" />
+            <gp-icon [name]="item.icon" class="gp-megamenu-root-icon" />
           }
-          <span>{{ item.label }}</span>
+          <span class="gp-megamenu-root-label">{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="gp-megamenu-root-badge">{{ item.badge }}</span>
+          }
           @if (item.columns && item.columns.length > 0) {
-            <gp-icon name="chevron-down" size="0.75em" class="gp-menubar-submenu-icon" />
+            <gp-icon
+              [name]="orientation() === 'vertical' ? 'chevron-right' : 'chevron-down'"
+              size="0.75em"
+              class="gp-megamenu-root-arrow"
+              [class.gp-megamenu-root-arrow-rotated]="activeItem() === item"
+            />
           }
         </a>
 
         @if (item.columns && item.columns.length > 0 && activeItem() === item) {
-          <div class="gp-megamenu-panel">
+          <div class="gp-megamenu-panel" role="region" aria-label="Mega menu content">
             <div class="gp-megamenu-grid">
               @for (col of item.columns; track $index) {
                 <div class="gp-megamenu-col">
                   @if (col.label) {
-                    <div class="gp-megamenu-col-header">{{ col.label }}</div>
+                    <div class="gp-megamenu-col-header">
+                      @if (col.icon) {
+                        <gp-icon [name]="col.icon" size="0.9em" class="gp-megamenu-col-icon" />
+                      }
+                      <span>{{ col.label }}</span>
+                    </div>
                   }
-                  <ul class="gp-menu-list">
+                  <ul class="gp-megamenu-list">
                     @for (sub of col.items; track $index) {
-                      <li class="gp-menu-item" role="none">
-                        <a
-                          [routerLink]="sub.routerLink"
-                          [attr.href]="sub.url || null"
-                          class="gp-menu-item-link"
-                          (click)="onItemClick(sub, $event)"
-                        >
-                          @if (sub.icon) {
-                            <gp-icon [name]="sub.icon" class="gp-menu-item-icon" />
-                          }
-                          <span>{{ sub.label }}</span>
-                        </a>
-                      </li>
+                      @if (sub.separator) {
+                        <li class="gp-menu-separator" role="separator"></li>
+                      } @else {
+                        <li class="gp-megamenu-item" [class.gp-megamenu-item-disabled]="sub.disabled" role="none">
+                          <a
+                            [routerLink]="sub.routerLink"
+                            [attr.href]="sub.url || null"
+                            [attr.target]="sub.target || null"
+                            class="gp-megamenu-link"
+                            (click)="onItemClick(sub, $event)"
+                          >
+                            @if (sub.icon) {
+                              <div
+                                class="gp-megamenu-icon-box"
+                                [style.background]="sub.iconBg || 'var(--gp-primary-light, rgba(59, 130, 246, 0.1))'"
+                                [style.color]="sub.iconColor || 'var(--gp-primary, #3b82f6)'"
+                              >
+                                <gp-icon [name]="sub.icon" size="1.1em" />
+                              </div>
+                            }
+                            <div class="gp-megamenu-content">
+                              <div class="gp-megamenu-title-row">
+                                <span class="gp-megamenu-title">{{ sub.label }}</span>
+                                @if (sub.badge) {
+                                  <span
+                                    class="gp-menu-item-badge"
+                                    [class]="'gp-badge-' + (sub.badgeSeverity || 'primary')"
+                                  >
+                                    {{ sub.badge }}
+                                  </span>
+                                }
+                              </div>
+                              @if (sub.description) {
+                                <p class="gp-megamenu-desc">{{ sub.description }}</p>
+                              }
+                            </div>
+                          </a>
+                        </li>
+                      }
                     }
                   </ul>
+
+                  @if (col.featured; as feat) {
+                    <div class="gp-megamenu-featured">
+                      <h4 class="gp-megamenu-featured-title">{{ feat.title }}</h4>
+                      @if (feat.description) {
+                        <p class="gp-megamenu-featured-desc">{{ feat.description }}</p>
+                      }
+                      @if (feat.actionLabel) {
+                        <gp-button
+                          [label]="feat.actionLabel"
+                          size="sm"
+                          severity="primary"
+                          (onClickEvent)="onFeaturedClick(feat, $event)"
+                        />
+                      }
+                    </div>
+                  }
                 </div>
               }
             </div>
@@ -51,4 +126,8 @@
       </li>
     }
   </ul>
+
+  <div class="gp-megamenu-end">
+    <ng-content select="[end]" />
+  </div>
 </div>

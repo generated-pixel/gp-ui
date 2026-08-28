@@ -14,15 +14,59 @@
           <li
             class="gp-menu-item"
             [class.gp-menu-item-disabled]="item.disabled"
+            [class.gp-menu-item-active]="activeSubItem() === item"
+            (mouseenter)="item.items && item.items.length ? activeSubItem.set(item) : activeSubItem.set(null)"
             role="menuitem"
             (click)="onItemClick(item, $event)"
           >
-            <div class="gp-menu-item-link">
+            <a
+              [routerLink]="item.routerLink"
+              [attr.href]="item.url || null"
+              [attr.target]="item.target || null"
+              class="gp-menu-item-link"
+            >
               @if (item.icon) {
                 <gp-icon [name]="item.icon" class="gp-menu-item-icon" />
               }
               <span class="gp-menu-item-text">{{ item.label }}</span>
-            </div>
+              @if (item.badge) {
+                <span class="gp-menu-item-badge">{{ item.badge }}</span>
+              }
+              @if (item.items && item.items.length > 0) {
+                <gp-icon name="chevron-right" size="0.75em" class="gp-menu-submenu-icon" />
+              }
+            </a>
+
+            @if (item.items && item.items.length > 0 && activeSubItem() === item) {
+              <div class="gp-menu-overlay gp-context-submenu" role="menu">
+                <ul class="gp-menu-list">
+                  @for (sub of item.items; track $index) {
+                    @if (sub.separator) {
+                      <li class="gp-menu-separator" role="separator"></li>
+                    } @else {
+                      <li
+                        class="gp-menu-item"
+                        [class.gp-menu-item-disabled]="sub.disabled"
+                        role="menuitem"
+                        (click)="onItemClick(sub, $event)"
+                      >
+                        <a
+                          [routerLink]="sub.routerLink"
+                          [attr.href]="sub.url || null"
+                          [attr.target]="sub.target || null"
+                          class="gp-menu-item-link"
+                        >
+                          @if (sub.icon) {
+                            <gp-icon [name]="sub.icon" class="gp-menu-item-icon" />
+                          }
+                          <span class="gp-menu-item-text">{{ sub.label }}</span>
+                        </a>
+                      </li>
+                    }
+                  }
+                </ul>
+              </div>
+            }
           </li>
         }
       }

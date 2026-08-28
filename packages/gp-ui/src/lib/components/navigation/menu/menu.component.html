@@ -1,5 +1,12 @@
 @if (!popup() || visible()) {
-  <div class="gp-menu" [class.gp-menu-popup]="popup()" role="menu" (click)="$event.stopPropagation()">
+  <div
+    class="gp-menu"
+    [class.gp-menu-popup]="popup()"
+    [style.top.px]="popup() ? position().top : null"
+    [style.left.px]="popup() ? position().left : null"
+    role="menu"
+    (click)="$event.stopPropagation()"
+  >
     <ul class="gp-menu-list">
       @for (item of model(); track $index) {
         @if (item.separator) {
@@ -11,7 +18,12 @@
             role="menuitem"
             (click)="onItemClick(item, $event)"
           >
-            <a [routerLink]="item.routerLink" [attr.href]="item.url || null" class="gp-menu-item-link">
+            <a
+              [routerLink]="item.routerLink"
+              [attr.href]="item.url || null"
+              [attr.target]="item.target || null"
+              class="gp-menu-item-link"
+            >
               @if (item.icon) {
                 <gp-icon [name]="item.icon" class="gp-menu-item-icon" />
               }

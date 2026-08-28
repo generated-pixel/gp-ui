@@ -9,21 +9,25 @@
         class="gp-menubar-item"
         [class.gp-menubar-item-active]="activeItem() === item"
         (mouseenter)="onItemMouseEnter(item)"
-        (mouseleave)="onItemMouseLeave(item)"
         role="none"
       >
         <a
           [routerLink]="item.routerLink"
           [attr.href]="item.url || null"
+          [attr.target]="item.target || null"
           class="gp-menubar-item-link"
-          (click)="onItemClick(item, $event)"
+          (click)="onRootItemClick(item, $event)"
           role="menuitem"
           [attr.aria-haspopup]="item.items ? 'true' : null"
+          [attr.aria-expanded]="activeItem() === item"
         >
           @if (item.icon) {
             <gp-icon [name]="item.icon" class="gp-menubar-icon" />
           }
           <span class="gp-menubar-label">{{ item.label }}</span>
+          @if (item.badge) {
+            <span class="gp-menu-item-badge">{{ item.badge }}</span>
+          }
           @if (item.items && item.items.length > 0) {
             <gp-icon name="chevron-down" size="0.75em" class="gp-menubar-submenu-icon" />
           }
@@ -35,10 +39,16 @@
               @if (sub.separator) {
                 <li class="gp-menu-separator" role="separator"></li>
               } @else {
-                <li class="gp-menubar-subitem" role="none">
+                <li
+                  class="gp-menubar-subitem"
+                  [class.gp-menubar-subitem-active]="activeSubItem() === sub"
+                  (mouseenter)="onSubItemMouseEnter(sub)"
+                  role="none"
+                >
                   <a
                     [routerLink]="sub.routerLink"
                     [attr.href]="sub.url || null"
+                    [attr.target]="sub.target || null"
                     class="gp-menubar-subitem-link"
                     (click)="onItemClick(sub, $event)"
                     role="menuitem"
@@ -46,8 +56,40 @@
                     @if (sub.icon) {
                       <gp-icon [name]="sub.icon" class="gp-menubar-icon" />
                     }
-                    <span>{{ sub.label }}</span>
+                    <span class="gp-menubar-subitem-label">{{ sub.label }}</span>
+                    @if (sub.badge) {
+                      <span class="gp-menu-item-badge">{{ sub.badge }}</span>
+                    }
+                    @if (sub.items && sub.items.length > 0) {
+                      <gp-icon name="chevron-right" size="0.75em" class="gp-menubar-nested-icon" />
+                    }
                   </a>
+
+                  @if (sub.items && sub.items.length > 0 && activeSubItem() === sub) {
+                    <ul class="gp-menubar-submenu gp-menubar-nested-submenu" role="menu">
+                      @for (nested of sub.items; track $index) {
+                        @if (nested.separator) {
+                          <li class="gp-menu-separator" role="separator"></li>
+                        } @else {
+                          <li class="gp-menubar-subitem" role="none">
+                            <a
+                              [routerLink]="nested.routerLink"
+                              [attr.href]="nested.url || null"
+                              [attr.target]="nested.target || null"
+                              class="gp-menubar-subitem-link"
+                              (click)="onItemClick(nested, $event)"
+                              role="menuitem"
+                            >
+                              @if (nested.icon) {
+                                <gp-icon [name]="nested.icon" class="gp-menubar-icon" />
+                              }
+                              <span>{{ nested.label }}</span>
+                            </a>
+                          </li>
+                        }
+                      }
+                    </ul>
+                  }
                 </li>
               }
             }
