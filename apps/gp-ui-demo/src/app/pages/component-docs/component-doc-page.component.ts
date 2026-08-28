@@ -1,7 +1,62 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GpButtonComponent, GpBadgeComponent, GpMenuItem } from 'gp-ui';
+import {
+  GpAccordionComponent,
+  GpAccordionTabComponent,
+  GpAutoCompleteComponent,
+  GpAvatarComponent,
+  GpBadgeComponent,
+  GpBreadcrumbComponent,
+  GpButtonComponent,
+  GpCardComponent,
+  GpCheckboxComponent,
+  GpChipComponent,
+  GpDatePickerComponent,
+  GpDividerComponent,
+  GpEmptyStateComponent,
+  GpFieldsetComponent,
+  GpFileUploadComponent,
+  GpInputNumberComponent,
+  GpInputTextComponent,
+  GpListboxComponent,
+  GpMenuComponent,
+  GpMenuItem,
+  GpMessageComponent,
+  GpMeterGroupComponent,
+  GpMultiSelectComponent,
+  GpPaginatorComponent,
+  GpPanelComponent,
+  GpPasswordComponent,
+  GpProgressBarComponent,
+  GpProgressSpinnerComponent,
+  GpRadioButtonComponent,
+  GpRatingComponent,
+  GpScrollPanelComponent,
+  GpSelectComponent,
+  GpSkeletonComponent,
+  GpSliderComponent,
+  GpSpeedDialComponent,
+  GpSplitterComponent,
+  GpSplitterPanelComponent,
+  GpSplitButtonComponent,
+  GpStepComponent,
+  GpStepperComponent,
+  GpSwitchComponent,
+  GpTagComponent,
+  GpTextareaComponent,
+  GpTimePickerComponent,
+  GpTimelineComponent,
+  GpToggleButtonComponent,
+  GpTreeComponent,
+  GpTreeSelectComponent,
+  GpVirtualScrollerComponent,
+  GpDataViewComponent,
+  GpImageComponent,
+  GpMenubarComponent,
+  GpPanelMenuComponent,
+  GpTieredMenuComponent
+} from 'gp-ui';
 import { GpIconComponent, GP_DEFAULT_ICONS } from 'gp-ui-icons';
 import { DocApiTableComponent } from '../../shared/doc-api-table.component';
 import { DocCodeComponent } from '../../shared/doc-code.component';
@@ -10,7 +65,65 @@ import { getComponentDoc } from './component-docs.data';
 @Component({
   selector: 'app-component-doc-page',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpBadgeComponent, GpIconComponent, DocCodeComponent, DocApiTableComponent],
+  imports: [
+    CommonModule,
+    GpAccordionComponent,
+    GpAccordionTabComponent,
+    GpAutoCompleteComponent,
+    GpAvatarComponent,
+    GpBadgeComponent,
+    GpBreadcrumbComponent,
+    GpButtonComponent,
+    GpCardComponent,
+    GpCheckboxComponent,
+    GpChipComponent,
+    GpDatePickerComponent,
+    GpDividerComponent,
+    GpEmptyStateComponent,
+    GpFieldsetComponent,
+    GpFileUploadComponent,
+    GpIconComponent,
+    GpInputNumberComponent,
+    GpInputTextComponent,
+    GpListboxComponent,
+    GpMenuComponent,
+    GpMessageComponent,
+    GpMeterGroupComponent,
+    GpMultiSelectComponent,
+    GpPaginatorComponent,
+    GpPanelComponent,
+    GpPasswordComponent,
+    GpProgressBarComponent,
+    GpProgressSpinnerComponent,
+    GpRadioButtonComponent,
+    GpRatingComponent,
+    GpScrollPanelComponent,
+    GpSelectComponent,
+    GpSkeletonComponent,
+    GpSliderComponent,
+    GpSpeedDialComponent,
+    GpSplitterComponent,
+    GpSplitterPanelComponent,
+    GpSplitButtonComponent,
+    GpStepComponent,
+    GpStepperComponent,
+    GpSwitchComponent,
+    GpTagComponent,
+    GpTextareaComponent,
+    GpTimePickerComponent,
+    GpTimelineComponent,
+    GpToggleButtonComponent,
+    GpTreeComponent,
+    GpTreeSelectComponent,
+    GpVirtualScrollerComponent,
+    GpDataViewComponent,
+    GpImageComponent,
+    GpMenubarComponent,
+    GpPanelMenuComponent,
+    GpTieredMenuComponent,
+    DocCodeComponent,
+    DocApiTableComponent
+  ],
   template: `
     @if (doc) {
       <div class="page-container">
@@ -81,29 +194,65 @@ import { getComponentDoc } from './component-docs.data';
           <gp-button label="Outlined" variant="outlined" severity="secondary" />
         }
         @case ('split-button') {
-          <gp-button label="Save" severity="primary" />
+          <gp-split-button label="Save" icon="check" [model]="demoMenuItems" severity="primary" />
         }
         @case ('speed-dial') {
-          <gp-button label="Quick actions" severity="primary" />
+          <gp-speed-dial [model]="demoMenuItems" direction="up" />
+        }
+        @case ('toggle-button') {
+          <gp-toggle-button label="Bold" [value]="true" />
         }
         @case ('input-text') {
-          <label style="display:block; min-width: 220px;">
-            <span style="display:block; margin-bottom:0.5rem;">Name</span>
-            <input
-              type="text"
-              value="Jane Doe"
-              style="width:100%; padding:0.7rem 0.8rem; border-radius:6px; border:1px solid var(--gp-surface-border); background: var(--gp-surface-card); color: var(--gp-text-color);"
-            />
-          </label>
+          <gp-input-text label="Name" placeholder="Jane Doe" />
         }
         @case ('select') {
-          <select
-            style="min-width: 220px; padding: 0.7rem 0.8rem; border-radius: 6px; border: 1px solid var(--gp-surface-border); background: var(--gp-surface-card); color: var(--gp-text-color);"
-          >
-            <option>Designer</option>
-            <option>Developer</option>
-            <option>Manager</option>
-          </select>
+          <gp-select [options]="demoOptions" placeholder="Select role" />
+        }
+        @case ('textarea') {
+          <gp-textarea label="Notes" placeholder="Write a short note" [rows]="3" />
+        }
+        @case ('password') {
+          <gp-password label="Password" placeholder="Choose a password" />
+        }
+        @case ('input-number') {
+          <gp-input-number label="Budget" prefix="$" [min]="0" [step]="50" />
+        }
+        @case ('checkbox') {
+          <gp-checkbox label="I agree to the terms" [value]="true" />
+        }
+        @case ('radio-button') {
+          <gp-radio-button value="personal" label="Personal" />
+          <gp-radio-button value="business" label="Business" />
+        }
+        @case ('switch') {
+          <gp-switch label="Push notifications" [value]="true" />
+        }
+        @case ('slider') {
+          <div style="min-width: 220px;"><gp-slider [min]="0" [max]="100" [value]="68" /></div>
+        }
+        @case ('rating') {
+          <gp-rating [value]="4" [max]="5" />
+        }
+        @case ('multi-select') {
+          <gp-multi-select [options]="demoOptions" placeholder="Select skills" />
+        }
+        @case ('listbox') {
+          <gp-listbox [options]="demoOptions" />
+        }
+        @case ('autocomplete') {
+          <gp-autocomplete [suggestions]="demoOptions" placeholder="Search cities" />
+        }
+        @case ('tree-select') {
+          <gp-tree-select [options]="demoTreeNodes" placeholder="Select department" />
+        }
+        @case ('date-picker') {
+          <gp-date-picker placeholder="MM/DD/YYYY" />
+        }
+        @case ('time-picker') {
+          <gp-time-picker hourFormat="12" />
+        }
+        @case ('file-upload') {
+          <gp-file-upload [multiple]="true" accept="image/*" />
         }
         @case ('table') {
           <div style="display:flex; flex-direction:column; gap:0.5rem; min-width:260px;">
@@ -119,6 +268,40 @@ import { getComponentDoc } from './component-docs.data';
             </div>
           </div>
         }
+        @case ('paginator') {
+          <gp-paginator [totalRecords]="200" [rows]="10" />
+        }
+        @case ('data-view') {
+          <gp-data-view [value]="demoRows" layout="grid" />
+        }
+        @case ('virtual-scroller') {
+          <gp-virtual-scroller [items]="demoRows" [itemSize]="48" />
+        }
+        @case ('tree') {
+          <gp-tree [value]="demoTreeNodes" selectionMode="single" />
+        }
+        @case ('menu') {
+          <gp-menu [model]="demoMenuItems" />
+        }
+        @case ('menubar') {
+          <gp-menubar [model]="demoMenuItems" />
+        }
+        @case ('breadcrumb') {
+          <gp-breadcrumb [model]="demoMenuItems" />
+        }
+        @case ('panel-menu') {
+          <gp-panel-menu [model]="demoMenuItems" />
+        }
+        @case ('tiered-menu') {
+          <gp-tiered-menu [model]="demoMenuItems" />
+        }
+        @case ('stepper') {
+          <gp-stepper>
+            <gp-step label="Account" />
+            <gp-step label="Profile" />
+            <gp-step label="Review" />
+          </gp-stepper>
+        }
         @case ('tabs') {
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
             <gp-button label="Overview" severity="primary" />
@@ -129,24 +312,52 @@ import { getComponentDoc } from './component-docs.data';
           <gp-button label="Open Dialog" severity="primary" />
         }
         @case ('card') {
-          <div style="padding:1rem; border:1px solid var(--gp-surface-border); border-radius:8px; min-width:220px;">
-            <strong>Project Summary</strong>
-            <p style="margin:0.5rem 0 0;">A concise overview of the project state.</p>
-          </div>
+          <gp-card header="Project Summary">A concise overview of the project state.</gp-card>
+        }
+        @case ('panel') {
+          <gp-panel header="Project Summary">A concise overview of the project state.</gp-panel>
+        }
+        @case ('accordion') {
+          <gp-accordion>
+            <gp-accordion-tab header="Overview">A concise overview of the project state.</gp-accordion-tab>
+            <gp-accordion-tab header="Details">Additional project details.</gp-accordion-tab>
+          </gp-accordion>
+        }
+        @case ('fieldset') {
+          <gp-fieldset legend="Profile">Contact details and preferences.</gp-fieldset>
+        }
+        @case ('divider') {
+          <div style="min-width: 220px;"><gp-divider /></div>
+        }
+        @case ('scroll-panel') {
+          <gp-scroll-panel height="8rem">Scrollable content preview.</gp-scroll-panel>
+        }
+        @case ('splitter') {
+          <gp-splitter [style]="{ 'min-width': '320px' }">
+            <gp-splitter-panel>Navigation</gp-splitter-panel>
+            <gp-splitter-panel>Content</gp-splitter-panel>
+          </gp-splitter>
         }
         @case ('message') {
-          <div
-            style="padding:0.75rem 1rem; border-radius:8px; border:1px solid var(--gp-surface-border); background: rgba(34,197,94,0.08); color: var(--gp-text-color); min-width:220px;"
-          >
-            Saved successfully
-          </div>
+          <gp-message severity="success" text="Saved successfully" />
+        }
+        @case ('progress-bar') {
+          <div style="min-width: 220px;"><gp-progress-bar [value]="70" /></div>
+        }
+        @case ('progress-spinner') {
+          <gp-progress-spinner [value]="60" />
+        }
+        @case ('skeleton') {
+          <div style="min-width: 220px;"><gp-skeleton width="12rem" height="1rem" /></div>
+        }
+        @case ('tag') {
+          <gp-tag value="Beta" severity="secondary" />
+        }
+        @case ('chip') {
+          <gp-chip label="New" />
         }
         @case ('avatar') {
-          <div
-            style="width: 48px; height: 48px; border-radius:50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); display:flex; align-items:center; justify-content:center; color:white; font-weight:700;"
-          >
-            JD
-          </div>
+          <gp-avatar label="JD" size="normal" />
         }
         @case ('badge') {
           <gp-badge [value]="'New'" severity="primary" />
@@ -158,8 +369,23 @@ import { getComponentDoc } from './component-docs.data';
             <gp-icon name="star-fill" size="1.5em" color="var(--gp-warning)" />
           </div>
         }
+        @case ('image') {
+          <gp-image src="/img/generated-pixel-logomark.svg" alt="Generated Pixel" width="96px" height="96px" />
+        }
+        @case ('empty-state') {
+          <gp-empty-state title="No items yet" message="Start by creating your first record." />
+        }
+        @case ('meter-group') {
+          <gp-meter-group [value]="demoMeterItems" />
+        }
+        @case ('timeline') {
+          <gp-timeline [value]="demoRows" />
+        }
         @default {
-          <gp-button label="Example" severity="primary" />
+          <div class="unavailable-preview">
+            <gp-icon name="code" size="1em" />
+            <span>Interactive preview coming soon for this component.</span>
+          </div>
         }
       }
     </ng-template>
@@ -204,7 +430,7 @@ import { getComponentDoc } from './component-docs.data';
         min-width: 200px;
       }
       .icon-search-input:focus {
-        border-color: var(--gp-primary-color, #6366f1);
+        border-color: var(--gp-primary);
       }
       .icon-grid {
         display: grid;
@@ -227,7 +453,7 @@ import { getComponentDoc } from './component-docs.data';
       }
       .icon-card:hover {
         transform: translateY(-2px);
-        border-color: var(--gp-primary-color, #6366f1);
+        border-color: var(--gp-primary);
       }
       .icon-name {
         font-size: 0.75rem;
@@ -243,6 +469,31 @@ export class ComponentDocPageComponent implements OnInit {
   doc: ReturnType<typeof getComponentDoc>;
   allIconNames: string[] = Object.keys(GP_DEFAULT_ICONS);
   searchTerm = '';
+
+  demoOptions = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Developer', value: 'developer' },
+    { label: 'Manager', value: 'manager' }
+  ];
+  demoRows = [
+    { name: 'Alpha', status: 'Ready' },
+    { name: 'Beta', status: 'In progress' },
+    { name: 'Gamma', status: 'Planned' }
+  ];
+  demoMenuItems: GpMenuItem[] = [
+    { label: 'Overview', icon: 'home' },
+    { label: 'Settings', icon: 'sliders' },
+    { label: 'Archive', icon: 'folder' }
+  ];
+  demoTreeNodes = [
+    { label: 'Engineering', children: [{ label: 'Frontend' }, { label: 'Platform' }] },
+    { label: 'Design', children: [{ label: 'Product' }, { label: 'Brand' }] }
+  ];
+  demoMeterItems = [
+    { label: 'Design', value: 45, color: 'var(--gp-primary)' },
+    { label: 'Engineering', value: 30, color: 'var(--gp-info)' },
+    { label: 'Operations', value: 25, color: 'var(--gp-success)' }
+  ];
 
   get filteredIconNames(): string[] {
     if (!this.searchTerm.trim()) {

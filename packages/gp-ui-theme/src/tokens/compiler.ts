@@ -5,6 +5,95 @@
 import { GpThemeDefinition, GpThemeOverride } from './types';
 import { baseTheme } from './base-theme';
 
+const componentTokenNames = [
+  'button',
+  'buttonGroup',
+  'splitButton',
+  'speedDial',
+  'toggleButton',
+  'input',
+  'inputText',
+  'textarea',
+  'password',
+  'inputNumber',
+  'inputMask',
+  'checkbox',
+  'radioButton',
+  'switch',
+  'slider',
+  'rating',
+  'colorPicker',
+  'select',
+  'multiSelect',
+  'listbox',
+  'autocomplete',
+  'cascadeSelect',
+  'treeSelect',
+  'datePicker',
+  'timePicker',
+  'fileUpload',
+  'paginator',
+  'column',
+  'table',
+  'treeTable',
+  'dataView',
+  'virtualScroller',
+  'tree',
+  'orgChart',
+  'menu',
+  'menubar',
+  'contextMenu',
+  'tieredMenu',
+  'megaMenu',
+  'panelMenu',
+  'breadcrumb',
+  'tabs',
+  'stepper',
+  'dock',
+  'toolbar',
+  'dialog',
+  'confirmDialog',
+  'drawer',
+  'popover',
+  'card',
+  'panel',
+  'accordion',
+  'fieldset',
+  'divider',
+  'splitter',
+  'scrollPanel',
+  'toast',
+  'message',
+  'progressBar',
+  'progressSpinner',
+  'skeleton',
+  'badge',
+  'tag',
+  'chip',
+  'image',
+  'carousel',
+  'timeline',
+  'meterGroup',
+  'emptyState',
+  'icon'
+] as const;
+
+const inheritedComponentTokenDefaults = componentTokenNames.reduce<Record<string, Record<string, string>>>(
+  (defaults, componentName) => {
+    defaults[componentName] = {
+      background: '{semantic.surfaces.card}',
+      color: '{semantic.text.primary}',
+      borderColor: '{semantic.surfaces.border}',
+      borderRadius: '{primitives.borderRadius.base}',
+      padding: '{primitives.spacing.4}',
+      fontSize: '{primitives.typography.fontSize.base}',
+      shadow: '{semantic.shadows.sm}'
+    };
+    return defaults;
+  },
+  {}
+);
+
 /**
  * Deeply merges two objects, creating a new clone.
  */
@@ -57,7 +146,7 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   const modeData = mode === 'dark' ? theme.dark : theme.light;
   const sem = modeData.semantic;
   const prim = theme.primitives;
-  const comp = modeData.components || {};
+  const comp = deepMerge(inheritedComponentTokenDefaults, modeData.components || {});
 
   const vars: Record<string, string> = {};
 

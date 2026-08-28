@@ -113,6 +113,39 @@ describe('TypeScript & JSON Theme Architecture', () => {
       expect(darkVars['--gp-table-header-background']).toBe('#111827');
     });
 
+    it('should provide inherited component token defaults for every component family', () => {
+      const vars = modeTokensToCssVars(defaultTheme, 'light');
+
+      expect(vars['--gp-input-number-button-background']).toBe('transparent');
+      expect(vars['--gp-input-number-button-width']).toBe('1.75rem');
+      expect(vars['--gp-date-picker-panel-background']).toBe('#ffffff');
+      expect(vars['--gp-date-picker-selected-background']).toBe('#4f46e5');
+      expect(vars['--gp-menu-background']).toBe('#ffffff');
+      expect(vars['--gp-tree-background']).toBe('#ffffff');
+      expect(vars['--gp-progress-bar-background']).toBe('#ffffff');
+      expect(vars['--gp-image-background']).toBe('#ffffff');
+      expect(vars['--gp-dialog-border-radius']).toBe('8px');
+
+      const customTheme = extendTheme({
+        id: 'component-token-test',
+        name: 'Component Token Test',
+        light: {
+          components: {
+            menu: { background: '#111827' },
+            inputNumber: { buttonWidth: '2rem' },
+            datePicker: { selectedBackground: '#be123c' }
+          }
+        }
+      });
+      const customVars = modeTokensToCssVars(customTheme, 'light');
+
+      expect(customVars['--gp-menu-background']).toBe('#111827');
+      expect(customVars['--gp-menu-border-radius']).toBe('6px');
+      expect(customVars['--gp-input-number-button-width']).toBe('2rem');
+      expect(customVars['--gp-date-picker-selected-background']).toBe('#be123c');
+      expect(customVars['--gp-date-picker-panel-shadow']).toBe(baseTheme.light.semantic.shadows.lg);
+    });
+
     it('should generate complete CSS rules with selector scoping and dark mode media queries', () => {
       const css = themeToCss(oceanTheme);
       expect(css).toContain('data-gp-theme="ocean"');

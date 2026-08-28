@@ -3,6 +3,42 @@
   position: relative;
   width: 100%;
 }
+.gp-datepicker .gp-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+.gp-datepicker .gp-inputtext {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+  background: var(--gp-input-bg);
+  border: 1px solid var(--gp-input-border);
+  border-radius: var(--gp-border-radius);
+  padding: var(--gp-input-padding-y) var(--gp-input-padding-x);
+  height: var(--gp-input-height);
+  transition:
+    border-color var(--gp-transition-duration),
+    box-shadow var(--gp-transition-duration);
+  outline: none;
+}
+.gp-datepicker .gp-inputtext:hover:not(:disabled):not([readonly]) {
+  border-color: var(--gp-input-border-hover);
+}
+.gp-datepicker .gp-inputtext:focus-visible {
+  border-color: var(--gp-input-border-focus);
+  box-shadow: var(--gp-focus-ring);
+}
+.gp-datepicker.gp-input-disabled .gp-inputtext {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--gp-surface-ground);
+}
+.gp-datepicker.gp-input-invalid .gp-inputtext {
+  border-color: var(--gp-danger);
+}
 .gp-datepicker-input {
   padding-right: 2.5rem;
   cursor: pointer;
@@ -15,7 +51,7 @@
   width: 2.25rem;
   background: transparent;
   border: none;
-  color: var(--gp-text-color-muted);
+  color: var(--gp-date-picker-trigger-color, var(--gp-text-color-muted));
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -27,10 +63,10 @@
   left: 0;
   margin-top: 4px;
   padding: 0.75rem;
-  background: var(--gp-surface-overlay);
-  border: 1px solid var(--gp-surface-border);
+  background: var(--gp-date-picker-panel-background, var(--gp-surface-overlay));
+  border: 1px solid var(--gp-date-picker-panel-border-color, var(--gp-surface-border));
   border-radius: var(--gp-border-radius);
-  box-shadow: var(--gp-shadow-lg);
+  box-shadow: var(--gp-date-picker-panel-shadow, var(--gp-shadow-lg));
   z-index: 1050;
   width: 18rem;
   animation: gp-slide-down 0.15s ease-out;
@@ -61,7 +97,7 @@
   transition: background var(--gp-transition-duration);
 }
 .gp-datepicker-nav-btn:hover {
-  background: var(--gp-surface-hover);
+  background: var(--gp-date-picker-day-hover-background, var(--gp-surface-hover));
   color: var(--gp-text-color);
 }
 .gp-datepicker-title {
@@ -90,7 +126,7 @@
   outline: none;
 }
 .gp-datepicker-day-cell:hover {
-  background: var(--gp-surface-hover);
+  background: var(--gp-date-picker-day-hover-background, var(--gp-surface-hover));
 }
 .gp-datepicker-other-month {
   color: var(--gp-text-color-disabled);
@@ -99,8 +135,8 @@
   border: 1px solid var(--gp-primary);
 }
 .gp-datepicker-selected {
-  background: var(--gp-primary) !important;
-  color: var(--gp-primary-text) !important;
+  background: var(--gp-date-picker-selected-background, var(--gp-primary)) !important;
+  color: var(--gp-date-picker-selected-color, var(--gp-primary-text)) !important;
   font-weight: 600;
 }
 .gp-datepicker-day-number {

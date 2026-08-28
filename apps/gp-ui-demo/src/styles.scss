@@ -71,6 +71,49 @@ pre {
   margin-bottom: 1rem;
 }
 
+/* Shared input surface used by password, number, mask, picker, and text controls. */
+.gp-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.gp-inputtext {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+  background: var(--gp-input-bg);
+  border: 1px solid var(--gp-input-border);
+  border-radius: var(--gp-border-radius);
+  padding: var(--gp-input-padding-y) var(--gp-input-padding-x);
+  height: var(--gp-input-height);
+  transition:
+    border-color var(--gp-transition-duration),
+    box-shadow var(--gp-transition-duration);
+  outline: none;
+}
+
+.gp-inputtext:hover:not(:disabled):not([readonly]) {
+  border-color: var(--gp-input-border-hover);
+}
+
+.gp-inputtext:focus-visible {
+  border-color: var(--gp-input-border-focus);
+  box-shadow: var(--gp-focus-ring);
+}
+
+.gp-input-disabled .gp-inputtext {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--gp-surface-ground);
+}
+
+.gp-input-invalid .gp-inputtext {
+  border-color: var(--gp-danger);
+}
+
 .doc-code-box {
   background: #0f172a;
   color: #f8fafc;

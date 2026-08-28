@@ -115,6 +115,20 @@ export const baseTheme: GpThemeDefinition = {
         height: '2.5rem',
         borderRadius: '6px'
       },
+      inputNumber: {
+        buttonBackground: 'transparent',
+        buttonWidth: '1.75rem',
+        horizontalButtonWidth: '2.5rem'
+      },
+      datePicker: {
+        triggerColor: '{semantic.text.muted}',
+        panelBackground: '{semantic.surfaces.overlay}',
+        panelBorderColor: '{semantic.surfaces.border}',
+        panelShadow: '{semantic.shadows.lg}',
+        dayHoverBackground: '{semantic.surfaces.hover}',
+        selectedBackground: '{semantic.primary.main}',
+        selectedColor: '{semantic.primary.text}'
+      },
       card: {
         bg: '#ffffff',
         border: '#e2e8f0',
@@ -329,6 +343,20 @@ export const baseTheme: GpThemeDefinition = {
         paddingY: '0.5rem',
         height: '2.5rem',
         borderRadius: '6px'
+      },
+      inputNumber: {
+        buttonBackground: 'transparent',
+        buttonWidth: '1.75rem',
+        horizontalButtonWidth: '2.5rem'
+      },
+      datePicker: {
+        triggerColor: '{semantic.text.muted}',
+        panelBackground: '{semantic.surfaces.overlay}',
+        panelBorderColor: '{semantic.surfaces.border}',
+        panelShadow: '{semantic.shadows.lg}',
+        dayHoverBackground: '{semantic.surfaces.hover}',
+        selectedBackground: '{semantic.primary.main}',
+        selectedColor: '{semantic.primary.text}'
       },
       card: {
         bg: '#1e293b',

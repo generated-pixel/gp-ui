@@ -392,75 +392,157 @@ export interface GpGenericComponentTokens {
   [key: string]: any;
 }
 
+export interface GpInputNumberComponentTokens extends GpGenericComponentTokens {
+  buttonBackground?: string;
+  buttonWidth?: string;
+  horizontalButtonWidth?: string;
+}
+
+export interface GpDatePickerComponentTokens extends GpGenericComponentTokens {
+  triggerColor?: string;
+  panelBackground?: string;
+  panelBorderColor?: string;
+  panelShadow?: string;
+  dayHoverBackground?: string;
+  selectedBackground?: string;
+  selectedColor?: string;
+}
+
+export interface GpButtonGroupComponentTokens extends GpGenericComponentTokens {}
+export interface GpSplitButtonComponentTokens extends GpGenericComponentTokens {}
+export interface GpSpeedDialComponentTokens extends GpGenericComponentTokens {}
+export interface GpToggleButtonComponentTokens extends GpGenericComponentTokens {}
+export interface GpCascadeSelectComponentTokens extends GpGenericComponentTokens {}
+export interface GpCheckboxComponentTokens extends GpGenericComponentTokens {}
+export interface GpColorPickerComponentTokens extends GpGenericComponentTokens {}
+export interface GpFileUploadComponentTokens extends GpGenericComponentTokens {}
+export interface GpInputMaskComponentTokens extends GpGenericComponentTokens {}
+export interface GpListboxComponentTokens extends GpGenericComponentTokens {}
+export interface GpMultiSelectComponentTokens extends GpGenericComponentTokens {}
+export interface GpPasswordComponentTokens extends GpGenericComponentTokens {}
+export interface GpRadioButtonComponentTokens extends GpGenericComponentTokens {}
+export interface GpRatingComponentTokens extends GpGenericComponentTokens {}
+export interface GpSliderComponentTokens extends GpGenericComponentTokens {}
+export interface GpSwitchComponentTokens extends GpGenericComponentTokens {}
+export interface GpTextareaComponentTokens extends GpGenericComponentTokens {}
+export interface GpTimePickerComponentTokens extends GpGenericComponentTokens {}
+export interface GpTreeSelectComponentTokens extends GpGenericComponentTokens {}
+export interface GpColumnComponentTokens extends GpGenericComponentTokens {}
+export interface GpDataViewComponentTokens extends GpGenericComponentTokens {}
+export interface GpPaginatorComponentTokens extends GpGenericComponentTokens {}
+export interface GpTreeTableComponentTokens extends GpGenericComponentTokens {}
+export interface GpVirtualScrollerComponentTokens extends GpGenericComponentTokens {}
+export interface GpConfirmDialogComponentTokens extends GpGenericComponentTokens {}
+export interface GpDrawerComponentTokens extends GpGenericComponentTokens {}
+export interface GpPopoverComponentTokens extends GpGenericComponentTokens {}
+export interface GpBreadcrumbComponentTokens extends GpGenericComponentTokens {}
+export interface GpContextMenuComponentTokens extends GpGenericComponentTokens {}
+export interface GpDockComponentTokens extends GpGenericComponentTokens {}
+export interface GpMegaMenuComponentTokens extends GpGenericComponentTokens {}
+export interface GpMenuComponentTokens extends GpGenericComponentTokens {}
+export interface GpMenubarComponentTokens extends GpGenericComponentTokens {}
+export interface GpPanelMenuComponentTokens extends GpGenericComponentTokens {}
+export interface GpStepperComponentTokens extends GpGenericComponentTokens {}
+export interface GpTabsComponentTokens extends GpGenericComponentTokens {}
+export interface GpTieredMenuComponentTokens extends GpGenericComponentTokens {}
+export interface GpToolbarComponentTokens extends GpGenericComponentTokens {}
+export interface GpAccordionComponentTokens extends GpGenericComponentTokens {}
+export interface GpDividerComponentTokens extends GpGenericComponentTokens {}
+export interface GpFieldsetComponentTokens extends GpGenericComponentTokens {}
+export interface GpPanelComponentTokens extends GpGenericComponentTokens {}
+export interface GpScrollPanelComponentTokens extends GpGenericComponentTokens {}
+export interface GpSplitterComponentTokens extends GpGenericComponentTokens {}
+export interface GpBadgeComponentTokens extends GpGenericComponentTokens {}
+export interface GpMessageComponentTokens extends GpGenericComponentTokens {}
+export interface GpProgressBarComponentTokens extends GpGenericComponentTokens {}
+export interface GpProgressSpinnerComponentTokens extends GpGenericComponentTokens {}
+export interface GpSkeletonComponentTokens extends GpGenericComponentTokens {}
+export interface GpTagComponentTokens extends GpGenericComponentTokens {}
+export interface GpOrgChartComponentTokens extends GpGenericComponentTokens {}
+export interface GpTreeComponentTokens extends GpGenericComponentTokens {}
+export interface GpAvatarComponentTokens extends GpGenericComponentTokens {}
+export interface GpCarouselComponentTokens extends GpGenericComponentTokens {}
+export interface GpChipComponentTokens extends GpGenericComponentTokens {}
+export interface GpEmptyStateComponentTokens extends GpGenericComponentTokens {}
+export interface GpImageComponentTokens extends GpGenericComponentTokens {}
+export interface GpMeterGroupComponentTokens extends GpGenericComponentTokens {}
+export interface GpTimelineComponentTokens extends GpGenericComponentTokens {}
+export interface GpIconComponentTokens extends GpGenericComponentTokens {}
+
 export interface GpComponentTokens {
   button?: GpButtonComponentTokens;
+  buttonGroup?: GpButtonGroupComponentTokens;
   input?: GpInputComponentTokens;
+  splitButton?: GpSplitButtonComponentTokens;
+  speedDial?: GpSpeedDialComponentTokens;
+  toggleButton?: GpToggleButtonComponentTokens;
   card?: GpCardComponentTokens;
   tooltip?: GpTooltipComponentTokens;
   autocomplete?: GpAutocompleteComponentTokens;
-  cascadeSelect?: GpGenericComponentTokens;
-  checkbox?: GpGenericComponentTokens;
-  colorPicker?: GpGenericComponentTokens;
-  datePicker?: GpGenericComponentTokens;
-  fileUpload?: GpGenericComponentTokens;
-  inputMask?: GpGenericComponentTokens;
-  inputNumber?: GpGenericComponentTokens;
+  cascadeSelect?: GpCascadeSelectComponentTokens;
+  checkbox?: GpCheckboxComponentTokens;
+  colorPicker?: GpColorPickerComponentTokens;
+  datePicker?: GpDatePickerComponentTokens;
+  fileUpload?: GpFileUploadComponentTokens;
+  inputMask?: GpInputMaskComponentTokens;
+  inputNumber?: GpInputNumberComponentTokens;
   inputText?: GpInputComponentTokens;
-  listbox?: GpGenericComponentTokens;
-  multiSelect?: GpGenericComponentTokens;
-  password?: GpGenericComponentTokens;
-  radioButton?: GpGenericComponentTokens;
-  rating?: GpGenericComponentTokens;
+  listbox?: GpListboxComponentTokens;
+  multiSelect?: GpMultiSelectComponentTokens;
+  password?: GpPasswordComponentTokens;
+  radioButton?: GpRadioButtonComponentTokens;
+  rating?: GpRatingComponentTokens;
   select?: GpSelectComponentTokens;
-  slider?: GpGenericComponentTokens;
-  switch?: GpGenericComponentTokens;
-  textarea?: GpGenericComponentTokens;
-  timePicker?: GpGenericComponentTokens;
-  treeSelect?: GpGenericComponentTokens;
-  column?: GpGenericComponentTokens;
-  dataView?: GpGenericComponentTokens;
-  paginator?: GpGenericComponentTokens;
+  slider?: GpSliderComponentTokens;
+  switch?: GpSwitchComponentTokens;
+  textarea?: GpTextareaComponentTokens;
+  timePicker?: GpTimePickerComponentTokens;
+  treeSelect?: GpTreeSelectComponentTokens;
+  column?: GpColumnComponentTokens;
+  dataView?: GpDataViewComponentTokens;
+  paginator?: GpPaginatorComponentTokens;
   table?: GpTableComponentTokens;
-  treeTable?: GpGenericComponentTokens;
-  virtualScroller?: GpGenericComponentTokens;
-  confirmDialog?: GpGenericComponentTokens;
+  treeTable?: GpTreeTableComponentTokens;
+  virtualScroller?: GpVirtualScrollerComponentTokens;
+  confirmDialog?: GpConfirmDialogComponentTokens;
   dialog?: GpDialogComponentTokens;
-  drawer?: GpGenericComponentTokens;
-  popover?: GpGenericComponentTokens;
-  breadcrumb?: GpGenericComponentTokens;
-  contextMenu?: GpGenericComponentTokens;
-  dock?: GpGenericComponentTokens;
-  megaMenu?: GpGenericComponentTokens;
-  menu?: GpGenericComponentTokens;
-  menubar?: GpGenericComponentTokens;
-  panelMenu?: GpGenericComponentTokens;
-  stepper?: GpGenericComponentTokens;
-  tabs?: GpGenericComponentTokens;
-  tieredMenu?: GpGenericComponentTokens;
-  toolbar?: GpGenericComponentTokens;
-  accordion?: GpGenericComponentTokens;
-  divider?: GpGenericComponentTokens;
-  fieldset?: GpGenericComponentTokens;
-  panel?: GpGenericComponentTokens;
-  scrollPanel?: GpGenericComponentTokens;
-  splitter?: GpGenericComponentTokens;
-  badge?: GpGenericComponentTokens;
-  message?: GpGenericComponentTokens;
-  progressBar?: GpGenericComponentTokens;
-  progressSpinner?: GpGenericComponentTokens;
-  skeleton?: GpGenericComponentTokens;
-  tag?: GpGenericComponentTokens;
+  drawer?: GpDrawerComponentTokens;
+  popover?: GpPopoverComponentTokens;
+  breadcrumb?: GpBreadcrumbComponentTokens;
+  contextMenu?: GpContextMenuComponentTokens;
+  dock?: GpDockComponentTokens;
+  megaMenu?: GpMegaMenuComponentTokens;
+  menu?: GpMenuComponentTokens;
+  menubar?: GpMenubarComponentTokens;
+  panelMenu?: GpPanelMenuComponentTokens;
+  stepper?: GpStepperComponentTokens;
+  tabs?: GpTabsComponentTokens;
+  tieredMenu?: GpTieredMenuComponentTokens;
+  toolbar?: GpToolbarComponentTokens;
+  accordion?: GpAccordionComponentTokens;
+  divider?: GpDividerComponentTokens;
+  fieldset?: GpFieldsetComponentTokens;
+  panel?: GpPanelComponentTokens;
+  scrollPanel?: GpScrollPanelComponentTokens;
+  splitter?: GpSplitterComponentTokens;
+  badge?: GpBadgeComponentTokens;
+  message?: GpMessageComponentTokens;
+  progressBar?: GpProgressBarComponentTokens;
+  progressSpinner?: GpProgressSpinnerComponentTokens;
+  skeleton?: GpSkeletonComponentTokens;
+  tag?: GpTagComponentTokens;
   toast?: GpToastComponentTokens;
-  orgChart?: GpGenericComponentTokens;
-  tree?: GpGenericComponentTokens;
-  avatar?: GpGenericComponentTokens;
-  carousel?: GpGenericComponentTokens;
-  chip?: GpGenericComponentTokens;
-  emptyState?: GpGenericComponentTokens;
-  image?: GpGenericComponentTokens;
-  meterGroup?: GpGenericComponentTokens;
-  timeline?: GpGenericComponentTokens;
-  [component: string]: any;
+  orgChart?: GpOrgChartComponentTokens;
+  tree?: GpTreeComponentTokens;
+  avatar?: GpAvatarComponentTokens;
+  carousel?: GpCarouselComponentTokens;
+  chip?: GpChipComponentTokens;
+  emptyState?: GpEmptyStateComponentTokens;
+  image?: GpImageComponentTokens;
+  meterGroup?: GpMeterGroupComponentTokens;
+  timeline?: GpTimelineComponentTokens;
+  icon?: GpIconComponentTokens;
+  [component: string]: GpGenericComponentTokens | undefined;
 }
 
 /**
