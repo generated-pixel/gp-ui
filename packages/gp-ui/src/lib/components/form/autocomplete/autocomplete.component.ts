@@ -10,7 +10,9 @@ import {
   signal,
   computed,
   ElementRef,
-  HostListener
+  HostListener,
+  OnDestroy,
+  WritableSignal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -39,12 +41,17 @@ export interface GpAutoCompleteCompleteEvent {
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss'
 })
-export class GpAutoCompleteComponent extends GpEditableBaseComponent implements ControlValueAccessor {
+export class GpAutoCompleteComponent extends GpEditableBaseComponent implements ControlValueAccessor, OnDestroy {
   @Input() inputId = UniqueId.generate('ac_');
   @Input() suggestions: any[] = [];
   @Input() field = '';
   @Input() override placeholder = '';
-  @Input() minLength = 1;
+  @Input() minLength = 3;
+  @Input() minCharacters?: number;
+  @Input() debounce = 250;
+  @Input() delay?: number;
+  @Input() minLengthSignal?: WritableSignal<boolean>;
+  @Input() minLengthHitSignal?: WritableSignal<boolean>;
   @Input() dropdown = false;
   @Input() override disabled = false;
   @Input() override readonly = false;
@@ -53,13 +60,35 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
 
   @Output() completeMethod = new EventEmitter<GpAutoCompleteCompleteEvent>();
   @Output() onSelect = new EventEmitter<{ value: any; originalEvent: Event }>();
+  @Output() onMinLengthHit = new EventEmitter<boolean>();
+  @Output() minLengthChange = new EventEmitter<boolean>();
 
   protected overlayVisible = signal<boolean>(false);
   protected activeIndex = signal<number>(-1);
   protected query = signal<string>('');
 
+  private debounceTimer: any = null;
+
+  public get effectiveMinLength(): number {
+    return this.minCharacters ?? this.minLength;
+  }
+
+  public get effectiveDebounce(): number {
+    return this.delay ?? this.debounce;
+  }
+
+  public isMinLengthMet = computed(() => (this.query() || '').length >= this.effectiveMinLength);
+  public minLengthHit = computed(() => (this.query() || '').length >= this.effectiveMinLength);
+
   constructor(private hostElRef: ElementRef) {
     super();
+  }
+
+  public override ngOnDestroy(): void {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    super.ngOnDestroy();
   }
 
   @HostListener('document:click', ['$event'])
@@ -93,19 +122,20 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   public override writeValue(value: any): void {
     this.value = value;
     this.internalValue.set(value);
-    this.query.set(this.getItemLabel(value));
+    const label = this.getItemLabel(value);
+    this.query.set(label);
+    this.updateMinLengthState(label.length >= this.effectiveMinLength);
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+  private updateMinLengthState(isHit: boolean): void {
+    if (this.minLengthSignal) {
+      this.minLengthSignal.set(isHit);
+    }
+    if (this.minLengthHitSignal) {
+      this.minLengthHitSignal.set(isHit);
+    }
+    this.onMinLengthHit.emit(isHit);
+    this.minLengthChange.emit(isHit);
   }
 
   protected onInput(event: Event): void {
@@ -113,9 +143,19 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
     this.query.set(q);
     this.updateValue(q);
 
-    if (q.length >= this.minLength) {
-      this.completeMethod.emit({ originalEvent: event, query: q });
-      this.overlayVisible.set(true);
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
+    }
+
+    const minLengthMet = q.length >= this.effectiveMinLength;
+    this.updateMinLengthState(minLengthMet);
+
+    if (minLengthMet) {
+      this.debounceTimer = setTimeout(() => {
+        this.completeMethod.emit({ originalEvent: event, query: q });
+        this.overlayVisible.set(true);
+      }, this.effectiveDebounce);
     } else {
       this.overlayVisible.set(false);
     }
@@ -147,7 +187,9 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
 
   public selectItem(item: any, event: MouseEvent): void {
     this.updateValue(item);
-    this.query.set(this.getItemLabel(item));
+    const label = this.getItemLabel(item);
+    this.query.set(label);
+    this.updateMinLengthState(label.length >= this.effectiveMinLength);
     this.handleControlBlur();
     this.onSelect.emit({ value: item, originalEvent: event });
     this.overlayVisible.set(false);
