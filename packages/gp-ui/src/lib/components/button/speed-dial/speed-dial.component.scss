@@ -13,28 +13,40 @@
   display: flex;
   gap: 0.5rem;
   z-index: 100;
+  animation: gp-speed-dial-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gp-speed-dial-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .gp-speed-dial-direction-up .gp-speed-dial-list {
   flex-direction: column-reverse;
   bottom: 100%;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
 }
 
 .gp-speed-dial-direction-down .gp-speed-dial-list {
   flex-direction: column;
   top: 100%;
-  margin-top: 0.5rem;
+  margin-top: 0.65rem;
 }
 
 .gp-speed-dial-direction-left .gp-speed-dial-list {
   flex-direction: row-reverse;
   right: 100%;
-  margin-right: 0.5rem;
+  margin-right: 0.65rem;
 }
 
 .gp-speed-dial-direction-right .gp-speed-dial-list {
   flex-direction: row;
   left: 100%;
-  margin-left: 0.5rem;
+  margin-left: 0.65rem;
 }

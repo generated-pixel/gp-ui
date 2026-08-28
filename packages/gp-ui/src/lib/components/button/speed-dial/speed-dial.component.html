@@ -17,6 +17,8 @@
             [severity]="'secondary'"
             [rounded]="true"
             [size]="'sm'"
+            [gpTooltip]="item.label || ''"
+            [tooltipPosition]="direction() === 'up' ? 'left' : direction() === 'down' ? 'left' : 'top'"
             [disabled]="item.disabled || false"
             (onClickEvent)="onItemClick(item, $event)"
             class="gp-speed-dial-action"
