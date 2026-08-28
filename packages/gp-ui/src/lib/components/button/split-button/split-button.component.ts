@@ -10,6 +10,7 @@ import {
   signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { GpButtonComponent, GpButtonSeverity, GpButtonSize, GpButtonVariant } from '../button/button.component';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -22,12 +23,16 @@ export interface GpMenuItem {
   disabled?: boolean;
   separator?: boolean;
   badge?: string;
+  items?: GpMenuItem[];
+  target?: string;
+  title?: string;
+  expanded?: boolean;
 }
 
 @Component({
   selector: 'gp-split-button',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, RouterModule, GpButtonComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './split-button.component.html',
@@ -43,7 +48,7 @@ export class GpSplitButtonComponent extends GpBaseComponent {
 
   public onClickEvent = output<MouseEvent>();
 
-  protected overlayVisible = signal<boolean>(false);
+  public overlayVisible = signal<boolean>(false);
 
   constructor(private el: ElementRef) {
     super();
@@ -56,16 +61,27 @@ export class GpSplitButtonComponent extends GpBaseComponent {
     }
   }
 
-  protected onDefaultClick(event: MouseEvent): void {
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.overlayVisible.set(false);
+  }
+
+  public onDefaultClick(event: MouseEvent): void {
+    if (this.disabled()) {
+      return;
+    }
     this.onClickEvent.emit(event);
   }
 
-  protected toggleOverlay(event: MouseEvent): void {
+  public toggleOverlay(event: MouseEvent): void {
+    if (this.disabled()) {
+      return;
+    }
     event.stopPropagation();
     this.overlayVisible.update((v) => !v);
   }
 
-  protected onItemClick(item: GpMenuItem, event: MouseEvent): void {
+  public onItemClick(item: GpMenuItem, event: MouseEvent): void {
     if (item.disabled) {
       return;
     }
