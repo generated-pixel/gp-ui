@@ -1,5 +1,17 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -78,7 +90,7 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
 
   public toggleOverlay(): void {
     if (this.disabled) return;
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   public onLevel1Hover(item: any): void {

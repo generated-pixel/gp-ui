@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Sunset Theme)
    ========================================================================== */
-:root[data-gp-theme="sunset"],
-[data-gp-theme="sunset"],
-[data-gp-theme="sunset"][data-gp-mode="light"],
+:root[data-gp-theme='sunset'],
+[data-gp-theme='sunset'],
+[data-gp-theme='sunset'][data-gp-mode='light'],
 .gp-theme-sunset,
 .gp-theme-sunset.gp-light {
   /* Primitive Color Palette - Sunset Amber / Orange */
@@ -109,10 +109,10 @@
 /* ==========================================================================
    Dark Mode (Sunset Theme)
    ========================================================================== */
-:root[data-gp-theme="sunset"][data-gp-mode="dark"],
-[data-gp-theme="sunset"][data-gp-mode="dark"],
+:root[data-gp-theme='sunset'][data-gp-mode='dark'],
+[data-gp-theme='sunset'][data-gp-mode='dark'],
 .gp-theme-sunset.gp-dark,
-[data-gp-theme="sunset"].gp-dark {
+[data-gp-theme='sunset'].gp-dark {
   /* Primitive Color Palette - Twilight / Amber in Dark Space */
   --gp-primary-50: #451a03;
   --gp-primary-100: #78350f;
@@ -203,8 +203,8 @@
 
 /* System dark mode for sunset */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="sunset"]:not([data-gp-mode="light"]),
-  [data-gp-theme="sunset"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='sunset']:not([data-gp-mode='light']),
+  [data-gp-theme='sunset']:not([data-gp-mode='light']),
   .gp-theme-sunset:not(.gp-light) {
     --gp-primary-50: #451a03;
     --gp-primary-100: #78350f;

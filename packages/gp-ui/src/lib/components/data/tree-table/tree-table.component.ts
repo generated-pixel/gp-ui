@@ -1,5 +1,12 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  ContentChildren,
+  QueryList,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpColumnComponent } from '../column/column.component';

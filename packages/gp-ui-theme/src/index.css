@@ -3,35 +3,53 @@
  */
 
 /* Box Sizing & Typography */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: var(--gp-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+  font-family: var(
+    --gp-font-family,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif
+  );
   font-size: var(--gp-font-size-base, 1rem);
   color: var(--gp-text-color, #1e293b);
   background-color: var(--gp-surface-ground, #f8fafc);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color var(--gp-transition-duration, 150ms) ease, color var(--gp-transition-duration, 150ms) ease;
+  transition:
+    background-color var(--gp-transition-duration, 150ms) ease,
+    color var(--gp-transition-duration, 150ms) ease;
 }
 
 /* Base Form Control & Link Reset */
-input, button, select, textarea {
+input,
+button,
+select,
+textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   color: inherit;
 }
 
-a, a:visited {
+a,
+a:visited {
   color: var(--gp-primary, #38bdf8);
   text-decoration: none;
 }
 
-a:hover, a:focus-visible {
+a:hover,
+a:focus-visible {
   color: var(--gp-primary-hover, #0284c7);
 }
 
@@ -177,7 +195,7 @@ a:hover, a:focus-visible {
 }
 
 /* RTL Support */
-[dir="rtl"] {
+[dir='rtl'] {
   direction: rtl;
   text-align: right;
 }

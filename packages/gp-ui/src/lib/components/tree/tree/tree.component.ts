@@ -1,5 +1,14 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, signal, computed } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpCheckboxComponent } from '../../form/checkbox/checkbox.component';
@@ -41,7 +50,7 @@ export class GpTreeComponent extends GpEditableBaseComponent {
 
   private filterTreeNodes(nodes: GpTreeNode[], q: string): GpTreeNode[] {
     const result: GpTreeNode[] = [];
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       const match = (node.label || '').toLowerCase().includes(q);
       const filteredChildren = node.children ? this.filterTreeNodes(node.children, q) : [];
       if (match || filteredChildren.length > 0) {
@@ -93,7 +102,7 @@ export class GpTreeComponent extends GpEditableBaseComponent {
   private toggleMultipleSelection(node: GpTreeNode): void {
     const current = Array.isArray(this.selection) ? [...this.selection] : [];
     if (current.includes(node)) {
-      const next = current.filter(n => n !== node);
+      const next = current.filter((n) => n !== node);
       this.selection = next;
       this.selectionChange.emit(next);
       this.onNodeUnselect.emit({ node });

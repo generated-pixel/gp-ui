@@ -1,5 +1,17 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -106,7 +118,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
 
   public toggleOverlay(): void {
     if (this.disabled) return;
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   public spinHour(delta: number): void {
@@ -132,7 +144,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   public toggleAmPm(): void {
-    this.isPm.update(v => !v);
+    this.isPm.update((v) => !v);
     let h = this.hours();
     if (this.isPm() && h < 12) this.hours.set(h + 12);
     if (!this.isPm() && h >= 12) this.hours.set(h - 12);

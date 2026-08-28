@@ -1,5 +1,13 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -84,9 +92,10 @@ export class GpRatingComponent extends GpEditableBaseComponent implements Contro
   public rate(star: number, event?: MouseEvent | Event): void {
     if (this.readonly || this.disabled) return;
 
-    const nextValue = this.allowHalfStars && event instanceof MouseEvent && event.currentTarget
-      ? this.resolveHalfValue(star, event)
-      : star;
+    const nextValue =
+      this.allowHalfStars && event instanceof MouseEvent && event.currentTarget
+        ? this.resolveHalfValue(star, event)
+        : star;
 
     this.updateValue(nextValue);
     this.handleControlBlur();

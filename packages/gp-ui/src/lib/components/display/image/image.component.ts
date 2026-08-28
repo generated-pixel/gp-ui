@@ -40,14 +40,14 @@ export class GpImageComponent extends GpBaseComponent {
   }
 
   public zoomIn(): void {
-    this.scale.update(s => Math.min(3, s + 0.25));
+    this.scale.update((s) => Math.min(3, s + 0.25));
   }
 
   public zoomOut(): void {
-    this.scale.update(s => Math.max(0.5, s - 0.25));
+    this.scale.update((s) => Math.max(0.5, s - 0.25));
   }
 
   public rotateRight(): void {
-    this.rotate.update(r => (r + 90) % 360);
+    this.rotate.update((r) => (r + 90) % 360);
   }
 }

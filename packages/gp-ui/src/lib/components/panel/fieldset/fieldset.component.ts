@@ -19,6 +19,6 @@ export class GpFieldsetComponent extends GpBaseComponent {
   protected collapsed = signal<boolean>(false);
 
   public toggle(): void {
-    this.collapsed.update(v => !v);
+    this.collapsed.update((v) => !v);
   }
 }

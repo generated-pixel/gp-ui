@@ -1,5 +1,13 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpButtonComponent } from '../../button/button/button.component';
@@ -70,12 +78,12 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
   }
 
   private handleFiles(selectedFiles: File[]): void {
-    const valid = selectedFiles.filter(f => {
+    const valid = selectedFiles.filter((f) => {
       if (this.maxFileSize && f.size > this.maxFileSize) return false;
       return true;
     });
 
-    const items: GpFileItem[] = valid.map(f => ({
+    const items: GpFileItem[] = valid.map((f) => ({
       file: f,
       name: f.name,
       size: f.size,
@@ -83,7 +91,7 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
     }));
 
     if (this.multiple) {
-      this.files.update(prev => [...prev, ...items]);
+      this.files.update((prev) => [...prev, ...items]);
     } else {
       this.files.set(items.slice(0, 1));
     }
@@ -93,11 +101,11 @@ export class GpFileUploadComponent extends GpEditableBaseComponent {
 
   public removeFile(f: GpFileItem, event: MouseEvent): void {
     event.stopPropagation();
-    this.files.update(prev => prev.filter(item => item !== f));
+    this.files.update((prev) => prev.filter((item) => item !== f));
   }
 
   public upload(): void {
-    const rawFiles = this.files().map(f => f.file);
+    const rawFiles = this.files().map((f) => f.file);
     this.onUpload.emit({ files: rawFiles });
   }
 

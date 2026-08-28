@@ -6,10 +6,10 @@
 export type DeepPartial<T> = T extends Function
   ? T
   : T extends Array<infer U>
-  ? _DeepPartialArray<U>
-  : T extends object
-  ? _DeepPartialObject<T>
-  : T | undefined;
+    ? _DeepPartialArray<U>
+    : T extends object
+      ? _DeepPartialObject<T>
+      : T | undefined;
 
 type _DeepPartialArray<T> = Array<DeepPartial<T>>;
 type _DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> };
@@ -289,7 +289,6 @@ export interface GpTooltipComponentTokens {
 }
 
 export interface GpAutocompleteComponentTokens {
-
   background?: string;
   borderColor?: string;
   borderRadius?: string;
@@ -394,7 +393,6 @@ export interface GpComponentTokens {
   toast?: GpToastComponentTokens;
   [component: string]: any;
 }
-
 
 /**
  * Full Theme Definition Structure

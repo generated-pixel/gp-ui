@@ -1,5 +1,14 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, OnInit, OnDestroy, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -33,7 +42,7 @@ export class GpConfirmDialogComponent extends GpBaseComponent implements OnInit,
   private sub?: Subscription;
 
   ngOnInit(): void {
-    this.sub = this.confirmationService.requireConfirmation$.subscribe(conf => {
+    this.sub = this.confirmationService.requireConfirmation$.subscribe((conf) => {
       this.confirmation.set(conf);
       this.visible.set(true);
     });

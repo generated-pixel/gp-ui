@@ -1,63 +1,63 @@
 <div class="gp-menubar" role="menubar">
-      <div class="gp-menubar-start">
-        <ng-content select="[start]" />
-      </div>
+  <div class="gp-menubar-start">
+    <ng-content select="[start]" />
+  </div>
 
-      <ul class="gp-menubar-root-list">
-        @for (item of model; track $index) {
-          <li
-            class="gp-menubar-item"
-            [class.gp-menubar-item-active]="activeItem() === item"
-            (mouseenter)="onItemMouseEnter(item)"
-            (mouseleave)="onItemMouseLeave(item)"
-            role="none"
-          >
-            <a
-              [routerLink]="item.routerLink"
-              [attr.href]="item.url || null"
-              class="gp-menubar-item-link"
-              (click)="onItemClick(item, $event)"
-              role="menuitem"
-              [attr.aria-haspopup]="item.items ? 'true' : null"
-            >
-              @if (item.icon) {
-                <gp-icon [name]="item.icon" class="gp-menubar-icon" />
-              }
-              <span class="gp-menubar-label">{{ item.label }}</span>
-              @if (item.items && item.items.length > 0) {
-                <gp-icon name="chevron-down" size="0.75em" class="gp-menubar-submenu-icon" />
-              }
-            </a>
+  <ul class="gp-menubar-root-list">
+    @for (item of model; track $index) {
+      <li
+        class="gp-menubar-item"
+        [class.gp-menubar-item-active]="activeItem() === item"
+        (mouseenter)="onItemMouseEnter(item)"
+        (mouseleave)="onItemMouseLeave(item)"
+        role="none"
+      >
+        <a
+          [routerLink]="item.routerLink"
+          [attr.href]="item.url || null"
+          class="gp-menubar-item-link"
+          (click)="onItemClick(item, $event)"
+          role="menuitem"
+          [attr.aria-haspopup]="item.items ? 'true' : null"
+        >
+          @if (item.icon) {
+            <gp-icon [name]="item.icon" class="gp-menubar-icon" />
+          }
+          <span class="gp-menubar-label">{{ item.label }}</span>
+          @if (item.items && item.items.length > 0) {
+            <gp-icon name="chevron-down" size="0.75em" class="gp-menubar-submenu-icon" />
+          }
+        </a>
 
-            @if (item.items && item.items.length > 0 && activeItem() === item) {
-              <ul class="gp-menubar-submenu" role="menu">
-                @for (sub of item.items; track $index) {
-                  @if (sub.separator) {
-                    <li class="gp-menu-separator" role="separator"></li>
-                  } @else {
-                    <li class="gp-menubar-subitem" role="none">
-                      <a
-                        [routerLink]="sub.routerLink"
-                        [attr.href]="sub.url || null"
-                        class="gp-menubar-subitem-link"
-                        (click)="onItemClick(sub, $event)"
-                        role="menuitem"
-                      >
-                        @if (sub.icon) {
-                          <gp-icon [name]="sub.icon" class="gp-menubar-icon" />
-                        }
-                        <span>{{ sub.label }}</span>
-                      </a>
-                    </li>
-                  }
-                }
-              </ul>
+        @if (item.items && item.items.length > 0 && activeItem() === item) {
+          <ul class="gp-menubar-submenu" role="menu">
+            @for (sub of item.items; track $index) {
+              @if (sub.separator) {
+                <li class="gp-menu-separator" role="separator"></li>
+              } @else {
+                <li class="gp-menubar-subitem" role="none">
+                  <a
+                    [routerLink]="sub.routerLink"
+                    [attr.href]="sub.url || null"
+                    class="gp-menubar-subitem-link"
+                    (click)="onItemClick(sub, $event)"
+                    role="menuitem"
+                  >
+                    @if (sub.icon) {
+                      <gp-icon [name]="sub.icon" class="gp-menubar-icon" />
+                    }
+                    <span>{{ sub.label }}</span>
+                  </a>
+                </li>
+              }
             }
-          </li>
+          </ul>
         }
-      </ul>
+      </li>
+    }
+  </ul>
 
-      <div class="gp-menubar-end">
-        <ng-content select="[end]" />
-      </div>
-    </div>
+  <div class="gp-menubar-end">
+    <ng-content select="[end]" />
+  </div>
+</div>

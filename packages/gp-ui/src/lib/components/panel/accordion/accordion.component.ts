@@ -1,5 +1,14 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ContentChildren,
+  QueryList,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -35,7 +44,7 @@ export class GpAccordionComponent extends GpBaseComponent {
     if (tab.disabled) return;
     const isOpened = tab.selected;
     if (!this.multiple && !isOpened) {
-      this.tabs.forEach(t => (t.selected = false));
+      this.tabs.forEach((t) => (t.selected = false));
     }
     tab.selected = !isOpened;
 

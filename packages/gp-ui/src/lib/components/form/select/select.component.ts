@@ -1,5 +1,19 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener, ContentChild, TemplateRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener,
+  ContentChild,
+  TemplateRef
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -64,7 +78,7 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   }
 
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
-    return (this.options || []).map(opt => {
+    return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
         if ('value' in opt && 'label' in opt) return opt as GpSelectItem;
         return {
@@ -81,15 +95,13 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
     if (!q) return this.normalizedOptions();
-    return this.normalizedOptions().filter(opt =>
-      (opt.label || '').toLowerCase().includes(q)
-    );
+    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
   protected selectedItem = computed<GpSelectItem | undefined>(() => {
     const val = this.internalValue();
     if (val === null || val === undefined) return undefined;
-    return this.normalizedOptions().find(opt => ObjectUtils.equals(opt.value, val));
+    return this.normalizedOptions().find((opt) => ObjectUtils.equals(opt.value, val));
   });
 
   public isSelected(opt: GpSelectItem): boolean {
@@ -115,7 +127,7 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
 
   public toggleOverlay(event: MouseEvent): void {
     if (this.disabled || this.readonly) return;
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   public selectItem(opt: GpSelectItem, event: MouseEvent): void {
@@ -144,7 +156,7 @@ export class GpSelectComponent extends GpEditableBaseComponent implements Contro
     if (this.disabled) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      this.overlayVisible.update(v => !v);
+      this.overlayVisible.update((v) => !v);
     } else if (event.key === 'Escape') {
       this.overlayVisible.set(false);
     }

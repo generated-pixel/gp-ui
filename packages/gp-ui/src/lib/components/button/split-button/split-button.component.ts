@@ -1,5 +1,15 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, HostListener, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  ElementRef,
+  HostListener,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpButtonSeverity, GpButtonSize, GpButtonVariant } from '../button/button.component';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -54,7 +64,7 @@ export class GpSplitButtonComponent extends GpBaseComponent {
 
   protected toggleOverlay(event: MouseEvent): void {
     event.stopPropagation();
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   protected onItemClick(item: GpMenuItem, event: MouseEvent): void {

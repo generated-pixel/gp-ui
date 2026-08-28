@@ -1,5 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, ElementRef, HostListener, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  ElementRef,
+  HostListener,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -33,7 +41,7 @@ export class GpMenuComponent extends GpBaseComponent {
 
   public toggle(event: MouseEvent): void {
     event.stopPropagation();
-    this.visible.update(v => !v);
+    this.visible.update((v) => !v);
   }
 
   public show(event: MouseEvent): void {

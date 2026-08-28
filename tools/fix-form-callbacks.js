@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const formDir = path.join(__dirname, '../packages/gp-ui/src/lib/components/form');
-const files = fs.readdirSync(formDir).filter(f => f.endsWith('.component.ts'));
+const files = fs.readdirSync(formDir).filter((f) => f.endsWith('.component.ts'));
 
 for (const file of files) {
   const fullPath = path.join(formDir, file);

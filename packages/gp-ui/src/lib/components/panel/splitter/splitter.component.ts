@@ -1,5 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  ContentChildren,
+  QueryList,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -25,20 +32,22 @@ export class GpSplitterPanelComponent extends GpBaseComponent {
       <ng-content />
     </div>
   `,
-  styles: [`
-    .gp-splitter {
-      display: flex;
-      border: 1px solid var(--gp-surface-border);
-      border-radius: var(--gp-border-radius);
-      background: var(--gp-surface-card);
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-    }
-    .gp-splitter-vertical {
-      flex-direction: column;
-    }
-  `]
+  styles: [
+    `
+      .gp-splitter {
+        display: flex;
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius);
+        background: var(--gp-surface-card);
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+      }
+      .gp-splitter-vertical {
+        flex-direction: column;
+      }
+    `
+  ]
 })
 export class GpSplitterComponent extends GpBaseComponent {
   @Input() layout: 'horizontal' | 'vertical' = 'horizontal';

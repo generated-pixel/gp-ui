@@ -1,5 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, computed } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
@@ -48,7 +56,9 @@ export class GpButtonComponent extends GpBaseComponent {
       this.iconOnly || (!this.label && this.icon) ? 'gp-button-icon-only' : '',
       this.loading ? 'gp-button-loading' : '',
       this.styleClass
-    ].filter(Boolean).join(' ');
+    ]
+      .filter(Boolean)
+      .join(' ');
   });
 
   protected onClick(event: MouseEvent): void {

@@ -1,45 +1,45 @@
 .gp-switch {
-      display: inline-flex;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      vertical-align: middle;
-      gap: 0.5rem;
-    }
-    .gp-switch-slider {
-      position: relative;
-      width: 2.75rem;
-      height: 1.5rem;
-      background: var(--gp-input-border);
-      border-radius: var(--gp-border-radius-full);
-      transition: background var(--gp-transition-duration);
-      outline: none;
-    }
-    .gp-switch-slider:focus-visible {
-      box-shadow: var(--gp-focus-ring);
-    }
-    .gp-switch-handle {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: calc(1.5rem - 4px);
-      height: calc(1.5rem - 4px);
-      background: #ffffff;
-      border-radius: 50%;
-      box-shadow: var(--gp-shadow-sm);
-      transition: transform var(--gp-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .gp-switch-checked .gp-switch-slider {
-      background: var(--gp-primary);
-    }
-    .gp-switch-checked .gp-switch-handle {
-      transform: translateX(1.25rem);
-    }
-    .gp-switch-disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .gp-switch-label {
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color);
-    }
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  gap: 0.5rem;
+}
+.gp-switch-slider {
+  position: relative;
+  width: 2.75rem;
+  height: 1.5rem;
+  background: var(--gp-input-border);
+  border-radius: var(--gp-border-radius-full);
+  transition: background var(--gp-transition-duration);
+  outline: none;
+}
+.gp-switch-slider:focus-visible {
+  box-shadow: var(--gp-focus-ring);
+}
+.gp-switch-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(1.5rem - 4px);
+  height: calc(1.5rem - 4px);
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: var(--gp-shadow-sm);
+  transition: transform var(--gp-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+}
+.gp-switch-checked .gp-switch-slider {
+  background: var(--gp-primary);
+}
+.gp-switch-checked .gp-switch-handle {
+  transform: translateX(1.25rem);
+}
+.gp-switch-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.gp-switch-label {
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+}

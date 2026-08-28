@@ -1,18 +1,18 @@
 .gp-confirm-dialog-body {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .gp-confirm-dialog-icon {
-      color: var(--gp-primary);
-      flex-shrink: 0;
-    }
-    .gp-confirm-dialog-message {
-      font-size: var(--gp-font-size-base);
-      color: var(--gp-text-color);
-    }
-    .gp-confirm-dialog-footer {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: flex-end;
-    }
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.gp-confirm-dialog-icon {
+  color: var(--gp-primary);
+  flex-shrink: 0;
+}
+.gp-confirm-dialog-message {
+  font-size: var(--gp-font-size-base);
+  color: var(--gp-text-color);
+}
+.gp-confirm-dialog-footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}

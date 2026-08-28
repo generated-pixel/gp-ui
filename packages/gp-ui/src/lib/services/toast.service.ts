@@ -21,7 +21,7 @@ export class GpToastService {
   }
 
   public addAll(messages: GpToastMessage[]): void {
-    messages.forEach(msg => this.add(msg));
+    messages.forEach((msg) => this.add(msg));
   }
 
   public success(summary: string, detail?: string, life = 3500): void {

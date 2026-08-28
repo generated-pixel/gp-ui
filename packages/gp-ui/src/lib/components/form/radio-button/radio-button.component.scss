@@ -1,53 +1,53 @@
 .gp-radiobutton {
-      display: inline-flex;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      vertical-align: middle;
-      gap: 0.5rem;
-    }
-    .gp-radiobutton-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.25rem;
-      height: 1.25rem;
-      border: 2px solid var(--gp-input-border);
-      border-radius: 50%;
-      background: var(--gp-input-bg);
-      transition: all var(--gp-transition-duration);
-      outline: none;
-    }
-    .gp-radiobutton:hover:not(.gp-radiobutton-disabled) .gp-radiobutton-box {
-      border-color: var(--gp-input-border-hover);
-    }
-    .gp-radiobutton-box:focus-visible {
-      box-shadow: var(--gp-focus-ring);
-      border-color: var(--gp-primary);
-    }
-    .gp-radiobutton-checked .gp-radiobutton-box {
-      border-color: var(--gp-primary);
-    }
-    .gp-radiobutton-icon {
-      width: 0.625rem;
-      height: 0.625rem;
-      border-radius: 50%;
-      background: var(--gp-primary);
-      transform: scale(0);
-      transition: transform var(--gp-transition-duration) ease-in-out;
-    }
-    .gp-radiobutton-checked .gp-radiobutton-icon {
-      transform: scale(1);
-    }
-    .gp-radiobutton-disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .gp-radiobutton-label {
-      font-size: var(--gp-font-size-sm);
-      color: var(--gp-text-color);
-      cursor: inherit;
-    }
-    .gp-input-invalid .gp-radiobutton-box {
-      border-color: var(--gp-danger);
-    }
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  gap: 0.5rem;
+}
+.gp-radiobutton-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--gp-input-border);
+  border-radius: 50%;
+  background: var(--gp-input-bg);
+  transition: all var(--gp-transition-duration);
+  outline: none;
+}
+.gp-radiobutton:hover:not(.gp-radiobutton-disabled) .gp-radiobutton-box {
+  border-color: var(--gp-input-border-hover);
+}
+.gp-radiobutton-box:focus-visible {
+  box-shadow: var(--gp-focus-ring);
+  border-color: var(--gp-primary);
+}
+.gp-radiobutton-checked .gp-radiobutton-box {
+  border-color: var(--gp-primary);
+}
+.gp-radiobutton-icon {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--gp-primary);
+  transform: scale(0);
+  transition: transform var(--gp-transition-duration) ease-in-out;
+}
+.gp-radiobutton-checked .gp-radiobutton-icon {
+  transform: scale(1);
+}
+.gp-radiobutton-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.gp-radiobutton-label {
+  font-size: var(--gp-font-size-sm);
+  color: var(--gp-text-color);
+  cursor: inherit;
+}
+.gp-input-invalid .gp-radiobutton-box {
+  border-color: var(--gp-danger);
+}

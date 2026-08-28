@@ -1,7 +1,7 @@
 export class DomHandler {
   public static addClass(element: HTMLElement, className: string): void {
     if (element && className) {
-      className.split(' ').forEach(cls => {
+      className.split(' ').forEach((cls) => {
         if (cls) element.classList.add(cls);
       });
     }
@@ -9,7 +9,7 @@ export class DomHandler {
 
   public static removeClass(element: HTMLElement, className: string): void {
     if (element && className) {
-      className.split(' ').forEach(cls => {
+      className.split(' ').forEach((cls) => {
         if (cls) element.classList.remove(cls);
       });
     }
@@ -103,7 +103,7 @@ export class DomHandler {
     ].join(', ');
 
     return Array.from(element.querySelectorAll<HTMLElement>(focusableSelectors)).filter(
-      el => !el.hasAttribute('disabled') && el.offsetParent !== null
+      (el) => !el.hasAttribute('disabled') && el.offsetParent !== null
     );
   }
 }

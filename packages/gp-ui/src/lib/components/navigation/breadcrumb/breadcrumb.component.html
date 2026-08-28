@@ -1,48 +1,48 @@
 <nav class="gp-breadcrumb" aria-label="Breadcrumb">
-      <ol class="gp-breadcrumb-list">
-        @if (home) {
-          <li class="gp-breadcrumb-item">
-            <a
-              [routerLink]="home.routerLink"
-              [attr.href]="home.url || null"
-              class="gp-breadcrumb-link"
-              (click)="onItemClick(home, $event)"
-              aria-label="Home"
-            >
-              <gp-icon [name]="home.icon || 'home'" size="1em" />
-            </a>
-          </li>
-          @if (model && model.length > 0) {
-            <li class="gp-breadcrumb-separator" aria-hidden="true">
-              <gp-icon [name]="separatorIcon" size="0.75em" />
-            </li>
-          }
-        }
+  <ol class="gp-breadcrumb-list">
+    @if (home) {
+      <li class="gp-breadcrumb-item">
+        <a
+          [routerLink]="home.routerLink"
+          [attr.href]="home.url || null"
+          class="gp-breadcrumb-link"
+          (click)="onItemClick(home, $event)"
+          aria-label="Home"
+        >
+          <gp-icon [name]="home.icon || 'home'" size="1em" />
+        </a>
+      </li>
+      @if (model && model.length > 0) {
+        <li class="gp-breadcrumb-separator" aria-hidden="true">
+          <gp-icon [name]="separatorIcon" size="0.75em" />
+        </li>
+      }
+    }
 
-        @for (item of model; track $index; let last = $last) {
-          <li class="gp-breadcrumb-item" [class.gp-breadcrumb-item-last]="last">
-            @if (last || item.disabled) {
-              <span class="gp-breadcrumb-current" aria-current="page">{{ item.label }}</span>
-            } @else {
-              <a
-                [routerLink]="item.routerLink"
-                [attr.href]="item.url || null"
-                class="gp-breadcrumb-link"
-                (click)="onItemClick(item, $event)"
-              >
-                @if (item.icon) {
-                  <gp-icon [name]="item.icon" size="0.9em" />
-                }
-                <span>{{ item.label }}</span>
-              </a>
+    @for (item of model; track $index; let last = $last) {
+      <li class="gp-breadcrumb-item" [class.gp-breadcrumb-item-last]="last">
+        @if (last || item.disabled) {
+          <span class="gp-breadcrumb-current" aria-current="page">{{ item.label }}</span>
+        } @else {
+          <a
+            [routerLink]="item.routerLink"
+            [attr.href]="item.url || null"
+            class="gp-breadcrumb-link"
+            (click)="onItemClick(item, $event)"
+          >
+            @if (item.icon) {
+              <gp-icon [name]="item.icon" size="0.9em" />
             }
-          </li>
-
-          @if (!last) {
-            <li class="gp-breadcrumb-separator" aria-hidden="true">
-              <gp-icon [name]="separatorIcon" size="0.75em" />
-            </li>
-          }
+            <span>{{ item.label }}</span>
+          </a>
         }
-      </ol>
-    </nav>
+      </li>
+
+      @if (!last) {
+        <li class="gp-breadcrumb-separator" aria-hidden="true">
+          <gp-icon [name]="separatorIcon" size="0.75em" />
+        </li>
+      }
+    }
+  </ol>
+</nav>

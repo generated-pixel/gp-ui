@@ -1,5 +1,15 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -35,10 +45,15 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
   protected filterText = signal<string>('');
 
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
-    return (this.options || []).map(opt => {
+    return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
         if ('value' in opt && 'label' in opt) return opt as GpSelectItem;
-        return { label: String(opt.label || opt.name || opt), value: opt.value ?? opt, icon: opt.icon, disabled: opt.disabled };
+        return {
+          label: String(opt.label || opt.name || opt),
+          value: opt.value ?? opt,
+          icon: opt.icon,
+          disabled: opt.disabled
+        };
       }
       return { label: String(opt), value: opt };
     });
@@ -47,15 +62,13 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
     if (!q) return this.normalizedOptions();
-    return this.normalizedOptions().filter(opt =>
-      (opt.label || '').toLowerCase().includes(q)
-    );
+    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
   public isSelected(opt: GpSelectItem): boolean {
     const current = this.internalValue();
     if (this.multiple) {
-      return Array.isArray(current) && current.some(v => ObjectUtils.equals(v, opt.value));
+      return Array.isArray(current) && current.some((v) => ObjectUtils.equals(v, opt.value));
     }
     return ObjectUtils.equals(current, opt.value);
   }

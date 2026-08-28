@@ -97,8 +97,7 @@ export class GpPaginatorComponent extends GpBaseComponent {
     const firstRec = total === 0 ? 0 : f + 1;
     const lastRec = Math.min(f + r, total);
     const template =
-      this.translationService.get('pagination')?.pageReport ||
-      'Showing {first} to {last} of {totalRecords} entries';
+      this.translationService.get('pagination')?.pageReport || 'Showing {first} to {last} of {totalRecords} entries';
     return template
       .replace('{first}', String(firstRec))
       .replace('{last}', String(lastRec))

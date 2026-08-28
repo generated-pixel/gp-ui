@@ -6,12 +6,7 @@
   [attr.aria-label]="ariaLabel || 'Rating'"
 >
   @if (cancel && !readonly && !disabled) {
-    <button
-      type="button"
-      class="gp-rating-cancel"
-      (click)="clear()"
-      aria-label="Clear rating"
-    >
+    <button type="button" class="gp-rating-cancel" (click)="clear()" aria-label="Clear rating">
       <gp-icon name="times-circle" size="1.1em" />
     </button>
   }
@@ -24,8 +19,10 @@
       (keydown.space)="$event.preventDefault(); rate($index + 1, $event)"
       tabindex="0"
       role="radio"
-      [attr.aria-checked]="internalValue() === $index + 1 || (allowHalfStars && internalValue() > $index && internalValue() < $index + 1)"
-      [attr.aria-label]="($index + 1) + ' stars'"
+      [attr.aria-checked]="
+        internalValue() === $index + 1 || (allowHalfStars && internalValue() > $index && internalValue() < $index + 1)
+      "
+      [attr.aria-label]="$index + 1 + ' stars'"
     >
       @if (allowHalfStars && isStarHalf($index)) {
         <span class="gp-rating-half-wrapper">

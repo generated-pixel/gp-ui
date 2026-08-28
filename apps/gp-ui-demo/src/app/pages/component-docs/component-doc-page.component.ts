@@ -89,11 +89,17 @@ import { getComponentDoc } from './component-docs.data';
         @case ('input-text') {
           <label style="display:block; min-width: 220px;">
             <span style="display:block; margin-bottom:0.5rem;">Name</span>
-            <input type="text" value="Jane Doe" style="width:100%; padding:0.7rem 0.8rem; border-radius:6px; border:1px solid var(--gp-surface-border); background: var(--gp-surface-card); color: var(--gp-text-color);" />
+            <input
+              type="text"
+              value="Jane Doe"
+              style="width:100%; padding:0.7rem 0.8rem; border-radius:6px; border:1px solid var(--gp-surface-border); background: var(--gp-surface-card); color: var(--gp-text-color);"
+            />
           </label>
         }
         @case ('select') {
-          <select style="min-width: 220px; padding: 0.7rem 0.8rem; border-radius: 6px; border: 1px solid var(--gp-surface-border); background: var(--gp-surface-card); color: var(--gp-text-color);">
+          <select
+            style="min-width: 220px; padding: 0.7rem 0.8rem; border-radius: 6px; border: 1px solid var(--gp-surface-border); background: var(--gp-surface-card); color: var(--gp-text-color);"
+          >
             <option>Designer</option>
             <option>Developer</option>
             <option>Manager</option>
@@ -101,10 +107,14 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('table') {
           <div style="display:flex; flex-direction:column; gap:0.5rem; min-width:260px;">
-            <div style="display:flex; justify-content:space-between; padding:0.5rem 0.75rem; border:1px solid var(--gp-surface-border); border-radius:6px;">
+            <div
+              style="display:flex; justify-content:space-between; padding:0.5rem 0.75rem; border:1px solid var(--gp-surface-border); border-radius:6px;"
+            >
               <span>Name</span><span>Status</span>
             </div>
-            <div style="display:flex; justify-content:space-between; padding:0.5rem 0.75rem; border:1px solid var(--gp-surface-border); border-radius:6px;">
+            <div
+              style="display:flex; justify-content:space-between; padding:0.5rem 0.75rem; border:1px solid var(--gp-surface-border); border-radius:6px;"
+            >
               <span>Alpha</span><span>Ready</span>
             </div>
           </div>
@@ -125,12 +135,18 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('message') {
-          <div style="padding:0.75rem 1rem; border-radius:8px; border:1px solid var(--gp-surface-border); background: rgba(34,197,94,0.08); color: var(--gp-text-color); min-width:220px;">
+          <div
+            style="padding:0.75rem 1rem; border-radius:8px; border:1px solid var(--gp-surface-border); background: rgba(34,197,94,0.08); color: var(--gp-text-color); min-width:220px;"
+          >
             Saved successfully
           </div>
         }
         @case ('avatar') {
-          <div style="width: 48px; height: 48px; border-radius:50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); display:flex; align-items:center; justify-content:center; color:white; font-weight:700;">JD</div>
+          <div
+            style="width: 48px; height: 48px; border-radius:50%; background: linear-gradient(135deg, #6366f1, #8b5cf6); display:flex; align-items:center; justify-content:center; color:white; font-weight:700;"
+          >
+            JD
+          </div>
         }
         @case ('badge') {
           <gp-badge [value]="'New'" severity="primary" />
@@ -205,7 +221,9 @@ import { getComponentDoc } from './component-docs.data';
         border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-md, 8px);
         background: var(--gp-surface-card);
-        transition: transform 0.15s ease, border-color 0.15s ease;
+        transition:
+          transform 0.15s ease,
+          border-color 0.15s ease;
       }
       .icon-card:hover {
         transform: translateY(-2px);
@@ -231,17 +249,20 @@ export class ComponentDocPageComponent implements OnInit {
       return this.allIconNames;
     }
     const term = this.searchTerm.toLowerCase();
-    return this.allIconNames.filter(name => name.toLowerCase().includes(term));
+    return this.allIconNames.filter((name) => name.toLowerCase().includes(term));
   }
 
   onIconSearch(value: string): void {
     this.searchTerm = value;
   }
 
-  constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const slug = params.get('component');
       this.doc = slug ? getComponentDoc(slug) : undefined;
       this.searchTerm = '';

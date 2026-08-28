@@ -7,14 +7,14 @@
    Light Mode (Default Theme)
    ========================================================================== */
 :root,
-:root[data-gp-theme="default"],
-:root[data-gp-theme="gp"],
-[data-gp-theme="default"],
-[data-gp-theme="gp"],
+:root[data-gp-theme='default'],
+:root[data-gp-theme='gp'],
+[data-gp-theme='default'],
+[data-gp-theme='gp'],
 .gp-theme-default,
 .gp-theme-gp,
 .gp-light,
-[data-gp-theme="gp-light"] {
+[data-gp-theme='gp-light'] {
   /* Primitive Color Palette - Indigo */
   --gp-primary-50: #eef2ff;
   --gp-primary-100: #e0e7ff;
@@ -81,7 +81,9 @@
   --gp-surface-divider: #e2e8f0;
 
   /* Typography & Text */
-  --gp-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --gp-font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji';
   --gp-font-size-xs: 0.75rem;
   --gp-font-size-sm: 0.875rem;
   --gp-font-size-base: 1rem;
@@ -133,15 +135,15 @@
 /* ==========================================================================
    Dark Mode (Default Theme)
    ========================================================================== */
-:root[data-gp-mode="dark"],
-:root[data-gp-theme="default"][data-gp-mode="dark"],
-:root[data-gp-theme="gp"][data-gp-mode="dark"],
-[data-gp-theme="default"][data-gp-mode="dark"],
-[data-gp-theme="gp"][data-gp-mode="dark"],
+:root[data-gp-mode='dark'],
+:root[data-gp-theme='default'][data-gp-mode='dark'],
+:root[data-gp-theme='gp'][data-gp-mode='dark'],
+[data-gp-theme='default'][data-gp-mode='dark'],
+[data-gp-theme='gp'][data-gp-mode='dark'],
 .gp-theme-default.gp-dark,
 .gp-theme-gp.gp-dark,
 .gp-dark,
-[data-gp-theme="gp-dark"] {
+[data-gp-theme='gp-dark'] {
   /* Primitive Color Palette - Violet / Indigo in Dark space */
   --gp-primary-50: #1e1b4b;
   --gp-primary-100: #312e81;
@@ -232,11 +234,11 @@
 
 /* System dark mode preference when mode is system / not forced to light */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-gp-mode="light"]):not([data-gp-theme="gp-light"]),
-  :root[data-gp-theme="default"]:not([data-gp-mode="light"]),
-  :root[data-gp-theme="gp"]:not([data-gp-mode="light"]),
-  [data-gp-theme="default"]:not([data-gp-mode="light"]),
-  [data-gp-theme="gp"]:not([data-gp-mode="light"]) {
+  :root:not([data-gp-mode='light']):not([data-gp-theme='gp-light']),
+  :root[data-gp-theme='default']:not([data-gp-mode='light']),
+  :root[data-gp-theme='gp']:not([data-gp-mode='light']),
+  [data-gp-theme='default']:not([data-gp-mode='light']),
+  [data-gp-theme='gp']:not([data-gp-mode='light']) {
     --gp-primary-50: #1e1b4b;
     --gp-primary-100: #312e81;
     --gp-primary-200: #3730a3;

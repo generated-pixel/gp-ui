@@ -1,11 +1,11 @@
-import { scanContent } from "./scanner.js";
-import type { ScanOptions } from "./scanner.js";
-import { GpCssGenerator } from "./generator.js";
-import type { GeneratorOptions, GeneratedRule } from "./generator.js";
-import { processDirectives } from "./directives.js";
-import { defaultTokens } from "../tokens/default-tokens.js";
-import type { GpThemeTokens } from "../tokens/default-tokens.js";
-import { GpCssPlugin } from "./plugins.js";
+import { scanContent } from './scanner.js';
+import type { ScanOptions } from './scanner.js';
+import { GpCssGenerator } from './generator.js';
+import type { GeneratorOptions, GeneratedRule } from './generator.js';
+import { processDirectives } from './directives.js';
+import { defaultTokens } from '../tokens/default-tokens.js';
+import type { GpThemeTokens } from '../tokens/default-tokens.js';
+import { GpCssPlugin } from './plugins.js';
 
 export interface CompileConfig {
   content?: string[];
@@ -35,7 +35,7 @@ export function compile(config: CompileConfig = {}): CompileResult {
       plugin({
         tokens,
         addUtility: (name, css) => customUtilities.set(name, css),
-        addComponent: (selector, css) => customComponents.push(`${selector} { ${css} }`),
+        addComponent: (selector, css) => customComponents.push(`${selector} { ${css} }`)
       });
     }
   }
@@ -56,7 +56,7 @@ export function compile(config: CompileConfig = {}): CompileResult {
     standardRules.push({
       className: name,
       selector: `.${name}`,
-      cssText: `.${name} { ${cssText} }`,
+      cssText: `.${name} { ${cssText} }`
     });
   }
 
@@ -74,22 +74,22 @@ export function compile(config: CompileConfig = {}): CompileResult {
     }
   }
 
-  let utilitiesCss = standardRules.map((r) => r.cssText).join("\n");
+  let utilitiesCss = standardRules.map((r) => r.cssText).join('\n');
 
   if (customComponents.length > 0) {
-    utilitiesCss = customComponents.join("\n") + "\n" + utilitiesCss;
+    utilitiesCss = customComponents.join('\n') + '\n' + utilitiesCss;
   }
 
   for (const [mediaQuery, rules] of mediaRules.entries()) {
-    utilitiesCss += `\n@media ${mediaQuery} {\n` + rules.map((r) => `  ${r.cssText}`).join("\n") + `\n}`;
+    utilitiesCss += `\n@media ${mediaQuery} {\n` + rules.map((r) => `  ${r.cssText}`).join('\n') + `\n}`;
   }
 
-  const inputCss = config.inputCss || "@gp-css theme;\n@gp-css base;\n@gp-css components;\n@gp-css utilities;";
+  const inputCss = config.inputCss || '@gp-css theme;\n@gp-css base;\n@gp-css components;\n@gp-css utilities;';
   const { css: finalCss, hasUtilitiesDirective } = processDirectives(inputCss, generator, utilitiesCss, tokens);
 
   let outputCss = finalCss;
   if (!hasUtilitiesDirective && utilitiesCss) {
-    outputCss += "\n/* gp-css utilities */\n" + utilitiesCss;
+    outputCss += '\n/* gp-css utilities */\n' + utilitiesCss;
   }
 
   if (config.minify) {
@@ -99,14 +99,14 @@ export function compile(config: CompileConfig = {}): CompileResult {
   return {
     css: outputCss,
     scannedCandidatesCount: candidates.size,
-    matchedRulesCount: standardRules.length + Array.from(mediaRules.values()).reduce((a, b) => a + b.length, 0),
+    matchedRulesCount: standardRules.length + Array.from(mediaRules.values()).reduce((a, b) => a + b.length, 0)
   };
 }
 
 function minifyCss(css: string): string {
   return css
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\s+/g, " ")
-    .replace(/\s*([{}:;,])\s*/g, "$1")
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s*([{}:;,])\s*/g, '$1')
     .trim();
 }

@@ -1,5 +1,16 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, signal, computed, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  ContentChild,
+  TemplateRef,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  computed,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({

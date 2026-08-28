@@ -1,5 +1,14 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, OnInit, OnDestroy, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -30,10 +39,10 @@ export class GpToastComponent extends GpBaseComponent implements OnInit, OnDestr
 
   ngOnInit(): void {
     this.zIndex.set(this.zIndexService.get('toast'));
-    this.msgSub = this.toastService.message$.subscribe(msg => {
+    this.msgSub = this.toastService.message$.subscribe((msg) => {
       this.addMessage(msg);
     });
-    this.clearSub = this.toastService.clear$.subscribe(key => {
+    this.clearSub = this.toastService.clear$.subscribe((key) => {
       this.messages.set([]);
     });
   }
@@ -44,7 +53,7 @@ export class GpToastComponent extends GpBaseComponent implements OnInit, OnDestr
   }
 
   public addMessage(msg: GpToastMessage): void {
-    this.messages.update(prev => [...prev, msg]);
+    this.messages.update((prev) => [...prev, msg]);
     if (!msg.sticky) {
       setTimeout(() => {
         this.removeMessage(msg);
@@ -53,15 +62,19 @@ export class GpToastComponent extends GpBaseComponent implements OnInit, OnDestr
   }
 
   public removeMessage(msg: GpToastMessage): void {
-    this.messages.update(prev => prev.filter(m => m.id !== msg.id));
+    this.messages.update((prev) => prev.filter((m) => m.id !== msg.id));
   }
 
   public getSeverityIcon(severity?: string): string {
     switch (severity) {
-      case 'success': return 'check-circle';
-      case 'warning': return 'exclamation-triangle';
-      case 'error': return 'times-circle';
-      default: return 'info-circle';
+      case 'success':
+        return 'check-circle';
+      case 'warning':
+        return 'exclamation-triangle';
+      case 'error':
+        return 'times-circle';
+      default:
+        return 'info-circle';
     }
   }
 }

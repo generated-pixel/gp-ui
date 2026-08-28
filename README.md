@@ -56,6 +56,7 @@ Or write custom utility classes directly in your templates using `gp-theme` toke
 ## Getting Started with `gp-ui`
 
 ### 1. Include Theming Styles
+
 Import preset themes into your `styles.scss`:
 
 ```scss
@@ -64,6 +65,7 @@ Import preset themes into your `styles.scss`:
 ```
 
 Or switch themes and modes in TypeScript at runtime:
+
 ```typescript
 import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
 
@@ -144,16 +146,17 @@ export class MyViewComponent {
 
 ## Developer Tooling Commands
 
-| Command | Description |
-|---|---|
-| `npm run build` | Builds all monorepo packages (`gp-css`, `gp-ui-theme`, `gp-ui-icons`, `gp-ui`) and demo app |
-| `npm run start` | Runs the interactive Demo & Documentation application locally |
-| `npm run lint` | Validates architectural rules (Standalone, OnPush, isolation) |
-| `npm run test` | Runs unit test suites (`gp-css` compiler tests & component spec verifications) |
-| `npm run generate component <name>` | Scaffolds a new component, test spec, story, and styles |
-| `npm run release` | Automates semantic version bump, changelog update, and packaging |
+| Command                             | Description                                                                                 |
+| ----------------------------------- | ------------------------------------------------------------------------------------------- |
+| `npm run build`                     | Builds all monorepo packages (`gp-css`, `gp-ui-theme`, `gp-ui-icons`, `gp-ui`) and demo app |
+| `npm run start`                     | Runs the interactive Demo & Documentation application locally                               |
+| `npm run lint`                      | Validates architectural rules (Standalone, OnPush, isolation)                               |
+| `npm run test`                      | Runs unit test suites (`gp-css` compiler tests & component spec verifications)              |
+| `npm run generate component <name>` | Scaffolds a new component, test spec, story, and styles                                     |
+| `npm run release`                   | Automates semantic version bump, changelog update, and packaging                            |
 
 ---
 
 ## License
+
 MIT License. Created by Generated Pixel.

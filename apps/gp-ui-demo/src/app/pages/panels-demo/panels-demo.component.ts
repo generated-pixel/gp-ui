@@ -36,7 +36,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Panel & Layout Containers</h1>
         <p class="page-desc">
-          Structured grouping containers including Cards, Collapsible Panels, Accordions, Grouped Fieldsets, Content Dividers, Resizable Splitters, and Scroll Panels.
+          Structured grouping containers including Cards, Collapsible Panels, Accordions, Grouped Fieldsets, Content
+          Dividers, Resizable Splitters, and Scroll Panels.
         </p>
       </div>
 
@@ -50,7 +51,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Card -->
       <div class="doc-section">
         <h2 class="doc-section-title">Card Container</h2>
-        <p class="doc-section-desc">Cards provide an elevated visual boundary with optional header, subheader, and footer action slots.</p>
+        <p class="doc-section-desc">
+          Cards provide an elevated visual boundary with optional header, subheader, and footer action slots.
+        </p>
         <div style="max-width: 24rem;">
           <gp-card header="Advanced Card" subheader="Card subtitle" [hoverable]="true">
             <p>Cards provide a flexible container for grouping related content and actions.</p>
@@ -85,7 +88,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <p class="doc-section-desc">Stacked panels with single or multiple concurrent tab expansion.</p>
         <gp-accordion [multiple]="true">
           <gp-accordion-tab header="Section 1: Architecture" [selected]="true">
-            <p>gp-ui is built from scratch as an independent Angular component library using modern Angular practices.</p>
+            <p>
+              gp-ui is built from scratch as an independent Angular component library using modern Angular practices.
+            </p>
           </gp-accordion-tab>
           <gp-accordion-tab header="Section 2: Theming Tokens">
             <p>CSS custom properties drive all visual styles across light and dark modes.</p>
@@ -162,12 +167,22 @@ export class PanelsDemoComponent {
   cardProperties: DocApiProperty[] = [
     { name: 'header', type: 'string', default: "''", description: 'Main title displayed in the card header.' },
     { name: 'subheader', type: 'string', default: "''", description: 'Subtitle text displayed beneath the header.' },
-    { name: 'hoverable', type: 'boolean', default: 'false', description: 'Applies interactive elevation shadow on hover.' },
+    {
+      name: 'hoverable',
+      type: 'boolean',
+      default: 'false',
+      description: 'Applies interactive elevation shadow on hover.'
+    },
     { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS classes for the card.' }
   ];
 
   accordionProperties: DocApiProperty[] = [
-    { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows multiple accordion tabs to be opened simultaneously.' },
+    {
+      name: 'multiple',
+      type: 'boolean',
+      default: 'false',
+      description: 'Allows multiple accordion tabs to be opened simultaneously.'
+    },
     { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS class for the accordion wrapper.' }
   ];
 }

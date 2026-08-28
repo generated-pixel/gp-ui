@@ -1,32 +1,22 @@
 @if (visible()) {
-      <div
-        class="gp-drawer-mask"
-        [class.gp-drawer-mask-modal]="modal"
-        [style.z-index]="zIndex()"
-        (click)="onMaskClick()"
-      >
-        <div
-          class="gp-drawer"
-          [class]="'gp-drawer-' + position"
-          (click)="$event.stopPropagation()"
-          role="dialog"
-          [attr.aria-modal]="modal"
-        >
-          <div class="gp-drawer-header">
-            <span class="gp-drawer-title">{{ header }}</span>
-            <button
-              type="button"
-              class="gp-dialog-header-icon"
-              (click)="close()"
-              aria-label="Close drawer"
-            >
-              <gp-icon name="times" size="0.85em" />
-            </button>
-          </div>
-
-          <div class="gp-drawer-content">
-            <ng-content />
-          </div>
-        </div>
+  <div class="gp-drawer-mask" [class.gp-drawer-mask-modal]="modal" [style.z-index]="zIndex()" (click)="onMaskClick()">
+    <div
+      class="gp-drawer"
+      [class]="'gp-drawer-' + position"
+      (click)="$event.stopPropagation()"
+      role="dialog"
+      [attr.aria-modal]="modal"
+    >
+      <div class="gp-drawer-header">
+        <span class="gp-drawer-title">{{ header }}</span>
+        <button type="button" class="gp-dialog-header-icon" (click)="close()" aria-label="Close drawer">
+          <gp-icon name="times" size="0.85em" />
+        </button>
       </div>
-    }
+
+      <div class="gp-drawer-content">
+        <ng-content />
+      </div>
+    </div>
+  </div>
+}

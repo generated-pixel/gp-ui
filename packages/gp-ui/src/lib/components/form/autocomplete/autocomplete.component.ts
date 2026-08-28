@@ -1,5 +1,17 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -135,10 +147,10 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
     if (!this.overlayVisible() || !this.suggestions.length) return;
 
     if (event.key === 'ArrowDown') {
-      this.activeIndex.update(i => (i + 1) % this.suggestions.length);
+      this.activeIndex.update((i) => (i + 1) % this.suggestions.length);
       event.preventDefault();
     } else if (event.key === 'ArrowUp') {
-      this.activeIndex.update(i => (i <= 0 ? this.suggestions.length - 1 : i - 1));
+      this.activeIndex.update((i) => (i <= 0 ? this.suggestions.length - 1 : i - 1));
       event.preventDefault();
     } else if (event.key === 'Enter') {
       const idx = this.activeIndex();

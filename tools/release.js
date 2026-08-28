@@ -17,8 +17,15 @@ let newVersion = releaseType;
 if (['patch', 'minor', 'major'].includes(releaseType)) {
   const parts = pkg.version.split('.').map(Number);
   if (releaseType === 'patch') parts[2]++;
-  if (releaseType === 'minor') { parts[1]++; parts[2] = 0; }
-  if (releaseType === 'major') { parts[0]++; parts[1] = 0; parts[2] = 0; }
+  if (releaseType === 'minor') {
+    parts[1]++;
+    parts[2] = 0;
+  }
+  if (releaseType === 'major') {
+    parts[0]++;
+    parts[1] = 0;
+    parts[2] = 0;
+  }
   newVersion = parts.join('.');
 }
 
@@ -29,7 +36,7 @@ const packagePaths = [
   path.join(__dirname, '../packages/gp-ui-icons/package.json')
 ];
 
-packagePaths.forEach(p => {
+packagePaths.forEach((p) => {
   if (fs.existsSync(p)) {
     const json = JSON.parse(fs.readFileSync(p, 'utf8'));
     json.version = newVersion;
@@ -40,7 +47,10 @@ packagePaths.forEach(p => {
 
 const versionTsPath = path.join(__dirname, '../packages/gp-ui/src/lib/version.ts');
 if (fs.existsSync(versionTsPath)) {
-  fs.writeFileSync(versionTsPath, `/**\n * Current version of the @generatedpixel/gp-ui library suite.\n */\nexport const GP_UI_VERSION = '${newVersion}';\n`);
+  fs.writeFileSync(
+    versionTsPath,
+    `/**\n * Current version of the @generatedpixel/gp-ui library suite.\n */\nexport const GP_UI_VERSION = '${newVersion}';\n`
+  );
   console.log(`Updated packages/gp-ui/src/lib/version.ts to version: ${newVersion}`);
 }
 

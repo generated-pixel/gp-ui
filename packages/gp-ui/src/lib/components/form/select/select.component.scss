@@ -12,14 +12,17 @@
   cursor: pointer;
   user-select: none;
   outline: none;
-  transition: border-color var(--gp-transition-duration), box-shadow var(--gp-transition-duration);
+  transition:
+    border-color var(--gp-transition-duration),
+    box-shadow var(--gp-transition-duration);
 }
 
 .gp-select:hover:not(.gp-select-disabled) {
   border-color: var(--gp-select-border-hover, var(--gp-input-border-hover));
 }
 
-.gp-select:focus-visible, .gp-select-open {
+.gp-select:focus-visible,
+.gp-select-open {
   border-color: var(--gp-select-border-focus, var(--gp-input-border-focus));
   box-shadow: var(--gp-focus-ring);
 }
@@ -143,4 +146,3 @@
   color: var(--gp-text-color-muted);
   text-align: center;
 }
-

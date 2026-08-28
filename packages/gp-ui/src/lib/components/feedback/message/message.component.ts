@@ -1,5 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -26,10 +34,14 @@ export class GpMessageComponent extends GpBaseComponent {
 
   protected defaultIcon(): string {
     switch (this.severity) {
-      case 'success': return 'check-circle';
-      case 'warning': return 'exclamation-triangle';
-      case 'error': return 'times-circle';
-      default: return 'info-circle';
+      case 'success':
+        return 'check-circle';
+      case 'warning':
+        return 'exclamation-triangle';
+      case 'error':
+        return 'times-circle';
+      default:
+        return 'info-circle';
     }
   }
 

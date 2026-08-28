@@ -1,5 +1,16 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -22,9 +33,24 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class GpColorPickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   @Input() override disabled = false;
   @Input() presetColors = [
-    '#6366f1', '#4f46e5', '#3b82f6', '#0ea5e9', '#06b6d4', '#14b8a6',
-    '#10b981', '#84cc16', '#eab308', '#f97316', '#ef4444', '#ec4899',
-    '#a855f7', '#64748b', '#1e293b', '#ffffff', '#000000', '#f1f5f9'
+    '#6366f1',
+    '#4f46e5',
+    '#3b82f6',
+    '#0ea5e9',
+    '#06b6d4',
+    '#14b8a6',
+    '#10b981',
+    '#84cc16',
+    '#eab308',
+    '#f97316',
+    '#ef4444',
+    '#ec4899',
+    '#a855f7',
+    '#64748b',
+    '#1e293b',
+    '#ffffff',
+    '#000000',
+    '#f1f5f9'
   ];
 
   @Output() onChange = new EventEmitter<{ value: string }>();
@@ -62,7 +88,7 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
 
   public toggleOverlay(): void {
     if (this.disabled) return;
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   public selectColor(color: string): void {

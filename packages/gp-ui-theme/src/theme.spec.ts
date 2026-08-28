@@ -113,7 +113,6 @@ describe('TypeScript & JSON Theme Architecture', () => {
       expect(darkVars['--gp-table-header-background']).toBe('#111827');
     });
 
-
     it('should generate complete CSS rules with selector scoping and dark mode media queries', () => {
       const css = themeToCss(oceanTheme);
       expect(css).toContain('data-gp-theme="ocean"');

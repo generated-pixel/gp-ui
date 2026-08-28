@@ -151,11 +151,7 @@ export class GpThemeManager {
    */
   public static getThemeDefinition(themeId?: string): GpThemeDefinition {
     const id = themeId || GpThemeManager.currentTheme;
-    return (
-      GpThemeManager.registeredDefinitions.get(id) ||
-      builtInThemes.find((t) => t.id === id) ||
-      defaultTheme
-    );
+    return GpThemeManager.registeredDefinitions.get(id) || builtInThemes.find((t) => t.id === id) || defaultTheme;
   }
 
   /**
@@ -173,10 +169,7 @@ export class GpThemeManager {
   public static injectTheme(themeOrId: GpThemeDefinition | string): void {
     if (typeof document === 'undefined') return;
 
-    const themeDef =
-      typeof themeOrId === 'string'
-        ? GpThemeManager.getThemeDefinition(themeOrId)
-        : themeOrId;
+    const themeDef = typeof themeOrId === 'string' ? GpThemeManager.getThemeDefinition(themeOrId) : themeOrId;
 
     let styleEl = document.getElementById(`gp-theme-${themeDef.id}`) as HTMLStyleElement | null;
     if (!styleEl) {
@@ -236,8 +229,7 @@ export class GpThemeManager {
   public static setMode(mode: GpThemeMode, persist = true): void {
     if (typeof document === 'undefined') return;
 
-    const normalizedMode: GpThemeMode =
-      mode === 'gp-dark' ? 'dark' : mode === 'gp-light' ? 'light' : mode;
+    const normalizedMode: GpThemeMode = mode === 'gp-dark' ? 'dark' : mode === 'gp-light' ? 'light' : mode;
 
     GpThemeManager.currentMode = normalizedMode;
     if (persist && typeof localStorage !== 'undefined') {

@@ -1,5 +1,13 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -92,6 +100,6 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
 
   protected toggleShowPassword(event: MouseEvent): void {
     event.preventDefault();
-    this.showPassword.update(v => !v);
+    this.showPassword.update((v) => !v);
   }
 }

@@ -35,10 +35,7 @@ function isObject(item: any): boolean {
 /**
  * Extends the Base Theme (or another theme) with partial overrides to create a complete Theme Definition.
  */
-export function extendTheme(
-  overrides: GpThemeOverride,
-  base: GpThemeDefinition = baseTheme
-): GpThemeDefinition {
+export function extendTheme(overrides: GpThemeOverride, base: GpThemeDefinition = baseTheme): GpThemeDefinition {
   const merged = deepMerge(base, overrides) as GpThemeDefinition;
   merged.id = overrides.id;
   merged.name = overrides.name;
@@ -50,10 +47,7 @@ export function extendTheme(
 /**
  * Converts a theme's tokens for a specific mode ('light' or 'dark') into a dictionary of CSS Custom Properties.
  */
-export function modeTokensToCssVars(
-  theme: GpThemeDefinition,
-  mode: 'light' | 'dark'
-): Record<string, string> {
+export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'dark'): Record<string, string> {
   const modeData = mode === 'dark' ? theme.dark : theme.light;
   const sem = modeData.semantic;
   const prim = theme.primitives;
@@ -190,7 +184,6 @@ export function flattenComponentTokens(obj: Record<string, any>, prefix = '--gp'
   traverse(obj, []);
   return vars;
 }
-
 
 /**
  * Compiles a Theme Definition into a formatted CSS string with Light, Dark, and Media query rules.

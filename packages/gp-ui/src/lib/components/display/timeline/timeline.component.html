@@ -1,31 +1,31 @@
 <div class="gp-timeline" [class]="'gp-timeline-' + layout + ' gp-timeline-align-' + align">
-      @for (event of value; track $index; let last = $last) {
-        <div class="gp-timeline-event">
-          <div class="gp-timeline-event-opposite">
-            <ng-container *ngTemplateOutlet="oppositeTemplate; context: { $implicit: event }" />
-            @if (!oppositeTemplate && event.date) {
-              <span class="gp-timeline-date">{{ event.date }}</span>
-            }
-          </div>
+  @for (event of value; track $index; let last = $last) {
+    <div class="gp-timeline-event">
+      <div class="gp-timeline-event-opposite">
+        <ng-container *ngTemplateOutlet="oppositeTemplate; context: { $implicit: event }" />
+        @if (!oppositeTemplate && event.date) {
+          <span class="gp-timeline-date">{{ event.date }}</span>
+        }
+      </div>
 
-          <div class="gp-timeline-event-separator">
-            <div class="gp-timeline-event-marker" [style.background-color]="event.color || null">
-              <ng-container *ngTemplateOutlet="markerTemplate; context: { $implicit: event }" />
-              @if (!markerTemplate && event.icon) {
-                <gp-icon [name]="event.icon" size="0.75em" />
-              }
-            </div>
-            @if (!last) {
-              <div class="gp-timeline-event-connector"></div>
-            }
-          </div>
-
-          <div class="gp-timeline-event-content">
-            <ng-container *ngTemplateOutlet="contentTemplate; context: { $implicit: event }" />
-            @if (!contentTemplate) {
-              <div class="gp-timeline-status">{{ event.status }}</div>
-            }
-          </div>
+      <div class="gp-timeline-event-separator">
+        <div class="gp-timeline-event-marker" [style.background-color]="event.color || null">
+          <ng-container *ngTemplateOutlet="markerTemplate; context: { $implicit: event }" />
+          @if (!markerTemplate && event.icon) {
+            <gp-icon [name]="event.icon" size="0.75em" />
+          }
         </div>
-      }
+        @if (!last) {
+          <div class="gp-timeline-event-connector"></div>
+        }
+      </div>
+
+      <div class="gp-timeline-event-content">
+        <ng-container *ngTemplateOutlet="contentTemplate; context: { $implicit: event }" />
+        @if (!contentTemplate) {
+          <div class="gp-timeline-status">{{ event.status }}</div>
+        }
+      </div>
     </div>
+  }
+</div>

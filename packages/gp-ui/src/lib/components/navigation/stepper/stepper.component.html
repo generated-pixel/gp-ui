@@ -1,4 +1,10 @@
-<div class="gp-stepper" [class.gp-stepper-vertical]="orientation === 'vertical'" [id]="id" [class]="styleClass" [ngStyle]="style">
+<div
+  class="gp-stepper"
+  [class.gp-stepper-vertical]="orientation === 'vertical'"
+  [id]="id"
+  [class]="styleClass"
+  [ngStyle]="style"
+>
   <div class="gp-stepper-header-container">
     @for (step of steps; track $index; let idx = $index; let last = $last) {
       <div

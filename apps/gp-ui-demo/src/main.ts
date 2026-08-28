@@ -5,8 +5,5 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes, withComponentInputBinding()),
-    provideAnimationsAsync()
-  ]
-}).catch(err => console.error(err));
+  providers: [provideRouter(routes, withComponentInputBinding()), provideAnimationsAsync()]
+}).catch((err) => console.error(err));

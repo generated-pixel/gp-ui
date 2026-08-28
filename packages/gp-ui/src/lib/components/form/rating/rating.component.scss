@@ -7,7 +7,9 @@
 .gp-rating-item {
   cursor: pointer;
   color: var(--gp-text-color-muted);
-  transition: transform 0.15s, color 0.15s;
+  transition:
+    transform 0.15s,
+    color 0.15s;
   outline: none;
   display: inline-flex;
   position: relative;

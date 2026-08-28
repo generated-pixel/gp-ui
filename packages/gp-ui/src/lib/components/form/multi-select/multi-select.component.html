@@ -43,12 +43,7 @@
 
   <div class="gp-select-triggers">
     @if (showClear && selectedOptions().length > 0 && !disabled) {
-      <button
-        type="button"
-        class="gp-select-clear-btn"
-        aria-label="Clear selection"
-        (click)="clear($event)"
-      >
+      <button type="button" class="gp-select-clear-btn" aria-label="Clear selection" (click)="clear($event)">
         <gp-icon name="times" size="0.8em" />
       </button>
     }
@@ -59,11 +54,7 @@
     <div class="gp-select-overlay" role="listbox" (click)="$event.stopPropagation()">
       <div class="gp-multiselect-header">
         @if (showSelectAll) {
-          <gp-checkbox
-            [binary]="true"
-            [value]="isAllSelected()"
-            (onChange)="toggleSelectAll()"
-          />
+          <gp-checkbox [binary]="true" [value]="isAllSelected()" (onChange)="toggleSelectAll()" />
         }
         @if (filter) {
           <div class="gp-select-filter-container gp-w-full">

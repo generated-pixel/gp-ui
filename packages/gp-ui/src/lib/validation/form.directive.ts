@@ -10,11 +10,7 @@ import {
   inject
 } from '@angular/core';
 import { GpEditableBaseComponent } from '../base/gp-editable-base.component';
-import {
-  GpFormSubmitEvent,
-  GpFormInvalidEvent,
-  GpValidationError
-} from './types';
+import { GpFormSubmitEvent, GpFormInvalidEvent, GpValidationError } from './types';
 
 /**
  * Form management directive that coordinates validation, side effects,
@@ -155,9 +151,7 @@ export class GpFormDirective {
    * });
    * ```
    */
-  public setErrors(
-    errors: Record<string, string | string[] | GpValidationError[]>
-  ): void {
+  public setErrors(errors: Record<string, string | string[] | GpValidationError[]>): void {
     const map = this.getControlsMap();
     Object.entries(errors).forEach(([fieldName, errVal]) => {
       const control = map[fieldName];

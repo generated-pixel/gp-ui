@@ -1,11 +1,16 @@
 .gp-skeleton {
-      background: linear-gradient(90deg, var(--gp-surface-hover) 25%, var(--gp-surface-border) 50%, var(--gp-surface-hover) 75%);
-      background-size: 200% 100%;
-      animation: gp-skeleton-shimmer 1.5s infinite;
-      border-radius: var(--gp-border-radius);
-      height: 1.25rem;
-      width: 100%;
-    }
-    .gp-skeleton-circle {
-      border-radius: 50% !important;
-    }
+  background: linear-gradient(
+    90deg,
+    var(--gp-surface-hover) 25%,
+    var(--gp-surface-border) 50%,
+    var(--gp-surface-hover) 75%
+  );
+  background-size: 200% 100%;
+  animation: gp-skeleton-shimmer 1.5s infinite;
+  border-radius: var(--gp-border-radius);
+  height: 1.25rem;
+  width: 100%;
+}
+.gp-skeleton-circle {
+  border-radius: 50% !important;
+}

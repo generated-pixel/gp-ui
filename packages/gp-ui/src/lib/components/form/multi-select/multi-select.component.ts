@@ -1,5 +1,17 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -59,7 +71,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   }
 
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
-    return (this.options || []).map(opt => {
+    return (this.options || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
         if ('value' in opt && 'label' in opt) return opt as GpSelectItem;
         return {
@@ -76,31 +88,29 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   protected filteredOptions = computed<GpSelectItem[]>(() => {
     const q = this.filterText().toLowerCase().trim();
     if (!q) return this.normalizedOptions();
-    return this.normalizedOptions().filter(opt =>
-      (opt.label || '').toLowerCase().includes(q)
-    );
+    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
   protected selectedOptions = computed<GpSelectItem[]>(() => {
     const vals = (this.internalValue() as any[]) || [];
-    return this.normalizedOptions().filter(opt =>
-      vals.some(v => ObjectUtils.equals(v, opt.value))
-    );
+    return this.normalizedOptions().filter((opt) => vals.some((v) => ObjectUtils.equals(v, opt.value)));
   });
 
   protected selectedLabelsText = computed(() => {
-    return this.selectedOptions().map(o => o.label).join(', ');
+    return this.selectedOptions()
+      .map((o) => o.label)
+      .join(', ');
   });
 
   public isSelected(opt: GpSelectItem): boolean {
     const vals = (this.internalValue() as any[]) || [];
-    return vals.some(v => ObjectUtils.equals(v, opt.value));
+    return vals.some((v) => ObjectUtils.equals(v, opt.value));
   }
 
   public isAllSelected(): boolean {
     const opts = this.normalizedOptions();
     if (opts.length === 0) return false;
-    return opts.every(opt => this.isSelected(opt));
+    return opts.every((opt) => this.isSelected(opt));
   }
 
   public override writeValue(value: any): void {
@@ -123,7 +133,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   public toggleOverlay(event: MouseEvent): void {
     if (this.disabled || this.readonly) return;
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   public toggleOption(opt: GpSelectItem, event: MouseEvent): void {
@@ -131,7 +141,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     const current = (this.internalValue() as any[]) || [];
     let next: any[];
     if (this.isSelected(opt)) {
-      next = current.filter(v => !ObjectUtils.equals(v, opt.value));
+      next = current.filter((v) => !ObjectUtils.equals(v, opt.value));
     } else {
       next = [...current, opt.value];
     }
@@ -147,7 +157,11 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   public toggleSelectAll(): void {
     const allSelected = this.isAllSelected();
-    const next = allSelected ? [] : this.normalizedOptions().filter(o => !o.disabled).map(o => o.value);
+    const next = allSelected
+      ? []
+      : this.normalizedOptions()
+          .filter((o) => !o.disabled)
+          .map((o) => o.value);
     this.updateValue(next);
     this.handleControlBlur();
     this.onChange.emit({ value: next, originalEvent: new CustomEvent('change') });

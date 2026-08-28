@@ -69,7 +69,7 @@ export class ObjectUtils {
       return new Date(value.getTime()) as any;
     }
     if (Array.isArray(value)) {
-      return value.map(item => ObjectUtils.clone(item)) as any;
+      return value.map((item) => ObjectUtils.clone(item)) as any;
     }
     const clonedObj: any = {};
     for (const prop in value) {

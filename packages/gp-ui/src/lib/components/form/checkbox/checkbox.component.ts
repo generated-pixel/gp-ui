@@ -1,5 +1,14 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -75,7 +84,7 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
       const current = this.model();
       if (Array.isArray(current)) {
         if (this.isChecked()) {
-          nextValue = current.filter(item => item !== this.value);
+          nextValue = current.filter((item) => item !== this.value);
         } else {
           nextValue = [...current, this.value];
         }

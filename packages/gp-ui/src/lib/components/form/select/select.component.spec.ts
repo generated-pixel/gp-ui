@@ -34,7 +34,7 @@ describe('GpSelectComponent', () => {
 
   it('should select item on click and emit onChange', () => {
     let selectedVal: any = null;
-    component.onChange.subscribe(e => (selectedVal = e.value));
+    component.onChange.subscribe((e) => (selectedVal = e.value));
 
     const root: HTMLElement = fixture.nativeElement.querySelector('.gp-select');
     root.click();

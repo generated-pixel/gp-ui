@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Ocean Theme)
    ========================================================================== */
-:root[data-gp-theme="ocean"],
-[data-gp-theme="ocean"],
-[data-gp-theme="ocean"][data-gp-mode="light"],
+:root[data-gp-theme='ocean'],
+[data-gp-theme='ocean'],
+[data-gp-theme='ocean'][data-gp-mode='light'],
 .gp-theme-ocean,
 .gp-theme-ocean.gp-light {
   /* Primitive Color Palette - Ocean / Cyan */
@@ -109,10 +109,10 @@
 /* ==========================================================================
    Dark Mode (Ocean Theme)
    ========================================================================== */
-:root[data-gp-theme="ocean"][data-gp-mode="dark"],
-[data-gp-theme="ocean"][data-gp-mode="dark"],
+:root[data-gp-theme='ocean'][data-gp-mode='dark'],
+[data-gp-theme='ocean'][data-gp-mode='dark'],
 .gp-theme-ocean.gp-dark,
-[data-gp-theme="ocean"].gp-dark {
+[data-gp-theme='ocean'].gp-dark {
   /* Primitive Color Palette - Deep Ocean */
   --gp-primary-50: #083344;
   --gp-primary-100: #164e63;
@@ -203,8 +203,8 @@
 
 /* System dark mode for ocean */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="ocean"]:not([data-gp-mode="light"]),
-  [data-gp-theme="ocean"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='ocean']:not([data-gp-mode='light']),
+  [data-gp-theme='ocean']:not([data-gp-mode='light']),
   .gp-theme-ocean:not(.gp-light) {
     --gp-primary-50: #083344;
     --gp-primary-100: #164e63;

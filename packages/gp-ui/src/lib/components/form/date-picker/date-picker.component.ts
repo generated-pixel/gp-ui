@@ -1,5 +1,18 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, signal, computed, ElementRef, HostListener, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -140,13 +153,11 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   });
 
   private isSameDay(d1: Date, d2: Date): boolean {
-    return d1.getFullYear() === d2.getFullYear() &&
-           d1.getMonth() === d2.getMonth() &&
-           d1.getDate() === d2.getDate();
+    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
   }
 
   public override writeValue(value: any): void {
-    const d = value instanceof Date ? value : (value ? new Date(value) : null);
+    const d = value instanceof Date ? value : value ? new Date(value) : null;
     this.value = d;
     this.internalValue.set(d);
     if (d) {
@@ -168,7 +179,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
 
   public toggleOverlay(): void {
     if (this.disabled || this.readonly) return;
-    this.overlayVisible.update(v => !v);
+    this.overlayVisible.update((v) => !v);
   }
 
   public prevMonth(): void {

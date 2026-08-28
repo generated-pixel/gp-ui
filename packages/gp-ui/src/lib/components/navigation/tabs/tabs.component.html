@@ -22,12 +22,7 @@
             <span>{{ tab.header }}</span>
 
             @if (tab.closable) {
-              <button
-                type="button"
-                class="gp-tabview-close-btn"
-                (click)="closeTab(tab, $event)"
-                aria-label="Close tab"
-              >
+              <button type="button" class="gp-tabview-close-btn" (click)="closeTab(tab, $event)" aria-label="Close tab">
                 <gp-icon name="times" size="0.7em" />
               </button>
             }

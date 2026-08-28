@@ -13,9 +13,24 @@ export interface ComponentDocDefinition {
 }
 
 const baseComponentProperties: DocApiProperty[] = [
-  { name: 'id', type: 'string', default: "UniqueId.generate('gp_')", description: 'Unique element identifier attached to the component.' },
-  { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS class names applied to the component host.' },
-  { name: 'style', type: '{ [klass: string]: any } | null', default: 'null', description: 'Custom inline styling applied to the root element.' },
+  {
+    name: 'id',
+    type: 'string',
+    default: "UniqueId.generate('gp_')",
+    description: 'Unique element identifier attached to the component.'
+  },
+  {
+    name: 'styleClass',
+    type: 'string',
+    default: "''",
+    description: 'Custom CSS class names applied to the component host.'
+  },
+  {
+    name: 'style',
+    type: '{ [klass: string]: any } | null',
+    default: 'null',
+    description: 'Custom inline styling applied to the root element.'
+  },
   { name: 'ariaLabel', type: 'string', default: "''", description: 'Accessible label used for screen readers.' },
   { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables interactive behavior and user input.' }
 ];
@@ -23,23 +38,65 @@ const baseComponentProperties: DocApiProperty[] = [
 const editableBaseProperties: DocApiProperty[] = [
   { name: 'value', type: 'any', default: 'null', description: 'Current value bound to the control.' },
   { name: 'name', type: 'string', default: "''", description: 'Form field name used by the surrounding form APIs.' },
-  { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text shown when the field is empty.' },
+  {
+    name: 'placeholder',
+    type: 'string',
+    default: "''",
+    description: 'Placeholder text shown when the field is empty.'
+  },
   { name: 'required', type: 'boolean', default: 'false', description: 'Marks the field as required.' },
   { name: 'readonly', type: 'boolean', default: 'false', description: 'Makes the control read-only.' },
-  { name: 'invalid', type: 'boolean', default: 'false', description: 'Overrides the component validation state when set to true.' },
-  { name: 'validators', type: 'GpValidatorFn<T>[]', default: '[]', description: 'Validator functions applied to the field value.' },
-  { name: 'validateOn', type: "('change' | 'blur')[]", default: "['change', 'blur']", description: 'When the control validates during user interactions.' },
-  { name: 'errorMessage', type: 'string', default: "''", description: 'Custom validation message used when validation fails.' },
+  {
+    name: 'invalid',
+    type: 'boolean',
+    default: 'false',
+    description: 'Overrides the component validation state when set to true.'
+  },
+  {
+    name: 'validators',
+    type: 'GpValidatorFn<T>[]',
+    default: '[]',
+    description: 'Validator functions applied to the field value.'
+  },
+  {
+    name: 'validateOn',
+    type: "('change' | 'blur')[]",
+    default: "['change', 'blur']",
+    description: 'When the control validates during user interactions.'
+  },
+  {
+    name: 'errorMessage',
+    type: 'string',
+    default: "''",
+    description: 'Custom validation message used when validation fails.'
+  },
   { name: 'helperText', type: 'string', default: "''", description: 'Additional context displayed below the field.' },
-  { name: 'valueEffect', type: 'GpValueEffectFn<T>', default: 'undefined', description: 'Optional callback executed when the value updates.' }
+  {
+    name: 'valueEffect',
+    type: 'GpValueEffectFn<T>',
+    default: 'undefined',
+    description: 'Optional callback executed when the value updates.'
+  }
 ];
 
 const editableBaseEvents: DocApiProperty[] = [
   { name: 'valueChange', type: 'EventEmitter<T>', description: 'Emitted whenever the field value changes.' },
-  { name: 'onValidate', type: 'EventEmitter<GpValidationState<T>>', description: 'Emitted after validation completes with the current validation state.' },
+  {
+    name: 'onValidate',
+    type: 'EventEmitter<GpValidationState<T>>',
+    description: 'Emitted after validation completes with the current validation state.'
+  },
   { name: 'onValid', type: 'EventEmitter<T>', description: 'Emitted when the field passes validation.' },
-  { name: 'onInvalid', type: 'EventEmitter<GpValidationError[]>', description: 'Emitted when validation fails and includes the error list.' },
-  { name: 'onEffectComplete', type: 'EventEmitter<{ value: T; error?: any }>', description: 'Emitted after any value effect completes.' }
+  {
+    name: 'onInvalid',
+    type: 'EventEmitter<GpValidationError[]>',
+    description: 'Emitted when validation fails and includes the error list.'
+  },
+  {
+    name: 'onEffectComplete',
+    type: 'EventEmitter<{ value: T; error?: any }>',
+    description: 'Emitted after any value effect completes.'
+  }
 ];
 
 const editableDocSlugs = new Set<string>([
@@ -71,7 +128,11 @@ function withInheritedApi(doc: ComponentDocDefinition): ComponentDocDefinition {
 
   return {
     ...doc,
-    properties: [...baseComponentProperties, ...(includesEditableBase ? editableBaseProperties : []), ...doc.properties],
+    properties: [
+      ...baseComponentProperties,
+      ...(includesEditableBase ? editableBaseProperties : []),
+      ...doc.properties
+    ],
     events: [...(includesEditableBase ? editableBaseEvents : []), ...(doc.events ?? [])]
   };
 }
@@ -87,11 +148,26 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-button label="Primary" severity="primary" />\n<gp-button label="Outlined" variant="outlined" severity="secondary" />`,
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Text label displayed on the button.' },
-      { name: 'severity', type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'", default: "'primary'", description: 'Semantic color treatment.' },
-      { name: 'variant', type: "'filled' | 'outlined' | 'text' | 'tonal' | 'elevated' | 'link'", default: "'filled'", description: 'Visual style for the button.' },
+      {
+        name: 'severity',
+        type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'",
+        default: "'primary'",
+        description: 'Semantic color treatment.'
+      },
+      {
+        name: 'variant',
+        type: "'filled' | 'outlined' | 'text' | 'tonal' | 'elevated' | 'link'",
+        default: "'filled'",
+        description: 'Visual style for the button.'
+      },
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Button size.' },
       { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables user interaction.' },
-      { name: 'loading', type: 'boolean', default: 'false', description: 'Displays a loading indicator and blocks clicks.' }
+      {
+        name: 'loading',
+        type: 'boolean',
+        default: 'false',
+        description: 'Displays a loading indicator and blocks clicks.'
+      }
     ],
     events: [
       { name: 'onClickEvent', type: 'EventEmitter<MouseEvent>', description: 'Emitted when the button is clicked.' }
@@ -108,7 +184,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Main action label.' },
       { name: 'icon', type: 'string', default: "''", description: 'Primary icon on the main button.' },
-      { name: 'severity', type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'", default: "'primary'", description: 'Theme severity.' },
+      {
+        name: 'severity',
+        type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'",
+        default: "'primary'",
+        description: 'Theme severity.'
+      },
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Menu items for the dropdown action list.' }
     ]
   },
@@ -122,7 +203,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-speed-dial [model]="quickActions" direction="up" />`,
     properties: [
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Items displayed in the floating menu.' },
-      { name: 'direction', type: "'up' | 'down' | 'left' | 'right'", default: "'up'", description: 'Expansion direction of the floating actions.' }
+      {
+        name: 'direction',
+        type: "'up' | 'down' | 'left' | 'right'",
+        default: "'up'",
+        description: 'Expansion direction of the floating actions.'
+      }
     ]
   },
   {
@@ -137,7 +223,12 @@ export const componentDocs: ComponentDocDefinition[] = [
   <gp-button label="Two" variant="outlined" severity="secondary" />
 </gp-button-group>`,
     properties: [
-      { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Layout orientation of the grouped buttons.' }
+      {
+        name: 'orientation',
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: 'Layout orientation of the grouped buttons.'
+      }
     ]
   },
   {
@@ -216,7 +307,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-virtual-scroller [value]="items" />`,
     properties: [
       { name: 'value', type: 'any[]', default: '[]', description: 'Items rendered in the scroller.' },
-      { name: 'itemSize', type: 'number', default: '32', description: 'Approximate item height used for virtualization.' }
+      {
+        name: 'itemSize',
+        type: 'number',
+        default: '32',
+        description: 'Approximate item height used for virtualization.'
+      }
     ]
   },
   {
@@ -229,7 +325,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-tree [value]="nodes" selectionMode="single" />`,
     properties: [
       { name: 'value', type: 'GpTreeNode[]', default: '[]', description: 'Tree nodes to render.' },
-      { name: 'selectionMode', type: 'GpTreeSelectionMode', default: 'null', description: 'How selection is handled in the tree.' }
+      {
+        name: 'selectionMode',
+        type: 'GpTreeSelectionMode',
+        default: 'null',
+        description: 'How selection is handled in the tree.'
+      }
     ]
   },
   {
@@ -276,9 +377,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Action menu revealed from an element or mouse context.',
     importStatement: `import { GpContextMenuComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-context-menu [model]="contextActions" />`,
-    properties: [
-      { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Actions shown in the menu.' }
-    ]
+    properties: [{ name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Actions shown in the menu.' }]
   },
   {
     slug: 'tiered-menu',
@@ -288,9 +387,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Nested menu structure with parent/child action groups.',
     importStatement: `import { GpTieredMenuComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-tiered-menu [model]="menuTree" />`,
-    properties: [
-      { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Hierarchical menu data source.' }
-    ]
+    properties: [{ name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Hierarchical menu data source.' }]
   },
   {
     slug: 'mega-menu',
@@ -301,7 +398,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpMegaMenuComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-mega-menu [model]="megaItems" />`,
     properties: [
-      { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Navigation content grouped into a mega-menu layout.' }
+      {
+        name: 'model',
+        type: 'GpMenuItem[]',
+        default: '[]',
+        description: 'Navigation content grouped into a mega-menu layout.'
+      }
     ]
   },
   {
@@ -336,9 +438,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Multi-step progress indicator for onboarding and workflow flows.',
     importStatement: `import { GpStepperComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-stepper [steps]="steps" />`,
-    properties: [
-      { name: 'steps', type: 'any[]', default: '[]', description: 'Steps shown in sequence.' }
-    ]
+    properties: [{ name: 'steps', type: 'any[]', default: '[]', description: 'Steps shown in sequence.' }]
   },
   {
     slug: 'dock',
@@ -348,9 +448,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Docked navigation container for pinned actions or app shortcuts.',
     importStatement: `import { GpDockComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-dock [items]="dockItems" />`,
-    properties: [
-      { name: 'items', type: 'any[]', default: '[]', description: 'Actions pinned in the dock.' }
-    ]
+    properties: [{ name: 'items', type: 'any[]', default: '[]', description: 'Actions pinned in the dock.' }]
   },
   {
     slug: 'toolbar',
@@ -360,9 +458,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Action bar grouping commands, filters, and secondary controls.',
     importStatement: `import { GpToolbarComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-toolbar [items]="actions" />`,
-    properties: [
-      { name: 'items', type: 'any[]', default: '[]', description: 'Toolbar actions rendered in the bar.' }
-    ]
+    properties: [{ name: 'items', type: 'any[]', default: '[]', description: 'Toolbar actions rendered in the bar.' }]
   },
   {
     slug: 'confirm-dialog',
@@ -374,7 +470,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-confirm-dialog header="Delete" [visible]="true" />`,
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Dialog title shown in the header.' },
-      { name: 'visible', type: 'boolean', default: 'false', description: 'Controls whether the confirmation prompt is visible.' }
+      {
+        name: 'visible',
+        type: 'boolean',
+        default: 'false',
+        description: 'Controls whether the confirmation prompt is visible.'
+      }
     ]
   },
   {
@@ -398,9 +499,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Floating content container anchored to a trigger element.',
     importStatement: `import { GpPopoverComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-popover content="Helpful details" />`,
-    properties: [
-      { name: 'content', type: 'string', default: "''", description: 'Popover content shown when opened.' }
-    ]
+    properties: [{ name: 'content', type: 'string', default: "''", description: 'Popover content shown when opened.' }]
   },
   {
     slug: 'accordion',
@@ -413,7 +512,12 @@ export const componentDocs: ComponentDocDefinition[] = [
   <gp-accordion-tab header="Overview">...</gp-accordion-tab>
 </gp-accordion>`,
     properties: [
-      { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows multiple accordion panes to be open at once.' }
+      {
+        name: 'multiple',
+        type: 'boolean',
+        default: 'false',
+        description: 'Allows multiple accordion panes to be open at once.'
+      }
     ]
   },
   {
@@ -426,9 +530,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-fieldset legend="Profile">
   <gp-input-text label="Name" />
 </gp-fieldset>`,
-    properties: [
-      { name: 'legend', type: 'string', default: "''", description: 'Title shown for the fieldset group.' }
-    ]
+    properties: [{ name: 'legend', type: 'string', default: "''", description: 'Title shown for the fieldset group.' }]
   },
   {
     slug: 'divider',
@@ -439,7 +541,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpDividerComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-divider />`,
     properties: [
-      { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Divider orientation.' }
+      {
+        name: 'orientation',
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: 'Divider orientation.'
+      }
     ]
   },
   {
@@ -454,7 +561,12 @@ export const componentDocs: ComponentDocDefinition[] = [
   <gp-splitter-panel>Right</gp-splitter-panel>
 </gp-splitter>`,
     properties: [
-      { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Direction of the split.' }
+      {
+        name: 'orientation',
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: 'Direction of the split.'
+      }
     ]
   },
   {
@@ -479,7 +591,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-toast severity="success" message="Saved successfully" />`,
     properties: [
       { name: 'message', type: 'string', default: "''", description: 'Toast content.' },
-      { name: 'severity', type: "'success' | 'info' | 'warn' | 'error'", default: "'info'", description: 'Status tone of the message.' }
+      {
+        name: 'severity',
+        type: "'success' | 'info' | 'warn' | 'error'",
+        default: "'info'",
+        description: 'Status tone of the message.'
+      }
     ]
   },
   {
@@ -503,7 +620,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpProgressSpinnerComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-progress-spinner [value]="60" />`,
     properties: [
-      { name: 'value', type: 'number', default: '0', description: 'Progress of the spinner if used for indeterminate or partial loading.' }
+      {
+        name: 'value',
+        type: 'number',
+        default: '0',
+        description: 'Progress of the spinner if used for indeterminate or partial loading.'
+      }
     ]
   },
   {
@@ -529,7 +651,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-tag value="Beta" severity="secondary" />`,
     properties: [
       { name: 'value', type: 'string', default: "''", description: 'Tag label content.' },
-      { name: 'severity', type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger'", default: "'primary'", description: 'Visual emphasis for the tag.' }
+      {
+        name: 'severity',
+        type: "'primary' | 'secondary' | 'success' | 'warning' | 'danger'",
+        default: "'primary'",
+        description: 'Visual emphasis for the tag.'
+      }
     ]
   },
   {
@@ -540,9 +667,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Compact visual element for status, labels, or filter selections.',
     importStatement: `import { GpChipComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-chip label="New" />`,
-    properties: [
-      { name: 'label', type: 'string', default: "''", description: 'Text displayed inside the chip.' }
-    ]
+    properties: [{ name: 'label', type: 'string', default: "''", description: 'Text displayed inside the chip.' }]
   },
   {
     slug: 'image',
@@ -554,7 +679,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-image src="/img/example.png" alt="Example" />`,
     properties: [
       { name: 'src', type: 'string', default: "''", description: 'Path for the image resource.' },
-      { name: 'alt', type: 'string', default: "''", description: 'Alternative text for accessibility and fallback cases.' }
+      {
+        name: 'alt',
+        type: 'string',
+        default: "''",
+        description: 'Alternative text for accessibility and fallback cases.'
+      }
     ]
   },
   {
@@ -565,9 +695,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     description: 'Rotating media or content slides for presentation and showcase layouts.',
     importStatement: `import { GpCarouselComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-carousel [items]="slides" />`,
-    properties: [
-      { name: 'items', type: 'any[]', default: '[]', description: 'Slide data rendered by the carousel.' }
-    ]
+    properties: [{ name: 'items', type: 'any[]', default: '[]', description: 'Slide data rendered by the carousel.' }]
   },
   {
     slug: 'timeline',
@@ -649,7 +777,12 @@ export const componentDocs: ComponentDocDefinition[] = [
       { name: 'label', type: 'string', default: "''", description: 'Label shown for the text area.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text when empty.' },
       { name: 'rows', type: 'number', default: '3', description: 'Initial number of rows.' },
-      { name: 'autoResize', type: 'boolean', default: 'false', description: 'Automatically grows the control as content increases.' }
+      {
+        name: 'autoResize',
+        type: 'boolean',
+        default: 'false',
+        description: 'Automatically grows the control as content increases.'
+      }
     ]
   },
   {
@@ -664,7 +797,12 @@ export const componentDocs: ComponentDocDefinition[] = [
       { name: 'label', type: 'string', default: "''", description: 'Label shown for the password control.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text for the field.' },
       { name: 'showToggle', type: 'boolean', default: 'true', description: 'Shows an action to reveal the password.' },
-      { name: 'strength', type: 'boolean', default: 'false', description: 'Displays password strength feedback when enabled.' }
+      {
+        name: 'strength',
+        type: 'boolean',
+        default: 'false',
+        description: 'Displays password strength feedback when enabled.'
+      }
     ]
   },
   {
@@ -793,7 +931,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     properties: [
       { name: 'options', type: 'any[]', default: '[]', description: 'Available selectable values.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text for the picker.' },
-      { name: 'display', type: "'chip' | 'default'", default: "'default'", description: 'Selected values display mode.' }
+      {
+        name: 'display',
+        type: "'chip' | 'default'",
+        default: "'default'",
+        description: 'Selected values display mode.'
+      }
     ]
   },
   {
@@ -806,7 +949,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-listbox [options]="items" optionLabel="label" />`,
     properties: [
       { name: 'options', type: 'any[]', default: '[]', description: 'Available list entries.' },
-      { name: 'optionLabel', type: 'string', default: "'label'", description: 'Field used to display each item label.' },
+      {
+        name: 'optionLabel',
+        type: 'string',
+        default: "'label'",
+        description: 'Field used to display each item label.'
+      },
       { name: 'multiple', type: 'boolean', default: 'false', description: 'Allow multiple selected values.' }
     ]
   },
@@ -821,7 +969,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     properties: [
       { name: 'suggestions', type: 'any[]', default: '[]', description: 'Matching results shown during typing.' },
       { name: 'dropdown', type: 'boolean', default: 'false', description: 'Shows a dropdown arrow button.' },
-      { name: 'minLength', type: 'number', default: '1', description: 'Minimum characters before suggestions are requested.' }
+      {
+        name: 'minLength',
+        type: 'number',
+        default: '1',
+        description: 'Minimum characters before suggestions are requested.'
+      }
     ]
   },
   {
@@ -833,9 +986,19 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpCascadeSelectComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-cascade-select [options]="regions" placeholder="Choose location" />`,
     properties: [
-      { name: 'options', type: 'any[]', default: '[]', description: 'Nested option tree used as the selection source.' },
+      {
+        name: 'options',
+        type: 'any[]',
+        default: '[]',
+        description: 'Nested option tree used as the selection source.'
+      },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text for the control.' },
-      { name: 'showClear', type: 'boolean', default: 'true', description: 'Shows a clear button when a value is selected.' }
+      {
+        name: 'showClear',
+        type: 'boolean',
+        default: 'true',
+        description: 'Shows a clear button when a value is selected.'
+      }
     ]
   },
   {
@@ -861,7 +1024,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpDatePickerComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-date-picker placeholder="MM/DD/YYYY" />`,
     properties: [
-      { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text shown when no date is selected.' },
+      {
+        name: 'placeholder',
+        type: 'string',
+        default: "''",
+        description: 'Placeholder text shown when no date is selected.'
+      },
       { name: 'showIcon', type: 'boolean', default: 'true', description: 'Shows the calendar icon trigger.' },
       { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables calendar interaction.' }
     ]
@@ -875,7 +1043,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpTimePickerComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-time-picker hourFormat="12" />`,
     properties: [
-      { name: 'hourFormat', type: "'12' | '24'", default: "'24'", description: 'Whether hours display in 12h or 24h format.' },
+      {
+        name: 'hourFormat',
+        type: "'12' | '24'",
+        default: "'24'",
+        description: 'Whether hours display in 12h or 24h format.'
+      },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text for the selected time.' },
       { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables interaction.' }
     ]
@@ -890,7 +1063,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-file-upload [multiple]="true" accept="image/*" />`,
     properties: [
       { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows more than one file to be selected.' },
-      { name: 'accept', type: 'string', default: "''", description: 'Accepted file type filter for the browser picker.' },
+      {
+        name: 'accept',
+        type: 'string',
+        default: "''",
+        description: 'Accepted file type filter for the browser picker.'
+      },
       { name: 'maxFileSize', type: 'number', default: 'undefined', description: 'Maximum allowed file size in bytes.' }
     ]
   },
@@ -920,7 +1098,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     properties: [
       { name: 'tabs', type: 'GpTabItem[]', default: '[]', description: 'Tab definitions shown by the component.' },
       { name: 'value', type: 'string | number', default: "''", description: 'Selected tab value.' },
-      { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Tab layout direction.' }
+      {
+        name: 'orientation',
+        type: "'horizontal' | 'vertical'",
+        default: "'horizontal'",
+        description: 'Tab layout direction.'
+      }
     ]
   },
   {
@@ -934,7 +1117,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Dialog title text.' },
       { name: 'visible', type: 'boolean', default: 'false', description: 'Controls dialog visibility.' },
-      { name: 'modal', type: 'boolean', default: 'true', description: 'Whether the dialog should trap focus and mask the background.' },
+      {
+        name: 'modal',
+        type: 'boolean',
+        default: 'true',
+        description: 'Whether the dialog should trap focus and mask the background.'
+      },
       { name: 'closable', type: 'boolean', default: 'true', description: 'Whether the close button is shown.' }
     ]
   },
@@ -961,7 +1149,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: `import { GpMessageComponent } from '@generatedpixel/gp-ui';`,
     exampleCode: `<gp-message severity="success" text="Saved successfully" />`,
     properties: [
-      { name: 'severity', type: "'success' | 'info' | 'warn' | 'error'", default: "'info'", description: 'Message severity level.' },
+      {
+        name: 'severity',
+        type: "'success' | 'info' | 'warn' | 'error'",
+        default: "'info'",
+        description: 'Message severity level.'
+      },
       { name: 'text', type: 'string', default: "''", description: 'Message text content.' },
       { name: 'closable', type: 'boolean', default: 'false', description: 'Allows the message to be dismissed.' }
     ]
@@ -1007,12 +1200,17 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: `<gp-badge value="New" severity="primary" />`,
     properties: [
       { name: 'value', type: 'string | number', default: "''", description: 'Badge content.' },
-      { name: 'severity', type: "'primary' | 'success' | 'warning' | 'danger' | 'secondary'", default: "'primary'", description: 'Badge color scheme.' }
+      {
+        name: 'severity',
+        type: "'primary' | 'success' | 'warning' | 'danger' | 'secondary'",
+        default: "'primary'",
+        description: 'Badge color scheme.'
+      }
     ]
   }
 ];
 
 export function getComponentDoc(slug: string): ComponentDocDefinition | undefined {
-  const doc = componentDocs.find(item => item.slug === slug);
+  const doc = componentDocs.find((item) => item.slug === slug);
   return doc ? withInheritedApi(doc) : undefined;
 }

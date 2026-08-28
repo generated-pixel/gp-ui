@@ -1,8 +1,4 @@
-<div
-  class="gp-slider"
-  [class.gp-slider-disabled]="disabled"
-  (mousedown)="onBarMouseDown($event)"
->
+<div class="gp-slider" [class.gp-slider-disabled]="disabled" (mousedown)="onBarMouseDown($event)">
   <div class="gp-slider-range" [style.width.%]="percentage()"></div>
   <span
     class="gp-slider-handle"

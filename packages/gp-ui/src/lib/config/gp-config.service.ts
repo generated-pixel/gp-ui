@@ -36,7 +36,7 @@ export class GpTranslationService {
   public readonly translation = this.currentTranslation.asReadonly();
 
   public setTranslation(translation: Partial<GpTranslation>): void {
-    this.currentTranslation.update(prev => ({ ...prev, ...translation }));
+    this.currentTranslation.update((prev) => ({ ...prev, ...translation }));
   }
 
   public get<K extends keyof GpTranslation>(key: K): GpTranslation[K] {

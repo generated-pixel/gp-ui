@@ -1,5 +1,16 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, signal, ElementRef, HostListener, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  ElementRef,
+  HostListener,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { ZIndexService } from '../../../overlay/z-index.service';
@@ -65,7 +76,7 @@ export class GpDialogComponent extends GpBaseComponent {
   }
 
   public toggleMaximize(): void {
-    this.maximized.update(v => !v);
+    this.maximized.update((v) => !v);
   }
 
   public onMaskClick(event: MouseEvent): void {

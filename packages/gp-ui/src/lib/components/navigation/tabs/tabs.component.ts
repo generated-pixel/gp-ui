@@ -1,5 +1,15 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation, AfterContentInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ContentChildren,
+  QueryList,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  AfterContentInit
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -35,7 +45,7 @@ export class GpTabsComponent extends GpBaseComponent implements AfterContentInit
 
   ngAfterContentInit(): void {
     if (this.tabPanels && this.tabPanels.length > 0) {
-      const selected = this.tabPanels.find(p => p.selected);
+      const selected = this.tabPanels.find((p) => p.selected);
       if (!selected) {
         this.tabPanels.first.selected = true;
       }
@@ -44,7 +54,7 @@ export class GpTabsComponent extends GpBaseComponent implements AfterContentInit
 
   public selectTab(tab: GpTabPanelComponent): void {
     if (tab.disabled) return;
-    this.tabPanels.forEach(p => (p.selected = false));
+    this.tabPanels.forEach((p) => (p.selected = false));
     tab.selected = true;
     const idx = this.tabPanels.toArray().indexOf(tab);
     this.onChange.emit({ index: idx });

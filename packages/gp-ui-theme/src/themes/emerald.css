@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Emerald Theme)
    ========================================================================== */
-:root[data-gp-theme="emerald"],
-[data-gp-theme="emerald"],
-[data-gp-theme="emerald"][data-gp-mode="light"],
+:root[data-gp-theme='emerald'],
+[data-gp-theme='emerald'],
+[data-gp-theme='emerald'][data-gp-mode='light'],
 .gp-theme-emerald,
 .gp-theme-emerald.gp-light {
   /* Primitive Color Palette - Emerald */
@@ -109,10 +109,10 @@
 /* ==========================================================================
    Dark Mode (Emerald Theme)
    ========================================================================== */
-:root[data-gp-theme="emerald"][data-gp-mode="dark"],
-[data-gp-theme="emerald"][data-gp-mode="dark"],
+:root[data-gp-theme='emerald'][data-gp-mode='dark'],
+[data-gp-theme='emerald'][data-gp-mode='dark'],
 .gp-theme-emerald.gp-dark,
-[data-gp-theme="emerald"].gp-dark {
+[data-gp-theme='emerald'].gp-dark {
   /* Primitive Color Palette - Emerald in Dark Space */
   --gp-primary-50: #022c22;
   --gp-primary-100: #064e3b;
@@ -203,8 +203,8 @@
 
 /* System dark mode for emerald */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="emerald"]:not([data-gp-mode="light"]),
-  [data-gp-theme="emerald"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='emerald']:not([data-gp-mode='light']),
+  [data-gp-theme='emerald']:not([data-gp-mode='light']),
   .gp-theme-emerald:not(.gp-light) {
     --gp-primary-50: #022c22;
     --gp-primary-100: #064e3b;

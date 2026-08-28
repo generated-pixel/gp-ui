@@ -6,9 +6,9 @@
 /* ==========================================================================
    Light Mode (Rose Theme)
    ========================================================================== */
-:root[data-gp-theme="rose"],
-[data-gp-theme="rose"],
-[data-gp-theme="rose"][data-gp-mode="light"],
+:root[data-gp-theme='rose'],
+[data-gp-theme='rose'],
+[data-gp-theme='rose'][data-gp-mode='light'],
 .gp-theme-rose,
 .gp-theme-rose.gp-light {
   /* Primitive Color Palette - Rose */
@@ -109,10 +109,10 @@
 /* ==========================================================================
    Dark Mode (Rose Theme)
    ========================================================================== */
-:root[data-gp-theme="rose"][data-gp-mode="dark"],
-[data-gp-theme="rose"][data-gp-mode="dark"],
+:root[data-gp-theme='rose'][data-gp-mode='dark'],
+[data-gp-theme='rose'][data-gp-mode='dark'],
 .gp-theme-rose.gp-dark,
-[data-gp-theme="rose"].gp-dark {
+[data-gp-theme='rose'].gp-dark {
   /* Primitive Color Palette - Rose in Dark Space */
   --gp-primary-50: #4c0519;
   --gp-primary-100: #881337;
@@ -203,8 +203,8 @@
 
 /* System dark mode for rose */
 @media (prefers-color-scheme: dark) {
-  :root[data-gp-theme="rose"]:not([data-gp-mode="light"]),
-  [data-gp-theme="rose"]:not([data-gp-mode="light"]),
+  :root[data-gp-theme='rose']:not([data-gp-mode='light']),
+  [data-gp-theme='rose']:not([data-gp-mode='light']),
   .gp-theme-rose:not(.gp-light) {
     --gp-primary-50: #4c0519;
     --gp-primary-100: #881337;

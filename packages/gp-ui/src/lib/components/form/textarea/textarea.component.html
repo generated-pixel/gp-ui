@@ -19,8 +19,6 @@
   ></textarea>
 
   @if (maxlength && showCounter) {
-    <div class="gp-textarea-counter">
-      {{ (internalValue() || '').length }} / {{ maxlength }}
-    </div>
+    <div class="gp-textarea-counter">{{ (internalValue() || '').length }} / {{ maxlength }}</div>
   }
 </div>

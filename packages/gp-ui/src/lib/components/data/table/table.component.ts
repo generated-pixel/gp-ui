@@ -1,5 +1,17 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, ChangeDetectionStrategy, ViewEncapsulation, signal, computed, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ContentChildren,
+  QueryList,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  computed,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -75,8 +87,8 @@ export class GpTableComponent extends GpEditableBaseComponent {
     let rows = this.value || [];
     const q = this.globalFilterText().toLowerCase().trim();
     if (q && this.globalFilterFields.length > 0) {
-      rows = rows.filter(row => {
-        return this.globalFilterFields.some(field => {
+      rows = rows.filter((row) => {
+        return this.globalFilterFields.some((field) => {
           const val = this.resolveFieldData(row, field);
           return val != null && String(val).toLowerCase().includes(q);
         });
@@ -116,7 +128,7 @@ export class GpTableComponent extends GpEditableBaseComponent {
   protected totalRecordsCount = computed(() => this.filteredRows().length);
 
   protected totalColumnsCount = computed(() => {
-    let count = (this.columns ? this.columns.length : 0);
+    let count = this.columns ? this.columns.length : 0;
     if (this.rowExpansion) count++;
     if (this.selectionMode) count++;
     return count;
@@ -138,7 +150,7 @@ export class GpTableComponent extends GpEditableBaseComponent {
       return ObjectUtils.equals(this.selection, row, this.dataKey);
     }
     if (this.selectionMode === 'multiple' && Array.isArray(this.selection)) {
-      return this.selection.some(r => ObjectUtils.equals(r, row, this.dataKey));
+      return this.selection.some((r) => ObjectUtils.equals(r, row, this.dataKey));
     }
     return false;
   }
@@ -146,17 +158,17 @@ export class GpTableComponent extends GpEditableBaseComponent {
   public isAllSelected(): boolean {
     const rows = this.displayedRows();
     if (!rows.length || !Array.isArray(this.selection)) return false;
-    return rows.every(r => this.isRowSelected(r));
+    return rows.every((r) => this.isRowSelected(r));
   }
 
   public toggleSelectAll(): void {
     const rows = this.displayedRows();
     let next: any[];
     if (this.isAllSelected()) {
-      next = (this.selection || []).filter((sel: any) => !rows.some(r => ObjectUtils.equals(r, sel, this.dataKey)));
+      next = (this.selection || []).filter((sel: any) => !rows.some((r) => ObjectUtils.equals(r, sel, this.dataKey)));
     } else {
       const current = Array.isArray(this.selection) ? this.selection : [];
-      const newItems = rows.filter(r => !this.isRowSelected(r));
+      const newItems = rows.filter((r) => !this.isRowSelected(r));
       next = [...current, ...newItems];
     }
     this.selection = next;
@@ -166,7 +178,7 @@ export class GpTableComponent extends GpEditableBaseComponent {
   public toggleRowSelection(row: any): void {
     let current = Array.isArray(this.selection) ? [...this.selection] : [];
     if (this.isRowSelected(row)) {
-      current = current.filter(r => !ObjectUtils.equals(r, row, this.dataKey));
+      current = current.filter((r) => !ObjectUtils.equals(r, row, this.dataKey));
       this.onRowUnselect.emit({ data: row, originalEvent: new CustomEvent('unselect') });
     } else {
       current.push(row);
@@ -226,10 +238,10 @@ export class GpTableComponent extends GpEditableBaseComponent {
   public exportCSV(filename = 'export.csv'): void {
     const rows = this.sortedRows();
     const cols = this.columns.toArray();
-    let csv = cols.map(c => `"${c.header}"`).join(',') + '\r\n';
+    let csv = cols.map((c) => `"${c.header}"`).join(',') + '\r\n';
 
-    rows.forEach(r => {
-      const line = cols.map(c => `"${this.resolveFieldData(r, c.field) ?? ''}"`).join(',');
+    rows.forEach((r) => {
+      const line = cols.map((c) => `"${this.resolveFieldData(r, c.field) ?? ''}"`).join(',');
       csv += line + '\r\n';
     });
 

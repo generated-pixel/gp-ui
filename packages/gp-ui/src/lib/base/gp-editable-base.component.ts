@@ -111,8 +111,7 @@ export abstract class GpEditableBaseComponent<T = any>
     }
   }
 
-  public ngOnDestroy(): void {
-  }
+  public ngOnDestroy(): void {}
 
   /** Writes a new value to the element from the forms API or model */
   public writeValue(val: any): void {

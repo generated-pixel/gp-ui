@@ -14,7 +14,7 @@ describe('GpToastService', () => {
   });
 
   it('should emit toast messages on success()', (done) => {
-    service.message$.subscribe(msg => {
+    service.message$.subscribe((msg) => {
       expect(msg.severity).toBe('success');
       expect(msg.summary).toBe('Operation Done');
       expect(msg.detail).toBe('Saved successfully');

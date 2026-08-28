@@ -56,12 +56,12 @@ In your primary CSS file (e.g. `src/styles.css`):
 
 ## Token Integration (`gp-theme`)
 
-| Token Class | Utility Description | CSS Variable / Resolved Value |
-| :--- | :--- | :--- |
-| `bg-panel` | Surface Card background | `var(--gp-surface-card, var(--panel, rgba(15, 23, 42, 0.78)))` |
-| `text-accent` | Accent / Primary text color | `var(--gp-primary, var(--accent, #67e8f9))` |
-| `glass` | Glassmorphic panel | Backdrop blur, semi-transparent border, shadow |
-| `glow` | Cyan glow box-shadow | `0 0 25px rgba(103, 232, 249, 0.35)` |
+| Token Class   | Utility Description         | CSS Variable / Resolved Value                                  |
+| :------------ | :-------------------------- | :------------------------------------------------------------- |
+| `bg-panel`    | Surface Card background     | `var(--gp-surface-card, var(--panel, rgba(15, 23, 42, 0.78)))` |
+| `text-accent` | Accent / Primary text color | `var(--gp-primary, var(--accent, #67e8f9))`                    |
+| `glass`       | Glassmorphic panel          | Backdrop blur, semi-transparent border, shadow                 |
+| `glow`        | Cyan glow box-shadow        | `0 0 25px rgba(103, 232, 249, 0.35)`                           |
 
 ## Programmatic API
 

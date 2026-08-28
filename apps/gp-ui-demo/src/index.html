@@ -1,37 +1,45 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>gp-ui — Angular Component Library &amp; Docs</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Interactive documentation, user guide, and component catalogue for @generatedpixel/gp-ui.">
-  <link rel="icon" type="image/svg+xml" href="/img/generated-pixel-favicon.svg">
-  <link rel="apple-touch-icon" href="/img/generated-pixel-logomark.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <!-- Google Analytics (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0GPEPPLFV"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-E0GPEPPLFV');
-  </script>
-  <script>
-    (function() {
-      try {
-        var stored = localStorage.getItem('gp-theme-preference');
-        var isDark = stored === 'gp-dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        var theme = isDark ? 'gp-dark' : 'gp-light';
-        document.documentElement.setAttribute('data-gp-theme', theme);
-        document.documentElement.classList.add(theme);
-      } catch (e) {}
-    })();
-  </script>
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>gp-ui — Angular Component Library &amp; Docs</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Interactive documentation, user guide, and component catalogue for @generatedpixel/gp-ui."
+    />
+    <link rel="icon" type="image/svg+xml" href="/img/generated-pixel-favicon.svg" />
+    <link rel="apple-touch-icon" href="/img/generated-pixel-logomark.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Analytics (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0GPEPPLFV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-E0GPEPPLFV');
+    </script>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('gp-theme-preference');
+          var isDark = stored === 'gp-dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var theme = isDark ? 'gp-dark' : 'gp-light';
+          document.documentElement.setAttribute('data-gp-theme', theme);
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>
