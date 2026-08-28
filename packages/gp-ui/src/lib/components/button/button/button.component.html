@@ -1,11 +1,20 @@
 <button
   [type]="type()"
   [disabled]="disabled() || loading()"
-  [class]="buttonClass()"
+  [class]="baseButtonClasses()"
   [attr.aria-label]="ariaLabel() || label() || null"
   [attr.aria-disabled]="disabled() || loading()"
   [attr.aria-busy]="loading()"
-  (click)="onClick($event)"
+  [attr.autofocus]="autofocus() ? '' : null"
+  [attr.tabindex]="tabindex() !== undefined ? tabindex() : (disabled() ? -1 : 0)"
+  (click)="onButtonClick($event)"
+  (focus)="onButtonFocus($event)"
+  (blur)="onButtonBlur($event)"
+  (keydown)="onButtonKeyDown($event)"
+  (keyup)="onButtonKeyUp($event)"
+  (mouseenter)="onButtonMouseEnter($event)"
+  (mouseleave)="onButtonMouseLeave($event)"
+  (dblclick)="onButtonDoubleClick($event)"
   gpRipple
 >
   @if (loading()) {
@@ -25,6 +34,12 @@
   }
 
   @if (badge()) {
-    <span class="gp-button-badge" [class.gp-button-badge-danger]="badgeSeverity() === 'danger'">{{ badge() }}</span>
+    <span
+      class="gp-button-badge"
+      [class.gp-button-badge-danger]="badgeSeverity() === 'danger'"
+      [class]="'gp-badge-' + badgeSeverity()"
+    >
+      {{ badge() }}
+    </span>
   }
 </button>

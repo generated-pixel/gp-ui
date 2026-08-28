@@ -19,7 +19,7 @@ describe('GpButtonComponent', () => {
   });
 
   it('should render label', () => {
-    component.label = 'Click Me';
+    fixture.componentRef.setInput('label', 'Click Me');
     fixture.detectChanges();
     const btn = fixture.nativeElement.querySelector('button');
     expect(btn.textContent).toContain('Click Me');
@@ -28,7 +28,7 @@ describe('GpButtonComponent', () => {
   it('should emit onClickEvent when clicked and not disabled', () => {
     let clicked = false;
     component.onClickEvent.subscribe(() => (clicked = true));
-    component.label = 'Submit';
+    fixture.componentRef.setInput('label', 'Submit');
     fixture.detectChanges();
 
     const btn = fixture.nativeElement.querySelector('button');
@@ -39,7 +39,7 @@ describe('GpButtonComponent', () => {
   it('should not emit onClickEvent when disabled', () => {
     let clicked = false;
     component.onClickEvent.subscribe(() => (clicked = true));
-    component.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     const btn = fixture.nativeElement.querySelector('button');
@@ -47,8 +47,34 @@ describe('GpButtonComponent', () => {
     expect(clicked).toBeFalse();
   });
 
+  it('should emit focus and blur events', () => {
+    let focused = false;
+    let blurred = false;
+    component.onFocusEvent.subscribe(() => (focused = true));
+    component.onBlurEvent.subscribe(() => (blurred = true));
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+    btn.dispatchEvent(new FocusEvent('focus'));
+    expect(focused).toBeTrue();
+
+    btn.dispatchEvent(new FocusEvent('blur'));
+    expect(blurred).toBeTrue();
+  });
+
+  it('should compute effective variant for shorthand flags', () => {
+    fixture.componentRef.setInput('outlined', true);
+    fixture.detectChanges();
+    expect(component.effectiveVariant()).toBe('outlined');
+
+    fixture.componentRef.setInput('outlined', false);
+    fixture.componentRef.setInput('text', true);
+    fixture.detectChanges();
+    expect(component.effectiveVariant()).toBe('text');
+  });
+
   it('should have loading class and spinner when loading is true', () => {
-    component.loading = true;
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
     const btn = fixture.nativeElement.querySelector('button');
     expect(btn.classList).toContain('gp-button-loading');

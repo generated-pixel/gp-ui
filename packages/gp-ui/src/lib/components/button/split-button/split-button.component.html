@@ -1,26 +1,54 @@
-<div class="gp-split-button" [class.gp-split-button-expanded]="overlayVisible()">
+<div
+  class="gp-split-button"
+  [class.gp-split-button-expanded]="overlayVisible()"
+  [class.gp-split-button-fluid]="fluid()"
+  [class.gp-split-button-rounded]="rounded()"
+  [class]="styleClass()"
+  [style]="style()"
+>
   <gp-button
     [label]="label()"
     [icon]="icon()"
+    [iconPos]="iconPos()"
     [severity]="severity()"
-    [variant]="variant()"
+    [variant]="effectiveVariant()"
     [size]="size()"
+    [rounded]="rounded()"
+    [raised]="raised()"
+    [fluid]="fluid()"
+    [loading]="loading()"
+    [loadingIcon]="loadingIcon()"
+    [badge]="badge()"
+    [badgeSeverity]="badgeSeverity()"
     [disabled]="disabled()"
+    [type]="type()"
+    [autofocus]="autofocus()"
+    [tabindex]="tabindex()"
+    [ariaLabel]="ariaLabel() || label()"
     (onClickEvent)="onDefaultClick($event)"
+    (onFocusEvent)="onButtonFocus($event)"
+    (onBlurEvent)="onButtonBlur($event)"
+    (onKeyDownEvent)="onButtonKeyDown($event)"
+    (onKeyUpEvent)="onButtonKeyUp($event)"
+    (onMouseEnterEvent)="onButtonMouseEnter($event)"
+    (onMouseLeaveEvent)="onButtonMouseLeave($event)"
+    (onDoubleClickEvent)="onButtonDoubleClick($event)"
   />
   <gp-button
-    icon="chevron-down"
+    [icon]="dropdownIcon()"
     [severity]="severity()"
-    [variant]="variant()"
+    [variant]="effectiveVariant()"
     [size]="size()"
-    [disabled]="disabled()"
+    [rounded]="rounded()"
+    [disabled]="disabled() || loading()"
     [iconOnly]="true"
+    [ariaLabel]="'Toggle menu options'"
     (onClickEvent)="toggleOverlay($event)"
     class="gp-split-button-dropdown"
   />
 
   @if (overlayVisible()) {
-    <div class="gp-menu-overlay gp-split-button-menu" role="menu">
+    <div class="gp-menu-overlay gp-split-button-menu" role="menu" (click)="$event.stopPropagation()">
       <ul class="gp-menu-list">
         @for (item of model(); track $index) {
           @if (item.separator) {

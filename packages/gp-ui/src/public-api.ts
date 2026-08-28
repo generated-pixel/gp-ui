@@ -12,6 +12,7 @@ export * from './lib/config/gp-config.service';
 
 // Base Architecture
 export * from './lib/base/gp-base.component';
+export * from './lib/base/gp-button-base.component';
 export * from './lib/base/gp-editable-base.component';
 export * from './lib/base/gp-base-control-value-accessor';
 

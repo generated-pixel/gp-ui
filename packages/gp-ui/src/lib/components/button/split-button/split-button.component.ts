@@ -1,4 +1,3 @@
-import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
   input,
@@ -11,8 +10,14 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { GpButtonComponent, GpButtonSeverity, GpButtonSize, GpButtonVariant } from '../button/button.component';
+import { GpButtonComponent } from '../button/button.component';
 import { GpIconComponent } from '../../../icons/icon.component';
+import {
+  GpButtonBaseComponent,
+  GpButtonSeverity,
+  GpButtonSize,
+  GpButtonVariant
+} from '../../../base/gp-button-base.component';
 
 export interface GpMenuItem {
   label?: string;
@@ -38,15 +43,14 @@ export interface GpMenuItem {
   templateUrl: './split-button.component.html',
   styleUrl: './split-button.component.scss'
 })
-export class GpSplitButtonComponent extends GpBaseComponent {
-  public label = input<string>('');
-  public icon = input<string>('');
+export class GpSplitButtonComponent extends GpButtonBaseComponent {
   public model = input<GpMenuItem[]>([]);
-  public severity = input<GpButtonSeverity>('primary');
-  public variant = input<GpButtonVariant>('filled');
-  public size = input<GpButtonSize>('md');
+  public dropdownIcon = input<string>('chevron-down');
 
-  public onClickEvent = output<MouseEvent>();
+  public onDropdownClick = output<MouseEvent>();
+  public onOpen = output<void>();
+  public onClose = output<void>();
+  public onMenuItemClick = output<{ originalEvent: Event; item: GpMenuItem }>();
 
   public overlayVisible = signal<boolean>(false);
 
@@ -56,29 +60,53 @@ export class GpSplitButtonComponent extends GpBaseComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.overlayVisible.set(false);
+    if (this.overlayVisible() && !this.el.nativeElement.contains(event.target)) {
+      this.close();
     }
   }
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
-    this.overlayVisible.set(false);
+    if (this.overlayVisible()) {
+      this.close();
+    }
   }
 
   public onDefaultClick(event: MouseEvent): void {
-    if (this.disabled()) {
+    if (this.disabled() || this.loading()) {
       return;
     }
     this.onClickEvent.emit(event);
   }
 
   public toggleOverlay(event: MouseEvent): void {
-    if (this.disabled()) {
+    if (this.disabled() || this.loading()) {
       return;
     }
     event.stopPropagation();
-    this.overlayVisible.update((v) => !v);
+    const next = !this.overlayVisible();
+    this.overlayVisible.set(next);
+    this.onDropdownClick.emit(event);
+
+    if (next) {
+      this.onOpen.emit();
+    } else {
+      this.onClose.emit();
+    }
+  }
+
+  public open(): void {
+    if (!this.overlayVisible() && !this.disabled()) {
+      this.overlayVisible.set(true);
+      this.onOpen.emit();
+    }
+  }
+
+  public close(): void {
+    if (this.overlayVisible()) {
+      this.overlayVisible.set(false);
+      this.onClose.emit();
+    }
   }
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
@@ -88,6 +116,7 @@ export class GpSplitButtonComponent extends GpBaseComponent {
     if (item.command) {
       item.command({ originalEvent: event, item });
     }
-    this.overlayVisible.set(false);
+    this.onMenuItemClick.emit({ originalEvent: event, item });
+    this.close();
   }
 }
