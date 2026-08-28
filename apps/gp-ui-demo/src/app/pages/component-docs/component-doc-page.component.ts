@@ -38,6 +38,7 @@ import {
   GpMenuComponent,
   GpMenuItem,
   GpMenubarComponent,
+  GpMenubarItem,
   GpMessageComponent,
   GpMeterGroupComponent,
   GpMultiSelectComponent,
@@ -365,28 +366,48 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('menu') {
-          <gp-menu [model]="demoMenuItems" />
+          <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start;">
+            <div>
+              <gp-menu [model]="demoMenuItems" />
+            </div>
+            <div>
+              <gp-button label="Toggle Popup Menu" icon="bars" (onClickEvent)="demoPopupMenu.toggle($event)" />
+              <gp-menu #demoPopupMenu [model]="demoMenuItems" [popup]="true" />
+            </div>
+          </div>
         }
         @case ('menubar') {
-          <gp-menubar [model]="demoMenuItems" />
+          <div style="width: 100%;">
+            <gp-menubar [model]="demoMenubarItems" />
+          </div>
         }
         @case ('context-menu') {
           <div
             (contextmenu)="demoContextMenu.show($event)"
-            style="padding: 1.5rem 2rem; border: 2px dashed var(--gp-surface-border); border-radius: 8px; cursor: context-menu; text-align: center; width: 100%;"
+            style="padding: 2.5rem 2rem; border: 2px dashed var(--gp-surface-border); border-radius: 8px; cursor: context-menu; text-align: center; width: 100%;"
           >
             Right-click anywhere inside this box to trigger Context Menu
-            <gp-context-menu #demoContextMenu [model]="demoMenuItems" />
+            <gp-context-menu #demoContextMenu [model]="demoContextMenuItems" />
           </div>
         }
         @case ('breadcrumb') {
-          <gp-breadcrumb [model]="demoMenuItems" />
+          <gp-breadcrumb [model]="demoMenuItems" [home]="{ icon: 'home' }" />
         }
         @case ('panel-menu') {
-          <gp-panel-menu [model]="demoMenuItems" />
+          <div style="width: 100%; max-width: 320px;">
+            <gp-panel-menu [model]="demoPanelMenuItems" />
+          </div>
         }
         @case ('tiered-menu') {
-          <gp-tiered-menu [model]="demoMenuItems" />
+          <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start;">
+            <div>
+              <gp-tiered-menu [model]="demoTieredMenuItems" />
+            </div>
+            <div>
+              <gp-button label="Popup Tiered Menu" icon="bars" (onClickEvent)="demoPopupTieredMenu.toggle($event)" />
+              <gp-tiered-menu #demoPopupTieredMenu [model]="demoTieredMenuItems" [popup]="true" />
+            </div>
+          </div>
         }
         @case ('mega-menu') {
           <div style="width: 100%;">
@@ -661,36 +682,175 @@ export class ComponentDocPageComponent implements OnInit {
     { label: 'Settings', icon: 'sliders' },
     { label: 'Archive', icon: 'folder' }
   ];
-  demoMegaMenuItems: GpMegaMenuItem[] = [
+  demoMenubarItems: GpMenubarItem[] = [
     {
-      label: 'Products',
-      root: true,
-      columns: [
+      label: 'File',
+      icon: 'file',
+      items: [
+        { label: 'New Project', icon: 'plus' },
         {
-          label: 'Components',
+          label: 'Open',
+          icon: 'folder-open',
           items: [
-            { label: 'Buttons', icon: 'check' },
-            { label: 'Forms', icon: 'edit' }
+            { label: 'Workspace', icon: 'window' },
+            { label: 'Recent Files', icon: 'clock' }
           ]
         },
+        { separator: true },
+        { label: 'Export', icon: 'download', badge: 'PRO' }
+      ]
+    },
+    {
+      label: 'Edit',
+      icon: 'edit',
+      items: [
+        { label: 'Undo', icon: 'refresh' },
+        { label: 'Copy', icon: 'copy' }
+      ]
+    },
+    { label: 'Users', icon: 'user' },
+    { label: 'Settings', icon: 'sliders' }
+  ];
+  demoTieredMenuItems: GpMenubarItem[] = [
+    {
+      label: 'File',
+      icon: 'file',
+      items: [
+        { label: 'New Document', icon: 'plus' },
         {
-          label: 'Services',
+          label: 'Export As',
+          icon: 'download',
           items: [
-            { label: 'Analytics', icon: 'sliders' },
-            { label: 'Storage', icon: 'folder' }
+            { label: 'PDF Document', icon: 'file' },
+            { label: 'CSV Sheet', icon: 'table' },
+            { label: 'JSON Data', icon: 'code' }
           ]
         }
       ]
     },
     {
-      label: 'Solutions',
+      label: 'Edit',
+      icon: 'edit',
+      items: [
+        { label: 'Undo', icon: 'refresh' },
+        { label: 'Redo', icon: 'refresh' }
+      ]
+    },
+    { label: 'Help', icon: 'question-circle' }
+  ];
+  demoPanelMenuItems: GpMenubarItem[] = [
+    {
+      label: 'Documents',
+      icon: 'folder',
+      items: [
+        {
+          label: 'Work',
+          icon: 'folder',
+          items: [
+            { label: 'Resume.pdf', icon: 'file' },
+            { label: 'Proposal.docx', icon: 'file' }
+          ]
+        },
+        { label: 'Personal', icon: 'folder' }
+      ]
+    },
+    {
+      label: 'Settings',
+      icon: 'sliders',
+      items: [
+        { label: 'Profile', icon: 'user' },
+        { label: 'Security', icon: 'lock' },
+        { label: 'Billing', icon: 'dollar-sign' }
+      ]
+    }
+  ];
+  demoContextMenuItems: GpMenuItem[] = [
+    { label: 'Cut', icon: 'cut' },
+    { label: 'Copy', icon: 'copy' },
+    { label: 'Paste', icon: 'paste' },
+    { separator: true },
+    {
+      label: 'Share',
+      icon: 'share-alt',
+      items: [
+        { label: 'Copy Link', icon: 'link' },
+        { label: 'Email Report', icon: 'envelope' }
+      ]
+    },
+    { separator: true },
+    { label: 'Delete', icon: 'trash' }
+  ];
+  demoMegaMenuItems: GpMegaMenuItem[] = [
+    {
+      label: 'Products',
+      icon: 'window',
       root: true,
       columns: [
         {
-          label: 'Enterprise',
+          label: 'UI Framework',
+          icon: 'palette',
           items: [
-            { label: 'Security', icon: 'lock' },
-            { label: 'Compliance', icon: 'check-circle' }
+            {
+              label: 'Buttons & Triggers',
+              icon: 'check',
+              description: 'Primary, tonal, split & speed dials',
+              iconColor: '#6366f1',
+              iconBg: 'rgba(99, 102, 241, 0.12)',
+              badge: 'POPULAR'
+            },
+            {
+              label: 'Form Components',
+              icon: 'edit',
+              description: 'Reactive form controls with Signals',
+              iconColor: '#0ea5e9',
+              iconBg: 'rgba(14, 165, 233, 0.12)'
+            },
+            {
+              label: 'Data Grids',
+              icon: 'table',
+              description: 'Tables, trees, paginators & virtual scroll',
+              iconColor: '#10b981',
+              iconBg: 'rgba(16, 185, 129, 0.12)'
+            }
+          ]
+        },
+        {
+          label: 'Platform Cloud',
+          icon: 'sliders',
+          items: [
+            {
+              label: 'Analytics & Insights',
+              icon: 'sliders',
+              description: 'Real-time telemetry and audit logging',
+              iconColor: '#f59e0b',
+              iconBg: 'rgba(245, 158, 11, 0.12)'
+            },
+            {
+              label: 'Storage & Assets',
+              icon: 'folder',
+              description: 'Distributed CDN media management',
+              iconColor: '#8b5cf6',
+              iconBg: 'rgba(139, 92, 246, 0.12)'
+            }
+          ],
+          featured: {
+            title: 'Enterprise Architecture',
+            description: 'Deploy mission-critical Angular applications with zero third-party lock-in.',
+            actionLabel: 'Explore'
+          }
+        }
+      ]
+    },
+    {
+      label: 'Solutions',
+      icon: 'layer-group',
+      root: true,
+      columns: [
+        {
+          label: 'Enterprise Use',
+          items: [
+            { label: 'Security & SSO', icon: 'lock', description: 'SAML, OAuth2, and MFA integrations' },
+            { label: 'Compliance Audit', icon: 'check-circle', description: 'Automated SOC2 and HIPAA tracking' }
           ]
         }
       ]
@@ -721,18 +881,27 @@ export class ComponentDocPageComponent implements OnInit {
     }
   ];
   demoOrgChartNode = {
-    label: 'CEO',
+    label: 'Sarah Connor',
+    icon: 'user',
+    data: { title: 'Chief Executive Officer', department: 'Executive' },
     expanded: true,
     children: [
       {
-        label: 'CTO',
+        label: 'John Connor',
+        icon: 'user',
+        data: { title: 'Chief Technology Officer', department: 'Engineering' },
         expanded: true,
-        children: [{ label: 'Lead Architect' }, { label: 'Principal Engineer' }]
+        children: [
+          { label: 'Elena Rostova', icon: 'user', data: { title: 'Lead Architect', department: 'Platform' } },
+          { label: 'Marcus Wright', icon: 'user', data: { title: 'Principal Engineer', department: 'Core' } }
+        ]
       },
       {
-        label: 'CFO',
+        label: 'Kyle Reese',
+        icon: 'user',
+        data: { title: 'Chief Financial Officer', department: 'Finance' },
         expanded: true,
-        children: [{ label: 'Finance Manager' }]
+        children: [{ label: 'Katherine Brewster', icon: 'user', data: { title: 'Finance Director', department: 'Accounting' } }]
       }
     ]
   };
