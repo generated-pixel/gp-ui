@@ -55,7 +55,34 @@ console.log("Running expanded gp-css test suite...");
   console.log("✓ Advanced generator rules test passed");
 }
 
-// Test 3: Plugin API
+// Test 3: Security & Arbitrary Value Sanitization
+{
+  const gen = new GpCssGenerator({ tokens: defaultTokens });
+
+  // Valid arbitrary values
+  const validCalc = gen.generateRule("w-[calc(100%_-_2rem)]");
+  assert.ok(validCalc && validCalc.cssText.includes("width: calc(100% - 2rem);"), "Valid calc arbitrary value with space underscore allowed");
+
+  const validPad = gen.generateRule("p-[15px]");
+  assert.ok(validPad && validPad.cssText.includes("padding: 15px;"), "Valid pixel arbitrary padding allowed");
+
+  // Dangerous injection candidates
+  const injectSemi = gen.generateRule("p-[10px;font-size:100px]");
+  assert.strictEqual(injectSemi, null, "Semicolon injection rejected");
+
+  const injectBrace = gen.generateRule("p-[10px}body{background:red]");
+  assert.strictEqual(injectBrace, null, "Brace injection rejected");
+
+  const injectScript = gen.generateRule("bg-[javascript:alert(1)]");
+  assert.strictEqual(injectScript, null, "Javascript URI injection rejected");
+
+  const injectHtml = gen.generateRule("p-[10px<script>]");
+  assert.strictEqual(injectHtml, null, "HTML tag injection rejected");
+
+  console.log("✓ Security & arbitrary value sanitization test passed");
+}
+
+// Test 4: Plugin API
 {
   const myPlugin = definePlugin(({ addUtility }) => {
     addUtility("custom-badge", "display: inline-flex; padding: 0.25rem 0.5rem; background: var(--gp-primary); color: white;");
@@ -70,7 +97,7 @@ console.log("Running expanded gp-css test suite...");
   console.log("✓ Plugin API test passed");
 }
 
-// Test 4: Directives & Keyframes
+// Test 5: Directives & Keyframes
 {
   const gen = new GpCssGenerator({ tokens: defaultTokens });
   const cssInput = `

@@ -44,7 +44,10 @@ export class GpCssGenerator {
 
     for (const mod of modifiers) {
       if (this.tokens.breakpoints[mod]) {
-        mediaQuery = `(min-width: ${this.tokens.breakpoints[mod]})`;
+        const bp = this.tokens.breakpoints[mod];
+        if (isValidCssValue(bp)) {
+          mediaQuery = `(min-width: ${bp})`;
+        }
       } else if (mod === "hover") {
         pseudoClasses.push(":hover");
       } else if (mod === "focus") {
@@ -225,7 +228,8 @@ export class GpCssGenerator {
     if (candidate.startsWith("animate-")) {
       const animKey = candidate.slice(8);
       if (this.tokens.animations[animKey]) {
-        return `animation: ${this.tokens.animations[animKey]};`;
+        const val = this.tokens.animations[animKey];
+        if (isValidCssValue(val)) return `animation: ${val};`;
       }
     }
     if (candidate.startsWith("duration-")) {
@@ -242,21 +246,21 @@ export class GpCssGenerator {
       const sc = candidate.slice(6);
       if (this.tokens.transforms.scale[sc]) {
         const val = this.tokens.transforms.scale[sc];
-        return `--gp-scale-x: ${val}; --gp-scale-y: ${val}; transform: scale(${val});`;
+        if (isValidCssValue(val)) return `--gp-scale-x: ${val}; --gp-scale-y: ${val}; transform: scale(${val});`;
       }
     }
     if (candidate.startsWith("rotate-")) {
       const rot = candidate.slice(7);
       if (this.tokens.transforms.rotate[rot]) {
         const val = this.tokens.transforms.rotate[rot];
-        return `--gp-rotate: ${val}; transform: rotate(${val});`;
+        if (isValidCssValue(val)) return `--gp-rotate: ${val}; transform: rotate(${val});`;
       }
     }
     if (candidate.startsWith("-rotate-")) {
       const rot = "-" + candidate.slice(8);
       if (this.tokens.transforms.rotate[rot]) {
         const val = this.tokens.transforms.rotate[rot];
-        return `--gp-rotate: ${val}; transform: rotate(${val});`;
+        if (isValidCssValue(val)) return `--gp-rotate: ${val}; transform: rotate(${val});`;
       }
     }
 
@@ -268,7 +272,10 @@ export class GpCssGenerator {
       if (candidate.startsWith("ring-")) {
         const key = candidate.slice(5);
         if (this.tokens.ringWidth[key]) {
-          return `--gp-ring-width: ${this.tokens.ringWidth[key]}; box-shadow: 0 0 0 ${this.tokens.ringWidth[key]} var(--gp-ring-color, var(--gp-primary, #6366f1));`;
+          const rw = this.tokens.ringWidth[key];
+          if (isValidCssValue(rw)) {
+            return `--gp-ring-width: ${rw}; box-shadow: 0 0 0 ${rw} var(--gp-ring-color, var(--gp-primary, #6366f1));`;
+          }
         }
         const val = this.resolveValueOrArbitrary(key, this.tokens.colors);
         if (val) {
@@ -351,7 +358,8 @@ export class GpCssGenerator {
     if (candidate.startsWith("bg-")) {
       const valKey = candidate.slice(3);
       if (this.tokens.gradients[valKey]) {
-        return `background-image: ${this.tokens.gradients[valKey]};`;
+        const gVal = this.tokens.gradients[valKey];
+        if (isValidCssValue(gVal)) return `background-image: ${gVal};`;
       }
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
       if (val) return `background-color: ${val};`;
@@ -362,7 +370,9 @@ export class GpCssGenerator {
       if (valKey === "transparent") return "color: transparent;";
       if (this.tokens.fontSize[valKey]) {
         const [size, leading] = this.tokens.fontSize[valKey];
-        return `font-size: ${size}; line-height: ${leading};`;
+        if (isValidCssValue(size) && isValidCssValue(leading)) {
+          return `font-size: ${size}; line-height: ${leading};`;
+        }
       }
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
       if (val) return `color: ${val};`;
@@ -384,7 +394,8 @@ export class GpCssGenerator {
     // 8. Border Radius
     if (candidate.startsWith("rounded")) {
       if (candidate === "rounded") {
-        return `border-radius: ${this.tokens.borderRadius['DEFAULT']};`;
+        const rDef = this.tokens.borderRadius['DEFAULT'];
+        if (isValidCssValue(rDef)) return `border-radius: ${rDef};`;
       }
       const valKey = candidate.slice(8);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.borderRadius);
@@ -409,13 +420,17 @@ export class GpCssGenerator {
     if (candidate.startsWith("font-")) {
       const familyKey = candidate.slice(5);
       if (this.tokens.fontFamily[familyKey]) {
-        return `font-family: ${this.tokens.fontFamily[familyKey]};`;
+        const val = this.tokens.fontFamily[familyKey];
+        if (isValidCssValue(val)) return `font-family: ${val};`;
       }
     }
 
     // 11. Box Shadow
     if (candidate.startsWith("shadow")) {
-      if (candidate === "shadow") return `box-shadow: ${this.tokens.boxShadow['DEFAULT']};`;
+      if (candidate === "shadow") {
+        const sDef = this.tokens.boxShadow['DEFAULT'];
+        if (isValidCssValue(sDef)) return `box-shadow: ${sDef};`;
+      }
       const valKey = candidate.slice(7);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.boxShadow);
       if (val) return `box-shadow: ${val};`;
@@ -423,7 +438,10 @@ export class GpCssGenerator {
 
     // 12. Backdrop Blur & Filters
     if (candidate.startsWith("backdrop-blur")) {
-      if (candidate === "backdrop-blur") return `backdrop-filter: blur(${this.tokens.backdropBlur['DEFAULT']});`;
+      if (candidate === "backdrop-blur") {
+        const bDef = this.tokens.backdropBlur['DEFAULT'];
+        if (isValidCssValue(bDef)) return `backdrop-filter: blur(${bDef});`;
+      }
       const valKey = candidate.slice(14);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.backdropBlur);
       if (val) return `backdrop-filter: blur(${val});`;
@@ -434,7 +452,10 @@ export class GpCssGenerator {
       const cols = candidate.slice(10);
       if (cols === "none") return "grid-template-columns: none;";
       if (/^[0-9]+$/.test(cols)) return `grid-template-columns: repeat(${cols}, minmax(0, 1fr));`;
-      if (cols.startsWith("[") && cols.endsWith("]")) return `grid-template-columns: ${cols.slice(1, -1)};`;
+      if (cols.startsWith("[") && cols.endsWith("]")) {
+        const arbitrary = this.resolveValueOrArbitrary(cols, {});
+        if (arbitrary) return `grid-template-columns: ${arbitrary};`;
+      }
     }
     if (candidate.startsWith("col-span-")) {
       const span = candidate.slice(9);
@@ -472,7 +493,10 @@ export class GpCssGenerator {
 
     if (candidate.startsWith("z-")) {
       const zKey = candidate.slice(2);
-      if (this.tokens.zIndex[zKey]) return `z-index: ${this.tokens.zIndex[zKey]};`;
+      if (this.tokens.zIndex[zKey]) {
+        const zVal = this.tokens.zIndex[zKey];
+        if (isValidCssValue(zVal)) return `z-index: ${zVal};`;
+      }
       if (/^[0-9]+$/.test(zKey)) return `z-index: ${zKey};`;
     }
 
@@ -497,14 +521,53 @@ export class GpCssGenerator {
   }
 
   private resolveValueOrArbitrary(key: string, tokenDict: Record<string, string>): string | null {
-    if (tokenDict[key]) return tokenDict[key];
+    if (tokenDict[key]) {
+      const tokenVal = tokenDict[key];
+      return isValidCssValue(tokenVal) ? tokenVal : null;
+    }
+
     if (key.startsWith("[") && key.endsWith("]")) {
-      return key.slice(1, -1).replace(/_/g, " ");
+      const rawVal = key.slice(1, -1).trim().replace(/_/g, " ");
+
+      if (!isValidCssValue(rawVal)) {
+        return null; // Reject candidate value if it fails strict CSS value validation
+      }
+
+      return rawVal;
     }
     return null;
   }
 }
 
+/**
+ * Validates that a string contains safe and syntactically valid CSS value grammar,
+ * rejecting any dangerous code injection vectors, script tags, or broken structures.
+ */
+function isValidCssValue(val: string): boolean {
+  if (!val || typeof val !== "string") return false;
+  if (val.length > 200) return false; // Guard against ReDoS and oversized input
+
+  // Reject known CSS injection patterns
+  if (/[;{}<>]|javascript:|expression\(|url\(\s*["']?data:|@import|@charset/i.test(val)) {
+    return false;
+  }
+
+  // Parentheses balance check
+  let depth = 0;
+  for (let i = 0; i < val.length; i++) {
+    if (val[i] === "(") depth++;
+    else if (val[i] === ")") depth--;
+    if (depth < 0) return false;
+  }
+  if (depth !== 0) return false;
+
+  // Allow standard CSS value grammar: hex colors, numbers, units, calc/rgb/hsl/var functions, keywords
+  return /^([a-zA-Z0-9_\-\.\#\,\%\s\(\)\'\"]|var\(--[a-zA-Z0-9_\-]+\))+$/.test(val);
+}
+
+/**
+ * Escapes characters in class names to ensure compliant CSS selector formatting.
+ */
 function escapeSelector(str: string): string {
-  return str.replace(/([:\[\]#%.\\/()])/g, "\\$1");
+  return str.replace(/([\0-\x1f\x7f-\x9f!\"#$%&'()*+,./:;<=>?@[\]^ `{|}~])/g, "\\$1");
 }
