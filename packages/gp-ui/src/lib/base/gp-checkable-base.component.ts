@@ -32,8 +32,8 @@ export abstract class GpCheckableBaseComponent extends GpEditableBaseComponent<b
   /** Emitted when checked state changes */
   public onChange = output<{ checked: boolean; originalEvent: Event }>();
 
-  /** Emitted on native click */
-  public onClickEvent = output<MouseEvent>();
+  /** Emitted on native click or keyboard activation */
+  public onClickEvent = output<Event>();
 
   /** Emitted when control receives focus */
   public onFocusEvent = output<FocusEvent>();

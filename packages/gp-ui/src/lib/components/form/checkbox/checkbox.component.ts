@@ -86,6 +86,6 @@ export class GpCheckboxComponent extends GpCheckableBaseComponent implements Con
 
     this.updateValue(nextValue);
     this.onChange.emit({ checked: this.isChecked(), originalEvent: event });
-    this.onClickEvent.emit(event as MouseEvent);
+    this.onClickEvent.emit(event);
   }
 }

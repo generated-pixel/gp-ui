@@ -43,6 +43,6 @@ export class GpRadioButtonComponent extends GpCheckableBaseComponent implements 
     const val = this.valueInput();
     this.updateValue(val);
     this.onChange.emit({ checked: true, originalEvent: event });
-    this.onClickEvent.emit(event as MouseEvent);
+    this.onClickEvent.emit(event);
   }
 }
