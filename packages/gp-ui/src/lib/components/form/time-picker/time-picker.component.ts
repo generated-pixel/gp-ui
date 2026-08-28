@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -34,25 +33,19 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './time-picker.component.scss'
 })
 export class GpTimePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('tp_');
-  @Input() hourFormat: '12' | '24' = '12';
-  @Input() showSeconds = false;
-  @Input() stepMinute = 1;
-  @Input() stepSecond = 1;
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('tp_'));
+  public hourFormat = input<'12' | '24'>('12');
+  public showSeconds = input<boolean>(false);
+  public stepMinute = input<number>(1);
+  public stepSecond = input<number>(1);
 
-  @Output() onChange = new EventEmitter<{ value: string }>();
+  public onChange = output<{ value: string }>();
 
   protected hours = signal<number>(12);
   protected minutes = signal<number>(0);
   protected seconds = signal<number>(0);
   protected isPm = signal<boolean>(false);
   protected overlayVisible = signal<boolean>(false);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
 
   constructor(private el: ElementRef) {
     super();
@@ -67,7 +60,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
 
   protected formattedHour = computed(() => {
     let h = this.hours();
-    if (this.hourFormat === '12') {
+    if (this.hourFormat() === '12') {
       if (h === 0) {
         h = 12;
       } else if (h > 12) h -= 12;
@@ -81,8 +74,8 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   protected displayTime = computed(() => {
     const h = this.formattedHour();
     const m = this.formattedMinute();
-    const s = this.showSeconds ? `:${this.formattedSecond()}` : '';
-    const ampm = this.hourFormat === '12' ? ` ${this.isPm() ? 'PM' : 'AM'}` : '';
+    const s = this.showSeconds() ? `:${this.formattedSecond()}` : '';
+    const ampm = this.hourFormat() === '12' ? ` ${this.isPm() ? 'PM' : 'AM'}` : '';
     return `${h}:${m}${s}${ampm}`;
   });
 
@@ -115,19 +108,15 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggleOverlay(): void {
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     this.overlayVisible.update((v) => !v);
   }
 
   public spinHour(delta: number): void {
-    let max = this.hourFormat === '24' ? 24 : 12;
+    let max = this.hourFormat() === '24' ? 24 : 12;
     let h = (this.hours() + delta) % max;
     if (h < 0) {
       h += max;

@@ -1,4 +1,4 @@
-<div class="gp-color-picker" [class.gp-color-picker-disabled]="disabled">
+<div class="gp-color-picker" [class.gp-color-picker-disabled]="isEffectivelyDisabled()">
   <div
     class="gp-color-picker-preview"
     [style.background-color]="internalValue()"
@@ -12,7 +12,7 @@
   @if (overlayVisible()) {
     <div class="gp-color-picker-overlay">
       <div class="gp-color-picker-palette">
-        @for (c of presetColors; track c) {
+        @for (c of presetColors(); track c) {
           <div
             class="gp-color-picker-swatch"
             [style.background-color]="c"

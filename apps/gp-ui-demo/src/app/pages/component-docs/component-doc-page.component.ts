@@ -167,6 +167,7 @@ import { getComponentDoc } from './component-docs.data';
         <div class="page-header">
           <div class="title-row">
             <gp-badge [value]="doc.category" severity="secondary" />
+            <gp-tag value="100% Signals" severity="success" [rounded]="true" />
             <h1>{{ doc.name }}</h1>
           </div>
           <p class="page-desc">{{ doc.description }}</p>
@@ -187,9 +188,12 @@ import { getComponentDoc } from './component-docs.data';
 
         <div class="doc-section">
           <h2 class="doc-section-title">API Reference</h2>
-          <doc-api-table title="Inputs" [properties]="doc.properties" />
+          <p class="doc-section-desc" style="color: var(--gp-text-color-secondary); margin-bottom: 1rem;">
+            This component utilizes modern Angular <strong>Signal Inputs</strong> (<code>input()</code>), <strong>Two-Way Models</strong> (<code>model()</code>), and <strong>Output Signals</strong> (<code>output()</code>).
+          </p>
+          <doc-api-table title="Properties &amp; Signal Inputs" [properties]="doc.properties" />
           @if (doc.events?.length) {
-            <doc-api-table title="Events" [properties]="doc.events" [hasDefaults]="false" />
+            <doc-api-table title="Events &amp; Output Signals" [properties]="doc.events" [hasDefaults]="false" />
           }
         </div>
 

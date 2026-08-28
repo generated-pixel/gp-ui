@@ -1,13 +1,11 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
-  signal,
   computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -32,24 +30,18 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './input-number.component.scss'
 })
 export class GpInputNumberComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('num_');
-  @Input() min?: number;
-  @Input() max?: number;
-  @Input() step = 1;
-  @Input() showButtons = true;
-  @Input() buttonLayout: 'stacked' | 'horizontal' = 'stacked';
-  @Input() incrementButtonIcon = 'chevron-up';
-  @Input() decrementButtonIcon = 'chevron-down';
-  @Input() prefix = '';
-  @Input() suffix = '';
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override required = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('num_'));
+  public min = input<number | undefined>(undefined);
+  public max = input<number | undefined>(undefined);
+  public step = input<number>(1);
+  public showButtons = input<boolean>(true);
+  public buttonLayout = input<'stacked' | 'horizontal'>('stacked');
+  public incrementButtonIcon = input<string>('chevron-up');
+  public decrementButtonIcon = input<string>('chevron-down');
+  public prefix = input<string>('');
+  public suffix = input<string>('');
 
-  @Output() onValueChange = new EventEmitter<number | null>();
+  public onValueChange = output<number | null>();
 
   protected displayValue = computed(() => {
     const val = this.internalValue();
@@ -61,7 +53,6 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
 
   public override writeValue(value: any): void {
     const num = value !== null && value !== undefined && value !== '' ? Number(value) : null;
-    this.value = num;
     this.internalValue.set(num);
   }
 
@@ -73,21 +64,19 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public spin(delta: number): void {
-    if (this.disabled || this.readonly) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
-    let current = this.internalValue() ?? 0;
+    const current = this.internalValue() ?? 0;
     let next = current + delta;
-    if (this.min !== undefined && next < this.min) {
-      next = this.min;
+    const minVal = this.min();
+    const maxVal = this.max();
+    if (minVal !== undefined && next < minVal) {
+      next = minVal;
     }
-    if (this.max !== undefined && next > this.max) {
-      next = this.max;
+    if (maxVal !== undefined && next > maxVal) {
+      next = maxVal;
     }
 
     this.updateValue(next);
@@ -112,11 +101,13 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
     this.handleControlBlur();
     let current = this.internalValue();
     if (current !== null) {
-      if (this.min !== undefined && current < this.min) {
-        current = this.min;
+      const minVal = this.min();
+      const maxVal = this.max();
+      if (minVal !== undefined && current < minVal) {
+        current = minVal;
       }
-      if (this.max !== undefined && current > this.max) {
-        current = this.max;
+      if (maxVal !== undefined && current > maxVal) {
+        current = maxVal;
       }
       this.updateValue(current);
     }
@@ -124,10 +115,10 @@ export class GpInputNumberComponent extends GpEditableBaseComponent implements C
 
   protected onKeyDown(event: KeyboardEvent): void {
     if (event.key === 'ArrowUp') {
-      this.spin(this.step);
+      this.spin(this.step());
       event.preventDefault();
     } else if (event.key === 'ArrowDown') {
-      this.spin(-this.step);
+      this.spin(-this.step());
       event.preventDefault();
     }
   }

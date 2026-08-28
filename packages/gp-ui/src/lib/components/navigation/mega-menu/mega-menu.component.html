@@ -1,6 +1,6 @@
 <div class="gp-menubar gp-megamenu" role="menubar">
   <ul class="gp-menubar-root-list">
-    @for (item of model; track $index) {
+    @for (item of model(); track $index) {
       <li
         class="gp-menubar-item"
         [class.gp-menubar-item-active]="activeItem() === item"

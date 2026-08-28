@@ -1,9 +1,8 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
+import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  ContentChildren,
-  QueryList,
+  input,
+  contentChildren,
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
@@ -21,9 +20,9 @@ import { GpTreeNode } from '../../tree/tree-node/tree-node.interface';
   templateUrl: './tree-table.component.html',
   styleUrl: './tree-table.component.scss'
 })
-export class GpTreeTableComponent extends GpEditableBaseComponent {
-  @ContentChildren(GpColumnComponent) columns!: QueryList<GpColumnComponent>;
-  @Input() override value: GpTreeNode[] = [];
+export class GpTreeTableComponent extends GpBaseComponent {
+  public columns = contentChildren(GpColumnComponent);
+  public value = input<GpTreeNode[]>([]);
 
   public toggleNode(node: GpTreeNode, event: MouseEvent): void {
     event.stopPropagation();

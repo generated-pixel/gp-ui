@@ -1,19 +1,19 @@
 <div class="gp-split-button" [class.gp-split-button-expanded]="overlayVisible()">
   <gp-button
-    [label]="label"
-    [icon]="icon"
-    [severity]="severity"
-    [variant]="variant"
-    [size]="size"
-    [disabled]="disabled"
+    [label]="label()"
+    [icon]="icon()"
+    [severity]="severity()"
+    [variant]="variant()"
+    [size]="size()"
+    [disabled]="disabled()"
     (onClickEvent)="onDefaultClick($event)"
   />
   <gp-button
     icon="chevron-down"
-    [severity]="severity"
-    [variant]="variant"
-    [size]="size"
-    [disabled]="disabled"
+    [severity]="severity()"
+    [variant]="variant()"
+    [size]="size()"
+    [disabled]="disabled()"
     [iconOnly]="true"
     (onClickEvent)="toggleOverlay($event)"
     class="gp-split-button-dropdown"
@@ -22,7 +22,7 @@
   @if (overlayVisible()) {
     <div class="gp-menu-overlay gp-split-button-menu" role="menu">
       <ul class="gp-menu-list">
-        @for (item of model; track $index) {
+        @for (item of model(); track $index) {
           @if (item.separator) {
             <li class="gp-menu-separator" role="separator"></li>
           } @else {

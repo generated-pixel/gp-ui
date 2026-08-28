@@ -1,18 +1,18 @@
-<div class="gp-card" [class.gp-card-hoverable]="hoverable">
-  @if (headerImage) {
+<div class="gp-card" [class.gp-card-hoverable]="hoverable()">
+  @if (headerImage()) {
     <div class="gp-card-header-img">
-      <img [src]="headerImage" [alt]="header || 'Card image'" />
+      <img [src]="headerImage()" [alt]="header() || 'Card image'" />
     </div>
   }
 
   <div class="gp-card-body">
-    @if (header || subheader) {
+    @if (header() || subheader()) {
       <div class="gp-card-title-group">
-        @if (header) {
-          <h3 class="gp-card-title">{{ header }}</h3>
+        @if (header()) {
+          <h3 class="gp-card-title">{{ header() }}</h3>
         }
-        @if (subheader) {
-          <div class="gp-card-subtitle">{{ subheader }}</div>
+        @if (subheader()) {
+          <div class="gp-card-subtitle">{{ subheader() }}</div>
         }
       </div>
     }

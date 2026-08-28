@@ -1,21 +1,21 @@
 <div
   class="gp-datatable"
-  [class.gp-datatable-striped]="stripedRows"
-  [class.gp-datatable-gridlines]="showGridlines"
-  [class.gp-datatable-sm]="size === 'sm'"
-  [class.gp-datatable-lg]="size === 'lg'"
+  [class.gp-datatable-striped]="stripedRows()"
+  [class.gp-datatable-gridlines]="showGridlines()"
+  [class.gp-datatable-sm]="size() === 'sm'"
+  [class.gp-datatable-lg]="size() === 'lg'"
 >
   <!-- Global Search / Header Slot -->
-  @if (globalFilterFields.length > 0 || captionTemplate) {
+  @if (globalFilterFields().length > 0 || captionTemplate()) {
     <div class="gp-datatable-header">
       <div class="gp-datatable-caption">
         <ng-content select="[caption]" />
       </div>
-      @if (globalFilterFields.length > 0) {
+      @if (globalFilterFields().length > 0) {
         <div class="gp-datatable-global-filter">
           <gp-input-text
             iconLeft="search"
-            [placeholder]="globalFilterPlaceholder"
+            [placeholder]="globalFilterPlaceholder()"
             [value]="globalFilterText()"
             [clearable]="true"
             (onInputEvent)="onGlobalFilterInput($event)"
@@ -26,41 +26,41 @@
     </div>
   }
 
-  <div class="gp-datatable-wrapper" [style.max-height]="scrollHeight">
+  <div class="gp-datatable-wrapper" [style.max-height]="scrollHeight()">
     <table class="gp-datatable-table" role="table">
       <thead class="gp-datatable-thead">
         <tr role="row">
-          @if (rowExpansion) {
+          @if (rowExpansion()) {
             <th class="gp-datatable-expander-header" scope="col"></th>
           }
-          @if (selectionMode === 'multiple') {
+          @if (selectionMode() === 'multiple') {
             <th class="gp-datatable-selection-header" scope="col">
               <gp-checkbox [binary]="true" [value]="isAllSelected()" (onChange)="toggleSelectAll()" />
             </th>
-          } @else if (selectionMode === 'single') {
+          } @else if (selectionMode() === 'single') {
             <th class="gp-datatable-selection-header" scope="col"></th>
           }
 
-          @for (col of columns; track col.field || $index) {
+          @for (col of columns(); track col.field() || $index) {
             <th
               class="gp-datatable-th"
-              [class.gp-datatable-sortable]="col.sortable"
-              [class.gp-datatable-sorted]="sortField() === col.field"
-              [style.width]="col.width || null"
-              [style.text-align]="col.align"
-              (click)="col.sortable ? sort(col.field) : null"
+              [class.gp-datatable-sortable]="col.sortable()"
+              [class.gp-datatable-sorted]="sortField() === col.field()"
+              [style.width]="col.width() || null"
+              [style.text-align]="col.align()"
+              (click)="col.sortable() ? sort(col.field()) : null"
               scope="col"
             >
               <div class="gp-datatable-header-content">
-                @if (col.headerTemplate) {
-                  <ng-container *ngTemplateOutlet="col.headerTemplate; context: { $implicit: col }" />
+                @if (col.headerTemplate()) {
+                  <ng-container *ngTemplateOutlet="col.headerTemplate()!; context: { $implicit: col }" />
                 } @else {
-                  <span class="gp-datatable-column-title">{{ col.header }}</span>
+                  <span class="gp-datatable-column-title">{{ col.header() }}</span>
                 }
 
-                @if (col.sortable) {
+                @if (col.sortable()) {
                   <span class="gp-datatable-sort-icon">
-                    @if (sortField() === col.field) {
+                    @if (sortField() === col.field()) {
                       <gp-icon [name]="sortOrder() === 1 ? 'sort-up' : 'sort-down'" size="0.85em" />
                     } @else {
                       <gp-icon name="sort-alt" size="0.85em" />
@@ -81,7 +81,7 @@
             (click)="onRowClick(row, $event)"
             role="row"
           >
-            @if (rowExpansion) {
+            @if (rowExpansion()) {
               <td class="gp-datatable-expander-cell">
                 <button
                   type="button"
@@ -93,28 +93,28 @@
                 </button>
               </td>
             }
-            @if (selectionMode === 'multiple') {
+            @if (selectionMode() === 'multiple') {
               <td class="gp-datatable-selection-cell" (click)="$event.stopPropagation()">
                 <gp-checkbox [binary]="true" [value]="isRowSelected(row)" (onChange)="toggleRowSelection(row)" />
               </td>
-            } @else if (selectionMode === 'single') {
+            } @else if (selectionMode() === 'single') {
               <td class="gp-datatable-selection-cell" (click)="$event.stopPropagation()">
                 <gp-radio-button [value]="row" [name]="'gp-table-rb'" (onClickEvent)="selectSingleRow(row)" />
               </td>
             }
 
-            @for (col of columns; track col.field || $index) {
-              <td class="gp-datatable-td" [style.text-align]="col.align" role="cell">
-                @if (col.bodyTemplate) {
-                  <ng-container *ngTemplateOutlet="col.bodyTemplate; context: { $implicit: row, column: col }" />
+            @for (col of columns(); track col.field() || $index) {
+              <td class="gp-datatable-td" [style.text-align]="col.align()" role="cell">
+                @if (col.bodyTemplate()) {
+                  <ng-container *ngTemplateOutlet="col.bodyTemplate()!; context: { $implicit: row, column: col }" />
                 } @else {
-                  {{ resolveFieldData(row, col.field) }}
+                  {{ resolveFieldData(row, col.field()) }}
                 }
               </td>
             }
           </tr>
 
-          @if (rowExpansion && isRowExpanded(row)) {
+          @if (rowExpansion() && isRowExpanded(row)) {
             <tr class="gp-datatable-row-expansion">
               <td [attr.colspan]="totalColumnsCount()">
                 <ng-content select="[rowexpansion]" />
@@ -132,12 +132,12 @@
     </table>
   </div>
 
-  @if (paginator) {
+  @if (paginator()) {
     <gp-paginator
       [totalRecords]="totalRecordsCount()"
-      [rows]="rows"
+      [rows]="rows()"
       [first]="first()"
-      [rowsPerPageOptions]="rowsPerPageOptions"
+      [rowsPerPageOptions]="rowsPerPageOptions()"
       (onPageChange)="onPaginationChange($event)"
     />
   }

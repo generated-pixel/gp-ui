@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -13,8 +13,8 @@ import { GpIconComponent } from '../../../icons/icon.component';
   styleUrl: './fieldset.component.scss'
 })
 export class GpFieldsetComponent extends GpBaseComponent {
-  @Input() legend = '';
-  @Input() toggleable = false;
+  public legend = input<string>('');
+  public toggleable = input<boolean>(false);
 
   protected collapsed = signal<boolean>(false);
 

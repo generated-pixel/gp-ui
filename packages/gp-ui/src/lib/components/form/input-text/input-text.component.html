@@ -1,37 +1,37 @@
 <div
   class="gp-input-wrapper"
-  [class.gp-input-disabled]="disabled"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
   [class.gp-input-filled]="!!internalValue()"
   [class.gp-input-invalid]="isInvalid()"
-  [class.gp-input-with-prefix]="!!iconLeft"
-  [class.gp-input-with-suffix]="!!iconRight || (clearable && !!internalValue())"
+  [class.gp-input-with-prefix]="!!iconLeft()"
+  [class.gp-input-with-suffix]="!!iconRight() || (clearable() && !!internalValue())"
 >
-  @if (iconLeft) {
-    <gp-icon [name]="iconLeft" class="gp-input-icon gp-input-icon-left" />
+  @if (iconLeft()) {
+    <gp-icon [name]="iconLeft()" class="gp-input-icon gp-input-icon-left" />
   }
 
   <input
-    [id]="inputId"
-    [type]="type"
+    [id]="inputId()"
+    [type]="type()"
     [value]="internalValue() || ''"
-    [placeholder]="placeholder"
-    [disabled]="disabled"
-    [readonly]="readonly"
-    [attr.maxlength]="maxlength || null"
-    [attr.aria-label]="ariaLabel || placeholder || null"
+    [placeholder]="placeholder()"
+    [disabled]="isEffectivelyDisabled()"
+    [readonly]="readonly()"
+    [attr.maxlength]="maxlength() || null"
+    [attr.aria-label]="ariaLabel() || placeholder() || null"
     [attr.aria-invalid]="isInvalid()"
-    [attr.aria-required]="required"
+    [attr.aria-required]="required()"
     (input)="onInput($event)"
     (focus)="onFocus($event)"
     (blur)="onBlur($event)"
     class="gp-inputtext"
   />
 
-  @if (clearable && !!internalValue() && !disabled && !readonly) {
+  @if (clearable() && !!internalValue() && !isEffectivelyDisabled() && !readonly()) {
     <button type="button" class="gp-input-clear-btn" aria-label="Clear input" (click)="clear($event)">
       <gp-icon name="times" size="0.9em" />
     </button>
-  } @else if (iconRight) {
-    <gp-icon [name]="iconRight" class="gp-input-icon gp-input-icon-right" />
+  } @else if (iconRight()) {
+    <gp-icon [name]="iconRight()" class="gp-input-icon gp-input-icon-right" />
   }
 </div>

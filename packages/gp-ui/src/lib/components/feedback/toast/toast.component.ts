@@ -1,7 +1,7 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
+  input,
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
@@ -29,7 +29,7 @@ export class GpToastComponent extends GpBaseComponent implements OnInit, OnDestr
   private toastService = inject(GpToastService);
   private zIndexService = inject(ZIndexService);
 
-  @Input() position: GpToastPosition = 'top-right';
+  public position = input<GpToastPosition>('top-right');
 
   protected messages = signal<GpToastMessage[]>([]);
   protected zIndex = signal<number>(1200);
@@ -42,7 +42,7 @@ export class GpToastComponent extends GpBaseComponent implements OnInit, OnDestr
     this.msgSub = this.toastService.message$.subscribe((msg) => {
       this.addMessage(msg);
     });
-    this.clearSub = this.toastService.clear$.subscribe((key) => {
+    this.clearSub = this.toastService.clear$.subscribe(() => {
       this.messages.set([]);
     });
   }

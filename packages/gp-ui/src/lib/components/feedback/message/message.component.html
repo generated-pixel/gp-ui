@@ -1,15 +1,15 @@
 @if (visible()) {
-  <div class="gp-message" [class]="'gp-message-' + severity" role="alert">
-    <gp-icon [name]="icon || defaultIcon()" size="1.25em" class="gp-message-icon" />
+  <div class="gp-message" [class]="'gp-message-' + severity()" role="alert">
+    <gp-icon [name]="icon() || defaultIcon()" size="1.25em" class="gp-message-icon" />
 
     <div class="gp-message-content">
-      @if (text) {
-        <span class="gp-message-text">{{ text }}</span>
+      @if (text()) {
+        <span class="gp-message-text">{{ text() }}</span>
       }
       <ng-content />
     </div>
 
-    @if (closable) {
+    @if (closable()) {
       <button type="button" class="gp-message-close" (click)="close()" aria-label="Close message">
         <gp-icon name="times" size="0.85em" />
       </button>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface DocApiProperty {
@@ -6,6 +6,7 @@ export interface DocApiProperty {
   type: string;
   default?: string;
   description: string;
+  kind?: 'input' | 'output' | 'model' | 'query' | 'prop';
 }
 
 @Component({
@@ -15,22 +16,22 @@ export interface DocApiProperty {
   template: `
     <div class="doc-api-container">
       <div class="doc-api-header">
-        <h3 class="doc-api-title">{{ title }}</h3>
+        <h3 class="doc-api-title">{{ title() }}</h3>
       </div>
       <div class="doc-table-wrapper">
         <table class="doc-api-table">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Type</th>
-              @if (hasDefaults) {
+              <th>Type / Signal API</th>
+              @if (hasDefaults()) {
                 <th>Default</th>
               }
               <th>Description</th>
             </tr>
           </thead>
           <tbody>
-            @for (prop of properties; track prop.name || $index) {
+            @for (prop of properties(); track prop.name || $index) {
               <tr>
                 <td class="doc-prop-name">
                   <code>{{ prop.name }}</code>
@@ -38,7 +39,7 @@ export interface DocApiProperty {
                 <td class="doc-prop-type">
                   <span class="doc-type-badge">{{ prop.type }}</span>
                 </td>
-                @if (hasDefaults) {
+                @if (hasDefaults()) {
                   <td class="doc-prop-default">
                     @if (prop.default) {
                       <code>{{ prop.default }}</code>
@@ -51,7 +52,7 @@ export interface DocApiProperty {
               </tr>
             } @empty {
               <tr>
-                <td [attr.colspan]="hasDefaults ? 4 : 3" class="doc-empty-row">No properties specified.</td>
+                <td [attr.colspan]="hasDefaults() ? 4 : 3" class="doc-empty-row">No properties specified.</td>
               </tr>
             }
           </tbody>
@@ -145,7 +146,7 @@ export interface DocApiProperty {
   ]
 })
 export class DocApiTableComponent {
-  @Input() title = 'Properties (Inputs)';
-  @Input() properties: DocApiProperty[] = [];
-  @Input() hasDefaults = true;
+  public title = input<string>('Properties (Inputs)');
+  public properties = input<DocApiProperty[]>([]);
+  public hasDefaults = input<boolean>(true);
 }

@@ -1,14 +1,14 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  ContentChildren,
-  QueryList,
+  input,
+  model,
+  output,
+  contentChildren,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  AfterContentInit
+  signal,
+  effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -20,11 +20,10 @@ import { GpIconComponent } from '../../../icons/icon.component';
   template: '<ng-content />'
 })
 export class GpTabPanelComponent extends GpBaseComponent {
-  @Input() header = '';
-  @Input() icon = '';
-  @Input() override disabled = false;
-  @Input() closable = false;
-  @Input() selected = false;
+  public header = input<string>('');
+  public icon = input<string>('');
+  public closable = input<boolean>(false);
+  public selected = model<boolean>(false);
 }
 
 @Component({
@@ -36,35 +35,42 @@ export class GpTabPanelComponent extends GpBaseComponent {
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss'
 })
-export class GpTabsComponent extends GpBaseComponent implements AfterContentInit {
-  @ContentChildren(GpTabPanelComponent) tabPanels!: QueryList<GpTabPanelComponent>;
+export class GpTabsComponent extends GpBaseComponent {
+  public tabPanels = contentChildren(GpTabPanelComponent);
 
-  @Input() activeIndex = 0;
-  @Output() onChange = new EventEmitter<{ index: number }>();
-  @Output() onClose = new EventEmitter<{ index: number }>();
+  public activeIndex = model<number>(0);
+  public onChange = output<{ index: number }>();
+  public onClose = output<{ index: number }>();
 
-  ngAfterContentInit(): void {
-    if (this.tabPanels && this.tabPanels.length > 0) {
-      const selected = this.tabPanels.find((p) => p.selected);
-      if (!selected) {
-        this.tabPanels.first.selected = true;
+  constructor() {
+    super();
+    effect(() => {
+      const panels = this.tabPanels();
+      const idx = this.activeIndex();
+      if (panels && panels.length > 0) {
+        panels.forEach((p, i) => p.selected.set(i === idx));
       }
-    }
+    });
   }
 
   public selectTab(tab: GpTabPanelComponent): void {
-    if (tab.disabled) {
+    if (tab.disabled()) {
       return;
     }
-    this.tabPanels.forEach((p) => (p.selected = false));
-    tab.selected = true;
-    const idx = this.tabPanels.toArray().indexOf(tab);
-    this.onChange.emit({ index: idx });
+    const panels = this.tabPanels();
+    const idx = panels.indexOf(tab);
+    if (idx !== -1) {
+      this.activeIndex.set(idx);
+      this.onChange.emit({ index: idx });
+    }
   }
 
   public closeTab(tab: GpTabPanelComponent, event: MouseEvent): void {
     event.stopPropagation();
-    const idx = this.tabPanels.toArray().indexOf(tab);
-    this.onClose.emit({ index: idx });
+    const panels = this.tabPanels();
+    const idx = panels.indexOf(tab);
+    if (idx !== -1) {
+      this.onClose.emit({ index: idx });
+    }
   }
 }

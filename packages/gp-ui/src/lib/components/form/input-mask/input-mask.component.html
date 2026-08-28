@@ -1,12 +1,12 @@
-<div class="gp-input-wrapper" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="isInvalid()">
+<div class="gp-input-wrapper" [class.gp-input-disabled]="isEffectivelyDisabled()" [class.gp-input-invalid]="isInvalid()">
   <input
-    [id]="inputId"
+    [id]="inputId()"
     type="text"
     [value]="internalValue() || ''"
-    [placeholder]="placeholder || mask"
-    [disabled]="disabled"
-    [readonly]="readonly"
-    [attr.aria-label]="ariaLabel || placeholder || 'Masked Input'"
+    [placeholder]="placeholder() || mask()"
+    [disabled]="isEffectivelyDisabled()"
+    [readonly]="readonly()"
+    [attr.aria-label]="ariaLabel() || placeholder() || 'Masked Input'"
     [attr.aria-invalid]="isInvalid()"
     (input)="onInput($event)"
     (blur)="onBlur()"

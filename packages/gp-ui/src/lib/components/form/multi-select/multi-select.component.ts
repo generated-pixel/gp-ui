@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -38,27 +37,22 @@ export type GpMultiSelectDisplay = 'comma' | 'chip';
   styleUrl: './multi-select.component.scss'
 })
 export class GpMultiSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() options: (GpSelectItem | any)[] = [];
-  @Input() optionLabel = 'label';
-  @Input() optionValue = 'value';
-  @Input() override placeholder = 'Select items';
-  @Input() filterPlaceholder = 'Search...';
-  @Input() emptyFilterMessage = 'No results found';
-  @Input() display: GpMultiSelectDisplay = 'comma';
-  @Input() maxSelectedLabels = 3;
-  @Input() maxSelectedCharacters?: number;
-  @Input() maxCharacters?: number;
-  @Input() maxSelectedTextLength?: number;
-  @Input() selectedItemsTop = true;
-  @Input() filter = true;
-  @Input() showClear = false;
-  @Input() showSelectAll = true;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+  public options = input<(GpSelectItem | any)[]>([]);
+  public optionLabel = input<string>('label');
+  public optionValue = input<string>('value');
+  public filterPlaceholder = input<string>('Search...');
+  public emptyFilterMessage = input<string>('No results found');
+  public display = input<GpMultiSelectDisplay>('comma');
+  public maxSelectedLabels = input<number>(3);
+  public maxSelectedCharacters = input<number | undefined>(undefined);
+  public maxCharacters = input<number | undefined>(undefined);
+  public maxSelectedTextLength = input<number | undefined>(undefined);
+  public selectedItemsTop = input<boolean>(true);
+  public filter = input<boolean>(true);
+  public showClear = input<boolean>(false);
+  public showSelectAll = input<boolean>(true);
 
-  @Output() onChange = new EventEmitter<{ value: any[]; originalEvent: Event }>();
+  public onChange = output<{ value: any[]; originalEvent: Event }>();
 
   protected overlayVisible = signal<boolean>(false);
   protected filterText = signal<string>('');
@@ -75,18 +69,20 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
   }
 
   protected get characterLimit(): number | undefined {
-    return this.maxSelectedCharacters ?? this.maxCharacters ?? this.maxSelectedTextLength;
+    return this.maxSelectedCharacters() ?? this.maxCharacters() ?? this.maxSelectedTextLength();
   }
 
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
-    return (this.options || []).map((opt) => {
+    const labelKey = this.optionLabel();
+    const valueKey = this.optionValue();
+    return (this.options() || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
         if ('value' in opt && 'label' in opt) {
           return opt as GpSelectItem;
         }
         return {
-          label: opt[this.optionLabel] ?? String(opt),
-          value: this.optionValue ? opt[this.optionValue] : opt,
+          label: opt[labelKey] ?? String(opt),
+          value: valueKey ? opt[valueKey] : opt,
           icon: opt.icon,
           disabled: opt.disabled
         };
@@ -102,7 +98,7 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     if (q) {
       list = list.filter((opt) => (opt.label || '').toLowerCase().includes(q));
     }
-    if (this.selectedItemsTop) {
+    if (this.selectedItemsTop()) {
       const selected: GpSelectItem[] = [];
       const unselected: GpSelectItem[] = [];
       for (const opt of list) {
@@ -159,7 +155,6 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
 
   public override writeValue(value: any): void {
     const arr = Array.isArray(value) ? value : [];
-    this.value = arr;
     this.internalValue.set(arr);
   }
 
@@ -171,12 +166,8 @@ export class GpMultiSelectComponent extends GpEditableBaseComponent implements C
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggleOverlay(event: MouseEvent): void {
-    if (this.disabled || this.readonly) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     this.overlayVisible.update((v) => !v);

@@ -1,14 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  ContentChildren,
-  QueryList,
+  input,
+  model,
+  contentChildren,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  AfterContentInit
+  signal,
+  effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -20,11 +19,10 @@ import { GpIconComponent } from '../../../icons/icon.component';
   template: '<ng-content />'
 })
 export class GpStepComponent extends GpBaseComponent {
-  @Input() label = '';
-  @Input() icon = '';
-  @Input() override disabled = false;
-  @Input() completed = false;
-  @Input() active = false;
+  public label = input<string>('');
+  public icon = input<string>('');
+  public completed = model<boolean>(false);
+  public active = model<boolean>(false);
 }
 
 @Component({
@@ -36,48 +34,41 @@ export class GpStepComponent extends GpBaseComponent {
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.scss'
 })
-export class GpStepperComponent extends GpBaseComponent implements AfterContentInit {
-  @ContentChildren(GpStepComponent) steps!: QueryList<GpStepComponent>;
+export class GpStepperComponent extends GpBaseComponent {
+  public steps = contentChildren(GpStepComponent);
 
-  @Input() activeStep = 0;
-  @Input() orientation: 'horizontal' | 'vertical' = 'horizontal';
-  @Input() linear = false;
+  public activeStep = model<number>(0);
+  public orientation = input<'horizontal' | 'vertical'>('horizontal');
+  public linear = input<boolean>(false);
 
-  @Output() activeStepChange = new EventEmitter<number>();
-
-  ngAfterContentInit(): void {
-    if (this.steps && this.steps.length > 0) {
-      this.updateActiveStep(this.activeStep);
-    }
-  }
-
-  public selectStep(idx: number): void {
-    if (this.linear && idx > this.activeStep + 1) {
-      return;
-    }
-    this.updateActiveStep(idx);
-    this.activeStepChange.emit(idx);
-  }
-
-  private updateActiveStep(idx: number): void {
-    this.activeStep = idx;
-    this.steps.forEach((step, i) => {
-      step.active = i === idx;
-      if (i < idx) {
-        step.completed = true;
-      }
+  constructor() {
+    super();
+    effect(() => {
+      const stepList = this.steps();
+      const currentIdx = this.activeStep();
+      stepList.forEach((step, i) => {
+        step.active.set(i === currentIdx);
+        step.completed.set(i < currentIdx);
+      });
     });
   }
 
+  public selectStep(idx: number): void {
+    if (this.linear() && idx > this.activeStep() + 1) {
+      return;
+    }
+    this.activeStep.set(idx);
+  }
+
   public next(): void {
-    if (this.activeStep < this.steps.length - 1) {
-      this.selectStep(this.activeStep + 1);
+    if (this.activeStep() < this.steps().length - 1) {
+      this.selectStep(this.activeStep() + 1);
     }
   }
 
   public prev(): void {
-    if (this.activeStep > 0) {
-      this.selectStep(this.activeStep - 1);
+    if (this.activeStep() > 0) {
+      this.selectStep(this.activeStep() - 1);
     }
   }
 }

@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -42,26 +41,21 @@ export interface GpAutoCompleteCompleteEvent {
   styleUrl: './autocomplete.component.scss'
 })
 export class GpAutoCompleteComponent extends GpEditableBaseComponent implements ControlValueAccessor, OnDestroy {
-  @Input() inputId = UniqueId.generate('ac_');
-  @Input() suggestions: any[] = [];
-  @Input() field = '';
-  @Input() override placeholder = '';
-  @Input() minLength = 3;
-  @Input() minCharacters?: number;
-  @Input() debounce = 250;
-  @Input() delay?: number;
-  @Input() minLengthSignal?: WritableSignal<boolean>;
-  @Input() minLengthHitSignal?: WritableSignal<boolean>;
-  @Input() dropdown = false;
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('ac_'));
+  public suggestions = input<any[]>([]);
+  public field = input<string>('');
+  public minLength = input<number>(3);
+  public minCharacters = input<number | undefined>(undefined);
+  public debounce = input<number>(250);
+  public delay = input<number | undefined>(undefined);
+  public minLengthSignal = input<WritableSignal<boolean> | undefined>(undefined);
+  public minLengthHitSignal = input<WritableSignal<boolean> | undefined>(undefined);
+  public dropdown = input<boolean>(false);
 
-  @Output() completeMethod = new EventEmitter<GpAutoCompleteCompleteEvent>();
-  @Output() onSelect = new EventEmitter<{ value: any; originalEvent: Event }>();
-  @Output() onMinLengthHit = new EventEmitter<boolean>();
-  @Output() minLengthChange = new EventEmitter<boolean>();
+  public completeMethod = output<GpAutoCompleteCompleteEvent>();
+  public onSelect = output<{ value: any; originalEvent: Event }>();
+  public onMinLengthHit = output<boolean>();
+  public minLengthChange = output<boolean>();
 
   protected overlayVisible = signal<boolean>(false);
   protected activeIndex = signal<number>(-1);
@@ -70,11 +64,11 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   private debounceTimer: any = null;
 
   public get effectiveMinLength(): number {
-    return this.minCharacters ?? this.minLength;
+    return this.minCharacters() ?? this.minLength();
   }
 
   public get effectiveDebounce(): number {
-    return this.delay ?? this.debounce;
+    return this.delay() ?? this.debounce();
   }
 
   public isMinLengthMet = computed(() => (this.query() || '').length >= this.effectiveMinLength);
@@ -105,8 +99,9 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
     if (typeof item === 'string') {
       return item;
     }
-    if (this.field) {
-      return ObjectUtils.resolveFieldData(item, this.field);
+    const fieldKey = this.field();
+    if (fieldKey) {
+      return ObjectUtils.resolveFieldData(item, fieldKey);
     }
     return item.label || item.name || String(item);
   }
@@ -120,19 +115,28 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   });
 
   public override writeValue(value: any): void {
-    this.value = value;
     this.internalValue.set(value);
     const label = this.getItemLabel(value);
     this.query.set(label);
     this.updateMinLengthState(label.length >= this.effectiveMinLength);
   }
 
+  public override registerOnChange(fn: any): void {
+    this.onChangeCallback = fn;
+  }
+
+  public override registerOnTouched(fn: any): void {
+    this.onTouchedCallback = fn;
+  }
+
   private updateMinLengthState(isHit: boolean): void {
-    if (this.minLengthSignal) {
-      this.minLengthSignal.set(isHit);
+    const sig1 = this.minLengthSignal();
+    if (sig1) {
+      sig1.set(isHit);
     }
-    if (this.minLengthHitSignal) {
-      this.minLengthHitSignal.set(isHit);
+    const sig2 = this.minLengthHitSignal();
+    if (sig2) {
+      sig2.set(isHit);
     }
     this.onMinLengthHit.emit(isHit);
     this.minLengthChange.emit(isHit);
@@ -162,7 +166,7 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   protected onFocus(event: FocusEvent): void {
-    if (this.dropdown && !this.query()) {
+    if (this.dropdown() && !this.query()) {
       this.completeMethod.emit({ originalEvent: event, query: '' });
       this.overlayVisible.set(true);
     }
@@ -174,7 +178,7 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
 
   public toggleDropdown(event: MouseEvent): void {
     event.stopPropagation();
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     if (!this.overlayVisible()) {
@@ -196,20 +200,21 @@ export class GpAutoCompleteComponent extends GpEditableBaseComponent implements 
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    if (!this.overlayVisible() || !this.suggestions.length) {
+    const suggs = this.suggestions();
+    if (!this.overlayVisible() || !suggs || !suggs.length) {
       return;
     }
 
     if (event.key === 'ArrowDown') {
-      this.activeIndex.update((i) => (i + 1) % this.suggestions.length);
+      this.activeIndex.update((i) => (i + 1) % suggs.length);
       event.preventDefault();
     } else if (event.key === 'ArrowUp') {
-      this.activeIndex.update((i) => (i <= 0 ? this.suggestions.length - 1 : i - 1));
+      this.activeIndex.update((i) => (i <= 0 ? suggs.length - 1 : i - 1));
       event.preventDefault();
     } else if (event.key === 'Enter') {
       const idx = this.activeIndex();
-      if (idx >= 0 && idx < this.suggestions.length) {
-        this.selectItem(this.suggestions[idx], event as any);
+      if (idx >= 0 && idx < suggs.length) {
+        this.selectItem(suggs[idx], event as any);
         event.preventDefault();
       }
     } else if (event.key === 'Escape') {

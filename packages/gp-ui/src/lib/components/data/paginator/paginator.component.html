@@ -1,5 +1,5 @@
 <div class="gp-paginator" role="navigation" aria-label="Pagination">
-  @if (showCurrentPageReport) {
+  @if (showCurrentPageReport()) {
     <span class="gp-paginator-report">{{ pageReport() }}</span>
   }
 
@@ -57,10 +57,10 @@
     <gp-icon name="angle-double-right" size="0.85em" />
   </button>
 
-  @if (rowsPerPageOptions && rowsPerPageOptions.length > 0) {
+  @if (rowsPerPageOptions() && rowsPerPageOptions().length > 0) {
     <div class="gp-paginator-rpp">
-      <select [value]="rows" (change)="onRppChange($event)" class="gp-paginator-rpp-select" aria-label="Rows per page">
-        @for (opt of rowsPerPageOptions; track opt) {
+      <select [value]="internalRows()" (change)="onRppChange($event)" class="gp-paginator-rpp-select" aria-label="Rows per page">
+        @for (opt of rowsPerPageOptions(); track opt) {
           <option [value]="opt">{{ opt }} / page</option>
         }
       </select>

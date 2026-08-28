@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, inject, booleanAttribute } from '@angular/core';
+import { Directive, ElementRef, HostListener, input, inject, booleanAttribute } from '@angular/core';
 import { DomHandler } from '../utils/dom-handler';
 
 @Directive({
@@ -8,11 +8,11 @@ import { DomHandler } from '../utils/dom-handler';
 export class GpFocusTrapDirective {
   private el = inject(ElementRef);
 
-  @Input({ transform: booleanAttribute }) gpFocusTrap: boolean = true;
+  public gpFocusTrap = input<boolean, unknown>(true, { transform: booleanAttribute });
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (!this.gpFocusTrap || event.key !== 'Tab') {
+    if (!this.gpFocusTrap() || event.key !== 'Tab') {
       return;
     }
 

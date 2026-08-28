@@ -1,17 +1,19 @@
-<div class="gp-timeline" [class]="'gp-timeline-' + layout + ' gp-timeline-align-' + align">
-  @for (event of value; track $index; let last = $last) {
+<div class="gp-timeline" [class]="'gp-timeline-' + layout() + ' gp-timeline-align-' + align()">
+  @for (event of value(); track $index; let last = $last) {
     <div class="gp-timeline-event">
       <div class="gp-timeline-event-opposite">
-        <ng-container *ngTemplateOutlet="oppositeTemplate; context: { $implicit: event }" />
-        @if (!oppositeTemplate && event.date) {
+        @if (oppositeTemplate()) {
+          <ng-container *ngTemplateOutlet="oppositeTemplate()!; context: { $implicit: event }" />
+        } @else if (event.date) {
           <span class="gp-timeline-date">{{ event.date }}</span>
         }
       </div>
 
       <div class="gp-timeline-event-separator">
         <div class="gp-timeline-event-marker" [style.background-color]="event.color || null">
-          <ng-container *ngTemplateOutlet="markerTemplate; context: { $implicit: event }" />
-          @if (!markerTemplate && event.icon) {
+          @if (markerTemplate()) {
+            <ng-container *ngTemplateOutlet="markerTemplate()!; context: { $implicit: event }" />
+          } @else if (event.icon) {
             <gp-icon [name]="event.icon" size="0.75em" />
           }
         </div>
@@ -21,8 +23,9 @@
       </div>
 
       <div class="gp-timeline-event-content">
-        <ng-container *ngTemplateOutlet="contentTemplate; context: { $implicit: event }" />
-        @if (!contentTemplate) {
+        @if (contentTemplate()) {
+          <ng-container *ngTemplateOutlet="contentTemplate()!; context: { $implicit: event }" />
+        } @else {
           <div class="gp-timeline-status">{{ event.status }}</div>
         }
       </div>

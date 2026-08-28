@@ -1,9 +1,8 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal
@@ -21,17 +20,13 @@ import { GpIconComponent } from '../../../icons/icon.component';
   styleUrl: './panel.component.scss'
 })
 export class GpPanelComponent extends GpBaseComponent {
-  @Input() header = '';
-  @Input() toggleable = false;
-  @Input() showFooter = false;
+  public header = input<string>('');
+  public toggleable = input<boolean>(false);
+  public showFooter = input<boolean>(false);
 
-  @Output() onToggle = new EventEmitter<{ collapsed: boolean }>();
+  public onToggle = output<{ collapsed: boolean }>();
 
   protected collapsed = signal<boolean>(false);
-
-  @Input() set collapsedProp(val: boolean) {
-    this.collapsed.set(val);
-  }
 
   public toggle(): void {
     const next = !this.collapsed();

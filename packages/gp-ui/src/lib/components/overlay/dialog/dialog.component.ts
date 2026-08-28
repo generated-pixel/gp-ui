@@ -1,13 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
-  ElementRef,
+  effect,
   HostListener,
   inject
 } from '@angular/core';
@@ -28,38 +27,44 @@ import { GpFocusTrapDirective } from '../../../overlay/focus-trap.directive';
 export class GpDialogComponent extends GpBaseComponent {
   private zIndexService = inject(ZIndexService);
 
-  @Input() header = '';
-  @Input() width = '30rem';
-  @Input() maxWidth = '90vw';
-  @Input() modal = true;
-  @Input() closable = true;
-  @Input() maximizable = false;
-  @Input() closeOnEscape = true;
-  @Input() dismissableMask = false;
-  @Input() showFooter = true;
+  public header = input<string>('');
+  public width = input<string>('30rem');
+  public maxWidth = input<string>('90vw');
+  public modal = input<boolean>(true);
+  public closable = input<boolean>(true);
+  public maximizable = input<boolean>(false);
+  public closeOnEscape = input<boolean>(true);
+  public dismissableMask = input<boolean>(false);
+  public showFooter = input<boolean>(true);
+  public visibleInput = input<boolean | undefined>(undefined, { alias: 'visibleProp' });
+  public visibleBinding = input<boolean | undefined>(undefined, { alias: 'visible' });
 
-  @Output() visibleChange = new EventEmitter<boolean>();
-  @Output() onShow = new EventEmitter<void>();
-  @Output() onHide = new EventEmitter<void>();
+  public visibleChange = output<boolean>();
+  public onShow = output<void>();
+  public onHide = output<void>();
 
   protected visible = signal<boolean>(false);
   protected maximized = signal<boolean>(false);
   protected zIndex = signal<number>(1100);
   protected headerId = `gp_dialog_header_${Math.random().toString(36).substring(2, 7)}`;
 
-  @Input() set visibleProp(val: boolean) {
-    if (val !== this.visible()) {
-      if (val) {
-        this.show();
-      } else {
-        this.close();
+  constructor() {
+    super();
+    effect(() => {
+      const v = this.visibleInput() ?? this.visibleBinding();
+      if (v !== undefined && v !== this.visible()) {
+        if (v) {
+          this.show();
+        } else {
+          this.close();
+        }
       }
-    }
+    });
   }
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
-    if (this.visible() && this.closeOnEscape && this.closable) {
+    if (this.visible() && this.closeOnEscape() && this.closable()) {
       this.close();
     }
   }
@@ -83,7 +88,7 @@ export class GpDialogComponent extends GpBaseComponent {
   }
 
   public onMaskClick(event: MouseEvent): void {
-    if (this.dismissableMask && this.closable) {
+    if (this.dismissableMask() && this.closable()) {
       this.close();
     }
   }

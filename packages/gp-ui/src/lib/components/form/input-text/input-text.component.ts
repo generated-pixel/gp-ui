@@ -1,14 +1,11 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  forwardRef,
-  signal,
-  computed
+  forwardRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -32,27 +29,20 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './input-text.component.scss'
 })
 export class GpInputTextComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('input_');
-  @Input() type = 'text';
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override required = false;
-  @Input() override invalid = false;
-  @Input() clearable = false;
-  @Input() iconLeft = '';
-  @Input() iconRight = '';
-  @Input() maxlength?: number;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('input_'));
+  public type = input<string>('text');
+  public clearable = input<boolean>(false);
+  public iconLeft = input<string>('');
+  public iconRight = input<string>('');
+  public maxlength = input<number | undefined>(undefined);
 
-  @Output() onInputEvent = new EventEmitter<Event>();
-  @Output() onFocusEvent = new EventEmitter<FocusEvent>();
-  @Output() onBlurEvent = new EventEmitter<FocusEvent>();
-  @Output() onClearEvent = new EventEmitter<void>();
+  public onInputEvent = output<Event>();
+  public onFocusEvent = output<FocusEvent>();
+  public onBlurEvent = output<FocusEvent>();
+  public onClearEvent = output<void>();
 
   public override writeValue(value: any): void {
     const str = value != null ? String(value) : '';
-    this.value = str;
     this.internalValue.set(str);
   }
 
@@ -64,14 +54,9 @@ export class GpInputTextComponent extends GpEditableBaseComponent implements Con
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   protected onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.value.set(input.value);
-    this.updateValue(input.value);
+    const inputEl = event.target as HTMLInputElement;
+    this.updateValue(inputEl.value);
     this.onInputEvent.emit(event);
   }
 
@@ -86,7 +71,6 @@ export class GpInputTextComponent extends GpEditableBaseComponent implements Con
 
   protected clear(event: MouseEvent): void {
     event.stopPropagation();
-    this.value.set('');
     this.updateValue('');
     this.onClearEvent.emit();
   }

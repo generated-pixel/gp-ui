@@ -1,4 +1,4 @@
-<div class="gp-fileupload" [class.gp-fileupload-disabled]="disabled">
+<div class="gp-fileupload" [class.gp-fileupload-disabled]="isEffectivelyDisabled()">
   <div
     class="gp-fileupload-dropzone"
     [class.gp-fileupload-dragover]="dragOver()"
@@ -13,16 +13,16 @@
     <input
       #fileInput
       type="file"
-      [accept]="accept"
-      [multiple]="multiple"
-      [disabled]="disabled"
+      [accept]="accept()"
+      [multiple]="multiple()"
+      [disabled]="isEffectivelyDisabled()"
       (change)="onFileSelect($event)"
       class="gp-sr-only"
     />
 
-    <gp-icon [name]="icon" size="2.5em" class="gp-fileupload-icon" />
-    <div class="gp-fileupload-title">{{ chooseLabel }}</div>
-    <div class="gp-fileupload-subtitle">{{ dragDropLabel }}</div>
+    <gp-icon [name]="icon()" size="2.5em" class="gp-fileupload-icon" />
+    <div class="gp-fileupload-title">{{ chooseLabel() }}</div>
+    <div class="gp-fileupload-subtitle">{{ dragDropLabel() }}</div>
   </div>
 
   @if (files().length > 0) {
@@ -47,14 +47,14 @@
 
       <div class="gp-fileupload-actions">
         <gp-button
-          [label]="uploadLabel"
+          [label]="uploadLabel()"
           icon="upload"
           severity="primary"
-          [disabled]="disabled"
+          [disabled]="isEffectivelyDisabled()"
           (onClickEvent)="upload()"
         />
         <gp-button
-          [label]="cancelLabel"
+          [label]="cancelLabel()"
           icon="times"
           variant="outlined"
           severity="secondary"

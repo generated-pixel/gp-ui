@@ -1,5 +1,5 @@
 <div class="gp-panelmenu">
-  @for (item of model; track $index) {
+  @for (item of model(); track $index) {
     <div class="gp-panelmenu-panel">
       <div class="gp-panelmenu-header" [class.gp-panelmenu-header-active]="item.expanded" (click)="toggle(item)">
         @if (item.icon) {

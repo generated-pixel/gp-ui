@@ -1,5 +1,12 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { GpBaseComponent } from '../../../base/gp-base.component';
+import {
+  Component,
+  input,
+  contentChild,
+  TemplateRef,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
@@ -21,12 +28,12 @@ export interface GpTimelineEvent {
   templateUrl: './timeline.component.html',
   styleUrl: './timeline.component.scss'
 })
-export class GpTimelineComponent extends GpEditableBaseComponent {
-  @Input() override value: GpTimelineEvent[] = [];
-  @Input() layout: 'vertical' | 'horizontal' = 'vertical';
-  @Input() align: 'left' | 'right' | 'alternate' = 'alternate';
+export class GpTimelineComponent extends GpBaseComponent {
+  public value = input<GpTimelineEvent[]>([]);
+  public layout = input<'vertical' | 'horizontal'>('vertical');
+  public align = input<'left' | 'right' | 'alternate'>('alternate');
 
-  @ContentChild('content') contentTemplate?: TemplateRef<any>;
-  @ContentChild('opposite') oppositeTemplate?: TemplateRef<any>;
-  @ContentChild('marker') markerTemplate?: TemplateRef<any>;
+  public contentTemplate = contentChild<TemplateRef<any>>('content');
+  public oppositeTemplate = contentChild<TemplateRef<any>>('opposite');
+  public markerTemplate = contentChild<TemplateRef<any>>('marker');
 }

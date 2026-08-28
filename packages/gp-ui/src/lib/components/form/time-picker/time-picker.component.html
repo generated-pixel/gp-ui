@@ -1,15 +1,15 @@
-<div class="gp-timepicker" [class.gp-select-open]="overlayVisible()" [class.gp-input-disabled]="disabled">
+<div class="gp-timepicker" [class.gp-select-open]="overlayVisible()" [class.gp-input-disabled]="isEffectivelyDisabled()">
   <div class="gp-input-wrapper">
     <input
-      [id]="inputId"
+      [id]="inputId()"
       type="text"
       [value]="displayTime()"
-      [placeholder]="placeholder || (hourFormat === '24' ? 'HH:mm' : 'hh:mm AM/PM')"
-      [disabled]="disabled"
+      [placeholder]="placeholder() || (hourFormat() === '24' ? 'HH:mm' : 'hh:mm AM/PM')"
+      [disabled]="isEffectivelyDisabled()"
       [readonly]="true"
       (click)="toggleOverlay()"
       class="gp-inputtext gp-timepicker-input"
-      [attr.aria-label]="ariaLabel || 'Time Picker'"
+      [attr.aria-label]="ariaLabel() || 'Time Picker'"
     />
     <button type="button" class="gp-datepicker-trigger" (click)="toggleOverlay()" aria-label="Open Time Picker">
       <gp-icon name="clock" size="0.9em" />
@@ -34,27 +34,27 @@
 
         <!-- Minutes -->
         <div class="gp-timepicker-column">
-          <button type="button" class="gp-timepicker-btn" (click)="spinMinute(stepMinute)" aria-label="Increase minute">
+          <button type="button" class="gp-timepicker-btn" (click)="spinMinute(stepMinute())" aria-label="Increase minute">
             <gp-icon name="chevron-up" size="0.75em" />
           </button>
           <span class="gp-timepicker-val">{{ formattedMinute() }}</span>
           <button
             type="button"
             class="gp-timepicker-btn"
-            (click)="spinMinute(-stepMinute)"
+            (click)="spinMinute(-stepMinute())"
             aria-label="Decrease minute"
           >
             <gp-icon name="chevron-down" size="0.75em" />
           </button>
         </div>
 
-        @if (showSeconds) {
+        @if (showSeconds()) {
           <span class="gp-timepicker-separator">:</span>
           <div class="gp-timepicker-column">
             <button
               type="button"
               class="gp-timepicker-btn"
-              (click)="spinSecond(stepSecond)"
+              (click)="spinSecond(stepSecond())"
               aria-label="Increase second"
             >
               <gp-icon name="chevron-up" size="0.75em" />
@@ -63,7 +63,7 @@
             <button
               type="button"
               class="gp-timepicker-btn"
-              (click)="spinSecond(-stepSecond)"
+              (click)="spinSecond(-stepSecond())"
               aria-label="Decrease second"
             >
               <gp-icon name="chevron-down" size="0.75em" />
@@ -71,7 +71,7 @@
           </div>
         }
 
-        @if (hourFormat === '12') {
+        @if (hourFormat() === '12') {
           <div class="gp-timepicker-column gp-timepicker-ampm">
             <button type="button" class="gp-timepicker-ampm-btn" (click)="toggleAmPm()">
               {{ isPm() ? 'PM' : 'AM' }}

@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -30,19 +29,12 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './switch.component.scss'
 })
 export class GpSwitchComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('switch_');
-  @Input() label = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('switch_'));
+  public label = input<string>('');
 
-  @Output() onChange = new EventEmitter<{ checked: boolean; originalEvent: Event }>();
+  public onChange = output<{ checked: boolean; originalEvent: Event }>();
 
   protected checked = signal<boolean>(false);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
 
   public override writeValue(value: any): void {
     this.checked.set(!!value);
@@ -56,12 +48,8 @@ export class GpSwitchComponent extends GpEditableBaseComponent implements Contro
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggle(event: Event): void {
-    if (this.disabled || this.readonly) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     const next = !this.checked();

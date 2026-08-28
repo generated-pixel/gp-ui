@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -15,7 +15,7 @@ import { GpMenubarItem } from '../menubar/menubar.component';
   styleUrl: './panel-menu.component.scss'
 })
 export class GpPanelMenuComponent extends GpBaseComponent {
-  @Input() model: (GpMenubarItem & { expanded?: boolean })[] = [];
+  public model = input<(GpMenubarItem & { expanded?: boolean })[]>([]);
 
   public toggle(item: any): void {
     item.expanded = !item.expanded;

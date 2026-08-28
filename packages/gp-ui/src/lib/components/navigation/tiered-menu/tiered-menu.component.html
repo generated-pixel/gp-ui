@@ -1,6 +1,6 @@
 <div class="gp-menu gp-tieredmenu" role="menu">
   <ul class="gp-menu-list">
-    @for (item of model; track $index) {
+    @for (item of model(); track $index) {
       @if (item.separator) {
         <li class="gp-menu-separator" role="separator"></li>
       } @else {

@@ -1,84 +1,84 @@
 <div
   class="gp-input-number"
-  [class.gp-input-disabled]="disabled"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
-  [class.gp-input-number-has-prefix]="!!prefix"
-  [class.gp-input-number-has-suffix]="!!suffix"
-  [class.gp-input-number-buttons-stacked]="showButtons && buttonLayout === 'stacked'"
-  [class.gp-input-number-buttons-horizontal]="showButtons && buttonLayout === 'horizontal'"
+  [class.gp-input-number-has-prefix]="!!prefix()"
+  [class.gp-input-number-has-suffix]="!!suffix()"
+  [class.gp-input-number-buttons-stacked]="showButtons() && buttonLayout() === 'stacked'"
+  [class.gp-input-number-buttons-horizontal]="showButtons() && buttonLayout() === 'horizontal'"
 >
-  @if (showButtons && buttonLayout === 'horizontal') {
+  @if (showButtons() && buttonLayout() === 'horizontal') {
     <button
       type="button"
       class="gp-input-number-btn gp-input-number-btn-down"
-      [disabled]="disabled || (min !== undefined && (internalValue() || 0) <= min)"
-      (click)="spin(-step)"
+      [disabled]="isEffectivelyDisabled() || (min() !== undefined && (internalValue() || 0) <= min()!)"
+      (click)="spin(-step())"
       aria-label="Decrease value"
     >
-      <gp-icon [name]="decrementButtonIcon" size="0.85em" />
+      <gp-icon [name]="decrementButtonIcon()" size="0.85em" />
     </button>
   }
 
   <div class="gp-input-number-input-wrap">
-    @if (prefix) {
-      <span class="gp-input-number-prefix">{{ prefix }}</span>
+    @if (prefix()) {
+      <span class="gp-input-number-prefix">{{ prefix() }}</span>
     }
     <input
-      [id]="inputId"
+      [id]="inputId()"
       type="text"
       [value]="displayValue()"
-      [placeholder]="placeholder"
-      [disabled]="disabled"
-      [readonly]="readonly"
-      [attr.aria-label]="ariaLabel || placeholder || null"
+      [placeholder]="placeholder()"
+      [disabled]="isEffectivelyDisabled()"
+      [readonly]="readonly()"
+      [attr.aria-label]="ariaLabel() || placeholder() || null"
       [attr.aria-invalid]="isInvalid()"
-      [attr.aria-required]="required"
+      [attr.aria-required]="required()"
       [attr.aria-valuenow]="internalValue()"
-      [attr.aria-valuemin]="min"
-      [attr.aria-valuemax]="max"
+      [attr.aria-valuemin]="min()"
+      [attr.aria-valuemax]="max()"
       role="spinbutton"
       (input)="onInput($event)"
       (blur)="onBlur()"
       (keydown)="onKeyDown($event)"
       class="gp-inputtext gp-input-number-input"
     />
-    @if (suffix) {
-      <span class="gp-input-number-suffix">{{ suffix }}</span>
+    @if (suffix()) {
+      <span class="gp-input-number-suffix">{{ suffix() }}</span>
     }
   </div>
 
-  @if (showButtons && buttonLayout === 'stacked') {
+  @if (showButtons() && buttonLayout() === 'stacked') {
     <div class="gp-input-number-btn-stack">
       <button
         type="button"
         class="gp-input-number-btn gp-input-number-btn-up"
-        [disabled]="disabled || (max !== undefined && (internalValue() || 0) >= max)"
-        (click)="spin(step)"
+        [disabled]="isEffectivelyDisabled() || (max() !== undefined && (internalValue() || 0) >= max()!)"
+        (click)="spin(step())"
         aria-label="Increase value"
       >
-        <gp-icon [name]="incrementButtonIcon" size="0.7em" />
+        <gp-icon [name]="incrementButtonIcon()" size="0.7em" />
       </button>
       <button
         type="button"
         class="gp-input-number-btn gp-input-number-btn-down"
-        [disabled]="disabled || (min !== undefined && (internalValue() || 0) <= min)"
-        (click)="spin(-step)"
+        [disabled]="isEffectivelyDisabled() || (min() !== undefined && (internalValue() || 0) <= min()!)"
+        (click)="spin(-step())"
         aria-label="Decrease value"
       >
-        <gp-icon [name]="decrementButtonIcon" size="0.7em" />
+        <gp-icon [name]="decrementButtonIcon()" size="0.7em" />
       </button>
     </div>
   }
 
-  @if (showButtons && buttonLayout === 'horizontal') {
+  @if (showButtons() && buttonLayout() === 'horizontal') {
     <button
       type="button"
       class="gp-input-number-btn gp-input-number-btn-up"
-      [disabled]="disabled || (max !== undefined && (internalValue() || 0) >= max)"
-      (click)="spin(step)"
+      [disabled]="isEffectivelyDisabled() || (max() !== undefined && (internalValue() || 0) >= max()!)"
+      (click)="spin(step())"
       aria-label="Increase value"
     >
-      <gp-icon [name]="incrementButtonIcon" size="0.85em" />
+      <gp-icon [name]="incrementButtonIcon()" size="0.85em" />
     </button>
   }
 </div>

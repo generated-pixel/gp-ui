@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,8 +12,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './card.component.scss'
 })
 export class GpCardComponent extends GpBaseComponent {
-  @Input() header = '';
-  @Input() subheader = '';
-  @Input() headerImage = '';
-  @Input() hoverable = false;
+  public header = input<string>('');
+  public subheader = input<string>('');
+  public headerImage = input<string>('');
+  public hoverable = input<boolean>(false);
 }

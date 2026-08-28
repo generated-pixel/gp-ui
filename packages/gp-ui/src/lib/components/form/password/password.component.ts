@@ -1,7 +1,7 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -30,15 +30,9 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './password.component.scss'
 })
 export class GpPasswordComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('password_');
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override required = false;
-  @Input() override invalid = false;
-  @Input() toggleMask = true;
-  @Input() feedback = true;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('password_'));
+  public toggleMask = input<boolean>(true);
+  public feedback = input<boolean>(true);
 
   protected showPassword = signal<boolean>(false);
   protected focused = signal<boolean>(false);
@@ -94,7 +88,6 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
 
   public override writeValue(value: any): void {
     const str = value != null ? String(value) : '';
-    this.value = str;
     this.internalValue.set(str);
   }
 
@@ -106,13 +99,9 @@ export class GpPasswordComponent extends GpEditableBaseComponent implements Cont
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   protected onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.updateValue(input.value);
+    const inputEl = event.target as HTMLInputElement;
+    this.updateValue(inputEl.value);
   }
 
   protected onBlur(): void {

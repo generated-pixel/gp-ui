@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -31,13 +30,12 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
   styleUrl: './toggle-button.component.scss'
 })
 export class GpToggleButtonComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() onLabel = 'Yes';
-  @Input() offLabel = 'No';
-  @Input() onIcon = '';
-  @Input() offIcon = '';
-  @Input() override disabled = false;
+  public onLabel = input<string>('Yes');
+  public offLabel = input<string>('No');
+  public onIcon = input<string>('');
+  public offIcon = input<string>('');
 
-  @Output() onChange = new EventEmitter<{ checked: boolean; originalEvent: Event }>();
+  public onChange = output<{ checked: boolean; originalEvent: Event }>();
 
   protected checked = signal<boolean>(false);
 
@@ -53,12 +51,8 @@ export class GpToggleButtonComponent extends GpEditableBaseComponent implements 
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggle(): void {
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled()) {
       return;
     }
     const next = !this.checked();

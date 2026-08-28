@@ -1,9 +1,9 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
+import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  model,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
@@ -26,28 +26,28 @@ export type GpTreeSelectionMode = 'single' | 'multiple' | 'checkbox' | null;
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss'
 })
-export class GpTreeComponent extends GpEditableBaseComponent {
-  @Input() override value: GpTreeNode[] = [];
-  @Input() selectionMode: GpTreeSelectionMode = null;
-  @Input() selection: any = null;
-  @Input() filter = false;
-  @Input() filterPlaceholder = 'Search nodes...';
-  @Input() emptyMessage = 'No nodes found';
+export class GpTreeComponent extends GpBaseComponent {
+  public value = input<GpTreeNode[]>([]);
+  public selectionMode = input<GpTreeSelectionMode>(null);
+  public selection = model<any>(null);
+  public filter = input<boolean>(false);
+  public filterPlaceholder = input<string>('Search nodes...');
+  public emptyMessage = input<string>('No nodes found');
 
-  @Output() selectionChange = new EventEmitter<any>();
-  @Output() onNodeSelect = new EventEmitter<{ node: GpTreeNode }>();
-  @Output() onNodeUnselect = new EventEmitter<{ node: GpTreeNode }>();
-  @Output() onNodeExpand = new EventEmitter<{ node: GpTreeNode }>();
-  @Output() onNodeCollapse = new EventEmitter<{ node: GpTreeNode }>();
+  public onNodeSelect = output<{ node: GpTreeNode }>();
+  public onNodeUnselect = output<{ node: GpTreeNode }>();
+  public onNodeExpand = output<{ node: GpTreeNode }>();
+  public onNodeCollapse = output<{ node: GpTreeNode }>();
 
   protected filterText = signal<string>('');
 
   protected filteredNodes = computed(() => {
     const q = this.filterText().toLowerCase().trim();
+    const val = this.value();
     if (!q) {
-      return this.value;
+      return val;
     }
-    return this.filterTreeNodes(this.value, q);
+    return this.filterTreeNodes(val, q);
   });
 
   private filterTreeNodes(nodes: GpTreeNode[], q: string): GpTreeNode[] {
@@ -67,14 +67,16 @@ export class GpTreeComponent extends GpEditableBaseComponent {
   }
 
   public isNodeSelected(node: GpTreeNode): boolean {
-    if (!this.selection) {
+    const sel = this.selection();
+    if (!sel) {
       return false;
     }
-    if (this.selectionMode === 'single') {
-      return this.selection === node;
+    const mode = this.selectionMode();
+    if (mode === 'single') {
+      return sel === node;
     }
-    if ((this.selectionMode === 'multiple' || this.selectionMode === 'checkbox') && Array.isArray(this.selection)) {
-      return this.selection.includes(node);
+    if ((mode === 'multiple' || mode === 'checkbox') && Array.isArray(sel)) {
+      return sel.includes(node);
     }
     return false;
   }
@@ -90,11 +92,11 @@ export class GpTreeComponent extends GpEditableBaseComponent {
   }
 
   public onNodeClick(node: GpTreeNode, event: MouseEvent): void {
-    if (this.selectionMode === 'single') {
-      this.selection = node;
-      this.selectionChange.emit(node);
+    const mode = this.selectionMode();
+    if (mode === 'single') {
+      this.selection.set(node);
       this.onNodeSelect.emit({ node });
-    } else if (this.selectionMode === 'multiple') {
+    } else if (mode === 'multiple') {
       this.toggleMultipleSelection(node);
     }
   }
@@ -104,16 +106,15 @@ export class GpTreeComponent extends GpEditableBaseComponent {
   }
 
   private toggleMultipleSelection(node: GpTreeNode): void {
-    const current = Array.isArray(this.selection) ? [...this.selection] : [];
+    const sel = this.selection();
+    const current = Array.isArray(sel) ? [...sel] : [];
     if (current.includes(node)) {
       const next = current.filter((n) => n !== node);
-      this.selection = next;
-      this.selectionChange.emit(next);
+      this.selection.set(next);
       this.onNodeUnselect.emit({ node });
     } else {
       current.push(node);
-      this.selection = current;
-      this.selectionChange.emit(current);
+      this.selection.set(current);
       this.onNodeSelect.emit({ node });
     }
   }

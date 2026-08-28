@@ -1,9 +1,8 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal
@@ -25,18 +24,17 @@ export type GpSpeedDialType = 'linear' | 'circle' | 'semi-circle';
   styleUrl: './speed-dial.component.scss'
 })
 export class GpSpeedDialComponent extends GpBaseComponent {
-  @Input() model: GpMenuItem[] = [];
-  @Input() direction: GpSpeedDialDirection = 'up';
-  @Input() showIcon = 'plus';
-  @Input() hideIcon = 'times';
-  @Input() override disabled = false;
+  public model = input<GpMenuItem[]>([]);
+  public direction = input<GpSpeedDialDirection>('up');
+  public showIcon = input<string>('plus');
+  public hideIcon = input<string>('times');
 
-  @Output() onVisibleChange = new EventEmitter<boolean>();
+  public onVisibleChange = output<boolean>();
 
   protected visible = signal<boolean>(false);
 
   public toggle(): void {
-    if (this.disabled) {
+    if (this.disabled()) {
       return;
     }
     const next = !this.visible();

@@ -1,8 +1,8 @@
 <div class="gp-orgchart">
-  @if (value) {
+  @if (value()) {
     <table class="gp-orgchart-table">
       <tbody>
-        <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: value, isRoot: true }" />
+        <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: value(), isRoot: true }" />
       </tbody>
     </table>
   }
@@ -11,9 +11,9 @@
 <ng-template #nodeTemplate let-node let-isRoot="isRoot">
   <tr>
     <td [attr.colspan]="node.children && node.children.length ? node.children.length * 2 : 1">
-      <div class="gp-orgchart-node" [class.gp-orgchart-node-selectable]="selectionMode">
-        @if (nodeTemplateRef) {
-          <ng-container *ngTemplateOutlet="nodeTemplateRef; context: { $implicit: node }" />
+      <div class="gp-orgchart-node" [class.gp-orgchart-node-selectable]="selectionMode()">
+        @if (nodeTemplateRef()) {
+          <ng-container *ngTemplateOutlet="nodeTemplateRef()!; context: { $implicit: node }" />
         } @else {
           <div class="gp-orgchart-node-content">
             @if (node.icon) {

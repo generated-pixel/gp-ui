@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -33,19 +32,18 @@ import { ObjectUtils } from '../../../utils/object-utils';
   styleUrl: './listbox.component.scss'
 })
 export class GpListboxComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() options: (GpSelectItem | any)[] = [];
-  @Input() multiple = false;
-  @Input() filter = true;
-  @Input() filterPlaceholder = 'Search...';
-  @Input() emptyFilterMessage = 'No results found';
-  @Input() override disabled = false;
+  public options = input<(GpSelectItem | any)[]>([]);
+  public multiple = input<boolean>(false);
+  public filter = input<boolean>(true);
+  public filterPlaceholder = input<string>('Search...');
+  public emptyFilterMessage = input<string>('No results found');
 
-  @Output() onChange = new EventEmitter<{ value: any; originalEvent: Event }>();
+  public onChange = output<{ value: any; originalEvent: Event }>();
 
   protected filterText = signal<string>('');
 
   protected normalizedOptions = computed<GpSelectItem[]>(() => {
-    return (this.options || []).map((opt) => {
+    return (this.options() || []).map((opt) => {
       if (typeof opt === 'object' && opt !== null) {
         if ('value' in opt && 'label' in opt) {
           return opt as GpSelectItem;
@@ -71,14 +69,13 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
 
   public isSelected(opt: GpSelectItem): boolean {
     const current = this.internalValue();
-    if (this.multiple) {
+    if (this.multiple()) {
       return Array.isArray(current) && current.some((v) => ObjectUtils.equals(v, opt.value));
     }
     return ObjectUtils.equals(current, opt.value);
   }
 
   public override writeValue(value: any): void {
-    this.value = value;
     this.internalValue.set(value);
   }
 
@@ -90,17 +87,13 @@ export class GpListboxComponent extends GpEditableBaseComponent implements Contr
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public onOptionClick(opt: GpSelectItem, event: MouseEvent): void {
-    if (this.disabled || opt.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly() || opt.disabled) {
       return;
     }
 
     let next: any;
-    if (this.multiple) {
+    if (this.multiple()) {
       const current = Array.isArray(this.internalValue()) ? (this.internalValue() as any[]) : [];
       if (this.isSelected(opt)) {
         next = current.filter((v: any) => !ObjectUtils.equals(v, opt.value));

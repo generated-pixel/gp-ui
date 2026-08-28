@@ -1,9 +1,8 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   ElementRef,
@@ -35,15 +34,14 @@ export interface GpMenuItem {
   styleUrl: './split-button.component.scss'
 })
 export class GpSplitButtonComponent extends GpBaseComponent {
-  @Input() label = '';
-  @Input() icon = '';
-  @Input() model: GpMenuItem[] = [];
-  @Input() severity: GpButtonSeverity = 'primary';
-  @Input() variant: GpButtonVariant = 'filled';
-  @Input() size: GpButtonSize = 'md';
-  @Input() override disabled = false;
+  public label = input<string>('');
+  public icon = input<string>('');
+  public model = input<GpMenuItem[]>([]);
+  public severity = input<GpButtonSeverity>('primary');
+  public variant = input<GpButtonVariant>('filled');
+  public size = input<GpButtonSize>('md');
 
-  @Output() onClickEvent = new EventEmitter<MouseEvent>();
+  public onClickEvent = output<MouseEvent>();
 
   protected overlayVisible = signal<boolean>(false);
 

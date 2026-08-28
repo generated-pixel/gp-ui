@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -40,15 +39,12 @@ export interface GpCascadeSelectItem {
   styleUrl: './cascade-select.component.scss'
 })
 export class GpCascadeSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() options: any[] = [];
-  @Input() optionLabel = 'name';
-  @Input() optionValue = 'code';
-  @Input() optionGroupChildren = 'items';
-  @Input() override placeholder = 'Select item';
-  @Input() override disabled = false;
-  @Input() override ariaLabel = '';
+  public options = input<any[]>([]);
+  public optionLabel = input<string>('name');
+  public optionValue = input<string>('code');
+  public optionGroupChildren = input<string>('items');
 
-  @Output() onChange = new EventEmitter<{ value: any }>();
+  public onChange = output<{ value: any }>();
 
   protected overlayVisible = signal<boolean>(false);
   protected activeItemLevel1 = signal<any>(null);
@@ -70,11 +66,11 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
     if (!val) {
       return '';
     }
-    return typeof val === 'object' ? val[this.optionLabel] : String(val);
+    const labelKey = this.optionLabel();
+    return typeof val === 'object' ? val[labelKey] : String(val);
   });
 
   public override writeValue(value: any): void {
-    this.value = value;
     this.internalValue.set(value);
   }
 
@@ -86,12 +82,8 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggleOverlay(): void {
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     this.overlayVisible.update((v) => !v);
@@ -107,9 +99,11 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
   }
 
   public onItemClick(item: any, level: number): void {
-    const children = item[this.optionGroupChildren];
+    const childrenKey = this.optionGroupChildren();
+    const children = item[childrenKey];
     if (!children || children.length === 0) {
-      const val = this.optionValue ? item[this.optionValue] || item : item;
+      const valKey = this.optionValue();
+      const val = valKey ? item[valKey] || item : item;
       this.updateValue(val);
       this.handleControlBlur();
       this.onChange.emit({ value: val });

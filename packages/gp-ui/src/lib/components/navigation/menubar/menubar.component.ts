@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -19,7 +19,7 @@ export interface GpMenubarItem extends GpMenuItem {
   styleUrl: './menubar.component.scss'
 })
 export class GpMenubarComponent extends GpBaseComponent {
-  @Input() model: GpMenubarItem[] = [];
+  public model = input<GpMenubarItem[]>([]);
 
   protected activeItem = signal<GpMenubarItem | null>(null);
 

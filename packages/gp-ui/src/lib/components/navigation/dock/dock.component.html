@@ -1,13 +1,13 @@
-<div class="gp-dock" [class]="'gp-dock-' + position">
+<div class="gp-dock" [class]="'gp-dock-' + position()">
   <ul class="gp-dock-list" role="toolbar">
-    @for (item of model; track $index) {
+    @for (item of model(); track $index) {
       <li class="gp-dock-item" role="none">
         <a
           [routerLink]="item.routerLink"
           [attr.href]="item.url || null"
           class="gp-dock-link"
           [gpTooltip]="item.label || ''"
-          [tooltipPosition]="position === 'bottom' ? 'top' : 'bottom'"
+          [tooltipPosition]="position() === 'bottom' ? 'top' : 'bottom'"
           (click)="onItemClick(item, $event)"
           role="button"
         >

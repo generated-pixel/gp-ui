@@ -1,21 +1,21 @@
 <div
   class="gp-select"
   [class.gp-select-open]="overlayVisible()"
-  [class.gp-select-disabled]="disabled"
+  [class.gp-select-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
-  [class.gp-select-clearable]="showClear && internalValue() !== null"
+  [class.gp-select-clearable]="showClear() && internalValue() !== null"
   (click)="toggleOverlay($event)"
   tabindex="0"
   role="combobox"
   [attr.aria-expanded]="overlayVisible()"
   [attr.aria-haspopup]="'listbox'"
-  [attr.aria-label]="ariaLabel || placeholder || 'Select Option'"
+  [attr.aria-label]="ariaLabel() || placeholder() || 'Select Option'"
   (keydown)="onKeyDown($event)"
 >
   <div class="gp-select-label-container">
     @if (selectedItem(); as item) {
-      @if (itemTemplate) {
-        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }" />
+      @if (itemTemplate()) {
+        <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
       } @else {
         <span class="gp-select-label">
           @if (item.icon) {
@@ -25,12 +25,12 @@
         </span>
       }
     } @else {
-      <span class="gp-select-label gp-select-placeholder">{{ placeholder }}</span>
+      <span class="gp-select-label gp-select-placeholder">{{ placeholder() }}</span>
     }
   </div>
 
   <div class="gp-select-triggers">
-    @if (showClear && internalValue() !== null && !disabled) {
+    @if (showClear() && internalValue() !== null && !isEffectivelyDisabled()) {
       <button type="button" class="gp-select-clear-btn" aria-label="Clear selection" (click)="clear($event)">
         <gp-icon name="times" size="0.8em" />
       </button>
@@ -40,12 +40,12 @@
 
   @if (overlayVisible()) {
     <div class="gp-select-overlay" role="listbox" (click)="$event.stopPropagation()">
-      @if (filter) {
+      @if (filter()) {
         <div class="gp-select-filter-container">
           <input
             type="text"
             class="gp-inputtext gp-select-filter-input"
-            [placeholder]="filterPlaceholder"
+            [placeholder]="filterPlaceholder()"
             [value]="filterText()"
             (input)="onFilterInput($event)"
             (keydown.enter)="$event.preventDefault()"
@@ -65,8 +65,8 @@
             [attr.aria-selected]="isSelected(opt)"
             (click)="selectItem(opt, $event)"
           >
-            @if (itemTemplate) {
-              <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: opt }" />
+            @if (itemTemplate()) {
+              <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: opt }" />
             } @else {
               @if (opt.icon) {
                 <gp-icon [name]="opt.icon" class="gp-select-item-icon" />
@@ -75,7 +75,7 @@
             }
           </li>
         } @empty {
-          <li class="gp-select-empty-message">{{ emptyFilterMessage }}</li>
+          <li class="gp-select-empty-message">{{ emptyFilterMessage() }}</li>
         }
       </ul>
     </div>

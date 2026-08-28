@@ -1,5 +1,12 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ContentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { GpBaseComponent } from '../../../base/gp-base.component';
+import {
+  Component,
+  input,
+  contentChild,
+  TemplateRef,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpTreeNode } from '../tree-node/tree-node.interface';
@@ -13,11 +20,11 @@ import { GpTreeNode } from '../tree-node/tree-node.interface';
   templateUrl: './org-chart.component.html',
   styleUrl: './org-chart.component.scss'
 })
-export class GpOrgChartComponent extends GpEditableBaseComponent {
-  @Input() override value: GpTreeNode | null = null;
-  @Input() selectionMode?: string;
+export class GpOrgChartComponent extends GpBaseComponent {
+  public value = input<GpTreeNode | null>(null);
+  public selectionMode = input<string | undefined>(undefined);
 
-  @ContentChild('node') nodeTemplateRef?: TemplateRef<any>;
+  public nodeTemplateRef = contentChild<TemplateRef<any>>('node');
 
   public toggleNode(node: GpTreeNode, event: MouseEvent): void {
     event.stopPropagation();

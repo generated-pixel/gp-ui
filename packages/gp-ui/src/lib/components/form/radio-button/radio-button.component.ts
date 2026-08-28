@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
@@ -31,20 +30,12 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
   styleUrl: './radio-button.component.scss'
 })
 export class GpRadioButtonComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('rb_');
-  @Input() override name = '';
-  @Input() override value: any = null;
-  @Input() label = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override invalid = false;
+  public inputId = input<string>(UniqueId.generate('rb_'));
+  public label = input<string>('');
 
-  @Output() onClickEvent = new EventEmitter<{ value: any; originalEvent: Event }>();
+  public onClickEvent = output<{ value: any; originalEvent: Event }>();
 
   protected model = signal<any>(null);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
 
   public isChecked(): boolean {
     return this.model() === this.value;
@@ -62,12 +53,8 @@ export class GpRadioButtonComponent extends GpEditableBaseComponent implements C
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public onClick(event: Event): void {
-    if (this.disabled || this.readonly || this.isChecked()) return;
+    if (this.isEffectivelyDisabled() || this.readonly() || this.isChecked()) return;
 
     this.model.set(this.value);
     this.onChangeCallback(this.value);

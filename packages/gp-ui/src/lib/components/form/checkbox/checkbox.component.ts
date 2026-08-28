@@ -1,12 +1,12 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  forwardRef
+  forwardRef,
+  effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -31,22 +31,26 @@ import { GpRippleDirective } from '../../../directives/ripple.directive';
   styleUrl: './checkbox.component.scss'
 })
 export class GpCheckboxComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('chk_');
-  @Input() label = '';
-  @Input() binary = true;
+  public inputId = input<string>(UniqueId.generate('chk_'));
+  public label = input<string>('');
+  public binary = input<boolean>(true);
+  public checked = input<boolean | undefined>(undefined);
 
-  @Input()
-  set checked(val: boolean | undefined) {
-    if (val !== undefined) {
-      this.internalValue.set(val);
-    }
+  public onChange = output<{ checked: boolean; value: any; originalEvent: Event }>();
+
+  constructor() {
+    super();
+    effect(() => {
+      const isChecked = this.checked();
+      if (isChecked !== undefined) {
+        this.internalValue.set(isChecked);
+      }
+    });
   }
-
-  @Output() onChange = new EventEmitter<{ checked: boolean; value: any; originalEvent: Event }>();
 
   public isChecked(): boolean {
     const val = this.internalValue();
-    if (this.binary) {
+    if (this.binary()) {
       if (typeof val === 'boolean') {
         return val;
       }
@@ -62,12 +66,12 @@ export class GpCheckboxComponent extends GpEditableBaseComponent implements Cont
   }
 
   public onClick(event: Event): void {
-    if (this.disabled || this.readonly) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
 
     let nextValue: any;
-    if (this.binary) {
+    if (this.binary()) {
       nextValue = !this.isChecked();
     } else {
       const current = this.internalValue();

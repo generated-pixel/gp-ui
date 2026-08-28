@@ -1,5 +1,5 @@
-import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { GpBaseComponent } from '../../../base/gp-base.component';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type GpProgressBarMode = 'determinate' | 'indeterminate';
@@ -13,9 +13,9 @@ export type GpProgressBarMode = 'determinate' | 'indeterminate';
   templateUrl: './progress-bar.component.html',
   styleUrl: './progress-bar.component.scss'
 })
-export class GpProgressBarComponent extends GpEditableBaseComponent {
-  @Input() override value = 0;
-  @Input() mode: GpProgressBarMode = 'determinate';
-  @Input() showValue = true;
-  @Input() height = '0.75rem';
+export class GpProgressBarComponent extends GpBaseComponent {
+  public value = input<number>(0);
+  public mode = input<GpProgressBarMode>('determinate');
+  public showValue = input<boolean>(true);
+  public height = input<string>('0.75rem');
 }

@@ -1,14 +1,12 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
   signal,
-  computed,
   ElementRef,
   HostListener
 } from '@angular/core';
@@ -34,18 +32,12 @@ import { GpTreeNode } from '../../tree/tree-node/tree-node.interface';
   styleUrl: './tree-select.component.scss'
 })
 export class GpTreeSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() options: GpTreeNode[] = [];
-  @Input() override placeholder = 'Select node';
-  @Input() override disabled = false;
-  @Input() override ariaLabel = '';
+  public options = input<GpTreeNode[]>([]);
 
-  @Output() onNodeSelect = new EventEmitter<{ node: GpTreeNode }>();
+  public onNodeSelect = output<{ node: GpTreeNode }>();
 
   protected selectedNode = signal<GpTreeNode | null>(null);
   protected overlayVisible = signal<boolean>(false);
-
-  // Inherited onChangeCallback
-  // Inherited onTouchedCallback
 
   constructor(private el: ElementRef) {
     super();
@@ -70,12 +62,8 @@ export class GpTreeSelectComponent extends GpEditableBaseComponent implements Co
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   public toggleOverlay(): void {
-    if (this.disabled) {
+    if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
     }
     this.overlayVisible.update((v) => !v);
@@ -88,8 +76,8 @@ export class GpTreeSelectComponent extends GpEditableBaseComponent implements Co
 
   public selectNode(node: GpTreeNode, event: MouseEvent): void {
     this.selectedNode.set(node);
-    this.onChangeCallback(node);
-    this.onTouchedCallback();
+    this.updateValue(node);
+    this.handleControlBlur();
     this.onNodeSelect.emit({ node });
     this.overlayVisible.set(false);
   }

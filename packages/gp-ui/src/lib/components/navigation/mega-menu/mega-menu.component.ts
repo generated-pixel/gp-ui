@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -25,7 +25,7 @@ export interface GpMegaMenuItem extends GpMenuItem {
   styleUrl: './mega-menu.component.scss'
 })
 export class GpMegaMenuComponent extends GpBaseComponent {
-  @Input() model: GpMegaMenuItem[] = [];
+  public model = input<GpMegaMenuItem[]>([]);
 
   protected activeItem = signal<GpMegaMenuItem | null>(null);
 

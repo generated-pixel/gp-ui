@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -15,7 +15,7 @@ import { GpMenubarItem } from '../menubar/menubar.component';
   styleUrl: './tiered-menu.component.scss'
 })
 export class GpTieredMenuComponent extends GpBaseComponent {
-  @Input() model: GpMenubarItem[] = [];
+  public model = input<GpMenubarItem[]>([]);
 
   protected activeItem = signal<GpMenubarItem | null>(null);
 

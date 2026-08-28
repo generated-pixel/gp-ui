@@ -1,13 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  ContentChild,
+  input,
+  contentChild,
   TemplateRef,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
-  computed,
   OnInit,
   OnDestroy
 } from '@angular/core';
@@ -24,19 +23,20 @@ import { GpIconComponent } from '../../../icons/icon.component';
   styleUrl: './carousel.component.scss'
 })
 export class GpCarouselComponent extends GpBaseComponent implements OnInit, OnDestroy {
-  @Input() value: any[] = [];
-  @Input() circular = true;
-  @Input() autoplayInterval = 0;
-  @Input() showIndicators = true;
+  public value = input<any[]>([]);
+  public circular = input<boolean>(true);
+  public autoplayInterval = input<number>(0);
+  public showIndicators = input<boolean>(true);
 
-  @ContentChild('item') itemTemplate?: TemplateRef<any>;
+  public itemTemplate = contentChild<TemplateRef<any>>('item');
 
   protected activeIndex = signal<number>(0);
   private intervalId?: any;
 
   ngOnInit(): void {
-    if (this.autoplayInterval > 0) {
-      this.intervalId = setInterval(() => this.next(), this.autoplayInterval);
+    const interval = this.autoplayInterval();
+    if (interval > 0) {
+      this.intervalId = setInterval(() => this.next(), interval);
     }
   }
 
@@ -47,27 +47,29 @@ export class GpCarouselComponent extends GpBaseComponent implements OnInit, OnDe
   }
 
   public next(): void {
-    const total = this.value ? this.value.length : 0;
+    const val = this.value();
+    const total = val ? val.length : 0;
     if (total === 0) {
       return;
     }
     const current = this.activeIndex();
     if (current < total - 1) {
       this.activeIndex.set(current + 1);
-    } else if (this.circular) {
+    } else if (this.circular()) {
       this.activeIndex.set(0);
     }
   }
 
   public prev(): void {
-    const total = this.value ? this.value.length : 0;
+    const val = this.value();
+    const total = val ? val.length : 0;
     if (total === 0) {
       return;
     }
     const current = this.activeIndex();
     if (current > 0) {
       this.activeIndex.set(current - 1);
-    } else if (this.circular) {
+    } else if (this.circular()) {
       this.activeIndex.set(total - 1);
     }
   }

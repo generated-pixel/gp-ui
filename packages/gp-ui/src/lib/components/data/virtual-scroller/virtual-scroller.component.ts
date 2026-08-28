@@ -1,15 +1,13 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  ContentChild,
+  input,
+  contentChild,
   TemplateRef,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
-  computed,
-  ElementRef,
-  HostListener
+  computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -23,35 +21,41 @@ import { CommonModule } from '@angular/common';
   styleUrl: './virtual-scroller.component.scss'
 })
 export class GpVirtualScrollerComponent extends GpEditableBaseComponent {
-  @Input() items: any[] = [];
-  @Input() itemSize = 48;
-  @Input() scrollHeight = '20rem';
-  @Input() buffer = 5;
+  public items = input<any[]>([]);
+  public itemSize = input<number>(48);
+  public scrollHeight = input<string>('20rem');
+  public buffer = input<number>(5);
 
-  @ContentChild('item') itemTemplate?: TemplateRef<any>;
+  public itemTemplate = contentChild<TemplateRef<any>>('item');
 
   protected scrollTop = signal<number>(0);
   protected viewportHeight = signal<number>(320);
 
-  protected totalHeight = computed(() => (this.items ? this.items.length * this.itemSize : 0));
+  protected totalHeight = computed(() => {
+    const list = this.items();
+    return list ? list.length * this.itemSize() : 0;
+  });
 
   protected startIndex = computed(() => {
     const top = this.scrollTop();
-    const idx = Math.floor(top / this.itemSize) - this.buffer;
+    const size = this.itemSize();
+    const buf = this.buffer();
+    const idx = Math.floor(top / size) - buf;
     return Math.max(0, idx);
   });
 
   protected endIndex = computed(() => {
-    const top = this.scrollTop();
-    const count = Math.ceil(this.viewportHeight() / this.itemSize) + this.buffer * 2;
+    const size = this.itemSize();
+    const buf = this.buffer();
+    const count = Math.ceil(this.viewportHeight() / size) + buf * 2;
     const end = this.startIndex() + count;
-    return Math.min((this.items || []).length, end);
+    return Math.min((this.items() || []).length, end);
   });
 
-  protected offsetY = computed(() => this.startIndex() * this.itemSize);
+  protected offsetY = computed(() => this.startIndex() * this.itemSize());
 
   protected visibleItems = computed(() => {
-    const list = this.items || [];
+    const list = this.items() || [];
     return list.slice(this.startIndex(), this.endIndex());
   });
 

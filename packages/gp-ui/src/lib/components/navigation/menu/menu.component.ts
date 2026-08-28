@@ -1,7 +1,7 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   ElementRef,
@@ -23,8 +23,8 @@ import { GpMenuItem } from '../../button/split-button/split-button.component';
   styleUrl: './menu.component.scss'
 })
 export class GpMenuComponent extends GpBaseComponent {
-  @Input() model: GpMenuItem[] = [];
-  @Input() popup = false;
+  public model = input<GpMenuItem[]>([]);
+  public popup = input<boolean>(false);
 
   protected visible = signal<boolean>(false);
 
@@ -34,7 +34,7 @@ export class GpMenuComponent extends GpBaseComponent {
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (this.popup && !this.el.nativeElement.contains(event.target)) {
+    if (this.popup() && !this.el.nativeElement.contains(event.target)) {
       this.visible.set(false);
     }
   }
@@ -60,7 +60,7 @@ export class GpMenuComponent extends GpBaseComponent {
     if (item.command) {
       item.command({ originalEvent: event, item });
     }
-    if (this.popup) {
+    if (this.popup()) {
       this.hide();
     }
   }

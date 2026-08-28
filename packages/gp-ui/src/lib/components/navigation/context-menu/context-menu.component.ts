@@ -1,11 +1,9 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation,
-  ElementRef,
-  HostListener,
   signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -22,15 +20,10 @@ import { GpMenuItem } from '../../button/split-button/split-button.component';
   styleUrl: './context-menu.component.scss'
 })
 export class GpContextMenuComponent extends GpBaseComponent {
-  @Input() model: GpMenuItem[] = [];
+  public model = input<GpMenuItem[]>([]);
 
   protected visible = signal<boolean>(false);
   protected position = signal<{ x: number; y: number }>({ x: 0, y: 0 });
-
-  @HostListener('document:click')
-  onDocumentClick(): void {
-    this.visible.set(false);
-  }
 
   public show(event: MouseEvent): void {
     event.preventDefault();

@@ -4,7 +4,7 @@
       type="button"
       class="gp-carousel-nav-btn gp-carousel-prev"
       (click)="prev()"
-      [disabled]="circular ? false : activeIndex() === 0"
+      [disabled]="circular() ? false : activeIndex() === 0"
       aria-label="Previous slide"
     >
       <gp-icon name="chevron-left" size="1.2em" />
@@ -12,9 +12,11 @@
 
     <div class="gp-carousel-items-container">
       <div class="gp-carousel-items-slider" [style.transform]="'translateX(-' + activeIndex() * 100 + '%)'">
-        @for (item of value; track $index) {
+        @for (item of value(); track $index) {
           <div class="gp-carousel-item" role="group" [attr.aria-label]="'Slide ' + ($index + 1)">
-            <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }" />
+            @if (itemTemplate()) {
+              <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
+            }
           </div>
         }
       </div>
@@ -24,16 +26,16 @@
       type="button"
       class="gp-carousel-nav-btn gp-carousel-next"
       (click)="next()"
-      [disabled]="circular ? false : activeIndex() >= value.length - 1"
+      [disabled]="circular() ? false : activeIndex() >= value().length - 1"
       aria-label="Next slide"
     >
       <gp-icon name="chevron-right" size="1.2em" />
     </button>
   </div>
 
-  @if (showIndicators && value.length > 1) {
+  @if (showIndicators() && value().length > 1) {
     <div class="gp-carousel-indicators">
-      @for (item of value; track $index) {
+      @for (item of value(); track $index) {
         <button
           type="button"
           class="gp-carousel-indicator"

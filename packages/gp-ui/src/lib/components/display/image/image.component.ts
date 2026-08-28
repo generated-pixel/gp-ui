@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { ZIndexService } from '../../../overlay/z-index.service';
@@ -16,12 +16,12 @@ import { ZIndexService } from '../../../overlay/z-index.service';
 export class GpImageComponent extends GpBaseComponent {
   private zIndexService = inject(ZIndexService);
 
-  @Input() src = '';
-  @Input() alt = '';
-  @Input() width = '';
-  @Input() height = '';
-  @Input() preview = false;
-  @Input() previewSrc = '';
+  public src = input<string>('');
+  public alt = input<string>('');
+  public width = input<string>('');
+  public height = input<string>('');
+  public preview = input<boolean>(false);
+  public previewSrc = input<string>('');
 
   protected previewVisible = signal<boolean>(false);
   protected scale = signal<number>(1);

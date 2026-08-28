@@ -1,5 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import { Component, Input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -18,8 +18,8 @@ export type GpDockPosition = 'bottom' | 'top' | 'left' | 'right';
   styleUrl: './dock.component.scss'
 })
 export class GpDockComponent extends GpBaseComponent {
-  @Input() model: GpMenuItem[] = [];
-  @Input() position: GpDockPosition = 'bottom';
+  public model = input<GpMenuItem[]>([]);
+  public position = input<GpDockPosition>('bottom');
 
   public onItemClick(item: GpMenuItem, event: MouseEvent): void {
     if (item.disabled) {

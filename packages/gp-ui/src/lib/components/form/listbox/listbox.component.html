@@ -1,11 +1,11 @@
-<div class="gp-listbox" [class.gp-listbox-disabled]="disabled">
-  @if (filter) {
+<div class="gp-listbox" [class.gp-listbox-disabled]="isEffectivelyDisabled()">
+  @if (filter()) {
     <div class="gp-listbox-header">
       <div class="gp-select-filter-container gp-w-full">
         <input
           type="text"
           class="gp-inputtext gp-select-filter-input"
-          [placeholder]="filterPlaceholder"
+          [placeholder]="filterPlaceholder()"
           [value]="filterText()"
           (input)="onFilterInput($event)"
           aria-label="Filter options"
@@ -15,7 +15,7 @@
     </div>
   }
 
-  <ul class="gp-listbox-list" role="listbox" [attr.aria-multiselectable]="multiple">
+  <ul class="gp-listbox-list" role="listbox" [attr.aria-multiselectable]="multiple()">
     @for (opt of filteredOptions(); track $index) {
       <li
         class="gp-listbox-item"
@@ -31,7 +31,7 @@
         <span>{{ opt.label }}</span>
       </li>
     } @empty {
-      <li class="gp-listbox-empty">{{ emptyFilterMessage }}</li>
+      <li class="gp-listbox-empty">{{ emptyFilterMessage() }}</li>
     }
   </ul>
 </div>

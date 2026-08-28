@@ -1,9 +1,7 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  ContentChildren,
-  QueryList,
+  input,
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
@@ -17,8 +15,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './splitter.component.scss'
 })
 export class GpSplitterPanelComponent extends GpBaseComponent {
-  @Input() size = 50;
-  @Input() minSize = 10;
+  public size = input<number>(50);
+  public minSize = input<number>(10);
 }
 
 @Component({
@@ -28,7 +26,7 @@ export class GpSplitterPanelComponent extends GpBaseComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="gp-splitter" [class.gp-splitter-vertical]="layout === 'vertical'">
+    <div class="gp-splitter" [class.gp-splitter-vertical]="layout() === 'vertical'">
       <ng-content />
     </div>
   `,
@@ -50,5 +48,5 @@ export class GpSplitterPanelComponent extends GpBaseComponent {
   ]
 })
 export class GpSplitterComponent extends GpBaseComponent {
-  @Input() layout: 'horizontal' | 'vertical' = 'horizontal';
+  public layout = input<'horizontal' | 'vertical'>('horizontal');
 }

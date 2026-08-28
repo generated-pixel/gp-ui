@@ -1,13 +1,13 @@
-<div class="gp-autocomplete" [class.gp-input-disabled]="disabled" [class.gp-input-invalid]="isInvalid()">
+<div class="gp-autocomplete" [class.gp-input-disabled]="isEffectivelyDisabled()" [class.gp-input-invalid]="isInvalid()">
   <div class="gp-input-wrapper">
     <input
-      [id]="inputId"
+      [id]="inputId()"
       type="text"
       [value]="inputDisplayValue()"
-      [placeholder]="placeholder"
-      [disabled]="disabled"
-      [readonly]="readonly"
-      [attr.aria-label]="ariaLabel || placeholder || 'Auto Complete'"
+      [placeholder]="placeholder()"
+      [disabled]="isEffectivelyDisabled()"
+      [readonly]="readonly()"
+      [attr.aria-label]="ariaLabel() || placeholder() || 'Auto Complete'"
       [attr.aria-autocomplete]="'list'"
       [attr.aria-expanded]="overlayVisible()"
       [attr.aria-invalid]="isInvalid()"
@@ -18,7 +18,7 @@
       class="gp-inputtext"
     />
 
-    @if (dropdown) {
+    @if (dropdown()) {
       <button
         type="button"
         class="gp-autocomplete-dropdown-btn"
@@ -30,10 +30,10 @@
     }
   </div>
 
-  @if (overlayVisible() && suggestions && suggestions.length > 0) {
+  @if (overlayVisible() && suggestions() && suggestions().length > 0) {
     <div class="gp-select-overlay gp-autocomplete-overlay" role="listbox" (click)="$event.stopPropagation()">
       <ul class="gp-select-items">
-        @for (item of suggestions; track $index) {
+        @for (item of suggestions(); track $index) {
           <li
             class="gp-select-item"
             [class.gp-select-item-selected]="$index === activeIndex()"

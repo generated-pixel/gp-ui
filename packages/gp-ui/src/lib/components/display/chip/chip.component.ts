@@ -1,9 +1,8 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal
@@ -21,12 +20,12 @@ import { GpIconComponent } from '../../../icons/icon.component';
   styleUrl: './chip.component.scss'
 })
 export class GpChipComponent extends GpBaseComponent {
-  @Input() label = '';
-  @Input() icon = '';
-  @Input() image = '';
-  @Input() removable = false;
+  public label = input<string>('');
+  public icon = input<string>('');
+  public image = input<string>('');
+  public removable = input<boolean>(false);
 
-  @Output() onRemove = new EventEmitter<{ originalEvent: MouseEvent }>();
+  public onRemove = output<{ originalEvent: MouseEvent }>();
 
   protected visible = signal<boolean>(true);
 

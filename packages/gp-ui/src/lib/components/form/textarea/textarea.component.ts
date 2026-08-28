@@ -1,9 +1,8 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef
@@ -29,26 +28,19 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './textarea.component.scss'
 })
 export class GpTextareaComponent extends GpEditableBaseComponent implements ControlValueAccessor {
-  @Input() inputId = UniqueId.generate('textarea_');
-  @Input() rows = 3;
-  @Input() cols = 30;
-  @Input() override placeholder = '';
-  @Input() override disabled = false;
-  @Input() override readonly = false;
-  @Input() override required = false;
-  @Input() override invalid = false;
-  @Input() autoResize = false;
-  @Input() maxlength?: number;
-  @Input() showCounter = true;
-  @Input() override ariaLabel = '';
+  public inputId = input<string>(UniqueId.generate('textarea_'));
+  public rows = input<number>(3);
+  public cols = input<number>(30);
+  public autoResize = input<boolean>(false);
+  public maxlength = input<number | undefined>(undefined);
+  public showCounter = input<boolean>(true);
 
-  @Output() onInputEvent = new EventEmitter<Event>();
-  @Output() onFocusEvent = new EventEmitter<FocusEvent>();
-  @Output() onBlurEvent = new EventEmitter<FocusEvent>();
+  public onInputEvent = output<Event>();
+  public onFocusEvent = output<FocusEvent>();
+  public onBlurEvent = output<FocusEvent>();
 
   public override writeValue(value: any): void {
     const str = value != null ? String(value) : '';
-    this.value = str;
     this.internalValue.set(str);
   }
 
@@ -60,13 +52,9 @@ export class GpTextareaComponent extends GpEditableBaseComponent implements Cont
     this.onTouchedCallback = fn;
   }
 
-  public override setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
   protected onInput(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
-    if (this.autoResize) {
+    if (this.autoResize()) {
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }

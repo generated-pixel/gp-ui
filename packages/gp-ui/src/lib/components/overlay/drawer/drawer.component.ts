@@ -1,12 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
+  effect,
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,24 +27,30 @@ export type GpDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 export class GpDrawerComponent extends GpBaseComponent {
   private zIndexService = inject(ZIndexService);
 
-  @Input() header = '';
-  @Input() position: GpDrawerPosition = 'left';
-  @Input() modal = true;
-  @Input() dismissable = true;
+  public header = input<string>('');
+  public position = input<GpDrawerPosition>('left');
+  public modal = input<boolean>(true);
+  public dismissable = input<boolean>(true);
+  public visibleInput = input<boolean | undefined>(undefined, { alias: 'visibleProp' });
+  public visibleBinding = input<boolean | undefined>(undefined, { alias: 'visible' });
 
-  @Output() visibleChange = new EventEmitter<boolean>();
+  public visibleChange = output<boolean>();
 
   protected visible = signal<boolean>(false);
   protected zIndex = signal<number>(1100);
 
-  @Input() set visibleProp(val: boolean) {
-    if (val !== this.visible()) {
-      if (val) {
-        this.show();
-      } else {
-        this.close();
+  constructor() {
+    super();
+    effect(() => {
+      const v = this.visibleInput() ?? this.visibleBinding();
+      if (v !== undefined && v !== this.visible()) {
+        if (v) {
+          this.show();
+        } else {
+          this.close();
+        }
       }
-    }
+    });
   }
 
   public show(): void {
@@ -59,7 +65,7 @@ export class GpDrawerComponent extends GpBaseComponent {
   }
 
   public onMaskClick(): void {
-    if (this.dismissable) {
+    if (this.dismissable()) {
       this.close();
     }
   }
