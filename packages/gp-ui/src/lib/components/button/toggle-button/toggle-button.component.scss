@@ -1,16 +1,46 @@
 .gp-toggle-button {
-  background: var(--gp-surface-card);
-  border: 1px solid var(--gp-surface-border);
-  color: var(--gp-text-color);
-  transition: all var(--gp-transition-duration);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: var(--gp-button-padding-y, 0.5rem) var(--gp-button-padding-x, 1rem);
+  height: var(--gp-button-height, 2.5rem);
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  font-weight: var(--gp-button-font-weight, 500);
+  border-radius: var(--gp-button-border-radius, var(--gp-border-radius, 6px));
+  background: var(--gp-surface-card, #ffffff);
+  border: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.15));
+  color: var(--gp-text-color, #1e293b);
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--gp-transition-duration, 150ms) ease;
+  outline: none;
+  white-space: nowrap;
 }
 
 .gp-toggle-button:hover:not(:disabled) {
-  background: var(--gp-surface-hover);
+  background: var(--gp-surface-hover, rgba(0, 0, 0, 0.05));
+  border-color: var(--gp-surface-border, rgba(0, 0, 0, 0.2));
+}
+
+.gp-toggle-button:focus-visible {
+  box-shadow: var(--gp-focus-ring);
 }
 
 .gp-toggle-button-checked {
-  background: var(--gp-primary) !important;
-  color: var(--gp-primary-text) !important;
-  border-color: var(--gp-primary) !important;
+  background: var(--gp-primary, #4f46e5) !important;
+  color: var(--gp-primary-text, #ffffff) !important;
+  border-color: var(--gp-primary, #4f46e5) !important;
+}
+
+.gp-toggle-button-checked:hover:not(:disabled) {
+  background: var(--gp-primary-hover, #4338ca) !important;
+  border-color: var(--gp-primary-hover, #4338ca) !important;
+}
+
+.gp-toggle-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }

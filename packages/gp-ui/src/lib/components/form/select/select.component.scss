@@ -75,7 +75,9 @@
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(90vw, 36rem);
   margin-top: 4px;
   background: var(--gp-select-overlay-background, var(--gp-surface-overlay));
   border: 1px solid var(--gp-select-overlay-border-color, var(--gp-surface-border));
@@ -86,6 +88,7 @@
   display: flex;
   flex-direction: column;
   animation: gp-slide-down 0.15s ease-out;
+  box-sizing: border-box;
 }
 
 .gp-select-filter-container {

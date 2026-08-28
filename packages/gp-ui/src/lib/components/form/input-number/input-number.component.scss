@@ -1,109 +1,184 @@
 .gp-input-number {
-  display: block;
+  display: inline-flex;
   position: relative;
   width: 100%;
+  vertical-align: middle;
 }
+
 .gp-input-number-input-wrap {
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
 }
+
 .gp-input-number-input {
   width: 100%;
+  height: var(--gp-input-height, 2.5rem);
+  padding: 0 0.75rem;
+  border-radius: var(--gp-border-radius, 6px);
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  color: var(--gp-text-color, #1e293b);
+  font-size: var(--gp-font-size-base, 0.875rem);
+  line-height: 1.5;
+  box-sizing: border-box;
+  transition: all var(--gp-transition-duration, 150ms) ease;
 }
-.gp-input-number-buttons-stacked .gp-input-number-input {
-  padding-right: var(--gp-input-number-button-width);
+
+.gp-input-number-input:focus {
+  border-color: var(--gp-primary, #4f46e5);
+  box-shadow: var(--gp-focus-ring);
+  outline: none;
 }
+
 .gp-input-number-prefix,
 .gp-input-number-suffix {
   position: absolute;
-  color: var(--gp-text-color-secondary);
-  font-size: var(--gp-font-size-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gp-text-color-secondary, #64748b);
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  font-weight: 500;
+  line-height: 1;
   pointer-events: none;
+  z-index: 2;
+  user-select: none;
 }
+
 .gp-input-number-prefix {
   left: 0.75rem;
 }
+
 .gp-input-number-suffix {
   right: 0.75rem;
 }
+
+/* Offset input text when prefix or suffix is active so they sit inline beside each other */
+.gp-input-number-has-prefix .gp-input-number-input {
+  padding-left: 1.85rem !important;
+}
+
+.gp-input-number-has-suffix .gp-input-number-input {
+  padding-right: 1.85rem !important;
+}
+
+/* Stacked Buttons */
+.gp-input-number-buttons-stacked .gp-input-number-input {
+  padding-right: calc(var(--gp-input-number-button-width, 1.75rem) + 0.5rem);
+}
+
+.gp-input-number-buttons-stacked.gp-input-number-has-suffix .gp-input-number-input {
+  padding-right: calc(var(--gp-input-number-button-width, 1.75rem) + 2rem) !important;
+}
+
+.gp-input-number-buttons-stacked .gp-input-number-suffix {
+  right: calc(var(--gp-input-number-button-width, 1.75rem) + 0.5rem);
+}
+
+/* Horizontal Buttons */
+.gp-input-number-buttons-horizontal .gp-input-number-input {
+  padding-right: calc(var(--gp-input-number-horizontal-button-width, 2.5rem) + 0.5rem);
+  padding-left: calc(var(--gp-input-number-horizontal-button-width, 2.5rem) + 0.5rem);
+  text-align: center;
+}
+
+.gp-input-number-buttons-horizontal.gp-input-number-has-prefix .gp-input-number-prefix {
+  left: calc(var(--gp-input-number-horizontal-button-width, 2.5rem) + 0.5rem);
+}
+
+.gp-input-number-buttons-horizontal.gp-input-number-has-prefix .gp-input-number-input {
+  padding-left: calc(var(--gp-input-number-horizontal-button-width, 2.5rem) + 1.85rem) !important;
+}
+
+.gp-input-number-buttons-horizontal.gp-input-number-has-suffix .gp-input-number-suffix {
+  right: calc(var(--gp-input-number-horizontal-button-width, 2.5rem) + 0.5rem);
+}
+
+.gp-input-number-buttons-horizontal.gp-input-number-has-suffix .gp-input-number-input {
+  padding-right: calc(var(--gp-input-number-horizontal-button-width, 2.5rem) + 1.85rem) !important;
+}
+
 .gp-input-number-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--gp-input-number-horizontal-button-width);
-  min-height: var(--gp-input-height);
+  min-width: var(--gp-input-number-horizontal-button-width, 2.5rem);
+  min-height: var(--gp-input-height, 2.5rem);
   background: var(--gp-input-number-button-background, transparent);
   border: none;
-  color: var(--gp-text-color);
+  color: var(--gp-text-color-secondary, #64748b);
   cursor: pointer;
   margin: 0;
   padding: 0;
-  transition:
-    background-color var(--gp-transition-duration),
-    border-color var(--gp-transition-duration),
-    color var(--gp-transition-duration),
-    box-shadow var(--gp-transition-duration);
+  transition: all var(--gp-transition-duration, 150ms) ease;
 }
+
 .gp-input-number-btn:hover:not(:disabled) {
-  background: var(--gp-primary-light);
-  color: var(--gp-primary);
+  background: var(--gp-surface-hover, rgba(0, 0, 0, 0.05));
+  color: var(--gp-primary, #4f46e5);
 }
+
 .gp-input-number-btn:focus-visible {
   position: relative;
-  z-index: 1;
+  z-index: 3;
   box-shadow: var(--gp-focus-ring);
   outline: none;
 }
+
 .gp-input-number-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
+
 .gp-input-number-btn-stack {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 0;
-  right: 0;
-  flex: none;
-  width: var(--gp-input-number-button-width);
-  height: var(--gp-input-height);
-  margin: 0;
-  padding: 0;
-  z-index: 1;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  width: var(--gp-input-number-button-width, 1.75rem);
+  z-index: 2;
+  border-left: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.1));
 }
+
 .gp-input-number-btn-stack .gp-input-number-btn {
   min-width: 0;
   min-height: 0;
   width: 100%;
-  height: auto;
+  height: 50%;
   flex: 1 1 50%;
 }
+
 .gp-input-number-btn-stack .gp-input-number-btn-up {
-  border-top-right-radius: var(--gp-border-radius);
+  border-top-right-radius: calc(var(--gp-border-radius, 6px) - 1px);
 }
+
 .gp-input-number-btn-stack .gp-input-number-btn-down {
-  border-bottom-right-radius: var(--gp-border-radius);
+  border-bottom-right-radius: calc(var(--gp-border-radius, 6px) - 1px);
 }
-.gp-input-number-buttons-horizontal .gp-input-number-input {
-  padding-right: var(--gp-input-number-horizontal-button-width);
-  padding-left: var(--gp-input-number-horizontal-button-width);
-  text-align: center;
-}
+
 .gp-input-number-buttons-horizontal .gp-input-number-btn-down {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  flex: 0 0 var(--gp-input-number-horizontal-button-width);
-  width: var(--gp-input-number-horizontal-button-width);
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  z-index: 2;
+  width: var(--gp-input-number-horizontal-button-width, 2.5rem);
+  border-right: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.1));
+  border-top-left-radius: calc(var(--gp-border-radius, 6px) - 1px);
+  border-bottom-left-radius: calc(var(--gp-border-radius, 6px) - 1px);
 }
+
 .gp-input-number-buttons-horizontal .gp-input-number-btn-up {
   position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  flex: 0 0 var(--gp-input-number-horizontal-button-width);
-  width: var(--gp-input-number-horizontal-button-width);
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  z-index: 2;
+  width: var(--gp-input-number-horizontal-button-width, 2.5rem);
+  border-left: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.1));
+  border-top-right-radius: calc(var(--gp-border-radius, 6px) - 1px);
+  border-bottom-right-radius: calc(var(--gp-border-radius, 6px) - 1px);
 }
