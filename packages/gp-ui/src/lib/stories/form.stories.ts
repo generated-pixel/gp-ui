@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { GpInputTextComponent } from '../components/form/input-text.component';
+import { GpInputTextComponent } from '../components/form/input-text/input-text.component';
 
 const meta: Meta<GpInputTextComponent> = {
   title: 'Forms/InputText',
