@@ -65,8 +65,7 @@
           (optionsClick)="onWidgetOptions($event, item)"
           (lockToggle)="onWidgetLockToggle($event, item)"
         >
-          <!-- Forward custom content if passed to widget -->
-          <div [innerHTML]="item['content'] || ''" *ngIf="item['content']"></div>
+          <!-- Custom widget content should be provided via widgetTemplate to avoid unsafe HTML injection -->
         </gp-grid-widget>
       }
 
