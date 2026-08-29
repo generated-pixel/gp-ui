@@ -1,8 +1,8 @@
 <div class="gp-nav-tabs-container">
   <!-- Variant 1: Underline Tabs -->
   <div class="tabs-bar-underline" *ngIf="underlineTabs() && underlineTabs().length > 0">
-    <a
-      href="javascript:void(0)"
+    <button
+      type="button"
       *ngFor="let tab of underlineTabs()"
       class="tab-item"
       [class.active]="tab.id === activeUnderlineTab()"
@@ -14,7 +14,7 @@
         [value]="tab.badge"
         [severity]="tab.badgeSeverity || 'success'"
       />
-    </a>
+    </button>
   </div>
 
   <!-- Variant 2: Pill Tabs -->
