@@ -175,9 +175,25 @@ if (-not $SkipPublish) {
 
       Write-Host ""
       Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
-      Write-Host "Publishing $pkgName@$pkgVer from $dist..." -ForegroundColor Green
+      Write-Host "Checking $pkgName@$pkgVer from $dist..." -ForegroundColor Green
       Write-Host "--------------------------------------------------------" -ForegroundColor DarkGray
 
+      $exists = $false
+      try {
+        $check = & npm view "$pkgName@$pkgVer" version 2>$null
+        if ($LASTEXITCODE -eq 0 -and $check -eq $pkgVer) {
+          $exists = $true
+        }
+      } catch {
+        $exists = $false
+      }
+
+      if ($exists) {
+        Write-Host "  [SKIP] $pkgName@$pkgVer is already published on npm." -ForegroundColor Yellow
+        continue
+      }
+
+      Write-Host "Publishing $pkgName@$pkgVer..." -ForegroundColor Green
       Push-Location $dist
       try {
         & npm @PublishFlags
