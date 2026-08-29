@@ -1,8 +1,6 @@
 {
   "name": "@generatedpixel/gp-ui",
   "version": "0.2.1",
-  "main": "src/public-api.ts",
-  "typings": "src/public-api.ts",
   "description": "Production-grade Angular UI Component Framework",
   "keywords": [
     "angular",
