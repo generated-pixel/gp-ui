@@ -1,0 +1,59 @@
+<div class="gp-sidebar-stepper-shell">
+      <!-- Stepper Sidebar -->
+      <aside class="stepper-sidebar">
+        <div class="stepper-brand">{{ brandName }}</div>
+
+        <div class="vertical-steps">
+          <div class="step-node completed">
+            <div class="step-bullet">
+              <gp-icon name="check" size="0.8em" />
+            </div>
+            <div class="step-info">
+              <span class="step-num">Step 1</span>
+              <span class="step-label">Account Setup</span>
+            </div>
+          </div>
+
+          <div class="step-connector"></div>
+
+          <div class="step-node active">
+            <div class="step-bullet">2</div>
+            <div class="step-info">
+              <span class="step-num">Step 2</span>
+              <span class="step-label">Team & Workspace</span>
+            </div>
+          </div>
+
+          <div class="step-connector"></div>
+
+          <div class="step-node">
+            <div class="step-bullet">3</div>
+            <div class="step-info">
+              <span class="step-num">Step 3</span>
+              <span class="step-label">Payment & Plan</span>
+            </div>
+          </div>
+
+          <div class="step-connector"></div>
+
+          <div class="step-node">
+            <div class="step-bullet">4</div>
+            <div class="step-info">
+              <span class="step-num">Step 4</span>
+              <span class="step-label">Final Confirmation</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Step Workspace -->
+      <main class="stepper-main">
+        <header class="step-main-header">
+          <h2 class="step-main-title">{{ currentStepTitle }}</h2>
+          <p class="step-main-subtitle">{{ currentStepSubtitle }}</p>
+        </header>
+        <div class="step-main-content">
+          <ng-content />
+        </div>
+      </main>
+    </div>

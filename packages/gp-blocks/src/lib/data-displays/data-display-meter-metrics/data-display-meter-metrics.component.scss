@@ -1,0 +1,40 @@
+.gp-meter-metrics-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .meters-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .meter-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+      }
+
+      .m-label { color: var(--gp-text-primary, #1e293b); }
+      .m-value { color: var(--gp-text-secondary, #64748b); }

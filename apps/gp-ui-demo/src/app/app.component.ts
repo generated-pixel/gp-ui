@@ -810,6 +810,8 @@ export class AppComponent {
 
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
+    { name: 'UI Blocks Gallery', route: '/blocks', category: 'General', icon: 'grid', badge: '60+ Blocks' },
+    { name: 'JSON Schema Studio', route: '/blocks-playground', category: 'General', icon: 'sparkles', badge: 'Dynamic' },
     { name: 'gp-css Engine', route: '/gp-css', category: 'General', icon: 'sparkles', badge: `v${GP_UI_VERSION}` },
     { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
     { name: 'i18n & RTL', route: '/i18n', category: 'General', icon: 'globe' },

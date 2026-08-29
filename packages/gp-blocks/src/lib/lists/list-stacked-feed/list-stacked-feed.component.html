@@ -1,0 +1,24 @@
+<div class="gp-stacked-feed-card">
+      <div class="feed-header">
+        <h3 class="feed-title">{{ title }}</h3>
+        <gp-badge value="Real-time" severity="success" />
+      </div>
+
+      <div class="feed-items-list">
+        <div class="feed-item" *ngFor="let item of feedItems">
+          <gp-avatar [label]="item.author.charAt(0)" size="normal" shape="circle" />
+          <div class="item-body">
+            <div class="item-meta-row">
+              <span class="item-author">{{ item.author }}</span>
+              <span class="item-action">{{ item.action }}</span>
+              <strong class="item-target">{{ item.target }}</strong>
+            </div>
+            <p class="item-msg" *ngIf="item.message">{{ item.message }}</p>
+            <span class="item-time">{{ item.time }}</span>
+          </div>
+          <button type="button" class="btn-item-opts">
+            <gp-icon name="ellipsis-v" size="0.9em" />
+          </button>
+        </div>
+      </div>
+    </div>

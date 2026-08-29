@@ -1,0 +1,31 @@
+<div class="gp-card-grid-root">
+      <div class="grid-header">
+        <div>
+          <h2 class="title">{{ title }}</h2>
+          <p class="subtitle">{{ subtitle }}</p>
+        </div>
+        <gp-button severity="primary">
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+          Create Project
+        </gp-button>
+      </div>
+
+      <div class="cards-grid">
+        <div class="entity-card" *ngFor="let c of cards">
+          <div class="entity-top">
+            <div class="entity-icon-box">
+              <gp-icon [name]="c.icon" size="1.2em" />
+            </div>
+            <gp-badge [value]="c.status" [severity]="c.status === 'Active' ? 'success' : 'primary'" />
+          </div>
+
+          <h3 class="entity-title">{{ c.title }}</h3>
+          <p class="entity-desc">{{ c.desc }}</p>
+
+          <div class="entity-footer">
+            <span class="entity-meta">{{ c.meta }}</span>
+            <button type="button" class="btn-link">View &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </div>

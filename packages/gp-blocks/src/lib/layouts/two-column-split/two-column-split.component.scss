@@ -1,0 +1,87 @@
+.gp-layout-2col-split {
+        display: grid;
+        width: 100%;
+        min-height: 480px;
+        background: var(--gp-surface-ground, #f8fafc);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        overflow: hidden;
+      }
+
+      .gp-layout-2col-split.split-equal {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gp-layout-2col-split.split-60-40 {
+        grid-template-columns: 3fr 2fr;
+      }
+
+      .split-pane {
+        display: flex;
+        flex-direction: column;
+        background: var(--gp-surface-card, #ffffff);
+      }
+
+      .pane-primary {
+        border-right: 1px solid var(--gp-border-color, #e2e8f0);
+      }
+
+      .pane-header {
+        height: 56px;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card, #ffffff);
+      }
+
+      .pane-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .pane-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .pane-body {
+        padding: 1.5rem;
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .lead-text {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0 0 1.25rem 0;
+      }
+
+      .sample-content-box,
+      .sample-preview-box {
+        border: 2px dashed var(--gp-border-color, #cbd5e1);
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        background: var(--gp-surface-ground, #f8fafc);
+      }
+
+      .sample-preview-box .preview-icon {
+        color: var(--gp-primary-500, #3b82f6);
+        margin-bottom: 0.5rem;
+      }
+
+      @media (max-width: 868px) {
+        .gp-layout-2col-split {
+          grid-template-columns: 1fr !important;
+        }
+
+        .pane-primary {
+          border-right: none;
+          border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        }
+      }

@@ -1,0 +1,24 @@
+<div class="gp-file-list-card">
+      <div class="card-head">
+        <h3 class="title">{{ title }}</h3>
+        <gp-button variant="outlined" severity="secondary" size="sm">
+          <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem;" />
+          Upload New File
+        </gp-button>
+      </div>
+
+      <div class="files-list">
+        <div class="file-row" *ngFor="let f of files">
+          <div class="file-icon-box">
+            <gp-icon name="file" size="1.2em" />
+          </div>
+          <div class="file-info">
+            <span class="f-name">{{ f.name }}</span>
+            <span class="f-meta">{{ f.size }} &bull; Uploaded by {{ f.by }} on {{ f.date }}</span>
+          </div>
+          <button type="button" class="btn-download" title="Download file">
+            <gp-icon name="download" size="1em" />
+          </button>
+        </div>
+      </div>
+    </div>

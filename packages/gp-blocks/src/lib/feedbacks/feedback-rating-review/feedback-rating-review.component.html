@@ -1,0 +1,13 @@
+<div class="gp-rating-review-card">
+      <h3 class="title">{{ title }}</h3>
+      <p class="subtitle">{{ subtitle }}</p>
+
+      <div class="rating-picker-row">
+        <gp-rating [value]="rating" />
+      </div>
+
+      <div class="review-actions">
+        <gp-button variant="outlined" severity="secondary" size="sm">Maybe Later</gp-button>
+        <gp-button severity="primary" size="sm">Submit Feedback</gp-button>
+      </div>
+    </div>

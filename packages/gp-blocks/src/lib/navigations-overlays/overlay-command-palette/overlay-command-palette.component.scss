@@ -1,0 +1,107 @@
+.gp-command-palette-backdrop {
+        background: rgba(15, 23, 42, 0.4);
+        padding: 3rem 1.5rem;
+        border-radius: 14px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .palette-modal {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 580px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .palette-input-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+      }
+
+      .p-search-ico { color: var(--gp-text-secondary, #94a3b8); }
+
+      .p-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        color: var(--gp-text-primary, #0f172a);
+        background: transparent;
+      }
+
+      .p-esc-hint {
+        font-size: 0.7rem;
+        font-weight: 700;
+        background: var(--gp-surface-ground, #f1f5f9);
+        border: 1px solid var(--gp-border-color, #cbd5e1);
+        border-radius: 4px;
+        padding: 0.15rem 0.4rem;
+        color: var(--gp-text-secondary, #64748b);
+      }
+
+      .palette-results {
+        padding: 0.75rem 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+
+      .results-group-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--gp-text-secondary, #94a3b8);
+        padding: 0.4rem 0.75rem;
+      }
+
+      .palette-item {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .palette-item:hover, .palette-item.active {
+        background: var(--gp-surface-ground, #f1f5f9);
+      }
+
+      .palette-item.active {
+        background: rgba(59, 130, 246, 0.08);
+      }
+
+      .item-ico {
+        color: var(--gp-primary-500, #3b82f6);
+      }
+
+      .item-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .main-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .sub-label {
+        font-size: 0.75rem;
+        color: var(--gp-text-secondary, #64748b);
+      }
+
+      .item-shortcut {
+        font-size: 0.85rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }

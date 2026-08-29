@@ -1,0 +1,72 @@
+.gp-settings-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .settings-head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .settings-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .settings-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .members-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      .members-table th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--gp-text-secondary, #64748b);
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+      }
+
+      .members-table td {
+        padding: 0.85rem 0.75rem;
+        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        font-size: 0.875rem;
+      }
+
+      .member-cell {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .m-name {
+        font-weight: 600;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .m-email {
+        font-size: 0.75rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      .role-tag {
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: var(--gp-text-primary, #334155);
+      }

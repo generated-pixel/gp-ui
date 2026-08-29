@@ -1,0 +1,89 @@
+.gp-stacked-feed-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+      }
+
+      .feed-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .feed-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .feed-items-list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .feed-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+      }
+
+      .feed-item:last-child {
+        border-bottom: none;
+      }
+
+      .item-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .item-meta-row {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #475569);
+      }
+
+      .item-author {
+        font-weight: 700;
+        color: var(--gp-text-primary, #0f172a);
+        margin-right: 0.35rem;
+      }
+
+      .item-action {
+        margin-right: 0.35rem;
+      }
+
+      .item-target {
+        color: var(--gp-primary-600, #2563eb);
+      }
+
+      .item-msg {
+        font-size: 0.85rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0.25rem 0;
+        background: var(--gp-surface-ground, #f8fafc);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        border-left: 3px solid var(--gp-primary-500, #3b82f6);
+      }
+
+      .item-time {
+        font-size: 0.75rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      .btn-item-opts {
+        background: transparent;
+        border: none;
+        color: var(--gp-text-secondary, #94a3b8);
+        cursor: pointer;
+        padding: 0.25rem;
+      }

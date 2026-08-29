@@ -1,0 +1,52 @@
+<div class="gp-sidebar-light-shell">
+      <aside class="light-sidebar">
+        <div class="brand-header">
+          <div class="brand-badge">
+            <gp-icon [name]="brandIcon" size="1.2em" />
+          </div>
+          <span class="brand-title">{{ brandName }}</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="javascript:void(0)" class="nav-item active">
+            <gp-icon name="home" size="1.1em" />
+            <span>Dashboard</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="layer-group" size="1.1em" />
+            <span>Analytics</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="folder" size="1.1em" />
+            <span>Documents</span>
+            <gp-badge value="New" severity="success" />
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="users" size="1.1em" />
+            <span>Customers</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="sliders" size="1.1em" />
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="upgrade-card">
+          <span class="upgrade-title">Pro Plan</span>
+          <p class="upgrade-text">Unlock all components and unlimited exports.</p>
+          <button type="button" class="upgrade-btn">Upgrade Now</button>
+        </div>
+      </aside>
+
+      <div class="main-shell">
+        <header class="top-nav-bar">
+          <h2 class="page-title">{{ title }}</h2>
+          <div class="top-actions">
+            <ng-content select="[slot=top-actions]" />
+          </div>
+        </header>
+        <main class="page-content-area">
+          <ng-content />
+        </main>
+      </div>
+    </div>

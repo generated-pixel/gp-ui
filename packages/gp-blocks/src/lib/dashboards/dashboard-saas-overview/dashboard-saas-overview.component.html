@@ -1,0 +1,165 @@
+<div class="gp-dashboard-saas-root">
+      <!-- 1. Top KPI Row -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Annual Run Rate</span>
+            <div class="kpi-icon-wrap" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+              <gp-icon name="star" size="1.2em" />
+            </div>
+          </div>
+          <div class="kpi-val-row">
+            <span class="kpi-value">$2.48M</span>
+          </div>
+          <div class="kpi-trend positive">
+            <gp-icon name="chevron-up" size="0.8em" />
+            <span>+24.5% YoY</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Monthly Recurring</span>
+            <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+              <gp-icon name="refresh" size="1.2em" />
+            </div>
+          </div>
+          <div class="kpi-val-row">
+            <span class="kpi-value">$218,450</span>
+          </div>
+          <div class="kpi-trend positive">
+            <gp-icon name="chevron-up" size="0.8em" />
+            <span>+12.8% vs last mo</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Active Subscriptions</span>
+            <div class="kpi-icon-wrap" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+              <gp-icon name="users" size="1.2em" />
+            </div>
+          </div>
+          <div class="kpi-val-row">
+            <span class="kpi-value">1,420</span>
+          </div>
+          <div class="kpi-trend positive">
+            <gp-icon name="chevron-up" size="0.8em" />
+            <span>+88 new accounts</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-top">
+            <span class="kpi-label">Net Churn</span>
+            <div class="kpi-icon-wrap" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+              <gp-icon name="check" size="1.2em" />
+            </div>
+          </div>
+          <div class="kpi-val-row">
+            <span class="kpi-value">0.82%</span>
+          </div>
+          <div class="kpi-trend neutral">
+            <gp-icon name="minus" size="0.8em" />
+            <span>Industry Benchmark</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Middle Section: Revenue Stream & Acquisition Funnel -->
+      <div class="dashboard-mid-grid">
+        <!-- Revenue Bar Visualizer -->
+        <div class="panel-card chart-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Revenue Trajectory (Last 6 Months)</h3>
+            <gp-badge value="Real-time Sync" severity="success" />
+          </div>
+          <div class="simulated-chart-bars">
+            <div class="chart-col" *ngFor="let month of monthlyData">
+              <div class="bar-track">
+                <div class="bar-fill" [style.height]="month.pct + '%'"></div>
+              </div>
+              <span class="col-month">{{ month.month }}</span>
+              <span class="col-amt">{{ month.amt }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conversion Quota & Progress -->
+        <div class="panel-card quota-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">Quarterly Goals</h3>
+            <span class="target-pct">84%</span>
+          </div>
+          <div class="quota-list">
+            <div class="quota-item">
+              <div class="quota-head">
+                <span class="q-label">Enterprise Expansion</span>
+                <span class="q-val">$420K / $500K</span>
+              </div>
+              <gp-progress-bar [value]="84" [showValue]="false" />
+            </div>
+
+            <div class="quota-item">
+              <div class="quota-head">
+                <span class="q-label">SMB Self-Serve</span>
+                <span class="q-val">$190K / $200K</span>
+              </div>
+              <gp-progress-bar [value]="95" [showValue]="false" />
+            </div>
+
+            <div class="quota-item">
+              <div class="quota-head">
+                <span class="q-label">Marketplace Add-ons</span>
+                <span class="q-val">$68K / $100K</span>
+              </div>
+              <gp-progress-bar [value]="68" [showValue]="false" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Bottom Table: Recent Transactions / Upgrades -->
+      <div class="panel-card table-panel">
+        <div class="panel-header">
+          <h3 class="panel-title">Recent Enterprise Subscriptions</h3>
+          <gp-button variant="outlined" severity="secondary">Export CSV</gp-button>
+        </div>
+        <div class="custom-data-table-wrap">
+          <table class="saas-table">
+            <thead>
+              <tr>
+                <th>Customer Organization</th>
+                <th>Plan Tier</th>
+                <th>Billing Cycle</th>
+                <th>Contract Value</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of recentSignups">
+                <td>
+                  <div class="customer-cell">
+                    <gp-avatar [label]="row.name.charAt(0)" size="normal" shape="circle" />
+                    <div>
+                      <div class="cust-name">{{ row.name }}</div>
+                      <div class="cust-domain">{{ row.domain }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="plan-tag">{{ row.plan }}</span>
+                </td>
+                <td>{{ row.cycle }}</td>
+                <td>
+                  <strong>{{ row.mrr }}</strong>
+                </td>
+                <td>
+                  <gp-badge [value]="row.status" [severity]="row.status === 'Active' ? 'success' : 'info'" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>

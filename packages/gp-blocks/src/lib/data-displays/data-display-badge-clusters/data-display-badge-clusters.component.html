@@ -1,0 +1,27 @@
+<div class="gp-badge-clusters-card">
+      <h3 class="title">{{ title }}</h3>
+      <p class="subtitle">{{ subtitle }}</p>
+
+      <div class="cluster-sections">
+        <div class="section-group">
+          <span class="group-title">Deployment Statuses</span>
+          <div class="tag-row">
+            <gp-badge value="Live in Production" severity="success" />
+            <gp-badge value="Staging Candidate" severity="primary" />
+            <gp-badge value="QA Validation" severity="warning" />
+            <gp-badge value="Deprecated Build" severity="danger" />
+          </div>
+        </div>
+
+        <div class="section-group">
+          <span class="group-title">Technology Tags</span>
+          <div class="tag-row">
+            <gp-tag value="Angular 19" severity="primary" />
+            <gp-tag value="TypeScript 5.6" severity="secondary" />
+            <gp-tag value="Tailwind & CSS" severity="info" />
+            <gp-tag value="WebAssembly" severity="success" />
+            <gp-tag value="GraphQL" severity="contrast" />
+          </div>
+        </div>
+      </div>
+    </div>

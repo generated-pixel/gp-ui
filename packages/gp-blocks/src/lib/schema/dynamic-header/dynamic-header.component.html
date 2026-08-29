@@ -1,0 +1,77 @@
+<header class="gp-dynamic-header" [class.has-border]="schema?.borderBottom !== false">
+      <!-- Breadcrumb Navigation if provided -->
+      <div *ngIf="schema?.breadcrumbs && schema!.breadcrumbs!.length > 0" class="header-breadcrumb-row">
+        <gp-breadcrumb [model]="schema!.breadcrumbs!" />
+      </div>
+
+      <!-- Main Header Bar -->
+      <div class="header-main-row">
+        <div class="header-identity">
+          <!-- Back button -->
+          <button
+            *ngIf="schema?.backButton"
+            type="button"
+            class="back-btn"
+            (click)="backClick.emit()"
+            aria-label="Go back"
+          >
+            <gp-icon name="chevron-left" size="1.1em" />
+          </button>
+
+          <!-- Avatar if provided -->
+          <gp-avatar
+            *ngIf="schema?.avatar"
+            [image]="schema!.avatar!.image || ''"
+            [label]="schema!.avatar!.label || ''"
+            [icon]="schema!.avatar!.icon || ''"
+            [shape]="schema!.avatar!.shape || 'circle'"
+            size="large"
+            class="header-avatar"
+          />
+
+          <div class="header-titles">
+            <div class="title-with-badge">
+              <h1 class="header-title">{{ schema?.title }}</h1>
+              <gp-badge
+                *ngIf="schema?.badge"
+                [value]="schema!.badge!.text"
+                [severity]="schema!.badge!.severity || 'primary'"
+              />
+            </div>
+            <p *ngIf="schema?.subtitle" class="header-subtitle">{{ schema?.subtitle }}</p>
+          </div>
+        </div>
+
+        <!-- Inline Stats pills if provided -->
+        <div *ngIf="schema?.stats && schema!.stats!.length > 0" class="header-inline-stats">
+          <div *ngFor="let stat of schema!.stats!" class="inline-stat-card">
+            <span class="inline-stat-label">{{ stat.label }}</span>
+            <div class="inline-stat-value-row">
+              <span class="inline-stat-value">{{ stat.value }}</span>
+              <span
+                *ngIf="stat.change"
+                class="inline-stat-change"
+                [class.positive]="stat.isPositive"
+                [class.negative]="!stat.isPositive"
+              >
+                {{ stat.change }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div *ngIf="schema?.actions && schema!.actions!.length > 0" class="header-actions">
+          <gp-button
+            *ngFor="let action of schema!.actions!"
+            [severity]="action.severity || 'primary'"
+            [variant]="action.variant || 'filled'"
+            [disabled]="action.disabled || false"
+            (onClick)="actionClick.emit(action)"
+          >
+            <gp-icon *ngIf="action.icon" [name]="action.icon" size="0.9em" style="margin-right: 0.35rem;" />
+            {{ action.label }}
+          </gp-button>
+        </div>
+      </div>
+    </header>

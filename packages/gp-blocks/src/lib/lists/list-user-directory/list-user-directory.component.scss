@@ -1,0 +1,109 @@
+.gp-user-directory-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .dir-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .search-input-mini {
+        position: relative;
+        width: 240px;
+        display: flex;
+        align-items: center;
+      }
+
+      .s-ico {
+        position: absolute;
+        left: 0.65rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      .s-inp {
+        width: 100%;
+        padding: 0.4rem 0.65rem 0.4rem 2rem;
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 6px;
+        font-size: 0.8rem;
+        outline: none;
+      }
+
+      .user-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+      }
+
+      .user-card-item {
+        background: var(--gp-surface-ground, #f8fafc);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 10px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.35rem;
+      }
+
+      .user-avatar-wrap {
+        position: relative;
+        margin-bottom: 0.5rem;
+      }
+
+      .status-dot {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #cbd5e1;
+        border: 2px solid var(--gp-surface-card, #ffffff);
+      }
+
+      .status-dot.online { background: #22c55e; }
+
+      .u-name {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .u-role {
+        font-size: 0.775rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin-bottom: 0.5rem;
+      }
+
+      .user-card-actions {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+        justify-content: center;
+      }
+
+      @media (max-width: 992px) {
+        .user-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 640px) {
+        .user-grid { grid-template-columns: 1fr; }
+      }

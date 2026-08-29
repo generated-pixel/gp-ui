@@ -1,0 +1,77 @@
+.gp-kpi-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+        width: 100%;
+      }
+
+      .kpi-block-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .card-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--gp-text-secondary, #64748b);
+      }
+
+      .ico-circle {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card-main-val {
+        font-size: 1.875rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .trend-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.2rem;
+        padding: 0.15rem 0.4rem;
+        border-radius: 9999px;
+      }
+
+      .trend-badge.up { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+      .trend-badge.down { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+
+      .trend-caption {
+        font-size: 0.75rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      @media (max-width: 1024px) {
+        .gp-kpi-cards-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 640px) {
+        .gp-kpi-cards-grid { grid-template-columns: 1fr; }
+      }

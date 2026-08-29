@@ -1,0 +1,29 @@
+<div class="gp-profile-banner-card">
+      <!-- Gradient Banner Background -->
+      <div class="banner-cover"></div>
+
+      <!-- Overlapping Profile Details Bar -->
+      <div class="banner-body">
+        <div class="avatar-overlap-wrapper">
+          <gp-avatar [label]="userName.charAt(0)" size="xlarge" shape="circle" class="banner-avatar" />
+        </div>
+
+        <div class="profile-info-bar">
+          <div class="name-status-group">
+            <div class="name-badge-row">
+              <h2 class="profile-name">{{ userName }}</h2>
+              <gp-badge [value]="statusText" severity="success" />
+            </div>
+            <p class="profile-title">{{ userTitle }} &bull; {{ location }}</p>
+          </div>
+
+          <div class="banner-ctas">
+            <gp-button variant="outlined" severity="secondary">
+              <gp-icon name="user" size="0.85em" style="margin-right: 0.35rem;" />
+              Connect
+            </gp-button>
+            <gp-button severity="primary">Send Message</gp-button>
+          </div>
+        </div>
+      </div>
+    </div>

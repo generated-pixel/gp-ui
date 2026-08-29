@@ -1,0 +1,105 @@
+.gp-stacked-sticky-bar-shell {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 520px;
+        background: var(--gp-surface-ground, #f8fafc);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        overflow: hidden;
+      }
+
+      .top-nav-bar {
+        height: 60px;
+        background: var(--gp-surface-card, #ffffff);
+        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .link-item {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gp-text-secondary, #64748b);
+        text-decoration: none;
+      }
+
+      .link-item:hover, .link-item.active {
+        color: var(--gp-primary-600, #2563eb);
+      }
+
+      .sticky-action-bar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--gp-surface-card, #ffffff);
+        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        padding: 0.85rem 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      }
+
+      .action-bar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .bar-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .bar-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .bar-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .search-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .s-ico {
+        position: absolute;
+        left: 0.65rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      .s-inp {
+        padding: 0.4rem 0.65rem 0.4rem 2rem;
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 6px;
+        font-size: 0.825rem;
+        outline: none;
+      }
+
+      .page-content-area {
+        padding: 2rem;
+        flex: 1;
+        overflow-y: auto;
+      }

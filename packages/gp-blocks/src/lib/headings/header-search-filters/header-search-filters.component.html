@@ -1,0 +1,39 @@
+<div class="gp-header-search-filters-card">
+      <div class="top-row">
+        <div>
+          <h2 class="title">{{ title }}</h2>
+          <p class="subtitle">{{ subtitle }}</p>
+        </div>
+        <gp-button severity="primary">
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+          Create Entry
+        </gp-button>
+      </div>
+
+      <!-- Filters and Search Toolbar -->
+      <div class="filters-toolbar">
+        <div class="search-input-box">
+          <gp-icon name="search" size="0.85em" class="s-ico" />
+          <input type="text" placeholder="Search by name, email, or status..." class="s-inp" />
+        </div>
+
+        <div class="filter-dropdowns">
+          <select class="custom-select">
+            <option value="all">All Roles</option>
+            <option value="admin">Administrators</option>
+            <option value="editor">Editors</option>
+          </select>
+
+          <select class="custom-select">
+            <option value="active">Active Status</option>
+            <option value="pending">Pending</option>
+            <option value="suspended">Suspended</option>
+          </select>
+
+          <gp-button variant="outlined" severity="secondary">
+            <gp-icon name="filter" size="0.85em" style="margin-right: 0.35rem;" />
+            More Filters
+          </gp-button>
+        </div>
+      </div>
+    </div>

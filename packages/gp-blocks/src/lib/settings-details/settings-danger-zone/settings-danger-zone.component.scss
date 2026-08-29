@@ -1,0 +1,60 @@
+.gp-danger-zone-card {
+        background: #fff;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .danger-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: #b91c1c;
+      }
+
+      .danger-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .danger-actions-list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .danger-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 0;
+        border-top: 1px solid #fee2e2;
+        gap: 1.5rem;
+      }
+
+      .danger-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .d-action-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .d-action-desc {
+        font-size: 0.825rem;
+        color: var(--gp-text-secondary, #64748b);
+      }
+
+      @media (max-width: 640px) {
+        .danger-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }

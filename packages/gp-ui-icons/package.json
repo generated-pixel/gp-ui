@@ -1,6 +1,8 @@
 {
   "name": "@generatedpixel/gp-ui-icons",
   "version": "0.2.1",
+  "main": "src/public-api.ts",
+  "typings": "src/public-api.ts",
   "description": "Lightweight SVG Icon System for gp-ui",
   "keywords": [
     "icons",

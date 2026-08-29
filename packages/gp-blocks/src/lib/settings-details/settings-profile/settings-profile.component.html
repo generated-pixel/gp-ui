@@ -1,0 +1,45 @@
+<div class="gp-settings-card">
+      <div class="settings-head">
+        <h3 class="settings-title">{{ title }}</h3>
+        <p class="settings-subtitle">{{ subtitle }}</p>
+      </div>
+
+      <div class="profile-avatar-row">
+        <gp-avatar [label]="userName.charAt(0)" size="xlarge" shape="circle" />
+        <div class="avatar-controls">
+          <div class="btn-group">
+            <gp-button severity="primary" size="sm">Change Avatar</gp-button>
+            <gp-button variant="outlined" severity="secondary" size="sm">Remove</gp-button>
+          </div>
+          <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
+        </div>
+      </div>
+
+      <div class="form-fields-grid">
+        <div class="field-col col-6">
+          <label class="f-label">First Name</label>
+          <gp-input-text [value]="firstName" placeholder="First name" class="full-width-control" />
+        </div>
+        <div class="field-col col-6">
+          <label class="f-label">Last Name</label>
+          <gp-input-text [value]="lastName" placeholder="Last name" class="full-width-control" />
+        </div>
+        <div class="field-col col-6">
+          <label class="f-label">Email Address</label>
+          <gp-input-text [value]="email" placeholder="email@domain.com" class="full-width-control" />
+        </div>
+        <div class="field-col col-6">
+          <label class="f-label">Job Title</label>
+          <gp-input-text [value]="jobTitle" placeholder="e.g. Lead Engineer" class="full-width-control" />
+        </div>
+        <div class="field-col col-12">
+          <label class="f-label">Biography</label>
+          <gp-textarea [value]="bio" [rows]="3" placeholder="Tell us a little about yourself..." class="full-width-control" />
+        </div>
+      </div>
+
+      <div class="settings-footer">
+        <gp-button variant="outlined" severity="secondary">Cancel</gp-button>
+        <gp-button severity="primary">Save Changes</gp-button>
+      </div>
+    </div>

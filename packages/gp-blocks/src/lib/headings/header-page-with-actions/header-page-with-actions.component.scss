@@ -1,0 +1,61 @@
+.gp-page-header-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+      }
+
+      .breadcrumb-trail {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        color: var(--gp-text-secondary, #64748b);
+      }
+
+      .sep { color: var(--gp-text-secondary, #94a3b8); }
+      .current { color: var(--gp-text-primary, #0f172a); font-weight: 600; }
+
+      .header-main-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.25rem;
+      }
+
+      .title-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .title-with-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .page-title {
+        font-size: 1.625rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .page-desc {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0;
+      }
+
+      .actions-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }

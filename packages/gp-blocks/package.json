@@ -1,0 +1,46 @@
+{
+  "name": "@generatedpixel/gp-blocks",
+  "version": "0.2.1",
+  "main": "src/public-api.ts",
+  "typings": "src/public-api.ts",
+  "description": "Enterprise Reusable UI Blocks & Dynamic JSON Metadata Engine for Angular",
+  "keywords": [
+    "angular",
+    "blocks",
+    "primeblocks",
+    "ui-components",
+    "enterprise",
+    "layouts",
+    "dashboards",
+    "forms",
+    "json-schema",
+    "gp-ui"
+  ],
+  "author": "Generated Pixel",
+  "contributors": [
+    {
+      "name": "Graeme Gorman",
+      "email": "graeme@generatedpixel.dev"
+    }
+  ],
+  "homepage": "https://gp-ui.com/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/generated-pixel/gp-ui.git"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0",
+    "@angular/forms": ">=18.0.0",
+    "@angular/router": ">=18.0.0",
+    "gp-ui": ">=0.2.0",
+    "gp-ui-icons": ">=0.2.0",
+    "gp-ui-theme": ">=0.2.0",
+    "rxjs": ">=7.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

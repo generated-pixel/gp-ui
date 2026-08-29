@@ -1,0 +1,95 @@
+.gp-timeline-stream-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .timeline-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .stream-feed {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stream-item {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .stream-line-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stream-icon-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .stream-v-line {
+        width: 2px;
+        flex: 1;
+        background: var(--gp-border-color, #e2e8f0);
+        margin: 0.35rem 0;
+        min-height: 2rem;
+      }
+
+      .stream-body {
+        flex: 1;
+        padding-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .body-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .event-title {
+        font-size: 0.925rem;
+        font-weight: 700;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .event-time {
+        font-size: 0.775rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      .event-desc {
+        font-size: 0.85rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0;
+      }
+
+      .event-author {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.4rem;
+      }
+
+      .author-name {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--gp-text-primary, #334155);
+      }

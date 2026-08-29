@@ -1,0 +1,80 @@
+.gp-settings-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .settings-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .settings-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .profile-avatar-row {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+      }
+
+      .avatar-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .avatar-hint {
+        font-size: 0.75rem;
+        color: var(--gp-text-secondary, #94a3b8);
+      }
+
+      .form-fields-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.25rem;
+      }
+
+      .field-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .col-6 { grid-column: span 6; }
+      .col-12 { grid-column: span 12; }
+
+      .f-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--gp-text-primary, #334155);
+      }
+
+      .settings-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        padding-top: 1.25rem;
+      }
+
+      @media (max-width: 640px) {
+        .col-6 { grid-column: span 12; }
+      }

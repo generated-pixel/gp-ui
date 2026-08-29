@@ -1,0 +1,27 @@
+<div class="gp-stacked-subnav-tabs-shell">
+      <header class="top-nav-bar">
+        <div class="brand-group">
+          <gp-icon name="box" size="1.2em" class="brand-ico" />
+          <span class="brand-title">{{ brandName }}</span>
+        </div>
+        <div class="user-badge">
+          <gp-avatar [label]="userName.charAt(0)" size="normal" shape="circle" />
+        </div>
+      </header>
+
+      <!-- Subheader with Tab Bar & Breadcrumbs -->
+      <div class="sub-nav-tabs-bar">
+        <div class="tabs-inner-container">
+          <div class="subnav-tabs">
+            <a href="javascript:void(0)" class="tab-item active">Overview</a>
+            <a href="javascript:void(0)" class="tab-item">Members</a>
+            <a href="javascript:void(0)" class="tab-item">Settings</a>
+            <a href="javascript:void(0)" class="tab-item">Usage & Invoices</a>
+          </div>
+        </div>
+      </div>
+
+      <main class="page-content-wrapper">
+        <ng-content />
+      </main>
+    </div>

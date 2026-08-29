@@ -1,0 +1,27 @@
+<div class="gp-slide-over-wrapper">
+      <div class="slide-over-card">
+        <div class="slide-head">
+          <h3 class="title">{{ title }}</h3>
+          <button type="button" class="btn-close">
+            <gp-icon name="close" size="0.85em" />
+          </button>
+        </div>
+
+        <div class="slide-body">
+          <p class="desc">{{ description }}</p>
+          <div class="field-box">
+            <label class="lbl">Cluster Configuration Tag</label>
+            <input type="text" value="prod-us-east-cluster" class="inp" />
+          </div>
+          <div class="field-box">
+            <label class="lbl">Allocated Worker Nodes</label>
+            <input type="number" value="16" class="inp" />
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          <gp-button variant="outlined" severity="secondary">Cancel</gp-button>
+          <gp-button severity="primary">Save Changes</gp-button>
+        </div>
+      </div>
+    </div>

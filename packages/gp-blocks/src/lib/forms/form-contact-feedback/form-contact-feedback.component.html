@@ -1,0 +1,33 @@
+<div class="gp-contact-feedback-card">
+      <div class="feedback-head">
+        <h2 class="title">{{ title }}</h2>
+        <p class="subtitle">{{ subtitle }}</p>
+      </div>
+
+      <div class="feedback-fields">
+        <div class="col-6">
+          <label class="lbl">Your Name</label>
+          <gp-input-text placeholder="Alex Smith" class="full-width-control" />
+        </div>
+        <div class="col-6">
+          <label class="lbl">Email Address</label>
+          <gp-input-text placeholder="alex@company.com" class="full-width-control" />
+        </div>
+        <div class="col-12">
+          <label class="lbl">Inquiry Category</label>
+          <gp-select [options]="categories" placeholder="Select inquiry type..." class="full-width-control" />
+        </div>
+        <div class="col-12">
+          <label class="lbl">Rate your experience</label>
+          <gp-rating [value]="5" />
+        </div>
+        <div class="col-12">
+          <label class="lbl">Your Message or Feedback</label>
+          <gp-textarea [rows]="4" placeholder="How can we help or what can we improve?" class="full-width-control" />
+        </div>
+      </div>
+
+      <div class="feedback-footer">
+        <gp-button severity="primary">Send Feedback</gp-button>
+      </div>
+    </div>

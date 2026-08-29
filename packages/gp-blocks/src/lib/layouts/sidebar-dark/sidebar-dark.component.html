@@ -1,0 +1,59 @@
+<div class="gp-sidebar-dark-shell">
+      <!-- Dark Sidebar -->
+      <aside class="dark-sidebar">
+        <div class="brand-header">
+          <div class="brand-logo-mark">
+            <gp-icon [name]="brandIcon" size="1.2em" />
+          </div>
+          <span class="brand-text">{{ brandName }}</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section-label">{{ navGroupLabel }}</div>
+          <a href="javascript:void(0)" class="nav-item active">
+            <gp-icon name="home" size="1.1em" />
+            <span>Dashboard</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="folder" size="1.1em" />
+            <span>Projects</span>
+            <gp-badge value="4" severity="primary" />
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="users" size="1.1em" />
+            <span>Team</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="layer-group" size="1.1em" />
+            <span>Integrations</span>
+          </a>
+
+          <div class="nav-section-label" style="margin-top: 1rem;">System</div>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="sliders" size="1.1em" />
+            <span>Settings</span>
+          </a>
+        </nav>
+
+        <div class="user-footer">
+          <gp-avatar [label]="userName.charAt(0)" size="normal" shape="circle" />
+          <div class="user-info">
+            <span class="user-name">{{ userName }}</span>
+            <span class="user-role">{{ userEmail }}</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Shell Content -->
+      <div class="main-shell">
+        <header class="top-nav-bar">
+          <h2 class="page-title">{{ title }}</h2>
+          <div class="top-actions">
+            <ng-content select="[slot=top-actions]" />
+          </div>
+        </header>
+        <main class="page-content-area">
+          <ng-content />
+        </main>
+      </div>
+    </div>

@@ -1,0 +1,84 @@
+.gp-slide-over-wrapper {
+        background: rgba(15, 23, 42, 0.35);
+        padding: 2rem 1rem;
+        border-radius: 14px;
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+      }
+
+      .slide-over-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: -10px 0 25px -5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .slide-head {
+        height: 60px;
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+      }
+
+      .title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .btn-close {
+        background: transparent;
+        border: none;
+        color: var(--gp-text-secondary, #64748b);
+        cursor: pointer;
+      }
+
+      .slide-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .desc {
+        font-size: 0.85rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0;
+      }
+
+      .field-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .lbl {
+        font-size: 0.825rem;
+        font-weight: 600;
+        color: var(--gp-text-primary, #334155);
+      }
+
+      .inp {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--gp-border-color, #cbd5e1);
+        border-radius: 6px;
+        font-size: 0.85rem;
+      }
+
+      .slide-footer {
+        padding: 1.25rem 1.5rem;
+        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+      }

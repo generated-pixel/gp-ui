@@ -1,0 +1,18 @@
+<div class="gp-kpi-cards-grid">
+      <div class="kpi-block-card" *ngFor="let k of kpis">
+        <div class="card-top">
+          <span class="card-label">{{ k.label }}</span>
+          <div class="ico-circle" [style.backgroundColor]="k.iconBg" [style.color]="k.iconColor">
+            <gp-icon [name]="k.icon" size="1.1em" />
+          </div>
+        </div>
+        <div class="card-main-val">{{ k.value }}</div>
+        <div class="card-footer">
+          <span class="trend-badge" [class.up]="k.isUp" [class.down]="!k.isUp">
+            <gp-icon [name]="k.isUp ? 'chevron-up' : 'chevron-down'" size="0.75em" />
+            {{ k.change }}
+          </span>
+          <span class="trend-caption">{{ k.caption }}</span>
+        </div>
+      </div>
+    </div>

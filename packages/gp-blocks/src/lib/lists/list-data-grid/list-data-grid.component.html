@@ -1,0 +1,69 @@
+<div class="gp-list-data-grid-card">
+      <!-- Toolbar -->
+      <div class="grid-toolbar">
+        <div class="search-box">
+          <gp-icon name="search" size="0.85em" class="s-ico" />
+          <input type="text" placeholder="Search orders..." class="s-inp" />
+        </div>
+        <div class="toolbar-actions">
+          <gp-button variant="outlined" severity="secondary">
+            <gp-icon name="filter" size="0.85em" style="margin-right: 0.35rem;" />
+            Filter
+          </gp-button>
+          <gp-button severity="primary">
+            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+            New Order
+          </gp-button>
+        </div>
+      </div>
+
+      <!-- Table View -->
+      <div class="table-scroll-container">
+        <table class="grid-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Total Amount</th>
+              <th>Payment Status</th>
+              <th>Fulfillment</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows">
+              <td><input type="checkbox" /></td>
+              <td><strong>#{{ row.id }}</strong></td>
+              <td>{{ row.customer }}</td>
+              <td>{{ row.date }}</td>
+              <td><strong>{{ row.amount }}</strong></td>
+              <td>
+                <gp-badge [value]="row.payment" [severity]="row.payment === 'Paid' ? 'success' : 'warning'" />
+              </td>
+              <td>
+                <gp-badge [value]="row.fulfillment" [severity]="row.fulfillment === 'Shipped' ? 'info' : 'secondary'" />
+              </td>
+              <td>
+                <button type="button" class="action-dots" title="Options">
+                  <gp-icon name="ellipsis-v" size="1em" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginator Footer -->
+      <div class="grid-footer">
+        <span class="showing-count">Showing 1 to 5 of 128 results</span>
+        <div class="pagination-buttons">
+          <button type="button" class="p-btn" disabled>&lt; Previous</button>
+          <button type="button" class="p-btn active">1</button>
+          <button type="button" class="p-btn">2</button>
+          <button type="button" class="p-btn">3</button>
+          <button type="button" class="p-btn">Next &gt;</button>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,32 @@
+<div class="gp-stacked-hero-shell">
+      <!-- Gradient Hero Header -->
+      <section class="hero-banner-section">
+        <header class="hero-topbar">
+          <div class="hero-brand">
+            <gp-icon name="layer-group" size="1.2em" />
+            <span>{{ brandName }}</span>
+          </div>
+          <nav class="hero-nav">
+            <a href="javascript:void(0)" class="hero-link active">Overview</a>
+            <a href="javascript:void(0)" class="hero-link">Features</a>
+            <a href="javascript:void(0)" class="hero-link">Pricing</a>
+          </nav>
+        </header>
+
+        <div class="hero-content">
+          <div class="hero-text-wrap">
+            <h1 class="hero-title">{{ heroTitle }}</h1>
+            <p class="hero-subtitle">{{ heroSubtitle }}</p>
+          </div>
+          <div class="hero-actions">
+            <button type="button" class="btn-hero-primary">{{ primaryCta }}</button>
+            <button type="button" class="btn-hero-secondary">{{ secondaryCta }}</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Body Container -->
+      <main class="hero-body-content">
+        <ng-content />
+      </main>
+    </div>

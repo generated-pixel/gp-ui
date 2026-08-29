@@ -1,0 +1,44 @@
+.gp-empty-state-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 2px dashed var(--gp-border-color, #cbd5e1);
+        border-radius: 14px;
+        padding: 3.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+        width: 100%;
+      }
+
+      .empty-icon-circle {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--gp-primary-500, #3b82f6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .empty-title {
+        font-size: 1.35rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .empty-desc {
+        font-size: 0.9rem;
+        color: var(--gp-text-secondary, #64748b);
+        max-width: 420px;
+        margin: 0 0 1rem 0;
+        line-height: 1.5;
+      }
+
+      .empty-actions {
+        display: flex;
+        gap: 0.75rem;
+      }

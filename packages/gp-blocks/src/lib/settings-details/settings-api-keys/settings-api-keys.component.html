@@ -1,0 +1,33 @@
+<div class="gp-settings-card">
+      <div class="settings-head-row">
+        <div>
+          <h3 class="settings-title">{{ title }}</h3>
+          <p class="settings-subtitle">{{ subtitle }}</p>
+        </div>
+        <gp-button severity="primary">
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+          Generate New Key
+        </gp-button>
+      </div>
+
+      <div class="keys-list">
+        <div class="key-card" *ngFor="let k of apiKeys">
+          <div class="key-top">
+            <div class="key-name-group">
+              <span class="key-name">{{ k.name }}</span>
+              <gp-badge [value]="k.scope" severity="info" />
+            </div>
+            <button type="button" class="btn-trash">
+              <gp-icon name="trash" size="0.9em" />
+            </button>
+          </div>
+          <div class="key-token-box">
+            <code>{{ k.token }}</code>
+            <button type="button" class="btn-copy" title="Copy key">
+              <gp-icon name="copy" size="0.9em" />
+            </button>
+          </div>
+          <div class="key-meta">Created {{ k.created }} &bull; Last used {{ k.lastUsed }}</div>
+        </div>
+      </div>
+    </div>

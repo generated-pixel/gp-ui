@@ -1,0 +1,52 @@
+<div class="gp-dashboard-analytics-root">
+      <!-- Traffic Stats Grid -->
+      <div class="traffic-stats-row">
+        <div class="traffic-stat-card">
+          <span class="stat-title">Total Sessions</span>
+          <span class="stat-num">482,900</span>
+          <span class="stat-diff pos">+14.2% vs prev period</span>
+        </div>
+        <div class="traffic-stat-card">
+          <span class="stat-title">Unique Visitors</span>
+          <span class="stat-num">312,450</span>
+          <span class="stat-diff pos">+8.9% new users</span>
+        </div>
+        <div class="traffic-stat-card">
+          <span class="stat-title">Bounce Rate</span>
+          <span class="stat-num">32.4%</span>
+          <span class="stat-diff pos">-2.1% improvement</span>
+        </div>
+        <div class="traffic-stat-card">
+          <span class="stat-title">Avg Session Duration</span>
+          <span class="stat-num">3m 42s</span>
+          <span class="stat-diff neu">+12s vs avg</span>
+        </div>
+      </div>
+
+      <!-- Sources & Countries Breakdown -->
+      <div class="analytics-panels-grid">
+        <div class="analytics-panel">
+          <h3>Top Acquisition Channels</h3>
+          <div class="channel-bars">
+            <div class="channel-row" *ngFor="let c of channels">
+              <div class="ch-info">
+                <span>{{ c.name }}</span>
+                <span>{{ c.pct }}% ({{ c.users }})</span>
+              </div>
+              <gp-progress-bar [value]="c.pct" [showValue]="false" />
+            </div>
+          </div>
+        </div>
+
+        <div class="analytics-panel">
+          <h3>Top Geographic Regions</h3>
+          <div class="region-list">
+            <div class="region-item" *ngFor="let r of regions">
+              <span class="r-country">{{ r.country }}</span>
+              <span class="r-sessions">{{ r.sessions }} sessions</span>
+              <gp-badge [value]="r.pct + '%'" severity="primary" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,39 @@
+<div class="gp-sidebar-gradient-shell">
+      <aside class="gradient-sidebar">
+        <div class="gradient-brand">
+          <gp-icon name="star" size="1.2em" />
+          <span class="gradient-brand-title">{{ brandName }}</span>
+        </div>
+
+        <nav class="gradient-nav">
+          <a href="javascript:void(0)" class="nav-item active">
+            <gp-icon name="home" size="1.1em" />
+            <span>Home</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="layer-group" size="1.1em" />
+            <span>Discover</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="users" size="1.1em" />
+            <span>Community</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="sliders" size="1.1em" />
+            <span>Preferences</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="main-shell">
+        <header class="top-nav-bar">
+          <h2 class="page-title">{{ title }}</h2>
+          <div class="top-actions">
+            <ng-content select="[slot=top-actions]" />
+          </div>
+        </header>
+        <main class="page-content-area">
+          <ng-content />
+        </main>
+      </div>
+    </div>

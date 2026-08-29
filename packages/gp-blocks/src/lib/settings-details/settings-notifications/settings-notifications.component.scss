@@ -1,0 +1,57 @@
+.gp-settings-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .settings-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .settings-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-secondary, #64748b);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .notifications-list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .notif-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 0;
+        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+      }
+
+      .notif-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .notif-label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--gp-text-primary, #0f172a);
+      }
+
+      .notif-desc {
+        font-size: 0.825rem;
+        color: var(--gp-text-secondary, #64748b);
+      }
+
+      .settings-footer {
+        display: flex;
+        justify-content: flex-end;
+      }
