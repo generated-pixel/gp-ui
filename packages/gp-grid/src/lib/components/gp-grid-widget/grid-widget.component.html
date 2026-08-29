@@ -1,0 +1,108 @@
+<div
+  class="gp-grid-widget"
+  [class.gp-grid-widget--locked]="isLocked()"
+  [class.gp-grid-widget--fixed]="isFixed()"
+  [class.gp-grid-widget--dragging]="isDragging()"
+  [class.gp-grid-widget--resizing]="isResizing()"
+  [ngClass]="customClass()"
+  [attr.role]="'article'"
+  [attr.aria-label]="effectiveTitle() || 'Widget'"
+>
+  @if (showHeader()) {
+    <header class="gp-grid-widget-header">
+      <div class="gp-grid-widget-header-start">
+        @if (isDraggable()) {
+          <div
+            class="gp-grid-widget-drag-handle"
+            [title]="effectiveDragHandleTitle()"
+            [attr.aria-label]="effectiveDragHandleAriaLabel()"
+          >
+            <gp-icon name="grip-vertical" size="16px" class="gp-grid-handle-icon" />
+          </div>
+        } @else if (isLocked()) {
+          <div
+            class="gp-grid-widget-locked-badge"
+            [title]="effectiveLockedBadgeTitle()"
+            [attr.aria-label]="effectiveLockedBadgeAriaLabel()"
+            role="status"
+          >
+            <gp-icon name="lock" size="14px" class="gp-grid-lock-icon" />
+          </div>
+        }
+
+        @if (effectiveIcon()) {
+          <gp-icon [name]="effectiveIcon()" size="16px" class="gp-grid-widget-custom-icon" />
+        }
+
+        <div class="gp-grid-widget-title-group">
+          @if (effectiveTitle()) {
+            <h3 class="gp-grid-widget-title" [title]="effectiveTitle()">
+              {{ effectiveTitle() }}
+            </h3>
+          }
+          @if (badge()) {
+            <span
+              class="gp-grid-widget-badge"
+              [class]="'gp-grid-widget-badge--' + badgeSeverity()"
+            >
+              {{ badge() }}
+            </span>
+          }
+          <ng-content select="[gpWidgetHeader]" />
+        </div>
+      </div>
+
+      <div class="gp-grid-widget-header-actions">
+        <ng-content select="[gpWidgetActions]" />
+
+        <!-- Options Button -->
+        <button
+          type="button"
+          class="gp-grid-widget-action-btn gp-grid-widget-options-btn"
+          (click)="onOptions($event)"
+          [title]="effectiveOptionsTitle()"
+          [attr.aria-label]="effectiveOptionsAriaLabel()"
+        >
+          <gp-icon name="ellipsis-v" size="15px" />
+        </button>
+
+        <!-- Close Button -->
+        @if (isCloseable()) {
+          <button
+            type="button"
+            class="gp-grid-widget-action-btn gp-grid-widget-close-btn"
+            (click)="onClose($event)"
+            [title]="effectiveCloseTitle()"
+            [attr.aria-label]="effectiveCloseAriaLabel()"
+          >
+            <gp-icon name="times" size="15px" />
+          </button>
+        }
+      </div>
+    </header>
+  }
+
+  <div class="gp-grid-widget-body">
+    <ng-content />
+  </div>
+
+  @if (isResizable()) {
+    <div
+      class="gp-grid-widget-resize-handle"
+      [title]="effectiveResizeTitle()"
+      [attr.aria-label]="effectiveResizeAriaLabel()"
+      role="button"
+      tabindex="0"
+    >
+      <svg
+        viewBox="0 0 16 16"
+        width="10"
+        height="10"
+        fill="currentColor"
+        class="gp-grid-resize-icon"
+      >
+        <path d="M14 14H12V12H14V14ZM14 9H12V11H14V9ZM9 14H11V12H9V14ZM14 6H12V8H14V6ZM6 14H8V12H6V14ZM9 11H11V9H9V11Z" opacity="0.75"/>
+      </svg>
+    </div>
+  }
+</div>

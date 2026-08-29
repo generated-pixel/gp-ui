@@ -1,0 +1,104 @@
+<div
+  class="gp-grid-container"
+  #gridContainer
+  [attr.role]="'region'"
+  [attr.aria-label]="effectiveAriaLabel()"
+>
+  <!-- Background Grid Lines Overlay (Optional / During Drag) -->
+  @if (showGridLines() || isDragging() || isResizing()) {
+    <div class="gp-grid-lines" aria-hidden="true">
+      @for (c of gridGuideCols(); track c) {
+        <div class="gp-grid-col-guide"></div>
+      }
+    </div>
+  }
+
+  <!-- Active Drag / Resize Ghost Placeholder -->
+  @if (placeholderPos(); as ph) {
+    <div
+      class="gp-grid-placeholder"
+      [class.gp-grid-placeholder--invalid]="!ph.valid"
+      [ngStyle]="getPlaceholderStyle()"
+    >
+      <div class="gp-grid-placeholder-inner">
+        @if (!ph.valid) {
+          <span class="gp-grid-placeholder-warning">
+            <gp-icon name="times-circle" size="18px" />
+          </span>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Grid Items List -->
+  @for (item of displayItems(); track item.id) {
+    <div
+      class="gp-grid-item-wrapper"
+      [class.gp-grid-item-wrapper--dragging]="activeDrag()?.itemId === item.id"
+      [class.gp-grid-item-wrapper--resizing]="activeResize()?.itemId === item.id"
+      [class.gp-grid-item-wrapper--locked]="item.locked"
+      [class.gp-grid-item-wrapper--fixed]="item.fixed"
+      [ngStyle]="getItemStyle(item)"
+      [attr.data-grid-id]="item.id"
+      (pointerdown)="onWidgetPointerDown($event, item)"
+    >
+      @if (widgetTemplate) {
+        <ng-container
+          *ngTemplateOutlet="widgetTemplate; context: { $implicit: item }"
+        />
+      } @else {
+        <gp-grid-widget
+          [item]="item"
+          [title]="item.title || ''"
+          [icon]="item.icon || ''"
+          [badge]="item.badge || ''"
+          [badgeSeverity]="item.badgeSeverity || 'primary'"
+          [draggable]="item.draggable"
+          [resizable]="item.resizable"
+          [closeable]="item.closeable"
+          [fixed]="item.fixed"
+          [locked]="item.locked"
+          [customClass]="item.customClass || ''"
+          [isDragging]="activeDrag()?.itemId === item.id"
+          [isResizing]="activeResize()?.itemId === item.id"
+          (close)="onWidgetClose(item)"
+          (optionsClick)="onWidgetOptions($event, item)"
+          (lockToggle)="onWidgetLockToggle($event, item)"
+        >
+          <!-- Custom widget content should be provided via widgetTemplate to avoid unsafe HTML injection -->
+        </gp-grid-widget>
+      }
+
+      <!-- Corner Resize Handle Trigger -->
+      @if (!readonly() && !item.fixed && !item.locked && item.resizable !== false) {
+        <div
+          class="gp-grid-corner-resize-hitbox"
+          [title]="effectiveResizeHandleTitle()"
+          [attr.aria-label]="effectiveResizeHandleAriaLabel()"
+          role="button"
+          tabindex="0"
+          (pointerdown)="onResizePointerDown($event, item)"
+        ></div>
+      }
+    </div>
+  }
+
+  <!-- Empty Grid State -->
+  @if (items().length === 0) {
+    <div class="gp-grid-empty-container">
+      @if (emptyTemplate) {
+        <ng-container *ngTemplateOutlet="emptyTemplate" />
+      } @else {
+        <div class="gp-grid-default-empty">
+          <div class="gp-grid-empty-icon-wrap">
+            <gp-icon name="layout-grid" size="36px" />
+          </div>
+          <h4 class="gp-grid-empty-title">{{ effectiveEmptyTitle() }}</h4>
+          <p class="gp-grid-empty-desc">
+            {{ effectiveEmptyMessage() }}
+          </p>
+        </div>
+      }
+    </div>
+  }
+</div>

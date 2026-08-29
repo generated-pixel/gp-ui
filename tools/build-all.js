@@ -13,13 +13,16 @@ try {
   console.log('3/5 Building Icons...');
   execSync('node tools/build-icons.js', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
-  console.log('4/6 Building Core Component Library (ng-packagr)...');
+  console.log('4/7 Building Core Component Library (ng-packagr)...');
   execSync('npx ng-packagr -p packages/gp-ui/ng-package.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
-  console.log('5/6 Building gp-blocks Library (ng-packagr)...');
+  console.log('5/7 Building gp-blocks Library (ng-packagr)...');
   execSync('npx ng-packagr -p packages/gp-blocks/ng-package.json -c packages/gp-blocks/tsconfig.lib.prod.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
-  console.log('6/6 Building Demo Application (ng build gp-ui-demo)...');
+  console.log('6/7 Building gp-grid Package (ng-packagr)...');
+  execSync('npx ng-packagr -p packages/gp-grid/ng-package.json -c packages/gp-grid/tsconfig.lib.prod.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+
+  console.log('7/7 Building Demo Application (ng build gp-ui-demo)...');
   execSync('npx ng build gp-ui-demo', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
   console.log('? All packages and demo app built successfully!');

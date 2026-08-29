@@ -1,17 +1,15 @@
 {
-  "name": "@generatedpixel/gp-blocks",
+  "name": "@generatedpixel/gp-grid",
   "version": "0.4.0",
-  "description": "Enterprise Reusable UI Blocks & Dynamic JSON Metadata Engine for Angular",
+  "description": "High-performance reactive dynamic grid and widget dashboard engine for Angular",
   "keywords": [
     "angular",
-    "blocks",
-    "primeblocks",
-    "ui-components",
-    "enterprise",
-    "layouts",
-    "dashboards",
-    "forms",
-    "json-schema",
+    "grid",
+    "gridstack",
+    "dashboard",
+    "widgets",
+    "drag-and-drop",
+    "signals",
     "gp-ui"
   ],
   "author": "Generated Pixel",
@@ -31,10 +29,7 @@
     "@angular/common": ">=18.0.0",
     "@angular/core": ">=18.0.0",
     "@angular/forms": ">=18.0.0",
-    "@angular/router": ">=18.0.0",
     "@generatedpixel/gp-ui": ">=0.4.0",
-    "@generatedpixel/gp-ui-icons": ">=0.4.0",
-    "@generatedpixel/gp-ui-theme": ">=0.4.0",
     "rxjs": ">=7.0.0"
   },
   "dependencies": {

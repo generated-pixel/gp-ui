@@ -30,7 +30,11 @@
       "@generatedpixel/gp-blocks/*": ["packages/gp-blocks/src/*"],
       "@generatedpixel/gp-css": ["packages/gp-css/src/index.ts"],
       "@generatedpixel/gp-css/*": ["packages/gp-css/src/*"],
-      "gp-css": ["packages/gp-css/src/index.ts"]
+      "gp-css": ["packages/gp-css/src/index.ts"],
+      "gp-grid": ["packages/gp-grid/src/public-api.ts"],
+      "gp-grid/*": ["packages/gp-grid/src/*"],
+      "@generatedpixel/gp-grid": ["packages/gp-grid/src/public-api.ts"],
+      "@generatedpixel/gp-grid/*": ["packages/gp-grid/src/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

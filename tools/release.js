@@ -35,7 +35,10 @@ const packagePaths = [
   path.join(__dirname, '../package.json'),
   path.join(__dirname, '../packages/gp-ui/package.json'),
   path.join(__dirname, '../packages/gp-ui-theme/package.json'),
-  path.join(__dirname, '../packages/gp-ui-icons/package.json')
+  path.join(__dirname, '../packages/gp-ui-icons/package.json'),
+  path.join(__dirname, '../packages/gp-css/package.json'),
+  path.join(__dirname, '../packages/gp-blocks/package.json'),
+  path.join(__dirname, '../packages/gp-grid/package.json')
 ];
 
 packagePaths.forEach((p) => {

@@ -9,6 +9,12 @@
       "path": "./packages/gp-ui/tsconfig.spec.json"
     },
     {
+      "path": "./packages/gp-grid/tsconfig.lib.json"
+    },
+    {
+      "path": "./packages/gp-grid/tsconfig.spec.json"
+    },
+    {
       "path": "./apps/gp-ui-demo/tsconfig.app.json"
     }
   ]

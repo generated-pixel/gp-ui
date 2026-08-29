@@ -48,6 +48,16 @@ export interface GpTranslation {
     pageReport?: string;
     rowsPerPage?: string;
   };
+  grid?: {
+    emptyTitle?: string;
+    emptyMessage?: string;
+    dragHandle?: string;
+    lockedBadge?: string;
+    options?: string;
+    close?: string;
+    resizeHandle?: string;
+    ariaLabel?: string;
+  };
 }
 
 export const GP_DEFAULT_TRANSLATION: GpTranslation = {
@@ -112,5 +122,15 @@ export const GP_DEFAULT_TRANSLATION: GpTranslation = {
     lastPage: 'Last Page',
     pageReport: 'Showing {first} to {last} of {totalRecords} entries',
     rowsPerPage: 'Rows per page'
+  },
+  grid: {
+    emptyTitle: 'Grid Canvas is Empty',
+    emptyMessage: 'No widgets placed on this grid. Add widgets dynamically using the grid controls or API.',
+    dragHandle: 'Drag to reposition widget',
+    lockedBadge: 'Widget is locked in place',
+    options: 'Widget options',
+    close: 'Remove widget',
+    resizeHandle: 'Drag to resize',
+    ariaLabel: 'Grid layout'
   }
 };

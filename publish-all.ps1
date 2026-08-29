@@ -51,7 +51,9 @@ $PackagePaths = @(
   (Join-Path $ScriptDir "packages/gp-ui/package.json"),
   (Join-Path $ScriptDir "packages/gp-ui-theme/package.json"),
   (Join-Path $ScriptDir "packages/gp-ui-icons/package.json"),
-  (Join-Path $ScriptDir "packages/gp-css/package.json")
+  (Join-Path $ScriptDir "packages/gp-css/package.json"),
+  (Join-Path $ScriptDir "packages/gp-blocks/package.json"),
+  (Join-Path $ScriptDir "packages/gp-grid/package.json")
 )
 
 # 1. Version Handling
