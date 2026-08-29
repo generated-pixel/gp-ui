@@ -7,12 +7,13 @@ import {
   computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GpIconComponent } from '@generatedpixel/gp-ui';
 import { GpGridItem } from '../../models/grid-item.model';
 
 @Component({
   selector: 'gp-grid-widget',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid-widget.component.html',

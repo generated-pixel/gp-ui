@@ -99,6 +99,13 @@
   border-radius: 4px;
 }
 
+.gp-grid-widget-custom-icon {
+  color: var(--gp-primary, #6366f1);
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .gp-grid-widget-title-group {
   display: flex;
   align-items: center;

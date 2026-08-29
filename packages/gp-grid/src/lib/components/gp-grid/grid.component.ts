@@ -20,6 +20,7 @@ import { GpGridItem } from '../../models/grid-item.model';
 import { GpGridCompactType } from '../../models/grid-config.model';
 import { GpGridChangeEvent } from '../../models/grid-events.model';
 import { GpGridEngine } from '../../engine/grid-engine';
+import { GpIconComponent } from '@generatedpixel/gp-ui';
 import { GpGridWidgetComponent } from '../gp-grid-widget/grid-widget.component';
 
 export interface DragState {
@@ -49,7 +50,7 @@ export interface ResizeState {
 @Component({
   selector: 'gp-grid',
   standalone: true,
-  imports: [CommonModule, GpGridWidgetComponent],
+  imports: [CommonModule, GpGridWidgetComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid.component.html',

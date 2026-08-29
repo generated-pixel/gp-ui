@@ -15,20 +15,7 @@
             title="Drag to reposition widget"
             aria-label="Drag handle"
           >
-            <svg
-              class="gp-grid-handle-icon"
-              viewBox="0 0 24 24"
-              width="16"
-              height="16"
-              fill="currentColor"
-            >
-              <circle cx="9" cy="5" r="1.5"></circle>
-              <circle cx="9" cy="12" r="1.5"></circle>
-              <circle cx="9" cy="19" r="1.5"></circle>
-              <circle cx="15" cy="5" r="1.5"></circle>
-              <circle cx="15" cy="12" r="1.5"></circle>
-              <circle cx="15" cy="19" r="1.5"></circle>
-            </svg>
+            <gp-icon name="grip-vertical" size="16px" class="gp-grid-handle-icon" />
           </div>
         } @else if (isLocked()) {
           <div
@@ -36,21 +23,12 @@
             title="Widget is locked in place"
             aria-label="Locked in place"
           >
-            <svg
-              class="gp-grid-lock-icon"
-              viewBox="0 0 24 24"
-              width="14"
-              height="14"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
+            <gp-icon name="lock" size="14px" class="gp-grid-lock-icon" />
           </div>
+        }
+
+        @if (effectiveIcon()) {
+          <gp-icon [name]="effectiveIcon()" size="16px" class="gp-grid-widget-custom-icon" />
         }
 
         <div class="gp-grid-widget-title-group">
@@ -82,16 +60,7 @@
           title="Widget options"
           aria-label="Widget options"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="15"
-            height="15"
-            fill="currentColor"
-          >
-            <circle cx="12" cy="12" r="1.5"></circle>
-            <circle cx="12" cy="5" r="1.5"></circle>
-            <circle cx="12" cy="19" r="1.5"></circle>
-          </svg>
+          <gp-icon name="ellipsis-v" size="15px" />
         </button>
 
         <!-- Close Button -->
@@ -103,19 +72,7 @@
             title="Remove widget"
             aria-label="Remove widget"
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="15"
-              height="15"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            <gp-icon name="times" size="15px" />
           </button>
         }
       </div>
