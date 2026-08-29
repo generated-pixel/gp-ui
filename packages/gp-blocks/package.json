@@ -1,8 +1,6 @@
 {
   "name": "@generatedpixel/gp-blocks",
   "version": "0.2.1",
-  "main": "src/public-api.ts",
-  "typings": "src/public-api.ts",
   "description": "Enterprise Reusable UI Blocks & Dynamic JSON Metadata Engine for Angular",
   "keywords": [
     "angular",
