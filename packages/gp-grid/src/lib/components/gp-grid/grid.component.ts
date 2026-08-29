@@ -335,9 +335,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Only allow drag initiation from header or drag handle
     const isHeaderOrHandle =
       target.closest('.gp-grid-widget-drag-handle') ||
+      target.closest('.gp-grid-drag-handle') ||
       target.closest('.gp-grid-widget-header');
 
     if (!isHeaderOrHandle) {
