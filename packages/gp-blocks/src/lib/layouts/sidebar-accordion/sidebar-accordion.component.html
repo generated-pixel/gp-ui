@@ -1,69 +1,43 @@
 <div class="gp-sidebar-accordion-shell">
-      <aside class="accordion-sidebar">
-        <div class="sidebar-brand">
-          <gp-icon name="box" size="1.2em" />
-          <span class="brand-text">{{ brandName }}</span>
-        </div>
-
-        <nav class="accordion-groups">
-          <!-- Group 1: General -->
-          <div class="accordion-group">
-            <div class="group-header" (click)="toggleGroup(1)">
-              <div class="group-title-wrap">
-                <gp-icon name="home" size="1.1em" />
-                <span>Overview & Analytics</span>
-              </div>
-              <gp-icon [name]="group1Open ? 'chevron-up' : 'chevron-down'" size="0.8em" />
-            </div>
-            <div class="group-children" *ngIf="group1Open">
-              <a href="javascript:void(0)" class="sub-link active">Traffic Metrics</a>
-              <a href="javascript:void(0)" class="sub-link">Conversion Funnels</a>
-              <a href="javascript:void(0)" class="sub-link">Realtime Events</a>
-            </div>
-          </div>
-
-          <!-- Group 2: Management -->
-          <div class="accordion-group">
-            <div class="group-header" (click)="toggleGroup(2)">
-              <div class="group-title-wrap">
-                <gp-icon name="users" size="1.1em" />
-                <span>Access Management</span>
-              </div>
-              <gp-icon [name]="group2Open ? 'chevron-up' : 'chevron-down'" size="0.8em" />
-            </div>
-            <div class="group-children" *ngIf="group2Open">
-              <a href="javascript:void(0)" class="sub-link">Team Members</a>
-              <a href="javascript:void(0)" class="sub-link">Roles & Policies</a>
-              <a href="javascript:void(0)" class="sub-link">SSO & SAML</a>
-            </div>
-          </div>
-
-          <!-- Group 3: Settings -->
-          <div class="accordion-group">
-            <div class="group-header" (click)="toggleGroup(3)">
-              <div class="group-title-wrap">
-                <gp-icon name="sliders" size="1.1em" />
-                <span>System Settings</span>
-              </div>
-              <gp-icon [name]="group3Open ? 'chevron-up' : 'chevron-down'" size="0.8em" />
-            </div>
-            <div class="group-children" *ngIf="group3Open">
-              <a href="javascript:void(0)" class="sub-link">Billing & Invoices</a>
-              <a href="javascript:void(0)" class="sub-link">API Webhooks</a>
-            </div>
-          </div>
-        </nav>
-      </aside>
-
-      <div class="main-shell">
-        <header class="top-nav-bar">
-          <h2 class="page-title">{{ title }}</h2>
-          <div class="top-actions">
-            <ng-content select="[slot=top-actions]" />
-          </div>
-        </header>
-        <main class="page-content-area">
-          <ng-content />
-        </main>
-      </div>
+  <aside class="accordion-sidebar">
+    <div class="sidebar-brand">
+      <gp-icon name="box" size="1.2em" />
+      <span class="brand-text">{{ brandName() }}</span>
     </div>
+
+    <nav class="accordion-groups" *ngIf="groups() && groups().length > 0">
+      <div class="accordion-group" *ngFor="let g of groups(); let idx = index">
+        <div class="group-header" (click)="toggleGroup(idx)">
+          <div class="group-title-wrap">
+            <gp-icon [name]="g.icon" size="1.1em" />
+            <span>{{ g.title }}</span>
+          </div>
+          <gp-icon [name]="g.open ? 'chevron-up' : 'chevron-down'" size="0.8em" />
+        </div>
+        <div class="group-children" *ngIf="g.open">
+          <a
+            href="javascript:void(0)"
+            *ngFor="let link of g.links"
+            class="sub-link"
+            [class.active]="link.id === activeSubLinkId() || link.active"
+            (click)="linkClick.emit(link)"
+          >
+            {{ link.label }}
+          </a>
+        </div>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <h2 class="page-title">{{ title() }}</h2>
+      <div class="top-actions">
+        <ng-content select="[slot=top-actions]" />
+      </div>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

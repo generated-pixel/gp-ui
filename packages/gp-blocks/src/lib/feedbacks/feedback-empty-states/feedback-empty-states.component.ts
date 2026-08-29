@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -10,8 +10,12 @@ import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './feedback-empty-states.component.scss'
 })
 export class GpFeedbackEmptyStatesComponent {
-  @Input() icon = 'folder-open';
-  @Input() title = 'No Active Deployments Found';
-  @Input() description = 'Get started by connecting your GitHub repository or creating a new cloud infrastructure cluster.';
-  @Input() primaryCta = 'Create New Deployment';
+  public icon = input<string>('inbox');
+  public title = input<string>('');
+  public description = input<string>('');
+  public primaryCta = input<string>('');
+  public secondaryCta = input<string>('');
+
+  public primaryClick = output<void>();
+  public secondaryClick = output<void>();
 }

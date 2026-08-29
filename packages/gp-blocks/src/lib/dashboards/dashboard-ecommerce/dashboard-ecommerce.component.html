@@ -1,79 +1,89 @@
 <div class="gp-dashboard-ecommerce-root">
-      <!-- KPI Stats -->
-      <div class="ecom-kpi-grid">
-        <div class="ecom-card">
-          <span class="card-label">Total Revenue</span>
-          <span class="card-value">$84,320.00</span>
-          <div class="card-meta pos"><gp-icon name="chevron-up" size="0.8em" /> +18.4% vs last week</div>
-        </div>
-        <div class="ecom-card">
-          <span class="card-label">Total Orders</span>
-          <span class="card-value">1,248</span>
-          <div class="card-meta pos"><gp-icon name="chevron-up" size="0.8em" /> +6.2% conversion</div>
-        </div>
-        <div class="ecom-card">
-          <span class="card-label">Average Order Value</span>
-          <span class="card-value">$67.56</span>
-          <div class="card-meta pos"><gp-icon name="chevron-up" size="0.8em" /> +$4.20 vs avg</div>
-        </div>
-        <div class="ecom-card">
-          <span class="card-label">Returns / Refunds</span>
-          <span class="card-value">14 (1.1%)</span>
-          <div class="card-meta neu"><gp-icon name="minus" size="0.8em" /> Within threshold</div>
-        </div>
+  <!-- KPI Stats -->
+  <div class="ecom-kpi-grid" *ngIf="kpis() && kpis().length > 0">
+    <div
+      class="ecom-card"
+      *ngFor="let k of kpis()"
+      (click)="kpiClick.emit(k)"
+      style="cursor: pointer;"
+    >
+      <span class="card-label">{{ k.label }}</span>
+      <span class="card-value">{{ k.value }}</span>
+      <div
+        class="card-meta"
+        [class.pos]="k.trend === 'pos' || (!k.trend && k.meta.startsWith('+'))"
+        [class.neg]="k.trend === 'neg' || (!k.trend && k.meta.startsWith('-'))"
+        [class.neu]="k.trend === 'neu'"
+      >
+        <gp-icon [name]="k.trend === 'neu' ? 'minus' : (k.trend === 'neg' ? 'chevron-down' : 'chevron-up')" size="0.8em" />
+        {{ k.meta }}
       </div>
+    </div>
+  </div>
 
-      <!-- Products & Recent Orders Split -->
-      <div class="ecom-split-grid">
-        <div class="ecom-panel">
-          <div class="panel-head">
-            <h3>Top Selling Products</h3>
-            <gp-button variant="text">View All</gp-button>
+  <!-- Products & Recent Orders Split -->
+  <div class="ecom-split-grid">
+    <div class="ecom-panel" *ngIf="topProducts() && topProducts().length > 0">
+      <div class="panel-head">
+        <h3>{{ productsTitle() }}</h3>
+        <gp-button variant="text" (onClick)="viewAllProductsClick.emit()">View All</gp-button>
+      </div>
+      <div class="prod-list">
+        <div
+          class="prod-item"
+          *ngFor="let p of topProducts()"
+          (click)="productClick.emit(p)"
+          style="cursor: pointer;"
+        >
+          <div class="prod-thumb">
+            <gp-icon name="box" size="1.2em" />
           </div>
-          <div class="prod-list">
-            <div class="prod-item" *ngFor="let p of topProducts">
-              <div class="prod-thumb">
-                <gp-icon name="box" size="1.2em" />
-              </div>
-              <div class="prod-info">
-                <span class="prod-title">{{ p.name }}</span>
-                <span class="prod-cat">{{ p.category }}</span>
-              </div>
-              <div class="prod-stats">
-                <span class="prod-revenue">{{ p.revenue }}</span>
-                <span class="prod-sales">{{ p.sales }} sold</span>
-              </div>
-            </div>
+          <div class="prod-info">
+            <span class="prod-title">{{ p.name }}</span>
+            <span class="prod-cat">{{ p.category }}</span>
           </div>
-        </div>
-
-        <div class="ecom-panel">
-          <div class="panel-head">
-            <h3>Fulfillment & Processing</h3>
-            <gp-badge value="Live Queue" severity="primary" />
-          </div>
-          <div class="orders-table-wrap">
-            <table class="ecom-table">
-              <thead>
-                <tr>
-                  <th>Order #</th>
-                  <th>Customer</th>
-                  <th>Total</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let o of recentOrders">
-                  <td><strong>#{{ o.id }}</strong></td>
-                  <td>{{ o.customer }}</td>
-                  <td>{{ o.amount }}</td>
-                  <td>
-                    <gp-badge [value]="o.status" [severity]="o.status === 'Delivered' ? 'success' : o.status === 'Processing' ? 'warning' : 'info'" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="prod-stats">
+            <span class="prod-revenue">{{ p.revenue }}</span>
+            <span class="prod-sales">{{ p.sales }} sold</span>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="ecom-panel" *ngIf="recentOrders() && recentOrders().length > 0">
+      <div class="panel-head">
+        <h3>{{ ordersTitle() }}</h3>
+        <gp-badge *ngIf="ordersBadge()" [value]="ordersBadge()" severity="primary" />
+      </div>
+      <div class="orders-table-wrap">
+        <table class="ecom-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let o of recentOrders()"
+              (click)="orderClick.emit(o)"
+              style="cursor: pointer;"
+            >
+              <td><strong>#{{ o.id }}</strong></td>
+              <td>{{ o.customer }}</td>
+              <td>{{ o.amount }}</td>
+              <td>
+                <gp-badge
+                  [value]="o.status"
+                  [severity]="o.status === 'Delivered' ? 'success' : o.status === 'Processing' ? 'warning' : 'info'"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

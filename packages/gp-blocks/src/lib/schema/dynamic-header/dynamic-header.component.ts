@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   GpButtonComponent,
@@ -24,7 +24,7 @@ import { GpHeaderSchema, GpFormAction } from '../schema.types';
   styleUrl: './dynamic-header.component.scss'
 })
 export class GpDynamicHeaderComponent {
-  @Input() schema?: GpHeaderSchema;
-  @Output() actionClick = new EventEmitter<GpFormAction>();
-  @Output() backClick = new EventEmitter<void>();
+  public schema = input<GpHeaderSchema | undefined>(undefined);
+  public actionClick = output<GpFormAction>();
+  public backClick = output<void>();
 }

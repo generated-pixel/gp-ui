@@ -1,9 +1,9 @@
 <div class="gp-page-error-root">
-      <div class="error-visual-badge error-amber">403</div>
-      <h1 class="error-title">{{ title }}</h1>
-      <p class="error-desc">{{ description }}</p>
-      <div class="error-actions">
-        <gp-button variant="outlined" severity="secondary">Return Home</gp-button>
-        <gp-button severity="primary">Request Access</gp-button>
-      </div>
-    </div>
+  <div class="error-visual-badge error-amber">{{ code() }}</div>
+  <h1 class="error-title">{{ title() }}</h1>
+  <p class="error-desc" *ngIf="description()">{{ description() }}</p>
+  <div class="error-actions">
+    <gp-button variant="outlined" severity="secondary" (onClick)="returnHome.emit()">{{ returnHomeBtnLabel() }}</gp-button>
+    <gp-button severity="primary" (onClick)="requestAccess.emit()">{{ requestAccessBtnLabel() }}</gp-button>
+  </div>
+</div>

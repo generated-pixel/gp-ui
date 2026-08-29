@@ -1,35 +1,40 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpButtonComponent,
-  GpInputTextComponent,
-  GpTextareaComponent,
-  GpSelectComponent,
-  GpRatingComponent
-} from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-form-contact-feedback',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpButtonComponent,
-    GpInputTextComponent,
-    GpTextareaComponent,
-    GpSelectComponent,
-    GpRatingComponent
-  ],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './form-contact-feedback.component.html',
   styleUrl: './form-contact-feedback.component.scss'
 })
 export class GpFormContactFeedbackComponent {
-  @Input() title = 'Get in Touch';
-  @Input() subtitle = 'Have a question or suggestions? We’d love to hear from you.';
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public sendBtnLabel = input<string>('Send Feedback');
 
-  categories = [
-    { label: 'Technical Support', value: 'tech_support' },
-    { label: 'Enterprise Sales & Pricing', value: 'sales' },
-    { label: 'Product Feedback & Feature Request', value: 'feedback' },
-    { label: 'Security Disclosure', value: 'security' }
-  ];
+  public name = signal<string>('');
+  public email = signal<string>('');
+  public category = signal<string>('general');
+  public rating = signal<number>(5);
+  public message = signal<string>('');
+
+  public submitFeedback = output<{
+    name: string;
+    email: string;
+    category: string;
+    rating: number;
+    message: string;
+  }>();
+
+  public onSubmit(): void {
+    this.submitFeedback.emit({
+      name: this.name(),
+      email: this.email(),
+      category: this.category(),
+      rating: this.rating(),
+      message: this.message()
+    });
+  }
 }

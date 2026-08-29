@@ -1,41 +1,39 @@
 <div class="gp-sidebar-pinned-status-shell">
-      <aside class="pinned-status-sidebar">
-        <div class="brand-top">
-          <gp-icon name="box" size="1.2em" />
-          <span class="brand-title">{{ brandName }}</span>
-        </div>
-
-        <nav class="sidebar-nav">
-          <a href="javascript:void(0)" class="nav-item active">
-            <gp-icon name="home" size="1.1em" />
-            <span>Overview</span>
-          </a>
-          <a href="javascript:void(0)" class="nav-item">
-            <gp-icon name="layer-group" size="1.1em" />
-            <span>Services</span>
-          </a>
-          <a href="javascript:void(0)" class="nav-item">
-            <gp-icon name="sliders" size="1.1em" />
-            <span>Settings</span>
-          </a>
-        </nav>
-
-        <!-- Pinned Status Bar at Bottom -->
-        <div class="pinned-status-bar">
-          <div class="status-indicator">
-            <span class="status-pulse-dot"></span>
-            <span class="status-text">{{ systemStatus }}</span>
-          </div>
-          <span class="uptime-text">{{ uptimeText }}</span>
-        </div>
-      </aside>
-
-      <div class="main-shell">
-        <header class="top-nav-bar">
-          <h2 class="page-title">{{ title }}</h2>
-        </header>
-        <main class="page-content-area">
-          <ng-content />
-        </main>
-      </div>
+  <aside class="pinned-status-sidebar">
+    <div class="brand-top">
+      <gp-icon [name]="brandIcon()" size="1.2em" />
+      <span class="brand-title">{{ brandName() }}</span>
     </div>
+
+    <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of navItems()"
+        class="nav-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <!-- Pinned Status Bar at Bottom -->
+    <div class="pinned-status-bar" (click)="statusClick.emit()" style="cursor: pointer;">
+      <div class="status-indicator">
+        <span class="status-pulse-dot"></span>
+        <span class="status-text">{{ systemStatus() }}</span>
+      </div>
+      <span class="uptime-text">{{ uptimeText() }}</span>
+    </div>
+  </aside>
+
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <h2 class="page-title">{{ title() }}</h2>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

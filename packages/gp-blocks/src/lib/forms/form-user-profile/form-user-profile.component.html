@@ -1,34 +1,64 @@
 <div class="gp-form-profile-card">
-      <div class="form-head">
-        <h2 class="title">{{ title }}</h2>
-        <p class="subtitle">{{ subtitle }}</p>
-      </div>
+  <div class="form-head">
+    <h2 class="title">{{ title() }}</h2>
+    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+  </div>
 
-      <div class="profile-grid">
-        <div class="col-6">
-          <label class="lbl">First Name</label>
-          <gp-input-text value="Alex" class="full-width-control" />
-        </div>
-        <div class="col-6">
-          <label class="lbl">Last Name</label>
-          <gp-input-text value="Morgan" class="full-width-control" />
-        </div>
-        <div class="col-6">
-          <label class="lbl">Email Address</label>
-          <gp-input-text value="alex.morgan@company.dev" class="full-width-control" />
-        </div>
-        <div class="col-6">
-          <label class="lbl">Phone Number</label>
-          <gp-input-text value="+1 (555) 234-5678" class="full-width-control" />
-        </div>
-        <div class="col-12">
-          <label class="lbl">Headline & Bio</label>
-          <gp-textarea value="Frontend Engineer specializing in scalable design systems and modern Angular architectures." [rows]="3" class="full-width-control" />
-        </div>
-      </div>
-
-      <div class="form-footer">
-        <gp-button variant="outlined" severity="secondary">Cancel</gp-button>
-        <gp-button severity="primary">Save Changes</gp-button>
-      </div>
+  <div class="profile-grid">
+    <div class="col-6">
+      <label class="lbl">First Name</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="firstName()"
+        (input)="firstName.set($any($event.target).value)"
+        placeholder="First name"
+      />
     </div>
+    <div class="col-6">
+      <label class="lbl">Last Name</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="lastName()"
+        (input)="lastName.set($any($event.target).value)"
+        placeholder="Last name"
+      />
+    </div>
+    <div class="col-6">
+      <label class="lbl">Email Address</label>
+      <input
+        type="email"
+        class="form-inp"
+        [value]="email()"
+        (input)="email.set($any($event.target).value)"
+        placeholder="email@company.dev"
+      />
+    </div>
+    <div class="col-6">
+      <label class="lbl">Phone Number</label>
+      <input
+        type="tel"
+        class="form-inp"
+        [value]="phone()"
+        (input)="phone.set($any($event.target).value)"
+        placeholder="+1 (555) 000-0000"
+      />
+    </div>
+    <div class="col-12">
+      <label class="lbl">Headline & Bio</label>
+      <textarea
+        class="form-inp"
+        rows="3"
+        [value]="bio()"
+        (input)="bio.set($any($event.target).value)"
+        placeholder="Bio"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+    <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
+  </div>
+</div>

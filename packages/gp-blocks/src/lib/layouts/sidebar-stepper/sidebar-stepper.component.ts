@@ -1,6 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpSidebarStepItem {
+  number: number;
+  label: string;
+  completed?: boolean;
+}
 
 @Component({
   selector: 'gp-layout-sidebar-stepper',
@@ -10,7 +16,12 @@ import { GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './sidebar-stepper.component.scss'
 })
 export class GpLayoutSidebarStepperComponent {
-  @Input() brandName = 'Onboarding Flow';
-  @Input() currentStepTitle = 'Team & Workspace Details';
-  @Input() currentStepSubtitle = 'Add your organization name and invite primary admins.';
+  public brandName = input<string>('');
+  public currentStep = input<number>(1);
+  public currentStepTitle = input<string>('');
+  public currentStepSubtitle = input<string>('');
+
+  public steps = input<GpSidebarStepItem[]>([]);
+
+  public stepClick = output<GpSidebarStepItem>();
 }

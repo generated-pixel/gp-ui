@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpCarouselComponent } from 'gp-ui';
+import { BLOCKS_DEMO_DATA } from './blocks-mock-data';
 
 // Import Layouts
 import {
@@ -378,109 +379,109 @@ export interface BlockItem {
             [class.vp-tablet]="viewports[block.id] === 'tablet'"
             [class.vp-mobile]="viewports[block.id] === 'mobile'"
           >
-            <!-- 1. Multi-Column Layouts -->
-            <gp-layout-three-column-fluid *ngIf="block.id === 'three-col-fluid'" />
-            <gp-layout-two-column-split *ngIf="block.id === 'two-col-split'" />
-            <gp-layout-three-column-workspace *ngIf="block.id === 'three-col-workspace'" />
-            <gp-layout-four-column-grid *ngIf="block.id === 'four-col-grid'" />
+            <!-- 1. Multi Column Layouts -->
+            <gp-layout-two-column-split *ngIf="block.id === 'two-col-split'" [splitRatio]="demoData.layouts.twoCol.splitRatio" [primaryTitle]="demoData.layouts.twoCol.primaryTitle" [primaryBadge]="demoData.layouts.twoCol.primaryBadge" [primaryDescription]="demoData.layouts.twoCol.primaryDescription" [secondaryTitle]="demoData.layouts.twoCol.secondaryTitle" [secondaryDescription]="demoData.layouts.twoCol.secondaryDescription" />
+            <gp-layout-three-column-workspace *ngIf="block.id === 'three-col-workspace'" [explorerTitle]="demoData.layouts.threeColWorkspace.explorerTitle" [activeFileName]="demoData.layouts.threeColWorkspace.activeFileName" />
+            <gp-layout-three-column-fluid *ngIf="block.id === 'three-col-fluid'" [leftTitle]="demoData.layouts.threeColFluid.leftTitle" [mainTitle]="demoData.layouts.threeColFluid.mainTitle" [mainSubtitle]="demoData.layouts.threeColFluid.mainSubtitle" [rightTitle]="demoData.layouts.threeColFluid.rightTitle" />
+            <gp-layout-four-column-grid *ngIf="block.id === 'four-col-grid'" [col1Title]="demoData.layouts.fourCol.col1Title" [col1Badge]="demoData.layouts.fourCol.col1Badge" [col2Title]="demoData.layouts.fourCol.col2Title" [col2Badge]="demoData.layouts.fourCol.col2Badge" [col3Title]="demoData.layouts.fourCol.col3Title" [col3Badge]="demoData.layouts.fourCol.col3Badge" [col4Title]="demoData.layouts.fourCol.col4Title" [col4Badge]="demoData.layouts.fourCol.col4Badge" />
 
             <!-- 2. Sidebar Layouts -->
-            <gp-layout-sidebar-dark *ngIf="block.id === 'sb-dark'" />
-            <gp-layout-sidebar-light *ngIf="block.id === 'sb-light'" />
-            <gp-layout-sidebar-mini *ngIf="block.id === 'sb-mini'" />
-            <gp-layout-sidebar-dual *ngIf="block.id === 'sb-dual'" />
-            <gp-layout-sidebar-floating *ngIf="block.id === 'sb-floating'" />
-            <gp-layout-sidebar-gradient *ngIf="block.id === 'sb-gradient'" />
-            <gp-layout-sidebar-header-over *ngIf="block.id === 'sb-header-over'" />
-            <gp-layout-sidebar-workspace *ngIf="block.id === 'sb-workspace'" />
-            <gp-layout-sidebar-search-tree *ngIf="block.id === 'sb-search-tree'" />
-            <gp-layout-sidebar-pinned-status *ngIf="block.id === 'sb-pinned-status'" />
-            <gp-layout-sidebar-offcanvas *ngIf="block.id === 'sb-offcanvas'" />
-            <gp-layout-sidebar-minimal *ngIf="block.id === 'sb-minimal'" />
-            <gp-layout-sidebar-stepper *ngIf="block.id === 'sb-stepper'" />
-            <gp-layout-sidebar-accordion *ngIf="block.id === 'sb-accordion'" />
+            <gp-layout-sidebar-dark *ngIf="block.id === 'sb-dark'" [brandName]="demoData.layouts.sbDark.brandName" [title]="demoData.layouts.sbDark.title" [navGroupLabel]="demoData.layouts.sbDark.navGroupLabel" [userName]="demoData.layouts.sbDark.userName" [userEmail]="demoData.layouts.sbDark.userEmail" [activeNavId]="demoData.layouts.sbDark.activeNavId" [navItems]="demoData.layouts.sbDark.navItems" />
+            <gp-layout-sidebar-light *ngIf="block.id === 'sb-light'" [brandName]="demoData.layouts.sbLight.brandName" [title]="demoData.layouts.sbLight.title" [activeNavId]="demoData.layouts.sbLight.activeNavId" [navItems]="demoData.layouts.sbLight.navItems" [upgradeTitle]="demoData.layouts.sbLight.upgradeTitle" [upgradeText]="demoData.layouts.sbLight.upgradeText" [upgradeBtnLabel]="demoData.layouts.sbLight.upgradeBtnLabel" />
+            <gp-layout-sidebar-mini *ngIf="block.id === 'sb-mini'" [title]="demoData.layouts.sbMini.title" [activeNavId]="demoData.layouts.sbMini.activeNavId" [userName]="demoData.layouts.sbMini.userName" [navItems]="demoData.layouts.sbMini.navItems" />
+            <gp-layout-sidebar-dual *ngIf="block.id === 'sb-dual'" [title]="demoData.layouts.sbDual.title" [activeTier1Id]="demoData.layouts.sbDual.activeTier1Id" [tier1Items]="demoData.layouts.sbDual.tier1Items" [subnavTitle]="demoData.layouts.sbDual.subnavTitle" [subnavBadge]="demoData.layouts.sbDual.subnavBadge" [activeTier2Id]="demoData.layouts.sbDual.activeTier2Id" [tier2Items]="demoData.layouts.sbDual.tier2Items" />
+            <gp-layout-sidebar-floating *ngIf="block.id === 'sb-floating'" [brandName]="demoData.layouts.sbFloating.brandName" [title]="demoData.layouts.sbFloating.title" [activeNavId]="demoData.layouts.sbFloating.activeNavId" [navItems]="demoData.layouts.sbFloating.navItems" />
+            <gp-layout-sidebar-gradient *ngIf="block.id === 'sb-gradient'" [brandName]="demoData.layouts.sbGradient.brandName" [title]="demoData.layouts.sbGradient.title" [activeNavId]="demoData.layouts.sbGradient.activeNavId" [navItems]="demoData.layouts.sbGradient.navItems" />
+            <gp-layout-sidebar-header-over *ngIf="block.id === 'sb-header-over'" [brandName]="demoData.layouts.sbHeaderOver.brandName" [userName]="demoData.layouts.sbHeaderOver.userName" [activeNavId]="demoData.layouts.sbHeaderOver.activeNavId" [navItems]="demoData.layouts.sbHeaderOver.navItems" />
+            <gp-layout-sidebar-workspace *ngIf="block.id === 'sb-workspace'" [currentWorkspace]="demoData.layouts.sbWorkspace.currentWorkspace" [workspaceTier]="demoData.layouts.sbWorkspace.workspaceTier" [title]="demoData.layouts.sbWorkspace.title" [activeNavId]="demoData.layouts.sbWorkspace.activeNavId" [navItems]="demoData.layouts.sbWorkspace.navItems" />
+            <gp-layout-sidebar-search-tree *ngIf="block.id === 'sb-search-tree'" [title]="demoData.layouts.sbSearchTree.title" [catalogLabel]="demoData.layouts.sbSearchTree.catalogLabel" [activeLeafId]="demoData.layouts.sbSearchTree.activeLeafId" [treeData]="demoData.layouts.sbSearchTree.treeData" />
+            <gp-layout-sidebar-pinned-status *ngIf="block.id === 'sb-pinned-status'" [brandName]="demoData.layouts.sbPinnedStatus.brandName" [systemStatus]="demoData.layouts.sbPinnedStatus.systemStatus" [uptimeText]="demoData.layouts.sbPinnedStatus.uptimeText" [title]="demoData.layouts.sbPinnedStatus.title" [activeNavId]="demoData.layouts.sbPinnedStatus.activeNavId" [navItems]="demoData.layouts.sbPinnedStatus.navItems" />
+            <gp-layout-sidebar-offcanvas *ngIf="block.id === 'sb-offcanvas'" [brandName]="demoData.layouts.sbOffcanvas.brandName" [title]="demoData.layouts.sbOffcanvas.title" [activeNavId]="demoData.layouts.sbOffcanvas.activeNavId" [navItems]="demoData.layouts.sbOffcanvas.navItems" />
+            <gp-layout-sidebar-minimal *ngIf="block.id === 'sb-minimal'" [brandName]="demoData.layouts.sbMinimal.brandName" [title]="demoData.layouts.sbMinimal.title" [activeNavId]="demoData.layouts.sbMinimal.activeNavId" [navItems]="demoData.layouts.sbMinimal.navItems" />
+            <gp-layout-sidebar-stepper *ngIf="block.id === 'sb-stepper'" [brandName]="demoData.layouts.sbStepper.brandName" [currentStep]="demoData.layouts.sbStepper.currentStep" [currentStepTitle]="demoData.layouts.sbStepper.currentStepTitle" [currentStepSubtitle]="demoData.layouts.sbStepper.currentStepSubtitle" [steps]="demoData.layouts.sbStepper.steps" />
+            <gp-layout-sidebar-accordion *ngIf="block.id === 'sb-accordion'" [brandName]="demoData.layouts.sbAccordion.brandName" [title]="demoData.layouts.sbAccordion.title" [activeSubLinkId]="demoData.layouts.sbAccordion.activeSubLinkId" [groups]="demoData.layouts.sbAccordion.groups" />
 
             <!-- 3. Stacked Layouts -->
-            <gp-layout-stacked-classic *ngIf="block.id === 'st-classic'" />
-            <gp-layout-stacked-subnav-tabs *ngIf="block.id === 'st-subnav-tabs'" />
-            <gp-layout-stacked-hero-banner *ngIf="block.id === 'st-hero-banner'" />
-            <gp-layout-stacked-floating-card *ngIf="block.id === 'st-floating-card'" />
-            <gp-layout-stacked-sticky-action-bar *ngIf="block.id === 'st-sticky-bar'" />
-            <gp-layout-stacked-bottom-dock *ngIf="block.id === 'st-bottom-dock'" />
+            <gp-layout-stacked-classic *ngIf="block.id === 'st-classic'" [brandName]="demoData.layouts.stClassic.brandName" [userName]="demoData.layouts.stClassic.userName" [title]="demoData.layouts.stClassic.title" [activeNavId]="demoData.layouts.stClassic.activeNavId" [navItems]="demoData.layouts.stClassic.navItems" />
+            <gp-layout-stacked-subnav-tabs *ngIf="block.id === 'st-subnav-tabs'" [brandName]="demoData.layouts.stSubnav.brandName" [userName]="demoData.layouts.stSubnav.userName" [activeTabId]="demoData.layouts.stSubnav.activeTabId" [tabs]="demoData.layouts.stSubnav.tabs" />
+            <gp-layout-stacked-hero-banner *ngIf="block.id === 'st-hero-banner'" [brandName]="demoData.layouts.stHero.brandName" [heroTitle]="demoData.layouts.stHero.heroTitle" [heroSubtitle]="demoData.layouts.stHero.heroSubtitle" [primaryCta]="demoData.layouts.stHero.primaryCta" [secondaryCta]="demoData.layouts.stHero.secondaryCta" [navLinks]="demoData.layouts.stHero.navLinks" />
+            <gp-layout-stacked-floating-card *ngIf="block.id === 'st-floating-card'" [brandName]="demoData.layouts.stFloat.brandName" [userName]="demoData.layouts.stFloat.userName" [title]="demoData.layouts.stFloat.title" />
+            <gp-layout-stacked-sticky-action-bar *ngIf="block.id === 'st-sticky-bar'" [brandName]="demoData.layouts.stSticky.brandName" [pageTitle]="demoData.layouts.stSticky.pageTitle" [itemCount]="demoData.layouts.stSticky.itemCount" [addBtnLabel]="demoData.layouts.stSticky.addBtnLabel" [activeNavId]="demoData.layouts.stSticky.activeNavId" [navLinks]="demoData.layouts.stSticky.navLinks" />
+            <gp-layout-stacked-bottom-dock *ngIf="block.id === 'st-bottom-dock'" [brandName]="demoData.layouts.stDock.brandName" [activeTab]="demoData.layouts.stDock.activeTab" [activeDockId]="demoData.layouts.stDock.activeDockId" [dockItems]="demoData.layouts.stDock.dockItems" />
 
             <!-- 4. Dashboards -->
-            <gp-dashboard-saas-overview *ngIf="block.id === 'dash-saas'" />
-            <gp-dashboard-ecommerce *ngIf="block.id === 'dash-ecom'" />
-            <gp-dashboard-analytics *ngIf="block.id === 'dash-analytics'" />
-            <gp-dashboard-finance *ngIf="block.id === 'dash-finance'" />
-            <gp-dashboard-project-management *ngIf="block.id === 'dash-pm'" />
-            <gp-dashboard-operations *ngIf="block.id === 'dash-ops'" />
+            <gp-dashboard-saas-overview *ngIf="block.id === 'dash-saas'" [kpis]="demoData.dashboards.saas.kpis" [chartTitle]="demoData.dashboards.saas.chartTitle" [chartBadge]="demoData.dashboards.saas.chartBadge" [monthlyData]="demoData.dashboards.saas.monthlyData" [goalsTitle]="demoData.dashboards.saas.goalsTitle" [goalsTarget]="demoData.dashboards.saas.goalsTarget" [quotas]="demoData.dashboards.saas.quotas" [tableTitle]="demoData.dashboards.saas.tableTitle" [recentSignups]="demoData.dashboards.saas.recentSignups" />
+            <gp-dashboard-ecommerce *ngIf="block.id === 'dash-ecom'" [kpis]="demoData.dashboards.ecommerce.kpis" [topProducts]="demoData.dashboards.ecommerce.topProducts" [recentOrders]="demoData.dashboards.ecommerce.recentOrders" />
+            <gp-dashboard-analytics *ngIf="block.id === 'dash-analytics'" [stats]="demoData.dashboards.analytics.stats" [channels]="demoData.dashboards.analytics.channels" [regions]="demoData.dashboards.analytics.regions" />
+            <gp-dashboard-finance *ngIf="block.id === 'dash-finance'" [balanceLabel]="demoData.dashboards.finance.balanceLabel" [balanceAmount]="demoData.dashboards.finance.balanceAmount" [balanceMeta]="demoData.dashboards.finance.balanceMeta" [ledgerTitle]="demoData.dashboards.finance.ledgerTitle" [ledgerBadge]="demoData.dashboards.finance.ledgerBadge" [ledger]="demoData.dashboards.finance.ledger" [invoicesTitle]="demoData.dashboards.finance.invoicesTitle" [invoices]="demoData.dashboards.finance.invoices" />
+            <gp-dashboard-project-management *ngIf="block.id === 'dash-pm'" [metrics]="demoData.dashboards.pm.metrics" [columns]="demoData.dashboards.pm.columns" />
+            <gp-dashboard-operations *ngIf="block.id === 'dash-ops'" [bannerText]="demoData.dashboards.ops.bannerText" [uptimeBadge]="demoData.dashboards.ops.uptimeBadge" [nodes]="demoData.dashboards.ops.nodes" />
 
             <!-- 5. Settings & Details -->
-            <gp-settings-profile *ngIf="block.id === 'set-profile'" />
-            <gp-settings-security *ngIf="block.id === 'set-security'" />
-            <gp-settings-billing *ngIf="block.id === 'set-billing'" />
-            <gp-settings-notifications *ngIf="block.id === 'set-notifications'" />
-            <gp-settings-team-roles *ngIf="block.id === 'set-team-roles'" />
-            <gp-settings-api-keys *ngIf="block.id === 'set-api-keys'" />
-            <gp-settings-danger-zone *ngIf="block.id === 'set-danger-zone'" />
-            <gp-details-customer-overview *ngIf="block.id === 'det-customer'" />
-            <gp-details-order-summary *ngIf="block.id === 'det-order'" />
+            <gp-settings-profile *ngIf="block.id === 'set-profile'" [userName]="demoData.settings.profile.userName" [firstName]="demoData.settings.profile.firstName" [lastName]="demoData.settings.profile.lastName" [email]="demoData.settings.profile.email" [jobTitle]="demoData.settings.profile.jobTitle" [bio]="demoData.settings.profile.bio" />
+            <gp-settings-security *ngIf="block.id === 'set-security'" [title]="demoData.settings.security.title" [subtitle]="demoData.settings.security.subtitle" [twoFaEnabled]="demoData.settings.security.twoFaEnabled" [sessions]="demoData.settings.security.sessions" />
+            <gp-settings-billing *ngIf="block.id === 'set-billing'" [title]="demoData.settings.billing.title" [subtitle]="demoData.settings.billing.subtitle" [planName]="demoData.settings.billing.planName" [planStatus]="demoData.settings.billing.planStatus" [planPrice]="demoData.settings.billing.planPrice" [invoices]="demoData.settings.billing.invoices" />
+            <gp-settings-notifications *ngIf="block.id === 'set-notifications'" [title]="demoData.settings.notifications.title" [subtitle]="demoData.settings.notifications.subtitle" [preferences]="demoData.settings.notifications.preferences" />
+            <gp-settings-team-roles *ngIf="block.id === 'set-team-roles'" [title]="demoData.settings.team.title" [subtitle]="demoData.settings.team.subtitle" [members]="demoData.settings.team.members" />
+            <gp-settings-api-keys *ngIf="block.id === 'set-api-keys'" [title]="demoData.settings.apiKeys.title" [subtitle]="demoData.settings.apiKeys.subtitle" [apiKeys]="demoData.settings.apiKeys.apiKeys" />
+            <gp-settings-danger-zone *ngIf="block.id === 'set-danger-zone'" [actions]="demoData.settings.dangerZone.actions" />
+            <gp-details-customer-overview *ngIf="block.id === 'det-customer'" [customerName]="demoData.settings.customer.customerName" [customerStatus]="demoData.settings.customer.customerStatus" [companyName]="demoData.settings.customer.companyName" [location]="demoData.settings.customer.location" [tags]="demoData.settings.customer.tags" [metaFields]="demoData.settings.customer.metaFields" [timelineEvents]="demoData.settings.customer.timelineEvents" />
+            <gp-details-order-summary *ngIf="block.id === 'det-order'" [orderId]="demoData.settings.order.orderId" [orderStatus]="demoData.settings.order.orderStatus" [orderDate]="demoData.settings.order.orderDate" [paymentMethod]="demoData.settings.order.paymentMethod" [subtotal]="demoData.settings.order.subtotal" [shipping]="demoData.settings.order.shipping" [tax]="demoData.settings.order.tax" [grandTotal]="demoData.settings.order.grandTotal" [items]="demoData.settings.order.items" />
 
             <!-- 6. Headings -->
-            <gp-header-page-with-actions *ngIf="block.id === 'hdr-actions'" />
-            <gp-header-search-filters *ngIf="block.id === 'hdr-filters'" />
-            <gp-header-section-tabs *ngIf="block.id === 'hdr-tabs'" />
-            <gp-header-with-stats *ngIf="block.id === 'hdr-stats'" />
-            <gp-header-compact-breadcrumb *ngIf="block.id === 'hdr-breadcrumb'" />
-            <gp-header-profile-banner *ngIf="block.id === 'hdr-profile-banner'" />
+            <gp-header-page-with-actions *ngIf="block.id === 'hdr-actions'" [title]="demoData.headings.actions.title" [badgeText]="demoData.headings.actions.badgeText" [badgeSeverity]="demoData.headings.actions.badgeSeverity" [subtitle]="demoData.headings.actions.subtitle" [breadcrumbs]="demoData.headings.actions.breadcrumbs" [actions]="demoData.headings.actions.actions" />
+            <gp-header-search-filters *ngIf="block.id === 'hdr-filters'" [title]="demoData.headings.filters.title" [subtitle]="demoData.headings.filters.subtitle" [filterGroups]="demoData.headings.filters.filterGroups" />
+            <gp-header-section-tabs *ngIf="block.id === 'hdr-tabs'" [title]="demoData.headings.tabs.title" [description]="demoData.headings.tabs.description" [tabs]="demoData.headings.tabs.tabs" />
+            <gp-header-with-stats *ngIf="block.id === 'hdr-stats'" [title]="demoData.headings.stats.title" [description]="demoData.headings.stats.description" [stats]="demoData.headings.stats.stats" />
+            <gp-header-compact-breadcrumb *ngIf="block.id === 'hdr-breadcrumb'" [backLabel]="demoData.headings.breadcrumb.backLabel" [activeItem]="demoData.headings.breadcrumb.activeItem" [editBtnLabel]="demoData.headings.breadcrumb.editBtnLabel" [shareBtnLabel]="demoData.headings.breadcrumb.shareBtnLabel" />
+            <gp-header-profile-banner *ngIf="block.id === 'hdr-profile-banner'" [userName]="demoData.headings.profileBanner.userName" [statusText]="demoData.headings.profileBanner.statusText" [statusSeverity]="demoData.headings.profileBanner.statusSeverity" [userTitle]="demoData.headings.profileBanner.userTitle" [location]="demoData.headings.profileBanner.location" />
 
             <!-- 7. Data Displays -->
-            <gp-data-display-kpi-cards *ngIf="block.id === 'dd-kpi'" />
-            <gp-data-display-description-list *ngIf="block.id === 'dd-desc-list'" />
-            <gp-data-display-timeline-stream *ngIf="block.id === 'dd-timeline'" />
-            <gp-data-display-meter-metrics *ngIf="block.id === 'dd-meter'" />
-            <gp-data-display-badge-clusters *ngIf="block.id === 'dd-badges'" />
-            <gp-data-display-stats-counter *ngIf="block.id === 'dd-counter'" />
+            <gp-data-display-kpi-cards *ngIf="block.id === 'dd-kpi'" [kpis]="demoData.dataDisplays.kpi.kpis" />
+            <gp-data-display-description-list *ngIf="block.id === 'dd-desc-list'" [title]="demoData.dataDisplays.descList.title" [subtitle]="demoData.dataDisplays.descList.subtitle" [items]="demoData.dataDisplays.descList.items" />
+            <gp-data-display-timeline-stream *ngIf="block.id === 'dd-timeline'" [title]="demoData.dataDisplays.timeline.title" [events]="demoData.dataDisplays.timeline.events" />
+            <gp-data-display-meter-metrics *ngIf="block.id === 'dd-meter'" [title]="demoData.dataDisplays.meter.title" [subtitle]="demoData.dataDisplays.meter.subtitle" [meters]="demoData.dataDisplays.meter.meters" />
+            <gp-data-display-badge-clusters *ngIf="block.id === 'dd-badges'" [title]="demoData.dataDisplays.badges.title" [subtitle]="demoData.dataDisplays.badges.subtitle" [groups]="demoData.dataDisplays.badges.groups" />
+            <gp-data-display-stats-counter *ngIf="block.id === 'dd-counter'" [counters]="demoData.dataDisplays.statsCounter.counters" />
 
             <!-- 8. Lists -->
-            <gp-list-data-grid *ngIf="block.id === 'list-grid'" />
-            <gp-list-stacked-feed *ngIf="block.id === 'list-feed'" />
-            <gp-list-card-grid *ngIf="block.id === 'list-cards'" />
-            <gp-list-transactions *ngIf="block.id === 'list-tx'" />
-            <gp-list-user-directory *ngIf="block.id === 'list-users'" />
-            <gp-list-file-list-download *ngIf="block.id === 'list-files'" />
+            <gp-list-data-grid *ngIf="block.id === 'list-grid'" [searchPlaceholder]="demoData.lists.grid.searchPlaceholder" [rows]="demoData.lists.grid.rows" />
+            <gp-list-stacked-feed *ngIf="block.id === 'list-feed'" [title]="demoData.lists.feed.title" [badgeText]="demoData.lists.feed.badgeText" [feedItems]="demoData.lists.feed.feedItems" />
+            <gp-list-card-grid *ngIf="block.id === 'list-cards'" [title]="demoData.lists.cards.title" [subtitle]="demoData.lists.cards.subtitle" [cards]="demoData.lists.cards.cards" />
+            <gp-list-transactions *ngIf="block.id === 'list-tx'" [title]="demoData.lists.tx.title" [badgeText]="demoData.lists.tx.badgeText" [transactions]="demoData.lists.tx.transactions" />
+            <gp-list-user-directory *ngIf="block.id === 'list-users'" [title]="demoData.lists.users.title" [users]="demoData.lists.users.users" />
+            <gp-list-file-list-download *ngIf="block.id === 'list-files'" [title]="demoData.lists.files.title" [files]="demoData.lists.files.files" />
 
             <!-- 9. Forms -->
-            <gp-form-multi-step-wizard *ngIf="block.id === 'form-wizard'" />
-            <gp-form-auth-split *ngIf="block.id === 'form-auth'" />
-            <gp-form-user-profile *ngIf="block.id === 'form-profile'" />
-            <gp-form-checkout-payment *ngIf="block.id === 'form-checkout'" />
-            <gp-form-contact-feedback *ngIf="block.id === 'form-contact'" />
-            <gp-form-advanced-filter-builder *ngIf="block.id === 'form-filter'" />
+            <gp-form-multi-step-wizard *ngIf="block.id === 'form-wizard'" [steps]="demoData.forms.wizard.steps" />
+            <gp-form-auth-split *ngIf="block.id === 'form-auth'" [brandName]="demoData.forms.auth.brandName" [heroTitle]="demoData.forms.auth.heroTitle" [heroDesc]="demoData.forms.auth.heroDesc" [formTitle]="demoData.forms.auth.formTitle" [formSubtitle]="demoData.forms.auth.formSubtitle" />
+            <gp-form-user-profile *ngIf="block.id === 'form-profile'" [title]="demoData.forms.userProfile.title" [subtitle]="demoData.forms.userProfile.subtitle" />
+            <gp-form-checkout-payment *ngIf="block.id === 'form-checkout'" [title]="demoData.forms.checkout.title" [subtitle]="demoData.forms.checkout.subtitle" [amount]="demoData.forms.checkout.amount" />
+            <gp-form-contact-feedback *ngIf="block.id === 'form-contact'" [title]="demoData.forms.contact.title" [subtitle]="demoData.forms.contact.subtitle" />
+            <gp-form-advanced-filter-builder *ngIf="block.id === 'form-filter'" [title]="demoData.forms.filter.title" />
 
             <!-- 10. Feedbacks -->
-            <gp-feedback-alert-banners *ngIf="block.id === 'fb-alerts'" />
-            <gp-feedback-empty-states *ngIf="block.id === 'fb-empty'" />
-            <gp-feedback-confirm-modals *ngIf="block.id === 'fb-confirm'" />
-            <gp-feedback-toast-status *ngIf="block.id === 'fb-toast'" />
-            <gp-feedback-rating-review *ngIf="block.id === 'fb-rating'" />
+            <gp-feedback-alert-banners *ngIf="block.id === 'fb-alerts'" [alerts]="demoData.feedbacks.alerts.alerts" />
+            <gp-feedback-empty-states *ngIf="block.id === 'fb-empty'" [title]="demoData.feedbacks.empty.title" [description]="demoData.feedbacks.empty.description" [primaryCta]="demoData.feedbacks.empty.primaryCta" [secondaryCta]="demoData.feedbacks.empty.secondaryCta" />
+            <gp-feedback-confirm-modals *ngIf="block.id === 'fb-confirm'" [title]="demoData.feedbacks.confirm.title" [message]="demoData.feedbacks.confirm.message" [confirmBtnLabel]="demoData.feedbacks.confirm.confirmBtnLabel" [cancelBtnLabel]="demoData.feedbacks.confirm.cancelBtnLabel" />
+            <gp-feedback-toast-status *ngIf="block.id === 'fb-toast'" [toasts]="demoData.feedbacks.toast.toasts" />
+            <gp-feedback-rating-review *ngIf="block.id === 'fb-rating'" [title]="demoData.feedbacks.rating.title" [subtitle]="demoData.feedbacks.rating.subtitle" />
 
             <!-- 11. Navigations & Overlays -->
-            <gp-nav-responsive-top-bar *ngIf="block.id === 'nav-topbar'" />
-            <gp-overlay-command-palette *ngIf="block.id === 'nav-palette'" />
-            <gp-overlay-slide-over-panel *ngIf="block.id === 'nav-slide-over'" />
-            <gp-nav-dropdown-action-menu *ngIf="block.id === 'nav-dropdown'" />
-            <gp-nav-mega-menu-block *ngIf="block.id === 'nav-mega'" />
-            <gp-nav-tab-navigation *ngIf="block.id === 'nav-tabs'" />
+            <gp-nav-responsive-top-bar *ngIf="block.id === 'nav-topbar'" [brandName]="demoData.navs.topbar.brandName" [userName]="demoData.navs.topbar.userName" [links]="demoData.navs.topbar.navLinks" />
+            <gp-overlay-command-palette *ngIf="block.id === 'nav-palette'" [placeholder]="demoData.navs.palette.placeholder" [groupLabel]="demoData.navs.palette.groupLabel" [commands]="demoData.navs.palette.commands" />
+            <gp-overlay-slide-over-panel *ngIf="block.id === 'nav-slide-over'" [title]="demoData.navs.slideOver.title" [description]="demoData.navs.slideOver.description" />
+            <gp-nav-dropdown-action-menu *ngIf="block.id === 'nav-dropdown'" [signedInLabel]="demoData.navs.dropdown.signedInLabel" [userEmail]="demoData.navs.dropdown.userEmail" [primaryItems]="demoData.navs.dropdown.primaryItems" [dangerItems]="demoData.navs.dropdown.dangerItems" />
+            <gp-nav-mega-menu-block *ngIf="block.id === 'nav-mega'" [sections]="demoData.navs.mega.sections" [promo]="demoData.navs.mega.promo" />
+            <gp-nav-tab-navigation *ngIf="block.id === 'nav-tabs'" [underlineTabs]="demoData.navs.tabs.underlineTabs" [activeUnderlineTab]="demoData.navs.tabs.activeUnderlineTab" [pillTabs]="demoData.navs.tabs.pillTabs" [activePillTab]="demoData.navs.tabs.activePillTab" />
 
             <!-- 12. Pages -->
-            <gp-page-404 *ngIf="block.id === 'page-404'" />
-            <gp-page-500 *ngIf="block.id === 'page-500'" />
-            <gp-page-403 *ngIf="block.id === 'page-403'" />
-            <gp-page-maintenance *ngIf="block.id === 'page-maint'" />
-            <gp-page-coming-soon *ngIf="block.id === 'page-coming'" />
-            <gp-page-success-confirmation *ngIf="block.id === 'page-success'" />
+            <gp-page-404 *ngIf="block.id === 'page-404'" [code]="demoData.pages.p404.code" [title]="demoData.pages.p404.title" [description]="demoData.pages.p404.description" [goBackBtnLabel]="demoData.pages.p404.goBackBtnLabel" [returnHomeBtnLabel]="demoData.pages.p404.returnHomeBtnLabel" />
+            <gp-page-500 *ngIf="block.id === 'page-500'" [code]="demoData.pages.p500.code" [title]="demoData.pages.p500.title" [description]="demoData.pages.p500.description" [supportBtnLabel]="demoData.pages.p500.supportBtnLabel" [retryBtnLabel]="demoData.pages.p500.retryBtnLabel" />
+            <gp-page-403 *ngIf="block.id === 'page-403'" [code]="demoData.pages.p403.code" [title]="demoData.pages.p403.title" [description]="demoData.pages.p403.description" [returnHomeBtnLabel]="demoData.pages.p403.returnHomeBtnLabel" [requestAccessBtnLabel]="demoData.pages.p403.requestAccessBtnLabel" />
+            <gp-page-maintenance *ngIf="block.id === 'page-maint'" [badgeText]="demoData.pages.pMaint.badgeText" [badgeSeverity]="demoData.pages.pMaint.badgeSeverity" [title]="demoData.pages.pMaint.title" [description]="demoData.pages.pMaint.description" [estimatedUptime]="demoData.pages.pMaint.estimatedUptime" />
+            <gp-page-coming-soon *ngIf="block.id === 'page-coming'" [badgeText]="demoData.pages.pComing.badgeText" [title]="demoData.pages.pComing.title" [description]="demoData.pages.pComing.description" [countdown]="demoData.pages.pComing.countdown" />
+            <gp-page-success-confirmation *ngIf="block.id === 'page-success'" [title]="demoData.pages.pSuccess.title" [description]="demoData.pages.pSuccess.description" [orderNumber]="demoData.pages.pSuccess.orderNumber" [email]="demoData.pages.pSuccess.email" [secondaryBtnLabel]="demoData.pages.pSuccess.secondaryBtnLabel" [primaryBtnLabel]="demoData.pages.pSuccess.primaryBtnLabel" />
           </div>
 
           <!-- Block Code View -->
@@ -838,6 +839,7 @@ export interface BlockItem {
   ]
 })
 export class BlocksPageComponent {
+  demoData = BLOCKS_DEMO_DATA;
   selectedCategory = signal<string>('all');
   searchQuery = signal<string>('');
 

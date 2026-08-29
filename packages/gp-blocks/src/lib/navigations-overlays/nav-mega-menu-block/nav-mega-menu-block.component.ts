@@ -1,12 +1,35 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpMegaMenuLink {
+  title: string;
+  desc: string;
+  url?: string;
+}
+
+export interface GpMegaMenuSection {
+  title: string;
+  links: GpMegaMenuLink[];
+}
+
+export interface GpMegaMenuPromo {
+  badge?: string;
+  title: string;
+  text: string;
+  ctaText: string;
+}
 
 @Component({
   selector: 'gp-nav-mega-menu-block',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule],
   templateUrl: './nav-mega-menu-block.component.html',
   styleUrl: './nav-mega-menu-block.component.scss'
 })
-export class GpNavMegaMenuBlockComponent {}
+export class GpNavMegaMenuBlockComponent {
+  public sections = input<GpMegaMenuSection[]>([]);
+  public promo = input<GpMegaMenuPromo | undefined>(undefined);
+
+  public linkClick = output<GpMegaMenuLink>();
+  public promoClick = output<GpMegaMenuPromo>();
+}

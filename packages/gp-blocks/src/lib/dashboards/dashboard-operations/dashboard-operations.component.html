@@ -1,39 +1,47 @@
 <div class="gp-dashboard-ops-root">
-      <!-- Status Top Bar -->
-      <div class="ops-status-banner">
-        <div class="banner-left">
-          <span class="pulse-indicator"></span>
-          <span class="banner-text">All Global Edge Clusters Operational</span>
-        </div>
-        <div class="banner-right">
-          <span class="uptime-badge">99.994% Uptime (30d)</span>
-        </div>
+  <!-- Status Top Bar -->
+  <div class="ops-status-banner">
+    <div class="banner-left">
+      <span class="pulse-indicator"></span>
+      <span class="banner-text">{{ bannerText() }}</span>
+    </div>
+    <div class="banner-right" *ngIf="uptimeBadge()">
+      <span class="uptime-badge">{{ uptimeBadge() }}</span>
+    </div>
+  </div>
+
+  <!-- Node Health Cards -->
+  <div class="nodes-grid" *ngIf="nodes() && nodes().length > 0">
+    <div
+      class="node-card"
+      *ngFor="let n of nodes()"
+      (click)="nodeClick.emit(n)"
+      style="cursor: pointer;"
+    >
+      <div class="node-head">
+        <span class="node-name">{{ n.name }}</span>
+        <gp-badge
+          [value]="n.status"
+          [severity]="n.status === 'Healthy' ? 'success' : (n.status === 'Degraded' ? 'warning' : 'danger')"
+        />
       </div>
-
-      <!-- Node Health Cards -->
-      <div class="nodes-grid">
-        <div class="node-card" *ngFor="let n of nodes">
-          <div class="node-head">
-            <span class="node-name">{{ n.name }}</span>
-            <gp-badge [value]="n.status" severity="success" />
-          </div>
-          <div class="node-meters">
-            <div class="meter-row">
-              <span>CPU Usage</span>
-              <span>{{ n.cpu }}%</span>
-            </div>
-            <gp-progress-bar [value]="n.cpu" [showValue]="false" />
-
-            <div class="meter-row" style="margin-top: 0.5rem;">
-              <span>Memory (RAM)</span>
-              <span>{{ n.ram }}%</span>
-            </div>
-            <gp-progress-bar [value]="n.ram" [showValue]="false" />
-          </div>
-          <div class="node-footer">
-            <span>Latency: {{ n.latency }}ms</span>
-            <span>Req/s: {{ n.rps }}</span>
-          </div>
+      <div class="node-meters">
+        <div class="meter-row">
+          <span>CPU Usage</span>
+          <span>{{ n.cpu }}%</span>
         </div>
+        <gp-progress-bar [value]="n.cpu" [showValue]="false" />
+
+        <div class="meter-row" style="margin-top: 0.5rem;">
+          <span>Memory (RAM)</span>
+          <span>{{ n.ram }}%</span>
+        </div>
+        <gp-progress-bar [value]="n.ram" [showValue]="false" />
+      </div>
+      <div class="node-footer">
+        <span>Latency: {{ n.latency }}ms</span>
+        <span>Req/s: {{ n.rps }}</span>
       </div>
     </div>
+  </div>
+</div>

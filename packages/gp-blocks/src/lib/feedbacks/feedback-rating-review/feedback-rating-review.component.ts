@@ -1,16 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpRatingComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-feedback-rating-review',
   standalone: true,
-  imports: [CommonModule, GpRatingComponent, GpButtonComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './feedback-rating-review.component.html',
   styleUrl: './feedback-rating-review.component.scss'
 })
 export class GpFeedbackRatingReviewComponent {
-  @Input() title = 'How satisfied are you with gp-ui?';
-  @Input() subtitle = 'Your feedback helps us continuously improve components and design tokens.';
-  rating = 5;
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public dismissBtnLabel = input<string>('Not Now');
+  public submitBtnLabel = input<string>('Submit Feedback');
+
+  public rating = signal<number>(5);
+
+  public dismiss = output<void>();
+  public submitRating = output<number>();
 }

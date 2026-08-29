@@ -1,6 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpBadgeComponent, GpTagComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpTagComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
+
+export interface GpBadgeItem {
+  value: string;
+  severity?: GpBadgeSeverity;
+  isTag?: boolean;
+}
+
+export interface GpBadgeClusterGroup {
+  id?: string;
+  title: string;
+  items: GpBadgeItem[];
+}
 
 @Component({
   selector: 'gp-data-display-badge-clusters',
@@ -10,6 +22,9 @@ import { GpBadgeComponent, GpTagComponent } from '@generatedpixel/gp-ui';
   styleUrl: './data-display-badge-clusters.component.scss'
 })
 export class GpDataDisplayBadgeClustersComponent {
-  @Input() title = 'Status & Tag Taxonomy';
-  @Input() subtitle = 'Hierarchical tag grouping and badges for metadata categorization.';
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public groups = input<GpBadgeClusterGroup[]>([]);
+
+  public itemClick = output<GpBadgeItem>();
 }

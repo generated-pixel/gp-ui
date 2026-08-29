@@ -1,57 +1,18 @@
-<div class="gp-alerts-stack">
-      <!-- Info Alert -->
-      <div class="alert-box alert-info">
-        <div class="alert-icon-col">
-          <gp-icon name="info-circle" size="1.2em" />
-        </div>
-        <div class="alert-content-col">
-          <h4 class="alert-title">Scheduled System Maintenance</h4>
-          <p class="alert-message">We will be performing a database cluster upgrade on Sunday at 02:00 UTC. Anticipated downtime: 15 minutes.</p>
-        </div>
-        <button type="button" class="btn-dismiss">
-          <gp-icon name="close" size="0.85em" />
-        </button>
-      </div>
-
-      <!-- Success Alert -->
-      <div class="alert-box alert-success">
-        <div class="alert-icon-col">
-          <gp-icon name="check-circle" size="1.2em" />
-        </div>
-        <div class="alert-content-col">
-          <h4 class="alert-title">Deployment Succeeded</h4>
-          <p class="alert-message">Release v2.4.0 is now actively serving 100% of production traffic across all edge regions.</p>
-        </div>
-        <button type="button" class="btn-dismiss">
-          <gp-icon name="close" size="0.85em" />
-        </button>
-      </div>
-
-      <!-- Warning Alert -->
-      <div class="alert-box alert-warning">
-        <div class="alert-icon-col">
-          <gp-icon name="exclamation-triangle" size="1.2em" />
-        </div>
-        <div class="alert-content-col">
-          <h4 class="alert-title">API Rate Limit Warning</h4>
-          <p class="alert-message">You have consumed 85% of your allocated monthly API quota. Consider upgrading your plan to avoid throttling.</p>
-        </div>
-        <button type="button" class="btn-dismiss">
-          <gp-icon name="close" size="0.85em" />
-        </button>
-      </div>
-
-      <!-- Danger Alert -->
-      <div class="alert-box alert-danger">
-        <div class="alert-icon-col">
-          <gp-icon name="times-circle" size="1.2em" />
-        </div>
-        <div class="alert-content-col">
-          <h4 class="alert-title">Payment Failed</h4>
-          <p class="alert-message">Your recurring subscription invoice payment could not be processed. Please update your billing method.</p>
-        </div>
-        <button type="button" class="btn-dismiss">
-          <gp-icon name="close" size="0.85em" />
-        </button>
-      </div>
+<div class="gp-alerts-stack" *ngIf="alerts() && alerts().length > 0">
+  <div
+    class="alert-box"
+    *ngFor="let a of alerts()"
+    [ngClass]="'alert-' + a.severity"
+  >
+    <div class="alert-icon-col">
+      <gp-icon [name]="a.icon || (a.severity === 'info' ? 'info-circle' : (a.severity === 'success' ? 'check-circle' : (a.severity === 'warning' ? 'exclamation-triangle' : 'times-circle')))" size="1.2em" />
     </div>
+    <div class="alert-content-col">
+      <h4 class="alert-title">{{ a.title }}</h4>
+      <p class="alert-message">{{ a.message }}</p>
+    </div>
+    <button type="button" class="btn-dismiss" (click)="dismiss.emit(a)" title="Dismiss">
+      <gp-icon name="close" size="0.85em" />
+    </button>
+  </div>
+</div>

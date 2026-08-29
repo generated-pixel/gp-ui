@@ -1,18 +1,23 @@
 <div class="gp-desc-list-card">
-      <div class="desc-card-head">
-        <h3 class="head-title">{{ title }}</h3>
-        <p class="head-subtitle">{{ subtitle }}</p>
-      </div>
+  <div class="desc-card-head">
+    <h3 class="head-title">{{ title() }}</h3>
+    <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+  </div>
 
-      <dl class="desc-grid">
-        <div class="desc-cell" *ngFor="let item of items">
-          <dt class="cell-label">{{ item.label }}</dt>
-          <dd class="cell-val">
-            <span *ngIf="item.badge">
-              <gp-badge [value]="item.value" [severity]="item.badgeSeverity || 'primary'" />
-            </span>
-            <span *ngIf="!item.badge">{{ item.value }}</span>
-          </dd>
-        </div>
-      </dl>
+  <dl class="desc-grid" *ngIf="items() && items().length > 0">
+    <div
+      class="desc-cell"
+      *ngFor="let item of items()"
+      (click)="itemClick.emit(item)"
+      style="cursor: pointer;"
+    >
+      <dt class="cell-label">{{ item.label }}</dt>
+      <dd class="cell-val">
+        <span *ngIf="item.badge">
+          <gp-badge [value]="item.value" [severity]="item.badgeSeverity || 'primary'" />
+        </span>
+        <span *ngIf="!item.badge">{{ item.value }}</span>
+      </dd>
     </div>
+  </dl>
+</div>

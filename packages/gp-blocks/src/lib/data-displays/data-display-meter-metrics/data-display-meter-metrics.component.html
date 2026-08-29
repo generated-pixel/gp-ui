@@ -1,16 +1,21 @@
 <div class="gp-meter-metrics-card">
-      <div class="card-head">
-        <h3 class="title">{{ title }}</h3>
-        <p class="subtitle">{{ subtitle }}</p>
-      </div>
+  <div class="card-head">
+    <h3 class="title">{{ title() }}</h3>
+    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+  </div>
 
-      <div class="meters-list">
-        <div class="meter-item" *ngFor="let m of meters">
-          <div class="meter-info">
-            <span class="m-label">{{ m.label }}</span>
-            <span class="m-value">{{ m.current }} / {{ m.max }} ({{ m.pct }}%)</span>
-          </div>
-          <gp-progress-bar [value]="m.pct" [showValue]="false" />
-        </div>
+  <div class="meters-list" *ngIf="meters() && meters().length > 0">
+    <div
+      class="meter-item"
+      *ngFor="let m of meters()"
+      (click)="meterClick.emit(m)"
+      style="cursor: pointer;"
+    >
+      <div class="meter-info">
+        <span class="m-label">{{ m.label }}</span>
+        <span class="m-value">{{ m.current }} / {{ m.max }} ({{ m.pct }}%)</span>
       </div>
+      <gp-progress-bar [value]="m.pct" [showValue]="false" />
     </div>
+  </div>
+</div>

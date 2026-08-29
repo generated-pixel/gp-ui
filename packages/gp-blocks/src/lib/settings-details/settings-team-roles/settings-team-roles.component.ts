@@ -1,21 +1,28 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpAvatarComponent, GpBadgeComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpTeamMember {
+  id?: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+}
 
 @Component({
   selector: 'gp-settings-team-roles',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpAvatarComponent, GpBadgeComponent, GpIconComponent],
+  imports: [CommonModule, GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent],
   templateUrl: './settings-team-roles.component.html',
   styleUrl: './settings-team-roles.component.scss'
 })
 export class GpSettingsTeamRolesComponent {
-  @Input() title = 'Team Members & Roles';
-  @Input() subtitle = 'Manage who has access to this workspace and configure permission roles.';
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public inviteBtnLabel = input<string>('Invite Member');
+  public members = input<GpTeamMember[]>([]);
 
-  members = [
-    { name: 'Graeme Gorman', email: 'graeme@generatedpixel.dev', role: 'Owner / Admin', status: 'Active' },
-    { name: 'Sarah Connor', email: 'sarah.c@company.io', role: 'Billing Manager', status: 'Active' },
-    { name: 'David Miller', email: 'david.m@company.io', role: 'Developer', status: 'Pending Invite' }
-  ];
+  public inviteMember = output<void>();
+  public editMember = output<GpTeamMember>();
 }

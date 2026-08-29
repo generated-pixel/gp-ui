@@ -1,83 +1,61 @@
 <div class="gp-details-customer-root">
-      <!-- Customer Identity Bar -->
-      <div class="cust-overview-card">
-        <div class="cust-main-info">
-          <gp-avatar [label]="customerName.charAt(0)" size="xlarge" shape="circle" />
-          <div class="cust-text-info">
-            <div class="cust-title-row">
-              <h2 class="cust-name">{{ customerName }}</h2>
-              <gp-badge [value]="customerStatus" severity="success" />
-            </div>
-            <p class="cust-company">{{ companyName }} &bull; {{ location }}</p>
-            <div class="cust-tags">
-              <span class="c-tag">Key Account</span>
-              <span class="c-tag">Annual Tier</span>
-              <span class="c-tag">Priority Support</span>
-            </div>
-          </div>
+  <!-- Customer Identity Bar -->
+  <div class="cust-overview-card">
+    <div class="cust-main-info">
+      <gp-avatar [label]="customerName().charAt(0)" size="xlarge" shape="circle" />
+      <div class="cust-text-info">
+        <div class="cust-title-row">
+          <h2 class="cust-name">{{ customerName() }}</h2>
+          <gp-badge [value]="customerStatus()" severity="success" />
         </div>
-
-        <div class="cust-actions">
-          <gp-button variant="outlined" severity="secondary">
-            <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem;" />
-            Edit Contact
-          </gp-button>
-          <gp-button severity="primary">
-            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-            New Deal
-          </gp-button>
+        <p class="cust-company">{{ companyName() }} &bull; {{ location() }}</p>
+        <div class="cust-tags" *ngIf="tags() && tags().length > 0">
+          <span class="c-tag" *ngFor="let t of tags()">{{ t }}</span>
         </div>
       </div>
+    </div>
 
-      <!-- Detail Grid & Activity Feed -->
-      <div class="cust-details-grid">
-        <div class="detail-panel">
-          <h3 class="panel-heading">Contact Details</h3>
-          <dl class="meta-list">
-            <div class="meta-row">
-              <dt>Direct Email</dt>
-              <dd><a href="mailto:{{ email }}">{{ email }}</a></dd>
-            </div>
-            <div class="meta-row">
-              <dt>Phone Number</dt>
-              <dd>{{ phone }}</dd>
-            </div>
-            <div class="meta-row">
-              <dt>Account Manager</dt>
-              <dd>Sarah Connor (Customer Success)</dd>
-            </div>
-            <div class="meta-row">
-              <dt>Lifetime Contract Value</dt>
-              <dd><strong>$148,000.00</strong></dd>
-            </div>
-          </dl>
+    <div class="cust-actions">
+      <gp-button variant="outlined" severity="secondary" (onClick)="editContact.emit()">
+        <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ editBtnLabel() }}
+      </gp-button>
+      <gp-button severity="primary" (onClick)="newDeal.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ newDealBtnLabel() }}
+      </gp-button>
+    </div>
+  </div>
+
+  <!-- Detail Grid & Activity Feed -->
+  <div class="cust-details-grid">
+    <div class="detail-panel" *ngIf="metaFields() && metaFields().length > 0">
+      <h3 class="panel-heading">Contact Details</h3>
+      <dl class="meta-list">
+        <div class="meta-row" *ngFor="let f of metaFields()">
+          <dt>{{ f.label }}</dt>
+          <dd *ngIf="!f.isLink">{{ f.value }}</dd>
+          <dd *ngIf="f.isLink"><a [href]="f.href || ('mailto:' + f.value)">{{ f.value }}</a></dd>
         </div>
+      </dl>
+    </div>
 
-        <div class="detail-panel">
-          <h3 class="panel-heading">Recent Timeline Events</h3>
-          <div class="activity-timeline">
-            <div class="t-event">
-              <span class="t-bullet bg-blue"></span>
-              <div class="t-content">
-                <span class="t-title">Quarterly Business Review Completed</span>
-                <span class="t-date">Aug 26, 2026</span>
-              </div>
-            </div>
-            <div class="t-event">
-              <span class="t-bullet bg-green"></span>
-              <div class="t-content">
-                <span class="t-title">Contract Signed & Invoiced ($48K)</span>
-                <span class="t-date">Aug 14, 2026</span>
-              </div>
-            </div>
-            <div class="t-event">
-              <span class="t-bullet bg-amber"></span>
-              <div class="t-content">
-                <span class="t-title">Upgraded Plan to Enterprise Scale</span>
-                <span class="t-date">Jul 01, 2026</span>
-              </div>
-            </div>
+    <div class="detail-panel" *ngIf="timelineEvents() && timelineEvents().length > 0">
+      <h3 class="panel-heading">Recent Timeline Events</h3>
+      <div class="activity-timeline">
+        <div
+          class="t-event"
+          *ngFor="let ev of timelineEvents()"
+          (click)="eventClick.emit(ev)"
+          style="cursor: pointer;"
+        >
+          <span class="t-bullet" [ngClass]="ev.bulletClass || 'bg-blue'"></span>
+          <div class="t-content">
+            <span class="t-title">{{ ev.title }}</span>
+            <span class="t-date">{{ ev.date }}</span>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

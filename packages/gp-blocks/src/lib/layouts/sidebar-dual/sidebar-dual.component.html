@@ -1,54 +1,52 @@
 <div class="gp-sidebar-dual-shell">
-      <!-- Tier 1: Primary Icon Strip -->
-      <aside class="tier-primary-strip">
-        <div class="strip-logo">
-          <gp-icon name="layer-group" size="1.25em" />
-        </div>
-        <nav class="strip-nav">
-          <button type="button" class="strip-btn active" title="Projects">
-            <gp-icon name="folder" size="1.2em" />
-          </button>
-          <button type="button" class="strip-btn" title="Analytics">
-            <gp-icon name="sliders" size="1.2em" />
-          </button>
-          <button type="button" class="strip-btn" title="Team">
-            <gp-icon name="users" size="1.2em" />
-          </button>
-        </nav>
-      </aside>
-
-      <!-- Tier 2: Subnavigation List -->
-      <aside class="tier-secondary-nav">
-        <div class="tier-head">
-          <span class="tier-title">{{ subnavTitle }}</span>
-          <gp-badge value="8" severity="secondary" />
-        </div>
-        <div class="tier-items">
-          <a href="javascript:void(0)" class="tier-link active">
-            <span>All Projects</span>
-          </a>
-          <a href="javascript:void(0)" class="tier-link">
-            <span>Production Deployments</span>
-          </a>
-          <a href="javascript:void(0)" class="tier-link">
-            <span>Staging Builds</span>
-          </a>
-          <a href="javascript:void(0)" class="tier-link">
-            <span>Archived Repos</span>
-          </a>
-        </div>
-      </aside>
-
-      <!-- Main Content -->
-      <div class="main-shell">
-        <header class="top-nav-bar">
-          <h2 class="page-title">{{ title }}</h2>
-          <div class="top-actions">
-            <ng-content select="[slot=top-actions]" />
-          </div>
-        </header>
-        <main class="page-content-area">
-          <ng-content />
-        </main>
-      </div>
+  <!-- Tier 1: Primary Icon Strip -->
+  <aside class="tier-primary-strip">
+    <div class="strip-logo">
+      <gp-icon name="layer-group" size="1.25em" />
     </div>
+    <nav class="strip-nav" *ngIf="tier1Items() && tier1Items().length > 0">
+      <button
+        type="button"
+        *ngFor="let item of tier1Items()"
+        class="strip-btn"
+        [class.active]="item.id === activeTier1Id() || item.active"
+        [title]="item.title"
+        (click)="tier1Click.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.2em" />
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Tier 2: Subnavigation List -->
+  <aside class="tier-secondary-nav">
+    <div class="tier-head">
+      <span class="tier-title">{{ subnavTitle() }}</span>
+      <gp-badge *ngIf="subnavBadge()" [value]="subnavBadge()" severity="secondary" />
+    </div>
+    <div class="tier-items" *ngIf="tier2Items() && tier2Items().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of tier2Items()"
+        class="tier-link"
+        [class.active]="item.id === activeTier2Id() || item.active"
+        (click)="tier2Click.emit(item)"
+      >
+        <span>{{ item.label }}</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <h2 class="page-title">{{ title() }}</h2>
+      <div class="top-actions">
+        <ng-content select="[slot=top-actions]" />
+      </div>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

@@ -1,18 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpHeroNavLink {
+  id: string;
+  label: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'gp-layout-stacked-hero-banner',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpIconComponent],
   templateUrl: './stacked-hero-banner.component.html',
   styleUrl: './stacked-hero-banner.component.scss'
 })
 export class GpLayoutStackedHeroBannerComponent {
-  @Input() brandName = 'Quantum Cloud';
-  @Input() heroTitle = 'Supercharge Your Enterprise Operations';
-  @Input() heroSubtitle = 'Deploy scalable microservices and monitor real-time event pipelines with zero downtime.';
-  @Input() primaryCta = 'Get Started Free';
-  @Input() secondaryCta = 'Documentation';
+  public brandName = input<string>('');
+  public brandIcon = input<string>('layer-group');
+  public heroTitle = input<string>('');
+  public heroSubtitle = input<string>('');
+  public primaryCta = input<string>('');
+  public secondaryCta = input<string>('');
+
+  public navLinks = input<GpHeroNavLink[]>([]);
+
+  public primaryClick = output<void>();
+  public secondaryClick = output<void>();
+  public navLinkClick = output<GpHeroNavLink>();
 }

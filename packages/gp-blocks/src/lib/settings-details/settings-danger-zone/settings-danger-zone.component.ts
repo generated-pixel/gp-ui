@@ -1,6 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpButtonVariant } from '@generatedpixel/gp-ui';
+
+export interface GpDangerAction {
+  id: string;
+  title: string;
+  desc: string;
+  buttonLabel: string;
+  buttonVariant?: GpButtonVariant;
+}
 
 @Component({
   selector: 'gp-settings-danger-zone',
@@ -10,6 +18,9 @@ import { GpButtonComponent } from '@generatedpixel/gp-ui';
   styleUrl: './settings-danger-zone.component.scss'
 })
 export class GpSettingsDangerZoneComponent {
-  @Input() title = 'Danger Zone';
-  @Input() subtitle = 'Irreversible and destructive actions for this account.';
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public actions = input<GpDangerAction[]>([]);
+
+  public actionClick = output<GpDangerAction>();
 }

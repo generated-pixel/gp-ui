@@ -1,41 +1,35 @@
 <div class="gp-filter-builder-card">
-      <div class="fb-head">
-        <h3 class="title">{{ title }}</h3>
-        <gp-button variant="text" severity="primary" (click)="addCondition()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-          Add Condition
-        </gp-button>
-      </div>
+  <div class="fb-head">
+    <h3 class="title">{{ title() }}</h3>
+    <gp-button variant="text" severity="primary" (onClick)="addCondition()">
+      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+      {{ addConditionBtnLabel() }}
+    </gp-button>
+  </div>
 
-      <div class="conditions-list">
-        <div class="condition-row" *ngFor="let c of conditions; let idx = index">
-          <span class="cond-label" *ngIf="idx === 0">WHERE</span>
-          <span class="cond-label" *ngIf="idx > 0">AND</span>
+  <div class="conditions-list" *ngIf="conditions() && conditions().length > 0">
+    <div class="condition-row" *ngFor="let c of conditions(); let idx = index">
+      <span class="cond-label" *ngIf="idx === 0">WHERE</span>
+      <span class="cond-label" *ngIf="idx > 0">AND</span>
 
-          <select class="cond-select" [(ngModel)]="c.field">
-            <option value="status">Status</option>
-            <option value="amount">Amount</option>
-            <option value="customer">Customer Email</option>
-            <option value="created">Created Date</option>
-          </select>
+      <select class="cond-select" [(ngModel)]="c.field">
+        <option *ngFor="let f of fieldOptions()" [value]="f.value">{{ f.label }}</option>
+      </select>
 
-          <select class="cond-select" [(ngModel)]="c.operator">
-            <option value="equals">equals</option>
-            <option value="contains">contains</option>
-            <option value="greater">greater than</option>
-            <option value="less">less than</option>
-          </select>
+      <select class="cond-select" [(ngModel)]="c.operator">
+        <option *ngFor="let op of operatorOptions()" [value]="op.value">{{ op.label }}</option>
+      </select>
 
-          <input type="text" class="cond-inp" [(ngModel)]="c.value" placeholder="Value..." />
+      <input type="text" class="cond-inp" [(ngModel)]="c.value" placeholder="Value..." />
 
-          <button type="button" class="btn-remove" (click)="removeCondition(idx)" title="Remove condition">
-            <gp-icon name="close" size="0.85em" />
-          </button>
-        </div>
-      </div>
-
-      <div class="fb-footer">
-        <gp-button variant="outlined" severity="secondary" (click)="resetFilters()">Clear Filters</gp-button>
-        <gp-button severity="primary">Apply Query</gp-button>
-      </div>
+      <button type="button" class="btn-remove" (click)="removeCondition(idx)" title="Remove condition">
+        <gp-icon name="close" size="0.85em" />
+      </button>
     </div>
+  </div>
+
+  <div class="fb-footer">
+    <gp-button variant="outlined" severity="secondary" (onClick)="resetFilters()">{{ clearBtnLabel() }}</gp-button>
+    <gp-button severity="primary" (onClick)="onApply()">{{ applyBtnLabel() }}</gp-button>
+  </div>
+</div>

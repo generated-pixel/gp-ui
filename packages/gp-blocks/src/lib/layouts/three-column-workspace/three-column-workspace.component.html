@@ -1,76 +1,76 @@
 <div class="gp-layout-3col-workspace">
-      <!-- Left Activity Bar (Thin icon strip) -->
-      <nav class="activity-icon-bar">
-        <div class="top-icons">
-          <button type="button" class="bar-btn active" title="Explorer">
-            <gp-icon name="folder" size="1.2em" />
-          </button>
-          <button type="button" class="bar-btn" title="Search">
-            <gp-icon name="search" size="1.2em" />
-          </button>
-          <button type="button" class="bar-btn" title="Extensions">
-            <gp-icon name="layer-group" size="1.2em" />
-          </button>
-        </div>
-        <div class="bottom-icons">
-          <button type="button" class="bar-btn" title="Settings">
-            <gp-icon name="sliders" size="1.2em" />
-          </button>
-        </div>
-      </nav>
+  <!-- Left Activity Bar (Thin icon strip) -->
+  <nav class="activity-icon-bar">
+    <div class="top-icons">
+      <button type="button" class="bar-btn active" title="Explorer">
+        <gp-icon name="folder" size="1.2em" />
+      </button>
+      <button type="button" class="bar-btn" title="Search">
+        <gp-icon name="search" size="1.2em" />
+      </button>
+      <button type="button" class="bar-btn" title="Extensions">
+        <gp-icon name="layer-group" size="1.2em" />
+      </button>
+    </div>
+    <div class="bottom-icons">
+      <button type="button" class="bar-btn" title="Settings">
+        <gp-icon name="sliders" size="1.2em" />
+      </button>
+    </div>
+  </nav>
 
-      <!-- Sidebar Tree Explorer -->
-      <aside class="workspace-sidebar">
-        <div class="sidebar-head">
-          <span class="head-title">{{ explorerTitle }}</span>
-          <button type="button" class="action-icon-btn" title="New File">
-            <gp-icon name="plus" size="0.85em" />
-          </button>
+  <!-- Sidebar Tree Explorer -->
+  <aside class="workspace-sidebar">
+    <div class="sidebar-head">
+      <span class="head-title">{{ explorerTitle() }}</span>
+      <button type="button" class="action-icon-btn" title="New File">
+        <gp-icon name="plus" size="0.85em" />
+      </button>
+    </div>
+    <div class="sidebar-tree">
+      <ng-content select="[slot=explorer]">
+        <div class="tree-item active">
+          <gp-icon name="folder-open" size="0.9em" class="tree-icon" />
+          <span>src / components</span>
         </div>
-        <div class="sidebar-tree">
-          <ng-content select="[slot=explorer]">
-            <div class="tree-item active">
-              <gp-icon name="folder-open" size="0.9em" class="tree-icon" />
-              <span>src / components</span>
-            </div>
-            <div class="tree-item indent">
-              <gp-icon name="file" size="0.85em" class="tree-icon" />
-              <span>button.component.ts</span>
-            </div>
-            <div class="tree-item indent">
-              <gp-icon name="file" size="0.85em" class="tree-icon" />
-              <span>card.component.ts</span>
-            </div>
-            <div class="tree-item">
-              <gp-icon name="folder" size="0.9em" class="tree-icon" />
-              <span>src / services</span>
-            </div>
-          </ng-content>
+        <div class="tree-item indent">
+          <gp-icon name="file" size="0.85em" class="tree-icon" />
+          <span>button.component.ts</span>
         </div>
-      </aside>
+        <div class="tree-item indent">
+          <gp-icon name="file" size="0.85em" class="tree-icon" />
+          <span>card.component.ts</span>
+        </div>
+        <div class="tree-item">
+          <gp-icon name="folder" size="0.9em" class="tree-icon" />
+          <span>src / services</span>
+        </div>
+      </ng-content>
+    </div>
+  </aside>
 
-      <!-- Main Editor / Workspace Area -->
-      <main class="workspace-editor">
-        <div class="editor-tabs-bar">
-          <div class="editor-tab active">
-            <gp-icon name="code" size="0.85em" />
-            <span>{{ activeFileName }}</span>
-            <gp-icon name="close" size="0.75em" class="tab-close" />
+  <!-- Main Editor / Workspace Area -->
+  <main class="workspace-editor">
+    <div class="editor-tabs-bar">
+      <div class="editor-tab active">
+        <gp-icon name="code" size="0.85em" />
+        <span>{{ activeFileName() }}</span>
+        <gp-icon name="close" size="0.75em" class="tab-close" />
+      </div>
+    </div>
+    <div class="editor-content">
+      <ng-content select="[slot=editor]">
+        <div class="editor-placeholder">
+          <div class="code-preview">
+            <span class="code-kw">import</span> &#123; Component &#125; <span class="code-kw">from</span> '@angular/core';<br /><br />
+            <span class="code-dec">&#64;Component</span>(&#123;<br />
+            &nbsp;&nbsp;selector: 'app-root',<br />
+            &nbsp;&nbsp;template: '&lt;h1&gt;Workspace Shell Ready&lt;/h1&gt;'<br />
+            &#125;)<br />
+            <span class="code-kw">export class</span> AppComponent &#123;&#125;
           </div>
         </div>
-        <div class="editor-content">
-          <ng-content select="[slot=editor]">
-            <div class="editor-placeholder">
-              <div class="code-preview">
-                <span class="code-kw">import</span> &#123; Component &#125; <span class="code-kw">from</span> '@angular/core';<br /><br />
-                <span class="code-dec">&#64;Component</span>(&#123;<br />
-                &nbsp;&nbsp;selector: 'app-root',<br />
-                &nbsp;&nbsp;template: '&lt;h1&gt;Workspace Shell Ready&lt;/h1&gt;'<br />
-                &#125;)<br />
-                <span class="code-kw">export class</span> AppComponent &#123;&#125;
-              </div>
-            </div>
-          </ng-content>
-        </div>
-      </main>
+      </ng-content>
     </div>
+  </main>
+</div>

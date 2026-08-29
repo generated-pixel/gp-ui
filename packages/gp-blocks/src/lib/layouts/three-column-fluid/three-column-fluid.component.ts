@@ -1,30 +1,31 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-layout-three-column-fluid',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
   templateUrl: './three-column-fluid.component.html',
   styleUrl: './three-column-fluid.component.scss'
 })
 export class GpLayoutThreeColumnFluidComponent {
-  @Input() leftTitle = 'Navigation';
-  @Input() rightTitle = 'Inspector';
-  @Input() mainTitle = 'Primary Workspace';
-  @Input() mainSubtitle = 'Three-column fluid layout with responsive collapsible panels.';
-  @Input() searchPlaceholder = 'Search in workspace...';
-  @Input() leftCollapsed = false;
-  @Input() rightCollapsed = false;
+  public leftTitle = input<string>('');
+  public mainTitle = input<string>('');
+  public mainSubtitle = input<string>('');
+  public rightTitle = input<string>('');
+  public searchPlaceholder = input<string>('Search workspace...');
 
-  @Output() actionClick = new EventEmitter<string>();
+  public leftCollapsed = signal<boolean>(false);
+  public rightCollapsed = signal<boolean>(false);
 
-  toggleLeft() {
-    this.leftCollapsed = !this.leftCollapsed;
+  public actionClick = output<string>();
+
+  public toggleLeft(): void {
+    this.leftCollapsed.update(c => !c);
   }
 
-  toggleRight() {
-    this.rightCollapsed = !this.rightCollapsed;
+  public toggleRight(): void {
+    this.rightCollapsed.update(c => !c);
   }
 }

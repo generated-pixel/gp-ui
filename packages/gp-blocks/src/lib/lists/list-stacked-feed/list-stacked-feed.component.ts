@@ -1,6 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpAvatarComponent, GpBadgeComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpBadgeComponent, GpIconComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
+
+export interface GpFeedItem {
+  id?: string;
+  author: string;
+  action: string;
+  target: string;
+  message?: string;
+  time: string;
+  avatarUrl?: string;
+}
 
 @Component({
   selector: 'gp-list-stacked-feed',
@@ -10,11 +20,11 @@ import { GpAvatarComponent, GpBadgeComponent, GpIconComponent } from '@generated
   styleUrl: './list-stacked-feed.component.scss'
 })
 export class GpListStackedFeedComponent {
-  @Input() title = 'Team Collaboration Feed';
+  public title = input<string>('');
+  public badgeText = input<string>('');
+  public badgeSeverity = input<GpBadgeSeverity>('success');
+  public feedItems = input<GpFeedItem[]>([]);
 
-  feedItems = [
-    { author: 'Marcus Vance', action: 'opened pull request', target: '#402: Add Dark Mode Theme Presets', message: 'Ready for review. All unit tests and visual diffs passing.', time: '14 minutes ago' },
-    { author: 'Elena Rostova', action: 'commented on issue', target: '#389: Performance optimization', message: 'Reduced initial bundle size by 34% by code-splitting heavy icon assets.', time: '1 hour ago' },
-    { author: 'Graeme Gorman', action: 'deployed release tag', target: 'v0.2.1-production', time: '3 hours ago' }
-  ];
+  public itemClick = output<GpFeedItem>();
+  public itemOptionsClick = output<GpFeedItem>();
 }

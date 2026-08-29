@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -10,6 +10,12 @@ import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './page-404.component.scss'
 })
 export class GpPage404Component {
-  @Input() title = 'Page Not Found';
-  @Input() description = 'Sorry, the requested page or resource could not be found or has been moved.';
+  public code = input<string>('404');
+  public title = input<string>('');
+  public description = input<string>('');
+  public goBackBtnLabel = input<string>('Go Back');
+  public returnHomeBtnLabel = input<string>('Return Home');
+
+  public goBack = output<void>();
+  public returnHome = output<void>();
 }

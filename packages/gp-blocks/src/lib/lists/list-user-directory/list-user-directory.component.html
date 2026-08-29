@@ -1,26 +1,32 @@
 <div class="gp-user-directory-card">
-      <div class="dir-header">
-        <h3 class="title">{{ title }}</h3>
-        <div class="search-input-mini">
-          <gp-icon name="search" size="0.8em" class="s-ico" />
-          <input type="text" placeholder="Search members..." class="s-inp" />
-        </div>
+  <div class="dir-header">
+    <h3 class="title">{{ title() }}</h3>
+    <div class="search-input-mini">
+      <gp-icon name="search" size="0.8em" class="s-ico" />
+      <input
+        type="text"
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        (input)="onSearchInput($event)"
+        class="s-inp"
+      />
+    </div>
+  </div>
+
+  <div class="user-grid" *ngIf="users() && users().length > 0">
+    <div class="user-card-item" *ngFor="let u of users()">
+      <div class="user-avatar-wrap">
+        <gp-avatar [label]="u.name.charAt(0)" size="large" shape="circle" />
+        <span class="status-dot" [class.online]="u.online"></span>
       </div>
 
-      <div class="user-grid">
-        <div class="user-card-item" *ngFor="let u of users">
-          <div class="user-avatar-wrap">
-            <gp-avatar [label]="u.name.charAt(0)" size="large" shape="circle" />
-            <span class="status-dot" [class.online]="u.online"></span>
-          </div>
+      <span class="u-name">{{ u.name }}</span>
+      <span class="u-role">{{ u.role }}</span>
 
-          <span class="u-name">{{ u.name }}</span>
-          <span class="u-role">{{ u.role }}</span>
-
-          <div class="user-card-actions">
-            <gp-button variant="outlined" severity="secondary" size="sm">Profile</gp-button>
-            <gp-button severity="primary" size="sm">Message</gp-button>
-          </div>
-        </div>
+      <div class="user-card-actions">
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="profileClick.emit(u)">{{ profileBtnLabel() }}</gp-button>
+        <gp-button severity="primary" size="sm" (onClick)="messageClick.emit(u)">{{ messageBtnLabel() }}</gp-button>
       </div>
     </div>
+  </div>
+</div>

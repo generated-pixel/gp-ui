@@ -1,6 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpDirectoryUserItem {
+  id?: string | number;
+  name: string;
+  role: string;
+  online?: boolean;
+}
 
 @Component({
   selector: 'gp-list-user-directory',
@@ -10,12 +17,21 @@ import { GpAvatarComponent, GpButtonComponent, GpIconComponent } from '@generate
   styleUrl: './list-user-directory.component.scss'
 })
 export class GpListUserDirectoryComponent {
-  @Input() title = 'Team Directory';
+  public title = input<string>('');
+  public searchPlaceholder = input<string>('Search team members...');
+  public profileBtnLabel = input<string>('View Profile');
+  public messageBtnLabel = input<string>('Message');
+  public users = input<GpDirectoryUserItem[]>([]);
 
-  users = [
-    { name: 'Dr. Bruce Banner', role: 'Staff ML Engineer', online: true },
-    { name: 'Natasha Romanoff', role: 'Security Architect', online: true },
-    { name: 'Tony Stark', role: 'VP of Hardware', online: false },
-    { name: 'Peter Parker', role: 'Frontend Developer', online: true }
-  ];
+  public searchQuery = signal<string>('');
+
+  public searchChange = output<string>();
+  public profileClick = output<GpDirectoryUserItem>();
+  public messageClick = output<GpDirectoryUserItem>();
+
+  public onSearchInput(e: Event): void {
+    const val = (e.target as HTMLInputElement).value;
+    this.searchQuery.set(val);
+    this.searchChange.emit(val);
+  }
 }

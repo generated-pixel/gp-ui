@@ -62,7 +62,6 @@ import { GpFormSchema, GpFieldSchema, GpFormAction } from '../schema.types';
     GpColorPickerComponent,
     GpDatePickerComponent,
     GpTimePickerComponent,
-    GpCardComponent,
     GpDividerComponent,
     GpIconComponent
   ],

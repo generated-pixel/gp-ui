@@ -1,15 +1,29 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpWorkspaceNavItem {
+  id: string;
+  label: string;
+  icon: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'gp-layout-sidebar-workspace',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpIconComponent],
   templateUrl: './sidebar-workspace.component.html',
   styleUrl: './sidebar-workspace.component.scss'
 })
 export class GpLayoutSidebarWorkspaceComponent {
-  @Input() currentWorkspace = 'Acme Global Corp';
-  @Input() title = 'Team Workspace Overview';
+  public currentWorkspace = input<string>('');
+  public workspaceTier = input<string>('');
+  public title = input<string>('');
+  public activeNavId = input<string>('');
+
+  public navItems = input<GpWorkspaceNavItem[]>([]);
+
+  public workspaceClick = output<void>();
+  public navItemClick = output<GpWorkspaceNavItem>();
 }

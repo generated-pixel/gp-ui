@@ -1,27 +1,26 @@
 <div class="gp-badge-clusters-card">
-      <h3 class="title">{{ title }}</h3>
-      <p class="subtitle">{{ subtitle }}</p>
+  <h3 class="title">{{ title() }}</h3>
+  <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
 
-      <div class="cluster-sections">
-        <div class="section-group">
-          <span class="group-title">Deployment Statuses</span>
-          <div class="tag-row">
-            <gp-badge value="Live in Production" severity="success" />
-            <gp-badge value="Staging Candidate" severity="primary" />
-            <gp-badge value="QA Validation" severity="warning" />
-            <gp-badge value="Deprecated Build" severity="danger" />
-          </div>
-        </div>
-
-        <div class="section-group">
-          <span class="group-title">Technology Tags</span>
-          <div class="tag-row">
-            <gp-tag value="Angular 19" severity="primary" />
-            <gp-tag value="TypeScript 5.6" severity="secondary" />
-            <gp-tag value="Tailwind & CSS" severity="info" />
-            <gp-tag value="WebAssembly" severity="success" />
-            <gp-tag value="GraphQL" severity="contrast" />
-          </div>
-        </div>
+  <div class="cluster-sections" *ngIf="groups() && groups().length > 0">
+    <div class="section-group" *ngFor="let g of groups()">
+      <span class="group-title">{{ g.title }}</span>
+      <div class="tag-row">
+        <ng-container *ngFor="let item of g.items">
+          <span class="interactive-tag-wrap" (click)="itemClick.emit(item)">
+            <gp-tag
+              *ngIf="item.isTag"
+              [value]="item.value"
+              [severity]="item.severity || 'primary'"
+            />
+            <gp-badge
+              *ngIf="!item.isTag"
+              [value]="item.value"
+              [severity]="item.severity || 'primary'"
+            />
+          </span>
+        </ng-container>
       </div>
     </div>
+  </div>
+</div>

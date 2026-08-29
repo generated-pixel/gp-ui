@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpDynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { GpDynamicHeaderComponent } from '../dynamic-header/dynamic-header.component';
@@ -23,14 +23,14 @@ import { GpBlockMetadata, GpFormAction } from '../schema.types';
   styleUrl: './dynamic-block-renderer.component.scss'
 })
 export class GpDynamicBlockRendererComponent {
-  @Input() metadata?: GpBlockMetadata;
+  public metadata = input<GpBlockMetadata | undefined>(undefined);
 
-  @Output() formSubmit = new EventEmitter<Record<string, any>>();
-  @Output() formChange = new EventEmitter<Record<string, any>>();
-  @Output() actionClick = new EventEmitter<GpFormAction>();
-  @Output() backClick = new EventEmitter<void>();
+  public formSubmit = output<Record<string, any>>();
+  public formChange = output<Record<string, any>>();
+  public actionClick = output<GpFormAction>();
+  public backClick = output<void>();
 
-  onActionClick(action: GpFormAction) {
+  public onActionClick(action: GpFormAction): void {
     this.actionClick.emit(action);
   }
 }

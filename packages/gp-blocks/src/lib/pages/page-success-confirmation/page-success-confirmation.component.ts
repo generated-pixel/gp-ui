@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -10,8 +10,16 @@ import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './page-success-confirmation.component.scss'
 })
 export class GpPageSuccessConfirmationComponent {
-  @Input() title = 'Payment Successful & Order Confirmed!';
-  @Input() description = 'Thank you for your business. We have received your order and are preparing your high-performance enterprise workspace.';
-  @Input() orderNumber = 'GP-89421-US';
-  @Input() email = 'graeme@generatedpixel.dev';
+  public icon = input<string>('check-circle');
+  public title = input<string>('');
+  public description = input<string>('');
+  public orderNumberLabel = input<string>('Order Number');
+  public orderNumber = input<string>('');
+  public emailLabel = input<string>('Confirmation Email');
+  public email = input<string>('');
+  public secondaryBtnLabel = input<string>('View Dashboard');
+  public primaryBtnLabel = input<string>('Download Receipt');
+
+  public secondaryAction = output<void>();
+  public primaryAction = output<void>();
 }

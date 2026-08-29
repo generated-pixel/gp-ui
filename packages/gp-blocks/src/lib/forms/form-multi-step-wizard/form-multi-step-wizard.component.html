@@ -1,72 +1,104 @@
 <div class="gp-form-wizard-card">
-      <!-- Wizard Step Indicator -->
-      <div class="wizard-stepper-header">
-        <div class="step-badge-item" [class.active]="currentStep === 1" [class.done]="currentStep > 1">
-          <span class="step-num">1</span>
-          <span class="step-label">Account Setup</span>
-        </div>
-        <div class="step-line" [class.done]="currentStep > 1"></div>
-        <div class="step-badge-item" [class.active]="currentStep === 2" [class.done]="currentStep > 2">
-          <span class="step-num">2</span>
-          <span class="step-label">Organization Info</span>
-        </div>
-        <div class="step-line" [class.done]="currentStep > 2"></div>
-        <div class="step-badge-item" [class.active]="currentStep === 3">
-          <span class="step-num">3</span>
-          <span class="step-label">Plan & Finish</span>
-        </div>
+  <!-- Wizard Step Indicator -->
+  <div class="wizard-stepper-header" *ngIf="steps() && steps().length > 0">
+    <ng-container *ngFor="let s of steps(); let idx = index; let last = last">
+      <div
+        class="step-badge-item"
+        [class.active]="currentStep() === s.number"
+        [class.done]="currentStep() > s.number"
+      >
+        <span class="step-num">{{ s.number }}</span>
+        <span class="step-label">{{ s.label }}</span>
       </div>
+      <div class="step-line" *ngIf="!last" [class.done]="currentStep() > s.number"></div>
+    </ng-container>
+  </div>
 
-      <!-- Step 1 Content -->
-      <div class="step-form-body" *ngIf="currentStep === 1">
-        <h3 class="step-title">Create Account Credentials</h3>
-        <p class="step-desc">Enter your primary administrative login information.</p>
-        <div class="fields-grid">
-          <div class="col-6">
-            <label class="lbl">Admin Full Name</label>
-            <gp-input-text placeholder="Graeme Gorman" class="full-width-control" />
-          </div>
-          <div class="col-6">
-            <label class="lbl">Work Email Address</label>
-            <gp-input-text placeholder="graeme@company.dev" class="full-width-control" />
-          </div>
-        </div>
+  <!-- Step 1 Content -->
+  <div class="step-form-body" *ngIf="currentStep() === 1">
+    <h3 class="step-title">Create Account Credentials</h3>
+    <p class="step-desc">Enter your primary administrative login information.</p>
+    <div class="fields-grid">
+      <div class="col-6">
+        <label class="lbl">Admin Full Name</label>
+        <input
+          type="text"
+          class="form-inp"
+          [value]="fullName()"
+          (input)="fullName.set($any($event.target).value)"
+          placeholder="Full name"
+        />
       </div>
-
-      <!-- Step 2 Content -->
-      <div class="step-form-body" *ngIf="currentStep === 2">
-        <h3 class="step-title">Organization Details</h3>
-        <p class="step-desc">Tell us about your company and team size.</p>
-        <div class="fields-grid">
-          <div class="col-6">
-            <label class="lbl">Company / Entity Name</label>
-            <gp-input-text placeholder="Acme Global Inc." class="full-width-control" />
-          </div>
-          <div class="col-6">
-            <label class="lbl">Company Website</label>
-            <gp-input-text placeholder="https://acmeglobal.com" class="full-width-control" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 3 Content -->
-      <div class="step-form-body" *ngIf="currentStep === 3">
-        <h3 class="step-title">Review & Complete Registration</h3>
-        <p class="step-desc">You are selecting the <strong>Enterprise Pro (30-day free trial)</strong> plan.</p>
-        <div class="summary-check-box">
-          <gp-checkbox label="I agree to the Enterprise Master Services Agreement and Privacy Policy" />
-        </div>
-      </div>
-
-      <!-- Wizard Navigation Controls -->
-      <div class="wizard-footer-actions">
-        <gp-button variant="outlined" severity="secondary" [disabled]="currentStep === 1" (click)="prevStep()">
-          Previous
-        </gp-button>
-
-        <gp-button severity="primary" (click)="nextStep()">
-          {{ currentStep === 3 ? 'Finish & Launch' : 'Continue' }}
-          <gp-icon *ngIf="currentStep < 3" name="chevron-right" size="0.8em" style="margin-left: 0.35rem;" />
-        </gp-button>
+      <div class="col-6">
+        <label class="lbl">Work Email Address</label>
+        <input
+          type="email"
+          class="form-inp"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          placeholder="email@company.dev"
+        />
       </div>
     </div>
+  </div>
+
+  <!-- Step 2 Content -->
+  <div class="step-form-body" *ngIf="currentStep() === 2">
+    <h3 class="step-title">Organization Details</h3>
+    <p class="step-desc">Tell us about your company and team size.</p>
+    <div class="fields-grid">
+      <div class="col-6">
+        <label class="lbl">Company / Entity Name</label>
+        <input
+          type="text"
+          class="form-inp"
+          [value]="companyName()"
+          (input)="companyName.set($any($event.target).value)"
+          placeholder="Company Name"
+        />
+      </div>
+      <div class="col-6">
+        <label class="lbl">Company Website</label>
+        <input
+          type="url"
+          class="form-inp"
+          [value]="companyWebsite()"
+          (input)="companyWebsite.set($any($event.target).value)"
+          placeholder="https://company.com"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 Content -->
+  <div class="step-form-body" *ngIf="currentStep() === 3">
+    <h3 class="step-title">Review & Complete Registration</h3>
+    <p class="step-desc">You are selecting the <strong>Enterprise Pro (30-day free trial)</strong> plan.</p>
+    <div class="summary-check-box" style="display: flex; align-items: center; gap: 0.5rem; margin: 1rem 0;">
+      <input
+        type="checkbox"
+        id="agreeTermsCheck"
+        [checked]="agreeTerms()"
+        (change)="agreeTerms.set($any($event.target).checked)"
+      />
+      <label for="agreeTermsCheck" style="font-size: 0.875rem; cursor: pointer; color: var(--gp-text-color-secondary, #64748b);">I agree to the Enterprise Master Services Agreement and Privacy Policy</label>
+    </div>
+  </div>
+
+  <!-- Wizard Navigation Controls -->
+  <div class="wizard-footer-actions">
+    <gp-button
+      variant="outlined"
+      severity="secondary"
+      [disabled]="currentStep() === 1"
+      (onClick)="prevStep()"
+    >
+      Previous
+    </gp-button>
+
+    <gp-button severity="primary" (onClick)="nextStep()">
+      {{ currentStep() === steps().length ? 'Finish & Launch' : 'Continue' }}
+      <gp-icon *ngIf="currentStep() < steps().length" name="chevron-right" size="0.8em" style="margin-left: 0.35rem;" />
+    </gp-button>
+  </div>
+</div>

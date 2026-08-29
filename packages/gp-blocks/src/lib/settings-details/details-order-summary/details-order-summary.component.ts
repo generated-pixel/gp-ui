@@ -1,6 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpBadgeComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpOrderItem {
+  name: string;
+  sku: string;
+  qty: number;
+  price: string;
+  total: string;
+}
 
 @Component({
   selector: 'gp-details-order-summary',
@@ -10,17 +18,18 @@ import { GpButtonComponent, GpBadgeComponent, GpIconComponent } from '@generated
   styleUrl: './details-order-summary.component.scss'
 })
 export class GpDetailsOrderSummaryComponent {
-  @Input() orderId = 'ORD-89421';
-  @Input() orderStatus = 'Completed & Paid';
-  @Input() orderDate = 'August 28, 2026';
-  @Input() paymentMethod = 'Mastercard ending in 4242';
-  @Input() subtotal = '$698.00';
-  @Input() shipping = '$15.00';
-  @Input() tax = '$57.58';
-  @Input() grandTotal = '$770.58';
+  public orderId = input<string>('');
+  public orderStatus = input<string>('Paid');
+  public orderDate = input<string>('');
+  public paymentMethod = input<string>('');
+  public downloadReceiptBtnLabel = input<string>('Download Receipt');
 
-  items = [
-    { name: 'Ergonomic Desk Frame (Motorized Dual)', sku: 'ED-900-BLK', qty: 1, price: '$499.00', total: '$499.00' },
-    { name: 'Dual Monitor Articulated Arm', sku: 'MA-200-SLV', qty: 1, price: '$199.00', total: '$199.00' }
-  ];
+  public items = input<GpOrderItem[]>([]);
+  public subtotal = input<string>('');
+  public shipping = input<string>('');
+  public tax = input<string>('');
+  public grandTotal = input<string>('');
+
+  public downloadReceipt = output<void>();
+  public itemClick = output<GpOrderItem>();
 }

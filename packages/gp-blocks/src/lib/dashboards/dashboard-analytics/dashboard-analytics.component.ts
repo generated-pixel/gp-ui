@@ -1,27 +1,41 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpBadgeComponent, GpProgressBarComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpProgressBarComponent } from '@generatedpixel/gp-ui';
+
+export interface GpAnalyticsStat {
+  title: string;
+  value: string;
+  change: string;
+  trend?: 'pos' | 'neg' | 'neu';
+}
+
+export interface GpChannelStat {
+  name: string;
+  pct: number;
+  users: string;
+}
+
+export interface GpRegionStat {
+  country: string;
+  sessions: string;
+  pct: number;
+}
 
 @Component({
   selector: 'gp-dashboard-analytics',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent, GpProgressBarComponent],
+  imports: [CommonModule, GpBadgeComponent, GpProgressBarComponent],
   templateUrl: './dashboard-analytics.component.html',
   styleUrl: './dashboard-analytics.component.scss'
 })
 export class GpDashboardAnalyticsComponent {
-  channels = [
-    { name: 'Organic Search (Google, Bing)', pct: 48, users: '231.8K' },
-    { name: 'Direct Traffic', pct: 28, users: '135.2K' },
-    { name: 'Referral & Backlinks', pct: 14, users: '67.6K' },
-    { name: 'Social & Campaigns', pct: 10, users: '48.3K' }
-  ];
+  public stats = input<GpAnalyticsStat[]>([]);
+  public channelsTitle = input<string>('');
+  public channels = input<GpChannelStat[]>([]);
+  public regionsTitle = input<string>('');
+  public regions = input<GpRegionStat[]>([]);
 
-  regions = [
-    { country: 'United States', sessions: '198,400', pct: 41 },
-    { country: 'Germany', sessions: '68,200', pct: 14 },
-    { country: 'United Kingdom', sessions: '54,100', pct: 11 },
-    { country: 'Japan', sessions: '38,900', pct: 8 },
-    { country: 'Canada', sessions: '32,500', pct: 7 }
-  ];
+  public statClick = output<GpAnalyticsStat>();
+  public channelClick = output<GpChannelStat>();
+  public regionClick = output<GpRegionStat>();
 }

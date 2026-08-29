@@ -1,21 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpBillingInvoice {
+  id?: string;
+  date: string;
+  amount: string;
+  status: string;
+  pdfUrl?: string;
+}
 
 @Component({
   selector: 'gp-settings-billing',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
   templateUrl: './settings-billing.component.html',
   styleUrl: './settings-billing.component.scss'
 })
 export class GpSettingsBillingComponent {
-  @Input() title = 'Billing & Subscription Plans';
-  @Input() subtitle = 'Manage your organization subscription plan, payment methods, and invoice history.';
+  public title = input<string>('');
+  public subtitle = input<string>('');
+  public planName = input<string>('');
+  public planPrice = input<string>('');
+  public planStatus = input<string>('Active');
+  public invoices = input<GpBillingInvoice[]>([]);
 
-  invoices = [
-    { date: 'Aug 01, 2026', amount: '$499.00' },
-    { date: 'Jul 01, 2026', amount: '$499.00' },
-    { date: 'Jun 01, 2026', amount: '$499.00' }
-  ];
+  public changePlan = output<void>();
+  public cancelPlan = output<void>();
+  public downloadInvoice = output<GpBillingInvoice>();
 }

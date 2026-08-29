@@ -1,26 +1,31 @@
 <div class="gp-timeline-stream-card">
-      <h3 class="timeline-title">{{ title }}</h3>
+  <h3 class="timeline-title">{{ title() }}</h3>
 
-      <div class="stream-feed">
-        <div class="stream-item" *ngFor="let item of events; let last = last">
-          <div class="stream-line-col">
-            <div class="stream-icon-badge" [style.backgroundColor]="item.color">
-              <gp-icon [name]="item.icon" size="0.8em" style="color: #fff;" />
-            </div>
-            <div class="stream-v-line" *ngIf="!last"></div>
-          </div>
+  <div class="stream-feed" *ngIf="events() && events().length > 0">
+    <div
+      class="stream-item"
+      *ngFor="let item of events(); let last = last"
+      (click)="eventClick.emit(item)"
+      style="cursor: pointer;"
+    >
+      <div class="stream-line-col">
+        <div class="stream-icon-badge" [style.backgroundColor]="item.color || 'var(--gp-primary)'">
+          <gp-icon [name]="item.icon || 'check'" size="0.8em" style="color: #fff;" />
+        </div>
+        <div class="stream-v-line" *ngIf="!last"></div>
+      </div>
 
-          <div class="stream-body">
-            <div class="body-top">
-              <span class="event-title">{{ item.title }}</span>
-              <span class="event-time">{{ item.time }}</span>
-            </div>
-            <p class="event-desc">{{ item.desc }}</p>
-            <div class="event-author" *ngIf="item.author">
-              <gp-avatar [label]="item.author.charAt(0)" size="normal" shape="circle" />
-              <span class="author-name">{{ item.author }}</span>
-            </div>
-          </div>
+      <div class="stream-body">
+        <div class="body-top">
+          <span class="event-title">{{ item.title }}</span>
+          <span class="event-time">{{ item.time }}</span>
+        </div>
+        <p class="event-desc">{{ item.desc }}</p>
+        <div class="event-author" *ngIf="item.author">
+          <gp-avatar [label]="item.author.charAt(0)" size="normal" shape="circle" />
+          <span class="author-name">{{ item.author }}</span>
         </div>
       </div>
     </div>
+  </div>
+</div>

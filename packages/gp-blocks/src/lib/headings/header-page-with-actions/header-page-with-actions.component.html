@@ -1,30 +1,41 @@
-<div class="gp-page-header-card">
-      <div class="breadcrumb-trail">
-        <span>Workspace</span>
-        <span class="sep">/</span>
-        <span>Clusters</span>
-        <span class="sep">/</span>
-        <span class="current">{{ title }}</span>
-      </div>
+<div class="gp-header-page-actions">
+  <div class="header-breadcrumbs" *ngIf="breadcrumbs() && breadcrumbs().length > 0">
+    <nav class="breadcrumb-trail">
+      <ng-container *ngFor="let crumb of breadcrumbs(); let last = last">
+        <a
+          *ngIf="!last && crumb.url"
+          [href]="crumb.url"
+          class="crumb-link"
+          (click)="$event.preventDefault(); breadcrumbClick.emit(crumb)"
+        >
+          {{ crumb.label }}
+        </a>
+        <span *ngIf="!last && !crumb.url" class="crumb-link" (click)="breadcrumbClick.emit(crumb)">{{ crumb.label }}</span>
+        <span *ngIf="last" class="crumb-current">{{ crumb.label }}</span>
+        <span *ngIf="!last" class="crumb-sep">/</span>
+      </ng-container>
+    </nav>
+  </div>
 
-      <div class="header-main-bar">
-        <div class="title-group">
-          <div class="title-with-badge">
-            <h1 class="page-title">{{ title }}</h1>
-            <gp-badge [value]="badgeText" severity="success" />
-          </div>
-          <p class="page-desc">{{ description }}</p>
-        </div>
-
-        <div class="actions-group">
-          <gp-button variant="outlined" severity="secondary">
-            <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
-            Export
-          </gp-button>
-          <gp-button severity="primary">
-            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-            Deploy Service
-          </gp-button>
-        </div>
+  <div class="header-main-row">
+    <div class="title-group">
+      <div class="title-with-badge">
+        <h1 class="page-title">{{ title() }}</h1>
+        <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
       </div>
+      <p class="page-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
     </div>
+
+    <div class="header-actions" *ngIf="actions() && actions().length > 0">
+      <gp-button
+        *ngFor="let act of actions()"
+        [variant]="act.variant || 'filled'"
+        [severity]="act.severity || 'primary'"
+        (onClick)="actionClick.emit(act)"
+      >
+        <gp-icon *ngIf="act.icon" [name]="act.icon" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ act.label }}
+      </gp-button>
+    </div>
+  </div>
+</div>

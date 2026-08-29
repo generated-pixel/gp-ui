@@ -1,15 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-page-403',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent],
   templateUrl: './page-403.component.html',
   styleUrl: './page-403.component.scss'
 })
 export class GpPage403Component {
-  @Input() title = 'Access Forbidden';
-  @Input() description = 'You do not have administrative permission to view this resource. Contact your workspace owner to update your role.';
+  public code = input<string>('403');
+  public title = input<string>('');
+  public description = input<string>('');
+  public returnHomeBtnLabel = input<string>('Return to Dashboard');
+  public requestAccessBtnLabel = input<string>('Request Access');
+
+  public returnHome = output<void>();
+  public requestAccess = output<void>();
 }

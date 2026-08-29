@@ -1,25 +1,43 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpAccordionSubLink {
+  id: string;
+  label: string;
+  active?: boolean;
+}
+
+export interface GpAccordionNavGroup {
+  id: string;
+  title: string;
+  icon: string;
+  open?: boolean;
+  links: GpAccordionSubLink[];
+}
 
 @Component({
   selector: 'gp-layout-sidebar-accordion',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpIconComponent],
   templateUrl: './sidebar-accordion.component.html',
   styleUrl: './sidebar-accordion.component.scss'
 })
 export class GpLayoutSidebarAccordionComponent {
-  @Input() brandName = 'Enterprise Admin';
-  @Input() title = 'Traffic Metrics & Telemetry';
+  public brandName = input<string>('');
+  public title = input<string>('');
+  public activeSubLinkId = input<string>('');
 
-  group1Open = true;
-  group2Open = false;
-  group3Open = false;
+  public groups = input<GpAccordionNavGroup[]>([]);
 
-  toggleGroup(g: number) {
-    if (g === 1) this.group1Open = !this.group1Open;
-    if (g === 2) this.group2Open = !this.group2Open;
-    if (g === 3) this.group3Open = !this.group3Open;
+  public linkClick = output<GpAccordionSubLink>();
+  public groupToggle = output<GpAccordionNavGroup>();
+
+  public toggleGroup(idx: number): void {
+    const grp = this.groups()[idx];
+    if (grp) {
+      grp.open = !grp.open;
+      this.groupToggle.emit(grp);
+    }
   }
 }

@@ -1,25 +1,25 @@
 <div class="gp-stacked-floating-card-shell">
-      <header class="floating-header-nav">
-        <div class="header-inner">
-          <div class="brand-pill">
-            <gp-icon name="box" size="1em" />
-            <span class="brand-title">{{ brandName }}</span>
-          </div>
-          <div class="user-pill">
-            <gp-avatar [label]="userName.charAt(0)" size="normal" shape="circle" />
-            <span>{{ userName }}</span>
-          </div>
-        </div>
-      </header>
-
-      <main class="floating-card-body">
-        <div class="floating-inner-card">
-          <div class="card-title-bar">
-            <h2 class="card-title">{{ title }}</h2>
-          </div>
-          <div class="card-body-content">
-            <ng-content />
-          </div>
-        </div>
-      </main>
+  <header class="floating-header-nav">
+    <div class="header-inner">
+      <div class="brand-pill" (click)="brandClick.emit()" style="cursor: pointer;">
+        <gp-icon [name]="brandIcon()" size="1em" />
+        <span class="brand-title">{{ brandName() }}</span>
+      </div>
+      <div class="user-pill" (click)="userClick.emit()" style="cursor: pointer;">
+        <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+        <span>{{ userName() }}</span>
+      </div>
     </div>
+  </header>
+
+  <main class="floating-card-body">
+    <div class="floating-inner-card">
+      <div class="card-title-bar">
+        <h2 class="card-title">{{ title() }}</h2>
+      </div>
+      <div class="card-body-content">
+        <ng-content />
+      </div>
+    </div>
+  </main>
+</div>

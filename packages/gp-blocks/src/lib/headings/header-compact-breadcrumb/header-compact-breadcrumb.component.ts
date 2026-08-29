@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -10,5 +10,12 @@ import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './header-compact-breadcrumb.component.scss'
 })
 export class GpHeaderCompactBreadcrumbComponent {
-  @Input() activeItem = 'Infrastructure Setup v2';
+  public backLabel = input<string>('Back');
+  public activeItem = input<string>('');
+  public editBtnLabel = input<string>('Edit');
+  public shareBtnLabel = input<string>('Share');
+
+  public backClick = output<void>();
+  public editClick = output<void>();
+  public shareClick = output<void>();
 }

@@ -1,48 +1,50 @@
 <div class="gp-sidebar-search-tree-shell">
-      <aside class="tree-sidebar">
-        <!-- Search Input -->
-        <div class="sidebar-search-box">
-          <gp-icon name="search" size="0.9em" class="search-ico" />
-          <input type="text" [placeholder]="searchPlaceholder" class="search-inp" />
+  <aside class="tree-sidebar">
+    <!-- Search Input -->
+    <div class="sidebar-search-box">
+      <gp-icon name="search" size="0.9em" class="search-ico" />
+      <input
+        type="text"
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        (input)="onSearch($event)"
+        class="search-inp"
+      />
+    </div>
+
+    <div class="tree-container">
+      <div class="tree-group-label" *ngIf="catalogLabel()">{{ catalogLabel() }}</div>
+      <div
+        class="tree-node"
+        *ngFor="let node of treeData()"
+        [class.expanded]="node.expanded"
+      >
+        <div class="node-row" (click)="toggleNode(node)" style="cursor: pointer;">
+          <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
+          <gp-icon [name]="node.expanded ? 'folder-open' : 'folder'" size="0.9em" class="folder-ico" />
+          <span>{{ node.label }}</span>
         </div>
-
-        <div class="tree-container">
-          <div class="tree-group-label">Catalog Categories</div>
-          <div class="tree-node expanded">
-            <div class="node-row">
-              <gp-icon name="chevron-down" size="0.75em" />
-              <gp-icon name="folder-open" size="0.9em" class="folder-ico" />
-              <span>UI Components</span>
-            </div>
-            <div class="node-children">
-              <div class="leaf-node active">
-                <span>Buttons & Actions</span>
-              </div>
-              <div class="leaf-node">
-                <span>Form Inputs</span>
-              </div>
-              <div class="leaf-node">
-                <span>Data Tables</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tree-node">
-            <div class="node-row">
-              <gp-icon name="chevron-right" size="0.75em" />
-              <gp-icon name="folder" size="0.9em" class="folder-ico" />
-              <span>Layout Blocks</span>
-            </div>
+        <div class="node-children" *ngIf="node.expanded && node.children">
+          <div
+            class="leaf-node"
+            *ngFor="let leaf of node.children"
+            [class.active]="leaf.id === activeLeafId() || leaf.active"
+            (click)="leafClick.emit(leaf)"
+            style="cursor: pointer;"
+          >
+            <span>{{ leaf.label }}</span>
           </div>
         </div>
-      </aside>
-
-      <div class="main-shell">
-        <header class="top-nav-bar">
-          <h2 class="page-title">{{ title }}</h2>
-        </header>
-        <main class="page-content-area">
-          <ng-content />
-        </main>
       </div>
     </div>
+  </aside>
+
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <h2 class="page-title">{{ title() }}</h2>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

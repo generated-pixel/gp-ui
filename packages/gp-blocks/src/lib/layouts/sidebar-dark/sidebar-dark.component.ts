@@ -1,19 +1,34 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpBadgeComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpIconComponent, GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
+
+export interface GpSidebarNavEntry {
+  id: string;
+  icon: string;
+  label: string;
+  badge?: string;
+  badgeSeverity?: GpBadgeSeverity;
+  active?: boolean;
+}
 
 @Component({
   selector: 'gp-layout-sidebar-dark',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpBadgeComponent, GpAvatarComponent],
+  imports: [CommonModule, GpAvatarComponent, GpIconComponent, GpBadgeComponent],
   templateUrl: './sidebar-dark.component.html',
   styleUrl: './sidebar-dark.component.scss'
 })
 export class GpLayoutSidebarDarkComponent {
-  @Input() brandName = 'Enterprise UI';
-  @Input() brandIcon = 'box';
-  @Input() navGroupLabel = 'Main Menu';
-  @Input() userName = 'Sarah Connor';
-  @Input() userEmail = 'sarah.c@company.io';
-  @Input() title = 'Executive Dashboard';
+  public brandName = input<string>('');
+  public brandIcon = input<string>('box');
+  public navGroupLabel = input<string>('');
+  public userName = input<string>('');
+  public userEmail = input<string>('');
+  public title = input<string>('');
+  public activeNavId = input<string>('');
+
+  public navItems = input<GpSidebarNavEntry[]>([]);
+
+  public navItemClick = output<GpSidebarNavEntry>();
+  public userClick = output<void>();
 }

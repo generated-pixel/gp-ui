@@ -1,24 +1,22 @@
 <div class="gp-danger-zone-card">
-      <div class="danger-head">
-        <h3 class="danger-title">{{ title }}</h3>
-        <p class="danger-subtitle">{{ subtitle }}</p>
-      </div>
+  <div class="danger-head">
+    <h3 class="danger-title">{{ title() }}</h3>
+    <p class="danger-subtitle">{{ subtitle() }}</p>
+  </div>
 
-      <div class="danger-actions-list">
-        <div class="danger-row">
-          <div class="danger-info">
-            <span class="d-action-title">Transfer Account Ownership</span>
-            <span class="d-action-desc">Transfer ownership of this organization, billing subscriptions, and repositories to another admin.</span>
-          </div>
-          <gp-button variant="outlined" severity="danger">Transfer</gp-button>
-        </div>
-
-        <div class="danger-row">
-          <div class="danger-info">
-            <span class="d-action-title">Delete Entire Workspace & Data</span>
-            <span class="d-action-desc">Permanently remove this organization and all associated database records. This action cannot be undone.</span>
-          </div>
-          <gp-button severity="danger">Delete Account</gp-button>
-        </div>
+  <div class="danger-actions-list" *ngIf="actions() && actions().length > 0">
+    <div class="danger-row" *ngFor="let a of actions()">
+      <div class="danger-info">
+        <span class="d-action-title">{{ a.title }}</span>
+        <span class="d-action-desc">{{ a.desc }}</span>
       </div>
+      <gp-button
+        [variant]="a.buttonVariant || 'outlined'"
+        severity="danger"
+        (onClick)="actionClick.emit(a)"
+      >
+        {{ a.buttonLabel }}
+      </gp-button>
     </div>
+  </div>
+</div>

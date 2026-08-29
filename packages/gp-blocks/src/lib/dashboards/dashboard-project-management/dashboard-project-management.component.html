@@ -1,85 +1,43 @@
 <div class="gp-dashboard-pm-root">
-      <!-- Sprint Metrics Header -->
-      <div class="pm-header-grid">
-        <div class="pm-metric-box">
-          <span class="m-title">Sprint 42 Velocity</span>
-          <span class="m-val">94 pts</span>
-          <gp-progress-bar [value]="78" [showValue]="false" />
-        </div>
-        <div class="pm-metric-box">
-          <span class="m-title">Open Tickets</span>
-          <span class="m-val">28 Tasks</span>
-          <span class="m-sub">12 In Progress, 6 Review</span>
-        </div>
-        <div class="pm-metric-box">
-          <span class="m-title">Sprint Days Left</span>
-          <span class="m-val">4 Days</span>
-          <span class="m-sub">Ends Friday, Sep 04</span>
-        </div>
+  <!-- Sprint Metrics Header -->
+  <div class="pm-header-grid" *ngIf="metrics() && metrics().length > 0">
+    <div
+      class="pm-metric-box"
+      *ngFor="let m of metrics()"
+      (click)="metricClick.emit(m)"
+      style="cursor: pointer;"
+    >
+      <span class="m-title">{{ m.title }}</span>
+      <span class="m-val">{{ m.value }}</span>
+      <gp-progress-bar *ngIf="m.progress !== undefined" [value]="m.progress" [showValue]="false" />
+      <span class="m-sub" *ngIf="m.subText">{{ m.subText }}</span>
+    </div>
+  </div>
+
+  <!-- Kanban Columns Mini View -->
+  <div class="kanban-preview-grid" *ngIf="columns() && columns().length > 0">
+    <div class="kanban-col" *ngFor="let col of columns()">
+      <div class="k-col-head">
+        <span class="k-title">{{ col.title }}</span>
+        <gp-badge [value]="col.count.toString()" [severity]="col.badgeSeverity || 'primary'" />
       </div>
-
-      <!-- Kanban Columns Mini View -->
-      <div class="kanban-preview-grid">
-        <!-- In Progress Column -->
-        <div class="kanban-col">
-          <div class="k-col-head">
-            <span class="k-title">In Progress</span>
-            <gp-badge value="3" severity="primary" />
-          </div>
-          <div class="k-cards">
-            <div class="k-task-card">
-              <span class="task-tag feat">Feature</span>
-              <h4 class="task-title">Implement Webhook Signature Verification</h4>
-              <div class="task-footer">
-                <gp-avatar label="J" size="normal" shape="circle" />
-                <span class="task-pts">5 pts</span>
-              </div>
-            </div>
-            <div class="k-task-card">
-              <span class="task-tag bug">Bugfix</span>
-              <h4 class="task-title">Fix Safari SVG gradient clipping</h4>
-              <div class="task-footer">
-                <gp-avatar label="S" size="normal" shape="circle" />
-                <span class="task-pts">3 pts</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- In Review Column -->
-        <div class="kanban-col">
-          <div class="k-col-head">
-            <span class="k-title">Code Review</span>
-            <gp-badge value="2" severity="warning" />
-          </div>
-          <div class="k-cards">
-            <div class="k-task-card">
-              <span class="task-tag feat">Feature</span>
-              <h4 class="task-title">Add 2FA SMS Authentication Fallback</h4>
-              <div class="task-footer">
-                <gp-avatar label="A" size="normal" shape="circle" />
-                <span class="task-pts">8 pts</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Done Column -->
-        <div class="kanban-col">
-          <div class="k-col-head">
-            <span class="k-title">Completed (This Sprint)</span>
-            <gp-badge value="6" severity="success" />
-          </div>
-          <div class="k-cards">
-            <div class="k-task-card">
-              <span class="task-tag feat">Feature</span>
-              <h4 class="task-title">Export PDF Invoices with QR Code</h4>
-              <div class="task-footer">
-                <gp-avatar label="M" size="normal" shape="circle" />
-                <span class="task-pts">5 pts</span>
-              </div>
-            </div>
+      <div class="k-cards">
+        <div
+          class="k-task-card"
+          *ngFor="let task of col.tasks"
+          (click)="taskClick.emit(task)"
+          style="cursor: pointer;"
+        >
+          <span class="task-tag" [class.feat]="task.tagType === 'feat'" [class.bug]="task.tagType === 'bug'">
+            {{ task.tag }}
+          </span>
+          <h4 class="task-title">{{ task.title }}</h4>
+          <div class="task-footer">
+            <gp-avatar [label]="task.assigneeLabel" size="normal" shape="circle" />
+            <span class="task-pts">{{ task.points }}</span>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

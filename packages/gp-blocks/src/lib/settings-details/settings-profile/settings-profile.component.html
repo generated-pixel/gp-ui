@@ -1,45 +1,75 @@
 <div class="gp-settings-card">
-      <div class="settings-head">
-        <h3 class="settings-title">{{ title }}</h3>
-        <p class="settings-subtitle">{{ subtitle }}</p>
-      </div>
+  <div class="settings-head">
+    <h3 class="settings-title">{{ title() }}</h3>
+    <p class="settings-subtitle">{{ subtitle() }}</p>
+  </div>
 
-      <div class="profile-avatar-row">
-        <gp-avatar [label]="userName.charAt(0)" size="xlarge" shape="circle" />
-        <div class="avatar-controls">
-          <div class="btn-group">
-            <gp-button severity="primary" size="sm">Change Avatar</gp-button>
-            <gp-button variant="outlined" severity="secondary" size="sm">Remove</gp-button>
-          </div>
-          <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
-        </div>
+  <div class="profile-avatar-row">
+    <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
+    <div class="avatar-controls">
+      <div class="btn-group">
+        <gp-button severity="primary" size="sm" (onClick)="changeAvatar.emit()">{{ changeAvatarLabel() }}</gp-button>
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="removeAvatar.emit()">{{ removeAvatarLabel() }}</gp-button>
       </div>
-
-      <div class="form-fields-grid">
-        <div class="field-col col-6">
-          <label class="f-label">First Name</label>
-          <gp-input-text [value]="firstName" placeholder="First name" class="full-width-control" />
-        </div>
-        <div class="field-col col-6">
-          <label class="f-label">Last Name</label>
-          <gp-input-text [value]="lastName" placeholder="Last name" class="full-width-control" />
-        </div>
-        <div class="field-col col-6">
-          <label class="f-label">Email Address</label>
-          <gp-input-text [value]="email" placeholder="email@domain.com" class="full-width-control" />
-        </div>
-        <div class="field-col col-6">
-          <label class="f-label">Job Title</label>
-          <gp-input-text [value]="jobTitle" placeholder="e.g. Lead Engineer" class="full-width-control" />
-        </div>
-        <div class="field-col col-12">
-          <label class="f-label">Biography</label>
-          <gp-textarea [value]="bio" [rows]="3" placeholder="Tell us a little about yourself..." class="full-width-control" />
-        </div>
-      </div>
-
-      <div class="settings-footer">
-        <gp-button variant="outlined" severity="secondary">Cancel</gp-button>
-        <gp-button severity="primary">Save Changes</gp-button>
-      </div>
+      <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
     </div>
+  </div>
+
+  <div class="form-fields-grid">
+    <div class="field-col col-6">
+      <label class="f-label">First Name</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="firstName()"
+        (input)="onFieldChange('firstName', $event)"
+        placeholder="First name"
+      />
+    </div>
+    <div class="field-col col-6">
+      <label class="f-label">Last Name</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="lastName()"
+        (input)="onFieldChange('lastName', $event)"
+        placeholder="Last name"
+      />
+    </div>
+    <div class="field-col col-6">
+      <label class="f-label">Email Address</label>
+      <input
+        type="email"
+        class="form-inp"
+        [value]="email()"
+        (input)="onFieldChange('email', $event)"
+        placeholder="email@domain.com"
+      />
+    </div>
+    <div class="field-col col-6">
+      <label class="f-label">Job Title</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="jobTitle()"
+        (input)="onFieldChange('jobTitle', $event)"
+        placeholder="e.g. Lead Engineer"
+      />
+    </div>
+    <div class="field-col col-12">
+      <label class="f-label">Biography</label>
+      <textarea
+        class="form-inp"
+        rows="3"
+        [value]="bio()"
+        (input)="onFieldChange('bio', $event)"
+        placeholder="Tell us a little about yourself..."
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="settings-footer">
+    <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+    <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
+  </div>
+</div>

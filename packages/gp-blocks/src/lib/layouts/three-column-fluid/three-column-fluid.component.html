@@ -1,102 +1,102 @@
 <div class="gp-layout-3col-fluid">
-      <!-- Left Column: Navigation / Feed -->
-      <aside class="col-left" [class.collapsed]="leftCollapsed">
-        <div class="col-header">
-          <span class="col-title">{{ leftTitle }}</span>
-          <button type="button" class="icon-toggle-btn" (click)="toggleLeft()" aria-label="Toggle navigation">
-            <gp-icon [name]="leftCollapsed ? 'chevron-right' : 'chevron-left'" size="0.9em" />
-          </button>
-        </div>
-        <div class="col-content" *ngIf="!leftCollapsed">
-          <ng-content select="[slot=left]">
-            <nav class="default-nav-list">
-              <a href="javascript:void(0)" class="nav-item active">
-                <gp-icon name="home" size="1em" />
-                <span>Overview</span>
-              </a>
-              <a href="javascript:void(0)" class="nav-item">
-                <gp-icon name="folder" size="1em" />
-                <span>Projects</span>
-                <gp-badge value="12" severity="secondary" />
-              </a>
-              <a href="javascript:void(0)" class="nav-item">
-                <gp-icon name="users" size="1em" />
-                <span>Team Members</span>
-              </a>
-              <a href="javascript:void(0)" class="nav-item">
-                <gp-icon name="sliders" size="1em" />
-                <span>Preferences</span>
-              </a>
-            </nav>
-          </ng-content>
-        </div>
-      </aside>
-
-      <!-- Center Column: Primary Main Content -->
-      <main class="col-center">
-        <header class="main-topbar">
-          <div class="topbar-search">
-            <gp-icon name="search" size="0.9em" class="search-icon" />
-            <input type="text" [placeholder]="searchPlaceholder" class="search-input" />
-          </div>
-          <div class="topbar-actions">
-            <gp-button variant="outlined" severity="secondary" (click)="actionClick.emit('filter')">
-              <gp-icon name="filter" size="0.9em" style="margin-right: 0.35rem;" />
-              Filter
-            </gp-button>
-            <gp-button severity="primary" (click)="actionClick.emit('create')">
-              <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
-              New Item
-            </gp-button>
-          </div>
-        </header>
-
-        <div class="main-content-scroll">
-          <ng-content select="[slot=main]">
-            <div class="default-main-placeholder">
-              <h2 class="main-title">{{ mainTitle }}</h2>
-              <p class="main-desc">{{ mainSubtitle }}</p>
-              <ng-content />
-            </div>
-          </ng-content>
-        </div>
-      </main>
-
-      <!-- Right Column: Contextual Inspector / Activity Panel -->
-      <aside class="col-right" [class.collapsed]="rightCollapsed">
-        <div class="col-header">
-          <span class="col-title">{{ rightTitle }}</span>
-          <button type="button" class="icon-toggle-btn" (click)="toggleRight()" aria-label="Toggle details">
-            <gp-icon [name]="rightCollapsed ? 'chevron-left' : 'chevron-right'" size="0.9em" />
-          </button>
-        </div>
-        <div class="col-content" *ngIf="!rightCollapsed">
-          <ng-content select="[slot=right]">
-            <div class="default-context-panel">
-              <h4 class="context-heading">Live Activity</h4>
-              <div class="activity-mini-item">
-                <span class="activity-dot dot-success"></span>
-                <div class="activity-details">
-                  <span class="activity-text">Deployment completed</span>
-                  <span class="activity-time">5m ago</span>
-                </div>
-              </div>
-              <div class="activity-mini-item">
-                <span class="activity-dot dot-primary"></span>
-                <div class="activity-details">
-                  <span class="activity-text">New member joined team</span>
-                  <span class="activity-time">22m ago</span>
-                </div>
-              </div>
-              <div class="activity-mini-item">
-                <span class="activity-dot dot-warning"></span>
-                <div class="activity-details">
-                  <span class="activity-text">Memory usage above 80%</span>
-                  <span class="activity-time">1h ago</span>
-                </div>
-              </div>
-            </div>
-          </ng-content>
-        </div>
-      </aside>
+  <!-- Left Column: Navigation / Feed -->
+  <aside class="col-left" [class.collapsed]="leftCollapsed()">
+    <div class="col-header">
+      <span class="col-title">{{ leftTitle() }}</span>
+      <button type="button" class="icon-toggle-btn" (click)="toggleLeft()" aria-label="Toggle navigation">
+        <gp-icon [name]="leftCollapsed() ? 'chevron-right' : 'chevron-left'" size="0.9em" />
+      </button>
     </div>
+    <div class="col-content" *ngIf="!leftCollapsed()">
+      <ng-content select="[slot=left]">
+        <nav class="default-nav-list">
+          <a href="javascript:void(0)" class="nav-item active">
+            <gp-icon name="home" size="1em" />
+            <span>Overview</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="folder" size="1em" />
+            <span>Projects</span>
+            <gp-badge value="12" severity="secondary" />
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="users" size="1em" />
+            <span>Team Members</span>
+          </a>
+          <a href="javascript:void(0)" class="nav-item">
+            <gp-icon name="sliders" size="1em" />
+            <span>Preferences</span>
+          </a>
+        </nav>
+      </ng-content>
+    </div>
+  </aside>
+
+  <!-- Center Column: Primary Main Content -->
+  <main class="col-center">
+    <header class="main-topbar">
+      <div class="topbar-search">
+        <gp-icon name="search" size="0.9em" class="search-icon" />
+        <input type="text" [placeholder]="searchPlaceholder()" class="search-input" />
+      </div>
+      <div class="topbar-actions">
+        <gp-button variant="outlined" severity="secondary" (onClick)="actionClick.emit('filter')">
+          <gp-icon name="filter" size="0.9em" style="margin-right: 0.35rem;" />
+          Filter
+        </gp-button>
+        <gp-button severity="primary" (onClick)="actionClick.emit('create')">
+          <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
+          New Item
+        </gp-button>
+      </div>
+    </header>
+
+    <div class="main-content-scroll">
+      <ng-content select="[slot=main]">
+        <div class="default-main-placeholder">
+          <h2 class="main-title">{{ mainTitle() }}</h2>
+          <p class="main-desc">{{ mainSubtitle() }}</p>
+          <ng-content />
+        </div>
+      </ng-content>
+    </div>
+  </main>
+
+  <!-- Right Column: Contextual Inspector / Activity Panel -->
+  <aside class="col-right" [class.collapsed]="rightCollapsed()">
+    <div class="col-header">
+      <span class="col-title">{{ rightTitle() }}</span>
+      <button type="button" class="icon-toggle-btn" (click)="toggleRight()" aria-label="Toggle details">
+        <gp-icon [name]="rightCollapsed() ? 'chevron-left' : 'chevron-right'" size="0.9em" />
+      </button>
+    </div>
+    <div class="col-content" *ngIf="!rightCollapsed()">
+      <ng-content select="[slot=right]">
+        <div class="default-context-panel">
+          <h4 class="context-heading">Live Activity</h4>
+          <div class="activity-mini-item">
+            <span class="activity-dot dot-success"></span>
+            <div class="activity-details">
+              <span class="activity-text">Deployment completed</span>
+              <span class="activity-time">5m ago</span>
+            </div>
+          </div>
+          <div class="activity-mini-item">
+            <span class="activity-dot dot-primary"></span>
+            <div class="activity-details">
+              <span class="activity-text">New member joined team</span>
+              <span class="activity-time">22m ago</span>
+            </div>
+          </div>
+          <div class="activity-mini-item">
+            <span class="activity-dot dot-warning"></span>
+            <div class="activity-details">
+              <span class="activity-text">Memory usage above 80%</span>
+              <span class="activity-time">1h ago</span>
+            </div>
+          </div>
+        </div>
+      </ng-content>
+    </div>
+  </aside>
+</div>

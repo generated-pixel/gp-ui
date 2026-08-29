@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
 
@@ -10,7 +10,11 @@ import { GpIconComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
   styleUrl: './stacked-floating-card.component.scss'
 })
 export class GpLayoutStackedFloatingCardComponent {
-  @Input() brandName = 'Float System';
-  @Input() userName = 'Graeme G.';
-  @Input() title = 'Workspace Control Deck';
+  public brandName = input<string>('');
+  public brandIcon = input<string>('box');
+  public userName = input<string>('');
+  public title = input<string>('');
+
+  public brandClick = output<void>();
+  public userClick = output<void>();
 }

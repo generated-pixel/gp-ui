@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -10,6 +10,12 @@ import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './page-500.component.scss'
 })
 export class GpPage500Component {
-  @Input() title = 'Internal Server Error';
-  @Input() description = 'Something unexpected happened on our server while processing your request. Our engineering team has been alerted.';
+  public code = input<string>('500');
+  public title = input<string>('');
+  public description = input<string>('');
+  public supportBtnLabel = input<string>('Contact Support');
+  public retryBtnLabel = input<string>('Try Again');
+
+  public contactSupport = output<void>();
+  public retry = output<void>();
 }

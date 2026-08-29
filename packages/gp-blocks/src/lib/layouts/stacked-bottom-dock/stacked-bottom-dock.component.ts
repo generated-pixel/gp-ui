@@ -1,15 +1,27 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpDockComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpDockItem {
+  id: string;
+  icon: string;
+  title: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'gp-layout-stacked-bottom-dock',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpDockComponent],
+  imports: [CommonModule, GpIconComponent],
   templateUrl: './stacked-bottom-dock.component.html',
   styleUrl: './stacked-bottom-dock.component.scss'
 })
 export class GpLayoutStackedBottomDockComponent {
-  @Input() brandName = 'Dock Space';
-  @Input() activeTab = 'Live Grid';
+  public brandName = input<string>('');
+  public activeTab = input<string>('');
+  public activeDockId = input<string>('');
+
+  public dockItems = input<GpDockItem[]>([]);
+
+  public dockItemClick = output<GpDockItem>();
 }

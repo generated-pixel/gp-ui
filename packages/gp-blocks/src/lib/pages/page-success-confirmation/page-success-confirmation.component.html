@@ -1,23 +1,27 @@
 <div class="gp-success-confirm-card">
-      <div class="success-icon-wrap">
-        <gp-icon name="check" size="2.5em" />
-      </div>
-      <h1 class="success-title">{{ title }}</h1>
-      <p class="success-desc">{{ description }}</p>
+  <div class="success-icon-wrap">
+    <gp-icon [name]="icon()" size="2.5em" />
+  </div>
+  <h1 class="success-title">{{ title() }}</h1>
+  <p class="success-desc" *ngIf="description()">{{ description() }}</p>
 
-      <div class="receipt-box">
-        <div class="receipt-row">
-          <span>Order Confirmation #</span>
-          <strong>{{ orderNumber }}</strong>
-        </div>
-        <div class="receipt-row">
-          <span>Receipt Email Sent To</span>
-          <strong>{{ email }}</strong>
-        </div>
-      </div>
-
-      <div class="success-actions">
-        <gp-button variant="outlined" severity="secondary">View Order Status</gp-button>
-        <gp-button severity="primary">Go to Dashboard</gp-button>
-      </div>
+  <div class="receipt-box">
+    <div class="receipt-row" *ngIf="orderNumber()">
+      <span>{{ orderNumberLabel() }}</span>
+      <strong>{{ orderNumber() }}</strong>
     </div>
+    <div class="receipt-row" *ngIf="email()">
+      <span>{{ emailLabel() }}</span>
+      <strong>{{ email() }}</strong>
+    </div>
+  </div>
+
+  <div class="success-actions">
+    <gp-button *ngIf="secondaryBtnLabel()" variant="outlined" severity="secondary" (onClick)="secondaryAction.emit()">
+      {{ secondaryBtnLabel() }}
+    </gp-button>
+    <gp-button *ngIf="primaryBtnLabel()" severity="primary" (onClick)="primaryAction.emit()">
+      {{ primaryBtnLabel() }}
+    </gp-button>
+  </div>
+</div>

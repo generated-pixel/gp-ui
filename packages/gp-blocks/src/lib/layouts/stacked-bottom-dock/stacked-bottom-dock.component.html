@@ -1,31 +1,26 @@
 <div class="gp-stacked-bottom-dock-shell">
-      <header class="minimal-topbar">
-        <span class="brand-title">{{ brandName }}</span>
-        <span class="view-tag">{{ activeTab }}</span>
-      </header>
+  <header class="minimal-topbar">
+    <span class="brand-title">{{ brandName() }}</span>
+    <span class="view-tag">{{ activeTab() }}</span>
+  </header>
 
-      <main class="dock-main-area">
-        <ng-content />
-      </main>
+  <main class="dock-main-area">
+    <ng-content />
+  </main>
 
-      <!-- Bottom Floating Navigation Dock -->
-      <footer class="bottom-dock-wrapper">
-        <div class="dock-pill-bar">
-          <button type="button" class="dock-btn active" title="Home">
-            <gp-icon name="home" size="1.2em" />
-          </button>
-          <button type="button" class="dock-btn" title="Search">
-            <gp-icon name="search" size="1.2em" />
-          </button>
-          <button type="button" class="dock-btn" title="Projects">
-            <gp-icon name="folder" size="1.2em" />
-          </button>
-          <button type="button" class="dock-btn" title="Team">
-            <gp-icon name="users" size="1.2em" />
-          </button>
-          <button type="button" class="dock-btn" title="Settings">
-            <gp-icon name="sliders" size="1.2em" />
-          </button>
-        </div>
-      </footer>
+  <!-- Bottom Floating Navigation Dock -->
+  <footer class="bottom-dock-wrapper">
+    <div class="dock-pill-bar" *ngIf="dockItems() && dockItems().length > 0">
+      <button
+        type="button"
+        *ngFor="let item of dockItems()"
+        class="dock-btn"
+        [class.active]="item.id === activeDockId() || item.active"
+        [title]="item.title"
+        (click)="dockItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.2em" />
+      </button>
     </div>
+  </footer>
+</div>

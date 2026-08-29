@@ -1,41 +1,35 @@
 <div class="gp-sidebar-floating-shell">
-      <!-- Floating Card Sidebar -->
-      <aside class="floating-sidebar-card">
-        <div class="floating-brand">
-          <div class="brand-orb"></div>
-          <span class="brand-text">{{ brandName }}</span>
-        </div>
-
-        <nav class="floating-nav">
-          <a href="javascript:void(0)" class="floating-link active">
-            <gp-icon name="home" size="1.1em" />
-            <span>Dashboard</span>
-          </a>
-          <a href="javascript:void(0)" class="floating-link">
-            <gp-icon name="layer-group" size="1.1em" />
-            <span>Metrics</span>
-          </a>
-          <a href="javascript:void(0)" class="floating-link">
-            <gp-icon name="folder" size="1.1em" />
-            <span>Files</span>
-          </a>
-          <a href="javascript:void(0)" class="floating-link">
-            <gp-icon name="sliders" size="1.1em" />
-            <span>Settings</span>
-          </a>
-        </nav>
-      </aside>
-
-      <!-- Main Shell Content -->
-      <div class="floating-main-area">
-        <header class="floating-topbar">
-          <h2 class="floating-title">{{ title }}</h2>
-          <div class="top-actions">
-            <ng-content select="[slot=top-actions]" />
-          </div>
-        </header>
-        <main class="floating-content-card">
-          <ng-content />
-        </main>
-      </div>
+  <!-- Floating Card Sidebar -->
+  <aside class="floating-sidebar-card">
+    <div class="floating-brand">
+      <div class="brand-orb"></div>
+      <span class="brand-text">{{ brandName() }}</span>
     </div>
+
+    <nav class="floating-nav" *ngIf="navItems() && navItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of navItems()"
+        class="floating-link"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Shell Content -->
+  <div class="floating-main-area">
+    <header class="floating-topbar">
+      <h2 class="floating-title">{{ title() }}</h2>
+      <div class="top-actions">
+        <ng-content select="[slot=top-actions]" />
+      </div>
+    </header>
+    <main class="floating-content-card">
+      <ng-content />
+    </main>
+  </div>
+</div>

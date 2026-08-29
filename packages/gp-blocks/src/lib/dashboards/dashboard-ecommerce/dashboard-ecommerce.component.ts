@@ -1,26 +1,47 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpBadgeComponent, GpTagComponent, GpProgressBarComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpEcomKpi {
+  id?: string;
+  label: string;
+  value: string;
+  meta: string;
+  trend?: 'pos' | 'neg' | 'neu';
+}
+
+export interface GpEcomProduct {
+  id?: string;
+  name: string;
+  category: string;
+  revenue: string;
+  sales: number;
+}
+
+export interface GpEcomOrder {
+  id: string;
+  customer: string;
+  amount: string;
+  status: string;
+}
 
 @Component({
   selector: 'gp-dashboard-ecommerce',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent, GpTagComponent, GpProgressBarComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
   templateUrl: './dashboard-ecommerce.component.html',
   styleUrl: './dashboard-ecommerce.component.scss'
 })
 export class GpDashboardEcommerceComponent {
-  topProducts = [
-    { name: 'Ultra-Comfort Ergonomic Chair', category: 'Office Furniture', revenue: '$24,800', sales: 62 },
-    { name: 'Wireless Noise-Canceling Headset', category: 'Audio & Gadgets', revenue: '$18,450', sales: 123 },
-    { name: 'Mechanical RGB Keyboard Pro', category: 'Peripherals', revenue: '$12,300', sales: 82 },
-    { name: 'USB-C Thunderbolt Dock 12-in-1', category: 'Accessories', revenue: '$9,800', sales: 49 }
-  ];
+  public kpis = input<GpEcomKpi[]>([]);
+  public topProducts = input<GpEcomProduct[]>([]);
+  public recentOrders = input<GpEcomOrder[]>([]);
+  public productsTitle = input<string>('Top Selling Products');
+  public ordersTitle = input<string>('Recent Store Orders');
+  public ordersBadge = input<string>('');
 
-  recentOrders = [
-    { id: '10492', customer: 'Alice Cooper', amount: '$349.00', status: 'Processing' },
-    { id: '10491', customer: 'Bob Marley', amount: '$129.50', status: 'Delivered' },
-    { id: '10490', customer: 'Charlie Watts', amount: '$89.00', status: 'In Transit' },
-    { id: '10489', customer: 'David Bowie', amount: '$499.00', status: 'Delivered' }
-  ];
+  public kpiClick = output<GpEcomKpi>();
+  public productClick = output<GpEcomProduct>();
+  public orderClick = output<GpEcomOrder>();
+  public viewAllProductsClick = output<void>();
 }

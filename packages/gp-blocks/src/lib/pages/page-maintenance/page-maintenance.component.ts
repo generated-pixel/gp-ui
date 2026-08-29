@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-page-maintenance',
@@ -10,7 +10,11 @@ import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
   styleUrl: './page-maintenance.component.scss'
 })
 export class GpPageMaintenanceComponent {
-  @Input() title = 'We’ll be right back!';
-  @Input() description = 'We are currently upgrading database nodes and index clusters to improve overall system throughput and query speed.';
-  @Input() estimatedUptime = 'Today at 03:30 UTC (~25 mins remaining)';
+  public badgeText = input<string>('');
+  public badgeSeverity = input<GpBadgeSeverity>('warning');
+  public icon = input<string>('sliders');
+  public title = input<string>('');
+  public description = input<string>('');
+  public estimatedUptimeLabel = input<string>('Estimated Completion');
+  public estimatedUptime = input<string>('');
 }

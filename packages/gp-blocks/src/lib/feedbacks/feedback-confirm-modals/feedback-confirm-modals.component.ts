@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent, GpButtonSeverity } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-feedback-confirm-modals',
@@ -10,6 +10,14 @@ import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
   styleUrl: './feedback-confirm-modals.component.scss'
 })
 export class GpFeedbackConfirmModalsComponent {
-  @Input() title = 'Deactivate cluster deployment?';
-  @Input() message = 'Are you sure you want to deactivate and remove us-east-cluster-01? All running pods and in-flight client sessions will be immediately terminated.';
+  public icon = input<string>('trash');
+  public iconSeverity = input<string>('icon-danger');
+  public title = input<string>('');
+  public message = input<string>('');
+  public confirmBtnLabel = input<string>('Confirm');
+  public cancelBtnLabel = input<string>('Cancel');
+  public confirmSeverity = input<GpButtonSeverity>('danger');
+
+  public confirm = output<void>();
+  public cancel = output<void>();
 }

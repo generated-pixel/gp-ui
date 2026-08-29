@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpIconComponent, GpProgressBarComponent } from '@generatedpixel/gp-ui';
-import { GpStatsSchema, GpStatCardItem } from '../schema.types';
+import { GpStatsSchema } from '../schema.types';
 
 @Component({
   selector: 'gp-dynamic-stats',
@@ -11,5 +11,5 @@ import { GpStatsSchema, GpStatCardItem } from '../schema.types';
   styleUrl: './dynamic-stats.component.scss'
 })
 export class GpDynamicStatsComponent {
-  @Input() schema?: GpStatsSchema;
+  public schema = input<GpStatsSchema | undefined>(undefined);
 }

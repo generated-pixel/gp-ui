@@ -1,5 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+export interface GpStatsCounterItem {
+  id?: string;
+  number: string;
+  label: string;
+  desc?: string;
+}
 
 @Component({
   selector: 'gp-data-display-stats-counter',
@@ -9,9 +16,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './data-display-stats-counter.component.scss'
 })
 export class GpDataDisplayStatsCounterComponent {
-  counters = [
-    { number: '99.99%', label: 'Guaranteed SLA Uptime', desc: 'Continuous multi-region high availability deployments.' },
-    { number: '10M+', label: 'Daily API Transactions', desc: 'Sub-millisecond latency processed through global edge CDN.' },
-    { number: '4,500+', label: 'Enterprise Customers', desc: 'Trusted by world-leading tech and healthcare companies.' }
-  ];
+  public counters = input<GpStatsCounterItem[]>([]);
+
+  public counterClick = output<GpStatsCounterItem>();
 }

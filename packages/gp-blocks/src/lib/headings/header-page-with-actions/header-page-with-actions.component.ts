@@ -1,16 +1,47 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpBadgeComponent, GpIconComponent, GpBreadcrumbComponent } from '@generatedpixel/gp-ui';
+import {
+  GpButtonComponent,
+  GpBadgeComponent,
+  GpIconComponent,
+  GpBadgeSeverity,
+  GpButtonVariant,
+  GpButtonSeverity
+} from '@generatedpixel/gp-ui';
+
+export interface GpHeaderBreadcrumb {
+  label: string;
+  url?: string;
+}
+
+export interface GpHeaderAction {
+  id: string;
+  label: string;
+  icon?: string;
+  variant?: GpButtonVariant;
+  severity?: GpButtonSeverity;
+}
 
 @Component({
   selector: 'gp-header-page-with-actions',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpBadgeComponent, GpIconComponent, GpBreadcrumbComponent],
+  imports: [
+    CommonModule,
+    GpButtonComponent,
+    GpBadgeComponent,
+    GpIconComponent
+  ],
   templateUrl: './header-page-with-actions.component.html',
   styleUrl: './header-page-with-actions.component.scss'
 })
 export class GpHeaderPageWithActionsComponent {
-  @Input() title = 'us-east-cluster-01';
-  @Input() badgeText = 'Healthy';
-  @Input() description = 'Primary production Kubernetes cluster with 24 worker nodes and autoscaling enabled.';
+  public title = input<string>('');
+  public badgeText = input<string>('');
+  public badgeSeverity = input<GpBadgeSeverity>('success');
+  public subtitle = input<string>('');
+  public breadcrumbs = input<GpHeaderBreadcrumb[]>([]);
+  public actions = input<GpHeaderAction[]>([]);
+
+  public actionClick = output<GpHeaderAction>();
+  public breadcrumbClick = output<GpHeaderBreadcrumb>();
 }

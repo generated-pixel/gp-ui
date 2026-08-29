@@ -1,16 +1,29 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+
+export interface GpMiniSidebarNavEntry {
+  id: string;
+  icon: string;
+  label: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'gp-layout-sidebar-mini',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpAvatarComponent],
+  imports: [CommonModule, GpAvatarComponent, GpIconComponent],
   templateUrl: './sidebar-mini.component.html',
   styleUrl: './sidebar-mini.component.scss'
 })
 export class GpLayoutSidebarMiniComponent {
-  @Input() brandIcon = 'box';
-  @Input() userName = 'Alex';
-  @Input() title = 'Minimal Console';
+  public brandIcon = input<string>('box');
+  public title = input<string>('');
+  public activeNavId = input<string>('');
+  public userName = input<string>('User');
+
+  public navItems = input<GpMiniSidebarNavEntry[]>([]);
+
+  public navItemClick = output<GpMiniSidebarNavEntry>();
+  public userClick = output<void>();
 }
