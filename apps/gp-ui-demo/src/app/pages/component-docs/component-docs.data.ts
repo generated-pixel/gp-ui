@@ -1253,7 +1253,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     icon: 'sliders',
     description: 'Modal overlays for confirmation, forms, and focused tasks.',
     importStatement: `import { GpDialogComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-dialog header="Confirm" [visible]="visible" [modal]="true">\n  Are you sure?\n</gp-dialog>`,
+    exampleCode: `<gp-button label="Open Dialog" (onClickEvent)="visible = true" />\n\n<gp-dialog\n  header="Edit Profile"\n  [visible]="visible"\n  (visibleChange)="visible = $event"\n  [maximizable]="true"\n>\n  <p>Make changes to your profile details here. Click save when you're done.</p>\n  <div footer>\n    <gp-button label="Cancel" severity="secondary" variant="outlined" (onClickEvent)="visible = false" />\n    <gp-button label="Save" severity="primary" (onClickEvent)="visible = false" />\n  </div>\n</gp-dialog>`,
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Dialog title text.' },
       { name: 'visible', type: 'boolean', default: 'false', description: 'Controls dialog visibility.' },
@@ -1263,7 +1263,11 @@ export const componentDocs: ComponentDocDefinition[] = [
         default: 'true',
         description: 'Whether the dialog should trap focus and mask the background.'
       },
-      { name: 'closable', type: 'boolean', default: 'true', description: 'Whether the close button is shown.' }
+      { name: 'closable', type: 'boolean', default: 'true', description: 'Whether the close button is shown.' },
+      { name: 'maximizable', type: 'boolean', default: 'false', description: 'Whether the maximize toggle button is shown.' },
+      { name: 'width', type: 'string', default: "'30rem'", description: 'Width of the dialog container.' },
+      { name: 'closeOnEscape', type: 'boolean', default: 'true', description: 'Whether pressing Escape dismisses the dialog.' },
+      { name: 'dismissableMask', type: 'boolean', default: 'false', description: 'Whether clicking the backdrop mask dismisses the dialog.' }
     ]
   },
   {

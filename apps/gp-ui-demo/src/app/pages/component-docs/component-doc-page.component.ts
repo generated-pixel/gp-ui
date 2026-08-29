@@ -22,6 +22,7 @@ import {
   GpContextMenuComponent,
   GpDataViewComponent,
   GpDatePickerComponent,
+  GpDialogComponent,
   GpDividerComponent,
   GpDockComponent,
   GpDrawerComponent,
@@ -107,6 +108,7 @@ import { getComponentDoc } from './component-docs.data';
     GpContextMenuComponent,
     GpDataViewComponent,
     GpDatePickerComponent,
+    GpDialogComponent,
     GpDividerComponent,
     GpDockComponent,
     GpDrawerComponent,
@@ -447,7 +449,23 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('dialog') {
-          <gp-button label="Open Dialog" severity="primary" />
+          <div>
+            <gp-button label="Open Dialog" severity="primary" (onClickEvent)="demoDialogVisible = true" />
+            <gp-dialog
+              header="Edit Profile"
+              [visible]="demoDialogVisible"
+              (visibleChange)="demoDialogVisible = $event"
+              [maximizable]="true"
+            >
+              <p style="margin: 0 0 1rem 0; line-height: 1.5; color: var(--gp-text-color);">
+                Make changes to your profile details here. Click save when you're done.
+              </p>
+              <div footer style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                <gp-button label="Cancel" severity="secondary" variant="outlined" (onClickEvent)="demoDialogVisible = false" />
+                <gp-button label="Save" severity="primary" (onClickEvent)="demoDialogVisible = false" />
+              </div>
+            </gp-dialog>
+          </div>
         }
         @case ('confirm-dialog') {
           <div>
@@ -665,6 +683,7 @@ export class ComponentDocPageComponent implements OnInit {
   doc: ReturnType<typeof getComponentDoc>;
   allIconNames: string[] = Object.keys(GP_DEFAULT_ICONS);
   searchTerm = '';
+  demoDialogVisible = false;
   demoDrawerVisible = false;
 
   demoOptions = [
