@@ -144,7 +144,9 @@ $DistPackages = @(
   (Join-Path $ScriptDir "dist/packages/gp-ui"),
   (Join-Path $ScriptDir "dist/packages/gp-ui-theme"),
   (Join-Path $ScriptDir "dist/packages/gp-ui-icons"),
-  (Join-Path $ScriptDir "dist/packages/gp-css")
+  (Join-Path $ScriptDir "dist/packages/gp-css"),
+  (Join-Path $ScriptDir "dist/packages/gp-blocks"),
+  (Join-Path $ScriptDir "dist/packages/gp-grid")
 )
 
 $ReadmePath = Join-Path $ScriptDir "README.md"
@@ -196,6 +198,8 @@ if (-not $SkipPublish) {
   Write-Host "  - @generatedpixel/gp-ui-theme@$NewVersion" -ForegroundColor Cyan
   Write-Host "  - @generatedpixel/gp-ui-icons@$NewVersion" -ForegroundColor Cyan
   Write-Host "  - @generatedpixel/gp-css@$NewVersion" -ForegroundColor Cyan
+  Write-Host "  - @generatedpixel/gp-blocks@$NewVersion" -ForegroundColor Cyan
+  Write-Host "  - @generatedpixel/gp-grid@$NewVersion" -ForegroundColor Cyan
 } else {
   Write-Host ""
   Write-Host "Publishing skipped as requested. Artifacts are ready in dist/packages/." -ForegroundColor Yellow
