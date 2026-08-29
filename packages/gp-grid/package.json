@@ -1,0 +1,38 @@
+{
+  "name": "@generatedpixel/gp-grid",
+  "version": "0.2.1",
+  "description": "High-performance reactive dynamic grid and widget dashboard engine for Angular",
+  "keywords": [
+    "angular",
+    "grid",
+    "gridstack",
+    "dashboard",
+    "widgets",
+    "drag-and-drop",
+    "signals",
+    "gp-ui"
+  ],
+  "author": "Generated Pixel",
+  "contributors": [
+    {
+      "name": "Graeme Gorman",
+      "email": "graeme@generatedpixel.dev"
+    }
+  ],
+  "homepage": "https://gp-ui.com/",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/generated-pixel/gp-ui.git"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=18.0.0",
+    "@angular/core": ">=18.0.0",
+    "@angular/forms": ">=18.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

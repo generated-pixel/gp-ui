@@ -4,6 +4,7 @@ import { ThemingPageComponent } from './pages/theming/theming.component';
 import { GpCssPageComponent } from './pages/gp-css/gp-css.component';
 import { I18nPageComponent } from './pages/i18n/i18n.component';
 import { ComponentDocPageComponent } from './pages/component-docs/component-doc-page.component';
+import { GridDemoComponent } from './pages/grid/grid-demo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'getting-started', pathMatch: 'full' },
@@ -12,6 +13,8 @@ export const routes: Routes = [
   { path: 'theming', component: ThemingPageComponent },
   { path: 'gp-css', component: GpCssPageComponent },
   { path: 'i18n', component: I18nPageComponent },
+  { path: 'grid', component: GridDemoComponent },
+  { path: 'component/grid', component: GridDemoComponent },
   { path: 'component/:component', component: ComponentDocPageComponent },
   { path: '**', redirectTo: 'getting-started' }
 ];

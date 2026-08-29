@@ -810,6 +810,7 @@ export class AppComponent {
 
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
+    { name: 'Grid & Dashboard', route: '/grid', category: 'General', icon: 'layout-grid', badge: 'New' },
     { name: 'gp-css Engine', route: '/gp-css', category: 'General', icon: 'sparkles', badge: `v${GP_UI_VERSION}` },
     { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
     { name: 'i18n & RTL', route: '/i18n', category: 'General', icon: 'globe' },
@@ -861,6 +862,7 @@ export class AppComponent {
     { name: 'Confirm Dialog', route: '/component/confirm-dialog', category: 'Overlays', icon: 'confirm' },
     { name: 'Drawer', route: '/component/drawer', category: 'Overlays', icon: 'panel-right' },
     { name: 'Popover', route: '/component/popover', category: 'Overlays', icon: 'message-circle' },
+    { name: 'Grid & Dashboard', route: '/grid', category: 'Panels', icon: 'layout-grid', badge: 'New' },
     { name: 'Card', route: '/component/card', category: 'Panels', icon: 'layer-group' },
     { name: 'Accordion', route: '/component/accordion', category: 'Panels', icon: 'chevron-down' },
     { name: 'Fieldset', route: '/component/fieldset', category: 'Panels', icon: 'window' },

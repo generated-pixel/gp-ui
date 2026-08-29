@@ -1,0 +1,487 @@
+<div class="grid-demo-page">
+  <!-- Page Header -->
+  <header class="demo-page-header">
+    <div class="header-content">
+      <div class="header-badge-wrap">
+        <span class="version-badge">@generatedpixel/gp-grid</span>
+        <span class="signals-badge">Angular 18+ Signals</span>
+      </div>
+      <h1 class="page-title">Grid & Dashboard Layout Engine</h1>
+      <p class="page-subtitle">
+        High-performance, reactive draggable grid system with dynamic collision realignment, locked-in-place anchors, customizable widgets, and seamless theme integration.
+      </p>
+    </div>
+
+    <!-- Tabs Header -->
+    <div class="page-tabs">
+      <button
+        type="button"
+        class="tab-btn"
+        [class.tab-btn--active]="activeTab() === 'demo'"
+        (click)="activeTab.set('demo')"
+      >
+        <gp-icon name="layout-grid" size="1em" />
+        <span>Interactive Studio</span>
+      </button>
+      <button
+        type="button"
+        class="tab-btn"
+        [class.tab-btn--active]="activeTab() === 'api'"
+        (click)="activeTab.set('api')"
+      >
+        <gp-icon name="code" size="1em" />
+        <span>API & Documentation</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= TAB 1: INTERACTIVE STUDIO ================= -->
+  @if (activeTab() === 'demo') {
+    <div class="studio-container">
+      <!-- Toolbar Controls -->
+      <section class="studio-toolbar">
+        <div class="toolbar-group">
+          <!-- Add Widget Dropdown -->
+          <div class="add-widget-dropdown">
+            <button type="button" class="btn-primary add-btn">
+              <gp-icon name="plus" size="1em" />
+              <span>Add Widget</span>
+            </button>
+            <div class="dropdown-menu">
+              <button type="button" (click)="addWidget('kpi-revenue')">
+                <gp-icon name="star" size="0.9em" />
+                <span>Revenue KPI Card (4x2)</span>
+              </button>
+              <button type="button" (click)="addWidget('kpi-server')">
+                <gp-icon name="sliders" size="0.9em" />
+                <span>Server Health KPI (4x2)</span>
+              </button>
+              <button type="button" (click)="addWidget('chart-analytics')">
+                <gp-icon name="sparkles" size="0.9em" />
+                <span>Traffic Analytics Chart (6x3)</span>
+              </button>
+              <button type="button" (click)="addWidget('table-nodes')">
+                <gp-icon name="bars" size="0.9em" />
+                <span>Cluster Nodes Table (6x3)</span>
+              </button>
+              <button type="button" (click)="addWidget('list-activity')">
+                <gp-icon name="list" size="0.9em" />
+                <span>Activity Audit Stream (4x3)</span>
+              </button>
+              <button type="button" (click)="addWidget('locked-banner')">
+                <gp-icon name="lock" size="0.9em" />
+                <span>🔒 Locked Anchor Widget (4x2)</span>
+              </button>
+              <button type="button" (click)="addWidget('notes')">
+                <gp-icon name="edit" size="0.9em" />
+                <span>Sticky Notes Widget (4x2)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Preset & Reset Actions -->
+          <button type="button" class="btn-secondary" (click)="loadDefaultPreset()" title="Load default preset layout">
+            <gp-icon name="refresh" size="0.9em" />
+            <span>Reset Layout</span>
+          </button>
+          <button type="button" class="btn-secondary" (click)="compactGrid()" title="Pack widgets upwards">
+            <gp-icon name="compress" size="0.9em" />
+            <span>Compact</span>
+          </button>
+          <button type="button" class="btn-secondary btn-danger-hover" (click)="clearAllWidgets()" title="Clear all widgets">
+            <gp-icon name="trash" size="0.9em" />
+            <span>Clear Grid</span>
+          </button>
+        </div>
+
+        <div class="toolbar-group toolbar-group--settings">
+          <!-- Column Selector -->
+          <div class="setting-item">
+            <label for="col-select">Columns:</label>
+            <select
+              id="col-select"
+              [value]="columns()"
+              (change)="columns.set(+$any($event.target).value)"
+            >
+              <option [value]="6">6 Cols</option>
+              <option [value]="8">8 Cols</option>
+              <option [value]="12">12 Cols</option>
+              <option [value]="16">16 Cols</option>
+            </select>
+          </div>
+
+          <!-- Row Height Selector -->
+          <div class="setting-item">
+            <label for="row-select">Row Height:</label>
+            <select
+              id="row-select"
+              [value]="rowHeight()"
+              (change)="rowHeight.set(+$any($event.target).value)"
+            >
+              <option [value]="65">Compact (65px)</option>
+              <option [value]="85">Normal (85px)</option>
+              <option [value]="105">Large (105px)</option>
+            </select>
+          </div>
+
+          <!-- Grid Lines Toggle -->
+          <div class="setting-item setting-item--toggle">
+            <label>Guide Lines:</label>
+            <gp-switch
+              [value]="showGridLines()"
+              (valueChange)="showGridLines.set($event)"
+            />
+          </div>
+
+          <!-- Compaction Toggle -->
+          <div class="setting-item setting-item--toggle">
+            <label>Auto-Pack:</label>
+            <gp-switch
+              [value]="compactMode() === 'vertical'"
+              (valueChange)="compactMode.set($event ? 'vertical' : 'none')"
+            />
+          </div>
+
+          <!-- Inspector Toggle -->
+          <button
+            type="button"
+            class="btn-secondary"
+            [class.btn-secondary--active]="showInspector()"
+            (click)="showInspector.update(v => !v)"
+          >
+            <gp-icon name="code" size="0.9em" />
+            <span>State Inspector</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Visual Feature Info Banner -->
+      <div class="feature-info-strip">
+        <div class="info-pill">
+          <span class="info-pill-icon">↔️</span>
+          <span><strong>Dynamic Realignment:</strong> Drag any widget and nearby widgets smoothly move out of the way.</span>
+        </div>
+        <div class="info-pill info-pill--locked">
+          <span class="info-pill-icon">🔒</span>
+          <span><strong>Locked in Place:</strong> Locked widgets never move and block incoming widgets from landing on them.</span>
+        </div>
+        <div class="info-pill">
+          <span class="info-pill-icon">📐</span>
+          <span><strong>Corner Resizing:</strong> Drag bottom-right corner handles to resize widgets dynamically.</span>
+        </div>
+      </div>
+
+      <!-- Main Grid Canvas -->
+      <main class="grid-canvas-wrapper">
+        <gp-grid
+          [(items)]="widgets"
+          [columns]="columns()"
+          [rowHeight]="rowHeight()"
+          [gap]="gap()"
+          [compactType]="compactMode()"
+          [animate]="animateTransitions()"
+          [readonly]="isReadonly()"
+          [showGridLines]="showGridLines()"
+          (itemMoved)="onItemMoved($event)"
+          (itemResized)="onItemResized($event)"
+          (itemRemoved)="onItemRemoved($event)"
+          (itemOptionsClick)="onOptionsClicked($event)"
+        >
+          <!-- Custom Widget Template Outlet -->
+          <ng-template #widgetTemplate let-item>
+            <gp-grid-widget
+              [item]="item"
+              [title]="item.title"
+              [badge]="item.badge"
+              [badgeSeverity]="item.badgeSeverity"
+              [draggable]="item.draggable"
+              [resizable]="item.resizable"
+              [closeable]="item.closeable"
+              [fixed]="item.fixed"
+              [locked]="item.locked"
+              (close)="gridComponent?.removeWidget(item.id)"
+              (optionsClick)="onOptionsClicked({ event: $event.event, item: item })"
+              (lockToggle)="toggleItemLock(item)"
+            >
+              <!-- WIDGET BODY 1: KPI REVENUE -->
+              @if (item.customData?.type === 'kpi-revenue') {
+                <div class="widget-kpi-content">
+                  <div class="kpi-metric-row">
+                    <span class="kpi-main-val">$148,290</span>
+                    <span class="kpi-trend kpi-trend--up">
+                      <gp-icon name="sort-up" size="0.8em" /> 18.4%
+                    </span>
+                  </div>
+                  <span class="kpi-subtext">vs $125,200 previous month</span>
+                  <div class="kpi-progress-bar">
+                    <div class="kpi-progress-fill" style="width: 78%"></div>
+                  </div>
+                </div>
+              }
+
+              <!-- WIDGET BODY 2: KPI SERVER -->
+              @if (item.customData?.type === 'kpi-server') {
+                <div class="widget-kpi-content">
+                  <div class="kpi-metric-row">
+                    <span class="kpi-main-val">99.98%</span>
+                    <span class="kpi-status-badge">Normal</span>
+                  </div>
+                  <div class="kpi-stat-grid">
+                    <div class="kpi-mini-stat">
+                      <span class="label">CPU</span>
+                      <span class="value">42%</span>
+                    </div>
+                    <div class="kpi-mini-stat">
+                      <span class="label">RAM</span>
+                      <span class="value">5.8 GB</span>
+                    </div>
+                    <div class="kpi-mini-stat">
+                      <span class="label">IOPS</span>
+                      <span class="value">1.4k</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- WIDGET BODY 3: LOCKED ANCHOR BANNER -->
+              @if (item.customData?.type === 'locked-banner') {
+                <div class="widget-locked-content">
+                  <div class="locked-icon-lead">
+                    <gp-icon name="lock" size="1.4em" />
+                  </div>
+                  <div class="locked-text-wrap">
+                    <h4>Immovable Grid Anchor</h4>
+                    <p>This widget is locked in place. Other widgets will route around it and cannot be dropped on top of this slot.</p>
+                  </div>
+                </div>
+              }
+
+              <!-- WIDGET BODY 4: CHART ANALYTICS -->
+              @if (item.customData?.type === 'chart-analytics') {
+                <div class="widget-chart-content">
+                  <div class="chart-header-stats">
+                    <div>
+                      <span class="stat-label">Total Requests</span>
+                      <span class="stat-num">4.82M</span>
+                    </div>
+                    <div>
+                      <span class="stat-label">Avg Latency</span>
+                      <span class="stat-num">24ms</span>
+                    </div>
+                    <div>
+                      <span class="stat-label">Peak Bandwidth</span>
+                      <span class="stat-num">1.2 GB/s</span>
+                    </div>
+                  </div>
+                  <div class="chart-bars-container">
+                    <div class="chart-bar-wrap" title="Mon: 420k"><div class="chart-bar" style="height: 45%"></div><span class="chart-label">M</span></div>
+                    <div class="chart-bar-wrap" title="Tue: 680k"><div class="chart-bar" style="height: 70%"></div><span class="chart-label">T</span></div>
+                    <div class="chart-bar-wrap" title="Wed: 890k"><div class="chart-bar" style="height: 90%"></div><span class="chart-label">W</span></div>
+                    <div class="chart-bar-wrap" title="Thu: 740k"><div class="chart-bar" style="height: 75%"></div><span class="chart-label">T</span></div>
+                    <div class="chart-bar-wrap" title="Fri: 960k"><div class="chart-bar chart-bar--peak" style="height: 100%"></div><span class="chart-label">F</span></div>
+                    <div class="chart-bar-wrap" title="Sat: 510k"><div class="chart-bar" style="height: 52%"></div><span class="chart-label">S</span></div>
+                    <div class="chart-bar-wrap" title="Sun: 390k"><div class="chart-bar" style="height: 40%"></div><span class="chart-label">S</span></div>
+                  </div>
+                </div>
+              }
+
+              <!-- WIDGET BODY 5: ACTIVITY STREAM -->
+              @if (item.customData?.type === 'list-activity') {
+                <div class="widget-list-content">
+                  <div class="activity-item">
+                    <span class="activity-dot activity-dot--success"></span>
+                    <div class="activity-info">
+                      <span class="activity-title">Deploy v0.2.1 succeeded</span>
+                      <span class="activity-time">2 mins ago</span>
+                    </div>
+                  </div>
+                  <div class="activity-item">
+                    <span class="activity-dot activity-dot--primary"></span>
+                    <div class="activity-info">
+                      <span class="activity-title">SSL Certificate auto-renewed</span>
+                      <span class="activity-time">14 mins ago</span>
+                    </div>
+                  </div>
+                  <div class="activity-item">
+                    <span class="activity-dot activity-dot--warning"></span>
+                    <div class="activity-info">
+                      <span class="activity-title">Database replica sync completed</span>
+                      <span class="activity-time">1 hour ago</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- WIDGET BODY 6: CLUSTER NODES TABLE -->
+              @if (item.customData?.type === 'table-nodes') {
+                <div class="widget-table-content">
+                  <table class="nodes-mini-table">
+                    <thead>
+                      <tr>
+                        <th>Node</th>
+                        <th>Region</th>
+                        <th>Status</th>
+                        <th>Latency</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code>us-east-1a</code></td>
+                        <td>N. Virginia</td>
+                        <td><span class="status-pill status-pill--ok">Active</span></td>
+                        <td>12ms</td>
+                      </tr>
+                      <tr>
+                        <td><code>eu-west-1b</code></td>
+                        <td>Frankfurt</td>
+                        <td><span class="status-pill status-pill--ok">Active</span></td>
+                        <td>28ms</td>
+                      </tr>
+                      <tr>
+                        <td><code>ap-southeast-1</code></td>
+                        <td>Singapore</td>
+                        <td><span class="status-pill status-pill--ok">Active</span></td>
+                        <td>84ms</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              }
+
+              <!-- WIDGET BODY 7: STICKY NOTES -->
+              @if (item.customData?.type === 'notes') {
+                <div class="widget-notes-content">
+                  <ul class="notes-list">
+                    <li><input type="checkbox" checked /> Complete gp-grid library release</li>
+                    <li><input type="checkbox" checked /> Verify locked-in-place obstacle avoidance</li>
+                    <li><input type="checkbox" /> Connect real-time telemetry API</li>
+                  </ul>
+                </div>
+              }
+            </gp-grid-widget>
+          </ng-template>
+        </gp-grid>
+      </main>
+
+      <!-- Real-time State Inspector (Collapsible) -->
+      @if (showInspector()) {
+        <aside class="state-inspector-panel">
+          <div class="inspector-header">
+            <h3>Grid State & Realtime Signal Inspector</h3>
+            <span class="item-count-badge">{{ widgets().length }} Active Widgets</span>
+          </div>
+
+          <!-- Interactive Items Matrix Table -->
+          <div class="inspector-table-wrap">
+            <table class="inspector-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Col (X)</th>
+                  <th>Row (Y)</th>
+                  <th>Width (W)</th>
+                  <th>Height (H)</th>
+                  <th>Locked</th>
+                  <th>Fixed</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (w of widgets(); track w.id) {
+                  <tr [class.row-locked]="w.locked">
+                    <td><code>{{ w.id }}</code></td>
+                    <td><strong>{{ w.title }}</strong></td>
+                    <td>{{ w.x }}</td>
+                    <td>{{ w.y }}</td>
+                    <td>{{ w.w }}</td>
+                    <td>{{ w.h }}</td>
+                    <td>
+                      <span class="flag-badge" [class.flag-badge--active]="w.locked">
+                        {{ w.locked ? 'YES (Locked)' : 'No' }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="flag-badge" [class.flag-badge--active]="w.fixed">
+                        {{ w.fixed ? 'YES (Fixed)' : 'No' }}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn-mini"
+                        (click)="toggleItemLock(w)"
+                        [title]="w.locked ? 'Unlock item' : 'Lock in place'"
+                      >
+                        {{ w.locked ? 'Unlock' : 'Lock' }}
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Raw Reactive JSON -->
+          <details class="json-details">
+            <summary>View Reactive JSON Layout Model</summary>
+            <pre class="json-viewer">{{ formattedJson() }}</pre>
+          </details>
+        </aside>
+      }
+
+      <!-- Live Event Feedback Footer -->
+      <footer class="live-event-bar">
+        <div class="event-lead">
+          <span class="pulse-dot"></span>
+          <span class="lead-label">Live Signal Event:</span>
+        </div>
+        <span class="event-text">{{ lastEventLog() }}</span>
+      </footer>
+    </div>
+  }
+
+  <!-- ================= TAB 2: API & DOCUMENTATION ================= -->
+  @if (activeTab() === 'api') {
+    <div class="api-docs-container">
+      <section class="doc-section">
+        <h2 class="doc-title">Installation & Setup</h2>
+        <p class="doc-text">
+          Install the <code>@generatedpixel/gp-grid</code> package into your Angular project:
+        </p>
+        <doc-code code="npm install @generatedpixel/gp-grid" language="bash" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-title">Import & Signal Model</h2>
+        <p class="doc-text">
+          Import the standalone <code>GpGridComponent</code> and <code>GpGridWidgetComponent</code> into your component.
+        </p>
+        <doc-code [code]="importCode" language="typescript" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-title">Component Usage</h2>
+        <p class="doc-text">
+          Bind your widgets array using Angular's two-way signal model <code>[(items)]="widgets"</code>:
+        </p>
+        <doc-code [code]="usageCode" language="typescript" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-title">GpGridComponent Properties</h2>
+        <doc-api-table [properties]="gridProperties" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-title">GpGridComponent Events</h2>
+        <doc-api-table [properties]="gridEvents" />
+      </section>
+
+      <section class="doc-section">
+        <h2 class="doc-title">GpGridWidgetComponent Properties</h2>
+        <doc-api-table [properties]="widgetProperties" />
+      </section>
+    </div>
+  }
+</div>
