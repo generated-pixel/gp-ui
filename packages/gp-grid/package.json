@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-grid",
-  "version": "0.2.1",
+  "version": "0.4.0",
   "description": "High-performance reactive dynamic grid and widget dashboard engine for Angular",
   "keywords": [
     "angular",
@@ -29,7 +29,7 @@
     "@angular/common": ">=18.0.0",
     "@angular/core": ">=18.0.0",
     "@angular/forms": ">=18.0.0",
-    "@generatedpixel/gp-ui": ">=0.2.0",
+    "@generatedpixel/gp-ui": ">=0.4.0",
     "rxjs": ">=7.0.0"
   },
   "dependencies": {
