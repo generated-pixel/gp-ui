@@ -1,0 +1,14 @@
+<div class="gp-page-error-root">
+  <div class="error-visual-badge error-red">{{ code() }}</div>
+  <h1 class="error-title">{{ title() }}</h1>
+  <p class="error-desc" *ngIf="description()">{{ description() }}</p>
+  <div class="error-actions">
+    <gp-button variant="outlined" severity="secondary" (onClick)="contactSupport.emit()">
+      {{ supportBtnLabel() }}
+    </gp-button>
+    <gp-button severity="danger" (onClick)="retry.emit()">
+      <gp-icon name="refresh" size="0.85em" style="margin-right: 0.35rem;" />
+      {{ retryBtnLabel() }}
+    </gp-button>
+  </div>
+</div>

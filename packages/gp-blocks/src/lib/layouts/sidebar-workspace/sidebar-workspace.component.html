@@ -1,0 +1,40 @@
+<div class="gp-sidebar-workspace-shell">
+  <aside class="workspace-sidebar">
+    <!-- Workspace Selector Dropdown Box -->
+    <div class="workspace-selector-btn" (click)="workspaceClick.emit()" style="cursor: pointer;">
+      <div class="workspace-avatar">
+        <span>{{ currentWorkspace().charAt(0) }}</span>
+      </div>
+      <div class="workspace-text-group">
+        <span class="workspace-name">{{ currentWorkspace() }}</span>
+        <span class="workspace-tier">{{ workspaceTier() }}</span>
+      </div>
+      <gp-icon name="chevron-down" size="0.85em" class="arrow-icon" />
+    </div>
+
+    <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of navItems()"
+        class="nav-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <h2 class="page-title">{{ title() }}</h2>
+      <div class="top-actions">
+        <ng-content select="[slot=top-actions]" />
+      </div>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

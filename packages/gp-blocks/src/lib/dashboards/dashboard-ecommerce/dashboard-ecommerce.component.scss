@@ -1,0 +1,167 @@
+.gp-dashboard-ecommerce-root {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .ecom-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+      }
+
+      .ecom-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .card-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .card-value {
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--gp-text-color);
+      }
+
+      .card-meta {
+        font-size: 0.775rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .card-meta.pos { color: #16a34a; }
+      .card-meta.neu { color: #64748b; }
+
+      .ecom-split-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+      }
+
+      .ecom-panel {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .panel-head h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .prod-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .prod-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--gp-surface-border);
+      }
+
+      .prod-thumb {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--gp-surface-ground);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .prod-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .prod-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }
+
+      .prod-cat {
+        font-size: 0.775rem;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .prod-stats {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .prod-revenue {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--gp-text-color);
+      }
+
+      .prod-sales {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .orders-table-wrap {
+        overflow-x: auto;
+      }
+
+      .ecom-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      .ecom-table th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--gp-text-color-secondary);
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--gp-surface-border);
+      }
+
+      .ecom-table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--gp-surface-border);
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 1024px) {
+        .ecom-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+        .ecom-split-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 640px) {
+        .ecom-kpi-grid { grid-template-columns: 1fr; }
+      }

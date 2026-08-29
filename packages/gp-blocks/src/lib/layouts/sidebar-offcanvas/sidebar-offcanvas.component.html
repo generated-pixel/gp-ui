@@ -1,0 +1,40 @@
+<div class="gp-sidebar-offcanvas-shell">
+  <!-- Offcanvas Overlay Backdrop when open -->
+  <div *ngIf="sidebarOpen()" class="offcanvas-backdrop" (click)="closeSidebar()"></div>
+
+  <!-- Offcanvas Drawer Sidebar -->
+  <aside class="offcanvas-sidebar" [class.is-open]="sidebarOpen()">
+    <div class="offcanvas-head">
+      <span class="head-title">{{ brandName() }}</span>
+      <button type="button" class="close-btn" (click)="closeSidebar()">
+        <gp-icon name="close" size="0.9em" />
+      </button>
+    </div>
+
+    <nav class="offcanvas-nav" *ngIf="navItems() && navItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of navItems()"
+        class="nav-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Shell Area -->
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <button type="button" class="menu-trigger-btn" (click)="toggleSidebar()" aria-label="Open sidebar">
+        <gp-icon name="bars" size="1.2em" />
+      </button>
+      <h2 class="page-title">{{ title() }}</h2>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

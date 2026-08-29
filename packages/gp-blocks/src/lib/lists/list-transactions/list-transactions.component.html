@@ -1,0 +1,29 @@
+<div class="gp-transactions-card">
+  <div class="card-head">
+    <h3 class="title">{{ title() }}</h3>
+    <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity() || 'success'" />
+  </div>
+
+  <div class="tx-list" *ngIf="transactions() && transactions().length > 0">
+    <div
+      class="tx-row"
+      *ngFor="let tx of transactions()"
+      (click)="transactionClick.emit(tx)"
+      style="cursor: pointer;"
+    >
+      <div class="tx-ico-box" [class.pos]="tx.type === 'in'" [class.neg]="tx.type === 'out'">
+        <gp-icon [name]="tx.type === 'in' ? 'download' : 'upload'" size="1em" />
+      </div>
+      <div class="tx-info">
+        <span class="tx-title">{{ tx.title }}</span>
+        <span class="tx-meta">{{ tx.category }} &bull; {{ tx.date }}</span>
+      </div>
+      <div class="tx-amount-col">
+        <span class="tx-amount" [class.pos]="tx.type === 'in'" [class.neg]="tx.type === 'out'">
+          {{ tx.type === 'in' ? '+' : '-' }}{{ tx.amount }}
+        </span>
+        <span class="tx-status">{{ tx.status }}</span>
+      </div>
+    </div>
+  </div>
+</div>

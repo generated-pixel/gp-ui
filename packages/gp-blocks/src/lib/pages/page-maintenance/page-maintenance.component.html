@@ -1,0 +1,13 @@
+<div class="gp-maintenance-root">
+  <div class="maint-icon-wrap">
+    <gp-icon [name]="icon()" size="2.5em" />
+  </div>
+  <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity() || 'warning'" />
+  <h1 class="maint-title">{{ title() }}</h1>
+  <p class="maint-desc" *ngIf="description()">{{ description() }}</p>
+
+  <div class="uptime-box" *ngIf="estimatedUptime()">
+    <span class="est-label">{{ estimatedUptimeLabel() }}</span>
+    <span class="est-val">{{ estimatedUptime() }}</span>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.gp-stats-counter-card {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #fff;
+        border-radius: 16px;
+        padding: 3rem 2rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      .counter-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .counter-num {
+        font-size: 3rem;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        background: linear-gradient(180deg, #ffffff 0%, #93c5fd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1;
+      }
+
+      .counter-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #f8fafc;
+      }
+
+      .counter-desc {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin: 0;
+        max-width: 240px;
+      }
+
+      @media (max-width: 768px) {
+        .gp-stats-counter-card { grid-template-columns: 1fr; }
+      }

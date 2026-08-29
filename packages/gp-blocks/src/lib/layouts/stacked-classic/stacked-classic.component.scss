@@ -1,0 +1,105 @@
+.gp-stacked-classic-shell {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 520px;
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        overflow: hidden;
+      }
+
+      .stacked-topbar {
+        height: 64px;
+        background: #0f172a;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 1.5rem;
+      }
+
+      .topbar-inner {
+        width: 100%;
+        max-width: 1120px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .brand-badge {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: var(--gp-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .brand-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      .topbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .nav-link {
+        padding: 0.45rem 0.75rem;
+        border-radius: 6px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.15s ease;
+      }
+
+      .nav-link:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .nav-link.active {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.15);
+        font-weight: 600;
+      }
+
+      .stacked-main-container {
+        width: 100%;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .page-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.75rem;
+      }
+
+      .page-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .page-body {
+        flex: 1;
+      }

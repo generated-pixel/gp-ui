@@ -1,0 +1,115 @@
+.gp-auth-split-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 16px;
+        overflow: hidden;
+        width: 100%;
+        min-height: 540px;
+      }
+
+      .auth-left-brand-panel {
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        color: #fff;
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .brand-top {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.25rem;
+        font-weight: 800;
+      }
+
+      .brand-hero h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+        margin: 0 0 1rem 0;
+      }
+
+      .brand-hero p {
+        font-size: 0.95rem;
+        color: #cbd5e1;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .brand-footer {
+        font-size: 0.8rem;
+        color: #94a3b8;
+      }
+
+      .auth-right-form-panel {
+        padding: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .form-wrapper {
+        width: 100%;
+        max-width: 380px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .auth-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .auth-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .auth-form-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .lbl {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }
+
+      .label-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .forgot-link {
+        font-size: 0.775rem;
+        color: var(--gp-primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .forgot-link:hover { text-decoration: underline; }
+
+      @media (max-width: 868px) {
+        .gp-auth-split-card { grid-template-columns: 1fr; }
+        .auth-left-brand-panel { display: none; }
+        .auth-right-form-panel { padding: 2rem; }
+      }

@@ -1,0 +1,34 @@
+<div class="gp-command-palette-backdrop" (click)="close.emit()">
+  <div class="palette-modal" (click)="$event.stopPropagation()">
+    <div class="palette-input-row">
+      <gp-icon name="search" size="1.1em" class="p-search-ico" />
+      <input
+        type="text"
+        [value]="searchQuery()"
+        [placeholder]="placeholder()"
+        (input)="onInput($event)"
+        class="p-input"
+        autofocus
+      />
+      <span class="p-esc-hint" (click)="close.emit()" style="cursor: pointer;">ESC</span>
+    </div>
+
+    <div class="palette-results" *ngIf="commands() && commands().length > 0">
+      <div class="results-group-label" *ngIf="groupLabel()">{{ groupLabel() }}</div>
+      <div
+        class="palette-item"
+        *ngFor="let item of commands()"
+        [class.active]="item.active"
+        (click)="selectCommand.emit(item)"
+        style="cursor: pointer;"
+      >
+        <gp-icon [name]="item.icon || 'plus'" size="1em" class="item-ico" />
+        <div class="item-text">
+          <span class="main-label">{{ item.label }}</span>
+          <span class="sub-label" *ngIf="item.subLabel">{{ item.subLabel }}</span>
+        </div>
+        <span class="item-shortcut" *ngIf="item.shortcut">{{ item.shortcut }}</span>
+      </div>
+    </div>
+  </div>
+</div>

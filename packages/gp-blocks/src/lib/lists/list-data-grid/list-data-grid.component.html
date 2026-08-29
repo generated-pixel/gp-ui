@@ -1,0 +1,81 @@
+<div class="gp-list-data-grid-card">
+  <!-- Toolbar -->
+  <div class="grid-toolbar">
+    <div class="search-box">
+      <gp-icon name="search" size="0.85em" class="s-ico" />
+      <input
+        type="text"
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        (input)="onSearchInput($event)"
+        class="s-inp"
+      />
+    </div>
+    <div class="toolbar-actions">
+      <gp-button variant="outlined" severity="secondary" (onClick)="filterClick.emit()">
+        <gp-icon name="filter" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ filterBtnLabel() }}
+      </gp-button>
+      <gp-button severity="primary" (onClick)="newOrderClick.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ newOrderBtnLabel() }}
+      </gp-button>
+    </div>
+  </div>
+
+  <!-- Table View -->
+  <div class="table-scroll-container" *ngIf="rows() && rows().length > 0">
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th><input type="checkbox" /></th>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Date</th>
+          <th>Total Amount</th>
+          <th>Payment Status</th>
+          <th>Fulfillment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows()">
+          <td><input type="checkbox" /></td>
+          <td (click)="rowClick.emit(row)" style="cursor: pointer;"><strong>#{{ row.id }}</strong></td>
+          <td (click)="rowClick.emit(row)" style="cursor: pointer;">{{ row.customer }}</td>
+          <td (click)="rowClick.emit(row)" style="cursor: pointer;">{{ row.date }}</td>
+          <td (click)="rowClick.emit(row)" style="cursor: pointer;"><strong>{{ row.amount }}</strong></td>
+          <td>
+            <gp-badge
+              [value]="row.payment"
+              [severity]="row.payment === 'Paid' ? 'success' : (row.payment === 'Pending' ? 'warning' : 'danger')"
+            />
+          </td>
+          <td>
+            <gp-badge
+              [value]="row.fulfillment"
+              [severity]="row.fulfillment === 'Delivered' ? 'success' : (row.fulfillment === 'Shipped' ? 'info' : 'secondary')"
+            />
+          </td>
+          <td>
+            <button type="button" class="action-dots" (click)="rowActionClick.emit(row)" title="Options">
+              <gp-icon name="ellipsis-v" size="1em" />
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginator Footer -->
+  <div class="grid-footer">
+    <span class="showing-count">{{ footerCountText() }}</span>
+    <div class="pagination-buttons">
+      <button type="button" class="p-btn" disabled>&lt; Previous</button>
+      <button type="button" class="p-btn active">1</button>
+      <button type="button" class="p-btn">2</button>
+      <button type="button" class="p-btn">3</button>
+      <button type="button" class="p-btn">Next &gt;</button>
+    </div>
+  </div>
+</div>

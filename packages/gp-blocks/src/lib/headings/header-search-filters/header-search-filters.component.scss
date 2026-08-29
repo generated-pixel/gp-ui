@@ -1,0 +1,88 @@
+.gp-header-search-filters-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+      }
+
+      .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .filters-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--gp-surface-border);
+      }
+
+      .search-input-box {
+        position: relative;
+        width: 320px;
+        display: flex;
+        align-items: center;
+      }
+
+      .s-ico {
+        position: absolute;
+        left: 0.75rem;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .s-inp {
+        width: 100%;
+        padding: 0.5rem 0.75rem 0.5rem 2.2rem;
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 6px;
+        font-size: 0.85rem;
+        outline: none;
+      }
+
+      .s-inp:focus {
+        border-color: var(--gp-primary);
+      }
+
+      .filter-dropdowns {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .custom-select {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 6px;
+        background: var(--gp-surface-card);
+        font-size: 0.85rem;
+        color: var(--gp-text-color);
+      }
+
+      @media (max-width: 768px) {
+        .search-input-box { width: 100%; }
+        .filter-dropdowns { width: 100%; }
+      }

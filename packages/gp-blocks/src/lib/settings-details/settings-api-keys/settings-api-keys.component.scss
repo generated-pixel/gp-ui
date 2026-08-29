@@ -1,0 +1,97 @@
+.gp-settings-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .settings-head-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .settings-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .settings-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .keys-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .key-card {
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 10px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .key-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .key-name-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .key-name {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--gp-text-color);
+      }
+
+      .btn-trash {
+        background: transparent;
+        border: none;
+        color: var(--gp-error-500, #ef4444);
+        cursor: pointer;
+      }
+
+      .key-token-box {
+        background: #0f172a;
+        color: #e2e8f0;
+        border-radius: 6px;
+        padding: 0.5rem 0.85rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: monospace;
+        font-size: 0.85rem;
+      }
+
+      .btn-copy {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+      }
+
+      .btn-copy:hover { color: #fff; }
+
+      .key-meta {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary);
+      }

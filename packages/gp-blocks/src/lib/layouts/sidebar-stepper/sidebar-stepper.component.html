@@ -1,0 +1,40 @@
+<div class="gp-sidebar-stepper-shell">
+  <!-- Stepper Sidebar -->
+  <aside class="stepper-sidebar">
+    <div class="stepper-brand">{{ brandName() }}</div>
+
+    <div class="vertical-steps" *ngIf="steps() && steps().length > 0">
+      <ng-container *ngFor="let s of steps(); let idx = index; let last = last">
+        <div
+          class="step-node"
+          [class.completed]="s.completed || s.number < currentStep()"
+          [class.active]="s.number === currentStep()"
+          (click)="stepClick.emit(s)"
+          style="cursor: pointer;"
+        >
+          <div class="step-bullet">
+            <gp-icon *ngIf="s.completed || s.number < currentStep()" name="check" size="0.8em" />
+            <span *ngIf="!s.completed && s.number >= currentStep()">{{ s.number }}</span>
+          </div>
+          <div class="step-info">
+            <span class="step-num">Step {{ s.number }}</span>
+            <span class="step-label">{{ s.label }}</span>
+          </div>
+        </div>
+
+        <div class="step-connector" *ngIf="!last"></div>
+      </ng-container>
+    </div>
+  </aside>
+
+  <!-- Main Step Workspace -->
+  <main class="stepper-main">
+    <header class="step-main-header">
+      <h2 class="step-main-title">{{ currentStepTitle() }}</h2>
+      <p class="step-main-subtitle" *ngIf="currentStepSubtitle()">{{ currentStepSubtitle() }}</p>
+    </header>
+    <div class="step-main-content">
+      <ng-content />
+    </div>
+  </main>
+</div>

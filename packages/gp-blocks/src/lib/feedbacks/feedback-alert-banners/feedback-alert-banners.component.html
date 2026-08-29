@@ -1,0 +1,18 @@
+<div class="gp-alerts-stack" *ngIf="alerts() && alerts().length > 0">
+  <div
+    class="alert-box"
+    *ngFor="let a of alerts()"
+    [ngClass]="'alert-' + a.severity"
+  >
+    <div class="alert-icon-col">
+      <gp-icon [name]="a.icon || (a.severity === 'info' ? 'info-circle' : (a.severity === 'success' ? 'check-circle' : (a.severity === 'warning' ? 'exclamation-triangle' : 'times-circle')))" size="1.2em" />
+    </div>
+    <div class="alert-content-col">
+      <h4 class="alert-title">{{ a.title }}</h4>
+      <p class="alert-message">{{ a.message }}</p>
+    </div>
+    <button type="button" class="btn-dismiss" (click)="dismiss.emit(a)" title="Dismiss">
+      <gp-icon name="close" size="0.85em" />
+    </button>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="gp-settings-card">
+  <div class="settings-head">
+    <h3 class="settings-title">{{ title() }}</h3>
+    <p class="settings-subtitle">{{ subtitle() }}</p>
+  </div>
+
+  <!-- Current Subscription Box -->
+  <div class="current-plan-box">
+    <div class="plan-info">
+      <div class="plan-name-row">
+        <span class="plan-name">{{ planName() }}</span>
+        <gp-badge [value]="planStatus()" severity="success" />
+      </div>
+      <p class="plan-price">{{ planPrice() }}</p>
+    </div>
+    <div class="plan-actions">
+      <gp-button variant="outlined" severity="secondary" (onClick)="changePlan.emit()">Change Plan</gp-button>
+      <gp-button variant="outlined" severity="danger" (onClick)="cancelPlan.emit()">Cancel</gp-button>
+    </div>
+  </div>
+
+  <!-- Invoices History -->
+  <div class="invoices-section" *ngIf="invoices() && invoices().length > 0">
+    <h4 class="sec-subtitle">Billing History & Invoices</h4>
+    <table class="billing-table">
+      <thead>
+        <tr>
+          <th>Invoice Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inv of invoices()">
+          <td>{{ inv.date }}</td>
+          <td><strong>{{ inv.amount }}</strong></td>
+          <td>
+            <gp-badge
+              [value]="inv.status"
+              [severity]="inv.status === 'Paid' ? 'success' : (inv.status === 'Pending' ? 'warning' : 'danger')"
+            />
+          </td>
+          <td>
+            <button type="button" class="download-link" (click)="downloadInvoice.emit(inv)">
+              <gp-icon name="download" size="0.85em" />
+              PDF
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

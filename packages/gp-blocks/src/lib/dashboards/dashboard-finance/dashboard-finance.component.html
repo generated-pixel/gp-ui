@@ -1,0 +1,73 @@
+<div class="gp-dashboard-finance-root">
+  <!-- Finance Header & Quick Actions -->
+  <div class="finance-header-card">
+    <div class="balance-wrap">
+      <span class="balance-label">{{ balanceLabel() }}</span>
+      <h1 class="balance-amount">{{ balanceAmount() }}</h1>
+      <span class="balance-meta" *ngIf="balanceMeta()">{{ balanceMeta() }}</span>
+    </div>
+    <div class="finance-actions">
+      <gp-button variant="outlined" severity="secondary" (onClick)="exportClick.emit()">
+        <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ exportBtnLabel() }}
+      </gp-button>
+      <gp-button severity="primary" (onClick)="sendPayoutClick.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ sendPayoutBtnLabel() }}
+      </gp-button>
+    </div>
+  </div>
+
+  <!-- Cash Flow & Invoices Grid -->
+  <div class="finance-grid">
+    <div class="f-panel" *ngIf="ledger() && ledger().length > 0">
+      <div class="f-panel-head">
+        <h3>{{ ledgerTitle() }}</h3>
+        <gp-badge *ngIf="ledgerBadge()" [value]="ledgerBadge()" severity="success" />
+      </div>
+      <div class="ledger-list">
+        <div
+          class="ledger-item"
+          *ngFor="let item of ledger()"
+          (click)="ledgerItemClick.emit(item)"
+          style="cursor: pointer;"
+        >
+          <div class="item-ico" [class.in]="item.type === 'in'" [class.out]="item.type === 'out'">
+            <gp-icon [name]="item.type === 'in' ? 'download' : 'upload'" size="0.9em" />
+          </div>
+          <div class="item-details">
+            <span class="item-desc">{{ item.desc }}</span>
+            <span class="item-date">{{ item.date }}</span>
+          </div>
+          <span class="item-amt" [class.pos]="item.type === 'in'" [class.neg]="item.type === 'out'">
+            {{ item.type === 'in' ? '+' : '-' }}{{ item.amount }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-panel" *ngIf="invoices() && invoices().length > 0">
+      <div class="f-panel-head">
+        <h3>{{ invoicesTitle() }}</h3>
+        <gp-button variant="text" (onClick)="createInvoiceClick.emit()">{{ createInvoiceBtnLabel() }}</gp-button>
+      </div>
+      <div class="invoice-list">
+        <div
+          class="invoice-item"
+          *ngFor="let inv of invoices()"
+          (click)="invoiceClick.emit(inv)"
+          style="cursor: pointer;"
+        >
+          <div class="inv-info">
+            <span class="inv-client">{{ inv.client }}</span>
+            <span class="inv-num">{{ inv.id }} &bull; Due {{ inv.due }}</span>
+          </div>
+          <div class="inv-right">
+            <span class="inv-amt">{{ inv.amount }}</span>
+            <gp-badge [value]="inv.status" [severity]="inv.status === 'Paid' ? 'success' : 'warning'" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

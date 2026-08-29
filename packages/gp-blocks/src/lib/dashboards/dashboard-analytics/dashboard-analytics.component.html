@@ -1,0 +1,59 @@
+<div class="gp-dashboard-analytics-root">
+  <!-- Traffic Stats Grid -->
+  <div class="traffic-stats-row" *ngIf="stats() && stats().length > 0">
+    <div
+      class="traffic-stat-card"
+      *ngFor="let s of stats()"
+      (click)="statClick.emit(s)"
+      style="cursor: pointer;"
+    >
+      <span class="stat-title">{{ s.title }}</span>
+      <span class="stat-num">{{ s.value }}</span>
+      <span
+        class="stat-diff"
+        [class.pos]="s.trend === 'pos' || (!s.trend && s.change.startsWith('+'))"
+        [class.neg]="s.trend === 'neg' || (!s.trend && s.change.startsWith('-'))"
+        [class.neu]="s.trend === 'neu'"
+      >
+        {{ s.change }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Sources & Countries Breakdown -->
+  <div class="analytics-panels-grid">
+    <div class="analytics-panel" *ngIf="channels() && channels().length > 0">
+      <h3>{{ channelsTitle() }}</h3>
+      <div class="channel-bars">
+        <div
+          class="channel-row"
+          *ngFor="let c of channels()"
+          (click)="channelClick.emit(c)"
+          style="cursor: pointer;"
+        >
+          <div class="ch-info">
+            <span>{{ c.name }}</span>
+            <span>{{ c.pct }}% ({{ c.users }})</span>
+          </div>
+          <gp-progress-bar [value]="c.pct" [showValue]="false" />
+        </div>
+      </div>
+    </div>
+
+    <div class="analytics-panel" *ngIf="regions() && regions().length > 0">
+      <h3>{{ regionsTitle() }}</h3>
+      <div class="region-list">
+        <div
+          class="region-item"
+          *ngFor="let r of regions()"
+          (click)="regionClick.emit(r)"
+          style="cursor: pointer;"
+        >
+          <span class="r-country">{{ r.country }}</span>
+          <span class="r-sessions">{{ r.sessions }} sessions</span>
+          <gp-badge [value]="r.pct + '%'" severity="primary" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

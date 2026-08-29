@@ -1,0 +1,26 @@
+<div class="gp-stacked-bottom-dock-shell">
+  <header class="minimal-topbar">
+    <span class="brand-title">{{ brandName() }}</span>
+    <span class="view-tag">{{ activeTab() }}</span>
+  </header>
+
+  <main class="dock-main-area">
+    <ng-content />
+  </main>
+
+  <!-- Bottom Floating Navigation Dock -->
+  <footer class="bottom-dock-wrapper">
+    <div class="dock-pill-bar" *ngIf="dockItems() && dockItems().length > 0">
+      <button
+        type="button"
+        *ngFor="let item of dockItems()"
+        class="dock-btn"
+        [class.active]="item.id === activeDockId() || item.active"
+        [title]="item.title"
+        (click)="dockItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.2em" />
+      </button>
+    </div>
+  </footer>
+</div>

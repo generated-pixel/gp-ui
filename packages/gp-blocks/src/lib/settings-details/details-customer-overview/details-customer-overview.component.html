@@ -1,0 +1,61 @@
+<div class="gp-details-customer-root">
+  <!-- Customer Identity Bar -->
+  <div class="cust-overview-card">
+    <div class="cust-main-info">
+      <gp-avatar [label]="customerName().charAt(0)" size="xlarge" shape="circle" />
+      <div class="cust-text-info">
+        <div class="cust-title-row">
+          <h2 class="cust-name">{{ customerName() }}</h2>
+          <gp-badge [value]="customerStatus()" severity="success" />
+        </div>
+        <p class="cust-company">{{ companyName() }} &bull; {{ location() }}</p>
+        <div class="cust-tags" *ngIf="tags() && tags().length > 0">
+          <span class="c-tag" *ngFor="let t of tags()">{{ t }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cust-actions">
+      <gp-button variant="outlined" severity="secondary" (onClick)="editContact.emit()">
+        <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ editBtnLabel() }}
+      </gp-button>
+      <gp-button severity="primary" (onClick)="newDeal.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ newDealBtnLabel() }}
+      </gp-button>
+    </div>
+  </div>
+
+  <!-- Detail Grid & Activity Feed -->
+  <div class="cust-details-grid">
+    <div class="detail-panel" *ngIf="metaFields() && metaFields().length > 0">
+      <h3 class="panel-heading">Contact Details</h3>
+      <dl class="meta-list">
+        <div class="meta-row" *ngFor="let f of metaFields()">
+          <dt>{{ f.label }}</dt>
+          <dd *ngIf="!f.isLink">{{ f.value }}</dd>
+          <dd *ngIf="f.isLink"><a [href]="f.href || ('mailto:' + f.value)">{{ f.value }}</a></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="detail-panel" *ngIf="timelineEvents() && timelineEvents().length > 0">
+      <h3 class="panel-heading">Recent Timeline Events</h3>
+      <div class="activity-timeline">
+        <div
+          class="t-event"
+          *ngFor="let ev of timelineEvents()"
+          (click)="eventClick.emit(ev)"
+          style="cursor: pointer;"
+        >
+          <span class="t-bullet" [ngClass]="ev.bulletClass || 'bg-blue'"></span>
+          <div class="t-content">
+            <span class="t-title">{{ ev.title }}</span>
+            <span class="t-date">{{ ev.date }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
