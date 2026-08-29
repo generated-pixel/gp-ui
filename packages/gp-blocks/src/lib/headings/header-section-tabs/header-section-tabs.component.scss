@@ -1,0 +1,60 @@
+.gp-header-section-tabs-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.75rem 1.75rem 0 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+      }
+
+      .header-upper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .desc {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .tabs-nav-bar {
+        display: flex;
+        gap: 2rem;
+        border-top: 1px solid var(--gp-surface-border);
+      }
+
+      .tab-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gp-text-color-secondary);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.15s ease;
+      }
+
+      .tab-link:hover {
+        color: var(--gp-text-color);
+      }
+
+      .tab-link.active {
+        color: var(--gp-primary);
+        border-bottom-color: var(--gp-primary);
+        font-weight: 600;
+      }

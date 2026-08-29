@@ -1,0 +1,78 @@
+<div class="gp-settings-card">
+  <div class="settings-head">
+    <h3 class="settings-title">{{ title() }}</h3>
+    <p class="settings-subtitle">{{ subtitle() }}</p>
+  </div>
+
+  <!-- Password Change Section -->
+  <div class="security-section">
+    <h4 class="sec-subtitle">Change Password</h4>
+    <div class="pass-fields-grid">
+      <div class="field-col">
+        <label class="f-label">Current Password</label>
+        <input
+          type="password"
+          class="form-inp"
+          [value]="currentPasswordValue()"
+          (input)="currentPasswordValue.set($any($event.target).value)"
+          placeholder="Enter current password"
+        />
+      </div>
+      <div class="field-col">
+        <label class="f-label">New Password</label>
+        <input
+          type="password"
+          class="form-inp"
+          [value]="newPasswordValue()"
+          (input)="newPasswordValue.set($any($event.target).value)"
+          placeholder="Enter new password"
+        />
+      </div>
+      <div class="field-col">
+        <label class="f-label">Confirm New Password</label>
+        <input
+          type="password"
+          class="form-inp"
+          [value]="confirmPasswordValue()"
+          (input)="confirmPasswordValue.set($any($event.target).value)"
+          placeholder="Confirm new password"
+        />
+      </div>
+    </div>
+    <div class="sec-action-row">
+      <gp-button severity="primary" size="sm" (onClick)="onUpdatePassword()">Update Password</gp-button>
+    </div>
+  </div>
+
+  <!-- 2FA Section -->
+  <div class="security-section">
+    <div class="two-fa-row">
+      <div class="two-fa-info">
+        <div class="two-fa-title-row">
+          <h4 class="sec-subtitle" style="margin: 0;">Two-Factor Authentication (2FA)</h4>
+          <gp-badge [value]="twoFaEnabled() ? 'Enabled' : 'Disabled'" [severity]="twoFaEnabled() ? 'success' : 'secondary'" />
+        </div>
+        <p class="two-fa-desc">Require an authentication code from Google Authenticator or SMS on login.</p>
+      </div>
+      <gp-switch [value]="twoFaEnabled()" (valueChange)="twoFaChange.emit($event)" />
+    </div>
+  </div>
+
+  <!-- Active Sessions -->
+  <div class="security-section" *ngIf="sessions() && sessions().length > 0">
+    <h4 class="sec-subtitle">Active Browser Sessions</h4>
+    <div class="sessions-list">
+      <div class="session-item" *ngFor="let s of sessions()">
+        <div class="sess-ico">
+          <gp-icon name="window" size="1.1em" />
+        </div>
+        <div class="sess-info">
+          <span class="sess-title">{{ s.device }} ({{ s.location }})</span>
+          <span class="sess-meta">{{ s.isCurrent ? 'Current Active Session' : ('Last active ' + s.lastActive) }} &bull; IP {{ s.ip }}</span>
+        </div>
+        <gp-badge *ngIf="s.isCurrent" value="Current" severity="primary" />
+        <gp-button *ngIf="!s.isCurrent" variant="text" severity="danger" size="sm" (onClick)="revokeSession.emit(s)">Revoke</gp-button>
+      </div>
+    </div>
+  </div>
+</div>

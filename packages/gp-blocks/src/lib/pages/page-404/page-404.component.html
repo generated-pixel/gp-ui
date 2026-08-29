@@ -1,0 +1,15 @@
+<div class="gp-page-error-root">
+  <div class="error-visual-badge">{{ code() }}</div>
+  <h1 class="error-title">{{ title() }}</h1>
+  <p class="error-desc" *ngIf="description()">{{ description() }}</p>
+  <div class="error-actions">
+    <gp-button variant="outlined" severity="secondary" (onClick)="goBack.emit()">
+      <gp-icon name="chevron-left" size="0.85em" style="margin-right: 0.35rem;" />
+      {{ goBackBtnLabel() }}
+    </gp-button>
+    <gp-button severity="primary" (onClick)="returnHome.emit()">
+      <gp-icon name="home" size="0.85em" style="margin-right: 0.35rem;" />
+      {{ returnHomeBtnLabel() }}
+    </gp-button>
+  </div>
+</div>

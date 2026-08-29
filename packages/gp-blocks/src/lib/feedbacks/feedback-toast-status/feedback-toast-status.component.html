@@ -1,0 +1,18 @@
+<div class="gp-toast-status-stack" *ngIf="toasts() && toasts().length > 0">
+  <div
+    class="toast-card"
+    *ngFor="let t of toasts()"
+    [ngClass]="'toast-' + t.severity"
+  >
+    <div class="t-ico">
+      <gp-icon [name]="t.icon || (t.severity === 'success' ? 'check-circle' : (t.severity === 'info' ? 'info-circle' : (t.severity === 'warning' ? 'exclamation-triangle' : 'times-circle')))" size="1.2em" />
+    </div>
+    <div class="t-body">
+      <span class="t-title">{{ t.title }}</span>
+      <span class="t-desc">{{ t.desc }}</span>
+    </div>
+    <button type="button" class="t-close" (click)="closeToast.emit(t)" title="Close">
+      <gp-icon name="close" size="0.8em" />
+    </button>
+  </div>
+</div>

@@ -33,6 +33,36 @@
         }
       }
     },
+    "gp-blocks": {
+      "projectType": "library",
+      "root": "packages/gp-blocks",
+      "sourceRoot": "packages/gp-blocks/src",
+      "prefix": "gp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/gp-blocks/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/gp-blocks/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/gp-blocks/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/gp-blocks/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
+          }
+        }
+      }
+    },
     "gp-grid": {
       "projectType": "library",
       "root": "packages/gp-grid",

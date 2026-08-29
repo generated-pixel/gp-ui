@@ -1,0 +1,96 @@
+.gp-coming-soon-card {
+        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+        color: #fff;
+        border-radius: 16px;
+        padding: 4rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+        width: 100%;
+        min-height: 500px;
+        justify-content: center;
+      }
+
+      .cs-badge {
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        background: rgba(59, 130, 246, 0.2);
+        color: #60a5fa;
+        border: 1px solid rgba(59, 130, 246, 0.4);
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+      }
+
+      .cs-title {
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        margin: 0;
+        line-height: 1.2;
+        max-width: 600px;
+      }
+
+      .cs-desc {
+        font-size: 1rem;
+        color: #cbd5e1;
+        max-width: 480px;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .countdown-row {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .count-box {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 75px;
+      }
+
+      .count-num {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #fff;
+      }
+
+      .count-lbl {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: #94a3b8;
+        font-weight: 600;
+      }
+
+      .email-capture-form {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .cs-inp {
+        flex: 1;
+        padding: 0.65rem 1rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 0.9rem;
+        outline: none;
+      }
+
+      .cs-inp::placeholder { color: #94a3b8; }
+      .cs-inp:focus { border-color: #60a5fa; }
+
+      @media (max-width: 640px) {
+        .email-capture-form { flex-direction: column; }
+      }

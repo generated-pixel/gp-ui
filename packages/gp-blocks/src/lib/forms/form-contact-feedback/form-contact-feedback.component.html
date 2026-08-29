@@ -1,0 +1,71 @@
+<div class="gp-contact-feedback-card">
+  <div class="feedback-head">
+    <h2 class="title">{{ title() }}</h2>
+    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+  </div>
+
+  <div class="feedback-fields">
+    <div class="col-6">
+      <label class="lbl">Your Name</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="name()"
+        (input)="name.set($any($event.target).value)"
+        placeholder="Alex Smith"
+      />
+    </div>
+    <div class="col-6">
+      <label class="lbl">Email Address</label>
+      <input
+        type="email"
+        class="form-inp"
+        [value]="email()"
+        (input)="email.set($any($event.target).value)"
+        placeholder="alex@company.com"
+      />
+    </div>
+    <div class="col-12">
+      <label class="lbl">Inquiry Category</label>
+      <select
+        class="form-inp"
+        [value]="category()"
+        (change)="category.set($any($event.target).value)"
+      >
+        <option value="general">General Inquiry</option>
+        <option value="feature">Feature Request</option>
+        <option value="bug">Bug Report</option>
+        <option value="billing">Billing & Subscription</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label class="lbl">Rate your experience</label>
+      <div class="rating-row" style="display: flex; gap: 0.35rem; margin-top: 0.25rem;">
+        <button
+          type="button"
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          (click)="rating.set(star)"
+          style="background: transparent; border: none; cursor: pointer; color: var(--gp-primary-500, #3b82f6); padding: 0.25rem;"
+        >
+          <gp-icon [name]="star <= rating() ? 'star' : 'star'" size="1.25em" />
+        </button>
+      </div>
+    </div>
+    <div class="col-12">
+      <label class="lbl">Your Message or Feedback</label>
+      <textarea
+        class="form-inp"
+        rows="4"
+        [value]="message()"
+        (input)="message.set($any($event.target).value)"
+        placeholder="How can we help or what can we improve?"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="feedback-footer">
+    <gp-button severity="primary" (onClick)="onSubmit()">
+      {{ sendBtnLabel() }}
+    </gp-button>
+  </div>
+</div>

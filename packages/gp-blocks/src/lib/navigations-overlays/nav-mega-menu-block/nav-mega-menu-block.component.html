@@ -1,0 +1,24 @@
+<div class="gp-mega-menu-card">
+  <div class="mega-columns-grid">
+    <div class="mega-col" *ngFor="let sec of sections()">
+      <h4 class="col-title">{{ sec.title }}</h4>
+      <a
+        href="javascript:void(0)"
+        *ngFor="let link of sec.links"
+        class="mega-link"
+        (click)="linkClick.emit(link)"
+      >
+        <span class="m-link-title">{{ link.title }}</span>
+        <span class="m-link-desc">{{ link.desc }}</span>
+      </a>
+    </div>
+
+    <!-- Featured Promo Banner -->
+    <div class="mega-promo-box" *ngIf="promo()" (click)="promoClick.emit(promo()!)" style="cursor: pointer;">
+      <span class="promo-badge" *ngIf="promo()!.badge">{{ promo()!.badge }}</span>
+      <h4 class="promo-title">{{ promo()!.title }}</h4>
+      <p class="promo-text">{{ promo()!.text }}</p>
+      <a href="javascript:void(0)" class="promo-cta">{{ promo()!.ctaText }}</a>
+    </div>
+  </div>
+</div>

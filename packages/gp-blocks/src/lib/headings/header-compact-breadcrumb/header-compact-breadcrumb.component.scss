@@ -1,0 +1,45 @@
+.gp-compact-breadcrumb-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 10px;
+        padding: 0.85rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+
+      .crumb-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .back-link {
+        background: transparent;
+        border: none;
+        color: var(--gp-primary);
+        font-weight: 600;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        cursor: pointer;
+      }
+
+      .back-link:hover { text-decoration: underline; }
+
+      .crumb-sep {
+        color: var(--gp-text-color-secondary);
+      }
+
+      .crumb-active {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }
+
+      .compact-actions {
+        display: flex;
+        gap: 0.5rem;
+      }

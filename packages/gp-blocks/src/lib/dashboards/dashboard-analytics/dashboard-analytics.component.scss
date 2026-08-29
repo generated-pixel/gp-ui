@@ -1,0 +1,114 @@
+.gp-dashboard-analytics-root {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .traffic-stats-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+      }
+
+      .traffic-stat-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .stat-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .stat-num {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--gp-text-color);
+      }
+
+      .stat-diff {
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .stat-diff.pos { color: #16a34a; }
+      .stat-diff.neu { color: #64748b; }
+
+      .analytics-panels-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+      }
+
+      .analytics-panel {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .analytics-panel h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .channel-bars {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .ch-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+      }
+
+      .region-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .region-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--gp-surface-border);
+      }
+
+      .r-country {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }
+
+      .r-sessions {
+        font-size: 0.8rem;
+        color: var(--gp-text-color-secondary);
+      }
+
+      @media (max-width: 1024px) {
+        .traffic-stats-row { grid-template-columns: repeat(2, 1fr); }
+        .analytics-panels-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 640px) {
+        .traffic-stats-row { grid-template-columns: 1fr; }
+      }

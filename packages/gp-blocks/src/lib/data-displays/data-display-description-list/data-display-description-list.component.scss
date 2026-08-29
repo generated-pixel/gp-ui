@@ -1,0 +1,61 @@
+.gp-desc-list-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+      }
+
+      .head-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .head-subtitle {
+        font-size: 0.85rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .desc-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 0;
+      }
+
+      .desc-cell {
+        padding: 1rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        background: var(--gp-surface-card);
+        border-bottom: 1px solid var(--gp-surface-border);
+        border-right: 1px solid var(--gp-surface-border);
+      }
+
+      .cell-label {
+        font-size: 0.775rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .cell-val {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--gp-text-color);
+        margin: 0;
+      }
+
+      @media (max-width: 640px) {
+        .desc-grid { grid-template-columns: 1fr; }
+        .desc-cell { border-right: none; }
+      }

@@ -1,0 +1,16 @@
+<div class="gp-confirm-modal-mock">
+  <div class="modal-dialog-box">
+    <div class="dialog-icon-col" [ngClass]="iconSeverity()">
+      <gp-icon [name]="icon()" size="1.4em" />
+    </div>
+    <div class="dialog-body">
+      <h3 class="dialog-title">{{ title() }}</h3>
+      <p class="dialog-message">{{ message() }}</p>
+
+      <div class="dialog-actions">
+        <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+        <gp-button [severity]="confirmSeverity()" (onClick)="confirm.emit()">{{ confirmBtnLabel() }}</gp-button>
+      </div>
+    </div>
+  </div>
+</div>

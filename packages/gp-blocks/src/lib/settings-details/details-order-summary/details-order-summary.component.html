@@ -1,0 +1,58 @@
+<div class="gp-order-summary-card">
+  <div class="order-summary-head">
+    <div>
+      <div class="order-id-row">
+        <h3 class="order-title">Order #{{ orderId() }}</h3>
+        <gp-badge [value]="orderStatus()" severity="success" />
+      </div>
+      <p class="order-date">Placed on {{ orderDate() }} &bull; Paid via {{ paymentMethod() }}</p>
+    </div>
+    <gp-button variant="outlined" severity="secondary" (onClick)="downloadReceipt.emit()">
+      <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+      {{ downloadReceiptBtnLabel() }}
+    </gp-button>
+  </div>
+
+  <!-- Items Table -->
+  <table class="order-items-table" *ngIf="items() && items().length > 0">
+    <thead>
+      <tr>
+        <th>Item Description</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items()" (click)="itemClick.emit(item)" style="cursor: pointer;">
+        <td>
+          <div class="item-name">{{ item.name }}</div>
+          <div class="item-sku">SKU: {{ item.sku }}</div>
+        </td>
+        <td>{{ item.qty }}</td>
+        <td>{{ item.price }}</td>
+        <td><strong>{{ item.total }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Breakdown Calculations -->
+  <div class="order-calc-section">
+    <div class="calc-row">
+      <span>Subtotal</span>
+      <span>{{ subtotal() }}</span>
+    </div>
+    <div class="calc-row">
+      <span>Standard Ground Shipping</span>
+      <span>{{ shipping() }}</span>
+    </div>
+    <div class="calc-row">
+      <span>Estimated Sales Tax (8.25%)</span>
+      <span>{{ tax() }}</span>
+    </div>
+    <div class="calc-row total-row">
+      <span>Total Paid</span>
+      <span class="total-amt">{{ grandTotal() }}</span>
+    </div>
+  </div>
+</div>

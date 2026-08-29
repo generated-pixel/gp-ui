@@ -1,0 +1,22 @@
+<div class="gp-rating-review-card">
+  <h3 class="title">{{ title() }}</h3>
+  <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+
+  <div class="rating-picker-row">
+    <button
+      type="button"
+      *ngFor="let star of [1, 2, 3, 4, 5]"
+      class="star-btn"
+      [class.active]="star <= rating()"
+      (click)="rating.set(star)"
+      style="background: transparent; border: none; cursor: pointer; color: var(--gp-primary-500, #3b82f6); padding: 0.25rem;"
+    >
+      <gp-icon [name]="star <= rating() ? 'star' : 'star'" size="1.4em" />
+    </button>
+  </div>
+
+  <div class="review-actions">
+    <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="dismiss.emit()">{{ dismissBtnLabel() }}</gp-button>
+    <gp-button severity="primary" size="sm" (onClick)="submitRating.emit(rating())">{{ submitBtnLabel() }}</gp-button>
+  </div>
+</div>

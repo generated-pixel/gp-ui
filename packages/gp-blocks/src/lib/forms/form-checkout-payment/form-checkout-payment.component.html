@@ -1,0 +1,59 @@
+<div class="gp-checkout-payment-card">
+  <div class="chk-head">
+    <h2 class="title">{{ title() }}</h2>
+    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+  </div>
+
+  <div class="chk-fields">
+    <div class="col-12">
+      <label class="lbl">Cardholder Name</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="cardholderName()"
+        (input)="cardholderName.set($any($event.target).value)"
+        placeholder="Alex Morgan"
+      />
+    </div>
+    <div class="col-12">
+      <label class="lbl">Card Number</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="cardNumber()"
+        (input)="cardNumber.set($any($event.target).value)"
+        placeholder="4000 1234 5678 9010"
+      />
+    </div>
+    <div class="col-6">
+      <label class="lbl">Expiration (MM/YY)</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="expiration()"
+        (input)="expiration.set($any($event.target).value)"
+        placeholder="12/28"
+      />
+    </div>
+    <div class="col-6">
+      <label class="lbl">CVC Code</label>
+      <input
+        type="text"
+        class="form-inp"
+        [value]="cvc()"
+        (input)="cvc.set($any($event.target).value)"
+        placeholder="321"
+      />
+    </div>
+  </div>
+
+  <div class="chk-footer">
+    <div class="ssl-badge">
+      <gp-icon name="lock" size="0.85em" />
+      <span>{{ securityBadgeText() }}</span>
+    </div>
+    <gp-button severity="success" (onClick)="onPay()">
+      {{ payBtnLabel() }} {{ amount() ? '(' + amount() + ')' : '' }}
+    </gp-button>
+  </div>
+</div>

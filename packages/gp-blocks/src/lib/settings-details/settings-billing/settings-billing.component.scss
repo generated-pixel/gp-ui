@@ -1,0 +1,106 @@
+.gp-settings-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .settings-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .settings-subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .current-plan-box {
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .plan-name-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .plan-name {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--gp-text-color);
+      }
+
+      .plan-price {
+        font-size: 0.85rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .plan-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .invoices-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .sec-subtitle {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .billing-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      .billing-table th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--gp-text-color-secondary);
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--gp-surface-border);
+      }
+
+      .billing-table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid var(--gp-surface-border);
+        font-size: 0.875rem;
+      }
+
+      .download-link {
+        background: transparent;
+        border: none;
+        color: var(--gp-primary);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-weight: 600;
+        font-size: 0.825rem;
+      }
+
+      .download-link:hover {
+        text-decoration: underline;
+      }

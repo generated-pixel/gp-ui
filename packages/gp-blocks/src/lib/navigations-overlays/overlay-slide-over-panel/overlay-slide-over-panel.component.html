@@ -1,0 +1,37 @@
+<div class="gp-slide-over-wrapper">
+  <div class="slide-over-card">
+    <div class="slide-head">
+      <h3 class="title">{{ title() }}</h3>
+      <button type="button" class="btn-close" (click)="close.emit()" title="Close">
+        <gp-icon name="close" size="0.85em" />
+      </button>
+    </div>
+
+    <div class="slide-body">
+      <p class="desc" *ngIf="description()">{{ description() }}</p>
+      <div class="field-box">
+        <label class="lbl">Cluster Configuration Tag</label>
+        <input
+          type="text"
+          [value]="configTag()"
+          (input)="configTag.set($any($event.target).value)"
+          class="inp"
+        />
+      </div>
+      <div class="field-box">
+        <label class="lbl">Allocated Worker Nodes</label>
+        <input
+          type="number"
+          [value]="workerNodes()"
+          (input)="workerNodes.set(+$any($event.target).value)"
+          class="inp"
+        />
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+      <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
+    </div>
+  </div>
+</div>

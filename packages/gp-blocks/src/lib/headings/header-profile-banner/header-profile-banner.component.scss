@@ -1,0 +1,65 @@
+.gp-profile-banner-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 14px;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .banner-cover {
+        height: 140px;
+        background: linear-gradient(135deg, #1e1b4b 0%, #3b82f6 50%, #06b6d4 100%);
+      }
+
+      .banner-body {
+        padding: 0 2rem 1.5rem 2rem;
+        position: relative;
+      }
+
+      .avatar-overlap-wrapper {
+        position: absolute;
+        top: -45px;
+        left: 2rem;
+        border: 4px solid var(--gp-surface-card);
+        border-radius: 50%;
+        background: var(--gp-surface-card);
+      }
+
+      .profile-info-bar {
+        padding-top: 55px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .name-status-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .name-badge-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .profile-name {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .profile-title {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0;
+      }
+
+      .banner-ctas {
+        display: flex;
+        gap: 0.75rem;
+      }

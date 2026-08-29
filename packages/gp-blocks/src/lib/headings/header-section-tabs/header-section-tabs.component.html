@@ -1,0 +1,29 @@
+<div class="gp-header-section-tabs-card">
+  <div class="header-upper">
+    <div>
+      <h2 class="title">{{ title() }}</h2>
+      <p class="desc" *ngIf="description()">{{ description() }}</p>
+    </div>
+    <gp-button severity="primary" size="sm" (onClick)="actionClick.emit()">
+      <gp-icon name="plus" size="0.8em" style="margin-right: 0.3rem;" />
+      {{ actionBtnLabel() }}
+    </gp-button>
+  </div>
+
+  <div class="tabs-nav-bar" *ngIf="tabs() && tabs().length > 0">
+    <a
+      href="javascript:void(0)"
+      *ngFor="let tab of tabs()"
+      class="tab-link"
+      [class.active]="tab.id === activeTabId() || tab.active"
+      (click)="onTabClick(tab)"
+    >
+      <span>{{ tab.label }}</span>
+      <gp-badge
+        *ngIf="tab.count !== undefined"
+        [value]="tab.count.toString()"
+        [severity]="tab.badgeSeverity || 'primary'"
+      />
+    </a>
+  </div>
+</div>

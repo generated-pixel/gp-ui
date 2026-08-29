@@ -1,0 +1,51 @@
+<div class="gp-sidebar-dark-shell">
+  <!-- Dark Sidebar -->
+  <aside class="dark-sidebar">
+    <div class="brand-header">
+      <div class="brand-logo-mark">
+        <gp-icon [name]="brandIcon()" size="1.2em" />
+      </div>
+      <span class="brand-text">{{ brandName() }}</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label" *ngIf="navGroupLabel()">{{ navGroupLabel() }}</div>
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of navItems()"
+        class="nav-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+        <gp-badge
+          *ngIf="item.badge"
+          [value]="item.badge"
+          [severity]="item.badgeSeverity || 'primary'"
+        />
+      </a>
+    </nav>
+
+    <div class="user-footer" (click)="userClick.emit()" style="cursor: pointer;">
+      <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+      <div class="user-info">
+        <span class="user-name">{{ userName() }}</span>
+        <span class="user-role">{{ userEmail() }}</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Shell Content -->
+  <div class="main-shell">
+    <header class="top-nav-bar">
+      <h2 class="page-title">{{ title() }}</h2>
+      <div class="top-actions">
+        <ng-content select="[slot=top-actions]" />
+      </div>
+    </header>
+    <main class="page-content-area">
+      <ng-content />
+    </main>
+  </div>
+</div>

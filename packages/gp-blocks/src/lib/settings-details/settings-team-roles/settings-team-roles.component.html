@@ -1,0 +1,48 @@
+<div class="gp-settings-card">
+  <div class="settings-head-row">
+    <div>
+      <h3 class="settings-title">{{ title() }}</h3>
+      <p class="settings-subtitle">{{ subtitle() }}</p>
+    </div>
+    <gp-button severity="primary" (onClick)="inviteMember.emit()">
+      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+      {{ inviteBtnLabel() }}
+    </gp-button>
+  </div>
+
+  <div class="members-table-wrap" *ngIf="members() && members().length > 0">
+    <table class="members-table">
+      <thead>
+        <tr>
+          <th>Member</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of members()">
+          <td>
+            <div class="member-cell">
+              <gp-avatar [label]="m.name.charAt(0)" size="normal" shape="circle" />
+              <div>
+                <div class="m-name">{{ m.name }}</div>
+                <div class="m-email">{{ m.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="role-tag">{{ m.role }}</span></td>
+          <td>
+            <gp-badge
+              [value]="m.status"
+              [severity]="m.status === 'Active' ? 'success' : (m.status === 'Pending Invite' ? 'warning' : 'secondary')"
+            />
+          </td>
+          <td>
+            <gp-button variant="text" severity="secondary" size="sm" (onClick)="editMember.emit(m)">Edit</gp-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

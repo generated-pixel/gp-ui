@@ -1,0 +1,112 @@
+.gp-card-grid-root {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .grid-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .subtitle {
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0.25rem 0 0 0;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+
+      .entity-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .entity-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+      }
+
+      .entity-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .entity-icon-box {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .entity-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .entity-desc {
+        font-size: 0.85rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0;
+        flex: 1;
+        line-height: 1.4;
+      }
+
+      .entity-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--gp-surface-border);
+        padding-top: 0.75rem;
+        margin-top: 0.5rem;
+      }
+
+      .entity-meta {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .btn-link {
+        background: transparent;
+        border: none;
+        color: var(--gp-primary);
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+
+      @media (max-width: 992px) {
+        .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 640px) {
+        .cards-grid { grid-template-columns: 1fr; }
+      }

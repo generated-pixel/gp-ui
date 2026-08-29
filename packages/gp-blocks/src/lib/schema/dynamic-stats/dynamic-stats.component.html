@@ -1,0 +1,54 @@
+<div class="gp-dynamic-stats-wrap">
+  <div *ngIf="schema()?.title || schema()?.subtitle" class="stats-header">
+    <h3 *ngIf="schema()?.title" class="stats-title">{{ schema()?.title }}</h3>
+    <p *ngIf="schema()?.subtitle" class="stats-subtitle">{{ schema()?.subtitle }}</p>
+  </div>
+
+  <div
+    class="gp-stats-grid"
+    [style.gridTemplateColumns]="'repeat(' + (schema()?.columns || 4) + ', minmax(0, 1fr))'"
+  >
+    <div *ngFor="let item of schema()?.items" class="gp-stat-card">
+      <div class="stat-card-top">
+        <span class="stat-label">{{ item.label }}</span>
+        <div
+          *ngIf="item.icon"
+          class="stat-icon-wrap"
+          [style.backgroundColor]="item.iconBackground || 'rgba(59, 130, 246, 0.1)'"
+          [style.color]="item.iconColor || 'var(--gp-primary)'"
+        >
+          <gp-icon [name]="item.icon" size="1.15em" />
+        </div>
+        <gp-badge *ngIf="item.badge" [value]="item.badge" severity="info" />
+      </div>
+
+      <div class="stat-value-row">
+        <span *ngIf="item.prefix" class="stat-affix">{{ item.prefix }}</span>
+        <span class="stat-value">{{ item.value }}</span>
+        <span *ngIf="item.suffix" class="stat-affix">{{ item.suffix }}</span>
+      </div>
+
+      <!-- Trend Indicator -->
+      <div *ngIf="item.change" class="stat-trend-row">
+        <span
+          class="stat-trend-badge"
+          [class.trend-up]="item.changeDirection === 'up'"
+          [class.trend-down]="item.changeDirection === 'down'"
+          [class.trend-neutral]="item.changeDirection === 'neutral'"
+        >
+          <gp-icon
+            [name]="item.changeDirection === 'up' ? 'chevron-up' : item.changeDirection === 'down' ? 'chevron-down' : 'minus'"
+            size="0.8em"
+          />
+          {{ item.change }}
+        </span>
+        <span *ngIf="item.changeLabel" class="stat-change-label">{{ item.changeLabel }}</span>
+      </div>
+
+      <!-- Progress Bar if present -->
+      <div *ngIf="item.progress !== undefined" class="stat-progress-wrap">
+        <gp-progress-bar [value]="item.progress" [showValue]="false" />
+      </div>
+    </div>
+  </div>
+</div>

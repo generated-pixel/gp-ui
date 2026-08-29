@@ -1,0 +1,43 @@
+<div class="gp-dashboard-pm-root">
+  <!-- Sprint Metrics Header -->
+  <div class="pm-header-grid" *ngIf="metrics() && metrics().length > 0">
+    <div
+      class="pm-metric-box"
+      *ngFor="let m of metrics()"
+      (click)="metricClick.emit(m)"
+      style="cursor: pointer;"
+    >
+      <span class="m-title">{{ m.title }}</span>
+      <span class="m-val">{{ m.value }}</span>
+      <gp-progress-bar *ngIf="m.progress !== undefined" [value]="m.progress" [showValue]="false" />
+      <span class="m-sub" *ngIf="m.subText">{{ m.subText }}</span>
+    </div>
+  </div>
+
+  <!-- Kanban Columns Mini View -->
+  <div class="kanban-preview-grid" *ngIf="columns() && columns().length > 0">
+    <div class="kanban-col" *ngFor="let col of columns()">
+      <div class="k-col-head">
+        <span class="k-title">{{ col.title }}</span>
+        <gp-badge [value]="col.count.toString()" [severity]="col.badgeSeverity || 'primary'" />
+      </div>
+      <div class="k-cards">
+        <div
+          class="k-task-card"
+          *ngFor="let task of col.tasks"
+          (click)="taskClick.emit(task)"
+          style="cursor: pointer;"
+        >
+          <span class="task-tag" [class.feat]="task.tagType === 'feat'" [class.bug]="task.tagType === 'bug'">
+            {{ task.tag }}
+          </span>
+          <h4 class="task-title">{{ task.title }}</h4>
+          <div class="task-footer">
+            <gp-avatar [label]="task.assigneeLabel" size="normal" shape="circle" />
+            <span class="task-pts">{{ task.points }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

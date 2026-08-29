@@ -1,0 +1,34 @@
+<div class="gp-dropdown-menu-wrapper">
+  <div class="action-dropdown-card">
+    <div class="dropdown-header">
+      <span class="user-name">{{ signedInLabel() }}</span>
+      <strong class="user-email">{{ userEmail() }}</strong>
+    </div>
+
+    <div class="dropdown-links-group" *ngIf="primaryItems() && primaryItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of primaryItems()"
+        class="drop-item"
+        (click)="itemSelect.emit(item)"
+      >
+        <gp-icon *ngIf="item.icon" [name]="item.icon" size="0.9em" />
+        <span>{{ item.label }}</span>
+      </a>
+    </div>
+
+    <div class="dropdown-divider" *ngIf="dangerItems() && dangerItems().length > 0"></div>
+
+    <div class="dropdown-links-group" *ngIf="dangerItems() && dangerItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of dangerItems()"
+        class="drop-item danger"
+        (click)="itemSelect.emit(item)"
+      >
+        <gp-icon *ngIf="item.icon" [name]="item.icon" size="0.9em" />
+        <span>{{ item.label }}</span>
+      </a>
+    </div>
+  </div>
+</div>

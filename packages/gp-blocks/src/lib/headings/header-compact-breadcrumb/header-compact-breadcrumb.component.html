@@ -1,0 +1,15 @@
+<div class="gp-compact-breadcrumb-card">
+  <div class="crumb-nav">
+    <button type="button" class="back-link" (click)="backClick.emit()">
+      <gp-icon name="chevron-left" size="0.85em" />
+      <span>{{ backLabel() }}</span>
+    </button>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active">{{ activeItem() }}</span>
+  </div>
+
+  <div class="compact-actions">
+    <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="editClick.emit()">{{ editBtnLabel() }}</gp-button>
+    <gp-button severity="primary" size="sm" (onClick)="shareClick.emit()">{{ shareBtnLabel() }}</gp-button>
+  </div>
+</div>

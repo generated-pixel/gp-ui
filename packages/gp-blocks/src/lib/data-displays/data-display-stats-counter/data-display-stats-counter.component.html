@@ -1,0 +1,12 @@
+<div class="gp-stats-counter-card" *ngIf="counters() && counters().length > 0">
+  <div
+    class="counter-column"
+    *ngFor="let c of counters()"
+    (click)="counterClick.emit(c)"
+    style="cursor: pointer;"
+  >
+    <span class="counter-num">{{ c.number }}</span>
+    <span class="counter-label">{{ c.label }}</span>
+    <p class="counter-desc" *ngIf="c.desc">{{ c.desc }}</p>
+  </div>
+</div>

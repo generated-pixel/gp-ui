@@ -1,0 +1,95 @@
+.gp-timeline-stream-card {
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+      }
+
+      .timeline-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--gp-text-color);
+      }
+
+      .stream-feed {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stream-item {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .stream-line-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .stream-icon-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .stream-v-line {
+        width: 2px;
+        flex: 1;
+        background: var(--gp-surface-border);
+        margin: 0.35rem 0;
+        min-height: 2rem;
+      }
+
+      .stream-body {
+        flex: 1;
+        padding-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .body-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .event-title {
+        font-size: 0.925rem;
+        font-weight: 700;
+        color: var(--gp-text-color);
+      }
+
+      .event-time {
+        font-size: 0.775rem;
+        color: var(--gp-text-color-secondary);
+      }
+
+      .event-desc {
+        font-size: 0.85rem;
+        color: var(--gp-text-color-secondary);
+        margin: 0;
+      }
+
+      .event-author {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.4rem;
+      }
+
+      .author-name {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--gp-text-color);
+      }

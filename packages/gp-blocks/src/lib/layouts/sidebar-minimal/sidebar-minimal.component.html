@@ -1,0 +1,26 @@
+<div class="gp-sidebar-minimal-shell">
+  <aside class="minimal-sidebar">
+    <div class="minimal-brand">{{ brandName() }}</div>
+
+    <nav class="minimal-nav" *ngIf="navItems() && navItems().length > 0">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of navItems()"
+        class="minimal-link"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        {{ item.label }}
+      </a>
+    </nav>
+  </aside>
+
+  <main class="minimal-main">
+    <header class="minimal-header">
+      <h2 class="minimal-title">{{ title() }}</h2>
+    </header>
+    <div class="minimal-content">
+      <ng-content />
+    </div>
+  </main>
+</div>

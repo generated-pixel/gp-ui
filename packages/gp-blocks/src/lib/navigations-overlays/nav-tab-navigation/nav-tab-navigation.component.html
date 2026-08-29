@@ -1,0 +1,32 @@
+<div class="gp-nav-tabs-container">
+  <!-- Variant 1: Underline Tabs -->
+  <div class="tabs-bar-underline" *ngIf="underlineTabs() && underlineTabs().length > 0">
+    <button
+      type="button"
+      *ngFor="let tab of underlineTabs()"
+      class="tab-item"
+      [class.active]="tab.id === activeUnderlineTab()"
+      (click)="underlineTabChange.emit(tab)"
+    >
+      <span>{{ tab.label }}</span>
+      <gp-badge
+        *ngIf="tab.badge"
+        [value]="tab.badge"
+        [severity]="tab.badgeSeverity || 'success'"
+      />
+    </button>
+  </div>
+
+  <!-- Variant 2: Pill Tabs -->
+  <div class="tabs-bar-pills" *ngIf="pillTabs() && pillTabs().length > 0">
+    <button
+      type="button"
+      *ngFor="let pill of pillTabs()"
+      class="pill-btn"
+      [class.active]="pill.id === activePillTab()"
+      (click)="pillTabChange.emit(pill)"
+    >
+      {{ pill.label }}
+    </button>
+  </div>
+</div>

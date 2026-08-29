@@ -1,0 +1,49 @@
+<div class="gp-layout-4col-grid">
+  <div class="grid-card-pane">
+    <div class="pane-header">
+      <span class="pane-title">{{ col1Title() }}</span>
+      <gp-badge *ngIf="col1Badge()" [value]="col1Badge()" severity="primary" />
+    </div>
+    <div class="pane-content">
+      <ng-content select="[slot=col1]">
+        <p class="placeholder-text">Panel 1 data and widgets stream</p>
+      </ng-content>
+    </div>
+  </div>
+
+  <div class="grid-card-pane">
+    <div class="pane-header">
+      <span class="pane-title">{{ col2Title() }}</span>
+      <gp-badge *ngIf="col2Badge()" [value]="col2Badge()" severity="success" />
+    </div>
+    <div class="pane-content">
+      <ng-content select="[slot=col2]">
+        <p class="placeholder-text">Panel 2 data and widgets stream</p>
+      </ng-content>
+    </div>
+  </div>
+
+  <div class="grid-card-pane">
+    <div class="pane-header">
+      <span class="pane-title">{{ col3Title() }}</span>
+      <gp-badge *ngIf="col3Badge()" [value]="col3Badge()" severity="info" />
+    </div>
+    <div class="pane-content">
+      <ng-content select="[slot=col3]">
+        <p class="placeholder-text">Panel 3 data and widgets stream</p>
+      </ng-content>
+    </div>
+  </div>
+
+  <div class="grid-card-pane">
+    <div class="pane-header">
+      <span class="pane-title">{{ col4Title() }}</span>
+      <gp-badge *ngIf="col4Badge()" [value]="col4Badge()" severity="warning" />
+    </div>
+    <div class="pane-content">
+      <ng-content select="[slot=col4]">
+        <p class="placeholder-text">Panel 4 data and widgets stream</p>
+      </ng-content>
+    </div>
+  </div>
+</div>
