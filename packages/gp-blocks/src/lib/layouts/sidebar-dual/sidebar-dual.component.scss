@@ -2,8 +2,8 @@
         display: flex;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
@@ -22,7 +22,7 @@
         width: 36px;
         height: 36px;
         border-radius: 8px;
-        background: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
         color: #fff;
         display: flex;
         align-items: center;
@@ -56,14 +56,14 @@
       }
 
       .strip-btn.active {
-        background: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
         color: #fff;
       }
 
       .tier-secondary-nav {
         width: 220px;
-        background: var(--gp-surface-card, #ffffff);
-        border-right: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border-right: 1px solid var(--gp-surface-border);
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
@@ -75,13 +75,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .tier-title {
         font-size: 0.85rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .tier-items {
@@ -96,19 +96,19 @@
         border-radius: 6px;
         font-size: 0.85rem;
         font-weight: 500;
-        color: var(--gp-text-secondary, #475569);
+        color: var(--gp-text-color-secondary);
         text-decoration: none;
         transition: all 0.15s ease;
       }
 
       .tier-link:hover {
-        background: var(--gp-surface-muted, #f1f5f9);
-        color: var(--gp-text-primary, #0f172a);
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
       }
 
       .tier-link.active {
         background: rgba(59, 130, 246, 0.08);
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         font-weight: 600;
       }
 
@@ -121,8 +121,8 @@
 
       .top-nav-bar {
         height: 56px;
-        background: var(--gp-surface-card, #ffffff);
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border-bottom: 1px solid var(--gp-surface-border);
         padding: 0 1.5rem;
         display: flex;
         align-items: center;
@@ -133,7 +133,7 @@
         font-size: 1.15rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .page-content-area {

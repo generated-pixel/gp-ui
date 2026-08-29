@@ -1,6 +1,6 @@
 .gp-settings-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -12,18 +12,18 @@
         font-size: 1.25rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .settings-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
       .current-plan-box {
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 10px;
         padding: 1.25rem 1.5rem;
         display: flex;
@@ -42,12 +42,12 @@
       .plan-name {
         font-size: 1.15rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .plan-price {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -66,7 +66,7 @@
         font-size: 1rem;
         font-weight: 600;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .billing-table {
@@ -78,21 +78,21 @@
       .billing-table th {
         font-size: 0.75rem;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         padding: 0.75rem;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .billing-table td {
         padding: 0.75rem;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
         font-size: 0.875rem;
       }
 
       .download-link {
         background: transparent;
         border: none;
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         cursor: pointer;
         display: inline-flex;
         align-items: center;

@@ -3,8 +3,8 @@
         flex-direction: column;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #e2e8f0);
-        border: 1px solid var(--gp-border-color, #cbd5e1);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 16px);
         overflow: hidden;
       }
@@ -23,12 +23,12 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        background: var(--gp-surface-card, #ffffff);
+        background: var(--gp-surface-card);
         padding: 0.4rem 0.85rem;
         border-radius: 9999px;
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       }
 
@@ -39,7 +39,7 @@
       }
 
       .floating-inner-card {
-        background: var(--gp-surface-card, #ffffff);
+        background: var(--gp-surface-card);
         border-radius: 16px;
         flex: 1;
         padding: 2rem;
@@ -56,7 +56,7 @@
         font-size: 1.5rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .card-body-content {

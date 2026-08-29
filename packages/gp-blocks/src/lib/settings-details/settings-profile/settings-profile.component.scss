@@ -1,6 +1,6 @@
 .gp-settings-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -12,12 +12,12 @@
         font-size: 1.25rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .settings-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -26,8 +26,8 @@
         align-items: center;
         gap: 1.25rem;
         padding: 1rem 0;
-        border-top: 1px solid var(--gp-border-color, #f1f5f9);
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-top: 1px solid var(--gp-surface-border);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .avatar-controls {
@@ -43,7 +43,7 @@
 
       .avatar-hint {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .form-fields-grid {
@@ -64,14 +64,14 @@
       .f-label {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
       }
 
       .settings-footer {
         display: flex;
         justify-content: flex-end;
         gap: 0.75rem;
-        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        border-top: 1px solid var(--gp-surface-border);
         padding-top: 1.25rem;
       }
 

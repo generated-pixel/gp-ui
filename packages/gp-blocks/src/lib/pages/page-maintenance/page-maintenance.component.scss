@@ -1,6 +1,6 @@
 .gp-maintenance-root {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 16px;
         padding: 4rem 2rem;
         display: flex;
@@ -29,12 +29,12 @@
         font-size: 1.75rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .maint-desc {
         font-size: 0.95rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         max-width: 480px;
         margin: 0;
         line-height: 1.5;
@@ -42,8 +42,8 @@
 
       .uptime-box {
         margin-top: 1rem;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 8px;
         padding: 0.75rem 1.5rem;
         display: flex;
@@ -54,12 +54,12 @@
       .est-label {
         font-size: 0.75rem;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         font-weight: 700;
       }
 
       .est-val {
         font-size: 1.1rem;
         font-weight: 800;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }

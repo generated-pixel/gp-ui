@@ -8,8 +8,8 @@
       }
 
       .slide-over-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         width: 100%;
         max-width: 420px;
@@ -25,20 +25,20 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .title {
         font-size: 1.15rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .btn-close {
         background: transparent;
         border: none;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         cursor: pointer;
       }
 
@@ -52,7 +52,7 @@
 
       .desc {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 
@@ -65,19 +65,19 @@
       .lbl {
         font-size: 0.825rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
       }
 
       .inp {
         padding: 0.5rem 0.75rem;
-        border: 1px solid var(--gp-border-color, #cbd5e1);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
         font-size: 0.85rem;
       }
 
       .slide-footer {
         padding: 1.25rem 1.5rem;
-        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        border-top: 1px solid var(--gp-surface-border);
         display: flex;
         justify-content: flex-end;
         gap: 0.75rem;

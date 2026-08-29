@@ -1,6 +1,6 @@
 .gp-compact-breadcrumb-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 10px;
         padding: 0.85rem 1.25rem;
         display: flex;
@@ -18,7 +18,7 @@
       .back-link {
         background: transparent;
         border: none;
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         font-weight: 600;
         font-size: 0.85rem;
         display: inline-flex;
@@ -30,13 +30,13 @@
       .back-link:hover { text-decoration: underline; }
 
       .crumb-sep {
-        color: var(--gp-text-secondary, #cbd5e1);
+        color: var(--gp-text-color-secondary);
       }
 
       .crumb-active {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .compact-actions {

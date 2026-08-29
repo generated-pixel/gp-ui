@@ -1,6 +1,6 @@
 .gp-stacked-feed-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -19,7 +19,7 @@
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .feed-items-list {
@@ -32,7 +32,7 @@
         align-items: flex-start;
         gap: 1rem;
         padding: 1rem 0;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .feed-item:last-child {
@@ -48,12 +48,12 @@
 
       .item-meta-row {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #475569);
+        color: var(--gp-text-color-secondary);
       }
 
       .item-author {
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         margin-right: 0.35rem;
       }
 
@@ -62,28 +62,28 @@
       }
 
       .item-target {
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
       }
 
       .item-msg {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0;
-        background: var(--gp-surface-ground, #f8fafc);
+        background: var(--gp-surface-ground);
         padding: 0.5rem 0.75rem;
         border-radius: 6px;
-        border-left: 3px solid var(--gp-primary-500, #3b82f6);
+        border-left: 3px solid var(--gp-primary);
       }
 
       .item-time {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .btn-item-opts {
         background: transparent;
         border: none;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         cursor: pointer;
         padding: 0.25rem;
       }

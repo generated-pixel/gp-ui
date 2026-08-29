@@ -1,6 +1,6 @@
 .gp-order-summary-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 2rem;
         display: flex;
@@ -27,12 +27,12 @@
         font-size: 1.35rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .order-date {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -45,25 +45,25 @@
       .order-items-table th {
         font-size: 0.75rem;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         padding: 0.75rem;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .order-items-table td {
         padding: 1rem 0.75rem;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
         font-size: 0.875rem;
       }
 
       .item-name {
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .item-sku {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .order-calc-section {
@@ -78,20 +78,20 @@
         display: flex;
         justify-content: space-between;
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .total-row {
-        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        border-top: 1px solid var(--gp-surface-border);
         padding-top: 0.75rem;
         margin-top: 0.25rem;
         font-size: 1.15rem;
         font-weight: 800;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .total-amt {
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
       }
 
       @media (max-width: 640px) {

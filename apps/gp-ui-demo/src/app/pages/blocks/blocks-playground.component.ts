@@ -147,7 +147,7 @@ import {
 
       .crumb-link a {
         font-size: 0.825rem;
-        color: var(--gp-primary-500, #3b82f6);
+        color: var(--gp-primary);
         text-decoration: none;
         font-weight: 600;
       }
@@ -162,7 +162,7 @@ import {
 
       .p-subtitle {
         font-size: 0.95rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -172,7 +172,7 @@ import {
         align-items: flex-end;
         flex-wrap: wrap;
         gap: 1rem;
-        border-bottom: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
+        border-bottom: 1px solid var(--gp-surface-border);
         padding-bottom: 1.5rem;
       }
 
@@ -185,28 +185,31 @@ import {
 
       .p-lbl {
         font-size: 0.8rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         font-weight: 600;
       }
 
       .p-btn {
         padding: 0.4rem 0.75rem;
         border-radius: 6px;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
-        background: rgba(255, 255, 255, 0.05);
-        color: #cbd5e1;
+        border: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-section);
+        color: var(--gp-text-color-secondary);
         font-size: 0.8rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
       }
 
-      .p-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+      .p-btn:hover {
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
+      }
 
       .p-btn.active {
-        background: var(--gp-primary-500, #3b82f6);
-        border-color: var(--gp-primary-500, #3b82f6);
-        color: #fff;
+        background: var(--gp-primary);
+        border-color: var(--gp-primary);
+        color: var(--gp-primary-text);
       }
 
       .playground-panes {
@@ -217,8 +220,8 @@ import {
       }
 
       .editor-pane, .preview-pane {
-        background: var(--gp-surface-card, #0f172a);
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
         display: flex;
         flex-direction: column;
@@ -230,8 +233,8 @@ import {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
-        background: rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-section);
       }
 
       .head-title {
@@ -240,7 +243,7 @@ import {
         gap: 0.5rem;
         font-size: 0.85rem;
         font-weight: 700;
-        color: #f8fafc;
+        color: var(--gp-text-color);
       }
 
       .head-actions {
@@ -251,14 +254,17 @@ import {
       .btn-sm {
         padding: 0.25rem 0.5rem;
         border-radius: 4px;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
-        background: transparent;
-        color: #cbd5e1;
+        border: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-card);
+        color: var(--gp-text-color-secondary);
         font-size: 0.75rem;
         cursor: pointer;
       }
 
-      .btn-sm:hover { background: rgba(255, 255, 255, 0.1); }
+      .btn-sm:hover {
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
+      }
 
       .editor-body {
         flex: 1;
@@ -268,8 +274,8 @@ import {
       .json-textarea {
         flex: 1;
         width: 100%;
-        background: #020617;
-        color: #38bdf8;
+        background: var(--gp-surface-ground);
+        color: var(--gp-primary);
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-size: 0.825rem;
         padding: 1rem;
@@ -280,26 +286,26 @@ import {
       }
 
       .json-error-banner {
-        background: #fef2f2;
-        color: #991b1b;
+        background: var(--gp-danger-light, #fef2f2);
+        color: var(--gp-danger, #ef4444);
         padding: 0.75rem 1rem;
         font-size: 0.8rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        border-top: 1px solid #fecaca;
+        border-top: 1px solid var(--gp-danger-border, #fecaca);
       }
 
       .preview-body {
         flex: 1;
         padding: 1.5rem;
-        background: var(--gp-surface-ground, #0b0f19);
+        background: var(--gp-surface-ground);
         overflow-y: auto;
       }
 
       .event-log-box {
-        border-top: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
-        background: #020617;
+        border-top: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-section);
         height: 160px;
         display: flex;
         flex-direction: column;
@@ -310,21 +316,21 @@ import {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--gp-surface-card);
         font-size: 0.75rem;
         font-weight: 700;
-        color: #94a3b8;
+        color: var(--gp-text-color-muted);
       }
 
       .btn-clear {
         background: transparent;
         border: none;
-        color: #64748b;
+        color: var(--gp-text-color-muted);
         cursor: pointer;
         font-size: 0.7rem;
       }
 
-      .btn-clear:hover { color: #fff; }
+      .btn-clear:hover { color: var(--gp-text-color); }
 
       .log-list {
         flex: 1;
@@ -337,18 +343,18 @@ import {
         gap: 0.25rem;
       }
 
-      .log-empty { color: #64748b; font-style: italic; }
+      .log-empty { color: var(--gp-text-color-muted); font-style: italic; }
 
       .log-row {
         display: flex;
         gap: 0.5rem;
       }
 
-      .log-time { color: #64748b; }
+      .log-time { color: var(--gp-text-color-muted); }
       .log-type { font-weight: 700; }
-      .log-type.submit { color: #22c55e; }
-      .log-type.action { color: #3b82f6; }
-      .log-detail { color: #e2e8f0; }
+      .log-type.submit { color: var(--gp-success, #10b981); }
+      .log-type.action { color: var(--gp-primary); }
+      .log-detail { color: var(--gp-text-color); }
 
       @media (max-width: 1024px) {
         .playground-panes { grid-template-columns: 1fr; }

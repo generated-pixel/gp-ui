@@ -1,6 +1,6 @@
 .gp-form-profile-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 2rem;
         display: flex;
@@ -13,12 +13,12 @@
         font-size: 1.35rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -34,14 +34,14 @@
       .lbl {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
       }
 
       .form-footer {
         display: flex;
         justify-content: flex-end;
         gap: 0.75rem;
-        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        border-top: 1px solid var(--gp-surface-border);
         padding-top: 1.25rem;
       }
 

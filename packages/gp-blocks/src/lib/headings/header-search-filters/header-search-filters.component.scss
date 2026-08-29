@@ -1,6 +1,6 @@
 .gp-header-search-filters-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -21,12 +21,12 @@
         font-size: 1.5rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -37,7 +37,7 @@
         flex-wrap: wrap;
         gap: 1rem;
         padding-top: 1rem;
-        border-top: 1px solid var(--gp-border-color, #f1f5f9);
+        border-top: 1px solid var(--gp-surface-border);
       }
 
       .search-input-box {
@@ -50,20 +50,20 @@
       .s-ico {
         position: absolute;
         left: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .s-inp {
         width: 100%;
         padding: 0.5rem 0.75rem 0.5rem 2.2rem;
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
         font-size: 0.85rem;
         outline: none;
       }
 
       .s-inp:focus {
-        border-color: var(--gp-primary-500, #3b82f6);
+        border-color: var(--gp-primary);
       }
 
       .filter-dropdowns {
@@ -75,11 +75,11 @@
 
       .custom-select {
         padding: 0.5rem 1rem;
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
-        background: var(--gp-surface-card, #ffffff);
+        background: var(--gp-surface-card);
         font-size: 0.85rem;
-        color: var(--gp-text-primary, #1e293b);
+        color: var(--gp-text-color);
       }
 
       @media (max-width: 768px) {

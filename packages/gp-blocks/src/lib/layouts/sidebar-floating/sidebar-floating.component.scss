@@ -3,7 +3,7 @@
         gap: 1.25rem;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #f1f5f9);
+        background: var(--gp-surface-ground);
         padding: 1.25rem;
         border-radius: var(--gp-border-radius-lg, 16px);
         font-family: inherit;
@@ -11,8 +11,8 @@
 
       .floating-sidebar-card {
         width: 240px;
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
         padding: 1.25rem 1rem;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -26,7 +26,7 @@
         align-items: center;
         gap: 0.6rem;
         padding: 0 0.5rem 1.25rem 0.5rem;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .brand-orb {
@@ -39,7 +39,7 @@
       .brand-text {
         font-size: 1.1rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .floating-nav {
@@ -57,18 +57,18 @@
         border-radius: 8px;
         font-size: 0.875rem;
         font-weight: 500;
-        color: var(--gp-text-secondary, #475569);
+        color: var(--gp-text-color-secondary);
         text-decoration: none;
         transition: all 0.15s ease;
       }
 
       .floating-link:hover {
-        background: var(--gp-surface-muted, #f8fafc);
-        color: var(--gp-text-primary, #0f172a);
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
       }
 
       .floating-link.active {
-        background: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
         color: #fff;
         font-weight: 600;
         box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
@@ -93,13 +93,13 @@
         font-size: 1.35rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .floating-content-card {
         flex: 1;
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
         padding: 1.5rem;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);

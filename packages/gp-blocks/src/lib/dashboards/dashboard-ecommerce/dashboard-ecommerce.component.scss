@@ -12,8 +12,8 @@
       }
 
       .ecom-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         padding: 1.25rem 1.5rem;
         display: flex;
@@ -25,14 +25,14 @@
         font-size: 0.8rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .card-value {
         font-size: 1.75rem;
         font-weight: 800;
         letter-spacing: -0.02em;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .card-meta {
@@ -53,8 +53,8 @@
       }
 
       .ecom-panel {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         padding: 1.5rem;
         display: flex;
@@ -85,18 +85,18 @@
         align-items: center;
         gap: 1rem;
         padding: 0.5rem 0;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .prod-thumb {
         width: 40px;
         height: 40px;
         border-radius: 8px;
-        background: var(--gp-surface-ground, #f1f5f9);
+        background: var(--gp-surface-ground);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .prod-info {
@@ -108,12 +108,12 @@
       .prod-title {
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .prod-cat {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .prod-stats {
@@ -125,12 +125,12 @@
       .prod-revenue {
         font-size: 0.9rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .prod-sales {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .orders-table-wrap {
@@ -146,14 +146,14 @@
       .ecom-table th {
         font-size: 0.75rem;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .ecom-table td {
         padding: 0.75rem;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
         font-size: 0.85rem;
       }
 

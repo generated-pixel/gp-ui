@@ -6,8 +6,8 @@
       }
 
       .kpi-block-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.25rem 1.5rem;
         display: flex;
@@ -26,7 +26,7 @@
         font-size: 0.8rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .ico-circle {
@@ -42,7 +42,7 @@
         font-size: 1.875rem;
         font-weight: 800;
         letter-spacing: -0.03em;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .card-footer {
@@ -66,7 +66,7 @@
 
       .trend-caption {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       @media (max-width: 1024px) {

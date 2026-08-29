@@ -3,11 +3,11 @@
         flex-direction: column;
         gap: 0.75rem;
         padding-bottom: 1.25rem;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .gp-dynamic-header.has-border {
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
         margin-bottom: 1.5rem;
       }
 
@@ -36,17 +36,17 @@
         width: 2.25rem;
         height: 2.25rem;
         border-radius: 50%;
-        background: var(--gp-surface-muted, #f1f5f9);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
-        color: var(--gp-text-primary, #1e293b);
+        background: var(--gp-surface-hover);
+        border: 1px solid var(--gp-surface-border);
+        color: var(--gp-text-color);
         cursor: pointer;
         transition: background 0.15s ease, border-color 0.15s ease;
       }
 
       .back-btn:hover {
-        background: var(--gp-surface-card, #ffffff);
-        border-color: var(--gp-primary-500, #3b82f6);
-        color: var(--gp-primary-600, #2563eb);
+        background: var(--gp-surface-card);
+        border-color: var(--gp-primary);
+        color: var(--gp-primary);
       }
 
       .header-avatar {
@@ -71,13 +71,13 @@
         font-weight: 700;
         letter-spacing: -0.025em;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         line-height: 1.2;
       }
 
       .header-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 
@@ -91,7 +91,7 @@
         display: flex;
         flex-direction: column;
         gap: 0.15rem;
-        border-left: 2px solid var(--gp-border-color, #e2e8f0);
+        border-left: 2px solid var(--gp-surface-border);
         padding-left: 0.75rem;
       }
 
@@ -99,7 +99,7 @@
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         font-weight: 600;
       }
 
@@ -112,7 +112,7 @@
       .inline-stat-value {
         font-size: 1.125rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .inline-stat-change {

@@ -1,6 +1,6 @@
 .gp-desc-list-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -13,19 +13,19 @@
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .head-subtitle {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
       .desc-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 8px;
         overflow: hidden;
         margin: 0;
@@ -36,22 +36,22 @@
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
-        background: var(--gp-surface-card, #ffffff);
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
-        border-right: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border-bottom: 1px solid var(--gp-surface-border);
+        border-right: 1px solid var(--gp-surface-border);
       }
 
       .cell-label {
         font-size: 0.775rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .cell-val {
         font-size: 0.95rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         margin: 0;
       }
 

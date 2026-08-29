@@ -1,6 +1,6 @@
 .gp-timeline-stream-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -13,7 +13,7 @@
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .stream-feed {
@@ -45,7 +45,7 @@
       .stream-v-line {
         width: 2px;
         flex: 1;
-        background: var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-border);
         margin: 0.35rem 0;
         min-height: 2rem;
       }
@@ -67,17 +67,17 @@
       .event-title {
         font-size: 0.925rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .event-time {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .event-desc {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 
@@ -91,5 +91,5 @@
       .author-name {
         font-size: 0.8rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
       }

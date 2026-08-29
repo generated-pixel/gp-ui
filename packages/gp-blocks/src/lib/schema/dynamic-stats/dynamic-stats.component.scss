@@ -11,12 +11,12 @@
         font-size: 1.25rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .stats-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -27,8 +27,8 @@
       }
 
       .gp-stat-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         padding: 1.25rem 1.5rem;
         display: flex;
@@ -52,7 +52,7 @@
       .stat-label {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         text-transform: uppercase;
         letter-spacing: 0.04em;
       }
@@ -76,14 +76,14 @@
         font-size: 1.875rem;
         font-weight: 700;
         letter-spacing: -0.025em;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         line-height: 1;
       }
 
       .stat-affix {
         font-size: 1.125rem;
         font-weight: 600;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .stat-trend-row {
@@ -113,13 +113,13 @@
       }
 
       .stat-trend-badge.trend-neutral {
-        background: var(--gp-surface-muted, #f1f5f9);
-        color: var(--gp-text-secondary, #64748b);
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color-secondary);
       }
 
       .stat-change-label {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .stat-progress-wrap {

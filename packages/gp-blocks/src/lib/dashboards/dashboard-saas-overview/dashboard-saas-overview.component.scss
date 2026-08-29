@@ -12,8 +12,8 @@
       }
 
       .kpi-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         padding: 1.25rem 1.5rem;
         display: flex;
@@ -32,7 +32,7 @@
         font-size: 0.8rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         letter-spacing: 0.04em;
       }
 
@@ -49,7 +49,7 @@
         font-size: 1.875rem;
         font-weight: 800;
         letter-spacing: -0.03em;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .kpi-trend {
@@ -70,8 +70,8 @@
       }
 
       .panel-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         padding: 1.5rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -90,7 +90,7 @@
         font-size: 1.15rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .simulated-chart-bars {
@@ -112,7 +112,7 @@
       .bar-track {
         width: 38px;
         flex: 1;
-        background: var(--gp-surface-ground, #f1f5f9);
+        background: var(--gp-surface-ground);
         border-radius: 6px;
         display: flex;
         align-items: flex-end;
@@ -129,12 +129,12 @@
       .col-month {
         font-size: 0.775rem;
         font-weight: 600;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .col-amt {
         font-size: 0.7rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .quota-list {
@@ -154,7 +154,7 @@
       .target-pct {
         font-size: 1.25rem;
         font-weight: 800;
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
       }
 
       .custom-data-table-wrap {
@@ -171,16 +171,16 @@
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .saas-table td {
         padding: 0.85rem 1rem;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
         font-size: 0.875rem;
-        color: var(--gp-text-primary, #1e293b);
+        color: var(--gp-text-color);
       }
 
       .customer-cell {
@@ -195,12 +195,12 @@
 
       .cust-domain {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .plan-tag {
         background: rgba(59, 130, 246, 0.08);
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         padding: 0.25rem 0.5rem;
         border-radius: 4px;
         font-weight: 600;

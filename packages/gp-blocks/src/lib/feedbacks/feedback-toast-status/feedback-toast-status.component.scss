@@ -7,8 +7,8 @@
       }
 
       .toast-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 10px;
         padding: 1rem 1.25rem;
         display: flex;
@@ -33,18 +33,18 @@
       .t-title {
         font-size: 0.9rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .t-desc {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .t-close {
         background: transparent;
         border: none;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         cursor: pointer;
         padding: 0.25rem;
       }

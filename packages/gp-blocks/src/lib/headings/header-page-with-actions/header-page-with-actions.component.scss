@@ -1,6 +1,6 @@
 .gp-page-header-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -14,11 +14,11 @@
         align-items: center;
         gap: 0.5rem;
         font-size: 0.8rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
-      .sep { color: var(--gp-text-secondary, #94a3b8); }
-      .current { color: var(--gp-text-primary, #0f172a); font-weight: 600; }
+      .sep { color: var(--gp-text-color-secondary); }
+      .current { color: var(--gp-text-color); font-weight: 600; }
 
       .header-main-bar {
         display: flex;
@@ -45,12 +45,12 @@
         font-weight: 800;
         letter-spacing: -0.025em;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .page-desc {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 

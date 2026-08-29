@@ -1,6 +1,6 @@
 .gp-mega-menu-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 2rem;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
@@ -24,7 +24,7 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 
@@ -39,18 +39,18 @@
       }
 
       .mega-link:hover {
-        background: var(--gp-surface-ground, #f8fafc);
+        background: var(--gp-surface-ground);
       }
 
       .m-link-title {
         font-size: 0.95rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .m-link-desc {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .mega-promo-box {

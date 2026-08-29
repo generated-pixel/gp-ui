@@ -17,7 +17,7 @@
 
       .danger-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -44,12 +44,12 @@
       .d-action-title {
         font-size: 0.95rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .d-action-desc {
         font-size: 0.825rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       @media (max-width: 640px) {

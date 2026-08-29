@@ -26,7 +26,7 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
           progress: 43,
           icon: 'folder',
           iconBackground: 'rgba(59, 130, 246, 0.1)',
-          iconColor: 'var(--gp-primary-500, #3b82f6)'
+          iconColor: 'var(--gp-primary)'
         },
         {
           id: 'api-calls',

@@ -1,6 +1,6 @@
 .gp-user-directory-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -21,7 +21,7 @@
         font-size: 1.25rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .search-input-mini {
@@ -34,13 +34,13 @@
       .s-ico {
         position: absolute;
         left: 0.65rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .s-inp {
         width: 100%;
         padding: 0.4rem 0.65rem 0.4rem 2rem;
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
         font-size: 0.8rem;
         outline: none;
@@ -53,8 +53,8 @@
       }
 
       .user-card-item {
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 10px;
         padding: 1.25rem;
         display: flex;
@@ -77,7 +77,7 @@
         height: 10px;
         border-radius: 50%;
         background: #cbd5e1;
-        border: 2px solid var(--gp-surface-card, #ffffff);
+        border: 2px solid var(--gp-surface-card);
       }
 
       .status-dot.online { background: #22c55e; }
@@ -85,12 +85,12 @@
       .u-name {
         font-size: 0.95rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .u-role {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin-bottom: 0.5rem;
       }
 

@@ -1,6 +1,6 @@
 .gp-profile-banner-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
         overflow: hidden;
         width: 100%;
@@ -20,9 +20,9 @@
         position: absolute;
         top: -45px;
         left: 2rem;
-        border: 4px solid var(--gp-surface-card, #ffffff);
+        border: 4px solid var(--gp-surface-card);
         border-radius: 50%;
-        background: var(--gp-surface-card, #ffffff);
+        background: var(--gp-surface-card);
       }
 
       .profile-info-bar {
@@ -50,12 +50,12 @@
         font-size: 1.5rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .profile-title {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 

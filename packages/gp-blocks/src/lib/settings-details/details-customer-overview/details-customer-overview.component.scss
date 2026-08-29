@@ -6,8 +6,8 @@
       }
 
       .cust-overview-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 2rem;
         display: flex;
@@ -33,12 +33,12 @@
         font-size: 1.5rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .cust-company {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0.5rem 0;
       }
 
@@ -50,8 +50,8 @@
       .c-tag {
         font-size: 0.75rem;
         font-weight: 600;
-        background: var(--gp-surface-ground, #f1f5f9);
-        color: var(--gp-text-primary, #334155);
+        background: var(--gp-surface-ground);
+        color: var(--gp-text-color);
         padding: 0.2rem 0.5rem;
         border-radius: 4px;
       }
@@ -68,8 +68,8 @@
       }
 
       .detail-panel {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.5rem;
         display: flex;
@@ -81,7 +81,7 @@
         font-size: 1.1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .meta-list {
@@ -95,22 +95,22 @@
         display: flex;
         justify-content: space-between;
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
         font-size: 0.875rem;
       }
 
       .meta-row dt {
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .meta-row dd {
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         margin: 0;
       }
 
       .meta-row dd a {
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         text-decoration: none;
       }
 
@@ -146,12 +146,12 @@
       .t-title {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .t-date {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       @media (max-width: 868px) {

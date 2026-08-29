@@ -2,8 +2,8 @@
         display: flex;
         width: 100%;
         min-height: 500px;
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
@@ -21,7 +21,7 @@
         font-size: 1.15rem;
         font-weight: 800;
         letter-spacing: -0.03em;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .minimal-nav {
@@ -33,7 +33,7 @@
       .minimal-link {
         padding: 0.5rem 0.75rem;
         border-radius: 6px;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         text-decoration: none;
         font-size: 0.875rem;
         font-weight: 500;
@@ -41,20 +41,20 @@
       }
 
       .minimal-link:hover {
-        color: var(--gp-text-primary, #0f172a);
-        background: var(--gp-surface-muted, #f8fafc);
+        color: var(--gp-text-color);
+        background: var(--gp-surface-hover);
       }
 
       .minimal-link.active {
-        color: var(--gp-primary-600, #2563eb);
-        background: var(--gp-surface-muted, #f1f5f9);
+        color: var(--gp-primary);
+        background: var(--gp-surface-hover);
         font-weight: 600;
       }
 
       .minimal-main {
         flex: 1;
         padding: 2rem 2.5rem;
-        border-left: 1px solid var(--gp-border-color, #f1f5f9);
+        border-left: 1px solid var(--gp-surface-border);
         display: flex;
         flex-direction: column;
       }
@@ -67,7 +67,7 @@
         font-size: 1.5rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .minimal-content {

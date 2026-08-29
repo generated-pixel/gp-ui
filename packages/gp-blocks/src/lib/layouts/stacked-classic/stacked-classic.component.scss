@@ -3,8 +3,8 @@
         flex-direction: column;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
@@ -37,7 +37,7 @@
         width: 32px;
         height: 32px;
         border-radius: 8px;
-        background: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -97,7 +97,7 @@
         font-weight: 800;
         letter-spacing: -0.025em;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .page-body {

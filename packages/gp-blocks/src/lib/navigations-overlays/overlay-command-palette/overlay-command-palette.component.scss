@@ -8,8 +8,8 @@
       }
 
       .palette-modal {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         width: 100%;
         max-width: 580px;
@@ -24,28 +24,28 @@
         align-items: center;
         gap: 0.75rem;
         padding: 1rem 1.25rem;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
-      .p-search-ico { color: var(--gp-text-secondary, #94a3b8); }
+      .p-search-ico { color: var(--gp-text-color-secondary); }
 
       .p-input {
         flex: 1;
         border: none;
         outline: none;
         font-size: 1rem;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         background: transparent;
       }
 
       .p-esc-hint {
         font-size: 0.7rem;
         font-weight: 700;
-        background: var(--gp-surface-ground, #f1f5f9);
-        border: 1px solid var(--gp-border-color, #cbd5e1);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 4px;
         padding: 0.15rem 0.4rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .palette-results {
@@ -59,7 +59,7 @@
         font-size: 0.7rem;
         text-transform: uppercase;
         font-weight: 700;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         padding: 0.4rem 0.75rem;
       }
 
@@ -73,7 +73,7 @@
       }
 
       .palette-item:hover, .palette-item.active {
-        background: var(--gp-surface-ground, #f1f5f9);
+        background: var(--gp-surface-ground);
       }
 
       .palette-item.active {
@@ -81,7 +81,7 @@
       }
 
       .item-ico {
-        color: var(--gp-primary-500, #3b82f6);
+        color: var(--gp-primary);
       }
 
       .item-text {
@@ -93,15 +93,15 @@
       .main-label {
         font-size: 0.875rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .sub-label {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .item-shortcut {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }

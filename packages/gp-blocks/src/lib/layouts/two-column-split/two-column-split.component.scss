@@ -2,8 +2,8 @@
         display: grid;
         width: 100%;
         min-height: 480px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
@@ -19,11 +19,11 @@
       .split-pane {
         display: flex;
         flex-direction: column;
-        background: var(--gp-surface-card, #ffffff);
+        background: var(--gp-surface-card);
       }
 
       .pane-primary {
-        border-right: 1px solid var(--gp-border-color, #e2e8f0);
+        border-right: 1px solid var(--gp-surface-border);
       }
 
       .pane-header {
@@ -32,8 +32,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
-        background: var(--gp-surface-card, #ffffff);
+        border-bottom: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-card);
       }
 
       .pane-title-group {
@@ -46,7 +46,7 @@
         font-size: 1.1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .pane-body {
@@ -57,21 +57,21 @@
 
       .lead-text {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0 0 1.25rem 0;
       }
 
       .sample-content-box,
       .sample-preview-box {
-        border: 2px dashed var(--gp-border-color, #cbd5e1);
+        border: 2px dashed var(--gp-surface-border);
         border-radius: 8px;
         padding: 2rem;
         text-align: center;
-        background: var(--gp-surface-ground, #f8fafc);
+        background: var(--gp-surface-ground);
       }
 
       .sample-preview-box .preview-icon {
-        color: var(--gp-primary-500, #3b82f6);
+        color: var(--gp-primary);
         margin-bottom: 0.5rem;
       }
 
@@ -82,6 +82,6 @@
 
         .pane-primary {
           border-right: none;
-          border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+          border-bottom: 1px solid var(--gp-surface-border);
         }
       }

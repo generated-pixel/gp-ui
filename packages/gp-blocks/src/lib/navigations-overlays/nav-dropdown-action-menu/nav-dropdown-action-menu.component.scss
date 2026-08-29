@@ -1,5 +1,5 @@
 .gp-dropdown-menu-wrapper {
-        background: var(--gp-surface-ground, #f1f5f9);
+        background: var(--gp-surface-ground);
         padding: 2rem;
         border-radius: 12px;
         display: flex;
@@ -8,8 +8,8 @@
       }
 
       .action-dropdown-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 10px;
         width: 240px;
         box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.1);
@@ -20,19 +20,19 @@
 
       .dropdown-header {
         padding: 0.85rem 1rem;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
         display: flex;
         flex-direction: column;
       }
 
       .user-name {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .user-email {
         font-size: 0.85rem;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -51,13 +51,13 @@
         padding: 0.5rem 0.75rem;
         border-radius: 6px;
         font-size: 0.85rem;
-        color: var(--gp-text-primary, #1e293b);
+        color: var(--gp-text-color);
         text-decoration: none;
         transition: background 0.15s ease;
       }
 
       .drop-item:hover {
-        background: var(--gp-surface-muted, #f8fafc);
+        background: var(--gp-surface-hover);
       }
 
       .drop-item.danger {
@@ -70,5 +70,5 @@
 
       .dropdown-divider {
         height: 1px;
-        background: var(--gp-border-color, #f1f5f9);
+        background: var(--gp-surface-border);
       }

@@ -1,6 +1,6 @@
 .gp-form-wizard-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
         padding: 2rem;
         display: flex;
@@ -27,19 +27,19 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        background: var(--gp-surface-ground, #f1f5f9);
-        border: 1px solid var(--gp-border-color, #cbd5e1);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.8rem;
         font-weight: 700;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .step-badge-item.active .step-num {
-        background: var(--gp-primary-500, #3b82f6);
-        border-color: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
+        border-color: var(--gp-primary);
         color: #fff;
       }
 
@@ -52,13 +52,13 @@
       .step-label {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .step-line {
         flex: 1;
         height: 2px;
-        background: var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-border);
         margin: 0 1rem;
       }
 
@@ -74,12 +74,12 @@
         font-size: 1.35rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .step-desc {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0 0 0.5rem 0;
       }
 
@@ -92,22 +92,22 @@
       .lbl {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
         margin-bottom: 0.35rem;
         display: block;
       }
 
       .summary-check-box {
         padding: 1rem;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 8px;
       }
 
       .wizard-footer-actions {
         display: flex;
         justify-content: space-between;
-        border-top: 1px solid var(--gp-border-color, #e2e8f0);
+        border-top: 1px solid var(--gp-surface-border);
         padding-top: 1.5rem;
       }
 

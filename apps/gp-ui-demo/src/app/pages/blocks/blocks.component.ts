@@ -501,8 +501,8 @@ export interface BlockItem {
       }
 
       .blocks-hero {
-        background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
+        background: linear-gradient(135deg, var(--gp-surface-section) 0%, var(--gp-surface-card) 100%);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 16px;
         padding: 3rem 2rem;
         position: relative;
@@ -527,13 +527,13 @@ export interface BlockItem {
         font-weight: 900;
         letter-spacing: -0.03em;
         margin: 0;
-        color: #ffffff;
+        color: var(--gp-text-color);
         line-height: 1.2;
       }
 
       .hero-subtitle {
         font-size: 1.05rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         margin: 0;
         line-height: 1.6;
       }
@@ -546,14 +546,14 @@ export interface BlockItem {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-        color: #fff;
+        background: var(--gp-primary);
+        color: var(--gp-primary-text);
         font-weight: 700;
         font-size: 0.9rem;
         padding: 0.65rem 1.25rem;
         border-radius: 8px;
         text-decoration: none;
-        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
         transition: transform 0.15s ease;
       }
 
@@ -568,10 +568,10 @@ export interface BlockItem {
         position: sticky;
         top: 4rem;
         z-index: 20;
-        background: var(--gp-surface-card, #0f172a);
+        background: var(--gp-surface-card);
         padding: 0.75rem 1rem;
         border-radius: 12px;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
+        border: 1px solid var(--gp-surface-border);
         backdrop-filter: blur(16px);
       }
 
@@ -592,15 +592,15 @@ export interface BlockItem {
       :host ::ng-deep .categories-carousel .gp-carousel-nav-btn {
         width: 2rem;
         height: 2rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
-        color: var(--gp-text-secondary, #cbd5e1);
+        background: var(--gp-surface-section);
+        border: 1px solid var(--gp-surface-border);
+        color: var(--gp-text-color-secondary);
         font-size: 0.75rem;
       }
 
       :host ::ng-deep .categories-carousel .gp-carousel-nav-btn:hover:not(:disabled) {
-        background: var(--gp-primary-500, #3b82f6);
-        color: #fff;
+        background: var(--gp-primary);
+        color: var(--gp-primary-text);
       }
 
       :host ::ng-deep .categories-carousel .gp-carousel-item {
@@ -621,9 +621,9 @@ export interface BlockItem {
         gap: 0.4rem;
         padding: 0.35rem 0.75rem;
         border-radius: 9999px;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
-        background: transparent;
-        color: var(--gp-text-secondary, #cbd5e1);
+        border: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-section);
+        color: var(--gp-text-color-secondary);
         font-size: 0.8rem;
         font-weight: 600;
         cursor: pointer;
@@ -632,18 +632,18 @@ export interface BlockItem {
       }
 
       .cat-chip:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: #fff;
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
       }
 
       .cat-chip.active {
-        background: var(--gp-primary-500, #3b82f6);
-        border-color: var(--gp-primary-500, #3b82f6);
-        color: #fff;
+        background: var(--gp-primary);
+        border-color: var(--gp-primary);
+        color: var(--gp-primary-text);
       }
 
       .cat-count {
-        background: rgba(0, 0, 0, 0.25);
+        background: rgba(0, 0, 0, 0.15);
         padding: 0.1rem 0.4rem;
         border-radius: 9999px;
         font-size: 0.7rem;
@@ -659,16 +659,16 @@ export interface BlockItem {
       .s-ico {
         position: absolute;
         left: 0.75rem;
-        color: #94a3b8;
+        color: var(--gp-text-color-muted);
       }
 
       .s-input {
         width: 100%;
         padding: 0.45rem 0.75rem 0.45rem 2.2rem;
         border-radius: 8px;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
-        background: rgba(0, 0, 0, 0.3);
-        color: #fff;
+        border: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-section);
+        color: var(--gp-text-color);
         font-size: 0.85rem;
         outline: none;
       }
@@ -680,8 +680,8 @@ export interface BlockItem {
       }
 
       .block-preview-card {
-        background: var(--gp-surface-card, #0f172a);
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
         overflow: hidden;
         display: flex;
@@ -693,7 +693,7 @@ export interface BlockItem {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.1));
+        border-bottom: 1px solid var(--gp-surface-border);
         flex-wrap: wrap;
         gap: 1rem;
       }
@@ -708,7 +708,7 @@ export interface BlockItem {
         font-size: 0.7rem;
         font-weight: 800;
         text-transform: uppercase;
-        color: var(--gp-primary-500, #3b82f6);
+        color: var(--gp-primary);
         letter-spacing: 0.05em;
       }
 
@@ -716,12 +716,12 @@ export interface BlockItem {
         font-size: 1.25rem;
         font-weight: 800;
         margin: 0;
-        color: #ffffff;
+        color: var(--gp-text-color);
       }
 
       .block-desc {
         font-size: 0.825rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         margin: 0;
       }
 
@@ -733,7 +733,7 @@ export interface BlockItem {
 
       .viewport-toggle {
         display: flex;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
         overflow: hidden;
       }
@@ -741,20 +741,20 @@ export interface BlockItem {
       .v-btn {
         background: transparent;
         border: none;
-        color: #94a3b8;
+        color: var(--gp-text-color-secondary);
         padding: 0.4rem 0.6rem;
         cursor: pointer;
       }
 
       .v-btn.active {
-        background: var(--gp-surface-muted, rgba(255, 255, 255, 0.1));
-        color: #fff;
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
       }
 
       .mode-toggle {
         display: flex;
-        background: rgba(0, 0, 0, 0.3);
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
+        background: var(--gp-surface-section);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
         padding: 2px;
       }
@@ -762,7 +762,7 @@ export interface BlockItem {
       .mode-btn {
         background: transparent;
         border: none;
-        color: #94a3b8;
+        color: var(--gp-text-color-secondary);
         font-size: 0.75rem;
         font-weight: 600;
         padding: 0.25rem 0.65rem;
@@ -771,8 +771,8 @@ export interface BlockItem {
       }
 
       .mode-btn.active {
-        background: var(--gp-primary-500, #3b82f6);
-        color: #fff;
+        background: var(--gp-primary);
+        color: var(--gp-primary-text);
       }
 
       .btn-copy {
@@ -781,19 +781,19 @@ export interface BlockItem {
         gap: 0.35rem;
         padding: 0.35rem 0.75rem;
         border-radius: 6px;
-        border: 1px solid var(--gp-border-color, rgba(255, 255, 255, 0.15));
-        background: transparent;
-        color: #cbd5e1;
+        border: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-section);
+        color: var(--gp-text-color);
         font-size: 0.75rem;
         font-weight: 600;
         cursor: pointer;
       }
 
-      .btn-copy:hover { background: rgba(255, 255, 255, 0.08); }
+      .btn-copy:hover { background: var(--gp-surface-hover); }
 
       .block-preview-viewport {
         padding: 2rem;
-        background: var(--gp-surface-ground, #0b0f19);
+        background: var(--gp-surface-ground);
         display: flex;
         justify-content: center;
         transition: max-width 0.2s ease;
@@ -803,29 +803,30 @@ export interface BlockItem {
 
       .block-preview-viewport.vp-tablet {
         max-width: 768px;
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 1px var(--gp-surface-border);
         border-radius: 8px;
         margin: 1.5rem auto;
       }
 
       .block-preview-viewport.vp-mobile {
         max-width: 375px;
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 1px var(--gp-surface-border);
         border-radius: 8px;
         margin: 1.5rem auto;
       }
 
       .block-code-view {
-        background: #020617;
+        background: var(--gp-surface-ground);
         padding: 1.5rem;
         overflow-x: auto;
+        border-top: 1px solid var(--gp-surface-border);
       }
 
       .block-code-view pre {
         margin: 0;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         font-size: 0.85rem;
-        color: #e2e8f0;
+        color: var(--gp-text-color);
       }
 
       @media (max-width: 900px) {

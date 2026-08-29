@@ -17,12 +17,12 @@
         font-size: 1.5rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -33,8 +33,8 @@
       }
 
       .entity-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.5rem;
         display: flex;
@@ -70,12 +70,12 @@
         font-size: 1.15rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .entity-desc {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0;
         flex: 1;
         line-height: 1.4;
@@ -85,20 +85,20 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid var(--gp-border-color, #f1f5f9);
+        border-top: 1px solid var(--gp-surface-border);
         padding-top: 0.75rem;
         margin-top: 0.5rem;
       }
 
       .entity-meta {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .btn-link {
         background: transparent;
         border: none;
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         font-weight: 600;
         font-size: 0.85rem;
         cursor: pointer;

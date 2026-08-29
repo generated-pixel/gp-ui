@@ -1,6 +1,6 @@
 .gp-empty-state-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 2px dashed var(--gp-border-color, #cbd5e1);
+        background: var(--gp-surface-card);
+        border: 2px dashed var(--gp-surface-border);
         border-radius: 14px;
         padding: 3.5rem 2rem;
         display: flex;
@@ -16,7 +16,7 @@
         height: 68px;
         border-radius: 50%;
         background: rgba(59, 130, 246, 0.1);
-        color: var(--gp-primary-500, #3b82f6);
+        color: var(--gp-primary);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -27,12 +27,12 @@
         font-size: 1.35rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .empty-desc {
         font-size: 0.9rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         max-width: 420px;
         margin: 0 0 1rem 0;
         line-height: 1.5;

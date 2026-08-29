@@ -1,8 +1,8 @@
 .gp-auth-split-card {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 16px;
         overflow: hidden;
         width: 100%;
@@ -66,12 +66,12 @@
         font-weight: 800;
         letter-spacing: -0.025em;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .auth-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -90,7 +90,7 @@
       .lbl {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
       }
 
       .label-row {
@@ -101,7 +101,7 @@
 
       .forgot-link {
         font-size: 0.775rem;
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         text-decoration: none;
         font-weight: 600;
       }

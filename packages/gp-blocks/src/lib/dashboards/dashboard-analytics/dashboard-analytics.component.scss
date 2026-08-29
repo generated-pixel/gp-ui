@@ -12,8 +12,8 @@
       }
 
       .traffic-stat-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.25rem 1.5rem;
         display: flex;
@@ -25,13 +25,13 @@
         font-size: 0.8rem;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .stat-num {
         font-size: 1.75rem;
         font-weight: 800;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .stat-diff {
@@ -49,8 +49,8 @@
       }
 
       .analytics-panel {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.5rem;
         display: flex;
@@ -62,7 +62,7 @@
         font-size: 1.1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .channel-bars {
@@ -90,18 +90,18 @@
         align-items: center;
         justify-content: space-between;
         padding: 0.5rem 0;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .r-country {
         font-size: 0.875rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .r-sessions {
         font-size: 0.8rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       @media (max-width: 1024px) {

@@ -2,16 +2,16 @@
         display: flex;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
 
       .stepper-sidebar {
         width: 260px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border-right: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border-right: 1px solid var(--gp-surface-border);
         padding: 2rem 1.5rem;
         display: flex;
         flex-direction: column;
@@ -22,7 +22,7 @@
       .stepper-brand {
         font-size: 1.15rem;
         font-weight: 800;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .vertical-steps {
@@ -40,14 +40,14 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        border: 2px solid var(--gp-border-color, #cbd5e1);
-        background: var(--gp-surface-card, #ffffff);
+        border: 2px solid var(--gp-surface-border);
+        background: var(--gp-surface-card);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.8rem;
         font-weight: 700;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         flex-shrink: 0;
       }
 
@@ -58,8 +58,8 @@
       }
 
       .step-node.active .step-bullet {
-        background: var(--gp-primary-500, #3b82f6);
-        border-color: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
+        border-color: var(--gp-primary);
         color: #fff;
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
       }
@@ -73,19 +73,19 @@
         font-size: 0.7rem;
         text-transform: uppercase;
         font-weight: 700;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .step-label {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #1e293b);
+        color: var(--gp-text-color);
       }
 
       .step-connector {
         width: 2px;
         height: 24px;
-        background: var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-border);
         margin-left: 13px;
         margin-top: 4px;
         margin-bottom: 4px;
@@ -106,12 +106,12 @@
         font-size: 1.5rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .step-main-subtitle {
         font-size: 0.875rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.35rem 0 0 0;
       }
 

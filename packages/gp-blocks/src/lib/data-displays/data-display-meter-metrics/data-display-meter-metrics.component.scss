@@ -1,6 +1,6 @@
 .gp-meter-metrics-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -13,12 +13,12 @@
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .subtitle {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.25rem 0 0 0;
       }
 
@@ -36,5 +36,5 @@
         margin-bottom: 0.4rem;
       }
 
-      .m-label { color: var(--gp-text-primary, #1e293b); }
-      .m-value { color: var(--gp-text-secondary, #64748b); }
+      .m-label { color: var(--gp-text-color); }
+      .m-value { color: var(--gp-text-color-secondary); }

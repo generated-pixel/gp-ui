@@ -1,6 +1,6 @@
 .gp-success-confirm-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 16px;
         padding: 4rem 2rem;
         display: flex;
@@ -29,20 +29,20 @@
         font-size: 1.875rem;
         font-weight: 800;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .success-desc {
         font-size: 0.95rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         max-width: 460px;
         margin: 0;
         line-height: 1.5;
       }
 
       .receipt-box {
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 10px;
         padding: 1.25rem 1.75rem;
         display: flex;
@@ -58,11 +58,11 @@
         display: flex;
         justify-content: space-between;
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }
 
       .receipt-row strong {
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .success-actions {

@@ -3,8 +3,8 @@
         flex-direction: column;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
@@ -76,7 +76,7 @@
       }
 
       .btn-hero-primary {
-        background: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
         color: #fff;
         border: none;
         border-radius: 8px;
@@ -88,7 +88,7 @@
       }
 
       .btn-hero-primary:hover {
-        background: var(--gp-primary-600, #2563eb);
+        background: var(--gp-primary);
       }
 
       .btn-hero-secondary {

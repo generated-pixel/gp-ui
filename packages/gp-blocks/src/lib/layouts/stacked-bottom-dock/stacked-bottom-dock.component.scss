@@ -4,16 +4,16 @@
         flex-direction: column;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 16px);
         overflow: hidden;
       }
 
       .minimal-topbar {
         height: 54px;
-        background: var(--gp-surface-card, #ffffff);
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border-bottom: 1px solid var(--gp-surface-border);
         padding: 0 1.75rem;
         display: flex;
         align-items: center;
@@ -23,14 +23,14 @@
       .brand-title {
         font-size: 1.1rem;
         font-weight: 700;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .view-tag {
         font-size: 0.775rem;
         font-weight: 600;
-        color: var(--gp-text-secondary, #64748b);
-        background: var(--gp-surface-muted, #f1f5f9);
+        color: var(--gp-text-color-secondary);
+        background: var(--gp-surface-hover);
         padding: 0.25rem 0.6rem;
         border-radius: 9999px;
       }
@@ -86,6 +86,6 @@
       }
 
       .dock-btn.active {
-        background: var(--gp-primary-500, #3b82f6);
+        background: var(--gp-primary);
         color: #fff;
       }

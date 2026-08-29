@@ -2,16 +2,16 @@
         display: flex;
         width: 100%;
         min-height: 520px;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         overflow: hidden;
       }
 
       .tree-sidebar {
         width: 260px;
-        background: var(--gp-surface-card, #ffffff);
-        border-right: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border-right: 1px solid var(--gp-surface-border);
         padding: 1.25rem 0.85rem;
         display: flex;
         flex-direction: column;
@@ -28,21 +28,21 @@
       .search-ico {
         position: absolute;
         left: 0.65rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .search-inp {
         width: 100%;
         padding: 0.45rem 0.65rem 0.45rem 2rem;
-        background: var(--gp-surface-ground, #f8fafc);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 6px;
         font-size: 0.825rem;
         outline: none;
       }
 
       .search-inp:focus {
-        border-color: var(--gp-primary-500, #3b82f6);
+        border-color: var(--gp-primary);
         background: #fff;
       }
 
@@ -57,7 +57,7 @@
         font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         font-weight: 700;
         padding: 0 0.4rem;
       }
@@ -70,16 +70,16 @@
         border-radius: 6px;
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #1e293b);
+        color: var(--gp-text-color);
         cursor: pointer;
       }
 
       .node-row:hover {
-        background: var(--gp-surface-muted, #f1f5f9);
+        background: var(--gp-surface-hover);
       }
 
       .folder-ico {
-        color: var(--gp-primary-500, #3b82f6);
+        color: var(--gp-primary);
       }
 
       .node-children {
@@ -93,18 +93,18 @@
         padding: 0.35rem 0.5rem;
         border-radius: 4px;
         font-size: 0.825rem;
-        color: var(--gp-text-secondary, #475569);
+        color: var(--gp-text-color-secondary);
         cursor: pointer;
       }
 
       .leaf-node:hover {
-        background: var(--gp-surface-muted, #f1f5f9);
-        color: var(--gp-text-primary, #0f172a);
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
       }
 
       .leaf-node.active {
         background: rgba(59, 130, 246, 0.1);
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         font-weight: 600;
       }
 
@@ -117,8 +117,8 @@
 
       .top-nav-bar {
         height: 64px;
-        background: var(--gp-surface-card, #ffffff);
-        border-bottom: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border-bottom: 1px solid var(--gp-surface-border);
         padding: 0 1.75rem;
         display: flex;
         align-items: center;
@@ -128,7 +128,7 @@
         font-size: 1.25rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .page-content-area {

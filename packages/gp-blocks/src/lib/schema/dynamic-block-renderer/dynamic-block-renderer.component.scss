@@ -7,8 +7,8 @@
 
       .gp-descriptions-card,
       .gp-timeline-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-lg, 12px);
         padding: 1.5rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -24,26 +24,26 @@
         font-size: 1.15rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .desc-subtitle {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.2rem 0 0 0;
       }
 
       .gp-descriptions-grid {
         display: grid;
         grid-gap: 1px;
-        background: var(--gp-border-color, #e2e8f0);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-border);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 8px;
         overflow: hidden;
       }
 
       .desc-item-cell {
-        background: var(--gp-surface-card, #ffffff);
+        background: var(--gp-surface-card);
         padding: 0.85rem 1.15rem;
         display: flex;
         flex-direction: column;
@@ -53,7 +53,7 @@
       .desc-item-label {
         font-size: 0.775rem;
         font-weight: 600;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         text-transform: uppercase;
         letter-spacing: 0.03em;
       }
@@ -61,12 +61,12 @@
       .desc-item-value {
         font-size: 0.925rem;
         font-weight: 500;
-        color: var(--gp-text-primary, #1e293b);
+        color: var(--gp-text-color);
         margin: 0;
       }
 
       .desc-link {
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         text-decoration: none;
         display: inline-flex;
         align-items: center;
@@ -106,7 +106,7 @@
       .stream-line {
         width: 2px;
         flex: 1;
-        background: var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-border);
         margin: 0.25rem 0;
         min-height: 2rem;
       }
@@ -126,17 +126,17 @@
       .stream-event-title {
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .stream-time {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .stream-desc {
         font-size: 0.85rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
         margin: 0.35rem 0 0 0;
       }
 
@@ -150,5 +150,5 @@
       .stream-username {
         font-size: 0.8rem;
         font-weight: 500;
-        color: var(--gp-text-primary, #334155);
+        color: var(--gp-text-color);
       }

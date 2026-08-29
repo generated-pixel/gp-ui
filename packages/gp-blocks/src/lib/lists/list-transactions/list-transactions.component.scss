@@ -1,6 +1,6 @@
 .gp-transactions-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -19,7 +19,7 @@
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .tx-list {
@@ -32,7 +32,7 @@
         align-items: center;
         gap: 1rem;
         padding: 1rem 0;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .tx-row:last-child { border-bottom: none; }
@@ -58,12 +58,12 @@
       .tx-title {
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .tx-meta {
         font-size: 0.775rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .tx-amount-col {
@@ -82,5 +82,5 @@
 
       .tx-status {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #64748b);
+        color: var(--gp-text-color-secondary);
       }

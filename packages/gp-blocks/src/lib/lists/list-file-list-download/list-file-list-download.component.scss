@@ -1,6 +1,6 @@
 .gp-file-list-card {
-        background: var(--gp-surface-card, #ffffff);
-        border: 1px solid var(--gp-border-color, #e2e8f0);
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: 12px;
         padding: 1.75rem;
         display: flex;
@@ -19,7 +19,7 @@
         font-size: 1.2rem;
         font-weight: 700;
         margin: 0;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .files-list {
@@ -32,7 +32,7 @@
         align-items: center;
         gap: 1rem;
         padding: 0.85rem 0;
-        border-bottom: 1px solid var(--gp-border-color, #f1f5f9);
+        border-bottom: 1px solid var(--gp-surface-border);
       }
 
       .file-row:last-child { border-bottom: none; }
@@ -57,23 +57,23 @@
       .f-name {
         font-size: 0.9rem;
         font-weight: 600;
-        color: var(--gp-text-primary, #0f172a);
+        color: var(--gp-text-color);
       }
 
       .f-meta {
         font-size: 0.75rem;
-        color: var(--gp-text-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
 
       .btn-download {
         background: transparent;
         border: none;
-        color: var(--gp-primary-600, #2563eb);
+        color: var(--gp-primary);
         cursor: pointer;
         padding: 0.4rem;
         border-radius: 6px;
       }
 
       .btn-download:hover {
-        background: var(--gp-surface-muted, #f1f5f9);
+        background: var(--gp-surface-hover);
       }
