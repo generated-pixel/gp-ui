@@ -7,7 +7,7 @@ function processDir(dir) {
     const full = path.join(dir, item);
     if (fs.statSync(full).isDirectory()) {
       processDir(full);
-    } else if (full.endsWith('.ts')) {
+    } else if (full.endsWith('.html')) {
       let c = fs.readFileSync(full, 'utf8');
       
       // Avatar size fixes
