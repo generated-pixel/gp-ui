@@ -20,7 +20,7 @@ import { GpGridItem } from '../../models/grid-item.model';
 import { GpGridCompactType } from '../../models/grid-config.model';
 import { GpGridChangeEvent } from '../../models/grid-events.model';
 import { GpGridEngine } from '../../engine/grid-engine';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpTranslationService } from '@generatedpixel/gp-ui';
 import { GpGridWidgetComponent } from '../gp-grid-widget/grid-widget.component';
 
 export interface DragState {
@@ -66,6 +66,7 @@ export interface ResizeState {
 export class GpGridComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private ngZone = inject(NgZone);
+  private translationService = inject(GpTranslationService, { optional: true });
 
   // --- SIGNALS (Inputs & Model) ---
   /**
@@ -114,6 +115,31 @@ export class GpGridComponent implements OnInit, OnDestroy {
   public showGridLines = input<boolean>(false);
 
   /**
+   * Localizable title text when grid is empty.
+   */
+  public emptyTitle = input<string>('');
+
+  /**
+   * Localizable description text when grid is empty.
+   */
+  public emptyMessage = input<string>('');
+
+  /**
+   * Localizable tooltip for the widget corner resize handle.
+   */
+  public resizeHandleTitle = input<string>('');
+
+  /**
+   * Localizable accessibility aria-label for the widget corner resize handle.
+   */
+  public resizeHandleAriaLabel = input<string>('');
+
+  /**
+   * Localizable aria-label for the grid container landmark region.
+   */
+  public ariaLabel = input<string>('');
+
+  /**
    * Custom empty state template.
    */
   @ContentChild('emptyTemplate') public emptyTemplate?: TemplateRef<any>;
@@ -122,6 +148,27 @@ export class GpGridComponent implements OnInit, OnDestroy {
    * Custom widget content template.
    */
   @ContentChild('widgetTemplate') public widgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
+
+  // --- LOCALIZATION & ACCESSIBILITY COMPUTED PROPERTIES ---
+  public effectiveEmptyTitle = computed(() => {
+    return this.emptyTitle() || this.translationService?.translation().grid?.emptyTitle || 'Grid Canvas is Empty';
+  });
+
+  public effectiveEmptyMessage = computed(() => {
+    return this.emptyMessage() || this.translationService?.translation().grid?.emptyMessage || 'No widgets placed on this grid. Add widgets dynamically using the grid controls or API.';
+  });
+
+  public effectiveResizeHandleTitle = computed(() => {
+    return this.resizeHandleTitle() || this.translationService?.translation().grid?.resizeHandle || 'Drag to resize';
+  });
+
+  public effectiveResizeHandleAriaLabel = computed(() => {
+    return this.resizeHandleAriaLabel() || this.effectiveResizeHandleTitle();
+  });
+
+  public effectiveAriaLabel = computed(() => {
+    return this.ariaLabel() || this.translationService?.translation().grid?.ariaLabel || 'Grid layout';
+  });
 
   // --- OUTPUT EVENTS ---
   public itemMoved = output<GpGridChangeEvent>();

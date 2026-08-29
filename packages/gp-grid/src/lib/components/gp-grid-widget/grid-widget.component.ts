@@ -4,10 +4,11 @@ import {
   ViewEncapsulation,
   input,
   output,
-  computed
+  computed,
+  inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpTranslationService } from '@generatedpixel/gp-ui';
 import { GpGridItem } from '../../models/grid-item.model';
 
 @Component({
@@ -27,6 +28,8 @@ import { GpGridItem } from '../../models/grid-item.model';
   }
 })
 export class GpGridWidgetComponent {
+  private translationService = inject(GpTranslationService, { optional: true });
+
   /**
    * Complete item configuration.
    */
@@ -103,6 +106,56 @@ export class GpGridWidgetComponent {
    */
   public isResizing = input<boolean>(false);
 
+  /**
+   * Localizable tooltip for the drag handle.
+   */
+  public dragHandleTitle = input<string>('');
+
+  /**
+   * Localizable accessibility aria-label for the drag handle.
+   */
+  public dragHandleAriaLabel = input<string>('');
+
+  /**
+   * Localizable tooltip for the locked badge.
+   */
+  public lockedBadgeTitle = input<string>('');
+
+  /**
+   * Localizable accessibility aria-label for the locked badge.
+   */
+  public lockedBadgeAriaLabel = input<string>('');
+
+  /**
+   * Localizable tooltip for options menu button.
+   */
+  public optionsTitle = input<string>('');
+
+  /**
+   * Localizable accessibility aria-label for options menu button.
+   */
+  public optionsAriaLabel = input<string>('');
+
+  /**
+   * Localizable tooltip for close button.
+   */
+  public closeTitle = input<string>('');
+
+  /**
+   * Localizable accessibility aria-label for close button.
+   */
+  public closeAriaLabel = input<string>('');
+
+  /**
+   * Localizable tooltip for resize handle.
+   */
+  public resizeHandleTitle = input<string>('');
+
+  /**
+   * Localizable accessibility aria-label for resize handle.
+   */
+  public resizeHandleAriaLabel = input<string>('');
+
   // --- OUTPUT EVENTS ---
   public close = output<GpGridItem | undefined>();
   public optionsClick = output<{ event: MouseEvent; item?: GpGridItem }>();
@@ -115,6 +168,46 @@ export class GpGridWidgetComponent {
 
   public effectiveIcon = computed(() => {
     return this.icon() || this.item()?.icon || '';
+  });
+
+  public effectiveDragHandleTitle = computed(() => {
+    return this.dragHandleTitle() || this.translationService?.translation().grid?.dragHandle || 'Drag to reposition widget';
+  });
+
+  public effectiveDragHandleAriaLabel = computed(() => {
+    return this.dragHandleAriaLabel() || this.effectiveDragHandleTitle();
+  });
+
+  public effectiveLockedBadgeTitle = computed(() => {
+    return this.lockedBadgeTitle() || this.translationService?.translation().grid?.lockedBadge || 'Widget is locked in place';
+  });
+
+  public effectiveLockedBadgeAriaLabel = computed(() => {
+    return this.lockedBadgeAriaLabel() || this.effectiveLockedBadgeTitle();
+  });
+
+  public effectiveOptionsTitle = computed(() => {
+    return this.optionsTitle() || this.translationService?.translation().grid?.options || 'Widget options';
+  });
+
+  public effectiveOptionsAriaLabel = computed(() => {
+    return this.optionsAriaLabel() || this.effectiveOptionsTitle();
+  });
+
+  public effectiveCloseTitle = computed(() => {
+    return this.closeTitle() || this.translationService?.translation().grid?.close || 'Remove widget';
+  });
+
+  public effectiveCloseAriaLabel = computed(() => {
+    return this.closeAriaLabel() || this.effectiveCloseTitle();
+  });
+
+  public effectiveResizeTitle = computed(() => {
+    return this.resizeHandleTitle() || this.translationService?.translation().grid?.resizeHandle || 'Drag to resize';
+  });
+
+  public effectiveResizeAriaLabel = computed(() => {
+    return this.resizeHandleAriaLabel() || this.effectiveResizeTitle();
   });
 
   public isDraggable = computed(() => {

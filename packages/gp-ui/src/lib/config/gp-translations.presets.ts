@@ -54,6 +54,16 @@ export const GP_SPANISH_TRANSLATION: GpTranslation = {
     lastPage: 'Última Página',
     pageReport: 'Mostrando {first} a {last} de {totalRecords} entradas',
     rowsPerPage: 'Filas por página'
+  },
+  grid: {
+    emptyTitle: 'El lienzo de la cuadrícula está vacío',
+    emptyMessage: 'No hay widgets colocados en esta cuadrícula. Agregue widgets dinámicamente usando los controles o la API.',
+    dragHandle: 'Arrastrar para reposicionar el widget',
+    lockedBadge: 'El widget está bloqueado en su lugar',
+    options: 'Opciones del widget',
+    close: 'Eliminar widget',
+    resizeHandle: 'Arrastrar para cambiar el tamaño',
+    ariaLabel: 'Diseño de cuadrícula'
   }
 };
 
@@ -111,6 +121,16 @@ export const GP_GERMAN_TRANSLATION: GpTranslation = {
     lastPage: 'Letzte Seite',
     pageReport: 'Zeige {first} bis {last} von {totalRecords} Einträgen',
     rowsPerPage: 'Zeilen pro Seite'
+  },
+  grid: {
+    emptyTitle: 'Rasterfläche ist leer',
+    emptyMessage: 'Keine Widgets in diesem Raster platziert. Fügen Sie Widgets dynamisch über die Rastersteuerung oder API hinzu.',
+    dragHandle: 'Ziehen, um das Widget neu zu positionieren',
+    lockedBadge: 'Widget ist an Ort und Stelle gesperrt',
+    options: 'Widget-Optionen',
+    close: 'Widget entfernen',
+    resizeHandle: 'Ziehen, um die Größe zu ändern',
+    ariaLabel: 'Raster-Layout'
   }
 };
 
@@ -181,5 +201,15 @@ export const GP_ARABIC_TRANSLATION: GpTranslation = {
     lastPage: 'الصفحة الأخيرة',
     pageReport: 'عرض {first} إلى {last} من أصل {totalRecords} مدخل',
     rowsPerPage: 'الصفوف لكل صفحة'
+  },
+  grid: {
+    emptyTitle: 'لوحة الشبكة فارغة',
+    emptyMessage: 'لا توجد عناصر واجهة مستخدم موضوعة على هذه الشبكة. أضف عناصر ديناميكيًا باستخدام عناصر التحكم أو واجهة برمجة التطبيقات.',
+    dragHandle: 'اسحب لتغيير موضع العنصر',
+    lockedBadge: 'العنصر مقفل في مكانه',
+    options: 'خيارات العنصر',
+    close: 'إزالة العنصر',
+    resizeHandle: 'اسحب لتغيير الحجم',
+    ariaLabel: 'تخطيط الشبكة'
   }
 };

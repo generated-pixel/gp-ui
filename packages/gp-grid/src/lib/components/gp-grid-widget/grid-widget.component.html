@@ -5,6 +5,8 @@
   [class.gp-grid-widget--dragging]="isDragging()"
   [class.gp-grid-widget--resizing]="isResizing()"
   [ngClass]="customClass()"
+  [attr.role]="'article'"
+  [attr.aria-label]="effectiveTitle() || 'Widget'"
 >
   @if (showHeader()) {
     <header class="gp-grid-widget-header">
@@ -12,16 +14,19 @@
         @if (isDraggable()) {
           <div
             class="gp-grid-widget-drag-handle"
-            title="Drag to reposition widget"
-            aria-label="Drag handle"
+            [title]="effectiveDragHandleTitle()"
+            [attr.aria-label]="effectiveDragHandleAriaLabel()"
+            role="button"
+            tabindex="0"
           >
             <gp-icon name="grip-vertical" size="16px" class="gp-grid-handle-icon" />
           </div>
         } @else if (isLocked()) {
           <div
             class="gp-grid-widget-locked-badge"
-            title="Widget is locked in place"
-            aria-label="Locked in place"
+            [title]="effectiveLockedBadgeTitle()"
+            [attr.aria-label]="effectiveLockedBadgeAriaLabel()"
+            role="status"
           >
             <gp-icon name="lock" size="14px" class="gp-grid-lock-icon" />
           </div>
@@ -57,8 +62,8 @@
           type="button"
           class="gp-grid-widget-action-btn gp-grid-widget-options-btn"
           (click)="onOptions($event)"
-          title="Widget options"
-          aria-label="Widget options"
+          [title]="effectiveOptionsTitle()"
+          [attr.aria-label]="effectiveOptionsAriaLabel()"
         >
           <gp-icon name="ellipsis-v" size="15px" />
         </button>
@@ -69,8 +74,8 @@
             type="button"
             class="gp-grid-widget-action-btn gp-grid-widget-close-btn"
             (click)="onClose($event)"
-            title="Remove widget"
-            aria-label="Remove widget"
+            [title]="effectiveCloseTitle()"
+            [attr.aria-label]="effectiveCloseAriaLabel()"
           >
             <gp-icon name="times" size="15px" />
           </button>
@@ -86,8 +91,10 @@
   @if (isResizable()) {
     <div
       class="gp-grid-widget-resize-handle"
-      title="Drag to resize"
-      aria-label="Resize widget handle"
+      [title]="effectiveResizeTitle()"
+      [attr.aria-label]="effectiveResizeAriaLabel()"
+      role="button"
+      tabindex="0"
     >
       <svg
         viewBox="0 0 16 16"
