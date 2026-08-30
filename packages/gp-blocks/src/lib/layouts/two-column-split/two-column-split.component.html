@@ -20,7 +20,8 @@
         <ng-container *ngTemplateOutlet="effectivePrimary" />
       </ng-container>
       <ng-template #projectedOrFallbackPrimary>
-        <ng-content select="[primary], [slot=primary], [left], [slot=left], [col1], [slot=col1]">
+        <ng-content select="[primary], [slot=primary], [left], [slot=left], [col1], [slot=col1]" />
+
           <div class="split-default-content">
             <p class="lead-text" *ngIf="primaryDescription()">{{ primaryDescription() }}</p>
             <div class="sample-content-box">
@@ -28,7 +29,7 @@
               <p>Project custom content or pass [primaryTemplate] to embed forms, tables, or editors.</p>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
     </div>
   </section>
@@ -51,7 +52,8 @@
         <ng-container *ngTemplateOutlet="effectiveSecondary" />
       </ng-container>
       <ng-template #projectedOrFallbackSecondary>
-        <ng-content select="[secondary], [slot=secondary], [right], [slot=right], [col2], [slot=col2]">
+        <ng-content select="[secondary], [slot=secondary], [right], [slot=right], [col2], [slot=col2]" />
+
           <div class="split-default-content">
             <p class="lead-text" *ngIf="secondaryDescription()">{{ secondaryDescription() }}</p>
             <div class="sample-preview-box">
@@ -60,7 +62,7 @@
               <p>Project custom preview cards, summaries, or metadata logs.</p>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
     </div>
   </section>

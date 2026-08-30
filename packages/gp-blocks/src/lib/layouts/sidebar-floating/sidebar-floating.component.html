@@ -5,17 +5,19 @@
       <ng-container *ngTemplateOutlet="effectiveSidebar" />
     </ng-container>
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
         <ng-container *ngIf="effectiveBrand; else defaultBrand">
           <ng-container *ngTemplateOutlet="effectiveBrand" />
         </ng-container>
         <ng-template #defaultBrand>
-          <ng-content select="[brand], [slot=brand]">
+          <ng-content select="[brand], [slot=brand]" />
+
+
             <div class="floating-brand">
               <div class="brand-orb"></div>
               <span class="brand-text">{{ brandName() }}</span>
             </div>
-          </ng-content>
+          
         </ng-template>
 
         <nav class="floating-nav" *ngIf="navItems() && navItems().length > 0">
@@ -30,7 +32,7 @@
             <span>{{ item.label }}</span>
           </a>
         </nav>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -52,9 +54,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

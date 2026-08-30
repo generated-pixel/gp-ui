@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="settings-head-action-row">
         <div>
           <h3 class="settings-title">{{ title() }}</h3>
@@ -15,7 +16,7 @@
           {{ inviteBtnLabel() }}
         </gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Content Override or Members List -->
@@ -23,12 +24,13 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <ng-container *ngIf="effectiveMembers; else defaultMembers">
         <ng-container *ngTemplateOutlet="effectiveMembers" />
       </ng-container>
       <ng-template #defaultMembers>
-        <ng-content select="[members], [slot=members]">
+        <ng-content select="[members], [slot=members]" />
+
           <div class="team-list" *ngIf="members() && members().length > 0">
             <div
               class="team-member-row"
@@ -49,9 +51,8 @@
               </div>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
-    </ng-content>
   </ng-template>
 </div>

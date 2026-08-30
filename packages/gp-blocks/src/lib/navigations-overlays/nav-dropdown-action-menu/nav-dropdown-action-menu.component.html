@@ -16,21 +16,23 @@
         @if (effectiveUserHeader) {
           <ng-container *ngTemplateOutlet="effectiveUserHeader" />
         } @else {
-          <ng-content select="[user-header], [slot=user-header]">
+          <ng-content select="[user-header], [slot=user-header]" />
+
             @if (userEmail()) {
               <div class="gp-dropdown-action-menu__user">
                 <span>{{ signedInLabel() }}</span>
                 <strong>{{ userEmail() }}</strong>
               </div>
             }
-          </ng-content>
+          
         }
 
         @if (userEmail()) {
           <gp-divider />
         }
 
-        <ng-content select="[primary-items], [slot=primary-items]">
+        <ng-content select="[primary-items], [slot=primary-items]" />
+
           <div class="gp-dropdown-action-menu__section">
             @for (item of primaryItems(); track item.id) {
               @if (effectiveItemTemplate) {
@@ -48,11 +50,12 @@
               }
             }
           </div>
-        </ng-content>
+        
 
         @if (dangerItems().length) {
           <gp-divider />
-          <ng-content select="[danger-items], [slot=danger-items]">
+          <ng-content select="[danger-items], [slot=danger-items]" />
+
             <div class="gp-dropdown-action-menu__section">
               @for (item of dangerItems(); track item.id) {
                 @if (effectiveItemTemplate) {
@@ -70,7 +73,7 @@
                 }
               }
             </div>
-          </ng-content>
+          
         }
         <ng-content />
       }

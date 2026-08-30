@@ -13,7 +13,8 @@
       <ng-container *ngTemplateOutlet="effectiveProfile" />
     </ng-container>
     <ng-template #defaultProfile>
-      <ng-content select="[profile], [slot=profile]">
+      <ng-content select="[profile], [slot=profile]" />
+
         <div class="profile-left">
           <div class="avatar-holder">
             <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
@@ -33,7 +34,7 @@
             </div>
           </div>
         </div>
-      </ng-content>
+      
     </ng-template>
 
     <div class="profile-actions">
@@ -41,7 +42,8 @@
         <ng-container *ngTemplateOutlet="effectiveActions" />
       </ng-container>
       <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]">
+        <ng-content select="[actions], [slot=actions]" />
+
           <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="messageClick.emit()">
             <gp-icon name="message-square" size="0.85em" style="margin-right: 0.35rem;" />
             {{ messageBtnLabel() }}
@@ -50,7 +52,7 @@
             <gp-icon name="user-plus" size="0.85em" style="margin-right: 0.35rem;" />
             {{ connectBtnLabel() }}
           </gp-button>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>

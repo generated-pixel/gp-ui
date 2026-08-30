@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Feed Items Body -->
@@ -17,7 +18,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[feed], [slot=feed], [items], [slot=items]">
+    <ng-content select="[feed], [slot=feed], [items], [slot=items]" />
+
       <div class="feed-list" *ngIf="feedItems() && feedItems().length > 0">
         <ng-container *ngFor="let f of feedItems()">
           <ng-container *ngIf="effectiveFeedItemTemplate; else defaultFeedItem">
@@ -56,7 +58,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

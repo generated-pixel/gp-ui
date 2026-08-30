@@ -4,7 +4,8 @@
       <ng-container *ngTemplateOutlet="effectiveBreadcrumbs" />
     </ng-container>
     <ng-template #defaultBreadcrumbs>
-      <ng-content select="[breadcrumbs], [slot=breadcrumbs]">
+      <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
+
         <nav class="breadcrumb-trail">
           <ng-container *ngFor="let crumb of breadcrumbs(); let last = last">
             <a
@@ -20,7 +21,7 @@
             <span *ngIf="!last" class="crumb-sep">/</span>
           </ng-container>
         </nav>
-      </ng-content>
+      
     </ng-template>
   </div>
 
@@ -29,7 +30,8 @@
       <ng-container *ngTemplateOutlet="effectiveTitle" />
     </ng-container>
     <ng-template #defaultTitle>
-      <ng-content select="[title], [slot=title]">
+      <ng-content select="[title], [slot=title]" />
+
         <div class="title-group">
           <div class="title-with-badge">
             <h1 class="page-title">{{ title() }}</h1>
@@ -37,7 +39,7 @@
           </div>
           <p class="page-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
         </div>
-      </ng-content>
+      
     </ng-template>
 
     <div class="header-actions">
@@ -45,7 +47,8 @@
         <ng-container *ngTemplateOutlet="effectiveActions" />
       </ng-container>
       <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]">
+        <ng-content select="[actions], [slot=actions]" />
+
           <gp-button
             *ngFor="let act of actions()"
             [variant]="act.variant || 'filled'"
@@ -55,7 +58,7 @@
             <gp-icon *ngIf="act.icon" [name]="act.icon" size="0.85em" style="margin-right: 0.35rem;" />
             {{ act.label }}
           </gp-button>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>

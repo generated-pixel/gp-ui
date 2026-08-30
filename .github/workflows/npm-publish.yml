@@ -26,10 +26,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js 22 & NPM Registry
+      - name: Setup Node.js 24 & NPM Registry
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           registry-url: 'https://registry.npmjs.org/'
           cache: 'npm'
 

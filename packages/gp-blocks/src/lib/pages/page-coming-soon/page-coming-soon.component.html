@@ -13,14 +13,15 @@
         <ng-container *ngTemplateOutlet="effectiveCountdown" />
       </ng-container>
       <ng-template #defaultCountdown>
-        <ng-content select="[countdown], [slot=countdown]">
+        <ng-content select="[countdown], [slot=countdown]" />
+
           <div class="countdown-row" *ngIf="countdown() && countdown().length > 0">
             <div class="count-box" *ngFor="let unit of countdown()">
               <span class="count-val">{{ unit.value }}</span>
               <span class="count-unit">{{ unit.label }}</span>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
 
       <!-- Email Capture -->
@@ -28,7 +29,8 @@
         <ng-container *ngTemplateOutlet="effectiveForm" />
       </ng-container>
       <ng-template #defaultForm>
-        <ng-content select="[form], [slot=form]">
+        <ng-content select="[form], [slot=form]" />
+
           <div class="subscribe-form">
             <gp-input-text
               type="email"
@@ -39,7 +41,7 @@
             />
             <gp-button severity="primary" (onClickEvent)="onSubscribe()">{{ notifyBtnLabel() }}</gp-button>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
     </ng-template>

@@ -3,7 +3,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[toasts], [slot=toasts]">
+    <ng-content select="[toasts], [slot=toasts]" />
+
       <ng-container *ngFor="let t of toasts()">
         <ng-container *ngIf="effectiveToastTemplate; else defaultToast">
           <ng-container *ngTemplateOutlet="effectiveToastTemplate; context: { $implicit: t }" />
@@ -23,7 +24,7 @@
           </div>
         </ng-template>
       </ng-container>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

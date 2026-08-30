@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Transactions List Body -->
@@ -17,7 +18,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[transactions], [slot=transactions], [items], [slot=items]">
+    <ng-content select="[transactions], [slot=transactions], [items], [slot=items]" />
+
       <div class="trans-list" *ngIf="transactions() && transactions().length > 0">
         <ng-container *ngFor="let t of transactions()">
           <ng-container *ngIf="effectiveTransactionTemplate; else defaultTrans">
@@ -52,7 +54,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

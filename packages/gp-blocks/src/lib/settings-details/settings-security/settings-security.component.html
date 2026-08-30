@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="settings-head">
         <h3 class="settings-title">{{ title() }}</h3>
         <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Full Content Override or Sections -->
@@ -17,13 +18,14 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <!-- Password Change Section -->
       <ng-container *ngIf="effectivePassword; else defaultPassword">
         <ng-container *ngTemplateOutlet="effectivePassword" />
       </ng-container>
       <ng-template #defaultPassword>
-        <ng-content select="[password], [slot=password]">
+        <ng-content select="[password], [slot=password]" />
+
           <div class="security-section">
             <h4 class="sec-subtitle">Change Password</h4>
             <div class="pass-fields-grid">
@@ -65,7 +67,7 @@
               <gp-button severity="primary" size="sm" (onClickEvent)="onUpdatePassword()">Update Password</gp-button>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
 
       <!-- 2FA Section -->
@@ -73,7 +75,8 @@
         <ng-container *ngTemplateOutlet="effectiveTwoFa" />
       </ng-container>
       <ng-template #defaultTwoFa>
-        <ng-content select="[two-fa], [slot=two-fa], [2fa], [slot=2fa]">
+        <ng-content select="[two-fa], [slot=two-fa], [2fa], [slot=2fa]" />
+
           <div class="security-section">
             <div class="two-fa-row">
               <div class="two-fa-info">
@@ -86,7 +89,7 @@
               <gp-switch [value]="twoFaEnabled()" (valueChange)="twoFaChange.emit($event)" />
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
 
       <!-- Active Sessions -->
@@ -94,7 +97,8 @@
         <ng-container *ngTemplateOutlet="effectiveSessions" />
       </ng-container>
       <ng-template #defaultSessions>
-        <ng-content select="[sessions], [slot=sessions]">
+        <ng-content select="[sessions], [slot=sessions]" />
+
           <div class="security-section" *ngIf="sessions() && sessions().length > 0">
             <h4 class="sec-subtitle">Active Browser Sessions</h4>
             <div class="sessions-list">
@@ -111,9 +115,8 @@
               </div>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
-    </ng-content>
   </ng-template>
 </div>

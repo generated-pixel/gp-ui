@@ -4,7 +4,7 @@
       <ng-container *ngTemplateOutlet="effectiveSidebar" />
     </ng-container>
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
         <div class="brand-head">
           <gp-icon [name]="brandIcon()" size="1.2em" />
           <span class="brand-name">{{ brandName() }}</span>
@@ -27,7 +27,9 @@
           <ng-container *ngTemplateOutlet="effectiveStatus" />
         </ng-container>
         <ng-template #defaultStatus>
-          <ng-content select="[status], [slot=status]">
+          <ng-content select="[status], [slot=status]" />
+
+
             <div class="pinned-status-box" *ngIf="systemStatus()" (click)="statusClick.emit()" style="cursor: pointer;">
               <div class="status-top">
                 <span class="pulse-indicator"></span>
@@ -35,9 +37,9 @@
               </div>
               <span class="uptime-text" *ngIf="uptimeText()">{{ uptimeText() }}</span>
             </div>
-          </ng-content>
+          
         </ng-template>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -58,9 +60,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

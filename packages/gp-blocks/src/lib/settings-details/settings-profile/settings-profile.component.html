@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="settings-head">
         <h3 class="settings-title">{{ title() }}</h3>
         <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Body Content / Form -->
@@ -17,7 +18,7 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content], [form], [slot=form]">
+    <ng-content select="[content], [slot=content], [form], [slot=form]" />
       <div class="profile-avatar-row">
         <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
         <div class="avatar-controls">
@@ -87,7 +88,6 @@
         </div>
       </div>
       <ng-content />
-    </ng-content>
   </ng-template>
 
   <!-- Footer Actions -->
@@ -95,11 +95,12 @@
     <ng-container *ngTemplateOutlet="effectiveFooterActions" />
   </ng-container>
   <ng-template #defaultFooter>
-    <ng-content select="[footer], [slot=footer], [actions], [slot=actions]">
+    <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />
+
       <div class="settings-footer">
         <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
         <gp-button severity="primary" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 </div>

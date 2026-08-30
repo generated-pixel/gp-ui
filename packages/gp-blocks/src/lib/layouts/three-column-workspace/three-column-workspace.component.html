@@ -5,7 +5,8 @@
       <ng-container *ngTemplateOutlet="effectiveActivityBar" />
     </ng-container>
     <ng-template #defaultActivityBar>
-      <ng-content select="[activity-bar], [slot=activity-bar]">
+      <ng-content select="[activity-bar], [slot=activity-bar]" />
+
         <div class="top-icons">
           <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn active" ariaLabel="Explorer">
             <gp-icon name="folder" size="1.2em" />
@@ -22,7 +23,7 @@
             <gp-icon name="sliders" size="1.2em" />
           </gp-button>
         </div>
-      </ng-content>
+      
     </ng-template>
   </nav>
 
@@ -39,7 +40,8 @@
         <ng-container *ngTemplateOutlet="effectiveExplorer" />
       </ng-container>
       <ng-template #projectedExplorer>
-        <ng-content select="[explorer], [slot=explorer], [tree], [slot=tree]">
+        <ng-content select="[explorer], [slot=explorer], [tree], [slot=tree]" />
+
           <div class="tree-item active">
             <gp-icon name="folder-open" size="0.9em" class="tree-icon" />
             <span>src / components</span>
@@ -56,7 +58,7 @@
             <gp-icon name="folder" size="0.9em" class="tree-icon" />
             <span>src / services</span>
           </div>
-        </ng-content>
+        
       </ng-template>
     </div>
   </aside>
@@ -75,7 +77,8 @@
         <ng-container *ngTemplateOutlet="effectiveEditor" />
       </ng-container>
       <ng-template #projectedEditor>
-        <ng-content select="[editor], [slot=editor], [main], [slot=main]">
+        <ng-content select="[editor], [slot=editor], [main], [slot=main]" />
+
           <div class="editor-placeholder">
             <div class="code-preview">
               <span class="code-kw">import</span> &#123; Component &#125; <span class="code-kw">from</span> '@angular/core';<br /><br />
@@ -86,7 +89,7 @@
               <span class="code-kw">export class</span> AppComponent &#123;&#125;
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
     </div>
   </main>

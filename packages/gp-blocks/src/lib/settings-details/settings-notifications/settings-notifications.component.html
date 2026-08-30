@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="settings-head">
         <h3 class="settings-title">{{ title() }}</h3>
         <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Content Override or Preferences List -->
@@ -17,12 +18,13 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <ng-container *ngIf="effectivePreferences; else defaultPreferences">
         <ng-container *ngTemplateOutlet="effectivePreferences" />
       </ng-container>
       <ng-template #defaultPreferences>
-        <ng-content select="[preferences], [slot=preferences]">
+        <ng-content select="[preferences], [slot=preferences]" />
+
           <div class="notifications-list" *ngIf="preferences() && preferences().length > 0">
             <div class="pref-item" *ngFor="let p of preferences()">
               <div class="pref-text">
@@ -32,10 +34,9 @@
               <gp-switch [value]="p.enabled" (valueChange)="onToggle(p, $event)" />
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
-    </ng-content>
   </ng-template>
 
   <!-- Footer Actions -->
@@ -43,10 +44,11 @@
     <ng-container *ngTemplateOutlet="effectiveFooterActions" />
   </ng-container>
   <ng-template #defaultFooter>
-    <ng-content select="[footer], [slot=footer], [actions], [slot=actions]">
+    <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />
+
       <div class="settings-footer">
         <gp-button severity="primary" (onClickEvent)="save.emit(preferences())">{{ saveBtnLabel() }}</gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 </div>

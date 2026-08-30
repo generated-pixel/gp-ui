@@ -20,7 +20,8 @@
         <ng-container *ngTemplateOutlet="effectiveSearch" />
       </ng-container>
       <ng-template #defaultSearch>
-        <ng-content select="[search], [slot=search]">
+        <ng-content select="[search], [slot=search]" />
+
           <div class="palette-search-row">
             <gp-input-text
               styleClass="search-field"
@@ -34,11 +35,12 @@
             />
             <span class="esc-badge">ESC</span>
           </div>
-        </ng-content>
+        
       </ng-template>
 
       <!-- Commands List -->
-      <ng-content select="[commands], [slot=commands]">
+      <ng-content select="[commands], [slot=commands]" />
+
         <div class="palette-body" *ngIf="filteredCommands().length > 0; else noResults">
           <div class="group-tag" *ngIf="groupLabel()">{{ groupLabel() }}</div>
           <div class="commands-list">
@@ -71,7 +73,7 @@
         <ng-template #noResults>
           <div class="palette-empty">No matching commands</div>
         </ng-template>
-      </ng-content>
+      
 
       <!-- Palette Footer -->
       <div class="palette-foot">

@@ -12,7 +12,8 @@
         <ng-container *ngTemplateOutlet="effectiveLeft" />
       </ng-container>
       <ng-template #projectedOrFallbackLeft>
-        <ng-content select="[left], [slot=left], [col1], [slot=col1]">
+        <ng-content select="[left], [slot=left], [col1], [slot=col1]" />
+
           <nav class="default-nav-list">
             <a href="javascript:void(0)" class="nav-item active">
               <gp-icon name="home" size="1em" />
@@ -32,7 +33,7 @@
               <span>Preferences</span>
             </a>
           </nav>
-        </ng-content>
+        
       </ng-template>
     </div>
   </aside>
@@ -62,13 +63,14 @@
         <ng-container *ngTemplateOutlet="effectiveMain" />
       </ng-container>
       <ng-template #projectedOrFallbackMain>
-        <ng-content select="[main], [slot=main], [content], [slot=content], [col2], [slot=col2]">
+        <ng-content select="[main], [slot=main], [content], [slot=content], [col2], [slot=col2]" />
           <div class="default-main-placeholder">
             <h2 class="main-title" *ngIf="mainTitle()">{{ mainTitle() }}</h2>
             <p class="main-desc" *ngIf="mainSubtitle()">{{ mainSubtitle() }}</p>
             <ng-content />
+
           </div>
-        </ng-content>
+        
       </ng-template>
     </div>
   </main>
@@ -86,7 +88,8 @@
         <ng-container *ngTemplateOutlet="effectiveRight" />
       </ng-container>
       <ng-template #projectedOrFallbackRight>
-        <ng-content select="[right], [slot=right], [col3], [slot=col3]">
+        <ng-content select="[right], [slot=right], [col3], [slot=col3]" />
+
           <div class="default-context-panel">
             <h4 class="context-heading">Live Activity</h4>
             <div class="activity-mini-item">
@@ -111,7 +114,7 @@
               </div>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
     </div>
   </aside>

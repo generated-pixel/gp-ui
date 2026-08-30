@@ -5,7 +5,8 @@
     </ng-container>
 
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
+
         <div class="mini-logo">
           <gp-icon [name]="brandIcon()" size="1.25em" />
         </div>
@@ -26,7 +27,7 @@
         <div class="mini-bottom" (click)="userClick.emit()" style="cursor: pointer;">
           <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
         </div>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -47,9 +48,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

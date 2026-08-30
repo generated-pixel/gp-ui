@@ -4,7 +4,8 @@
       <ng-container *ngTemplateOutlet="effectiveSidebar" />
     </ng-container>
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
+
         <div class="minimal-brand">
           <span class="brand-text">{{ brandName() }}</span>
         </div>
@@ -20,7 +21,7 @@
             <span>{{ item.label }}</span>
           </a>
         </nav>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -41,9 +42,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

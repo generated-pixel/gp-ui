@@ -3,7 +3,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[alerts], [slot=alerts]">
+    <ng-content select="[alerts], [slot=alerts]" />
+
       <ng-container *ngFor="let a of alerts()">
         <ng-container *ngIf="effectiveAlertTemplate; else defaultAlert">
           <ng-container *ngTemplateOutlet="effectiveAlertTemplate; context: { $implicit: a }" />
@@ -25,7 +26,7 @@
           </div>
         </ng-template>
       </ng-container>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <gp-button severity="primary" size="sm" (onClickEvent)="uploadClick.emit()">
@@ -12,7 +13,7 @@
           {{ uploadBtnLabel() }}
         </gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Files List Body -->
@@ -20,7 +21,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[files], [slot=files]">
+    <ng-content select="[files], [slot=files]" />
+
       <div class="file-items-list" *ngIf="files() && files().length > 0">
         <ng-container *ngFor="let f of files()">
           <ng-container *ngIf="effectiveFileTemplate; else defaultFile">
@@ -45,7 +47,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

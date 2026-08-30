@@ -9,9 +9,10 @@
         <ng-container *ngTemplateOutlet="effectiveCol1" />
       </ng-container>
       <ng-template #projectedOrFallbackCol1>
-        <ng-content select="[col1], [slot=col1]">
+        <ng-content select="[col1], [slot=col1]" />
+
           <p class="placeholder-text">Panel 1 data and widgets stream</p>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>
@@ -26,9 +27,10 @@
         <ng-container *ngTemplateOutlet="effectiveCol2" />
       </ng-container>
       <ng-template #projectedOrFallbackCol2>
-        <ng-content select="[col2], [slot=col2]">
+        <ng-content select="[col2], [slot=col2]" />
+
           <p class="placeholder-text">Panel 2 data and widgets stream</p>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>
@@ -43,9 +45,10 @@
         <ng-container *ngTemplateOutlet="effectiveCol3" />
       </ng-container>
       <ng-template #projectedOrFallbackCol3>
-        <ng-content select="[col3], [slot=col3]">
+        <ng-content select="[col3], [slot=col3]" />
+
           <p class="placeholder-text">Panel 3 data and widgets stream</p>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>
@@ -60,9 +63,10 @@
         <ng-container *ngTemplateOutlet="effectiveCol4" />
       </ng-container>
       <ng-template #projectedOrFallbackCol4>
-        <ng-content select="[col4], [slot=col4]">
+        <ng-content select="[col4], [slot=col4]" />
+
           <p class="placeholder-text">Panel 4 data and widgets stream</p>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>

@@ -5,9 +5,10 @@
     @if (effectiveSections) {
       <ng-container *ngTemplateOutlet="effectiveSections" />
     } @else {
-      <ng-content select="[sections], [slot=sections]">
+      <ng-content select="[sections], [slot=sections]" />
+
         <gp-mega-menu [model]="menuItems()" orientation="horizontal" />
-      </ng-content>
+      
     }
 
     @if (effectivePromo) {

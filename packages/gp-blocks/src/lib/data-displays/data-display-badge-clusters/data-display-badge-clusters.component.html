@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="block-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Clusters Content -->
@@ -17,7 +18,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[clusters], [slot=clusters], [groups], [slot=groups]">
+    <ng-content select="[clusters], [slot=clusters], [groups], [slot=groups]" />
+
       <div class="cluster-groups" *ngIf="groups() && groups().length > 0">
         <div class="cluster-card" *ngFor="let g of groups()">
           <h4 class="group-title">{{ g.title }}</h4>
@@ -36,7 +38,7 @@
           </div>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

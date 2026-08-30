@@ -5,7 +5,7 @@
       <ng-container *ngTemplateOutlet="effectiveHeader" />
     </ng-container>
     <ng-template #defaultHeader>
-      <ng-content select="[header], [slot=header]">
+      <ng-content select="[header], [slot=header]" />
         <div class="header-inner">
           <div class="brand-group" (click)="brandClick.emit()" style="cursor: pointer;">
             <gp-icon [name]="brandIcon()" size="1.2em" />
@@ -16,14 +16,16 @@
             <ng-container *ngTemplateOutlet="effectiveUser" />
           </ng-container>
           <ng-template #defaultUser>
-            <ng-content select="[user], [slot=user]">
+            <ng-content select="[user], [slot=user]" />
+
+
               <div class="user-badge" *ngIf="userName()" (click)="userClick.emit()" style="cursor: pointer;">
                 <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
               </div>
-            </ng-content>
+            
           </ng-template>
         </div>
-      </ng-content>
+      
     </ng-template>
   </header>
 
@@ -36,9 +38,8 @@
           <ng-container *ngTemplateOutlet="effectiveContent" />
         </ng-container>
         <ng-template #defaultContent>
-          <ng-content select="[main], [slot=main], [content], [slot=content]">
+          <ng-content select="[main], [slot=main], [content], [slot=content]" />
             <ng-content />
-          </ng-content>
         </ng-template>
       </div>
     </div>

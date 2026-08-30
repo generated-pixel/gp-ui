@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Content Override or Stars Rating Body -->
@@ -21,7 +22,8 @@
       <ng-container *ngTemplateOutlet="effectiveStars" />
     </ng-container>
     <ng-template #defaultStars>
-      <ng-content select="[stars], [slot=stars], [rating], [slot=rating]">
+      <ng-content select="[stars], [slot=stars], [rating], [slot=rating]" />
+
         <div class="rating-picker-row">
           <gp-rating
             [value]="rating()"
@@ -31,7 +33,7 @@
             (onRate)="rating.set($event.value)"
           />
         </div>
-      </ng-content>
+      
     </ng-template>
 
     <!-- Footer Actions -->
@@ -39,12 +41,13 @@
       <ng-container *ngTemplateOutlet="effectiveActions" />
     </ng-container>
     <ng-template #defaultActions>
-      <ng-content select="[actions], [slot=actions]">
+      <ng-content select="[actions], [slot=actions]" />
+
         <div class="review-actions">
           <gp-button [label]="dismissBtnLabel()" variant="outlined" severity="secondary" size="sm" (onClickEvent)="dismiss.emit()" />
           <gp-button [label]="submitBtnLabel()" severity="primary" size="sm" (onClickEvent)="submitRating.emit(rating())" />
         </div>
-      </ng-content>
+      
     </ng-template>
     <ng-content />
   </ng-template>

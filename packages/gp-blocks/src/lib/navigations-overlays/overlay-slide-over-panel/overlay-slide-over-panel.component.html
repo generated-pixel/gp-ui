@@ -15,11 +15,12 @@
     @if (effectiveHeader) {
       <ng-container *ngTemplateOutlet="effectiveHeader" />
     } @else {
-      <ng-content select="[header], [slot=header]">
+      <ng-content select="[header], [slot=header]" />
+
         @if (description()) {
           <p class="gp-slide-over-description">{{ description() }}</p>
         }
-      </ng-content>
+      
     }
 
     <div class="gp-slide-over-body">
@@ -28,7 +29,8 @@
       } @else if (effectiveBody) {
         <ng-container *ngTemplateOutlet="effectiveBody" />
       } @else {
-        <ng-content select="[body], [slot=body]">
+        <ng-content select="[body], [slot=body]" />
+
           <div class="gp-slide-over-field">
             <label for="gp-slide-config-tag">Configuration Tag</label>
             <gp-input-text
@@ -51,7 +53,7 @@
               [max]="64"
             />
           </div>
-        </ng-content>
+        
         <ng-content />
       }
     </div>
@@ -60,7 +62,8 @@
       @if (effectiveActions) {
         <ng-container *ngTemplateOutlet="effectiveActions" />
       } @else {
-        <ng-content select="[actions], [slot=actions]">
+        <ng-content select="[actions], [slot=actions]" />
+
           <gp-button
             [label]="cancelBtnLabel()"
             variant="outlined"
@@ -68,7 +71,7 @@
             (onClickEvent)="onCancel()"
           />
           <gp-button [label]="saveBtnLabel()" severity="primary" (onClickEvent)="onSave()" />
-        </ng-content>
+        
       }
     </div>
   </div>

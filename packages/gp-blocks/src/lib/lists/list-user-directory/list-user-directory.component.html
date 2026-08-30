@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="dir-top" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <div class="search-box">
@@ -18,7 +19,7 @@
           />
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- User Cards Grid Body -->
@@ -26,7 +27,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[users], [slot=users], [directory], [slot=directory]">
+    <ng-content select="[users], [slot=users], [directory], [slot=directory]" />
+
       <div class="user-grid" *ngIf="users() && users().length > 0">
         <ng-container *ngFor="let u of users()">
           <ng-container *ngIf="effectiveUserTemplate; else defaultUser">
@@ -48,7 +50,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

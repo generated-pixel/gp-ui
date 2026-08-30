@@ -3,7 +3,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[counters], [slot=counters]">
+    <ng-content select="[counters], [slot=counters]" />
+
       <ng-container *ngFor="let c of counters()">
         <ng-container *ngIf="effectiveCounterTemplate; else defaultCounter">
           <ng-container *ngTemplateOutlet="effectiveCounterTemplate; context: { $implicit: c }" />
@@ -20,7 +21,7 @@
           </div>
         </ng-template>
       </ng-container>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

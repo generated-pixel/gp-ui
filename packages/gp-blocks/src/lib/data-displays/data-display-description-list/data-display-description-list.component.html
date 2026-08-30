@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Items Body -->
@@ -17,7 +18,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[items], [slot=items]">
+    <ng-content select="[items], [slot=items]" />
+
       <div class="desc-grid" *ngIf="items() && items().length > 0">
         <ng-container *ngFor="let item of items()">
           <ng-container *ngIf="effectiveItemTemplate; else defaultItem">
@@ -36,7 +38,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

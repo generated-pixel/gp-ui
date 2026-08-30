@@ -7,6 +7,9 @@
     "packages/*",
     "apps/*"
   ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "start": "npm run build:demo:css && ng serve gp-ui-demo",
     "dev": "npm run build:demo:css && ng serve gp-ui-demo",

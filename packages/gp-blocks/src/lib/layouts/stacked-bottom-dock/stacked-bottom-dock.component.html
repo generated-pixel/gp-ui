@@ -5,10 +5,11 @@
       <ng-container *ngTemplateOutlet="effectiveHeader" />
     </ng-container>
     <ng-template #defaultHeader>
-      <ng-content select="[header], [slot=header]">
+      <ng-content select="[header], [slot=header]" />
+
         <div class="brand-title">{{ brandName() }}</div>
         <span class="active-tab-title">{{ activeTab() }}</span>
-      </ng-content>
+      
     </ng-template>
   </header>
 
@@ -18,9 +19,8 @@
       <ng-container *ngTemplateOutlet="effectiveContent" />
     </ng-container>
     <ng-template #defaultContent>
-      <ng-content select="[main], [slot=main], [content], [slot=content]">
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
         <ng-content />
-      </ng-content>
     </ng-template>
   </main>
 
@@ -30,7 +30,8 @@
       <ng-container *ngTemplateOutlet="effectiveDock" />
     </ng-container>
     <ng-template #defaultDock>
-      <ng-content select="[dock], [slot=dock]">
+      <ng-content select="[dock], [slot=dock]" />
+
         <div class="dock-pill" *ngIf="dockItems() && dockItems().length > 0">
           <gp-button
             type="button"
@@ -47,7 +48,7 @@
             <span class="dock-dot" *ngIf="item.id === activeDockId() || item.active"></span>
           </gp-button>
         </div>
-      </ng-content>
+      
     </ng-template>
   </footer>
 </div>

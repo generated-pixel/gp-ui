@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="settings-head-action-row">
         <div>
           <h3 class="settings-title">{{ title() }}</h3>
@@ -15,7 +16,7 @@
           {{ generateBtnLabel() }}
         </gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Content Override or Keys List -->
@@ -23,12 +24,13 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <ng-container *ngIf="effectiveKeys; else defaultKeys">
         <ng-container *ngTemplateOutlet="effectiveKeys" />
       </ng-container>
       <ng-template #defaultKeys>
-        <ng-content select="[keys], [slot=keys]">
+        <ng-content select="[keys], [slot=keys]" />
+
           <div class="keys-list" *ngIf="apiKeys() && apiKeys().length > 0">
             <div class="api-key-item" *ngFor="let k of apiKeys()">
               <div class="key-top-info">
@@ -50,9 +52,8 @@
               </div>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
-    </ng-content>
   </ng-template>
 </div>

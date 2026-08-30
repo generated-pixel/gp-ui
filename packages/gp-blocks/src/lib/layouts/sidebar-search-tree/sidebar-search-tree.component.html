@@ -4,7 +4,7 @@
       <ng-container *ngTemplateOutlet="effectiveSidebar" />
     </ng-container>
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
         <!-- Search Input -->
         <div class="sidebar-search-box">
           <gp-icon name="search" size="0.9em" class="search-ico" />
@@ -22,7 +22,9 @@
             <ng-container *ngTemplateOutlet="effectiveTree" />
           </ng-container>
           <ng-template #defaultTree>
-            <ng-content select="[tree], [slot=tree]">
+            <ng-content select="[tree], [slot=tree]" />
+
+
               <div class="tree-group-label" *ngIf="catalogLabel()">{{ catalogLabel() }}</div>
               <div
                 class="tree-node"
@@ -46,10 +48,10 @@
                   </div>
                 </div>
               </div>
-            </ng-content>
+            
           </ng-template>
         </div>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -70,9 +72,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

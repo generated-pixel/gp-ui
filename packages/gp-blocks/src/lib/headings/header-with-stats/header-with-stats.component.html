@@ -4,10 +4,11 @@
       <ng-container *ngTemplateOutlet="effectiveTitle" />
     </ng-container>
     <ng-template #defaultTitle>
-      <ng-content select="[title], [slot=title]">
+      <ng-content select="[title], [slot=title]" />
+
         <h2 class="header-title">{{ title() }}</h2>
         <p class="header-desc" *ngIf="description()">{{ description() }}</p>
-      </ng-content>
+      
     </ng-template>
   </div>
 
@@ -16,7 +17,8 @@
       <ng-container *ngTemplateOutlet="effectiveStats" />
     </ng-container>
     <ng-template #defaultStats>
-      <ng-content select="[stats], [slot=stats]">
+      <ng-content select="[stats], [slot=stats]" />
+
         <div class="stats-row" *ngIf="stats() && stats().length > 0">
           <div
             class="stat-box"
@@ -28,7 +30,7 @@
             <span class="stat-value">{{ s.value }}</span>
           </div>
         </div>
-      </ng-content>
+      
     </ng-template>
   </div>
   <ng-content />

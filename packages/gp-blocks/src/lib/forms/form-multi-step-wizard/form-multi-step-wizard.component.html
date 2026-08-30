@@ -5,7 +5,8 @@
       <ng-container *ngTemplateOutlet="effectiveStepper" />
     </ng-container>
     <ng-template #defaultStepper>
-      <ng-content select="[stepper], [slot=stepper]">
+      <ng-content select="[stepper], [slot=stepper]" />
+
         <div class="stepper-track" *ngIf="steps() && steps().length > 0">
           <div
             class="step-node"
@@ -20,7 +21,7 @@
             <span class="node-label">{{ s.label }}</span>
           </div>
         </div>
-      </ng-content>
+      
     </ng-template>
   </div>
 
@@ -36,7 +37,8 @@
           <ng-container *ngTemplateOutlet="effectiveStep1" />
         </ng-container>
         <ng-template #defaultStep1>
-          <ng-content select="[step1], [slot=step1]">
+          <ng-content select="[step1], [slot=step1]" />
+
             <h3 class="step-title">Account Credentials</h3>
             <div class="step-form">
               <div class="field-wrap">
@@ -62,7 +64,7 @@
                 />
               </div>
             </div>
-          </ng-content>
+          
         </ng-template>
       </div>
 
@@ -72,7 +74,8 @@
           <ng-container *ngTemplateOutlet="effectiveStep2" />
         </ng-container>
         <ng-template #defaultStep2>
-          <ng-content select="[step2], [slot=step2]">
+          <ng-content select="[step2], [slot=step2]" />
+
             <h3 class="step-title">Organization Details</h3>
             <div class="step-form">
               <div class="field-wrap">
@@ -98,7 +101,7 @@
                 />
               </div>
             </div>
-          </ng-content>
+          
         </ng-template>
       </div>
 
@@ -108,7 +111,8 @@
           <ng-container *ngTemplateOutlet="effectiveStep3" />
         </ng-container>
         <ng-template #defaultStep3>
-          <ng-content select="[step3], [slot=step3]">
+          <ng-content select="[step3], [slot=step3]" />
+
             <h3 class="step-title">Review & Finish</h3>
             <div class="review-box">
               <div class="rev-row"><span>Name:</span> <strong>{{ fullName() || '-' }}</strong></div>
@@ -124,7 +128,7 @@
               label="I accept the Service License Agreement and Privacy Policy"
               (valueChange)="agreeTerms.set($event)"
             />
-          </ng-content>
+          
         </ng-template>
       </div>
       <ng-content />

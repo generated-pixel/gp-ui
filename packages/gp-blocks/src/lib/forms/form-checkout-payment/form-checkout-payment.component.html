@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head">
         <div class="head-titles" *ngIf="title()">
           <h3 class="head-title">{{ title() }}</h3>
@@ -15,7 +16,7 @@
           <span>{{ securityBadgeText() }}</span>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Payment Form Body -->
@@ -23,7 +24,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[form], [slot=form]">
+    <ng-content select="[form], [slot=form]" />
+
       <div class="payment-form-body">
         <div class="field-wrap">
           <label class="input-label">Cardholder Name</label>
@@ -85,7 +87,7 @@
           </gp-button>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

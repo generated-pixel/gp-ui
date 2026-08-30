@@ -9,9 +9,10 @@
         <ng-container *ngTemplateOutlet="effectiveCode" />
       </ng-container>
       <ng-template #defaultCode>
-        <ng-content select="[code], [slot=code]">
+        <ng-content select="[code], [slot=code]" />
+
           <h1 class="state-code">{{ code() }}</h1>
-        </ng-content>
+        
       </ng-template>
 
       <!-- Headings -->
@@ -23,7 +24,8 @@
         <ng-container *ngTemplateOutlet="effectiveActions" />
       </ng-container>
       <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]">
+        <ng-content select="[actions], [slot=actions]" />
+
           <div class="state-actions-row">
             <gp-button variant="outlined" severity="secondary" (onClickEvent)="goBack.emit()">
               <gp-icon name="arrow-left" size="0.85em" style="margin-right: 0.35rem;" />
@@ -33,7 +35,7 @@
               {{ returnHomeBtnLabel() }}
             </gp-button>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
     </ng-template>

@@ -4,14 +4,15 @@
       <ng-container *ngTemplateOutlet="effectiveBreadcrumbs" />
     </ng-container>
     <ng-template #defaultBreadcrumbs>
-      <ng-content select="[breadcrumbs], [slot=breadcrumbs]">
+      <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
+
         <gp-button variant="text" severity="secondary" size="sm" styleClass="back-btn" (onClickEvent)="backClick.emit()">
           <gp-icon name="arrow-left" size="0.9em" />
           <span>{{ backLabel() }}</span>
         </gp-button>
         <span class="sep" *ngIf="activeItem()">/</span>
         <span class="active-crumb" *ngIf="activeItem()">{{ activeItem() }}</span>
-      </ng-content>
+      
     </ng-template>
   </div>
 
@@ -20,7 +21,8 @@
       <ng-container *ngTemplateOutlet="effectiveActions" />
     </ng-container>
     <ng-template #defaultActions>
-      <ng-content select="[actions], [slot=actions]">
+      <ng-content select="[actions], [slot=actions]" />
+
         <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="shareClick.emit()">
           <gp-icon name="share-2" size="0.85em" style="margin-right: 0.35rem;" />
           {{ shareBtnLabel() }}
@@ -29,7 +31,7 @@
           <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem;" />
           {{ editBtnLabel() }}
         </gp-button>
-      </ng-content>
+      
     </ng-template>
   </div>
   <ng-content />

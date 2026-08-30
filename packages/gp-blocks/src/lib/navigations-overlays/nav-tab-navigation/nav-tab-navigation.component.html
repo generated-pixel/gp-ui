@@ -5,7 +5,8 @@
     @if (effectiveUnderlineTabs) {
       <ng-container *ngTemplateOutlet="effectiveUnderlineTabs" />
     } @else {
-      <ng-content select="[underline-tabs], [slot=underline-tabs]">
+      <ng-content select="[underline-tabs], [slot=underline-tabs]" />
+
         <gp-tabs
           styleClass="gp-tab-navigation-block__underline"
           [activeIndex]="underlineActiveIndex()"
@@ -20,13 +21,14 @@
             />
           }
         </gp-tabs>
-      </ng-content>
+      
     }
 
     @if (effectivePillTabs) {
       <ng-container *ngTemplateOutlet="effectivePillTabs" />
     } @else {
-      <ng-content select="[pill-tabs], [slot=pill-tabs]">
+      <ng-content select="[pill-tabs], [slot=pill-tabs]" />
+
         <gp-tabs
           styleClass="gp-tab-navigation-block__pills"
           [activeIndex]="pillActiveIndex()"
@@ -41,7 +43,7 @@
             />
           }
         </gp-tabs>
-      </ng-content>
+      
     }
     <ng-content />
   }

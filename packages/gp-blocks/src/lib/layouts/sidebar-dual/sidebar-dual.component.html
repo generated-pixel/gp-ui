@@ -5,7 +5,8 @@
       <ng-container *ngTemplateOutlet="effectiveTier1" />
     </ng-container>
     <ng-template #defaultTier1>
-      <ng-content select="[tier1], [slot=tier1], [primary-sidebar], [slot=primary-sidebar]">
+      <ng-content select="[tier1], [slot=tier1], [primary-sidebar], [slot=primary-sidebar]" />
+
         <div class="strip-logo">
           <gp-icon name="layer-group" size="1.25em" />
         </div>
@@ -24,7 +25,7 @@
             <gp-icon [name]="item.icon" size="1.2em" />
           </gp-button>
         </nav>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -34,7 +35,8 @@
       <ng-container *ngTemplateOutlet="effectiveTier2" />
     </ng-container>
     <ng-template #defaultTier2>
-      <ng-content select="[tier2], [slot=tier2], [secondary-sidebar], [slot=secondary-sidebar]">
+      <ng-content select="[tier2], [slot=tier2], [secondary-sidebar], [slot=secondary-sidebar]" />
+
         <div class="tier-head">
           <span class="tier-title">{{ subnavTitle() }}</span>
           <gp-badge *ngIf="subnavBadge()" [value]="subnavBadge()" severity="secondary" />
@@ -50,7 +52,7 @@
             <span>{{ item.label }}</span>
           </a>
         </div>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -72,9 +74,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

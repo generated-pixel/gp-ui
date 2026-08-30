@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="order-summary-head">
         <div class="head-left">
           <div class="order-title-line">
@@ -18,7 +19,7 @@
           {{ downloadReceiptBtnLabel() }}
         </gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Items Table / Content -->
@@ -26,12 +27,13 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <ng-container *ngIf="effectiveItems; else defaultItems">
         <ng-container *ngTemplateOutlet="effectiveItems" />
       </ng-container>
       <ng-template #defaultItems>
-        <ng-content select="[items], [slot=items]">
+        <ng-content select="[items], [slot=items]" />
+
           <div class="items-table-wrap" *ngIf="items() && items().length > 0">
             <table class="order-items-table">
               <thead>
@@ -58,7 +60,7 @@
               </tbody>
             </table>
           </div>
-        </ng-content>
+        
       </ng-template>
 
       <!-- Totals Footer Breakdown -->
@@ -66,7 +68,8 @@
         <ng-container *ngTemplateOutlet="effectiveTotals" />
       </ng-container>
       <ng-template #defaultTotals>
-        <ng-content select="[totals], [slot=totals]">
+        <ng-content select="[totals], [slot=totals]" />
+
           <div class="totals-breakdown">
             <div class="total-row" *ngIf="subtotal()">
               <span>Subtotal</span>
@@ -85,9 +88,8 @@
               <span class="grand-amount">{{ grandTotal() }}</span>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
-    </ng-content>
   </ng-template>
 </div>

@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="builder-head">
         <div class="head-titles" *ngIf="title()">
           <h3 class="head-title">{{ title() }}</h3>
@@ -14,7 +15,7 @@
           {{ addConditionBtnLabel() }}
         </gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Conditions Body -->
@@ -22,7 +23,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[conditions], [slot=conditions]">
+    <ng-content select="[conditions], [slot=conditions]" />
+
       <div class="builder-conditions-list">
         <div class="empty-conditions" *ngIf="conditions().length === 0">
           <p>No active filter rules. Click "Add Condition" to filter dataset.</p>
@@ -53,7 +55,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Actions Footer -->
@@ -61,12 +63,13 @@
     <ng-container *ngTemplateOutlet="effectiveActions" />
   </ng-container>
   <ng-template #defaultActions>
-    <ng-content select="[actions], [slot=actions]">
+    <ng-content select="[actions], [slot=actions]" />
+
       <div class="builder-foot" *ngIf="conditions().length > 0">
         <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="resetFilters()">{{ clearBtnLabel() }}</gp-button>
         <gp-button severity="primary" size="sm" (onClickEvent)="onApply()">{{ applyBtnLabel() }}</gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

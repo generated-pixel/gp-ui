@@ -3,7 +3,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[kpis], [slot=kpis]">
+    <ng-content select="[kpis], [slot=kpis]" />
+
       <ng-container *ngFor="let k of kpis()">
         <ng-container *ngIf="effectiveCardTemplate; else defaultCard">
           <ng-container *ngTemplateOutlet="effectiveCardTemplate; context: { $implicit: k }" />
@@ -31,7 +32,7 @@
           </div>
         </ng-template>
       </ng-container>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

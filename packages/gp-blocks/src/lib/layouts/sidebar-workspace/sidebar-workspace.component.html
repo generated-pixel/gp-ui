@@ -4,13 +4,15 @@
       <ng-container *ngTemplateOutlet="effectiveSidebar" />
     </ng-container>
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
         <!-- Workspace Selector Dropdown Box -->
         <ng-container *ngIf="effectiveSelector; else defaultSelector">
           <ng-container *ngTemplateOutlet="effectiveSelector" />
         </ng-container>
         <ng-template #defaultSelector>
-          <ng-content select="[selector], [slot=selector], [brand], [slot=brand]">
+          <ng-content select="[selector], [slot=selector], [brand], [slot=brand]" />
+
+
             <div class="workspace-selector-btn" (click)="workspaceClick.emit()" style="cursor: pointer;">
               <div class="workspace-avatar">
                 <span>{{ currentWorkspace().charAt(0) }}</span>
@@ -21,7 +23,7 @@
               </div>
               <gp-icon name="chevron-down" size="0.85em" class="arrow-icon" />
             </div>
-          </ng-content>
+          
         </ng-template>
 
         <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
@@ -36,7 +38,7 @@
             <span>{{ item.label }}</span>
           </a>
         </nav>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -57,9 +59,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

@@ -6,20 +6,21 @@
     </ng-container>
 
     <ng-template #defaultSidebar>
-      <ng-content select="[sidebar], [slot=sidebar]">
+      <ng-content select="[sidebar], [slot=sidebar]" />
         <!-- Brand Header -->
         <ng-container *ngIf="effectiveBrand; else defaultBrand">
           <ng-container *ngTemplateOutlet="effectiveBrand" />
         </ng-container>
         <ng-template #defaultBrand>
-          <ng-content select="[brand], [slot=brand]">
+          <ng-content select="[brand], [slot=brand]" />
+
             <div class="brand-header">
               <div class="brand-logo-mark">
                 <gp-icon [name]="brandIcon()" size="1.2em" />
               </div>
               <span class="brand-text">{{ brandName() }}</span>
             </div>
-          </ng-content>
+          
         </ng-template>
 
         <!-- Nav -->
@@ -27,7 +28,8 @@
           <ng-container *ngTemplateOutlet="effectiveNav" />
         </ng-container>
         <ng-template #defaultNav>
-          <ng-content select="[nav], [slot=nav]">
+          <ng-content select="[nav], [slot=nav]" />
+
             <nav class="sidebar-nav">
               <div class="nav-section-label" *ngIf="navGroupLabel()">{{ navGroupLabel() }}</div>
               <a
@@ -46,7 +48,7 @@
                 />
               </a>
             </nav>
-          </ng-content>
+          
         </ng-template>
 
         <!-- User Footer -->
@@ -54,7 +56,9 @@
           <ng-container *ngTemplateOutlet="effectiveUser" />
         </ng-container>
         <ng-template #defaultUser>
-          <ng-content select="[user], [slot=user]">
+          <ng-content select="[user], [slot=user]" />
+
+
             <div class="user-footer" *ngIf="userName() || userEmail()" (click)="userClick.emit()" style="cursor: pointer;">
               <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
               <div class="user-info">
@@ -62,9 +66,9 @@
                 <span class="user-role">{{ userEmail() }}</span>
               </div>
             </div>
-          </ng-content>
+          
         </ng-template>
-      </ng-content>
+      
     </ng-template>
   </aside>
 
@@ -86,9 +90,8 @@
         <ng-container *ngTemplateOutlet="effectiveContent" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-content select="[main], [slot=main], [content], [slot=content]">
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
           <ng-content />
-        </ng-content>
       </ng-template>
     </main>
   </div>

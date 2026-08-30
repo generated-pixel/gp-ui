@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Meters Body -->
@@ -17,7 +18,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[meters], [slot=meters]">
+    <ng-content select="[meters], [slot=meters]" />
+
       <div class="meters-list" *ngIf="meters() && meters().length > 0">
         <ng-container *ngFor="let m of meters()">
           <ng-container *ngIf="effectiveMeterTemplate; else defaultMeter">
@@ -38,7 +40,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

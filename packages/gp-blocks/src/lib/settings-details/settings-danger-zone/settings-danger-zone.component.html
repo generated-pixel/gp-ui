@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="danger-head">
         <h3 class="danger-title">{{ title() }}</h3>
         <p class="danger-subtitle">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Content Override or Actions List -->
@@ -17,12 +18,13 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <ng-container *ngIf="effectiveActions; else defaultActions">
         <ng-container *ngTemplateOutlet="effectiveActions" />
       </ng-container>
       <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]">
+        <ng-content select="[actions], [slot=actions]" />
+
           <div class="danger-actions-list" *ngIf="actions() && actions().length > 0">
             <div class="danger-item" *ngFor="let a of actions()">
               <div class="danger-info">
@@ -39,9 +41,8 @@
               </gp-button>
             </div>
           </div>
-        </ng-content>
+        
       </ng-template>
       <ng-content />
-    </ng-content>
   </ng-template>
 </div>

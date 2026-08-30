@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveToolbar" />
   </ng-container>
   <ng-template #defaultToolbar>
-    <ng-content select="[toolbar], [slot=toolbar]">
+    <ng-content select="[toolbar], [slot=toolbar]" />
+
       <div class="grid-toolbar">
         <div class="search-box">
           <gp-input-text
@@ -28,7 +29,7 @@
           </gp-button>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Table Body -->
@@ -36,7 +37,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
+
       <div class="table-scroll-wrap" *ngIf="rows() && rows().length > 0">
         <table class="gp-block-table">
           <thead>
@@ -92,7 +94,7 @@
           </tbody>
         </table>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Footer Pagination / Status -->
@@ -100,7 +102,8 @@
     <ng-container *ngTemplateOutlet="effectiveFooter" />
   </ng-container>
   <ng-template #defaultFooter>
-    <ng-content select="[footer], [slot=footer]">
+    <ng-content select="[footer], [slot=footer]" />
+
       <div class="grid-footer" *ngIf="footerCountText()">
         <span class="count-text">{{ footerCountText() }}</span>
         <div class="pager-btns">
@@ -108,7 +111,7 @@
           <gp-button variant="outlined" severity="secondary" size="sm">Next</gp-button>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

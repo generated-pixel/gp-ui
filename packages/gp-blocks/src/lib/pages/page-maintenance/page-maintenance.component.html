@@ -9,11 +9,12 @@
         <ng-container *ngTemplateOutlet="effectiveIcon" />
       </ng-container>
       <ng-template #defaultIcon>
-        <ng-content select="[icon], [slot=icon]">
+        <ng-content select="[icon], [slot=icon]" />
+
           <div class="maintenance-icon-box">
             <gp-icon [name]="icon()" size="1.75em" />
           </div>
-        </ng-content>
+        
       </ng-template>
 
       <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" [style]="{ marginBottom: '1rem' }" />

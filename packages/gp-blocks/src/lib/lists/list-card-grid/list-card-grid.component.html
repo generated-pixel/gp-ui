@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="block-top" *ngIf="title()">
         <div>
           <h3 class="head-title">{{ title() }}</h3>
@@ -15,7 +16,7 @@
           {{ createBtnLabel() }}
         </gp-button>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Cards Grid -->
@@ -23,7 +24,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[cards], [slot=cards]">
+    <ng-content select="[cards], [slot=cards]" />
+
       <div class="grid-wrap" *ngIf="cards() && cards().length > 0">
         <ng-container *ngFor="let c of cards()">
           <ng-container *ngIf="effectiveCardTemplate; else defaultCard">
@@ -51,7 +53,7 @@
           </ng-template>
         </ng-container>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>

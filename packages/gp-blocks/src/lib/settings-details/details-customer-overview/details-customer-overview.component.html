@@ -4,7 +4,8 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="overview-header">
         <div class="profile-info-group">
           <gp-avatar [label]="(customerName() || 'C').charAt(0)" size="xlarge" shape="circle" />
@@ -26,7 +27,7 @@
           <gp-button severity="primary" size="sm" (onClickEvent)="newDeal.emit()">{{ newDealBtnLabel() }}</gp-button>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Tags Row -->
@@ -39,14 +40,15 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[content], [slot=content]">
+    <ng-content select="[content], [slot=content]" />
       <div class="overview-split-body">
         <!-- Meta Details Column -->
         <ng-container *ngIf="effectiveMeta; else defaultMeta">
           <ng-container *ngTemplateOutlet="effectiveMeta" />
         </ng-container>
         <ng-template #defaultMeta>
-          <ng-content select="[meta], [slot=meta]">
+          <ng-content select="[meta], [slot=meta]" />
+
             <div class="meta-col" *ngIf="metaFields() && metaFields().length > 0">
               <h4 class="section-title">Contact Information</h4>
               <div class="meta-field" *ngFor="let f of metaFields()">
@@ -55,7 +57,7 @@
                 <a class="f-link" *ngIf="f.isLink" [href]="f.href || ('mailto:' + f.value)">{{ f.value }}</a>
               </div>
             </div>
-          </ng-content>
+          
         </ng-template>
 
         <!-- Timeline Events Column -->
@@ -63,7 +65,8 @@
           <ng-container *ngTemplateOutlet="effectiveTimeline" />
         </ng-container>
         <ng-template #defaultTimeline>
-          <ng-content select="[timeline], [slot=timeline]">
+          <ng-content select="[timeline], [slot=timeline]" />
+
             <div class="timeline-col" *ngIf="timelineEvents() && timelineEvents().length > 0">
               <h4 class="section-title">Activity Timeline</h4>
               <div class="timeline-tree">
@@ -81,10 +84,9 @@
                 </div>
               </div>
             </div>
-          </ng-content>
+          
         </ng-template>
       </div>
       <ng-content />
-    </ng-content>
   </ng-template>
 </div>

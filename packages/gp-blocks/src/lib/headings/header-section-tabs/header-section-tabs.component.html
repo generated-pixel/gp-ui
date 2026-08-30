@@ -4,12 +4,13 @@
       <ng-container *ngTemplateOutlet="effectiveTitle" />
     </ng-container>
     <ng-template #defaultTitle>
-      <ng-content select="[title], [slot=title]">
+      <ng-content select="[title], [slot=title]" />
+
         <div class="header-titles">
           <h3 class="section-title">{{ title() }}</h3>
           <p class="section-desc" *ngIf="description()">{{ description() }}</p>
         </div>
-      </ng-content>
+      
     </ng-template>
 
     <div class="header-actions">
@@ -17,12 +18,13 @@
         <ng-container *ngTemplateOutlet="effectiveActions" />
       </ng-container>
       <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]">
+        <ng-content select="[actions], [slot=actions]" />
+
           <gp-button severity="primary" size="sm" (onClickEvent)="actionClick.emit()">
             <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
             {{ actionBtnLabel() }}
           </gp-button>
-        </ng-content>
+        
       </ng-template>
     </div>
   </div>
@@ -32,7 +34,8 @@
       <ng-container *ngTemplateOutlet="effectiveTabs" />
     </ng-container>
     <ng-template #defaultTabs>
-      <ng-content select="[tabs], [slot=tabs]">
+      <ng-content select="[tabs], [slot=tabs]" />
+
         <div class="tabs-list" *ngIf="tabs() && tabs().length > 0">
           <gp-button
             type="button"
@@ -51,7 +54,7 @@
             />
           </gp-button>
         </div>
-      </ng-content>
+      
     </ng-template>
   </div>
   <ng-content />

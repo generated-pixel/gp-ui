@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+
       <div class="form-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
         <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    
   </ng-template>
 
   <!-- Form Body -->
@@ -17,7 +18,8 @@
     <ng-container *ngTemplateOutlet="effectiveContent" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-content select="[form], [slot=form]">
+    <ng-content select="[form], [slot=form]" />
+
       <div class="form-body">
         <div class="field-row">
           <div class="field-col">
@@ -84,7 +86,7 @@
           <gp-button severity="primary" (onClickEvent)="onSubmit()">{{ sendBtnLabel() }}</gp-button>
         </div>
       </div>
-    </ng-content>
+    
   </ng-template>
   <ng-content />
 </div>
