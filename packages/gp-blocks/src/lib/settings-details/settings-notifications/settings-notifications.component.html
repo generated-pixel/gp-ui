@@ -4,12 +4,13 @@
     <ng-container *ngTemplateOutlet="effectiveHeader" />
   </ng-container>
   <ng-template #defaultHeader>
-    <ng-content select="[header], [slot=header]">
+    <ng-content select="[header], [slot=header]" />
+    <ng-container *ngIf="!hasProjectedHeader">
       <div class="settings-head">
         <h3 class="settings-title">{{ title() }}</h3>
         <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-    </ng-content>
+    </ng-container>
   </ng-template>
 
   <!-- Content Override or Preferences List -->

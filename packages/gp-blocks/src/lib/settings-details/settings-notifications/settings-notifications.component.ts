@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
 
@@ -17,6 +17,8 @@ export interface GpNotificationPreference {
   styleUrl: './settings-notifications.component.scss'
 })
 export class GpSettingsNotificationsComponent {
+  public constructor(private readonly host: ElementRef<HTMLElement>) {}
+
   public title = input<string>('Notification Preferences');
   public subtitle = input<string>('Decide how you would like to be alerted about workspace activity and security.');
   public saveBtnLabel = input<string>('Save Preferences');
@@ -50,6 +52,10 @@ export class GpSettingsNotificationsComponent {
 
   public get effectiveFooterActions(): TemplateRef<any> | undefined {
     return this.footerActionsTemplate || this.contentFooter || this.contentActions;
+  }
+
+  public get hasProjectedHeader(): boolean {
+    return !!this.host.nativeElement.querySelector('[header], [slot="header"]');
   }
 
   public onToggle(item: GpNotificationPreference, enabled: boolean): void {
