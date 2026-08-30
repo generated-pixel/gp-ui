@@ -255,7 +255,15 @@ export class GpGridComponent implements OnInit, OnDestroy {
   }
 
   public asBadgeSeverity(sev?: string): GpBadgeSeverity {
-    if (sev === 'secondary' || sev === 'success' || sev === 'warning' || sev === 'danger' || sev === 'info') {
+    if (
+      sev === 'primary' ||
+      sev === 'secondary' ||
+      sev === 'success' ||
+      sev === 'warning' ||
+      sev === 'danger' ||
+      sev === 'info' ||
+      sev === 'contrast'
+    ) {
       return sev;
     }
     return 'primary';

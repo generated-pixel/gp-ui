@@ -18,7 +18,7 @@
     <div
       class="gp-grid-placeholder"
       [class.gp-grid-placeholder--invalid]="!ph.valid"
-      [ngStyle]="getPlaceholderStyle()"
+      [style]="getPlaceholderStyle()"
     >
       <div class="gp-grid-placeholder-inner">
         @if (!ph.valid) {
@@ -38,7 +38,7 @@
       [class.gp-grid-item-wrapper--resizing]="activeResize()?.itemId === item.id"
       [class.gp-grid-item-wrapper--locked]="item.locked"
       [class.gp-grid-item-wrapper--fixed]="item.fixed"
-      [ngStyle]="getItemStyle(item)"
+      [style]="getItemStyle(item)"
       [attr.data-grid-id]="item.id"
       (pointerdown)="onWidgetPointerDown($event, item)"
     >

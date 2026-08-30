@@ -27,11 +27,12 @@
       @for (goal of effectiveItems(); track goal.label) {
         <div
           class="gp-grid-progress-item"
-          [class.gp-grid-progress-item--clickable]="!!goal.routerLink || !!itemClick"
-          (click)="onItemClicked(goal, $event)"
-          (keydown.enter)="onItemClicked(goal, $event)"
-          tabindex="0"
-          role="button"
+          [class.gp-grid-progress-item--clickable]="!!goal.routerLink || !!goal.onClick || !!normalizedData().onItemClick"
+          (click)="(goal.routerLink || goal.onClick || normalizedData().onItemClick) && onItemClicked(goal, $event)"
+          (keydown.enter)="(goal.routerLink || goal.onClick || normalizedData().onItemClick) && onItemClicked(goal, $event)"
+          (keydown.space)="$event.preventDefault(); (goal.routerLink || goal.onClick || normalizedData().onItemClick) && onItemClicked(goal, $event)"
+          [attr.tabindex]="(goal.routerLink || goal.onClick || normalizedData().onItemClick) ? 0 : null"
+          [attr.role]="(goal.routerLink || goal.onClick || normalizedData().onItemClick) ? 'button' : null"
         >
           <div class="gp-grid-progress-top">
             <span class="gp-grid-progress-label">{{ goal.label }}</span>
