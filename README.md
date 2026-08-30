@@ -31,8 +31,12 @@ npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme @generatedpixel/gp
 
 Detailed package guides:
 
-- [`@generatedpixel/gp-css`](packages/gp-css/README.md): CLI, directives, utilities, configuration, plugins, and troubleshooting.
-- [`@generatedpixel/gp-ui-theme`](packages/gp-ui-theme/README.md): token architecture, built-in themes, runtime switching, custom themes, and CSS variables.
+- [`@generatedpixel/gp-ui`](packages/gp-ui/README.md): Enterprise Angular UI component framework with 50+ standalone components.
+- [`@generatedpixel/gp-blocks`](packages/gp-blocks/README.md): 50+ pre-built application layouts, dashboards, settings, and dynamic JSON schema engine.
+- [`@generatedpixel/gp-grid`](packages/gp-grid/README.md): Reactive draggable/resizable grid and dashboard layout engine with collision resolution.
+- [`@generatedpixel/gp-ui-theme`](packages/gp-ui-theme/README.md): Design token architecture, 8 built-in themes (Light & Dark), runtime switching, and CSS variables.
+- [`@generatedpixel/gp-css`](packages/gp-css/README.md): Utility-first JIT CSS engine, `@gp-css` directives, utility scanner, and compiler.
+- [`@generatedpixel/gp-ui-icons`](packages/gp-ui-icons/README.md): Lightweight, tree-shakeable SVG icon system with 40+ built-in icons and `<gp-icon>`.
 
 ---
 
@@ -143,9 +147,11 @@ export class MyViewComponent {
 ## Monorepo Packages
 
 - **`@generatedpixel/gp-ui`**: Enterprise component library with 50+ standalone Angular components.
-- **`@generatedpixel/gp-css`**: Utility-first CSS engine & JIT compiler with native token bridge.
+- **`@generatedpixel/gp-blocks`**: 50+ pre-built application layouts, dashboards, settings, and dynamic JSON schema engine.
+- **`@generatedpixel/gp-grid`**: Signal-driven draggable/resizable grid and dashboard layout engine.
 - **`@generatedpixel/gp-ui-theme`**: Multi-theme tokens, CSS variables, and dynamic theme manager.
-- **`@generatedpixel/gp-ui-icons`**: Lightweight SVG icon registry.
+- **`@generatedpixel/gp-css`**: Utility-first CSS engine & JIT compiler with native token bridge.
+- **`@generatedpixel/gp-ui-icons`**: Lightweight SVG icon registry and `<gp-icon>` component.
 
 ---
 

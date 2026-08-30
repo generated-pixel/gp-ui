@@ -13,10 +13,13 @@ if (!fs.existsSync(distUiDir)) {
 }
 
 // Ensure README is copied
-const readmeSrc = path.join(__dirname, '../README.md');
+const readmeSrc = path.join(__dirname, '../packages/gp-ui/README.md');
+const fallbackReadmeSrc = path.join(__dirname, '../README.md');
 const readmeDest = path.join(distUiDir, 'README.md');
 if (fs.existsSync(readmeSrc)) {
   fs.copyFileSync(readmeSrc, readmeDest);
+} else if (fs.existsSync(fallbackReadmeSrc)) {
+  fs.copyFileSync(fallbackReadmeSrc, readmeDest);
 }
 
 // Generate tarball

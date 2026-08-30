@@ -27,5 +27,9 @@ function copyDir(src, dest) {
 
 copyDir(srcDir, path.join(distDir, 'src'));
 fs.copyFileSync(path.join(__dirname, '../packages/gp-ui-theme/package.json'), path.join(distDir, 'package.json'));
+const readmePath = path.join(__dirname, '../packages/gp-ui-theme/README.md');
+if (fs.existsSync(readmePath)) {
+  fs.copyFileSync(readmePath, path.join(distDir, 'README.md'));
+}
 
 console.log('✅ gp-ui-theme package compiled and built successfully.');

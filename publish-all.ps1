@@ -139,20 +139,21 @@ if ($LASTEXITCODE -ne 0) {
   exit 1
 }
 
-# Copy Readme to all output packages
-$DistPackages = @(
-  (Join-Path $ScriptDir "dist/packages/gp-ui"),
-  (Join-Path $ScriptDir "dist/packages/gp-ui-theme"),
-  (Join-Path $ScriptDir "dist/packages/gp-ui-icons"),
-  (Join-Path $ScriptDir "dist/packages/gp-css"),
-  (Join-Path $ScriptDir "dist/packages/gp-blocks"),
-  (Join-Path $ScriptDir "dist/packages/gp-grid")
-)
+# Copy package-specific Readme to corresponding output packages
+$PackageNames = @("gp-ui", "gp-ui-theme", "gp-ui-icons", "gp-css", "gp-blocks", "gp-grid")
+$DistPackages = @()
 
-$ReadmePath = Join-Path $ScriptDir "README.md"
-foreach ($dist in $DistPackages) {
+foreach ($pkg in $PackageNames) {
+  $dist = Join-Path $ScriptDir "dist/packages/$pkg"
+  $DistPackages += $dist
   if (Test-Path $dist) {
-    Copy-Item $ReadmePath (Join-Path $dist "README.md") -Force
+    $pkgReadme = Join-Path $ScriptDir "packages/$pkg/README.md"
+    if (Test-Path $pkgReadme) {
+      Copy-Item $pkgReadme (Join-Path $dist "README.md") -Force
+      Write-Host "  [README] Copied packages/$pkg/README.md -> dist/packages/$pkg/README.md" -ForegroundColor DarkCyan
+    } else {
+      Copy-Item (Join-Path $ScriptDir "README.md") (Join-Path $dist "README.md") -Force
+    }
   }
 }
 

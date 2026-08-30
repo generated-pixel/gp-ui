@@ -25,5 +25,9 @@ function copyDir(src, dest) {
 
 copyDir(path.join(__dirname, '../packages/gp-ui-icons/src'), path.join(distDir, 'src'));
 fs.copyFileSync(path.join(__dirname, '../packages/gp-ui-icons/package.json'), path.join(distDir, 'package.json'));
+const readmePath = path.join(__dirname, '../packages/gp-ui-icons/README.md');
+if (fs.existsSync(readmePath)) {
+  fs.copyFileSync(readmePath, path.join(distDir, 'README.md'));
+}
 
 console.log('✅ gp-ui-icons built successfully.');
