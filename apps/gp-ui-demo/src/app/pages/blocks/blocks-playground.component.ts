@@ -62,10 +62,9 @@ import {
 
           <div class="editor-body">
             <gp-textarea
-              styleClass="json-textarea"
+              styleClass="json-textarea-wrapper"
               [(ngModel)]="rawJson"
               (ngModelChange)="onJsonChange($event)"
-              [rows]="28"
               ariaLabel="JSON schema definition"
             />
           </div>
@@ -250,20 +249,54 @@ import {
       .editor-body {
         flex: 1;
         display: flex;
+        flex-direction: column;
+        min-height: 0;
+        height: 100%;
+        position: relative;
       }
 
-      .json-textarea {
+      :host ::ng-deep .editor-body gp-textarea,
+      .editor-body gp-textarea {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        min-height: 0;
+      }
+
+      :host ::ng-deep .editor-body .gp-textarea-wrapper,
+      .editor-body .gp-textarea-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        min-height: 0;
+      }
+
+      :host ::ng-deep .editor-body .gp-textarea,
+      .editor-body .gp-textarea {
         flex: 1;
         width: 100%;
-        background: var(--gp-surface-ground);
-        color: var(--gp-primary);
+        height: 100% !important;
+        min-height: 100% !important;
+        background: var(--gp-surface-ground, #0b1120);
+        color: var(--gp-primary-400, var(--gp-primary));
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 0.825rem;
-        padding: 1rem;
+        font-size: 0.85rem;
+        padding: 1.25rem;
         border: none;
+        border-radius: 0;
         outline: none;
         resize: none;
-        line-height: 1.45;
+        line-height: 1.5;
+        box-sizing: border-box;
+      }
+
+      :host ::ng-deep .editor-body .gp-textarea:focus,
+      .editor-body .gp-textarea:focus {
+        box-shadow: none;
       }
 
       .json-error-banner {

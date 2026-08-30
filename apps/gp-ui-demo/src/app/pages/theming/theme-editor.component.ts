@@ -110,6 +110,20 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         </div>
 
         <div class="header-right">
+          <!-- Quick Base Color Swatch in Header -->
+          <div class="header-color-quickpick" title="Current Base Primary Color (Click to change)">
+            <label class="quickpick-swatch" [style.backgroundColor]="primaryBaseColor()">
+              <input
+                type="color"
+                class="quickpick-native-input"
+                [value]="primaryBaseColor()"
+                (input)="onPrimaryHexChange($any($event.target).value)"
+                aria-label="Quick pick primary color"
+              />
+            </label>
+            <span class="quickpick-hex">{{ primaryBaseColor() }}</span>
+          </div>
+
           <!-- Preset Selector -->
           <div class="preset-dropdown-wrap">
             <span class="toolbar-label">Preset:</span>
@@ -163,41 +177,175 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
             <!-- 1. PRIMITIVES TAB -->
             @if (activeTab() === 'primitives') {
               <div class="tab-section">
-                <h3>Primary Color Scale Generator</h3>
-                <p class="section-desc">
-                  Pick a base brand color (Step 500) to automatically generate an HSL-calculated 50–950 shade ramp.
-                </p>
+                <!-- Custom Base Primary Color Studio Card -->
+                <div class="custom-color-studio-card">
+                  <div class="studio-card-header">
+                    <div class="studio-title-group">
+                      <gp-icon name="palette" size="1.2em" class="studio-header-icon" />
+                      <div>
+                        <h4 class="studio-title">Custom Primary Base Color (500)</h4>
+                        <p class="studio-subtext">Choose any custom hue, enter an exact Hex code, adjust HSL sliders, or generate a random palette.</p>
+                      </div>
+                    </div>
 
-                <div class="color-picker-row">
-                  <label>Base Primary Color (500):</label>
-                  <div class="picker-controls">
-                    <gp-color-picker
-                      [value]="primaryBaseColor()"
-                      [presetColors]="themeColorPresets"
-                      (onChange)="onPrimaryHexChange($event.value)"
-                    />
-                    <gp-input-text
-                      [value]="primaryBaseColor()"
-                      (onInputEvent)="onPrimaryHexChange($any($event.target).value)"
-                      styleClass="editor-input hex-input"
-                      ariaLabel="Primary color hex value"
-                    />
+                    <div class="studio-header-actions">
+                      <gp-button
+                        label="Random Palette"
+                        icon="refresh"
+                        variant="outlined"
+                        severity="secondary"
+                        size="sm"
+                        (onClickEvent)="randomizePrimaryColor()"
+                        title="Generate a random vibrant brand color"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Visual Swatch & Direct Hex Input -->
+                  <div class="custom-color-controls">
+                    <div class="color-swatch-box" [style.backgroundColor]="primaryBaseColor()" title="Click to open color wheel">
+                      <input
+                        type="color"
+                        class="color-native-input"
+                        [value]="primaryBaseColor()"
+                        (input)="onPrimaryHexChange($any($event.target).value)"
+                        aria-label="Custom primary color picker"
+                      />
+                      <span class="swatch-label" [style.color]="getBestContrastTextColor(primaryBaseColor())">
+                        {{ primaryBaseColor() }}
+                      </span>
+                    </div>
+
+                    <div class="color-hex-controls">
+                      <div class="hex-input-group">
+                        <label>Hex Code:</label>
+                        <gp-input-text
+                          [value]="primaryBaseColor()"
+                          (onInputEvent)="onHexTextInput($any($event.target).value)"
+                          styleClass="editor-input hex-input-large"
+                          placeholder="#4F46E5"
+                          ariaLabel="Custom primary hex color"
+                        />
+                      </div>
+
+                      <div class="contrast-badge-wrap">
+                        <span class="contrast-label">Text Contrast:</span>
+                        <gp-tag
+                          [value]="contrastInfo().label"
+                          [severity]="contrastInfo().severity"
+                          [rounded]="true"
+                          [title]="contrastInfo().tooltip"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Precision HSL Tuning Sliders -->
+                  <div class="hsl-sliders-panel">
+                    <div class="slider-row">
+                      <div class="slider-meta">
+                        <span class="slider-name">Hue</span>
+                        <span class="slider-val">{{ hue() }}°</span>
+                      </div>
+                      <div class="slider-track-wrap hue-track">
+                        <input
+                          type="range"
+                          min="0"
+                          max="360"
+                          [value]="hue()"
+                          (input)="onHueSlider($any($event.target).value)"
+                          class="gp-range-slider hue-slider"
+                          aria-label="Hue angle"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="slider-row">
+                      <div class="slider-meta">
+                        <span class="slider-name">Saturation</span>
+                        <span class="slider-val">{{ saturation() }}%</span>
+                      </div>
+                      <div class="slider-track-wrap saturation-track" [style.--hue]="hue()">
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          [value]="saturation()"
+                          (input)="onSaturationSlider($any($event.target).value)"
+                          class="gp-range-slider"
+                          aria-label="Saturation percentage"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="slider-row">
+                      <div class="slider-meta">
+                        <span class="slider-name">Lightness</span>
+                        <span class="slider-val">{{ lightness() }}%</span>
+                      </div>
+                      <div class="slider-track-wrap lightness-track" [style.--hue]="hue()" [style.--sat]="saturation() + '%'">
+                        <input
+                          type="range"
+                          min="15"
+                          max="85"
+                          [value]="lightness()"
+                          (input)="onLightnessSlider($any($event.target).value)"
+                          class="gp-range-slider"
+                          aria-label="Lightness percentage"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Quick Inspiration Starters -->
+                  <div class="palette-starters-section">
+                    <span class="starters-label">Quick Color Inspirations:</span>
+                    <div class="starters-grid">
+                      @for (p of inspirationColors; track p.hex) {
+                        <button
+                          type="button"
+                          class="starter-swatch"
+                          [style.backgroundColor]="p.hex"
+                          [class.starter-swatch-active]="primaryBaseColor().toLowerCase() === p.hex.toLowerCase()"
+                          [title]="p.name + ' (' + p.hex + ')'"
+                          (click)="onPrimaryHexChange(p.hex)"
+                        >
+                          @if (primaryBaseColor().toLowerCase() === p.hex.toLowerCase()) {
+                            <gp-icon name="check" size="0.75em" [style.color]="getBestContrastTextColor(p.hex)" />
+                          }
+                        </button>
+                      }
+                    </div>
                   </div>
                 </div>
 
                 <!-- Swatch Scale Ramp Display -->
-                <div class="shade-ramp-grid">
-                  @for (step of colorScaleSteps; track step) {
-                    <div class="shade-box">
+                <div class="shade-ramp-container">
+                  <div class="shade-ramp-header">
+                    <h4>Generated 50–950 Scale Ramp</h4>
+                    <span class="shade-ramp-subtext">HSL-calculated shades automatically applied across components, hover states, and dark mode. Click any step to set as base.</span>
+                  </div>
+                  <div class="shade-ramp-grid">
+                    @for (step of colorScaleSteps; track step) {
                       <div
-                        class="shade-swatch"
-                        [style.backgroundColor]="getPrimaryScaleStep(step)"
-                        [title]="'Step ' + step + ': ' + getPrimaryScaleStep(step)"
-                      ></div>
-                      <span class="shade-step">{{ step }}</span>
-                      <span class="shade-hex">{{ getPrimaryScaleStep(step) }}</span>
-                    </div>
-                  }
+                        class="shade-box"
+                        [class.shade-box-base]="step === 500"
+                        (click)="onPrimaryHexChange(getPrimaryScaleStep(step))"
+                        [title]="'Step ' + step + ': ' + getPrimaryScaleStep(step) + ' (Click to set as base)'"
+                      >
+                        <div
+                          class="shade-swatch"
+                          [style.backgroundColor]="getPrimaryScaleStep(step)"
+                        >
+                          @if (step === 500) {
+                            <span class="base-badge" [style.color]="getBestContrastTextColor(getPrimaryScaleStep(step))">BASE</span>
+                          }
+                        </div>
+                        <span class="shade-step">{{ step }}</span>
+                        <span class="shade-hex">{{ getPrimaryScaleStep(step) }}</span>
+                      </div>
+                    }
+                  </div>
                 </div>
 
                 <hr class="section-divider" />
@@ -802,6 +950,397 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         gap: 1rem;
       }
 
+      .section-divider {
+        border: none;
+        border-top: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.1));
+        margin: 0.5rem 0;
+      }
+
+      .header-color-quickpick {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--gp-surface-section, #f1f5f9);
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.08));
+      }
+
+      .quickpick-swatch {
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        overflow: hidden;
+      }
+
+      .quickpick-native-input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+
+      .quickpick-hex {
+        font-size: 0.75rem;
+        font-family: monospace;
+        font-weight: 600;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      /* Custom Color Studio Card */
+      .custom-color-studio-card {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: var(--gp-surface-section, #f8fafc);
+        border: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.1));
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+      }
+
+      .studio-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .studio-title-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+
+      .studio-header-icon {
+        color: var(--gp-primary, #4f46e5);
+        margin-top: 0.15rem;
+      }
+
+      .studio-title {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      .studio-subtext {
+        margin: 0.2rem 0 0 0;
+        font-size: 0.8rem;
+        color: var(--gp-text-color-muted, #64748b);
+      }
+
+      .custom-color-controls {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      @media (max-width: 640px) {
+        .custom-color-controls {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .color-swatch-box {
+        width: 100px;
+        height: 70px;
+        border-radius: 0.5rem;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--gp-surface-border, rgba(0, 0, 0, 0.15));
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .color-swatch-box:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
+      }
+
+      .color-native-input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .swatch-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        font-family: monospace;
+        letter-spacing: 0.05em;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        pointer-events: none;
+      }
+
+      .color-hex-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .hex-input-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .hex-input-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      .hex-input-large {
+        width: 130px;
+        font-family: monospace;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+      }
+
+      .contrast-badge-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .contrast-label {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-muted, #64748b);
+      }
+
+      /* HSL Tuning Sliders */
+      .hsl-sliders-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        background: var(--gp-surface-card, #ffffff);
+        padding: 0.85rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.08));
+      }
+
+      .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .slider-meta {
+        display: flex;
+        justify-content: space-between;
+        width: 110px;
+        font-size: 0.75rem;
+      }
+
+      .slider-name {
+        font-weight: 600;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      .slider-val {
+        font-family: monospace;
+        color: var(--gp-text-color-muted, #64748b);
+      }
+
+      .slider-track-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .gp-range-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .gp-range-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 2px solid #1e293b;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.1s;
+      }
+
+      .gp-range-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.15);
+      }
+
+      .hue-track .gp-range-slider {
+        background: linear-gradient(
+          to right,
+          #ff0000 0%,
+          #ffff00 17%,
+          #00ff00 33%,
+          #00ffff 50%,
+          #0000ff 67%,
+          #ff00ff 83%,
+          #ff0000 100%
+        );
+      }
+
+      .saturation-track .gp-range-slider {
+        background: linear-gradient(
+          to right,
+          hsl(var(--hue, 240), 0%, 50%),
+          hsl(var(--hue, 240), 100%, 50%)
+        );
+      }
+
+      .lightness-track .gp-range-slider {
+        background: linear-gradient(
+          to right,
+          #000000 0%,
+          hsl(var(--hue, 240), var(--sat, 80%), 50%) 50%,
+          #ffffff 100%
+        );
+      }
+
+      /* Quick Inspirations */
+      .palette-starters-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .starters-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--gp-text-color-muted, #64748b);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .starters-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .starter-swatch {
+        width: 1.85rem;
+        height: 1.85rem;
+        border-radius: 0.375rem;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+
+      .starter-swatch:hover {
+        transform: scale(1.18);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .starter-swatch-active {
+        box-shadow: 0 0 0 2px var(--gp-surface-ground, #fff), 0 0 0 4px var(--gp-primary, #4f46e5);
+        transform: scale(1.1);
+      }
+
+      /* Shade Ramp Container */
+      .shade-ramp-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .shade-ramp-header h4 {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      .shade-ramp-subtext {
+        font-size: 0.8rem;
+        color: var(--gp-text-color-muted, #64748b);
+      }
+
+      .shade-ramp-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+        gap: 0.4rem;
+        margin-top: 0.5rem;
+      }
+
+      .shade-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        cursor: pointer;
+        padding: 0.2rem;
+        border-radius: 0.375rem;
+        transition: transform 0.1s ease;
+      }
+
+      .shade-box:hover {
+        transform: translateY(-2px);
+        background: var(--gp-surface-section, #f8fafc);
+      }
+
+      .shade-box-base {
+        outline: 2px dashed var(--gp-primary, #4f46e5);
+        outline-offset: 2px;
+        background: var(--gp-surface-section, #f8fafc);
+      }
+
+      .shade-swatch {
+        width: 100%;
+        height: 38px;
+        border-radius: 0.375rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .base-badge {
+        font-size: 0.6rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+      }
+
+      .shade-step {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      .shade-hex {
+        font-size: 0.65rem;
+        font-family: monospace;
+        color: var(--gp-text-color-muted, #64748b);
+      }
+
       .section-desc {
         font-size: 0.85rem;
         color: var(--gp-text-color-muted, #64748b);
@@ -812,19 +1351,6 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         border: none;
         border-top: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.1));
         margin: 0.5rem 0;
-      }
-
-      .color-picker-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-
-      .picker-controls {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
       }
 
       .editor-input {
@@ -841,39 +1367,6 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         width: 90px;
         font-family: monospace;
         text-transform: uppercase;
-      }
-
-      .shade-ramp-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
-        gap: 0.4rem;
-        margin-top: 0.5rem;
-      }
-
-      .shade-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.2rem;
-      }
-
-      .shade-swatch {
-        width: 100%;
-        height: 36px;
-        border-radius: 0.375rem;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-
-      .shade-step {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--gp-text-color, #1e293b);
-      }
-
-      .shade-hex {
-        font-size: 0.65rem;
-        font-family: monospace;
-        color: var(--gp-text-color-muted, #64748b);
       }
 
       .form-grid {
@@ -1033,6 +1526,25 @@ export class ThemeEditorComponent {
   public builtInPresets = builtInThemes;
   public selectedPresetId = signal<string>('default');
 
+  public inspirationColors = [
+    { name: 'Indigo Brand', hex: '#4f46e5' },
+    { name: 'Electric Sky', hex: '#0284c7' },
+    { name: 'Ocean Cyan', hex: '#06b6d4' },
+    { name: 'Teal Mint', hex: '#0d9488' },
+    { name: 'Emerald Forest', hex: '#059669' },
+    { name: 'Lime Zest', hex: '#65a30d' },
+    { name: 'Amber Gold', hex: '#d97706' },
+    { name: 'Sunset Orange', hex: '#ea580c' },
+    { name: 'Crimson Rose', hex: '#e11d48' },
+    { name: 'Fuchsia Pink', hex: '#c026d3' },
+    { name: 'Violet Purple', hex: '#7c3aed' },
+    { name: 'Modern Slate', hex: '#475569' },
+    { name: 'Cyberpunk Neon', hex: '#f43f5e' },
+    { name: 'Midnight Navy', hex: '#1e3a8a' },
+    { name: 'Warm Terracotta', hex: '#b45309' },
+    { name: 'Pure Obsidian', hex: '#18181b' }
+  ];
+
   public themeColorPresets = ['#6366f1', '#0ea5e9', '#14b8a6', '#22c55e', '#eab308', '#f97316', '#ef4444', '#64748b'];
   public componentOptions = [
     { label: 'Button', value: 'button' }, { label: 'Button Group', value: 'buttonGroup' },
@@ -1083,6 +1595,10 @@ export class ThemeEditorComponent {
   public activeTab = signal<'primitives' | 'semantics' | 'components' | 'export'>('primitives');
   public exportFormat = signal<'css' | 'typescript' | 'json' | 'angular'>('css');
 
+  public hue = signal<number>(238);
+  public saturation = signal<number>(84);
+  public lightness = signal<number>(59);
+
   public copied = signal<boolean>(false);
   public previewSwitch = true;
   public previewSliderValue = 65;
@@ -1121,7 +1637,44 @@ export class ThemeEditorComponent {
     this.editMode() === 'dark' ? this.currentTheme().dark.semantic : this.currentTheme().light.semantic
   );
 
+  public contrastInfo = computed(() => {
+    const hex = this.primaryBaseColor();
+    const [r, g, b] = hexToRgb(hex);
+    const sRGB = [r / 255, g / 255, b / 255].map((val) =>
+      val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4)
+    );
+    const L = 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
+    const contrastWhite = 1.05 / (L + 0.05);
+    const contrastBlack = (L + 0.05) / 0.05;
+
+    if (contrastWhite >= 4.5) {
+      return {
+        label: `WCAG AA (${contrastWhite.toFixed(1)}:1 vs White)`,
+        severity: 'success' as const,
+        tooltip: 'High contrast against white text for buttons and badges.'
+      };
+    } else if (contrastBlack >= 4.5) {
+      return {
+        label: `WCAG AA (${contrastBlack.toFixed(1)}:1 vs Dark)`,
+        severity: 'success' as const,
+        tooltip: 'High contrast against dark text for buttons and badges.'
+      };
+    } else {
+      return {
+        label: `Ratio (${Math.max(contrastWhite, contrastBlack).toFixed(1)}:1)`,
+        severity: 'warning' as const,
+        tooltip: 'Moderate contrast. Optimal for accents and subtle elements.'
+      };
+    }
+  });
+
   constructor() {
+    const initialHex = this.currentTheme().light.semantic.primary.main || '#4f46e5';
+    const [h, s, l] = hexToHsl(initialHex);
+    this.hue.set(h);
+    this.saturation.set(s);
+    this.lightness.set(l);
+
     // Automatically re-inject theme CSS whenever working theme changes
     effect(() => {
       const theme = this.currentTheme();
@@ -1157,6 +1710,11 @@ export class ThemeEditorComponent {
       cloned.id = this.themeId();
       cloned.name = this.themeName();
       this.currentTheme.set(cloned);
+      const baseHex = cloned.light.semantic.primary.main || '#4f46e5';
+      const [h, s, l] = hexToHsl(baseHex);
+      this.hue.set(h);
+      this.saturation.set(s);
+      this.lightness.set(l);
     }
   }
 
@@ -1166,21 +1724,59 @@ export class ThemeEditorComponent {
     cloned.id = this.themeId();
     cloned.name = this.themeName();
     this.currentTheme.set(cloned);
+    const baseHex = cloned.light.semantic.primary.main || '#4f46e5';
+    const [h, s, l] = hexToHsl(baseHex);
+    this.hue.set(h);
+    this.saturation.set(s);
+    this.lightness.set(l);
   }
 
   public getPrimaryScaleStep(step: keyof GpColorScale): string {
-    const scale = this.currentTheme().primitives.colors.indigo || this.currentTheme().primitives.colors['gray'];
+    const lightSemantic = this.currentTheme().light.semantic;
+    if (lightSemantic.primaryScale && (lightSemantic.primaryScale as any)[step]) {
+      return (lightSemantic.primaryScale as any)[step];
+    }
+    const colors = this.currentTheme().primitives.colors;
+    const scale =
+      colors['primary'] ||
+      colors['indigo'] ||
+      colors['blue'] ||
+      colors['emerald'] ||
+      Object.values(colors)[0];
     return scale ? (scale as any)[step] || '#4f46e5' : '#4f46e5';
   }
 
-  public onPrimaryHexChange(hex: string): void {
-    if (!hex || hex.length < 4) return;
+  public onHexTextInput(rawVal: string): void {
+    if (!rawVal) return;
+    let hex = rawVal.trim();
+    if (!hex.startsWith('#')) {
+      hex = '#' + hex;
+    }
+    this.onPrimaryHexChange(hex);
+  }
+
+  public onPrimaryHexChange(rawHex: string): void {
+    if (!rawHex) return;
+    let hex = rawHex.trim();
+    if (!hex.startsWith('#')) hex = '#' + hex;
+    if (hex.length !== 7 && hex.length !== 4) return;
+    if (!/^#[0-9A-Fa-f]{3,6}$/.test(hex)) return;
+
+    if (hex.length === 4) {
+      hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+    }
+
+    const [h, s, l] = hexToHsl(hex);
+    this.hue.set(h);
+    this.saturation.set(s);
+    this.lightness.set(l);
 
     const newScale = generateColorScale(hex);
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
 
     // Update primary scale ramp
-    curr.primitives.colors.indigo = newScale;
+    curr.primitives.colors['indigo'] = newScale;
+    curr.primitives.colors['primary'] = newScale;
 
     // Update Light mode semantic primary
     curr.light.semantic.primary.main = hex;
@@ -1197,6 +1793,40 @@ export class ThemeEditorComponent {
     curr.dark.semantic.primaryScale = newScale;
 
     this.currentTheme.set(curr);
+  }
+
+  public onHueSlider(val: number | string): void {
+    this.hue.set(Number(val));
+    this.applyHslUpdate();
+  }
+
+  public onSaturationSlider(val: number | string): void {
+    this.saturation.set(Number(val));
+    this.applyHslUpdate();
+  }
+
+  public onLightnessSlider(val: number | string): void {
+    this.lightness.set(Number(val));
+    this.applyHslUpdate();
+  }
+
+  private applyHslUpdate(): void {
+    const hex = hslToHex(this.hue(), this.saturation(), this.lightness());
+    this.onPrimaryHexChange(hex);
+  }
+
+  public randomizePrimaryColor(): void {
+    const randomHue = Math.floor(Math.random() * 360);
+    const randomSat = Math.floor(65 + Math.random() * 30);
+    const randomLight = Math.floor(44 + Math.random() * 16);
+    const hex = hslToHex(randomHue, randomSat, randomLight);
+    this.onPrimaryHexChange(hex);
+  }
+
+  public getBestContrastTextColor(hex: string): string {
+    const [r, g, b] = hexToRgb(hex);
+    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+    return yiq >= 128 ? '#0f172a' : '#ffffff';
   }
 
   public updateRadius(key: string, val: string): void {
@@ -1303,3 +1933,56 @@ export class ThemeEditorComponent {
     URL.revokeObjectURL(url);
   }
 }
+
+function hexToRgb(hex: string): [number, number, number] {
+  hex = hex.replace(/^#/, '');
+  if (hex.length === 3) {
+    hex = hex.split('').map((c) => c + c).join('');
+  }
+  if (hex.length !== 6) return [79, 70, 229];
+  const num = parseInt(hex, 16);
+  return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+}
+
+function hexToHsl(hex: string): [number, number, number] {
+  const [r, g, b] = hexToRgb(hex).map((v) => v / 255);
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+}
+
+function hslToHex(h: number, s: number, l: number): string {
+  s /= 100;
+  l /= 100;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let r = 0, g = 0, b = 0;
+  if (h >= 0 && h < 60) { r = c; g = x; b = 0; }
+  else if (h >= 60 && h < 120) { r = x; g = c; b = 0; }
+  else if (h >= 120 && h < 180) { r = 0; g = c; b = x; }
+  else if (h >= 180 && h < 240) { r = 0; g = x; b = c; }
+  else if (h >= 240 && h < 300) { r = x; g = 0; b = c; }
+  else if (h >= 300 && h < 360) { r = c; g = 0; b = x; }
+
+  const toHex = (n: number) => {
+    const val = Math.max(0, Math.min(255, Math.round((n + m) * 255))).toString(16);
+    return val.length === 1 ? '0' + val : val;
+  };
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+

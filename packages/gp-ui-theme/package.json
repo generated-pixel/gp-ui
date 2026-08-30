@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-ui-theme",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Design Token Driven Theming System for gp-ui",
   "main": "src/index.js",
   "style": "src/index.css",

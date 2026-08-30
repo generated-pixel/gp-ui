@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-grid",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "High-performance reactive dynamic grid and widget dashboard engine for Angular",
   "keywords": [
     "angular",
