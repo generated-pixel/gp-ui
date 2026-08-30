@@ -499,6 +499,18 @@ export class DashboardComponent {
       description: 'Emitted when a widget options button is clicked.'
     },
     {
+      name: 'itemNavigate',
+      type: 'output<{ routerLink: string | any[]; queryParams?: any; item: GpGridItem }>',
+      default: '-',
+      description: 'Emitted when any interactive widget element or row with a routerLink is clicked.'
+    },
+    {
+      name: 'itemClick',
+      type: 'output<{ data?: any; item: GpGridItem }>',
+      default: '-',
+      description: 'Emitted when a widget data row, metric, or column is clicked.'
+    },
+    {
       name: 'layoutChanged',
       type: 'output<GpGridItem[]>',
       default: '-',
@@ -518,6 +530,12 @@ export class DashboardComponent {
       type: 'input<string>',
       default: "''",
       description: 'Title rendered in the widget header bar.'
+    },
+    {
+      name: 'dataSource',
+      type: 'input<GpWidgetDataSource<any>>',
+      default: 'undefined',
+      description: 'Universal reactive data source (direct object, Signal, Observable, Subject, Promise, or provider function).'
     },
     {
       name: 'showHeader',
@@ -566,6 +584,18 @@ export class DashboardComponent {
       type: 'input<any>',
       default: 'undefined',
       description: 'Typed payload data matching GpKpiWidgetData, GpChartWidgetData, GpTableWidgetData, GpListWidgetData, or GpProgressWidgetData.'
+    },
+    {
+      name: 'routerLink',
+      type: 'input<string | any[]>',
+      default: 'undefined',
+      description: 'Angular router navigation target path or commands array.'
+    },
+    {
+      name: 'refreshInterval',
+      type: 'input<number>',
+      default: 'undefined',
+      description: 'Automatic polling interval in milliseconds for Observable/fetcher data sources.'
     }
   ];
 }

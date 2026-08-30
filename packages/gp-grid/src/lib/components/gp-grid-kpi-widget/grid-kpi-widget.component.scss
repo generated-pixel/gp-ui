@@ -11,7 +11,9 @@
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  padding: var(--gp-kpi-card-padding, 1.25rem);
+  margin: var(--gp-kpi-card-margin, 0);
+  padding: var(--gp-kpi-card-padding, 1.25rem 1.5rem);
+  gap: var(--gp-kpi-card-gap, 0.5rem);
   background: var(--gp-kpi-card-background, var(--gp-surface-card, #0f172a));
   border: 1px solid var(--gp-kpi-card-border-color, var(--gp-surface-border, rgba(148, 163, 184, 0.15)));
   border-radius: var(--gp-kpi-card-border-radius, var(--gp-border-radius-lg, 10px));
@@ -103,4 +105,53 @@
 .gp-grid-kpi-sub {
   font-size: 0.75rem;
   color: var(--gp-text-color-muted, #64748b);
+}
+
+.gp-grid-kpi-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 0.75rem;
+}
+
+.gp-grid-kpi-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.gp-grid-kpi-error-icon {
+  color: var(--gp-danger, #ef4444);
+}
+
+.gp-grid-kpi-error-text {
+  font-size: 0.8rem;
+  color: var(--gp-danger, #ef4444);
+  line-height: 1.3;
+}
+
+.gp-grid-kpi-retry-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--gp-border-radius-sm, 4px);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.2));
+  background: var(--gp-surface-hover, rgba(255, 255, 255, 0.05));
+  color: var(--gp-text-color, #f8fafc);
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
+    border-color: var(--gp-primary, #6366f1);
+    color: var(--gp-primary, #6366f1);
+  }
 }

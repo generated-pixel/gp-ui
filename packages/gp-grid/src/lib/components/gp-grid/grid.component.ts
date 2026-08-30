@@ -190,6 +190,8 @@ export class GpGridComponent implements OnInit, OnDestroy {
   public itemResized = output<GpGridChangeEvent>();
   public itemRemoved = output<GpGridItem>();
   public itemOptionsClick = output<{ event: MouseEvent; item: GpGridItem }>();
+  public itemNavigate = output<{ routerLink: string | any[]; queryParams?: Record<string, any>; item: GpGridItem }>();
+  public itemClick = output<{ data?: any; item: GpGridItem }>();
   public layoutChanged = output<GpGridItem[]>();
 
   // --- INTERNAL REACTIVE STATE ---

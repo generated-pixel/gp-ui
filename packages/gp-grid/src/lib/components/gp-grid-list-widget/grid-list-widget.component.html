@@ -1,70 +1,102 @@
 <div class="gp-grid-list-widget">
   <div class="gp-grid-list-header">
-    <h4 class="gp-grid-list-title">{{ effectiveTitle() }}</h4>
+    <div class="gp-grid-list-title-group">
+      <h4 class="gp-grid-list-title">{{ effectiveTitle() }}</h4>
+      @if (normalizedData().subtitle) {
+        <span class="gp-grid-list-sub">{{ normalizedData().subtitle }}</span>
+      }
+    </div>
     @if (effectiveActionLabel()) {
       <gp-button
         variant="text"
-        severity="primary"
         size="sm"
-        (onClickEvent)="actionClick.emit()"
+        severity="primary"
+        (onClickEvent)="onActionClicked($event)"
       >
         {{ effectiveActionLabel() }}
+        <gp-icon name="arrow-right" size="0.85em" style="margin-left: 0.35rem;" />
       </gp-button>
     }
   </div>
 
-  <div class="gp-grid-list-body">
-    @for (it of effectiveItems(); track it.id || $index) {
-      <div
-        class="gp-grid-list-row"
-        (click)="itemClick.emit(it)"
-        (keydown.enter)="itemClick.emit(it)"
-        tabindex="0"
-        role="button"
-      >
-        @if (it.avatar || it.avatarLabel) {
-          <gp-avatar
-            [label]="it.avatarLabel || it.title.charAt(0)"
-            [image]="it.avatar || ''"
-            size="normal"
-            shape="circle"
-          />
-        } @else if (it.icon) {
-          <div
-            class="gp-grid-list-icon"
-            [style.background]="it.iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.1))'"
-            [style.color]="it.iconColor || 'var(--gp-primary, #6366f1)'"
-          >
-            <gp-icon [name]="it.icon" size="1.1em" />
-          </div>
-        }
-
-        <div class="gp-grid-list-info">
-          <span class="gp-grid-list-item-title">{{ it.title }}</span>
-          @if (it.subtitle || it.category) {
-            <span class="gp-grid-list-item-sub">{{ it.subtitle || it.category }}</span>
-          }
-        </div>
-
-        <div class="gp-grid-list-trailing">
-          @if (it.revenue || it.sales) {
-            <div class="gp-grid-list-metrics">
-              @if (it.revenue) {
-                <span class="gp-grid-list-rev">{{ it.revenue }}</span>
-              }
-              @if (it.sales) {
-                <span class="gp-grid-list-sales">{{ it.sales }}</span>
-              }
-            </div>
-          }
-          @if (it.badge) {
-            <gp-badge [value]="it.badge" [severity]="it.badgeSeverity || 'primary'" />
-          }
-          @if (it.time) {
-            <span class="gp-grid-list-time">{{ it.time }}</span>
-          }
+  @if (isLoading()) {
+    <div class="gp-grid-list-loading">
+      <div class="gp-grid-list-skeleton-item" *ngFor="let i of [1, 2, 3, 4]">
+        <gp-skeleton shape="circle" size="2.25rem" />
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.35rem;">
+          <gp-skeleton width="60%" height="1rem" />
+          <gp-skeleton width="40%" height="0.75rem" />
         </div>
       </div>
-    }
-  </div>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="gp-grid-list-error">
+      <gp-icon name="circle-alert" size="1.75em" class="gp-grid-list-error-icon" />
+      <span class="gp-grid-list-error-text">{{ errorMessage() }}</span>
+      <button type="button" class="gp-grid-list-retry-btn" (click)="refresh()">Retry</button>
+    </div>
+  } @else {
+    <div class="gp-grid-list-scroll">
+      @for (item of effectiveItems(); track item.id || $index) {
+        <div
+          class="gp-grid-list-item"
+          [class.gp-grid-list-item--clickable]="!!item.routerLink || !!itemClick"
+          (click)="onItemClicked(item, $event)"
+          (keydown.enter)="onItemClicked(item, $event)"
+          tabindex="0"
+          role="button"
+        >
+          <div class="gp-grid-list-item-main">
+            @if (item.avatar) {
+              <gp-avatar
+                [image]="item.avatar"
+                size="normal"
+                shape="circle"
+              />
+            } @else if (item.avatarLabel) {
+              <gp-avatar
+                [label]="item.avatarLabel"
+                size="normal"
+                shape="circle"
+              />
+            } @else if (item.icon) {
+              <div
+                class="gp-grid-list-icon"
+                [style.background]="item.iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.12))'"
+                [style.color]="item.iconColor || 'var(--gp-primary, #6366f1)'"
+              >
+                <gp-icon [name]="item.icon" size="1.1em" />
+              </div>
+            }
+
+            <div class="gp-grid-list-details">
+              <span class="gp-grid-list-title-text">{{ item.title }}</span>
+              @if (item.subtitle || item.category) {
+                <span class="gp-grid-list-subtitle-text">{{ item.subtitle || item.category }}</span>
+              }
+            </div>
+          </div>
+
+          <div class="gp-grid-list-meta">
+            @if (item.badge) {
+              <gp-badge
+                [value]="item.badge"
+                [severity]="item.badgeSeverity || 'primary'"
+              />
+            }
+            @if (item.revenue || item.sales) {
+              <strong class="gp-grid-list-val">{{ item.revenue || item.sales }}</strong>
+            }
+            @if (item.time) {
+              <span class="gp-grid-list-time">{{ item.time }}</span>
+            }
+          </div>
+        </div>
+      } @empty {
+        <div class="gp-grid-list-empty">
+          {{ normalizedData().emptyMessage || 'No recent activity.' }}
+        </div>
+      }
+    </div>
+  }
 </div>

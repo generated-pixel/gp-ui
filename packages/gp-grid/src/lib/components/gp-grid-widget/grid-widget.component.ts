@@ -8,8 +8,11 @@ import {
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { GpIconComponent, GpBadgeComponent, GpTranslationService, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 import { GpGridItem } from '../../models/grid-item.model';
+import { GpWidgetAction } from '../../models/grid-widget.model';
+import { executeWidgetNavigation } from '../../services/widget-data-resolver';
 
 @Component({
   selector: 'gp-grid-widget',
@@ -29,6 +32,7 @@ import { GpGridItem } from '../../models/grid-item.model';
 })
 export class GpGridWidgetComponent {
   private translationService = inject(GpTranslationService, { optional: true });
+  private router = inject(Router, { optional: true });
 
   /**
    * Complete item configuration.
@@ -39,6 +43,11 @@ export class GpGridWidgetComponent {
    * Widget title displayed in the header.
    */
   public title = input<string>('');
+
+  /**
+   * Widget subtitle displayed in the header.
+   */
+  public subtitle = input<string>('');
 
   /**
    * Icon name for the widget header.
@@ -54,6 +63,11 @@ export class GpGridWidgetComponent {
    * Severity styling for badge ('primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info').
    */
   public badgeSeverity = input<GpBadgeSeverity>('primary');
+
+  /**
+   * Header action buttons.
+   */
+  public actions = input<GpWidgetAction[] | undefined>(undefined);
 
   /**
    * Whether the header bar is rendered.
@@ -160,14 +174,26 @@ export class GpGridWidgetComponent {
   public close = output<GpGridItem | undefined>();
   public optionsClick = output<{ event: MouseEvent; item?: GpGridItem }>();
   public lockToggle = output<{ item?: GpGridItem; locked: boolean }>();
+  public actionClick = output<{ event: MouseEvent; action: GpWidgetAction; item?: GpGridItem }>();
+  public navigate = output<{ routerLink: string | any[]; queryParams?: Record<string, any> }>();
 
   // --- COMPUTED STATE ---
   public effectiveTitle = computed(() => {
     return this.title() || this.item()?.title || '';
   });
 
+  public effectiveSubtitle = computed(() => {
+    return this.subtitle() || this.item()?.subtitle || '';
+  });
+
   public effectiveIcon = computed(() => {
     return this.icon() || this.item()?.icon || '';
+  });
+
+  public effectiveActions = computed<GpWidgetAction[]>(() => {
+    if (this.actions() && this.actions()!.length > 0) return this.actions()!;
+    if (this.item()?.actions && this.item()!.actions!.length > 0) return this.item()!.actions!;
+    return [];
   });
 
   public effectiveDragHandleTitle = computed(() => {
@@ -246,6 +272,27 @@ export class GpGridWidgetComponent {
   public onOptions(event: MouseEvent): void {
     event.stopPropagation();
     this.optionsClick.emit({ event, item: this.item() });
+  }
+
+  public onActionClick(action: GpWidgetAction, event: MouseEvent): void {
+    event.stopPropagation();
+
+    if (action.routerLink) {
+      const navConfig = {
+        routerLink: action.routerLink,
+        queryParams: action.queryParams
+      };
+      const navigated = executeWidgetNavigation(navConfig, this.router, event);
+      if (navigated) {
+        this.navigate.emit(navConfig);
+      }
+    }
+
+    if (action.onClick) {
+      action.onClick(event, action, this.item());
+    }
+
+    this.actionClick.emit({ event, action, item: this.item() });
   }
 
   public toggleLock(event: MouseEvent): void {

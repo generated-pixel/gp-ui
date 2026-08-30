@@ -1,64 +1,114 @@
 <div class="gp-grid-table-widget">
   <div class="gp-grid-table-header">
-    <h4 class="gp-grid-table-title">{{ effectiveTitle() }}</h4>
-    @if (data()?.exportable !== false) {
-      <gp-button
-        variant="outlined"
-        severity="secondary"
-        size="sm"
-        (onClickEvent)="exportClick.emit()"
-      >
-        <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
-        {{ exportBtnLabel() }}
-      </gp-button>
-    }
+    <div class="gp-grid-table-title-group">
+      <h4 class="gp-grid-table-title">{{ effectiveTitle() }}</h4>
+      @if (normalizedData().subtitle) {
+        <span class="gp-grid-table-sub">{{ normalizedData().subtitle }}</span>
+      }
+    </div>
+    <div class="gp-grid-table-actions">
+      @if (filterable() || normalizedData().filterPlaceholder) {
+        <div class="gp-grid-table-search">
+          <gp-icon name="search" size="0.85em" class="gp-grid-search-icon" />
+          <input
+            type="text"
+            class="gp-grid-search-input"
+            [placeholder]="normalizedData().filterPlaceholder || filterPlaceholder()"
+            [value]="filterQuery()"
+            (input)="filterQuery.set($any($event.target).value)"
+          />
+          @if (filterQuery()) {
+            <button type="button" class="gp-grid-search-clear" (click)="filterQuery.set('')">×</button>
+          }
+        </div>
+      }
+      @if (normalizedData().exportable !== false) {
+        <gp-button
+          variant="outlined"
+          severity="secondary"
+          size="sm"
+          (onClickEvent)="exportClick.emit()"
+        >
+          <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+          {{ exportBtnLabel() }}
+        </gp-button>
+      }
+    </div>
   </div>
 
-  <div class="gp-grid-table-scroll">
-    <table class="gp-grid-table">
-      <thead>
-        <tr>
-          @for (col of effectiveColumns(); track col.field) {
-            <th [style.width]="col.width" [style.textAlign]="col.align || 'left'">
-              {{ col.header }}
-            </th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        @for (row of effectiveRows(); track $index) {
-          <tr (click)="rowClick.emit(row)" (keydown.enter)="rowClick.emit(row)" tabindex="0">
+  @if (isLoading()) {
+    <div class="gp-grid-table-loading">
+      <div class="gp-grid-skeleton-row" *ngFor="let i of [1, 2, 3, 4]">
+        <gp-skeleton shape="circle" size="2rem" />
+        <gp-skeleton width="30%" height="1.25rem" />
+        <gp-skeleton width="20%" height="1.25rem" />
+        <gp-skeleton width="15%" height="1.25rem" />
+      </div>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="gp-grid-table-error">
+      <gp-icon name="circle-alert" size="1.75em" class="gp-grid-table-error-icon" />
+      <span class="gp-grid-table-error-text">{{ errorMessage() }}</span>
+      <button type="button" class="gp-grid-table-retry-btn" (click)="refresh()">Retry</button>
+    </div>
+  } @else {
+    <div class="gp-grid-table-scroll">
+      <table class="gp-grid-table">
+        <thead>
+          <tr>
             @for (col of effectiveColumns(); track col.field) {
-              <td [style.textAlign]="col.align || 'left'">
-                @if (col.type === 'badge') {
-                  <gp-badge
-                    [value]="row[col.field]"
-                    [severity]="getBadgeSeverity(row, col)"
-                  />
-                } @else if (col.type === 'avatar') {
-                  <div class="gp-grid-avatar-cell">
-                    <gp-avatar
-                      [label]="(row[col.field] || 'A').charAt(0)"
-                      size="normal"
-                      shape="circle"
-                    />
-                    <div class="gp-grid-avatar-text">
-                      <span class="gp-grid-avatar-title">{{ row[col.field] }}</span>
-                      @if (row['domain'] || row['email'] || row['subtitle']) {
-                        <span class="gp-grid-avatar-sub">{{ row['domain'] || row['email'] || row['subtitle'] }}</span>
-                      }
-                    </div>
-                  </div>
-                } @else if (col.type === 'currency') {
-                  <strong class="gp-grid-currency-val">{{ row[col.field] }}</strong>
-                } @else {
-                  <span>{{ row[col.field] }}</span>
-                }
-              </td>
+              <th [style.width]="col.width" [style.textAlign]="col.align || 'left'">
+                {{ col.header }}
+              </th>
             }
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          @for (row of effectiveRows(); track $index) {
+            <tr
+              [class.gp-grid-table-row--clickable]="!!row['routerLink'] || !!rowClick"
+              (click)="onRowClicked(row, $event)"
+              (keydown.enter)="onRowClicked(row, $event)"
+              tabindex="0"
+            >
+              @for (col of effectiveColumns(); track col.field) {
+                <td [style.textAlign]="col.align || 'left'">
+                  @if (col.type === 'badge') {
+                    <gp-badge
+                      [value]="row[col.field]"
+                      [severity]="getBadgeSeverity(row, col)"
+                    />
+                  } @else if (col.type === 'avatar') {
+                    <div class="gp-grid-avatar-cell">
+                      <gp-avatar
+                        [label]="(row[col.field] || 'A').charAt(0)"
+                        size="normal"
+                        shape="circle"
+                      />
+                      <div class="gp-grid-avatar-text">
+                        <span class="gp-grid-avatar-title">{{ row[col.field] }}</span>
+                        @if (row['domain'] || row['email'] || row['subtitle']) {
+                          <span class="gp-grid-avatar-sub">{{ row['domain'] || row['email'] || row['subtitle'] }}</span>
+                        }
+                      </div>
+                    </div>
+                  } @else if (col.type === 'currency') {
+                    <strong class="gp-grid-currency-val">{{ row[col.field] }}</strong>
+                  } @else {
+                    <span>{{ row[col.field] }}</span>
+                  }
+                </td>
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td [attr.colspan]="effectiveColumns().length" class="gp-grid-table-empty">
+                {{ normalizedData().emptyMessage || 'No matching records found.' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>

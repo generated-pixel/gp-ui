@@ -6,18 +6,44 @@
     }
   </div>
 
-  <div class="gp-grid-progress-list">
-    @for (item of effectiveItems(); track item.label) {
-      <div class="gp-grid-progress-item">
-        <div class="gp-grid-progress-head">
-          <span class="gp-grid-progress-label">{{ item.label }}</span>
-          <span class="gp-grid-progress-val">{{ item.valueText || item.valText || (item.percentage + '%') }}</span>
+  @if (isLoading()) {
+    <div class="gp-grid-progress-loading">
+      <div class="gp-grid-progress-skeleton-item" *ngFor="let i of [1, 2, 3]">
+        <div style="display: flex; justify-content: space-between;">
+          <gp-skeleton width="45%" height="1rem" />
+          <gp-skeleton width="15%" height="1rem" />
         </div>
-        <gp-progress-bar
-          [value]="item.percentage || item.pct || 0"
-          [showValue]="false"
-        />
+        <gp-skeleton width="100%" height="8px" />
       </div>
-    }
-  </div>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="gp-grid-progress-error">
+      <gp-icon name="circle-alert" size="1.75em" class="gp-grid-progress-error-icon" />
+      <span class="gp-grid-progress-error-text">{{ errorMessage() }}</span>
+      <button type="button" class="gp-grid-progress-retry-btn" (click)="refresh()">Retry</button>
+    </div>
+  } @else {
+    <div class="gp-grid-progress-list">
+      @for (goal of effectiveItems(); track goal.label) {
+        <div
+          class="gp-grid-progress-item"
+          [class.gp-grid-progress-item--clickable]="!!goal.routerLink || !!itemClick"
+          (click)="onItemClicked(goal, $event)"
+          (keydown.enter)="onItemClicked(goal, $event)"
+          tabindex="0"
+          role="button"
+        >
+          <div class="gp-grid-progress-top">
+            <span class="gp-grid-progress-label">{{ goal.label }}</span>
+            <span class="gp-grid-progress-val">{{ goal.valueText || goal.valText || (goal.percentage + '%') }}</span>
+          </div>
+          <gp-progress-bar
+            [value]="goal.percentage"
+            [showValue]="false"
+            styleClass="gp-grid-progress-bar"
+          />
+        </div>
+      }
+    </div>
+  }
 </div>

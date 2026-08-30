@@ -1,12 +1,20 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-settings-card {
-  background: var(--gp-surface-card);
-  border: 1px solid var(--gp-surface-border);
-  border-radius: 12px;
-  padding: 1.75rem;
+  background: var(--gp-block-card-background, var(--gp-surface-card));
+  border: 1px solid var(--gp-block-card-border-color, var(--gp-surface-border));
+  border-radius: var(--gp-block-card-border-radius, var(--gp-border-radius-lg, 12px));
+  padding: var(--gp-block-card-padding, 1.75rem);
+  margin: var(--gp-block-card-margin, 0);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--gp-block-card-gap, 1.5rem);
   width: 100%;
+  box-sizing: border-box;
 }
 
 .settings-head {

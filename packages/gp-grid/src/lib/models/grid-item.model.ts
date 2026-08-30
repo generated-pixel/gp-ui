@@ -1,10 +1,10 @@
-import { GpGridWidgetType } from './grid-widget.model';
+import { GpGridWidgetType, GpWidgetDataSource, GpWidgetAction, GpWidgetNavigationConfig } from './grid-widget.model';
 
 /**
  * GpGridItem defines the layout coordinates, constraints, and configuration
  * for a single widget within a GpGrid system.
  */
-export interface GpGridItem<T = any> {
+export interface GpGridItem<T = any> extends GpWidgetNavigationConfig {
   /**
    * Unique identifier for the grid widget item.
    */
@@ -54,6 +54,11 @@ export interface GpGridItem<T = any> {
    * Title displayed in the widget header.
    */
   title?: string;
+
+  /**
+   * Subtitle displayed in the widget header.
+   */
+  subtitle?: string;
 
   /**
    * Icon name displayed alongside the title in the header.
@@ -113,9 +118,29 @@ export interface GpGridItem<T = any> {
   widgetData?: any;
 
   /**
+   * Universal reactive data source (direct object, Signal, Observable, Promise, or provider function).
+   */
+  dataSource?: GpWidgetDataSource<any>;
+
+  /**
+   * Optional automatic polling / refresh interval in milliseconds.
+   */
+  refreshInterval?: number;
+
+  /**
+   * Custom action buttons rendered in the widget header.
+   */
+  actions?: GpWidgetAction[];
+
+  /**
    * Whether the widget is currently in a loading state.
    */
   loading?: boolean;
+
+  /**
+   * Optional error message or state.
+   */
+  error?: string | Error | null;
 
   /**
    * Whether the widget body is collapsed.
