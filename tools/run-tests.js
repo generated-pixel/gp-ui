@@ -7,7 +7,17 @@ console.log('?? Running gp-ui automated unit test suite...');
 try {
   console.log('1/2 Running @generatedpixel/gp-css test suite...');
   execSync('node tools/build-css.js', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
-  execSync('node packages/gp-css/dist/test/compiler.test.js', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+  try {
+    execSync('node --experimental-strip-types packages/gp-css/test/compiler.test.ts', {
+      stdio: 'inherit',
+      cwd: path.join(__dirname, '..')
+    });
+  } catch {
+    execSync('npx tsx packages/gp-css/test/compiler.test.ts', {
+      stdio: 'inherit',
+      cwd: path.join(__dirname, '..')
+    });
+  }
 
   console.log('2/2 Verifying component spec test files...');
   const specFiles = [];
