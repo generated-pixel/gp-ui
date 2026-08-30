@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from 'gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpTextareaComponent } from 'gp-ui';
 import {
   GpDynamicBlockRendererComponent,
   GpBlockMetadata,
@@ -17,7 +17,9 @@ import {
     FormsModule,
     RouterModule,
     GpBadgeComponent,
+    GpButtonComponent,
     GpIconComponent,
+    GpTextareaComponent,
     GpDynamicBlockRendererComponent
   ],
   template: `
@@ -37,30 +39,9 @@ import {
         <!-- Presets Selector -->
         <div class="presets-toolbar">
           <span class="p-lbl">Presets:</span>
-          <button
-            type="button"
-            class="p-btn"
-            [class.active]="selectedPreset === 'profile'"
-            (click)="loadPreset('profile')"
-          >
-            User Profile Settings
-          </button>
-          <button
-            type="button"
-            class="p-btn"
-            [class.active]="selectedPreset === 'checkout'"
-            (click)="loadPreset('checkout')"
-          >
-            Ecommerce Checkout
-          </button>
-          <button
-            type="button"
-            class="p-btn"
-            [class.active]="selectedPreset === 'kpi'"
-            (click)="loadPreset('kpi')"
-          >
-            SaaS KPI Dashboard
-          </button>
+          <gp-button label="User Profile Settings" size="sm" [variant]="selectedPreset === 'profile' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'profile' ? ' active' : '')" (onClickEvent)="loadPreset('profile')" />
+          <gp-button label="Ecommerce Checkout" size="sm" [variant]="selectedPreset === 'checkout' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'checkout' ? ' active' : '')" (onClickEvent)="loadPreset('checkout')" />
+          <gp-button label="SaaS KPI Dashboard" size="sm" [variant]="selectedPreset === 'kpi' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'kpi' ? ' active' : '')" (onClickEvent)="loadPreset('kpi')" />
         </div>
       </div>
 
@@ -74,18 +55,19 @@ import {
               <span>JSON Schema Definition</span>
             </div>
             <div class="head-actions">
-              <button type="button" class="btn-sm" (click)="formatJson()">Format</button>
-              <button type="button" class="btn-sm" (click)="resetToCurrentPreset()">Reset</button>
+              <gp-button label="Format" size="sm" variant="text" styleClass="btn-sm" (onClickEvent)="formatJson()" />
+              <gp-button label="Reset" size="sm" variant="text" styleClass="btn-sm" (onClickEvent)="resetToCurrentPreset()" />
             </div>
           </div>
 
           <div class="editor-body">
-            <textarea
-              class="json-textarea"
+            <gp-textarea
+              styleClass="json-textarea"
               [(ngModel)]="rawJson"
               (ngModelChange)="onJsonChange($event)"
-              spellcheck="false"
-            ></textarea>
+              [rows]="28"
+              ariaLabel="JSON schema definition"
+            />
           </div>
 
           <div *ngIf="jsonError" class="json-error-banner">
@@ -118,7 +100,7 @@ import {
           <div class="event-log-box">
             <div class="log-head">
               <span>Event Stream Log ({{ logs.length }} Events)</span>
-              <button type="button" class="btn-clear" (click)="logs = []">Clear</button>
+              <gp-button label="Clear" size="sm" variant="text" severity="secondary" styleClass="btn-clear" (onClickEvent)="logs = []" />
             </div>
             <div class="log-list">
               <div *ngIf="logs.length === 0" class="log-empty">No events emitted yet. Interact with the form above!</div>

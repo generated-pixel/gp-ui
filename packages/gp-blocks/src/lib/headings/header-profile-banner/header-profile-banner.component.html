@@ -42,11 +42,11 @@
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="messageClick.emit()">
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="messageClick.emit()">
             <gp-icon name="message-square" size="0.85em" style="margin-right: 0.35rem;" />
             {{ messageBtnLabel() }}
           </gp-button>
-          <gp-button severity="primary" size="sm" (onClick)="connectClick.emit()">
+          <gp-button severity="primary" size="sm" (onClickEvent)="connectClick.emit()">
             <gp-icon name="user-plus" size="0.85em" style="margin-right: 0.35rem;" />
             {{ connectBtnLabel() }}
           </gp-button>

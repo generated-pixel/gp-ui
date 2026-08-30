@@ -1,11 +1,11 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpPasswordComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-form-checkout-payment',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpPasswordComponent],
   templateUrl: './form-checkout-payment.component.html',
   styleUrl: './form-checkout-payment.component.scss'
 })

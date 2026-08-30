@@ -1,27 +1,25 @@
 import { Component, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GpButtonComponent } from 'gp-ui';
 
 @Component({
   selector: 'doc-code',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GpButtonComponent],
   template: `
     <div class="doc-code-container">
       <div class="doc-code-header">
         <span class="doc-code-lang">{{ language().toUpperCase() }}</span>
-        <button
-          type="button"
-          class="doc-code-copy-btn"
-          (click)="copyCode()"
-          [class.doc-code-copied]="copied()"
-          aria-label="Copy code to clipboard"
-        >
-          @if (copied()) {
-            <span>✓ Copied</span>
-          } @else {
-            <span>📋 Copy</span>
-          }
-        </button>
+        <gp-button
+          [label]="copied() ? 'Copied' : 'Copy'"
+          [icon]="copied() ? 'check' : 'copy'"
+          size="sm"
+          variant="text"
+          severity="secondary"
+          [styleClass]="'doc-code-copy-btn' + (copied() ? ' doc-code-copied' : '')"
+          ariaLabel="Copy code to clipboard"
+          (onClickEvent)="copyCode()"
+        />
       </div>
       <pre class="doc-code-pre"><code>{{ code() }}</code></pre>
     </div>

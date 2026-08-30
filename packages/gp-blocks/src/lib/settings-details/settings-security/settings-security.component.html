@@ -29,37 +29,40 @@
             <div class="pass-fields-grid">
               <div class="field-col">
                 <label class="f-label">Current Password</label>
-                <input
-                  type="password"
-                  class="form-inp"
+                <gp-password
+                  styleClass="form-inp"
+                  [fluid]="true"
+                  [feedback]="false"
                   [value]="currentPasswordValue()"
-                  (input)="currentPasswordValue.set($any($event.target).value)"
+                  (valueChange)="currentPasswordValue.set($event)"
                   placeholder="Enter current password"
                 />
               </div>
               <div class="field-col">
                 <label class="f-label">New Password</label>
-                <input
-                  type="password"
-                  class="form-inp"
+                <gp-password
+                  styleClass="form-inp"
+                  [fluid]="true"
+                  [feedback]="false"
                   [value]="newPasswordValue()"
-                  (input)="newPasswordValue.set($any($event.target).value)"
+                  (valueChange)="newPasswordValue.set($event)"
                   placeholder="Enter new password"
                 />
               </div>
               <div class="field-col">
                 <label class="f-label">Confirm New Password</label>
-                <input
-                  type="password"
-                  class="form-inp"
+                <gp-password
+                  styleClass="form-inp"
+                  [fluid]="true"
+                  [feedback]="false"
                   [value]="confirmPasswordValue()"
-                  (input)="confirmPasswordValue.set($any($event.target).value)"
+                  (valueChange)="confirmPasswordValue.set($event)"
                   placeholder="Confirm new password"
                 />
               </div>
             </div>
             <div class="sec-action-row">
-              <gp-button severity="primary" size="sm" (onClick)="onUpdatePassword()">Update Password</gp-button>
+              <gp-button severity="primary" size="sm" (onClickEvent)="onUpdatePassword()">Update Password</gp-button>
             </div>
           </div>
         </ng-content>
@@ -104,7 +107,7 @@
                   <span class="sess-meta">{{ s.isCurrent ? 'Current Active Session' : ('Last active ' + s.lastActive) }} &bull; IP {{ s.ip }}</span>
                 </div>
                 <gp-badge *ngIf="s.isCurrent" value="Current" severity="primary" />
-                <gp-button *ngIf="!s.isCurrent" variant="text" severity="danger" size="sm" (onClick)="revokeSession.emit(s)">Revoke</gp-button>
+                <gp-button *ngIf="!s.isCurrent" variant="text" severity="danger" size="sm" (onClickEvent)="revokeSession.emit(s)">Revoke</gp-button>
               </div>
             </div>
           </div>

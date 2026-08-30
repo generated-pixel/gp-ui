@@ -44,15 +44,15 @@
           <div class="bar-right">
             <div class="search-wrap">
               <gp-icon name="search" size="0.9em" class="search-ico" />
-              <input
+              <gp-input-text
                 type="text"
                 [value]="searchQuery()"
                 [placeholder]="searchPlaceholder()"
-                (input)="onSearch($event)"
-                class="search-input"
+                (onInputEvent)="onSearch($event)"
+                styleClass="search-input"
               />
             </div>
-            <gp-button severity="primary" (onClick)="addClick.emit()">
+            <gp-button severity="primary" (onClickEvent)="addClick.emit()">
               <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
               {{ addBtnLabel() }}
             </gp-button>

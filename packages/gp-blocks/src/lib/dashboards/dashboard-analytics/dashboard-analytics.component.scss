@@ -1,114 +1,181 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-dashboard-analytics-root {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        width: 100%;
-      }
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-      .traffic-stats-row {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.25rem;
-      }
+.dashboard-top-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-      .traffic-stat-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 1.25rem 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
+/* 1. Stat KPI Banner Row */
+.stat-banner-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+}
 
-      .stat-title {
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--gp-text-color-secondary);
-      }
+.stat-box {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-md, 8px);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: all var(--gp-transition-duration, 150ms) ease;
+}
 
-      .stat-num {
-        font-size: 1.75rem;
-        font-weight: 800;
-        color: var(--gp-text-color);
-      }
+.stat-box:hover {
+  border-color: var(--gp-primary);
+  box-shadow: var(--gp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.05));
+}
 
-      .stat-diff {
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
+.stat-title {
+  font-size: 0.775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gp-text-color-secondary);
+}
 
-      .stat-diff.pos { color: #16a34a; }
-      .stat-diff.neu { color: #64748b; }
+.stat-num-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
 
-      .analytics-panels-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.25rem;
-      }
+.stat-val {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--gp-text-color);
+  letter-spacing: -0.02em;
+}
 
-      .analytics-panel {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-      }
+.stat-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--gp-border-radius-sm, 4px);
+  background: var(--gp-surface-ground);
+  color: var(--gp-text-color-secondary);
+}
 
-      .analytics-panel h3 {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
+.stat-pill.pos {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
 
-      .channel-bars {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
+.stat-pill.neg {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
 
-      .ch-info {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 0.35rem;
-      }
+/* 2 & 3. Card Containers */
+.analytics-card {
+  background: var(--gp-surface-card);
+  border-radius: var(--gp-border-radius-lg, 10px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-      .region-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
+.card-head {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gp-text-color);
+  margin: 0;
+}
 
-      .region-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
+/* Progress / Acquisition Channel List */
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
 
-      .r-country {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+.progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.25rem 0;
+  transition: opacity var(--gp-transition-duration, 150ms) ease;
+}
 
-      .r-sessions {
-        font-size: 0.8rem;
-        color: var(--gp-text-color-secondary);
-      }
+.progress-row:hover {
+  opacity: 0.85;
+}
 
-      @media (max-width: 1024px) {
-        .traffic-stats-row { grid-template-columns: repeat(2, 1fr); }
-        .analytics-panels-grid { grid-template-columns: 1fr; }
-      }
+.row-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.825rem;
+}
 
-      @media (max-width: 640px) {
-        .traffic-stats-row { grid-template-columns: 1fr; }
-      }
+.meta-name {
+  font-weight: 600;
+  color: var(--gp-text-color);
+}
+
+.meta-val {
+  color: var(--gp-text-color-secondary);
+  font-size: 0.8rem;
+}
+
+/* Region List */
+.region-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.region-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--gp-surface-border);
+}
+
+.region-row:last-child {
+  border-bottom: none;
+}
+
+.country-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gp-text-color);
+  min-width: 120px;
+}
+
+.region-meter {
+  flex: 1;
+}
+
+.session-count {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--gp-text-color-secondary);
+  min-width: 60px;
+  text-align: right;
+}

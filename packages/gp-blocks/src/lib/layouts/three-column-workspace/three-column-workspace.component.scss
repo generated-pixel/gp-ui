@@ -1,6 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-layout-3col-workspace {
-        display: flex;
-        width: 100%;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
         min-height: 480px;
         background: var(--gp-surface-card);
         border: 1px solid var(--gp-surface-border);

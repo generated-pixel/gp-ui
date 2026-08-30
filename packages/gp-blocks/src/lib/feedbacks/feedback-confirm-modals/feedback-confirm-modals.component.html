@@ -36,8 +36,8 @@
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
           <div class="modal-actions-row">
-            <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-            <gp-button [severity]="confirmSeverity()" (onClick)="confirm.emit()">{{ confirmBtnLabel() }}</gp-button>
+            <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+            <gp-button [severity]="confirmSeverity()" (onClickEvent)="confirm.emit()">{{ confirmBtnLabel() }}</gp-button>
           </div>
         </ng-content>
       </ng-template>

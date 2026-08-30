@@ -8,15 +8,17 @@
   <div class="header-main-row">
     <div class="header-identity">
       <!-- Back button -->
-      <button
+      <gp-button
         *ngIf="schema()?.backButton"
-        type="button"
-        class="back-btn"
-        (click)="backClick.emit()"
-        aria-label="Go back"
+        variant="text"
+        severity="secondary"
+        [iconOnly]="true"
+        styleClass="back-btn"
+        ariaLabel="Go back"
+        (onClickEvent)="backClick.emit()"
       >
         <gp-icon name="chevron-left" size="1.1em" />
-      </button>
+      </gp-button>
 
       <!-- Avatar if provided -->
       <gp-avatar
@@ -67,7 +69,7 @@
         [severity]="action.severity || 'primary'"
         [variant]="action.variant || 'filled'"
         [disabled]="action.disabled || false"
-        (onClick)="actionClick.emit(action)"
+        (onClickEvent)="actionClick.emit(action)"
       >
         <gp-icon *ngIf="action.icon" [name]="action.icon" size="0.9em" style="margin-right: 0.35rem;" />
         {{ action.label }}

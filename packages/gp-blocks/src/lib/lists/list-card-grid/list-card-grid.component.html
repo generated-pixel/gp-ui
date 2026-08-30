@@ -10,7 +10,7 @@
           <h3 class="head-title">{{ title() }}</h3>
           <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
         </div>
-        <gp-button severity="primary" size="sm" (onClick)="createClick.emit()">
+        <gp-button severity="primary" size="sm" (onClickEvent)="createClick.emit()">
           <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
           {{ createBtnLabel() }}
         </gp-button>

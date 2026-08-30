@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpPaletteCommandItem {
   id: string;
@@ -14,7 +14,7 @@ export interface GpPaletteCommandItem {
 @Component({
   selector: 'gp-overlay-command-palette',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpIconComponent, GpInputTextComponent],
   templateUrl: './overlay-command-palette.component.html',
   styleUrl: './overlay-command-palette.component.scss'
 })

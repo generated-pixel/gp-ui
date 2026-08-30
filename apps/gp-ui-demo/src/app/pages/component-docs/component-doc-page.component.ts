@@ -191,7 +191,7 @@ import { getComponentDoc } from './component-docs.data';
 
         <div class="doc-section">
           <h2 class="doc-section-title">API Reference</h2>
-          <p class="doc-section-desc" style="color: var(--gp-text-color-secondary); margin-bottom: 1rem;">
+          <p class="doc-section-desc text-secondary mb-4">
             This component utilizes modern Angular <strong>Signal Inputs</strong> (<code>input()</code>), <strong>Two-Way Models</strong> (<code>model()</code>), and <strong>Output Signals</strong> (<code>output()</code>).
           </p>
           <doc-api-table title="Properties &amp; Signal Inputs" [properties]="doc.properties" />
@@ -203,12 +203,12 @@ import { getComponentDoc } from './component-docs.data';
         @if (doc.slug === 'icon') {
           <div class="doc-section">
             <div class="icon-header-row">
-              <h2 class="doc-section-title" style="margin: 0;">Available Icons ({{ filteredIconNames.length }})</h2>
-              <input
-                type="text"
+              <h2 class="doc-section-title m-0">Available Icons ({{ filteredIconNames.length }})</h2>
+              <gp-input-text
                 placeholder="Search icons..."
-                class="icon-search-input"
-                (input)="onIconSearch($any($event.target).value)"
+                styleClass="icon-search-input"
+                ariaLabel="Search icons"
+                (onInputEvent)="onIconSearch($any($event.target).value)"
               />
             </div>
             <div class="icon-grid">
@@ -279,24 +279,24 @@ import { getComponentDoc } from './component-docs.data';
           <gp-switch label="Push notifications" [value]="true" />
         }
         @case ('slider') {
-          <div style="min-width: 220px;"><gp-slider [min]="0" [max]="100" [value]="68" /></div>
+          <div class="min-w-[220px]"><gp-slider [min]="0" [max]="100" [value]="68" /></div>
         }
         @case ('rating') {
           <gp-rating [value]="4" [max]="5" />
         }
         @case ('color-picker') {
-          <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="flex items-center gap-4">
             <gp-color-picker [value]="'#6366f1'" />
-            <span style="font-size:0.875rem; font-family:monospace; color:var(--gp-text-color-secondary);">#6366f1</span>
+            <span class="text-sm font-mono text-secondary">#6366f1</span>
           </div>
         }
         @case ('input-mask') {
-          <div style="min-width: 240px;">
+          <div class="min-w-[240px]">
             <gp-input-mask mask="(999) 999-9999" placeholder="(555) 000-0000" helperText="Phone number format" />
           </div>
         }
         @case ('cascade-select') {
-          <div style="min-width: 240px;">
+          <div class="min-w-[240px]">
             <gp-cascade-select [options]="demoCascadeOptions" placeholder="Select location..." />
           </div>
         }
@@ -322,7 +322,7 @@ import { getComponentDoc } from './component-docs.data';
           <gp-file-upload [multiple]="true" accept="image/*" />
         }
         @case ('column') {
-          <div style="width: 100%; max-width: 480px;">
+          <div class="w-full max-w-[480px]">
             <gp-table [value]="demoRows">
               <gp-column field="name" header="Project Name" [sortable]="true" />
               <gp-column field="status" header="Status" />
@@ -330,21 +330,21 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('table') {
-          <div style="display:flex; flex-direction:column; gap:0.5rem; min-width:260px;">
+          <div class="flex flex-col gap-2 min-w-[260px]">
             <div
-              style="display:flex; justify-content:space-between; padding:0.5rem 0.75rem; border:1px solid var(--gp-surface-border); border-radius:6px;"
+              class="flex justify-between py-2 px-3 border border-surface rounded-md"
             >
               <span>Name</span><span>Status</span>
             </div>
             <div
-              style="display:flex; justify-content:space-between; padding:0.5rem 0.75rem; border:1px solid var(--gp-surface-border); border-radius:6px;"
+              class="flex justify-between py-2 px-3 border border-surface rounded-md"
             >
               <span>Alpha</span><span>Ready</span>
             </div>
           </div>
         }
         @case ('tree-table') {
-          <div style="width: 100%; max-width: 480px;">
+          <div class="w-full max-w-[480px]">
             <gp-tree-table [value]="demoTreeNodes">
               <gp-column field="label" header="Department" />
             </gp-tree-table>
@@ -363,12 +363,12 @@ import { getComponentDoc } from './component-docs.data';
           <gp-tree [value]="demoTreeNodes" selectionMode="single" />
         }
         @case ('org-chart') {
-          <div style="width: 100%; overflow-x: auto; padding: 0.5rem;">
+          <div class="w-full overflow-x-auto p-2">
             <gp-org-chart [value]="demoOrgChartNode" />
           </div>
         }
         @case ('menu') {
-          <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start;">
+          <div class="flex gap-6 flex-wrap items-start">
             <div>
               <gp-menu [model]="demoMenuItems" />
             </div>
@@ -379,14 +379,14 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('menubar') {
-          <div style="width: 100%;">
+          <div class="w-full">
             <gp-menubar [model]="demoMenubarItems" />
           </div>
         }
         @case ('context-menu') {
           <div
             (contextmenu)="demoContextMenu.show($event)"
-            style="padding: 2.5rem 2rem; border: 2px dashed var(--gp-surface-border); border-radius: 8px; cursor: context-menu; text-align: center; width: 100%;"
+            class="py-10 px-8 border-2 border-dashed border-surface rounded-lg cursor-context-menu text-center w-full"
           >
             Right-click anywhere inside this box to trigger Context Menu
             <gp-context-menu #demoContextMenu [model]="demoContextMenuItems" />
@@ -396,12 +396,12 @@ import { getComponentDoc } from './component-docs.data';
           <gp-breadcrumb [model]="demoMenuItems" [home]="{ icon: 'home' }" />
         }
         @case ('panel-menu') {
-          <div style="width: 100%; max-width: 320px;">
+          <div class="w-full max-w-[320px]">
             <gp-panel-menu [model]="demoPanelMenuItems" />
           </div>
         }
         @case ('tiered-menu') {
-          <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start;">
+          <div class="flex gap-6 flex-wrap items-start">
             <div>
               <gp-tiered-menu [model]="demoTieredMenuItems" />
             </div>
@@ -412,7 +412,7 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('mega-menu') {
-          <div style="width: 100%;">
+          <div class="w-full">
             <gp-mega-menu [model]="demoMegaMenuItems" />
           </div>
         }
@@ -424,24 +424,24 @@ import { getComponentDoc } from './component-docs.data';
           </gp-stepper>
         }
         @case ('tabs') {
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <div class="flex gap-2 flex-wrap">
             <gp-button label="Overview" severity="primary" />
             <gp-button label="Details" variant="outlined" severity="secondary" />
           </div>
         }
         @case ('dock') {
-          <div style="position: relative; height: 110px; width: 100%; display: flex; align-items: flex-end; justify-content: center; background: var(--gp-surface-ground); border-radius: 8px; padding-bottom: 0.5rem;">
+          <div class="relative h-[110px] w-full flex items-end justify-center bg-surface-ground rounded-lg pb-2">
             <gp-dock [model]="demoDockItems" position="bottom" />
           </div>
         }
         @case ('toolbar') {
-          <div style="width: 100%;">
+          <div class="w-full">
             <gp-toolbar>
-              <div start style="display:flex; gap:0.5rem;">
+              <div start class="flex gap-2">
                 <gp-button label="New" icon="plus" severity="primary" size="sm" />
                 <gp-button label="Open" icon="folder-open" severity="secondary" variant="outlined" size="sm" />
               </div>
-              <div end style="display:flex; gap:0.5rem;">
+              <div end class="flex gap-2">
                 <gp-button icon="sliders" severity="secondary" variant="text" size="sm" />
                 <gp-button icon="trash" severity="danger" variant="text" size="sm" />
               </div>
@@ -457,10 +457,10 @@ import { getComponentDoc } from './component-docs.data';
               (visibleChange)="demoDialogVisible = $event"
               [maximizable]="true"
             >
-              <p style="margin: 0 0 1rem 0; line-height: 1.5; color: var(--gp-text-color);">
+              <p class="m-0 mb-4 leading-normal text-primary">
                 Make changes to your profile details here. Click save when you're done.
               </p>
-              <div footer style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+              <div footer class="flex justify-end gap-2">
                 <gp-button label="Cancel" severity="secondary" variant="outlined" (onClickEvent)="demoDialogVisible = false" />
                 <gp-button label="Save" severity="primary" (onClickEvent)="demoDialogVisible = false" />
               </div>
@@ -477,20 +477,20 @@ import { getComponentDoc } from './component-docs.data';
           <div>
             <gp-button label="Open Right Drawer" icon="bars" severity="primary" (onClickEvent)="demoDrawerVisible = true" />
             <gp-drawer header="Settings &amp; Configuration" position="right" [visibleProp]="demoDrawerVisible" (visibleChange)="demoDrawerVisible = $event">
-              <div style="padding: 1.25rem;">
-                <p style="margin-top:0;">Drawer content panel overlaying page context.</p>
+              <div class="p-5">
+                <p class="mt-0">Drawer content panel overlaying page context.</p>
                 <gp-button label="Close Drawer" severity="secondary" (onClickEvent)="demoDrawerVisible = false" />
               </div>
             </gp-drawer>
           </div>
         }
         @case ('popover') {
-          <div style="display:flex; gap:1rem; align-items:center;">
+          <div class="flex gap-4 items-center">
             <gp-button label="Toggle Popover" icon="info-circle" severity="info" (onClickEvent)="demoPopover.toggle($event)" />
             <gp-popover #demoPopover>
-              <div style="padding: 0.75rem 1rem; width: 220px;">
-                <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem;">Quick Info</h4>
-                <p style="margin: 0; font-size: 0.8rem; color: var(--gp-text-color-secondary);">
+              <div class="py-3 px-4 w-[220px]">
+                <h4 class="m-0 mb-2 text-sm">Quick Info</h4>
+                <p class="m-0 text-xs text-secondary">
                   Contextual popover overlay triggered interactively.
                 </p>
               </div>
@@ -513,7 +513,7 @@ import { getComponentDoc } from './component-docs.data';
           <gp-fieldset legend="Profile">Contact details and preferences.</gp-fieldset>
         }
         @case ('divider') {
-          <div style="min-width: 220px;"><gp-divider /></div>
+          <div class="min-w-[220px]"><gp-divider /></div>
         }
         @case ('scroll-panel') {
           <gp-scroll-panel height="8rem">Scrollable content preview.</gp-scroll-panel>
@@ -527,7 +527,7 @@ import { getComponentDoc } from './component-docs.data';
         @case ('toast') {
           <div>
             <gp-toast />
-            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <div class="flex gap-2 flex-wrap">
               <gp-button label="Success Toast" severity="success" size="sm" (onClickEvent)="triggerSuccessToast()" />
               <gp-button label="Info Toast" severity="info" size="sm" (onClickEvent)="triggerInfoToast()" />
               <gp-button label="Warning Toast" severity="warning" size="sm" (onClickEvent)="triggerWarningToast()" />
@@ -539,13 +539,13 @@ import { getComponentDoc } from './component-docs.data';
           <gp-message severity="success" text="Saved successfully" />
         }
         @case ('progress-bar') {
-          <div style="min-width: 220px;"><gp-progress-bar [value]="70" /></div>
+          <div class="min-w-[220px]"><gp-progress-bar [value]="70" /></div>
         }
         @case ('progress-spinner') {
           <gp-progress-spinner [value]="60" />
         }
         @case ('skeleton') {
-          <div style="min-width: 220px;"><gp-skeleton width="12rem" height="1rem" /></div>
+          <div class="min-w-[220px]"><gp-skeleton width="12rem" height="1rem" /></div>
         }
         @case ('tag') {
           <gp-tag value="Beta" severity="secondary" />
@@ -560,7 +560,7 @@ import { getComponentDoc } from './component-docs.data';
           <gp-badge [value]="'New'" severity="primary" />
         }
         @case ('icon') {
-          <div style="display:flex; align-items:center; gap:0.75rem; min-width:220px;">
+          <div class="flex items-center gap-3 min-w-[220px]">
             <gp-icon name="search" size="1.5em" />
             <gp-icon name="check-circle" size="1.5em" color="var(--gp-success)" />
             <gp-icon name="star-fill" size="1.5em" color="var(--gp-warning)" />
@@ -570,12 +570,12 @@ import { getComponentDoc } from './component-docs.data';
           <gp-image src="/img/generated-pixel-logomark.svg" alt="Generated Pixel" width="96px" height="96px" />
         }
         @case ('carousel') {
-          <div style="width: 100%; max-width: 520px;">
+          <div class="w-full max-w-[520px]">
             <gp-carousel [value]="demoCarouselItems">
               <ng-template #item let-slide>
-                <div style="padding: 1.5rem; text-align: center; background: var(--gp-surface-ground); border-radius: 8px; border: 1px solid var(--gp-surface-border);">
-                  <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; color: var(--gp-primary);">{{ slide.title }}</h3>
-                  <p style="margin: 0; font-size: 0.875rem; color: var(--gp-text-color-secondary);">{{ slide.desc }}</p>
+                <div class="p-6 text-center bg-surface-ground rounded-lg border border-surface">
+                  <h3 class="m-0 mb-2 text-lg text-primary">{{ slide.title }}</h3>
+                  <p class="m-0 text-sm text-secondary">{{ slide.desc }}</p>
                 </div>
               </ng-template>
             </gp-carousel>
@@ -588,7 +588,7 @@ import { getComponentDoc } from './component-docs.data';
           <gp-meter-group [value]="demoMeterItems" />
         }
         @case ('timeline') {
-          <div style="width: 100%; max-width: 540px;">
+          <div class="w-full max-w-[540px]">
             <gp-timeline [value]="demoTimelineEvents" />
           </div>
         }

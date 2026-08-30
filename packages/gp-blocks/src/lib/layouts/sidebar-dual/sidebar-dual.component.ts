@@ -1,6 +1,6 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpBadgeComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
 
 export interface GpDualTier1Item {
   id: string;
@@ -18,7 +18,7 @@ export interface GpDualTier2Item {
 @Component({
   selector: 'gp-layout-sidebar-dual',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpIconComponent, GpBadgeComponent, GpButtonComponent],
   templateUrl: './sidebar-dual.component.html',
   styleUrl: './sidebar-dual.component.scss'
 })

@@ -8,12 +8,12 @@
         <!-- Search Input -->
         <div class="sidebar-search-box">
           <gp-icon name="search" size="0.9em" class="search-ico" />
-          <input
+          <gp-input-text
             type="text"
             [value]="searchQuery()"
             [placeholder]="searchPlaceholder()"
-            (input)="onSearch($event)"
-            class="search-inp"
+            (onInputEvent)="onSearch($event)"
+            styleClass="search-inp"
           />
         </div>
 

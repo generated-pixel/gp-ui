@@ -1,11 +1,11 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-form-contact-feedback',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent, GpTextareaComponent],
   templateUrl: './form-contact-feedback.component.html',
   styleUrl: './form-contact-feedback.component.scss'
 })
@@ -19,6 +19,13 @@ export class GpFormContactFeedbackComponent {
   public category = signal<string>('general');
   public rating = signal<number>(5);
   public message = signal<string>('');
+
+  public categoryOptions = [
+    { label: 'General Inquiry', value: 'general' },
+    { label: 'Bug Report', value: 'bug' },
+    { label: 'Feature Request', value: 'feature' },
+    { label: 'Billing Issue', value: 'billing' }
+  ];
 
   public submitFeedback = output<{
     name: string;

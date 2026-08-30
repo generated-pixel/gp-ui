@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 export interface GpOffcanvasNavEntry {
   id: string;
@@ -12,7 +12,7 @@ export interface GpOffcanvasNavEntry {
 @Component({
   selector: 'gp-layout-sidebar-offcanvas',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './sidebar-offcanvas.component.html',
   styleUrl: './sidebar-offcanvas.component.scss'
 })

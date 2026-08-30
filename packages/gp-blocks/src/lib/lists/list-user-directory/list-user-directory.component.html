@@ -9,12 +9,12 @@
         <h3 class="head-title">{{ title() }}</h3>
         <div class="search-box">
           <gp-icon name="search" size="0.9em" class="search-ico" />
-          <input
+          <gp-input-text
             type="text"
             [value]="searchQuery()"
             [placeholder]="searchPlaceholder()"
-            (input)="onSearchInput($event)"
-            class="search-input"
+            (onInputEvent)="onSearchInput($event)"
+            styleClass="search-input"
           />
         </div>
       </div>
@@ -41,8 +41,8 @@
               <h4 class="user-name">{{ u.name }}</h4>
               <span class="user-role">{{ u.role }}</span>
               <div class="user-actions">
-                <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="profileClick.emit(u)">{{ profileBtnLabel() }}</gp-button>
-                <gp-button severity="primary" size="sm" (onClick)="messageClick.emit(u)">{{ messageBtnLabel() }}</gp-button>
+                <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="profileClick.emit(u)">{{ profileBtnLabel() }}</gp-button>
+                <gp-button severity="primary" size="sm" (onClickEvent)="messageClick.emit(u)">{{ messageBtnLabel() }}</gp-button>
               </div>
             </div>
           </ng-template>

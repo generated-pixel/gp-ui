@@ -10,16 +10,19 @@
           <gp-icon name="layer-group" size="1.25em" />
         </div>
         <nav class="strip-nav" *ngIf="tier1Items() && tier1Items().length > 0">
-          <button
+          <gp-button
             type="button"
             *ngFor="let item of tier1Items()"
-            class="strip-btn"
+            variant="text"
+            severity="secondary"
+            [iconOnly]="true"
+            styleClass="strip-btn"
             [class.active]="item.id === activeTier1Id() || item.active"
-            [title]="item.title"
-            (click)="tier1Click.emit(item)"
+            [ariaLabel]="item.title"
+            (onClickEvent)="tier1Click.emit(item)"
           >
             <gp-icon [name]="item.icon" size="1.2em" />
-          </button>
+          </gp-button>
         </nav>
       </ng-content>
     </ng-template>

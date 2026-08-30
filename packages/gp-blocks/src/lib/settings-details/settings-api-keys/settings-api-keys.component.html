@@ -10,7 +10,7 @@
           <h3 class="settings-title">{{ title() }}</h3>
           <p class="settings-subtitle">{{ subtitle() }}</p>
         </div>
-        <gp-button severity="primary" size="sm" (onClick)="generateKey.emit()">
+        <gp-button severity="primary" size="sm" (onClickEvent)="generateKey.emit()">
           <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
           {{ generateBtnLabel() }}
         </gp-button>
@@ -38,15 +38,15 @@
                 </div>
                 <div class="key-token-display">
                   <code>{{ k.token }}</code>
-                  <button type="button" class="copy-btn" (click)="copyKey.emit(k)" title="Copy Key">
+                  <gp-button variant="text" severity="secondary" size="sm" [iconOnly]="true" styleClass="copy-btn" ariaLabel="Copy Key" (onClickEvent)="copyKey.emit(k)">
                     <gp-icon name="copy" size="0.9em" />
-                  </button>
+                  </gp-button>
                 </div>
               </div>
               <div class="key-bottom-meta">
                 <span>Created: {{ k.created }}</span>
                 <span>Last used: {{ k.lastUsed }}</span>
-                <gp-button variant="text" severity="danger" size="sm" (onClick)="revokeKey.emit(k)">Revoke</gp-button>
+                <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeKey.emit(k)">Revoke</gp-button>
               </div>
             </div>
           </div>

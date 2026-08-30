@@ -1,11 +1,11 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpAvatarComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-settings-profile',
   standalone: true,
-  imports: [CommonModule, GpAvatarComponent, GpButtonComponent],
+  imports: [CommonModule, GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent],
   templateUrl: './settings-profile.component.html',
   styleUrl: './settings-profile.component.scss'
 })

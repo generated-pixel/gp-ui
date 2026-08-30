@@ -41,21 +41,23 @@
             <div class="step-form">
               <div class="field-wrap">
                 <label class="input-label">Full Name</label>
-                <input
+                <gp-input-text
                   type="text"
-                  class="form-input"
+                  styleClass="form-input"
+                  [fluid]="true"
                   [value]="fullName()"
-                  (input)="fullName.set($any($event.target).value)"
+                  (valueChange)="fullName.set($event)"
                   placeholder="Enter full name"
                 />
               </div>
               <div class="field-wrap">
                 <label class="input-label">Work Email</label>
-                <input
+                <gp-input-text
                   type="email"
-                  class="form-input"
+                  styleClass="form-input"
+                  [fluid]="true"
                   [value]="email()"
-                  (input)="email.set($any($event.target).value)"
+                  (valueChange)="email.set($event)"
                   placeholder="name@company.com"
                 />
               </div>
@@ -75,21 +77,23 @@
             <div class="step-form">
               <div class="field-wrap">
                 <label class="input-label">Company Name</label>
-                <input
+                <gp-input-text
                   type="text"
-                  class="form-input"
+                  styleClass="form-input"
+                  [fluid]="true"
                   [value]="companyName()"
-                  (input)="companyName.set($any($event.target).value)"
+                  (valueChange)="companyName.set($event)"
                   placeholder="Acme Corp"
                 />
               </div>
               <div class="field-wrap">
                 <label class="input-label">Website Domain</label>
-                <input
+                <gp-input-text
                   type="text"
-                  class="form-input"
+                  styleClass="form-input"
+                  [fluid]="true"
                   [value]="companyWebsite()"
-                  (input)="companyWebsite.set($any($event.target).value)"
+                  (valueChange)="companyWebsite.set($event)"
                   placeholder="https://acme.org"
                 />
               </div>
@@ -112,14 +116,14 @@
               <div class="rev-row"><span>Company:</span> <strong>{{ companyName() || '-' }}</strong></div>
               <div class="rev-row"><span>Website:</span> <strong>{{ companyWebsite() || '-' }}</strong></div>
             </div>
-            <label class="check-label" style="margin-top: 1.25rem;">
-              <input
-                type="checkbox"
-                [checked]="agreeTerms()"
-                (change)="agreeTerms.set($any($event.target).checked)"
-              />
-              <span>I accept the Service License Agreement and Privacy Policy</span>
-            </label>
+            <gp-checkbox
+              styleClass="check-label"
+              [style]="{ marginTop: '1.25rem' }"
+              [binary]="true"
+              [checked]="agreeTerms()"
+              label="I accept the Service License Agreement and Privacy Policy"
+              (valueChange)="agreeTerms.set($event)"
+            />
           </ng-content>
         </ng-template>
       </div>
@@ -133,12 +137,12 @@
         variant="outlined"
         severity="secondary"
         size="sm"
-        (onClick)="prevStep()"
+        (onClickEvent)="prevStep()"
       >
         Previous
       </gp-button>
       <div style="flex: 1;"></div>
-      <gp-button severity="primary" size="sm" (onClick)="nextStep()">
+      <gp-button severity="primary" size="sm" (onClickEvent)="nextStep()">
         {{ currentStep() === steps().length ? 'Complete Setup' : 'Next Step' }}
       </gp-button>
     </div>

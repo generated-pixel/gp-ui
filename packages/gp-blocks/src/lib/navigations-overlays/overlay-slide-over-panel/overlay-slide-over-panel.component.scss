@@ -1,11 +1,19 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-slide-over-wrapper {
-        background: rgba(15, 23, 42, 0.35);
-        padding: 2rem 1rem;
-        border-radius: 14px;
-        display: flex;
-        justify-content: flex-end;
-        width: 100%;
-      }
+  background: var(--gp-surface-section, rgba(15, 23, 42, 0.2));
+  padding: 2rem 1rem;
+  border-radius: var(--gp-border-radius-lg, 14px);
+  border: 1px solid var(--gp-surface-border);
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+}
 
       .slide-over-card {
         background: var(--gp-surface-card);

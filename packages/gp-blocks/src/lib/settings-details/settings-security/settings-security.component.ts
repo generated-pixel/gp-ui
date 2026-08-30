@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpPasswordComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
 
 export interface GpSession {
   id?: string;
@@ -14,7 +14,7 @@ export interface GpSession {
 @Component({
   selector: 'gp-settings-security',
   standalone: true,
-  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpSwitchComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpPasswordComponent, GpSwitchComponent],
   templateUrl: './settings-security.component.html',
   styleUrl: './settings-security.component.scss'
 })

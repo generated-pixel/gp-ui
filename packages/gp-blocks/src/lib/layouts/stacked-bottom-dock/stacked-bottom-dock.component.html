@@ -32,17 +32,20 @@
     <ng-template #defaultDock>
       <ng-content select="[dock], [slot=dock]">
         <div class="dock-pill" *ngIf="dockItems() && dockItems().length > 0">
-          <button
+          <gp-button
             type="button"
             *ngFor="let item of dockItems()"
-            class="dock-item"
+            variant="text"
+            severity="secondary"
+            [iconOnly]="true"
+            styleClass="dock-item"
             [class.active]="item.id === activeDockId() || item.active"
-            [title]="item.title"
-            (click)="dockItemClick.emit(item)"
+            [ariaLabel]="item.title"
+            (onClickEvent)="dockItemClick.emit(item)"
           >
             <gp-icon [name]="item.icon" size="1.25em" />
             <span class="dock-dot" *ngIf="item.id === activeDockId() || item.active"></span>
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>

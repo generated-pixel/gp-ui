@@ -25,8 +25,8 @@
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
           <div class="state-actions-row">
-            <gp-button variant="outlined" severity="secondary" (onClick)="contactSupport.emit()">{{ supportBtnLabel() }}</gp-button>
-            <gp-button severity="primary" (onClick)="retry.emit()">
+            <gp-button variant="outlined" severity="secondary" (onClickEvent)="contactSupport.emit()">{{ supportBtnLabel() }}</gp-button>
+            <gp-button severity="primary" (onClickEvent)="retry.emit()">
               <gp-icon name="rotate-cw" size="0.85em" style="margin-right: 0.35rem;" />
               {{ retryBtnLabel() }}
             </gp-button>

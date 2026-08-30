@@ -132,14 +132,18 @@ body {
 function generateThemeCssVariables(tokens: GpThemeTokens): string {
   const vars: string[] = [':root {'];
   for (const [key, val] of Object.entries(tokens.colors)) {
-    vars.push(`  --gp-color-${key}: ${val};`);
+    vars.push(`  --gp-color-${toCssVariableSegment(key)}: ${val};`);
   }
   for (const [key, val] of Object.entries(tokens.borderRadius)) {
-    vars.push(`  --gp-radius-${key}: ${val};`);
+    vars.push(`  --gp-radius-${toCssVariableSegment(key)}: ${val};`);
   }
   for (const [key, val] of Object.entries(tokens.spacing)) {
-    vars.push(`  --gp-space-${key}: ${val};`);
+    vars.push(`  --gp-space-${toCssVariableSegment(key)}: ${val};`);
   }
   vars.push('}');
   return vars.join('\n');
+}
+
+function toCssVariableSegment(key: string): string {
+  return key.replace(/[^a-zA-Z0-9_-]/g, '-');
 }

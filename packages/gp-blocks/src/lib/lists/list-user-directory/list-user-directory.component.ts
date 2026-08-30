@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpAvatarComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpDirectoryUserItem {
   id?: string | number;
@@ -12,7 +12,7 @@ export interface GpDirectoryUserItem {
 @Component({
   selector: 'gp-list-user-directory',
   standalone: true,
-  imports: [CommonModule, GpAvatarComponent, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpAvatarComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent],
   templateUrl: './list-user-directory.component.html',
   styleUrl: './list-user-directory.component.scss'
 })

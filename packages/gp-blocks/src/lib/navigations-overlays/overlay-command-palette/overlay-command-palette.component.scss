@@ -1,11 +1,19 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-command-palette-backdrop {
-        background: rgba(15, 23, 42, 0.4);
-        padding: 3rem 1.5rem;
-        border-radius: 14px;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
+  background: var(--gp-surface-section, rgba(15, 23, 42, 0.2));
+  padding: 3rem 1.5rem;
+  border-radius: var(--gp-border-radius-lg, 14px);
+  border: 1px solid var(--gp-surface-border);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
 
       .palette-modal {
         background: var(--gp-surface-card);

@@ -7,7 +7,7 @@
     <ng-content select="[header], [slot=header]">
       <div class="card-head" *ngIf="title()">
         <h3 class="head-title">{{ title() }}</h3>
-        <gp-button severity="primary" size="sm" (onClick)="uploadClick.emit()">
+        <gp-button severity="primary" size="sm" (onClickEvent)="uploadClick.emit()">
           <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem;" />
           {{ uploadBtnLabel() }}
         </gp-button>
@@ -37,7 +37,7 @@
                   <span class="f-sub">{{ f.size }} &bull; Uploaded {{ f.date }} by {{ f.by }}</span>
                 </div>
               </div>
-              <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="downloadFile.emit(f)">
+              <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadFile.emit(f)">
                 <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
                 Download
               </gp-button>

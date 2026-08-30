@@ -36,15 +36,17 @@
     <ng-template #defaultTabs>
       <ng-content select="[tabs], [slot=tabs], [subnav], [slot=subnav]">
         <div class="tabs-inner" *ngIf="tabs() && tabs().length > 0">
-          <button
+          <gp-button
             type="button"
             *ngFor="let tab of tabs()"
-            class="tab-btn"
+            variant="text"
+            severity="secondary"
+            styleClass="tab-btn"
             [class.active]="tab.id === activeTabId() || tab.active"
-            (click)="tabChange.emit(tab)"
+            (onClickEvent)="tabChange.emit(tab)"
           >
             {{ tab.label }}
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>

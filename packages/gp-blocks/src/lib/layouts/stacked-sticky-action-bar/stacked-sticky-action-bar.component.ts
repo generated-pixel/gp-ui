@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent, GpBadgeComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpStickyBarNavLink {
   id: string;
@@ -11,7 +11,7 @@ export interface GpStickyBarNavLink {
 @Component({
   selector: 'gp-layout-stacked-sticky-action-bar',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent, GpInputTextComponent],
   templateUrl: './stacked-sticky-action-bar.component.html',
   styleUrl: './stacked-sticky-action-bar.component.scss'
 })

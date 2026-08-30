@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpWizardStepItem {
   number: number;
@@ -10,7 +10,7 @@ export interface GpWizardStepItem {
 @Component({
   selector: 'gp-form-multi-step-wizard',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent],
   templateUrl: './form-multi-step-wizard.component.html',
   styleUrl: './form-multi-step-wizard.component.scss'
 })

@@ -1,50 +1,59 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-sidebar-search-tree-shell {
-        display: flex;
-        width: 100%;
-        min-height: 520px;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: var(--gp-border-radius-lg, 12px);
-        overflow: hidden;
-      }
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 520px;
+  background: var(--gp-surface-ground);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 12px);
+  overflow: hidden;
+}
 
-      .tree-sidebar {
-        width: 260px;
-        background: var(--gp-surface-card);
-        border-right: 1px solid var(--gp-surface-border);
-        padding: 1.25rem 0.85rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        flex-shrink: 0;
-      }
+.tree-sidebar {
+  width: 260px;
+  background: var(--gp-surface-card);
+  border-right: 1px solid var(--gp-surface-border);
+  padding: 1.25rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-shrink: 0;
+}
 
-      .sidebar-search-box {
-        position: relative;
-        display: flex;
-        align-items: center;
-      }
+.sidebar-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
-      .search-ico {
-        position: absolute;
-        left: 0.65rem;
-        color: var(--gp-text-color-secondary);
-      }
+.search-ico {
+  position: absolute;
+  left: 0.65rem;
+  color: var(--gp-text-color-secondary);
+  pointer-events: none;
+}
 
-      .search-inp {
-        width: 100%;
-        padding: 0.45rem 0.65rem 0.45rem 2rem;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 6px;
-        font-size: 0.825rem;
-        outline: none;
-      }
+.search-inp {
+  width: 100%;
+  padding: 0.45rem 0.65rem 0.45rem 2rem;
+  background: var(--gp-input-bg, var(--gp-surface-ground));
+  color: var(--gp-input-text, var(--gp-text-color));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border));
+  border-radius: var(--gp-border-radius-sm, 6px);
+  font-size: 0.825rem;
+  outline: none;
+}
 
-      .search-inp:focus {
-        border-color: var(--gp-primary);
-        background: #fff;
-      }
+.search-inp:focus {
+  border-color: var(--gp-primary);
+  background: var(--gp-surface-card);
+}
 
       .tree-container {
         display: flex;

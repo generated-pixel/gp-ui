@@ -1,11 +1,11 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpInputTextComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-form-user-profile',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent],
+  imports: [CommonModule, GpButtonComponent, GpInputTextComponent, GpTextareaComponent],
   templateUrl: './form-user-profile.component.html',
   styleUrl: './form-user-profile.component.scss'
 })

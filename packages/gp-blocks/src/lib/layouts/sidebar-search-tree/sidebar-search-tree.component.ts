@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpTreeLeaf {
   id: string;
@@ -19,7 +19,7 @@ export interface GpTreeNode {
 @Component({
   selector: 'gp-layout-sidebar-search-tree',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpIconComponent, GpInputTextComponent],
   templateUrl: './sidebar-search-tree.component.html',
   styleUrl: './sidebar-search-tree.component.scss'
 })

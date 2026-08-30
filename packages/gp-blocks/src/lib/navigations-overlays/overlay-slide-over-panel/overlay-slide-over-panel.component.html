@@ -11,9 +11,9 @@
             <h3 class="head-title">{{ title() }}</h3>
             <p class="head-desc" *ngIf="description()">{{ description() }}</p>
           </div>
-          <button type="button" class="close-btn" (click)="close.emit()" aria-label="Close panel">
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="close-btn" ariaLabel="Close panel" (onClickEvent)="close.emit()">
             <gp-icon name="close" size="1.1em" />
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>
@@ -31,24 +31,25 @@
           <ng-content select="[body], [slot=body]">
             <div class="field-wrap">
               <label class="input-label">Configuration Tag</label>
-              <input
+              <gp-input-text
                 type="text"
-                class="panel-input"
+                styleClass="panel-input"
+                [fluid]="true"
                 [value]="configTag()"
-                (input)="configTag.set($any($event.target).value)"
+                (valueChange)="configTag.set($event)"
                 placeholder="tag-name"
               />
             </div>
 
             <div class="field-wrap">
               <label class="input-label">Worker Cluster Size (Nodes)</label>
-              <input
-                type="number"
-                class="panel-input"
+              <gp-input-number
+                styleClass="panel-input"
+                [fluid]="true"
                 [value]="workerNodes()"
-                (input)="workerNodes.set(+$any($event.target).value)"
-                min="1"
-                max="64"
+                (onInputEvent)="workerNodes.set(+$any($event.target).value)"
+                [min]="1"
+                [max]="64"
               />
             </div>
           </ng-content>
@@ -64,8 +65,8 @@
     <ng-template #defaultActions>
       <ng-content select="[actions], [slot=actions]">
         <div class="panel-foot">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-          <gp-button severity="primary" size="sm" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+          <gp-button severity="primary" size="sm" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
         </div>
       </ng-content>
     </ng-template>

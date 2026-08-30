@@ -3,9 +3,9 @@
   <aside class="col-left" [class.collapsed]="leftCollapsed()">
     <div class="col-header">
       <span class="col-title">{{ leftTitle() }}</span>
-      <button type="button" class="icon-toggle-btn" (click)="toggleLeft()" aria-label="Toggle navigation">
+      <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="icon-toggle-btn" ariaLabel="Toggle navigation" (onClickEvent)="toggleLeft()">
         <gp-icon [name]="leftCollapsed() ? 'chevron-right' : 'chevron-left'" size="0.9em" />
-      </button>
+      </gp-button>
     </div>
     <div class="col-content" *ngIf="!leftCollapsed()">
       <ng-container *ngIf="effectiveLeft; else projectedOrFallbackLeft">
@@ -42,15 +42,15 @@
     <header class="main-topbar">
       <div class="topbar-search">
         <gp-icon name="search" size="0.9em" class="search-icon" />
-        <input type="text" [placeholder]="searchPlaceholder()" class="search-input" />
+        <gp-input-text type="text" [placeholder]="searchPlaceholder()" styleClass="search-input" />
       </div>
       <div class="topbar-actions">
         <ng-content select="[actions], [slot=actions]" />
-        <gp-button variant="outlined" severity="secondary" (onClick)="actionClick.emit('filter')">
+        <gp-button variant="outlined" severity="secondary" (onClickEvent)="actionClick.emit('filter')">
           <gp-icon name="filter" size="0.9em" style="margin-right: 0.35rem;" />
           Filter
         </gp-button>
-        <gp-button severity="primary" (onClick)="actionClick.emit('create')">
+        <gp-button severity="primary" (onClickEvent)="actionClick.emit('create')">
           <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
           New Item
         </gp-button>
@@ -77,9 +77,9 @@
   <aside class="col-right" [class.collapsed]="rightCollapsed()">
     <div class="col-header">
       <span class="col-title">{{ rightTitle() }}</span>
-      <button type="button" class="icon-toggle-btn" (click)="toggleRight()" aria-label="Toggle details">
+      <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="icon-toggle-btn" ariaLabel="Toggle details" (onClickEvent)="toggleRight()">
         <gp-icon [name]="rightCollapsed() ? 'chevron-left' : 'chevron-right'" size="0.9em" />
-      </button>
+      </gp-button>
     </div>
     <div class="col-content" *ngIf="!rightCollapsed()">
       <ng-container *ngIf="effectiveRight; else projectedOrFallbackRight">

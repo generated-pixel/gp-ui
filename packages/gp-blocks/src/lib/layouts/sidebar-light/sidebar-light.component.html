@@ -56,7 +56,7 @@
             <div class="upgrade-card" *ngIf="upgradeTitle()">
               <span class="upgrade-title">{{ upgradeTitle() }}</span>
               <p class="upgrade-text" *ngIf="upgradeText()">{{ upgradeText() }}</p>
-              <button type="button" class="upgrade-btn" (click)="upgradeClick.emit()">{{ upgradeBtnLabel() }}</button>
+              <gp-button severity="primary" styleClass="upgrade-btn" (onClickEvent)="upgradeClick.emit()">{{ upgradeBtnLabel() }}</gp-button>
             </div>
           </ng-content>
         </ng-template>

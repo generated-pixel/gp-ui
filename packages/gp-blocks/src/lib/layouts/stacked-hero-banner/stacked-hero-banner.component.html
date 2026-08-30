@@ -39,12 +39,12 @@
           <h1 class="hero-title" *ngIf="heroTitle()">{{ heroTitle() }}</h1>
           <p class="hero-subtitle" *ngIf="heroSubtitle()">{{ heroSubtitle() }}</p>
           <div class="hero-actions" *ngIf="primaryCta() || secondaryCta()">
-            <button type="button" class="btn-primary" *ngIf="primaryCta()" (click)="primaryClick.emit()">
+            <gp-button severity="primary" styleClass="btn-primary" *ngIf="primaryCta()" (onClickEvent)="primaryClick.emit()">
               {{ primaryCta() }}
-            </button>
-            <button type="button" class="btn-secondary" *ngIf="secondaryCta()" (click)="secondaryClick.emit()">
+            </gp-button>
+            <gp-button variant="outlined" severity="secondary" styleClass="btn-secondary" *ngIf="secondaryCta()" (onClickEvent)="secondaryClick.emit()">
               {{ secondaryCta() }}
-            </button>
+            </gp-button>
           </div>
         </div>
       </ng-content>

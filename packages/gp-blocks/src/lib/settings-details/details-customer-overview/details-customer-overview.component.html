@@ -22,8 +22,8 @@
         </div>
 
         <div class="header-action-buttons">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="editContact.emit()">{{ editBtnLabel() }}</gp-button>
-          <gp-button severity="primary" size="sm" (onClick)="newDeal.emit()">{{ newDealBtnLabel() }}</gp-button>
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="editContact.emit()">{{ editBtnLabel() }}</gp-button>
+          <gp-button severity="primary" size="sm" (onClickEvent)="newDeal.emit()">{{ newDealBtnLabel() }}</gp-button>
         </div>
       </div>
     </ng-content>

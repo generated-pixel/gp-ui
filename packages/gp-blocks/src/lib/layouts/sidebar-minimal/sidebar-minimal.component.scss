@@ -1,6 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-sidebar-minimal-shell {
-        display: flex;
-        width: 100%;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
         min-height: 500px;
         background: var(--gp-surface-card);
         border: 1px solid var(--gp-surface-border);

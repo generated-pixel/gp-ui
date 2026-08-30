@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpAvatarComponent, GpButtonComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpTopBarNavLink {
   id?: string;
@@ -12,7 +12,7 @@ export interface GpTopBarNavLink {
 @Component({
   selector: 'gp-nav-responsive-top-bar',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpAvatarComponent],
+  imports: [CommonModule, GpIconComponent, GpAvatarComponent, GpButtonComponent, GpInputTextComponent],
   templateUrl: './nav-responsive-top-bar.component.html',
   styleUrl: './nav-responsive-top-bar.component.scss'
 })

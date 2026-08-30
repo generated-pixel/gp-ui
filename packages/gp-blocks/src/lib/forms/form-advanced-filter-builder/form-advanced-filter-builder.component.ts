@@ -1,7 +1,7 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent } from '@generatedpixel/gp-ui';
 
 export interface GpFilterBuilderOption {
   label: string;
@@ -17,7 +17,7 @@ export interface GpFilterCondition {
 @Component({
   selector: 'gp-form-advanced-filter-builder',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, FormsModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent],
   templateUrl: './form-advanced-filter-builder.component.html',
   styleUrl: './form-advanced-filter-builder.component.scss'
 })

@@ -1,6 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-sidebar-pinned-status-shell {
-        display: flex;
-        width: 100%;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
         min-height: 520px;
         background: var(--gp-surface-ground);
         border: 1px solid var(--gp-surface-border);

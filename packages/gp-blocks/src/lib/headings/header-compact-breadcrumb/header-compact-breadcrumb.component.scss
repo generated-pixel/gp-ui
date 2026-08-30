@@ -1,45 +1,61 @@
-.gp-compact-breadcrumb-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 10px;
-        padding: 0.85rem 1.25rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-      }
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-      .crumb-nav {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-      }
+.gp-header-compact {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-md, 10px);
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-      .back-link {
-        background: transparent;
-        border: none;
-        color: var(--gp-primary);
-        font-weight: 600;
-        font-size: 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        cursor: pointer;
-      }
+.left-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 
-      .back-link:hover { text-decoration: underline; }
+.back-btn {
+  background: transparent;
+  border: none;
+  color: var(--gp-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--gp-border-radius-sm, 4px);
+  transition: background var(--gp-transition-duration, 150ms) ease;
+}
 
-      .crumb-sep {
-        color: var(--gp-text-color-secondary);
-      }
+.back-btn:hover {
+  background: var(--gp-primary-light, rgba(99, 102, 241, 0.08));
+}
 
-      .crumb-active {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+.sep {
+  color: var(--gp-text-color-secondary);
+  opacity: 0.6;
+}
 
-      .compact-actions {
-        display: flex;
-        gap: 0.5rem;
-      }
+.active-crumb {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gp-text-color);
+}
+
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

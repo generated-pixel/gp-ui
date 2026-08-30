@@ -45,7 +45,7 @@
   <ng-template #defaultFooter>
     <ng-content select="[footer], [slot=footer], [actions], [slot=actions]">
       <div class="settings-footer">
-        <gp-button severity="primary" (onClick)="save.emit(preferences())">{{ saveBtnLabel() }}</gp-button>
+        <gp-button severity="primary" (onClickEvent)="save.emit(preferences())">{{ saveBtnLabel() }}</gp-button>
       </div>
     </ng-content>
   </ng-template>

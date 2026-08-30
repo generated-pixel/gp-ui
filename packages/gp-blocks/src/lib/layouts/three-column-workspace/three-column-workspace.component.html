@@ -7,20 +7,20 @@
     <ng-template #defaultActivityBar>
       <ng-content select="[activity-bar], [slot=activity-bar]">
         <div class="top-icons">
-          <button type="button" class="bar-btn active" title="Explorer">
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn active" ariaLabel="Explorer">
             <gp-icon name="folder" size="1.2em" />
-          </button>
-          <button type="button" class="bar-btn" title="Search">
+          </gp-button>
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn" ariaLabel="Search">
             <gp-icon name="search" size="1.2em" />
-          </button>
-          <button type="button" class="bar-btn" title="Extensions">
+          </gp-button>
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn" ariaLabel="Extensions">
             <gp-icon name="layer-group" size="1.2em" />
-          </button>
+          </gp-button>
         </div>
         <div class="bottom-icons">
-          <button type="button" class="bar-btn" title="Settings">
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn" ariaLabel="Settings">
             <gp-icon name="sliders" size="1.2em" />
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>
@@ -30,9 +30,9 @@
   <aside class="workspace-sidebar">
     <div class="sidebar-head">
       <span class="head-title">{{ explorerTitle() }}</span>
-      <button type="button" class="action-icon-btn" title="New File">
+      <gp-button variant="text" severity="secondary" size="sm" [iconOnly]="true" styleClass="action-icon-btn" ariaLabel="New File">
         <gp-icon name="plus" size="0.85em" />
-      </button>
+      </gp-button>
     </div>
     <div class="sidebar-tree">
       <ng-container *ngIf="effectiveExplorer; else projectedExplorer">

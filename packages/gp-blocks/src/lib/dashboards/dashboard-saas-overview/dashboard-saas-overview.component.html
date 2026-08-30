@@ -115,7 +115,7 @@
             <div class="panel-card table-panel" *ngIf="recentSignups() && recentSignups().length > 0" style="height: 100%;">
               <div class="panel-header">
                 <h3 class="panel-title">{{ tableTitle() }}</h3>
-                <gp-button variant="outlined" severity="secondary" (onClick)="exportClick.emit()">{{ exportBtnLabel() }}</gp-button>
+                <gp-button variant="outlined" severity="secondary" (onClickEvent)="exportClick.emit()">{{ exportBtnLabel() }}</gp-button>
               </div>
               <div class="custom-data-table-wrap">
                 <table class="saas-table">

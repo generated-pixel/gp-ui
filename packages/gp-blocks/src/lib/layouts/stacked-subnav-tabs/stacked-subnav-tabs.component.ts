@@ -1,6 +1,6 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpAvatarComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
 
 export interface GpStackedSubnavTab {
   id: string;
@@ -11,7 +11,7 @@ export interface GpStackedSubnavTab {
 @Component({
   selector: 'gp-layout-stacked-subnav-tabs',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpAvatarComponent],
+  imports: [CommonModule, GpIconComponent, GpAvatarComponent, GpButtonComponent],
   templateUrl: './stacked-subnav-tabs.component.html',
   styleUrl: './stacked-subnav-tabs.component.scss'
 })

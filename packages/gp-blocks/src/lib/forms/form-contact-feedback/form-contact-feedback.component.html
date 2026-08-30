@@ -22,21 +22,23 @@
         <div class="field-row">
           <div class="field-col">
             <label class="input-label">Your Name</label>
-            <input
+            <gp-input-text
               type="text"
-              class="form-input"
+              styleClass="form-input"
+              [fluid]="true"
               [value]="name()"
-              (input)="name.set($any($event.target).value)"
+              (valueChange)="name.set($event)"
               placeholder="Full name"
             />
           </div>
           <div class="field-col">
             <label class="input-label">Email Address</label>
-            <input
+            <gp-input-text
               type="email"
-              class="form-input"
+              styleClass="form-input"
+              [fluid]="true"
               [value]="email()"
-              (input)="email.set($any($event.target).value)"
+              (valueChange)="email.set($event)"
               placeholder="name@domain.com"
             />
           </div>
@@ -44,42 +46,42 @@
 
         <div class="field-col full">
           <label class="input-label">Feedback Category</label>
-          <select class="form-input" [value]="category()" (change)="category.set($any($event.target).value)">
-            <option value="general">General Inquiry</option>
-            <option value="bug">Bug Report</option>
-            <option value="feature">Feature Request</option>
-            <option value="billing">Billing Issue</option>
-          </select>
+          <gp-select styleClass="form-input" [fluid]="true" [options]="categoryOptions" [value]="category()" (valueChange)="category.set($event)" />
         </div>
 
         <div class="field-col full">
           <label class="input-label">Experience Rating</label>
           <div class="star-rating">
-            <button
+            <gp-button
               type="button"
               *ngFor="let s of [1,2,3,4,5]"
-              class="star-btn"
+              variant="text"
+              severity="secondary"
+              [iconOnly]="true"
+              styleClass="star-btn"
               [class.active]="s <= rating()"
-              (click)="rating.set(s)"
+              [ariaLabel]="s + ' stars'"
+              (onClickEvent)="rating.set(s)"
             >
               <gp-icon name="star" size="1.2em" />
-            </button>
+            </gp-button>
           </div>
         </div>
 
         <div class="field-col full">
           <label class="input-label">Your Feedback / Comments</label>
-          <textarea
-            class="form-input textarea"
-            rows="4"
+          <gp-textarea
+            styleClass="form-input textarea"
+            [fluid]="true"
+            [rows]="4"
             [value]="message()"
-            (input)="message.set($any($event.target).value)"
+            (valueChange)="message.set($event)"
             placeholder="Share your thoughts..."
-          ></textarea>
+          />
         </div>
 
         <div class="form-foot">
-          <gp-button severity="primary" (onClick)="onSubmit()">{{ sendBtnLabel() }}</gp-button>
+          <gp-button severity="primary" (onClickEvent)="onSubmit()">{{ sendBtnLabel() }}</gp-button>
         </div>
       </div>
     </ng-content>

@@ -26,10 +26,10 @@
             <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
           </ng-container>
           <ng-template #defaultItem>
-            <button type="button" class="menu-btn" (click)="itemSelect.emit(item)">
+            <gp-button variant="text" severity="secondary" styleClass="menu-btn" (onClickEvent)="itemSelect.emit(item)">
               <gp-icon *ngIf="item.icon" [name]="item.icon" size="1.1em" class="menu-ico" />
               <span>{{ item.label }}</span>
-            </button>
+            </gp-button>
           </ng-template>
         </ng-container>
       </div>
@@ -45,10 +45,10 @@
             <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
           </ng-container>
           <ng-template #defaultDangerItem>
-            <button type="button" class="menu-btn danger-btn" (click)="itemSelect.emit(item)">
+            <gp-button variant="text" severity="danger" styleClass="menu-btn danger-btn" (onClickEvent)="itemSelect.emit(item)">
               <gp-icon *ngIf="item.icon" [name]="item.icon" size="1.1em" class="menu-ico" />
               <span>{{ item.label }}</span>
-            </button>
+            </gp-button>
           </ng-template>
         </ng-container>
       </div>

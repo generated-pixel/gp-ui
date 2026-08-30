@@ -1,140 +1,152 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-sidebar-light-shell {
-        display: flex;
-        width: 100%;
-        min-height: 520px;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: var(--gp-border-radius-lg, 12px);
-        overflow: hidden;
-      }
+  display: flex;
+  width: 100%;
+  min-height: 520px;
+  background: var(--gp-surface-ground);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 12px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
-      .light-sidebar {
-        width: 250px;
-        background: var(--gp-surface-card);
-        border-right: 1px solid var(--gp-surface-border);
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
-      }
+.light-sidebar {
+  width: 250px;
+  background: var(--gp-surface-card);
+  border-right: 1px solid var(--gp-surface-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
 
-      .brand-header {
-        height: 64px;
-        padding: 0 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
+.brand-header {
+  height: 64px;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--gp-surface-border);
+}
 
-      .brand-badge {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: var(--gp-primary);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+.brand-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--gp-border-radius-sm, 8px);
+  background: var(--gp-primary);
+  color: var(--gp-primary-text, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-      .brand-title {
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
+.brand-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gp-text-color);
+}
 
-      .sidebar-nav {
-        padding: 1.25rem 0.85rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
+.sidebar-nav {
+  padding: 1.25rem 0.85rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
 
-      .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.55rem 0.75rem;
-        border-radius: 8px;
-        color: var(--gp-text-color-secondary);
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.15s ease;
-      }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--gp-border-radius-sm, 8px);
+  color: var(--gp-text-color-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--gp-transition-duration, 150ms) ease;
+}
 
-      .nav-item:hover {
-        background: var(--gp-surface-hover);
-        color: var(--gp-text-color);
-      }
+.nav-item:hover {
+  background: var(--gp-surface-hover);
+  color: var(--gp-text-color);
+}
 
-      .nav-item.active {
-        background: rgba(59, 130, 246, 0.08);
-        color: var(--gp-primary);
-        font-weight: 600;
-      }
+.nav-item.active {
+  background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
+  color: var(--gp-primary);
+  font-weight: 600;
+}
 
-      .upgrade-card {
-        margin: 1rem 0.85rem;
-        padding: 1rem;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        border: 1px solid #bfdbfe;
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
+.upgrade-card {
+  margin: 1rem 0.85rem;
+  padding: 1rem;
+  border-radius: var(--gp-border-radius-md, 10px);
+  background: var(--gp-primary-light, rgba(99, 102, 241, 0.08));
+  border: 1px solid var(--gp-primary-border, rgba(99, 102, 241, 0.2));
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
 
-      .upgrade-title {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #1e40af;
-      }
+.upgrade-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gp-primary);
+}
 
-      .upgrade-text {
-        font-size: 0.75rem;
-        color: #3b82f6;
-        margin: 0 0 0.5rem 0;
-      }
+.upgrade-text {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary);
+  margin: 0 0 0.5rem 0;
+}
 
-      .upgrade-btn {
-        background: #2563eb;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        padding: 0.4rem 0.6rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        cursor: pointer;
-      }
+.upgrade-btn {
+  background: var(--gp-primary);
+  color: var(--gp-primary-text, #fff);
+  border: none;
+  border-radius: var(--gp-border-radius-sm, 6px);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--gp-transition-duration, 150ms) ease;
+}
 
-      .main-shell {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-      }
+.upgrade-btn:hover {
+  background: var(--gp-primary-hover);
+}
 
-      .top-nav-bar {
-        height: 64px;
-        background: var(--gp-surface-card);
-        border-bottom: 1px solid var(--gp-surface-border);
-        padding: 0 1.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+.main-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 
-      .page-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
+.top-nav-bar {
+  height: 64px;
+  background: var(--gp-surface-card);
+  border-bottom: 1px solid var(--gp-surface-border);
+  padding: 0 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-      .page-content-area {
-        padding: 1.75rem;
-        flex: 1;
-        overflow-y: auto;
-      }
+.page-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--gp-text-color);
+}
+
+.page-content-area {
+  padding: 1.75rem;
+  flex: 1;
+  overflow-y: auto;
+}

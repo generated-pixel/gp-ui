@@ -16,6 +16,8 @@ import {
 import {
   GpButtonComponent,
   GpBadgeComponent,
+  GpCheckboxComponent,
+  GpSelectComponent,
   GpSwitchComponent,
   GpTagComponent,
   GpProgressBarComponent
@@ -37,6 +39,9 @@ export interface WidgetPayload {
     FormsModule,
     GpGridComponent,
     GpGridWidgetComponent,
+    GpButtonComponent,
+    GpCheckboxComponent,
+    GpSelectComponent,
     GpSwitchComponent,
     GpIconComponent,
     DocCodeComponent,
@@ -59,6 +64,18 @@ export class GridDemoComponent {
   public activeTab = signal<'demo' | 'api'>('demo');
   public showInspector = signal<boolean>(false);
   public lastEventLog = signal<string>('Grid initialized with signals. Drag widgets to test realignment.');
+
+  public columnOptions = [
+    { label: '6 Cols', value: 6 },
+    { label: '8 Cols', value: 8 },
+    { label: '12 Cols', value: 12 },
+    { label: '16 Cols', value: 16 }
+  ];
+  public rowHeightOptions = [
+    { label: 'Compact (65px)', value: 65 },
+    { label: 'Normal (85px)', value: 85 },
+    { label: 'Large (105px)', value: 105 }
+  ];
 
   // --- WIDGETS MODEL SIGNAL ---
   public widgets = signal<GpGridItem<WidgetPayload>[]>([]);

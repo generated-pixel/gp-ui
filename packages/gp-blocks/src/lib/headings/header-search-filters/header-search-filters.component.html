@@ -18,7 +18,7 @@
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
-          <gp-button severity="primary" size="sm" (onClick)="createClick.emit()">
+          <gp-button severity="primary" size="sm" (onClickEvent)="createClick.emit()">
             <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
             {{ createBtnLabel() }}
           </gp-button>
@@ -35,12 +35,12 @@
       <ng-content select="[search], [slot=search]">
         <div class="search-box">
           <gp-icon name="search" size="0.9em" class="search-ico" />
-          <input
+          <gp-input-text
             type="text"
             [value]="searchQuery()"
             [placeholder]="searchPlaceholder()"
-            (input)="onSearchInput($event)"
-            class="search-input"
+            (onInputEvent)="onSearchInput($event)"
+            styleClass="search-input"
           />
         </div>
       </ng-content>
@@ -52,20 +52,19 @@
     <ng-template #defaultFilters>
       <ng-content select="[filters], [slot=filters]">
         <div class="dropdowns-group" *ngIf="filterGroups() && filterGroups().length > 0">
-          <select
+          <gp-select
             *ngFor="let g of filterGroups()"
-            class="filter-select"
+            styleClass="filter-select"
+            [options]="g.options"
             [value]="g.selectedValue || ''"
-            (change)="onSelectChange(g.id, $event)"
-          >
-            <option *ngFor="let opt of g.options" [value]="opt.value">{{ opt.label }}</option>
-          </select>
+            (valueChange)="filterChange.emit({ groupId: g.id, value: $event })"
+          />
         </div>
       </ng-content>
     </ng-template>
 
     <div class="filter-btn-wrap">
-      <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="moreFiltersClick.emit()">
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="moreFiltersClick.emit()">
         <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem;" />
         Filters
       </gp-button>

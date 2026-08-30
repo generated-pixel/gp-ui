@@ -1,6 +1,6 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 export interface GpToastStatusItem {
   id?: string;
@@ -13,7 +13,7 @@ export interface GpToastStatusItem {
 @Component({
   selector: 'gp-feedback-toast-status',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './feedback-toast-status.component.html',
   styleUrl: './feedback-toast-status.component.scss'
 })

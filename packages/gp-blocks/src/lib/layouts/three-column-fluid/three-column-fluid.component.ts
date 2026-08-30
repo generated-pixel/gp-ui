@@ -1,11 +1,11 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-layout-three-column-fluid',
   standalone: true,
-  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent],
   templateUrl: './three-column-fluid.component.html',
   styleUrl: './three-column-fluid.component.scss'
 })

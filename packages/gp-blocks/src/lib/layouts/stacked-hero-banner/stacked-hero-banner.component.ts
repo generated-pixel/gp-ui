@@ -1,6 +1,6 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 export interface GpHeroNavLink {
   id: string;
@@ -11,7 +11,7 @@ export interface GpHeroNavLink {
 @Component({
   selector: 'gp-layout-stacked-hero-banner',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './stacked-hero-banner.component.html',
   styleUrl: './stacked-hero-banner.component.scss'
 })

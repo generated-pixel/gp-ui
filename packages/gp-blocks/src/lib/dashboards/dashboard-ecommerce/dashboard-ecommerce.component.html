@@ -60,7 +60,7 @@
             <div class="ecom-panel" *ngIf="topProducts() && topProducts().length > 0" style="height: 100%;">
               <div class="panel-header">
                 <h3 class="panel-title">{{ productsTitle() }}</h3>
-                <gp-button variant="text" severity="primary" (onClick)="viewAllProductsClick.emit()">View Catalog</gp-button>
+                <gp-button variant="text" severity="primary" (onClickEvent)="viewAllProductsClick.emit()">View Catalog</gp-button>
               </div>
               <div class="product-list">
                 <div

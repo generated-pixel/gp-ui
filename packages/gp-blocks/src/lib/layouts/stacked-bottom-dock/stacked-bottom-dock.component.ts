@@ -1,6 +1,6 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 export interface GpDockItem {
   id: string;
@@ -12,7 +12,7 @@ export interface GpDockItem {
 @Component({
   selector: 'gp-layout-stacked-bottom-dock',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './stacked-bottom-dock.component.html',
   styleUrl: './stacked-bottom-dock.component.scss'
 })

@@ -43,20 +43,20 @@
         <ng-content select="[search], [slot=search]">
           <div class="search-wrap">
             <gp-icon name="search" size="0.9em" class="search-ico" />
-            <input
+            <gp-input-text
               type="text"
               [value]="searchQuery()"
               [placeholder]="searchPlaceholder()"
-              (input)="onSearchInput($event)"
-              class="topbar-search-input"
+              (onInputEvent)="onSearchInput($event)"
+              styleClass="topbar-search-input"
             />
           </div>
         </ng-content>
       </ng-template>
 
-      <button type="button" class="icon-btn" (click)="notificationsClick.emit()" title="Notifications">
+      <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="icon-btn" ariaLabel="Notifications" (onClickEvent)="notificationsClick.emit()">
         <gp-icon name="bell" size="1.1em" />
-      </button>
+      </gp-button>
 
       <ng-container *ngIf="effectiveUser; else defaultUser">
         <ng-container *ngTemplateOutlet="effectiveUser" />

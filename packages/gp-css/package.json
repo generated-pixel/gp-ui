@@ -11,7 +11,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "node --experimental-strip-types test/compiler.test.ts"
+    "test": "npm run build && node --experimental-strip-types test/compiler.test.ts"
   },
   "keywords": [
     "css",

@@ -11,9 +11,9 @@
       <ng-content select="[sidebar], [slot=sidebar]">
         <div class="offcanvas-head">
           <span class="brand-title">{{ brandName() }}</span>
-          <button type="button" class="close-btn" (click)="closeSidebar()" aria-label="Close sidebar">
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="close-btn" ariaLabel="Close sidebar" (onClickEvent)="closeSidebar()">
             <gp-icon name="close" size="1em" />
-          </button>
+          </gp-button>
         </div>
 
         <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
@@ -35,9 +35,9 @@
   <div class="main-shell">
     <header class="top-nav-bar">
       <div class="topbar-left">
-        <button type="button" class="hamburger-btn" (click)="toggleSidebar()" aria-label="Toggle menu">
+        <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="hamburger-btn" ariaLabel="Toggle menu" (onClickEvent)="toggleSidebar()">
           <gp-icon name="bars" size="1.2em" />
-        </button>
+        </gp-button>
         <h2 class="page-title">{{ title() }}</h2>
       </div>
       <div class="top-actions">

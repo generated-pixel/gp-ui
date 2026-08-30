@@ -30,14 +30,14 @@
       <ng-template #defaultForm>
         <ng-content select="[form], [slot=form]">
           <div class="subscribe-form">
-            <input
+            <gp-input-text
               type="email"
-              class="sub-input"
+              styleClass="sub-input"
               [placeholder]="emailPlaceholder()"
               [value]="email()"
-              (input)="email.set($any($event.target).value)"
+              (valueChange)="email.set($event)"
             />
-            <gp-button severity="primary" (onClick)="onSubscribe()">{{ notifyBtnLabel() }}</gp-button>
+            <gp-button severity="primary" (onClickEvent)="onSubscribe()">{{ notifyBtnLabel() }}</gp-button>
           </div>
         </ng-content>
       </ng-template>

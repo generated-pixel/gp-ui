@@ -33,7 +33,7 @@
                 [variant]="a.buttonVariant || 'outlined'"
                 severity="danger"
                 size="sm"
-                (onClick)="actionClick.emit(a)"
+                (onClickEvent)="actionClick.emit(a)"
               >
                 {{ a.buttonLabel }}
               </gp-button>

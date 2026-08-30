@@ -50,7 +50,7 @@
             *ngFor="let act of actions()"
             [variant]="act.variant || 'filled'"
             [severity]="act.severity || 'primary'"
-            (onClick)="actionClick.emit(act)"
+            (onClickEvent)="actionClick.emit(act)"
           >
             <gp-icon *ngIf="act.icon" [name]="act.icon" size="0.85em" style="margin-right: 0.35rem;" />
             {{ act.label }}

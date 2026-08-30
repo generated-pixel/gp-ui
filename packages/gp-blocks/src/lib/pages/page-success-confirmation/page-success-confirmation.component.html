@@ -46,8 +46,8 @@
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
           <div class="state-actions-row">
-            <gp-button variant="outlined" severity="secondary" (onClick)="secondaryAction.emit()">{{ secondaryBtnLabel() }}</gp-button>
-            <gp-button severity="primary" (onClick)="primaryAction.emit()">
+            <gp-button variant="outlined" severity="secondary" (onClickEvent)="secondaryAction.emit()">{{ secondaryBtnLabel() }}</gp-button>
+            <gp-button severity="primary" (onClickEvent)="primaryAction.emit()">
               <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
               {{ primaryBtnLabel() }}
             </gp-button>

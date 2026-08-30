@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpDataGridRowItem {
   id: string | number;
@@ -14,7 +14,7 @@ export interface GpDataGridRowItem {
 @Component({
   selector: 'gp-list-data-grid',
   standalone: true,
-  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent],
   templateUrl: './list-data-grid.component.html',
   styleUrl: './list-data-grid.component.scss'
 })

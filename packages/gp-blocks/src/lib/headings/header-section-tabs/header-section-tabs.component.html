@@ -18,7 +18,7 @@
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
-          <gp-button severity="primary" size="sm" (onClick)="actionClick.emit()">
+          <gp-button severity="primary" size="sm" (onClickEvent)="actionClick.emit()">
             <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
             {{ actionBtnLabel() }}
           </gp-button>
@@ -34,12 +34,14 @@
     <ng-template #defaultTabs>
       <ng-content select="[tabs], [slot=tabs]">
         <div class="tabs-list" *ngIf="tabs() && tabs().length > 0">
-          <button
+          <gp-button
             type="button"
             *ngFor="let t of tabs()"
-            class="tab-link"
+            variant="text"
+            severity="secondary"
+            styleClass="tab-link"
             [class.active]="t.id === activeTabId() || t.active"
-            (click)="onTabClick(t)"
+            (onClickEvent)="onTabClick(t)"
           >
             <span>{{ t.label }}</span>
             <gp-badge
@@ -47,7 +49,7 @@
               [value]="t.count"
               [severity]="t.badgeSeverity || (t.id === activeTabId() || t.active ? 'primary' : 'secondary')"
             />
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>

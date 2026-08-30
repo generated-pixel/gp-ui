@@ -33,8 +33,8 @@
               <p class="plan-price">{{ planPrice() }}</p>
             </div>
             <div class="plan-actions">
-              <gp-button variant="outlined" severity="secondary" (onClick)="changePlan.emit()">Change Plan</gp-button>
-              <gp-button variant="outlined" severity="danger" (onClick)="cancelPlan.emit()">Cancel</gp-button>
+              <gp-button variant="outlined" severity="secondary" (onClickEvent)="changePlan.emit()">Change Plan</gp-button>
+              <gp-button variant="outlined" severity="danger" (onClickEvent)="cancelPlan.emit()">Cancel</gp-button>
             </div>
           </div>
         </ng-content>
@@ -68,10 +68,10 @@
                     />
                   </td>
                   <td>
-                    <button type="button" class="download-link" (click)="downloadInvoice.emit(inv)">
+                    <gp-button variant="link" severity="primary" size="sm" styleClass="download-link" (onClickEvent)="downloadInvoice.emit(inv)">
                       <gp-icon name="download" size="0.85em" />
                       PDF
-                    </button>
+                    </gp-button>
                   </td>
                 </tr>
               </tbody>

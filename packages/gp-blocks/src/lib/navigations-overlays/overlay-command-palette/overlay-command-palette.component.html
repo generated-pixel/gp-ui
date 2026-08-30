@@ -12,13 +12,13 @@
         <ng-content select="[search], [slot=search]">
           <div class="palette-search-row">
             <gp-icon name="search" size="1.1em" class="search-ico" />
-            <input
+            <gp-input-text
               type="text"
-              class="search-field"
+              styleClass="search-field"
               [placeholder]="placeholder()"
               [value]="searchQuery()"
-              (input)="onInput($event)"
-              autofocus
+              (onInputEvent)="onInput($event)"
+              [autofocus]="true"
             />
             <span class="esc-badge">ESC</span>
           </div>

@@ -1,80 +1,119 @@
 .gp-settings-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 1.75rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-      }
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
 
-      .settings-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
+.settings-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
 
-      .settings-subtitle {
-        font-size: 0.875rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0.25rem 0 0 0;
-      }
+.settings-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--gp-text-color);
+}
 
-      .profile-avatar-row {
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-        padding: 1rem 0;
-        border-top: 1px solid var(--gp-surface-border);
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
+.settings-subtitle {
+  font-size: 0.875rem;
+  color: var(--gp-text-color-secondary);
+  margin: 0;
+}
 
-      .avatar-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
+.profile-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--gp-surface-border);
+  border-bottom: 1px solid var(--gp-surface-border);
+}
 
-      .btn-group {
-        display: flex;
-        gap: 0.5rem;
-      }
+.avatar-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-      .avatar-hint {
-        font-size: 0.75rem;
-        color: var(--gp-text-color-secondary);
-      }
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-      .form-fields-grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 1.25rem;
-      }
+.avatar-hint {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary);
+}
 
-      .field-col {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
+.form-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.25rem;
+}
 
-      .col-6 { grid-column: span 6; }
-      .col-12 { grid-column: span 12; }
+.field-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
 
-      .f-label {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+.col-6 { grid-column: span 6; }
+.col-12 { grid-column: span 12; }
 
-      .settings-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.75rem;
-        border-top: 1px solid var(--gp-surface-border);
-        padding-top: 1.25rem;
-      }
+.f-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gp-text-color);
+}
 
-      @media (max-width: 640px) {
-        .col-6 { grid-column: span 12; }
-      }
+.form-inp {
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--gp-border-radius, 6px);
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border));
+  background: var(--gp-input-bg, var(--gp-surface-ground));
+  color: var(--gp-input-text, var(--gp-text-color));
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--gp-transition-duration, 150ms) ease, box-shadow var(--gp-transition-duration, 150ms) ease;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: var(--gp-primary);
+    box-shadow: 0 0 0 2px var(--gp-primary-light, rgba(56, 189, 248, 0.2));
+  }
+
+  &::placeholder {
+    color: var(--gp-text-color-muted, #94a3b8);
+  }
+}
+
+textarea.form-inp {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  border-top: 1px solid var(--gp-surface-border);
+  padding-top: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .col-6 { grid-column: span 12; }
+  .profile-avatar-row { flex-direction: column; align-items: flex-start; }
+}

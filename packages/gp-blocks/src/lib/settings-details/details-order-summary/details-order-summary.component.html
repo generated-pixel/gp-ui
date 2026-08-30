@@ -13,7 +13,7 @@
           </div>
           <span class="order-meta-text">Placed on {{ orderDate() }} &bull; Paid with {{ paymentMethod() }}</span>
         </div>
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="downloadReceipt.emit()">
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadReceipt.emit()">
           <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
           {{ downloadReceiptBtnLabel() }}
         </gp-button>

@@ -1,11 +1,11 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpRatingComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-feedback-rating-review',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpRatingComponent],
   templateUrl: './feedback-rating-review.component.html',
   styleUrl: './feedback-rating-review.component.scss'
 })

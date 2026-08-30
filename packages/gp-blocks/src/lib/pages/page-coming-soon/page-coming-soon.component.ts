@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 export interface GpCountdownUnit {
   label: string;
@@ -10,7 +10,7 @@ export interface GpCountdownUnit {
 @Component({
   selector: 'gp-page-coming-soon',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent],
+  imports: [CommonModule, GpButtonComponent, GpInputTextComponent],
   templateUrl: './page-coming-soon.component.html',
   styleUrl: './page-coming-soon.component.scss'
 })

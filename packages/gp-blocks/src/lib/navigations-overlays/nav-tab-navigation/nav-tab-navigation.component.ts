@@ -1,6 +1,6 @@
 import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
+import { GpBadgeComponent, GpBadgeSeverity, GpButtonComponent } from '@generatedpixel/gp-ui';
 
 export interface GpNavTabItem {
   id: string;
@@ -12,7 +12,7 @@ export interface GpNavTabItem {
 @Component({
   selector: 'gp-nav-tab-navigation',
   standalone: true,
-  imports: [CommonModule, GpBadgeComponent],
+  imports: [CommonModule, GpBadgeComponent, GpButtonComponent],
   templateUrl: './nav-tab-navigation.component.html',
   styleUrl: './nav-tab-navigation.component.scss'
 })

@@ -22,17 +22,14 @@
     </ng-container>
     <ng-template #defaultStars>
       <ng-content select="[stars], [slot=stars], [rating], [slot=rating]">
-        <div class="stars-picker">
-          <button
-            type="button"
-            *ngFor="let s of [1,2,3,4,5]"
-            class="star-item"
-            [class.active]="s <= rating()"
-            (click)="rating.set(s)"
-            [title]="s + ' stars'"
-          >
-            <gp-icon name="star" size="1.5em" />
-          </button>
+        <div class="rating-picker-row">
+          <gp-rating
+            [value]="rating()"
+            [stars]="5"
+            [cancel]="false"
+            ariaLabel="Satisfaction rating"
+            (onRate)="rating.set($event.value)"
+          />
         </div>
       </ng-content>
     </ng-template>
@@ -43,9 +40,9 @@
     </ng-container>
     <ng-template #defaultActions>
       <ng-content select="[actions], [slot=actions]">
-        <div class="card-actions">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="dismiss.emit()">{{ dismissBtnLabel() }}</gp-button>
-          <gp-button severity="primary" size="sm" (onClick)="submitRating.emit(rating())">{{ submitBtnLabel() }}</gp-button>
+        <div class="review-actions">
+          <gp-button [label]="dismissBtnLabel()" variant="outlined" severity="secondary" size="sm" (onClickEvent)="dismiss.emit()" />
+          <gp-button [label]="submitBtnLabel()" severity="primary" size="sm" (onClickEvent)="submitRating.emit(rating())" />
         </div>
       </ng-content>
     </ng-template>

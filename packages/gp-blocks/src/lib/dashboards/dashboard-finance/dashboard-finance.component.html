@@ -35,8 +35,8 @@
                 <span class="bal-meta" *ngIf="balanceMeta()">{{ balanceMeta() }}</span>
               </div>
               <div class="balance-right">
-                <gp-button variant="outlined" severity="secondary" (onClick)="exportClick.emit()">{{ exportBtnLabel() }}</gp-button>
-                <gp-button severity="primary" (onClick)="sendPayoutClick.emit()">{{ sendPayoutBtnLabel() }}</gp-button>
+                <gp-button variant="outlined" severity="secondary" (onClickEvent)="exportClick.emit()">{{ exportBtnLabel() }}</gp-button>
+                <gp-button severity="primary" (onClickEvent)="sendPayoutClick.emit()">{{ sendPayoutBtnLabel() }}</gp-button>
               </div>
             </div>
           </ng-template>
@@ -85,7 +85,7 @@
             <div class="fin-card" *ngIf="invoices() && invoices().length > 0" style="height: 100%;">
               <div class="card-head">
                 <h3 class="head-title">{{ invoicesTitle() }}</h3>
-                <gp-button variant="text" severity="primary" (onClick)="createInvoiceClick.emit()">{{ createInvoiceBtnLabel() }}</gp-button>
+                <gp-button variant="text" severity="primary" (onClickEvent)="createInvoiceClick.emit()">{{ createInvoiceBtnLabel() }}</gp-button>
               </div>
               <table class="invoices-table">
                 <thead>

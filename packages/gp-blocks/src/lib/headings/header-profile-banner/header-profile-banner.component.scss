@@ -1,65 +1,93 @@
-.gp-profile-banner-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 14px;
-        overflow: hidden;
-        width: 100%;
-      }
+.gp-profile-banner-header {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+}
 
-      .banner-cover {
-        height: 140px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #3b82f6 50%, #06b6d4 100%);
-      }
+.banner-gradient {
+  height: 140px;
+  background: linear-gradient(135deg, var(--gp-primary-dark, #1e1b4b) 0%, var(--gp-primary, #3b82f6) 50%, var(--gp-info, #06b6d4) 100%);
+}
 
-      .banner-body {
-        padding: 0 2rem 1.5rem 2rem;
-        position: relative;
-      }
+.profile-info-bar {
+  padding: 0 2rem 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
 
-      .avatar-overlap-wrapper {
-        position: absolute;
-        top: -45px;
-        left: 2rem;
-        border: 4px solid var(--gp-surface-card);
-        border-radius: 50%;
-        background: var(--gp-surface-card);
-      }
+.profile-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-top: -45px;
+}
 
-      .profile-info-bar {
-        padding-top: 55px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
+.avatar-holder {
+  border: 4px solid var(--gp-surface-card);
+  border-radius: 50%;
+  background: var(--gp-surface-card);
+  display: inline-flex;
+  flex-shrink: 0;
+}
 
-      .name-status-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
+.text-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 0.25rem;
+}
 
-      .name-badge-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+.name-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-      .profile-name {
-        font-size: 1.5rem;
-        font-weight: 800;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--gp-text-color);
+}
 
-      .profile-title {
-        font-size: 0.875rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0;
-      }
+.title-loc-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gp-text-color-secondary);
+}
 
-      .banner-ctas {
-        display: flex;
-        gap: 0.75rem;
-      }
+.dot {
+  color: var(--gp-text-color-muted, #94a3b8);
+}
+
+.user-loc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .profile-info-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .profile-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

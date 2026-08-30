@@ -92,33 +92,9 @@ import { ThemeEditorService } from './theme-editor.service';
           </h2>
           <div class="mode-toggle-group">
             <span class="mode-label">Color Scheme:</span>
-            <button
-              type="button"
-              class="mode-btn"
-              [class.mode-btn-active]="currentMode() === 'light'"
-              (click)="setMode('light')"
-            >
-              <gp-icon name="sun" size="0.9em" />
-              <span>Light</span>
-            </button>
-            <button
-              type="button"
-              class="mode-btn"
-              [class.mode-btn-active]="currentMode() === 'dark'"
-              (click)="setMode('dark')"
-            >
-              <gp-icon name="moon" size="0.9em" />
-              <span>Dark</span>
-            </button>
-            <button
-              type="button"
-              class="mode-btn"
-              [class.mode-btn-active]="currentMode() === 'system'"
-              (click)="setMode('system')"
-            >
-              <gp-icon name="sliders" size="0.9em" />
-              <span>System</span>
-            </button>
+            <gp-button label="Light" icon="sun" size="sm" [variant]="currentMode() === 'light' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (currentMode() === 'light' ? ' mode-btn-active' : '')" (onClickEvent)="setMode('light')" />
+            <gp-button label="Dark" icon="moon" size="sm" [variant]="currentMode() === 'dark' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (currentMode() === 'dark' ? ' mode-btn-active' : '')" (onClickEvent)="setMode('dark')" />
+            <gp-button label="System" icon="sliders" size="sm" [variant]="currentMode() === 'system' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (currentMode() === 'system' ? ' mode-btn-active' : '')" (onClickEvent)="setMode('system')" />
           </div>
         </div>
         <p class="doc-section-desc">
@@ -303,7 +279,7 @@ import { ThemeEditorService } from './theme-editor.service';
       </div>
 
       <!-- Section 3: TypeScript & JSON Theme Architecture -->
-      <div class="doc-section" style="margin-top: 2rem;">
+      <div class="doc-section mt-8">
         <h2 class="doc-section-title">
           <gp-icon name="code" size="1em" />
           TypeScript &amp; JSON Base Theme Architecture
@@ -321,13 +297,13 @@ import { ThemeEditorService } from './theme-editor.service';
         </p>
         <doc-code [code]="gpCssImportCode" language="scss" />
 
-        <h3 class="subsection-title" style="margin-top: 1.5rem;">2. Extending the Base Theme in TypeScript</h3>
+        <h3 class="subsection-title mt-6">2. Extending the Base Theme in TypeScript</h3>
         <doc-code [code]="extendThemeCode" language="typescript" />
 
-        <h3 class="subsection-title" style="margin-top: 1.5rem;">3. Theme Manager Runtime API</h3>
+        <h3 class="subsection-title mt-6">3. Theme Manager Runtime API</h3>
         <doc-code [code]="tsUsageCode" language="typescript" />
 
-        <h3 class="subsection-title" style="margin-top: 1.5rem;">4. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
+        <h3 class="subsection-title mt-6">4. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
         <doc-code [code]="htmlUsageCode" language="html" />
       </div>
 

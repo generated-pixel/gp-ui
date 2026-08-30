@@ -10,6 +10,7 @@ import {
   GpPasswordComponent,
   GpInputNumberComponent,
   GpCheckboxComponent,
+  GpColorPickerComponent,
   GpRadioButtonComponent,
   GpSwitchComponent,
   GpSliderComponent,
@@ -64,6 +65,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
     GpPasswordComponent,
     GpInputNumberComponent,
     GpCheckboxComponent,
+    GpColorPickerComponent,
     GpRadioButtonComponent,
     GpSwitchComponent,
     GpSliderComponent,
@@ -97,11 +99,10 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         <div class="header-left">
           <div class="theme-title-input">
             <gp-icon name="palette" size="1.2em" />
-            <input
-              type="text"
-              class="theme-name-field"
+            <gp-input-text
+              styleClass="theme-name-field"
               [value]="themeName()"
-              (input)="onThemeNameChange($event)"
+              (onInputEvent)="onThemeNameChange($event)"
               placeholder="Theme Name (e.g. My Brand Theme)"
             />
             <span class="theme-id-tag">ID: {{ themeId() }}</span>
@@ -112,35 +113,20 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
           <!-- Preset Selector -->
           <div class="preset-dropdown-wrap">
             <span class="toolbar-label">Preset:</span>
-            <select class="editor-select" (change)="onPresetSelect($event)">
-              @for (preset of builtInPresets; track preset.id) {
-                <option [value]="preset.id" [selected]="selectedPresetId() === preset.id">
-                  {{ preset.name }}
-                </option>
-              }
-            </select>
+            <gp-select
+              [options]="builtInPresets"
+              optionLabel="name"
+              optionValue="id"
+              [value]="selectedPresetId()"
+              ariaLabel="Theme preset"
+              (onChange)="onPresetSelect($event.value)"
+            />
           </div>
 
           <!-- Edit Mode Toggle (Light / Dark) -->
           <div class="mode-switch-wrap">
-            <button
-              type="button"
-              class="mode-btn"
-              [class.active]="editMode() === 'light'"
-              (click)="setEditMode('light')"
-            >
-              <gp-icon name="sun" size="0.9em" />
-              <span>Light Mode</span>
-            </button>
-            <button
-              type="button"
-              class="mode-btn"
-              [class.active]="editMode() === 'dark'"
-              (click)="setEditMode('dark')"
-            >
-              <gp-icon name="moon" size="0.9em" />
-              <span>Dark Mode</span>
-            </button>
+            <gp-button label="Light Mode" icon="sun" size="sm" [variant]="editMode() === 'light' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (editMode() === 'light' ? ' active' : '')" (onClickEvent)="setEditMode('light')" />
+            <gp-button label="Dark Mode" icon="moon" size="sm" [variant]="editMode() === 'dark' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (editMode() === 'dark' ? ' active' : '')" (onClickEvent)="setEditMode('dark')" />
           </div>
 
           <!-- Reset & Export Buttons -->
@@ -167,42 +153,10 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         <div class="control-panel">
           <!-- Main Tab Navigation Bar -->
           <div class="editor-tabs">
-            <button
-              type="button"
-              class="tab-btn"
-              [class.active]="activeTab() === 'primitives'"
-              (click)="setActiveTab('primitives')"
-            >
-              <gp-icon name="sliders" size="0.9em" />
-              <span>Primitives</span>
-            </button>
-            <button
-              type="button"
-              class="tab-btn"
-              [class.active]="activeTab() === 'semantics'"
-              (click)="setActiveTab('semantics')"
-            >
-              <gp-icon name="palette" size="0.9em" />
-              <span>Semantics</span>
-            </button>
-            <button
-              type="button"
-              class="tab-btn"
-              [class.active]="activeTab() === 'components'"
-              (click)="setActiveTab('components')"
-            >
-              <gp-icon name="box" size="0.9em" />
-              <span>Components</span>
-            </button>
-            <button
-              type="button"
-              class="tab-btn"
-              [class.active]="activeTab() === 'export'"
-              (click)="setActiveTab('export')"
-            >
-              <gp-icon name="download" size="0.9em" />
-              <span>Export Code</span>
-            </button>
+            <gp-button label="Primitives" icon="sliders" size="sm" [variant]="activeTab() === 'primitives' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'primitives' ? ' active' : '')" (onClickEvent)="setActiveTab('primitives')" />
+            <gp-button label="Semantics" icon="palette" size="sm" [variant]="activeTab() === 'semantics' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'semantics' ? ' active' : '')" (onClickEvent)="setActiveTab('semantics')" />
+            <gp-button label="Components" icon="box" size="sm" [variant]="activeTab() === 'components' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'components' ? ' active' : '')" (onClickEvent)="setActiveTab('components')" />
+            <gp-button label="Export Code" icon="download" size="sm" [variant]="activeTab() === 'export' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'export' ? ' active' : '')" (onClickEvent)="setActiveTab('export')" />
           </div>
 
           <div class="tab-content">
@@ -217,17 +171,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                 <div class="color-picker-row">
                   <label>Base Primary Color (500):</label>
                   <div class="picker-controls">
-                    <input
-                      type="color"
+                    <gp-color-picker
                       [value]="primaryBaseColor()"
-                      (change)="onPrimaryHexChange($event)"
-                      class="native-color-picker"
+                      [presetColors]="themeColorPresets"
+                      (onChange)="onPrimaryHexChange($event.value)"
                     />
-                    <input
-                      type="text"
+                    <gp-input-text
                       [value]="primaryBaseColor()"
-                      (change)="onPrimaryHexChange($event)"
-                      class="editor-input hex-input"
+                      (onInputEvent)="onPrimaryHexChange($any($event.target).value)"
+                      styleClass="editor-input hex-input"
+                      ariaLabel="Primary color hex value"
                     />
                   </div>
                 </div>
@@ -254,38 +207,34 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                 <div class="form-grid">
                   <div class="form-group">
                     <label>Small (sm):</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="currentTheme().primitives.borderRadius.sm"
-                      (change)="updateRadius('sm', $event)"
+                      (onInputEvent)="updateRadius('sm', $any($event.target).value)"
                     />
                   </div>
                   <div class="form-group">
                     <label>Base (base):</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="currentTheme().primitives.borderRadius.base"
-                      (change)="updateRadius('base', $event)"
+                      (onInputEvent)="updateRadius('base', $any($event.target).value)"
                     />
                   </div>
                   <div class="form-group">
                     <label>Medium (md):</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="currentTheme().primitives.borderRadius.md"
-                      (change)="updateRadius('md', $event)"
+                      (onInputEvent)="updateRadius('md', $any($event.target).value)"
                     />
                   </div>
                   <div class="form-group">
                     <label>Large (lg):</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="currentTheme().primitives.borderRadius.lg"
-                      (change)="updateRadius('lg', $event)"
+                      (onInputEvent)="updateRadius('lg', $any($event.target).value)"
                     />
                   </div>
                 </div>
@@ -296,20 +245,18 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                 <div class="form-grid">
                   <div class="form-group full-width">
                     <label>Sans-Serif Font Family:</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="currentTheme().primitives.typography.fontFamily.sans"
-                      (change)="updateFont('sans', $event)"
+                      (onInputEvent)="updateFont('sans', $any($event.target).value)"
                     />
                   </div>
                   <div class="form-group">
                     <label>Base Font Size:</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="currentTheme().primitives.typography.fontSize.base"
-                      (change)="updateFontSize('base', $event)"
+                      (onInputEvent)="updateFontSize('base', $any($event.target).value)"
                     />
                   </div>
                 </div>
@@ -328,17 +275,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Primary Main</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().primary.main"
-                        (change)="updateSemantic('primary', 'main', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSemantic('primary', 'main', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().primary.main"
-                        (change)="updateSemantic('primary', 'main', $event)"
+                        (onInputEvent)="updateSemantic('primary', 'main', $any($event.target).value)"
+                        ariaLabel="Primary semantic color"
                       />
                     </div>
                   </div>
@@ -347,17 +293,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Secondary Main</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().secondary.main"
-                        (change)="updateSemantic('secondary', 'main', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSemantic('secondary', 'main', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().secondary.main"
-                        (change)="updateSemantic('secondary', 'main', $event)"
+                        (onInputEvent)="updateSemantic('secondary', 'main', $any($event.target).value)"
+                        ariaLabel="Secondary semantic color"
                       />
                     </div>
                   </div>
@@ -366,17 +311,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Success</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().success.main"
-                        (change)="updateSemantic('success', 'main', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSemantic('success', 'main', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().success.main"
-                        (change)="updateSemantic('success', 'main', $event)"
+                        (onInputEvent)="updateSemantic('success', 'main', $any($event.target).value)"
+                        ariaLabel="Success semantic color"
                       />
                     </div>
                   </div>
@@ -385,17 +329,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Danger</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().danger.main"
-                        (change)="updateSemantic('danger', 'main', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSemantic('danger', 'main', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().danger.main"
-                        (change)="updateSemantic('danger', 'main', $event)"
+                        (onInputEvent)="updateSemantic('danger', 'main', $any($event.target).value)"
+                        ariaLabel="Danger semantic color"
                       />
                     </div>
                   </div>
@@ -408,17 +351,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Surface Ground</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().surfaces.ground"
-                        (change)="updateSurface('ground', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSurface('ground', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().surfaces.ground"
-                        (change)="updateSurface('ground', $event)"
+                        (onInputEvent)="updateSurface('ground', $any($event.target).value)"
+                        ariaLabel="Ground surface color"
                       />
                     </div>
                   </div>
@@ -426,17 +368,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Surface Card</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().surfaces.card"
-                        (change)="updateSurface('card', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSurface('card', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().surfaces.card"
-                        (change)="updateSurface('card', $event)"
+                        (onInputEvent)="updateSurface('card', $any($event.target).value)"
+                        ariaLabel="Card surface color"
                       />
                     </div>
                   </div>
@@ -444,17 +385,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Surface Border</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().surfaces.border"
-                        (change)="updateSurface('border', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateSurface('border', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().surfaces.border"
-                        (change)="updateSurface('border', $event)"
+                        (onInputEvent)="updateSurface('border', $any($event.target).value)"
+                        ariaLabel="Surface border color"
                       />
                     </div>
                   </div>
@@ -462,17 +402,16 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <div class="token-card">
                     <span class="token-title">Text Primary</span>
                     <div class="picker-controls">
-                      <input
-                        type="color"
+                      <gp-color-picker
                         [value]="activeSemantic().text.primary"
-                        (change)="updateTextToken('primary', $event)"
-                        class="native-color-picker"
+                        [presetColors]="themeColorPresets"
+                        (onChange)="updateTextToken('primary', $event.value)"
                       />
-                      <input
-                        type="text"
-                        class="editor-input hex-input"
+                      <gp-input-text
+                        styleClass="editor-input hex-input"
                         [value]="activeSemantic().text.primary"
-                        (change)="updateTextToken('primary', $event)"
+                        (onInputEvent)="updateTextToken('primary', $any($event.target).value)"
+                        ariaLabel="Primary text color"
                       />
                     </div>
                   </div>
@@ -488,136 +427,50 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
 
                 <div class="comp-select-row">
                   <label>Component Target:</label>
-                  <select class="editor-select" [ngModel]="selectedComponent()" (ngModelChange)="selectedComponent.set($event)">
-                    <optgroup label="Buttons">
-                      <option value="button">Button</option>
-                      <option value="buttonGroup">Button Group</option>
-                      <option value="splitButton">Split Button</option>
-                      <option value="speedDial">Speed Dial</option>
-                      <option value="toggleButton">Toggle Button</option>
-                    </optgroup>
-                    <optgroup label="Form Controls">
-                      <option value="input">Input / Input Text</option>
-                      <option value="textarea">Textarea</option>
-                      <option value="password">Password</option>
-                      <option value="inputNumber">Input Number</option>
-                      <option value="inputMask">Input Mask</option>
-                      <option value="checkbox">Checkbox</option>
-                      <option value="radioButton">Radio Button</option>
-                      <option value="switch">Switch</option>
-                      <option value="slider">Slider</option>
-                      <option value="rating">Rating</option>
-                      <option value="colorPicker">Color Picker</option>
-                      <option value="select">Select</option>
-                      <option value="multiSelect">MultiSelect</option>
-                      <option value="listbox">Listbox</option>
-                      <option value="autocomplete">Autocomplete</option>
-                      <option value="cascadeSelect">Cascade Select</option>
-                      <option value="treeSelect">Tree Select</option>
-                      <option value="datePicker">Date Picker</option>
-                      <option value="timePicker">Time Picker</option>
-                      <option value="fileUpload">File Upload</option>
-                    </optgroup>
-                    <optgroup label="Data & Grid">
-                      <option value="table">Table</option>
-                      <option value="column">Column</option>
-                      <option value="treeTable">Tree Table</option>
-                      <option value="dataView">Data View</option>
-                      <option value="paginator">Paginator</option>
-                      <option value="virtualScroller">Virtual Scroller</option>
-                    </optgroup>
-                    <optgroup label="Display">
-                      <option value="avatar">Avatar</option>
-                      <option value="chip">Chip</option>
-                      <option value="badge">Badge</option>
-                      <option value="tag">Tag</option>
-                      <option value="image">Image</option>
-                      <option value="carousel">Carousel</option>
-                      <option value="timeline">Timeline</option>
-                      <option value="meterGroup">Meter Group</option>
-                      <option value="emptyState">Empty State</option>
-                    </optgroup>
-                    <optgroup label="Feedback">
-                      <option value="toast">Toast</option>
-                      <option value="message">Message</option>
-                      <option value="progressBar">Progress Bar</option>
-                      <option value="progressSpinner">Progress Spinner</option>
-                      <option value="skeleton">Skeleton</option>
-                    </optgroup>
-                    <optgroup label="Navigation">
-                      <option value="menu">Menu</option>
-                      <option value="menubar">Menubar</option>
-                      <option value="contextMenu">Context Menu</option>
-                      <option value="tieredMenu">Tiered Menu</option>
-                      <option value="megaMenu">Mega Menu</option>
-                      <option value="panelMenu">Panel Menu</option>
-                      <option value="breadcrumb">Breadcrumb</option>
-                      <option value="tabs">Tabs</option>
-                      <option value="stepper">Stepper</option>
-                      <option value="dock">Dock</option>
-                      <option value="toolbar">Toolbar</option>
-                    </optgroup>
-                    <optgroup label="Overlay">
-                      <option value="dialog">Dialog</option>
-                      <option value="confirmDialog">Confirm Dialog</option>
-                      <option value="drawer">Drawer</option>
-                      <option value="popover">Popover</option>
-                    </optgroup>
-                    <optgroup label="Panels">
-                      <option value="card">Card</option>
-                      <option value="panel">Panel</option>
-                      <option value="accordion">Accordion</option>
-                      <option value="fieldset">Fieldset</option>
-                      <option value="divider">Divider</option>
-                      <option value="splitter">Splitter</option>
-                      <option value="scrollPanel">Scroll Panel</option>
-                    </optgroup>
-                    <optgroup label="Tree & Hierarchy">
-                      <option value="tree">Tree</option>
-                      <option value="treeNode">Tree Node</option>
-                      <option value="orgChart">Org Chart</option>
-                    </optgroup>
-                  </select>
+                  <gp-select
+                    [options]="componentOptions"
+                    [value]="selectedComponent()"
+                    [filter]="true"
+                    placeholder="Select component"
+                    ariaLabel="Component target"
+                    (onChange)="selectedComponent.set($event.value)"
+                  />
                 </div>
 
                 <div class="form-grid">
                   <div class="form-group">
                     <label>Background Override:</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="getCompToken(selectedComponent(), 'background')"
-                      (change)="updateCompToken(selectedComponent(), 'background', $event)"
+                      (onInputEvent)="updateCompToken(selectedComponent(), 'background', $any($event.target).value)"
                       placeholder="{semantic.surfaces.card}"
                     />
                   </div>
                   <div class="form-group">
                     <label>Text Color Override:</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="getCompToken(selectedComponent(), 'color')"
-                      (change)="updateCompToken(selectedComponent(), 'color', $event)"
+                      (onInputEvent)="updateCompToken(selectedComponent(), 'color', $any($event.target).value)"
                       placeholder="{semantic.text.primary}"
                     />
                   </div>
                   <div class="form-group">
                     <label>Border Radius Override:</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="getCompToken(selectedComponent(), 'borderRadius')"
-                      (change)="updateCompToken(selectedComponent(), 'borderRadius', $event)"
+                      (onInputEvent)="updateCompToken(selectedComponent(), 'borderRadius', $any($event.target).value)"
                       placeholder="{primitives.borderRadius.base}"
                     />
                   </div>
                   <div class="form-group">
                     <label>Padding Override:</label>
-                    <input
-                      type="text"
-                      class="editor-input"
+                    <gp-input-text
+                      styleClass="editor-input"
                       [value]="getCompToken(selectedComponent(), 'padding')"
-                      (change)="updateCompToken(selectedComponent(), 'padding', $event)"
+                      (onInputEvent)="updateCompToken(selectedComponent(), 'padding', $any($event.target).value)"
                       placeholder="{primitives.spacing.4}"
                     />
                   </div>
@@ -632,38 +485,10 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                 <p class="section-desc">Copy or download your customized theme output for direct integration into Angular apps.</p>
 
                 <div class="export-format-selector">
-                  <button
-                    type="button"
-                    class="format-btn"
-                    [class.active]="exportFormat() === 'css'"
-                    (click)="exportFormat.set('css')"
-                  >
-                    CSS Stylesheet (.css)
-                  </button>
-                  <button
-                    type="button"
-                    class="format-btn"
-                    [class.active]="exportFormat() === 'typescript'"
-                    (click)="exportFormat.set('typescript')"
-                  >
-                    TypeScript Definition (.ts)
-                  </button>
-                  <button
-                    type="button"
-                    class="format-btn"
-                    [class.active]="exportFormat() === 'json'"
-                    (click)="exportFormat.set('json')"
-                  >
-                    JSON Tokens (.json)
-                  </button>
-                  <button
-                    type="button"
-                    class="format-btn"
-                    [class.active]="exportFormat() === 'angular'"
-                    (click)="exportFormat.set('angular')"
-                  >
-                    Angular Integration
-                  </button>
+                  <gp-button label="CSS Stylesheet (.css)" size="sm" [variant]="exportFormat() === 'css' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'css' ? ' active' : '')" (onClickEvent)="exportFormat.set('css')" />
+                  <gp-button label="TypeScript Definition (.ts)" size="sm" [variant]="exportFormat() === 'typescript' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'typescript' ? ' active' : '')" (onClickEvent)="exportFormat.set('typescript')" />
+                  <gp-button label="JSON Tokens (.json)" size="sm" [variant]="exportFormat() === 'json' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'json' ? ' active' : '')" (onClickEvent)="exportFormat.set('json')" />
+                  <gp-button label="Angular Integration" size="sm" [variant]="exportFormat() === 'angular' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'angular' ? ' active' : '')" (onClickEvent)="exportFormat.set('angular')" />
                 </div>
 
                 <div class="export-actions-bar">
@@ -790,10 +615,10 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
               <gp-breadcrumb [model]="breadcrumbItems" />
               <gp-tabs>
                 <gp-tab-panel header="Overview">
-                  <p style="padding: 0.5rem 0; font-size: 0.85rem;">Interactive tab content 1</p>
+                  <p class="py-2 text-sm">Interactive tab content 1</p>
                 </gp-tab-panel>
                 <gp-tab-panel header="Settings">
-                  <p style="padding: 0.5rem 0; font-size: 0.85rem;">Interactive tab content 2</p>
+                  <p class="py-2 text-sm">Interactive tab content 2</p>
                 </gp-tab-panel>
               </gp-tabs>
             </div>
@@ -812,14 +637,14 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
               </gp-card>
 
               <gp-panel header="Sample Panel Container">
-                <p style="font-size: 0.85rem; padding: 0.25rem 0;">
+                <p class="text-sm py-1">
                   Panel container rendered with theme border and background tokens.
                 </p>
               </gp-panel>
 
               <gp-accordion>
                 <gp-accordion-tab header="Accordion Section Preview">
-                  <p style="font-size: 0.85rem; padding: 0.4rem 0;">
+                  <p class="text-sm py-2">
                     Accordion panel with theme typography and surface styling.
                   </p>
                 </gp-accordion-tab>
@@ -895,16 +720,6 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         align-items: center;
         gap: 0.4rem;
         font-size: 0.875rem;
-      }
-
-      .editor-select {
-        background: var(--gp-surface-ground, #ffffff);
-        color: var(--gp-text-color, #1e293b);
-        border: 1px solid var(--gp-surface-border, rgba(0, 0, 0, 0.15));
-        border-radius: 0.375rem;
-        padding: 0.35rem 0.6rem;
-        font-size: 0.875rem;
-        outline: none;
       }
 
       .mode-switch-wrap {
@@ -1010,16 +825,6 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         display: flex;
         align-items: center;
         gap: 0.5rem;
-      }
-
-      .native-color-picker {
-        border: none;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        cursor: pointer;
-        padding: 0;
-        background: none;
       }
 
       .editor-input {
@@ -1228,6 +1033,45 @@ export class ThemeEditorComponent {
   public builtInPresets = builtInThemes;
   public selectedPresetId = signal<string>('default');
 
+  public themeColorPresets = ['#6366f1', '#0ea5e9', '#14b8a6', '#22c55e', '#eab308', '#f97316', '#ef4444', '#64748b'];
+  public componentOptions = [
+    { label: 'Button', value: 'button' }, { label: 'Button Group', value: 'buttonGroup' },
+    { label: 'Split Button', value: 'splitButton' }, { label: 'Speed Dial', value: 'speedDial' },
+    { label: 'Toggle Button', value: 'toggleButton' }, { label: 'Input / Input Text', value: 'input' },
+    { label: 'Textarea', value: 'textarea' }, { label: 'Password', value: 'password' },
+    { label: 'Input Number', value: 'inputNumber' }, { label: 'Input Mask', value: 'inputMask' },
+    { label: 'Checkbox', value: 'checkbox' }, { label: 'Radio Button', value: 'radioButton' },
+    { label: 'Switch', value: 'switch' }, { label: 'Slider', value: 'slider' },
+    { label: 'Rating', value: 'rating' }, { label: 'Color Picker', value: 'colorPicker' },
+    { label: 'Select', value: 'select' }, { label: 'MultiSelect', value: 'multiSelect' },
+    { label: 'Listbox', value: 'listbox' }, { label: 'Autocomplete', value: 'autocomplete' },
+    { label: 'Cascade Select', value: 'cascadeSelect' }, { label: 'Tree Select', value: 'treeSelect' },
+    { label: 'Date Picker', value: 'datePicker' }, { label: 'Time Picker', value: 'timePicker' },
+    { label: 'File Upload', value: 'fileUpload' }, { label: 'Table', value: 'table' },
+    { label: 'Column', value: 'column' }, { label: 'Tree Table', value: 'treeTable' },
+    { label: 'Data View', value: 'dataView' }, { label: 'Paginator', value: 'paginator' },
+    { label: 'Virtual Scroller', value: 'virtualScroller' }, { label: 'Avatar', value: 'avatar' },
+    { label: 'Chip', value: 'chip' }, { label: 'Badge', value: 'badge' }, { label: 'Tag', value: 'tag' },
+    { label: 'Image', value: 'image' }, { label: 'Carousel', value: 'carousel' },
+    { label: 'Timeline', value: 'timeline' }, { label: 'Meter Group', value: 'meterGroup' },
+    { label: 'Empty State', value: 'emptyState' }, { label: 'Toast', value: 'toast' },
+    { label: 'Message', value: 'message' }, { label: 'Progress Bar', value: 'progressBar' },
+    { label: 'Progress Spinner', value: 'progressSpinner' }, { label: 'Skeleton', value: 'skeleton' },
+    { label: 'Menu', value: 'menu' }, { label: 'Menubar', value: 'menubar' },
+    { label: 'Context Menu', value: 'contextMenu' }, { label: 'Tiered Menu', value: 'tieredMenu' },
+    { label: 'Mega Menu', value: 'megaMenu' }, { label: 'Panel Menu', value: 'panelMenu' },
+    { label: 'Breadcrumb', value: 'breadcrumb' }, { label: 'Tabs', value: 'tabs' },
+    { label: 'Stepper', value: 'stepper' }, { label: 'Dock', value: 'dock' },
+    { label: 'Toolbar', value: 'toolbar' }, { label: 'Dialog', value: 'dialog' },
+    { label: 'Confirm Dialog', value: 'confirmDialog' }, { label: 'Drawer', value: 'drawer' },
+    { label: 'Popover', value: 'popover' }, { label: 'Card', value: 'card' },
+    { label: 'Panel', value: 'panel' }, { label: 'Accordion', value: 'accordion' },
+    { label: 'Fieldset', value: 'fieldset' }, { label: 'Divider', value: 'divider' },
+    { label: 'Splitter', value: 'splitter' }, { label: 'Scroll Panel', value: 'scrollPanel' },
+    { label: 'Tree', value: 'tree' }, { label: 'Tree Node', value: 'treeNode' },
+    { label: 'Org Chart', value: 'orgChart' }
+  ];
+
   public themeName = signal<string>('My Custom Theme');
   public themeId = computed(() =>
     this.themeName()
@@ -1305,8 +1149,7 @@ export class ThemeEditorComponent {
     this.activeTab.set(tab);
   }
 
-  public onPresetSelect(event: Event): void {
-    const presetId = (event.target as HTMLSelectElement).value;
+  public onPresetSelect(presetId: string): void {
     this.selectedPresetId.set(presetId);
     const found = builtInThemes.find((t) => t.id === presetId);
     if (found) {
@@ -1330,8 +1173,7 @@ export class ThemeEditorComponent {
     return scale ? (scale as any)[step] || '#4f46e5' : '#4f46e5';
   }
 
-  public onPrimaryHexChange(event: Event): void {
-    const hex = (event.target as HTMLInputElement).value;
+  public onPrimaryHexChange(hex: string): void {
     if (!hex || hex.length < 4) return;
 
     const newScale = generateColorScale(hex);
@@ -1357,29 +1199,25 @@ export class ThemeEditorComponent {
     this.currentTheme.set(curr);
   }
 
-  public updateRadius(key: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateRadius(key: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     (curr.primitives.borderRadius as any)[key] = val;
     this.currentTheme.set(curr);
   }
 
-  public updateFont(key: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateFont(key: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     (curr.primitives.typography.fontFamily as any)[key] = val;
     this.currentTheme.set(curr);
   }
 
-  public updateFontSize(key: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateFontSize(key: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     (curr.primitives.typography.fontSize as any)[key] = val;
     this.currentTheme.set(curr);
   }
 
-  public updateSemantic(group: string, key: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateSemantic(group: string, key: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     const modeObj = this.editMode() === 'dark' ? curr.dark.semantic : curr.light.semantic;
     if (modeObj[group]) {
@@ -1388,16 +1226,14 @@ export class ThemeEditorComponent {
     this.currentTheme.set(curr);
   }
 
-  public updateSurface(key: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateSurface(key: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     const modeObj = this.editMode() === 'dark' ? curr.dark.semantic : curr.light.semantic;
     modeObj.surfaces[key] = val;
     this.currentTheme.set(curr);
   }
 
-  public updateTextToken(key: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateTextToken(key: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     const modeObj = this.editMode() === 'dark' ? curr.dark.semantic : curr.light.semantic;
     modeObj.text[key] = val;
@@ -1410,8 +1246,7 @@ export class ThemeEditorComponent {
     return compObj?.[tokenKey] || '';
   }
 
-  public updateCompToken(comp: string, tokenKey: string, event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
+  public updateCompToken(comp: string, tokenKey: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     const modeObj = this.editMode() === 'dark' ? curr.dark : curr.light;
     if (!modeObj.components) modeObj.components = {};

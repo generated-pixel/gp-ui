@@ -7,21 +7,22 @@
     <ng-content select="[toolbar], [slot=toolbar]">
       <div class="grid-toolbar">
         <div class="search-box">
-          <gp-icon name="search" size="0.9em" class="search-ico" />
-          <input
-            type="text"
+          <gp-input-text
             [value]="searchQuery()"
             [placeholder]="searchPlaceholder()"
-            (input)="onSearchInput($event)"
-            class="search-input"
+            iconLeft="search"
+            size="sm"
+            [fluid]="true"
+            styleClass="search-input"
+            (onInputEvent)="onSearchInput($event)"
           />
         </div>
         <div class="toolbar-actions">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="filterClick.emit()">
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="filterClick.emit()">
             <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem;" />
             {{ filterBtnLabel() }}
           </gp-button>
-          <gp-button severity="primary" size="sm" (onClick)="newOrderClick.emit()">
+          <gp-button severity="primary" size="sm" (onClickEvent)="newOrderClick.emit()">
             <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
             {{ newOrderBtnLabel() }}
           </gp-button>
@@ -73,14 +74,17 @@
                     />
                   </td>
                   <td style="text-align: right;">
-                    <button
-                      type="button"
-                      class="row-action-btn"
-                      (click)="$event.stopPropagation(); rowActionClick.emit(r)"
-                      title="Row Options"
+                    <gp-button
+                      variant="text"
+                      severity="secondary"
+                      size="sm"
+                      [iconOnly]="true"
+                      styleClass="row-action-btn"
+                      ariaLabel="Row Options"
+                      (onClickEvent)="$event.stopPropagation(); rowActionClick.emit(r)"
                     >
                       <gp-icon name="more-horizontal" size="1em" />
-                    </button>
+                    </gp-button>
                   </td>
                 </tr>
               </ng-template>

@@ -27,11 +27,12 @@
       <div class="payment-form-body">
         <div class="field-wrap">
           <label class="input-label">Cardholder Name</label>
-          <input
+          <gp-input-text
             type="text"
-            class="form-input"
+            styleClass="form-input"
+            [fluid]="true"
             [value]="cardholderName()"
-            (input)="cardholderName.set($any($event.target).value)"
+            (valueChange)="cardholderName.set($event)"
             placeholder="Name on card"
           />
         </div>
@@ -40,11 +41,12 @@
           <label class="input-label">Card Number</label>
           <div class="card-num-box">
             <gp-icon name="credit-card" size="1.1em" class="card-ico" />
-            <input
+            <gp-input-text
               type="text"
-              class="form-input with-ico"
+              styleClass="form-input with-ico"
+              [fluid]="true"
               [value]="cardNumber()"
-              (input)="cardNumber.set($any($event.target).value)"
+              (valueChange)="cardNumber.set($event)"
               placeholder="0000 0000 0000 0000"
             />
           </div>
@@ -53,29 +55,31 @@
         <div class="split-row">
           <div class="field-wrap">
             <label class="input-label">Expiration Date</label>
-            <input
+            <gp-input-text
               type="text"
-              class="form-input"
+              styleClass="form-input"
+              [fluid]="true"
               [value]="expiration()"
-              (input)="expiration.set($any($event.target).value)"
+              (valueChange)="expiration.set($event)"
               placeholder="MM/YY"
             />
           </div>
           <div class="field-wrap">
             <label class="input-label">CVC / CVV</label>
-            <input
-              type="password"
-              class="form-input"
+            <gp-password
+              styleClass="form-input"
+              [fluid]="true"
+              [feedback]="false"
               [value]="cvc()"
-              (input)="cvc.set($any($event.target).value)"
+              (valueChange)="cvc.set($event)"
               placeholder="123"
-              maxlength="4"
+              [maxlength]="4"
             />
           </div>
         </div>
 
         <div class="pay-btn-wrap">
-          <gp-button severity="primary" [style]="{ width: '100%' }" (onClick)="onPay()">
+          <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onPay()">
             <gp-icon name="lock" size="0.9em" style="margin-right: 0.35rem;" />
             {{ payBtnLabel() }} <span *ngIf="amount()">({{ amount() }})</span>
           </gp-button>

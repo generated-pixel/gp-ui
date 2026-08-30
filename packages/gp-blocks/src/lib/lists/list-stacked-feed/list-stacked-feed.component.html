@@ -41,14 +41,17 @@
                 </div>
                 <span class="feed-time">{{ f.time }}</span>
               </div>
-              <button
+              <gp-button
                 type="button"
-                class="more-btn"
-                (click)="$event.stopPropagation(); itemOptionsClick.emit(f)"
-                title="Options"
+                variant="text"
+                severity="secondary"
+                [iconOnly]="true"
+                styleClass="more-btn"
+                ariaLabel="Options"
+                (onClickEvent)="$event.stopPropagation(); itemOptionsClick.emit(f)"
               >
                 <gp-icon name="more-horizontal" size="1em" />
-              </button>
+              </gp-button>
             </div>
           </ng-template>
         </ng-container>

@@ -1,11 +1,11 @@
 import { Component, input, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-layout-three-column-workspace',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent],
   templateUrl: './three-column-workspace.component.html',
   styleUrl: './three-column-workspace.component.scss'
 })

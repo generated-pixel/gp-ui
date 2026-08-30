@@ -22,8 +22,8 @@
         <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
         <div class="avatar-controls">
           <div class="btn-group">
-            <gp-button severity="primary" size="sm" (onClick)="changeAvatar.emit()">{{ changeAvatarLabel() }}</gp-button>
-            <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="removeAvatar.emit()">{{ removeAvatarLabel() }}</gp-button>
+            <gp-button severity="primary" size="sm" (onClickEvent)="changeAvatar.emit()">{{ changeAvatarLabel() }}</gp-button>
+            <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="removeAvatar.emit()">{{ removeAvatarLabel() }}</gp-button>
           </div>
           <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
         </div>
@@ -32,53 +32,58 @@
       <div class="form-fields-grid">
         <div class="field-col col-6">
           <label class="f-label">First Name</label>
-          <input
+          <gp-input-text
             type="text"
-            class="form-inp"
+            styleClass="form-inp"
+            [fluid]="true"
             [value]="firstName()"
-            (input)="onFieldChange('firstName', $event)"
+            (onInputEvent)="onFieldChange('firstName', $event)"
             placeholder="First name"
           />
         </div>
         <div class="field-col col-6">
           <label class="f-label">Last Name</label>
-          <input
+          <gp-input-text
             type="text"
-            class="form-inp"
+            styleClass="form-inp"
+            [fluid]="true"
             [value]="lastName()"
-            (input)="onFieldChange('lastName', $event)"
+            (onInputEvent)="onFieldChange('lastName', $event)"
             placeholder="Last name"
           />
         </div>
         <div class="field-col col-6">
           <label class="f-label">Email Address</label>
-          <input
+          <gp-input-text
             type="email"
-            class="form-inp"
+            styleClass="form-inp"
+            [fluid]="true"
             [value]="email()"
-            (input)="onFieldChange('email', $event)"
+            (onInputEvent)="onFieldChange('email', $event)"
             placeholder="email@domain.com"
           />
         </div>
         <div class="field-col col-6">
           <label class="f-label">Job Title</label>
-          <input
+          <gp-input-text
             type="text"
-            class="form-inp"
+            styleClass="form-inp"
+            [fluid]="true"
             [value]="jobTitle()"
-            (input)="onFieldChange('jobTitle', $event)"
+            (onInputEvent)="onFieldChange('jobTitle', $event)"
             placeholder="e.g. Lead Engineer"
           />
         </div>
         <div class="field-col col-12">
           <label class="f-label">Biography</label>
-          <textarea
-            class="form-inp"
-            rows="3"
+          <gp-textarea
+            styleClass="form-inp"
+            [fluid]="true"
+            [rows]="3"
             [value]="bio()"
-            (input)="onFieldChange('bio', $event)"
+            (onInputEvent)="onFieldChange('bio', $event)"
             placeholder="Tell us a little about yourself..."
-          ></textarea>
+          />
         </div>
       </div>
       <ng-content />
@@ -92,8 +97,8 @@
   <ng-template #defaultFooter>
     <ng-content select="[footer], [slot=footer], [actions], [slot=actions]">
       <div class="settings-footer">
-        <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-        <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
+        <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+        <gp-button severity="primary" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
       </div>
     </ng-content>
   </ng-template>

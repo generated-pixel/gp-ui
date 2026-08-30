@@ -31,7 +31,7 @@
             variant="outlined"
             severity="secondary"
             size="sm"
-            (onClick)="secondaryClick.emit()"
+            (onClickEvent)="secondaryClick.emit()"
           >
             {{ secondaryCta() }}
           </gp-button>
@@ -39,7 +39,7 @@
             *ngIf="primaryCta()"
             severity="primary"
             size="sm"
-            (onClick)="primaryClick.emit()"
+            (onClickEvent)="primaryClick.emit()"
           >
             {{ primaryCta() }}
           </gp-button>

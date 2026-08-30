@@ -1,10 +1,10 @@
 import assert from 'node:assert';
-import { scanContent } from '../src/compiler/scanner.js';
-import { GpCssGenerator } from '../src/compiler/generator.js';
-import { compile } from '../src/compiler/index.js';
-import { processDirectives } from '../src/compiler/directives.js';
-import { defaultTokens } from '../src/tokens/default-tokens.js';
-import { definePlugin } from '../src/compiler/plugins.js';
+import { scanContent } from '../dist/compiler/scanner.js';
+import { GpCssGenerator } from '../dist/compiler/generator.js';
+import { compile } from '../dist/compiler/index.js';
+import { processDirectives } from '../dist/compiler/directives.js';
+import { defaultTokens } from '../dist/tokens/default-tokens.js';
+import { definePlugin } from '../dist/compiler/plugins.js';
 
 console.log('Running expanded gp-css test suite...');
 
@@ -116,6 +116,8 @@ console.log('Running expanded gp-css test suite...');
   const result = processDirectives(cssInput, gen, '.flex { display: flex; }', defaultTokens);
   assert.ok(result.css.includes('@keyframes gp-spin'), 'Keyframes injected in base');
   assert.ok(result.css.includes('--gp-color-primary'), 'Theme variables injected');
+  assert.ok(result.css.includes('--gp-space-0-5:'), 'Fractional token keys produce valid CSS variable names');
+  assert.ok(!result.css.includes('--gp-space-0.5:'), 'Theme variables do not contain invalid fractional names');
   console.log('✓ Directives & Keyframes test passed');
 }
 

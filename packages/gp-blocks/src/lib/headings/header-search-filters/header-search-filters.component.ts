@@ -1,6 +1,6 @@
 import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent } from '@generatedpixel/gp-ui';
 
 export interface GpFilterSelectOption {
   label: string;
@@ -16,7 +16,7 @@ export interface GpFilterGroupItem {
 @Component({
   selector: 'gp-header-search-filters',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent],
   templateUrl: './header-search-filters.component.html',
   styleUrl: './header-search-filters.component.scss'
 })

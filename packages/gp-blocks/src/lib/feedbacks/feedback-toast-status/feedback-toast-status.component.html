@@ -17,9 +17,9 @@
               <h4 class="toast-title">{{ t.title }}</h4>
               <p class="toast-desc">{{ t.desc }}</p>
             </div>
-            <button type="button" class="close-toast-btn" (click)="closeToast.emit(t)" aria-label="Close notification">
+            <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="close-toast-btn" ariaLabel="Close notification" (onClickEvent)="closeToast.emit(t)">
               <gp-icon name="close" size="0.85em" />
-            </button>
+            </gp-button>
           </div>
         </ng-template>
       </ng-container>

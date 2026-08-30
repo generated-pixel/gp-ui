@@ -10,12 +10,14 @@
     <ng-template #defaultUnderlineTabs>
       <ng-content select="[underline-tabs], [slot=underline-tabs]">
         <div class="underline-tabs-row" *ngIf="underlineTabs() && underlineTabs().length > 0">
-          <button
+          <gp-button
             type="button"
             *ngFor="let tab of underlineTabs()"
-            class="underline-tab-btn"
+            variant="text"
+            severity="secondary"
+            styleClass="underline-tab-btn"
             [class.active]="tab.id === activeUnderlineTab()"
-            (click)="underlineTabChange.emit(tab)"
+            (onClickEvent)="underlineTabChange.emit(tab)"
           >
             <span>{{ tab.label }}</span>
             <gp-badge
@@ -23,7 +25,7 @@
               [value]="tab.badge"
               [severity]="tab.badgeSeverity || (tab.id === activeUnderlineTab() ? 'primary' : 'secondary')"
             />
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>
@@ -35,12 +37,14 @@
     <ng-template #defaultPillTabs>
       <ng-content select="[pill-tabs], [slot=pill-tabs]">
         <div class="pill-tabs-row" *ngIf="pillTabs() && pillTabs().length > 0">
-          <button
+          <gp-button
             type="button"
             *ngFor="let tab of pillTabs()"
-            class="pill-tab-btn"
+            variant="text"
+            severity="secondary"
+            styleClass="pill-tab-btn"
             [class.active]="tab.id === activePillTab()"
-            (click)="pillTabChange.emit(tab)"
+            (onClickEvent)="pillTabChange.emit(tab)"
           >
             <span>{{ tab.label }}</span>
             <gp-badge
@@ -48,7 +52,7 @@
               [value]="tab.badge"
               [severity]="tab.badgeSeverity || (tab.id === activePillTab() ? 'primary' : 'secondary')"
             />
-          </button>
+          </gp-button>
         </div>
       </ng-content>
     </ng-template>

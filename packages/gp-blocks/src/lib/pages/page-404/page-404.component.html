@@ -25,11 +25,11 @@
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]">
           <div class="state-actions-row">
-            <gp-button variant="outlined" severity="secondary" (onClick)="goBack.emit()">
+            <gp-button variant="outlined" severity="secondary" (onClickEvent)="goBack.emit()">
               <gp-icon name="arrow-left" size="0.85em" style="margin-right: 0.35rem;" />
               {{ goBackBtnLabel() }}
             </gp-button>
-            <gp-button severity="primary" (onClick)="returnHome.emit()">
+            <gp-button severity="primary" (onClickEvent)="returnHome.emit()">
               {{ returnHomeBtnLabel() }}
             </gp-button>
           </div>
