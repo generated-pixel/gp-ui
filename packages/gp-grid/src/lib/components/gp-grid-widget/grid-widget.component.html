@@ -41,12 +41,11 @@
             </h3>
           }
           @if (badge()) {
-            <span
-              class="gp-grid-widget-badge"
-              [class]="'gp-grid-widget-badge--' + badgeSeverity()"
-            >
-              {{ badge() }}
-            </span>
+            <gp-badge
+              [value]="badge()"
+              [severity]="badgeSeverity()"
+              size="sm"
+            />
           }
           <ng-content select="[gpWidgetHeader]" />
         </div>

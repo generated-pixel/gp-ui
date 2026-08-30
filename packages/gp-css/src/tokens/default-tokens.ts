@@ -49,15 +49,17 @@ export const defaultTokens: GpThemeTokens = {
     contrast: 'var(--gp-contrast, #0f172a)',
     'contrast-text': 'var(--gp-contrast-text, #ffffff)',
 
-    // gp-theme Surface & Text Tokens
     'surface-ground': 'var(--gp-surface-ground, #f8fafc)',
     'surface-section': 'var(--gp-surface-section, #f1f5f9)',
     'surface-card': 'var(--gp-surface-card, #ffffff)',
+    'surface-card-alt': 'var(--gp-surface-ground-alt, rgba(255, 255, 255, 0.02))',
     'surface-overlay': 'var(--gp-surface-overlay, #ffffff)',
     'surface-hover': 'var(--gp-surface-hover, #f1f5f9)',
     'surface-active': 'var(--gp-surface-active, #e2e8f0)',
     'surface-border': 'var(--gp-surface-border, #e2e8f0)',
     'surface-divider': 'var(--gp-surface-divider, #e2e8f0)',
+    'sidebar-bg': 'var(--gp-sidebar-dark-background, var(--gp-sidebar-background, #0f172a))',
+    'sidebar-border': 'var(--gp-sidebar-border-color, var(--gp-surface-border, rgba(148, 163, 184, 0.15)))',
     'text-primary': 'var(--gp-text-color, #1e293b)',
     'text-secondary': 'var(--gp-text-color-secondary, #64748b)',
     'text-muted': 'var(--gp-text-muted, #94a3b8)',

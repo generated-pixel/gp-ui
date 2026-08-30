@@ -12,120 +12,173 @@
   box-sizing: border-box;
 }
 
-      .pm-header-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.25rem;
-      }
+.dashboard-top-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-      .pm-metric-box {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 1.25rem 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
+/* 1. Sprint Metrics Row */
+.metrics-summary-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
 
-      .m-title {
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--gp-text-color-secondary);
-      }
+.metric-box {
+  background: var(--gp-surface-card, #0f172a);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+  border-radius: var(--gp-border-radius-lg, 12px);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all var(--gp-transition-duration, 150ms) ease;
 
-      .m-val {
-        font-size: 1.75rem;
-        font-weight: 800;
-        color: var(--gp-text-color);
-      }
+  &:hover {
+    border-color: var(--gp-primary, #6366f1);
+    box-shadow: var(--gp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  }
+}
 
-      .m-sub {
-        font-size: 0.775rem;
-        color: var(--gp-text-color-secondary);
-      }
+.m-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
 
-      .kanban-preview-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.25rem;
-      }
+.m-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--gp-text-color, #f8fafc);
+}
 
-      .kanban-col {
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.85rem;
-      }
+.m-sub {
+  font-size: 0.775rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
 
-      .k-col-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+.m-prog {
+  margin-top: 0.25rem;
+}
 
-      .k-title {
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
+/* 2. Kanban Board Grid */
+.kanban-board-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
 
-      .k-cards {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
+.kanban-column {
+  background: var(--gp-surface-ground-alt, rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+  border-radius: var(--gp-border-radius-lg, 12px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
 
-      .k-task-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 8px;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-      }
+.col-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      .task-tag {
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 0.15rem 0.4rem;
-        border-radius: 4px;
-        align-self: flex-start;
-      }
+.col-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
 
-      .task-tag.feat { background: #dbeafe; color: #1e40af; }
-      .task-tag.bug { background: #fee2e2; color: #991b1b; }
+.task-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  overflow-y: auto;
+}
 
-      .task-title {
-        font-size: 0.875rem;
-        font-weight: 600;
-        margin: 0;
-        color: var(--gp-text-color);
-        line-height: 1.35;
-      }
+.task-card {
+  background: var(--gp-surface-card, #0f172a);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+  border-radius: var(--gp-border-radius-md, 8px);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: var(--gp-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.2));
+  transition: transform var(--gp-transition-duration, 150ms) ease, border-color var(--gp-transition-duration, 150ms) ease;
 
-      .task-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 0.25rem;
-      }
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--gp-primary, #6366f1);
+  }
+}
 
-      .task-pts {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--gp-text-color-secondary);
-      }
+.card-top-tags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      @media (max-width: 868px) {
-        .pm-header-grid, .kanban-preview-grid {
-          grid-template-columns: 1fr;
-        }
-      }
+.task-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: var(--gp-surface-ground, #020617);
+  color: var(--gp-text-color-secondary, #94a3b8);
+
+  &.tag-feat {
+    background: var(--gp-info-light, rgba(56, 189, 248, 0.15));
+    color: var(--gp-info, #38bdf8);
+  }
+
+  &.tag-bug {
+    background: var(--gp-danger-light, rgba(239, 68, 68, 0.15));
+    color: var(--gp-danger, #ef4444);
+  }
+
+  &.tag-chore {
+    background: var(--gp-warning-light, rgba(245, 158, 11, 0.15));
+    color: var(--gp-warning, #f59e0b);
+  }
+}
+
+.task-pts {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.task-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--gp-text-color, #f8fafc);
+  line-height: 1.35;
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.assignee-text {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}

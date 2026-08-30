@@ -1,0 +1,46 @@
+<div
+  class="gp-grid-kpi-widget"
+  (click)="onClick()"
+  (keydown.enter)="onClick()"
+  tabindex="0"
+  role="region"
+  [attr.aria-label]="effectiveLabel()"
+>
+  <div class="gp-grid-kpi-top">
+    <span class="gp-grid-kpi-label">{{ effectiveLabel() }}</span>
+    <div
+      class="gp-grid-kpi-icon-wrap"
+      [style.background]="effectiveIconBg()"
+      [style.color]="effectiveIconColor()"
+      aria-hidden="true"
+    >
+      <gp-icon [name]="effectiveIcon()" size="1.2em" />
+    </div>
+  </div>
+
+  <div class="gp-grid-kpi-value-row">
+    <span class="gp-grid-kpi-val">{{ effectiveValue() }}</span>
+  </div>
+
+  @if (effectiveChange() || effectiveSubtitle()) {
+    <div class="gp-grid-kpi-footer">
+      @if (effectiveChange()) {
+        <div
+          class="gp-grid-kpi-trend"
+          [class.gp-grid-kpi-trend--pos]="effectiveTrend() === 'pos'"
+          [class.gp-grid-kpi-trend--neg]="effectiveTrend() === 'neg'"
+          [class.gp-grid-kpi-trend--neutral]="effectiveTrend() === 'neutral'"
+        >
+          <gp-icon
+            [name]="effectiveTrend() === 'neg' ? 'arrow-down' : (effectiveTrend() === 'neutral' ? 'minus' : 'arrow-up')"
+            size="0.8em"
+          />
+          <span>{{ effectiveChange() }}</span>
+        </div>
+      }
+      @if (effectiveSubtitle()) {
+        <span class="gp-grid-kpi-sub">{{ effectiveSubtitle() }}</span>
+      }
+    </div>
+  }
+</div>

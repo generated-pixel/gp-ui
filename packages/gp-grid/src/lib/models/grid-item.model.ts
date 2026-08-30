@@ -1,3 +1,5 @@
+import { GpGridWidgetType } from './grid-widget.model';
+
 /**
  * GpGridItem defines the layout coordinates, constraints, and configuration
  * for a single widget within a GpGrid system.
@@ -99,6 +101,26 @@ export interface GpGridItem<T = any> {
    * Default is false.
    */
   locked?: boolean;
+
+  /**
+   * Built-in widget renderer type.
+   */
+  widgetType?: GpGridWidgetType;
+
+  /**
+   * Structured data payload for typed widgets (KPI, Chart, Table, List, Progress).
+   */
+  widgetData?: any;
+
+  /**
+   * Whether the widget is currently in a loading state.
+   */
+  loading?: boolean;
+
+  /**
+   * Whether the widget body is collapsed.
+   */
+  collapsed?: boolean;
 
   /**
    * Custom application payload attached to this item.

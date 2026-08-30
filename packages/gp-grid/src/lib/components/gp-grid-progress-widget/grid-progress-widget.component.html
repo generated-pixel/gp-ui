@@ -1,0 +1,23 @@
+<div class="gp-grid-progress-widget">
+  <div class="gp-grid-progress-header">
+    <h4 class="gp-grid-progress-title">{{ effectiveTitle() }}</h4>
+    @if (effectiveTarget()) {
+      <span class="gp-grid-progress-target">{{ effectiveTarget() }}</span>
+    }
+  </div>
+
+  <div class="gp-grid-progress-list">
+    @for (item of effectiveItems(); track item.label) {
+      <div class="gp-grid-progress-item">
+        <div class="gp-grid-progress-head">
+          <span class="gp-grid-progress-label">{{ item.label }}</span>
+          <span class="gp-grid-progress-val">{{ item.valueText || item.valText || (item.percentage + '%') }}</span>
+        </div>
+        <gp-progress-bar
+          [value]="item.percentage || item.pct || 0"
+          [showValue]="false"
+        />
+      </div>
+    }
+  </div>
+</div>

@@ -18,53 +18,90 @@
   box-sizing: border-box;
 }
 
-      .title {
-        font-size: 1.35rem;
-        font-weight: 800;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-      .subtitle {
-        font-size: 0.875rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0.25rem 0 0 0;
-      }
+.head-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
 
-      .chk-fields {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.25rem;
-      }
+.head-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--gp-text-color);
+}
 
-      .col-12 { grid-column: span 2; display: flex; flex-direction: column; gap: 0.35rem; }
-      .col-6 { grid-column: span 1; display: flex; flex-direction: column; gap: 0.35rem; }
+.head-subtitle {
+  font-size: 0.875rem;
+  color: var(--gp-text-color-secondary);
+  margin: 0;
+}
 
-      .lbl {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+.security-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--gp-success, #22c55e);
+  background: var(--gp-success-light, rgba(34, 197, 94, 0.12));
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+}
 
-      .chk-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid var(--gp-surface-border);
-        padding-top: 1.25rem;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
+.payment-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
 
-      .ssl-badge {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-size: 0.775rem;
-        color: var(--gp-text-color-secondary);
-      }
+.field-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
 
-      @media (max-width: 640px) {
-        .chk-fields { grid-template-columns: 1fr; }
-        .col-12, .col-6 { grid-column: span 1; }
-      }
+.input-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gp-text-color);
+}
+
+.card-num-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.card-ico {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--gp-text-color-secondary);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.split-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.pay-btn-wrap {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .split-row {
+    flex-direction: column;
+  }
+}

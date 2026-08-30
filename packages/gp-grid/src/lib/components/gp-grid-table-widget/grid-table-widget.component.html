@@ -1,0 +1,64 @@
+<div class="gp-grid-table-widget">
+  <div class="gp-grid-table-header">
+    <h4 class="gp-grid-table-title">{{ effectiveTitle() }}</h4>
+    @if (data()?.exportable !== false) {
+      <gp-button
+        variant="outlined"
+        severity="secondary"
+        size="sm"
+        (onClickEvent)="exportClick.emit()"
+      >
+        <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+        {{ exportBtnLabel() }}
+      </gp-button>
+    }
+  </div>
+
+  <div class="gp-grid-table-scroll">
+    <table class="gp-grid-table">
+      <thead>
+        <tr>
+          @for (col of effectiveColumns(); track col.field) {
+            <th [style.width]="col.width" [style.textAlign]="col.align || 'left'">
+              {{ col.header }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of effectiveRows(); track $index) {
+          <tr (click)="rowClick.emit(row)" (keydown.enter)="rowClick.emit(row)" tabindex="0">
+            @for (col of effectiveColumns(); track col.field) {
+              <td [style.textAlign]="col.align || 'left'">
+                @if (col.type === 'badge') {
+                  <gp-badge
+                    [value]="row[col.field]"
+                    [severity]="getBadgeSeverity(row, col)"
+                  />
+                } @else if (col.type === 'avatar') {
+                  <div class="gp-grid-avatar-cell">
+                    <gp-avatar
+                      [label]="(row[col.field] || 'A').charAt(0)"
+                      size="normal"
+                      shape="circle"
+                    />
+                    <div class="gp-grid-avatar-text">
+                      <span class="gp-grid-avatar-title">{{ row[col.field] }}</span>
+                      @if (row['domain'] || row['email'] || row['subtitle']) {
+                        <span class="gp-grid-avatar-sub">{{ row['domain'] || row['email'] || row['subtitle'] }}</span>
+                      }
+                    </div>
+                  </div>
+                } @else if (col.type === 'currency') {
+                  <strong class="gp-grid-currency-val">{{ row[col.field] }}</strong>
+                } @else {
+                  <span>{{ row[col.field] }}</span>
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

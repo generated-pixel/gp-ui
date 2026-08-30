@@ -4,6 +4,7 @@
 
 // Models & Types
 export * from './lib/models/grid-item.model';
+export * from './lib/models/grid-widget.model';
 export * from './lib/models/grid-config.model';
 export * from './lib/models/grid-events.model';
 
@@ -15,4 +16,9 @@ export * from './lib/directives/gp-grid-drag-handle.directive';
 
 // Components
 export * from './lib/components/gp-grid-widget/grid-widget.component';
+export * from './lib/components/gp-grid-kpi-widget/grid-kpi-widget.component';
+export * from './lib/components/gp-grid-chart-widget/grid-chart-widget.component';
+export * from './lib/components/gp-grid-table-widget/grid-table-widget.component';
+export * from './lib/components/gp-grid-list-widget/grid-list-widget.component';
+export * from './lib/components/gp-grid-progress-widget/grid-progress-widget.component';
 export * from './lib/components/gp-grid/grid.component';

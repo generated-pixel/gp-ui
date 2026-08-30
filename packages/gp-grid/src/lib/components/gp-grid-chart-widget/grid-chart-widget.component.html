@@ -1,0 +1,34 @@
+<div class="gp-grid-chart-widget">
+  <div class="gp-grid-chart-header">
+    <div>
+      <h4 class="gp-grid-chart-title">{{ effectiveTitle() }}</h4>
+      @if (effectiveSubtitle()) {
+        <p class="gp-grid-chart-sub">{{ effectiveSubtitle() }}</p>
+      }
+    </div>
+    @if (effectiveBadge()) {
+      <gp-badge [value]="effectiveBadge()" [severity]="effectiveBadgeSeverity()" />
+    }
+  </div>
+
+  <div class="gp-grid-chart-bars-wrap">
+    <div class="gp-grid-chart-bars">
+      @for (col of effectiveMonthlyData(); track col.month) {
+        <div
+          class="gp-grid-chart-col"
+          (click)="columnClick.emit(col)"
+          (keydown.enter)="columnClick.emit(col)"
+          tabindex="0"
+          role="button"
+          [attr.aria-label]="col.month + ': ' + col.amt"
+        >
+          <div class="gp-grid-bar-track">
+            <div class="gp-grid-bar-fill" [style.height]="col.pct + '%'"></div>
+          </div>
+          <span class="gp-grid-col-month">{{ col.month }}</span>
+          <span class="gp-grid-col-amt">{{ col.amt }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

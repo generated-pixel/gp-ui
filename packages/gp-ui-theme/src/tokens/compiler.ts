@@ -77,7 +77,12 @@ const componentTokenNames = [
   'emptyState',
   'avatar',
   'treeNode',
-  'icon'
+  'icon',
+  'grid',
+  'gridWidget',
+  'blockCard',
+  'sidebar',
+  'kpiCard'
 ] as const;
 
 const inheritedComponentTokenDefaults = componentTokenNames.reduce<Record<string, Record<string, string>>>(

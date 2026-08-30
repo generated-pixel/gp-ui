@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.gp-grid-table-widget {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--gp-surface-card, #0f172a);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+  border-radius: var(--gp-border-radius-lg, 10px);
+  padding: 1.25rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.gp-grid-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.gp-grid-table-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
+
+.gp-grid-table-scroll {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.gp-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--gp-text-color-secondary, #94a3b8);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.08));
+    font-size: 0.85rem;
+    color: var(--gp-text-color, #f8fafc);
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    cursor: pointer;
+    transition: background-color var(--gp-transition-duration, 150ms) ease;
+    outline: none;
+
+    &:hover {
+      background-color: var(--gp-surface-hover, rgba(255, 255, 255, 0.03));
+    }
+  }
+}
+
+.gp-grid-avatar-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.gp-grid-avatar-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.gp-grid-avatar-title {
+  font-weight: 600;
+  color: var(--gp-text-color, #f8fafc);
+}
+
+.gp-grid-avatar-sub {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.gp-grid-currency-val {
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}

@@ -1,0 +1,121 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.gp-grid-list-widget {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--gp-surface-card, #0f172a);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+  border-radius: var(--gp-border-radius-lg, 10px);
+  padding: 1.25rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.gp-grid-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.gp-grid-list-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
+
+.gp-grid-list-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.gp-grid-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: var(--gp-border-radius-md, 8px);
+  transition: background-color var(--gp-transition-duration, 150ms) ease;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: var(--gp-surface-hover, rgba(255, 255, 255, 0.04));
+  }
+}
+
+.gp-grid-list-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--gp-border-radius-md, 8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gp-grid-list-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.gp-grid-list-item-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gp-text-color, #f8fafc);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gp-grid-list-item-sub {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gp-grid-list-trailing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.gp-grid-list-metrics {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.gp-grid-list-rev {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
+
+.gp-grid-list-sales {
+  font-size: 0.7rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.gp-grid-list-time {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-muted, #64748b);
+}

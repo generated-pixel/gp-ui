@@ -226,6 +226,57 @@ export const baseTheme: GpThemeDefinition = {
         borderRadius: '8px',
         shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
         padding: '1rem'
+      },
+      grid: {
+        gap: '1rem',
+        guideBorderColor: 'rgba(148, 163, 184, 0.12)',
+        placeholderBorderColor: '#6366f1',
+        placeholderBackground: 'rgba(99, 102, 241, 0.08)'
+      },
+      gridWidget: {
+        background: '#ffffff',
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        borderRadius: '10px',
+        shadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+        headerBackground: '#f8fafc',
+        headerBorderColor: 'rgba(148, 163, 184, 0.15)',
+        headerPadding: '0.625rem 0.875rem',
+        bodyPadding: '0.875rem',
+        dragHandleColor: '#94a3b8',
+        dragHandleHoverColor: '#6366f1',
+        resizeHandleColor: '#94a3b8',
+        lockedBorderColor: '#f59e0b'
+      },
+      blockCard: {
+        background: '#ffffff',
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        borderRadius: '12px',
+        shadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+        padding: '1.75rem',
+        headerBackground: '#f8fafc',
+        headerBorderColor: 'rgba(148, 163, 184, 0.15)'
+      },
+      sidebar: {
+        width: '260px',
+        darkBackground: '#0f172a',
+        lightBackground: '#ffffff',
+        borderColor: 'rgba(148, 163, 184, 0.15)',
+        navItemHoverBackground: 'rgba(0, 0, 0, 0.04)',
+        navItemActiveBackground: 'rgba(99, 102, 241, 0.1)',
+        navItemActiveColor: '#4f46e5'
+      },
+      kpiCard: {
+        background: '#ffffff',
+        borderColor: 'rgba(148, 163, 184, 0.15)',
+        borderRadius: '10px',
+        padding: '1.25rem',
+        labelColor: '#64748b',
+        valueColor: '#0f172a',
+        valueFontSize: '1.75rem',
+        iconBackground: 'rgba(99, 102, 241, 0.1)',
+        trendPositiveColor: '#16a34a',
+        trendNegativeColor: '#ef4444',
+        trendNeutralColor: '#64748b'
       }
     }
   },
@@ -455,6 +506,57 @@ export const baseTheme: GpThemeDefinition = {
         borderRadius: '8px',
         shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)',
         padding: '1rem'
+      },
+      grid: {
+        gap: '1rem',
+        guideBorderColor: 'rgba(148, 163, 184, 0.08)',
+        placeholderBorderColor: '#818cf8',
+        placeholderBackground: 'rgba(99, 102, 241, 0.15)'
+      },
+      gridWidget: {
+        background: '#0f172a',
+        borderColor: 'rgba(148, 163, 184, 0.15)',
+        borderRadius: '10px',
+        shadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
+        headerBackground: 'rgba(255, 255, 255, 0.02)',
+        headerBorderColor: 'rgba(148, 163, 184, 0.1)',
+        headerPadding: '0.625rem 0.875rem',
+        bodyPadding: '0.875rem',
+        dragHandleColor: '#94a3b8',
+        dragHandleHoverColor: '#818cf8',
+        resizeHandleColor: '#64748b',
+        lockedBorderColor: '#f59e0b'
+      },
+      blockCard: {
+        background: '#0f172a',
+        borderColor: 'rgba(148, 163, 184, 0.15)',
+        borderRadius: '12px',
+        shadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
+        padding: '1.75rem',
+        headerBackground: 'rgba(255, 255, 255, 0.02)',
+        headerBorderColor: 'rgba(148, 163, 184, 0.1)'
+      },
+      sidebar: {
+        width: '260px',
+        darkBackground: '#0b0f19',
+        lightBackground: '#1e293b',
+        borderColor: 'rgba(255, 255, 255, 0.08)',
+        navItemHoverBackground: 'rgba(255, 255, 255, 0.06)',
+        navItemActiveBackground: 'rgba(99, 102, 241, 0.2)',
+        navItemActiveColor: '#818cf8'
+      },
+      kpiCard: {
+        background: '#0f172a',
+        borderColor: 'rgba(148, 163, 184, 0.15)',
+        borderRadius: '10px',
+        padding: '1.25rem',
+        labelColor: '#94a3b8',
+        valueColor: '#f8fafc',
+        valueFontSize: '1.75rem',
+        iconBackground: 'rgba(99, 102, 241, 0.15)',
+        trendPositiveColor: '#22c55e',
+        trendNegativeColor: '#ef4444',
+        trendNeutralColor: '#94a3b8'
       }
     }
   }

@@ -16,65 +16,81 @@
   box-sizing: border-box;
 }
 
-      .settings-head-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
+.settings-head-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-      .settings-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
+.settings-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--gp-text-color);
+}
 
-      .settings-subtitle {
-        font-size: 0.875rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0.25rem 0 0 0;
-      }
+.settings-subtitle {
+  font-size: 0.875rem;
+  color: var(--gp-text-color-secondary);
+  margin: 0.25rem 0 0 0;
+}
 
-      .members-table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
-      }
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-      .members-table th {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        color: var(--gp-text-color-secondary);
-        padding: 0.75rem;
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
+.team-member-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-md, 8px);
+  transition: background-color var(--gp-transition-duration, 150ms) ease;
 
-      .members-table td {
-        padding: 0.85rem 0.75rem;
-        border-bottom: 1px solid var(--gp-surface-border);
-        font-size: 0.875rem;
-      }
+  &:hover {
+    background-color: var(--gp-surface-hover, rgba(255, 255, 255, 0.03));
+  }
 
-      .member-cell {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+  &:last-child {
+    border-bottom: none;
+  }
+}
 
-      .m-name {
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+.member-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-      .m-email {
-        font-size: 0.75rem;
-        color: var(--gp-text-color-secondary);
-      }
+.member-meta {
+  display: flex;
+  flex-direction: column;
+}
 
-      .role-tag {
-        font-weight: 600;
-        font-size: 0.8rem;
-        color: var(--gp-text-color);
-      }
+.member-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gp-text-color);
+}
+
+.member-email {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary);
+}
+
+.member-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.role-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gp-text-color-secondary);
+}

@@ -12,88 +12,116 @@
   box-sizing: border-box;
 }
 
-      .ops-status-banner {
-        background: rgba(34, 197, 94, 0.1);
-        border: 1px solid rgba(34, 197, 94, 0.3);
-        border-radius: 12px;
-        padding: 1rem 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+.dashboard-top-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-      .banner-left {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+/* 1. Fleet Status Banner */
+.ops-status-banner {
+  background: var(--gp-success-light, rgba(34, 197, 94, 0.1));
+  border: 1px solid var(--gp-success, rgba(34, 197, 94, 0.3));
+  border-radius: var(--gp-border-radius-lg, 12px);
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+}
 
-      .pulse-indicator {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #22c55e;
-        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
-      }
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-      .banner-text {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #15803d;
-      }
+.live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gp-success, #22c55e);
+  box-shadow: 0 0 0 3px var(--gp-success-light, rgba(34, 197, 94, 0.25));
+  animation: gpOpsPulse 2s infinite ease-in-out;
+}
 
-      .uptime-badge {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #166534;
-      }
+@keyframes gpOpsPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
 
-      .nodes-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.25rem;
-      }
+.banner-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
 
-      .node-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 1.25rem 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
+/* 2. Ops Node Grid */
+.ops-node-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
 
-      .node-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+.node-card {
+  background: var(--gp-surface-card, #0f172a);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+  border-radius: var(--gp-border-radius-lg, 12px);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all var(--gp-transition-duration, 150ms) ease;
 
-      .node-name {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
+  &:hover {
+    border-color: var(--gp-primary, #6366f1);
+    box-shadow: var(--gp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  }
+}
 
-      .meter-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--gp-text-color-secondary);
-        margin-bottom: 0.25rem;
-      }
+.node-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      .node-footer {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.75rem;
-        color: var(--gp-text-color-secondary);
-        border-top: 1px solid var(--gp-surface-border);
-        padding-top: 0.5rem;
-      }
+.node-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
 
-      @media (max-width: 868px) {
-        .nodes-grid { grid-template-columns: 1fr; }
-      }
+.node-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.metric-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.meter-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.node-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--gp-text-color-muted, #64748b);
+  border-top: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.08));
+  padding-top: 0.5rem;
+}

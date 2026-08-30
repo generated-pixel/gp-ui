@@ -554,6 +554,18 @@ export class DashboardComponent {
       type: 'input<boolean>',
       default: 'false',
       description: 'Locked in place: NEVER displaced by other moving widgets and cannot be dropped on.'
+    },
+    {
+      name: 'widgetType',
+      type: "input<'custom' | 'kpi' | 'chart' | 'table' | 'list' | 'progress'>",
+      default: "'custom'",
+      description: 'Specialized typed widget type for automatic rendering of KPI, Chart, Table, List, or Progress widgets.'
+    },
+    {
+      name: 'widgetData',
+      type: 'input<any>',
+      default: 'undefined',
+      description: 'Typed payload data matching GpKpiWidgetData, GpChartWidgetData, GpTableWidgetData, GpListWidgetData, or GpProgressWidgetData.'
     }
   ];
 }

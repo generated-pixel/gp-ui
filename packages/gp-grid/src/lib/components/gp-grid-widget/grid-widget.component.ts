@@ -8,13 +8,13 @@ import {
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpTranslationService } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpBadgeComponent, GpTranslationService, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 import { GpGridItem } from '../../models/grid-item.model';
 
 @Component({
   selector: 'gp-grid-widget',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpIconComponent, GpBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid-widget.component.html',
@@ -51,9 +51,9 @@ export class GpGridWidgetComponent {
   public badge = input<string>('');
 
   /**
-   * Severity styling for badge ('primary' | 'success' | 'warning' | 'danger' | 'info').
+   * Severity styling for badge ('primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info').
    */
-  public badgeSeverity = input<string>('primary');
+  public badgeSeverity = input<GpBadgeSeverity>('primary');
 
   /**
    * Whether the header bar is rendered.

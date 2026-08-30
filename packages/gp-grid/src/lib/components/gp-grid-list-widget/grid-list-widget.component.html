@@ -1,0 +1,70 @@
+<div class="gp-grid-list-widget">
+  <div class="gp-grid-list-header">
+    <h4 class="gp-grid-list-title">{{ effectiveTitle() }}</h4>
+    @if (effectiveActionLabel()) {
+      <gp-button
+        variant="text"
+        severity="primary"
+        size="sm"
+        (onClickEvent)="actionClick.emit()"
+      >
+        {{ effectiveActionLabel() }}
+      </gp-button>
+    }
+  </div>
+
+  <div class="gp-grid-list-body">
+    @for (it of effectiveItems(); track it.id || $index) {
+      <div
+        class="gp-grid-list-row"
+        (click)="itemClick.emit(it)"
+        (keydown.enter)="itemClick.emit(it)"
+        tabindex="0"
+        role="button"
+      >
+        @if (it.avatar || it.avatarLabel) {
+          <gp-avatar
+            [label]="it.avatarLabel || it.title.charAt(0)"
+            [image]="it.avatar || ''"
+            size="normal"
+            shape="circle"
+          />
+        } @else if (it.icon) {
+          <div
+            class="gp-grid-list-icon"
+            [style.background]="it.iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.1))'"
+            [style.color]="it.iconColor || 'var(--gp-primary, #6366f1)'"
+          >
+            <gp-icon [name]="it.icon" size="1.1em" />
+          </div>
+        }
+
+        <div class="gp-grid-list-info">
+          <span class="gp-grid-list-item-title">{{ it.title }}</span>
+          @if (it.subtitle || it.category) {
+            <span class="gp-grid-list-item-sub">{{ it.subtitle || it.category }}</span>
+          }
+        </div>
+
+        <div class="gp-grid-list-trailing">
+          @if (it.revenue || it.sales) {
+            <div class="gp-grid-list-metrics">
+              @if (it.revenue) {
+                <span class="gp-grid-list-rev">{{ it.revenue }}</span>
+              }
+              @if (it.sales) {
+                <span class="gp-grid-list-sales">{{ it.sales }}</span>
+              }
+            </div>
+          }
+          @if (it.badge) {
+            <gp-badge [value]="it.badge" [severity]="it.badgeSeverity || 'primary'" />
+          }
+          @if (it.time) {
+            <span class="gp-grid-list-time">{{ it.time }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

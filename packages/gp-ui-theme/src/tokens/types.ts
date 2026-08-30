@@ -467,7 +467,48 @@ export interface GpEmptyStateComponentTokens extends GpGenericComponentTokens {}
 export interface GpImageComponentTokens extends GpGenericComponentTokens {}
 export interface GpMeterGroupComponentTokens extends GpGenericComponentTokens {}
 export interface GpTimelineComponentTokens extends GpGenericComponentTokens {}
-export interface GpIconComponentTokens extends GpGenericComponentTokens {}
+export interface GpGridComponentTokens extends GpGenericComponentTokens {
+  gap?: string;
+  guideBorderColor?: string;
+  placeholderBorderColor?: string;
+  placeholderBackground?: string;
+}
+
+export interface GpGridWidgetComponentTokens extends GpGenericComponentTokens {
+  headerBackground?: string;
+  headerBorderColor?: string;
+  headerPadding?: string;
+  bodyPadding?: string;
+  dragHandleColor?: string;
+  dragHandleHoverColor?: string;
+  resizeHandleColor?: string;
+  lockedBorderColor?: string;
+}
+
+export interface GpBlockCardComponentTokens extends GpGenericComponentTokens {
+  headerBackground?: string;
+  headerBorderColor?: string;
+}
+
+export interface GpSidebarComponentTokens extends GpGenericComponentTokens {
+  width?: string;
+  darkBackground?: string;
+  lightBackground?: string;
+  borderColor?: string;
+  navItemHoverBackground?: string;
+  navItemActiveBackground?: string;
+  navItemActiveColor?: string;
+}
+
+export interface GpKpiCardComponentTokens extends GpGenericComponentTokens {
+  labelColor?: string;
+  valueColor?: string;
+  valueFontSize?: string;
+  iconBackground?: string;
+  trendPositiveColor?: string;
+  trendNegativeColor?: string;
+  trendNeutralColor?: string;
+}
 
 export interface GpComponentTokens {
   button?: GpButtonComponentTokens;
@@ -541,7 +582,12 @@ export interface GpComponentTokens {
   image?: GpImageComponentTokens;
   meterGroup?: GpMeterGroupComponentTokens;
   timeline?: GpTimelineComponentTokens;
-  icon?: GpIconComponentTokens;
+  icon?: GpGenericComponentTokens;
+  grid?: GpGridComponentTokens;
+  gridWidget?: GpGridWidgetComponentTokens;
+  blockCard?: GpBlockCardComponentTokens;
+  sidebar?: GpSidebarComponentTokens;
+  kpiCard?: GpKpiCardComponentTokens;
   [component: string]: GpGenericComponentTokens | undefined;
 }
 
