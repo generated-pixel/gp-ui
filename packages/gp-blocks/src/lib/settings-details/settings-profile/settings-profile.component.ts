@@ -1,11 +1,11 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpAvatarComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-settings-profile',
   standalone: true,
-  imports: [CommonModule, GpAvatarComponent, GpButtonComponent],
+  imports: [CommonModule, GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent],
   templateUrl: './settings-profile.component.html',
   styleUrl: './settings-profile.component.scss'
 })
@@ -27,6 +27,27 @@ export class GpSettingsProfileComponent {
   public removeAvatar = output<void>();
   public save = output<Record<string, string>>();
   public cancel = output<void>();
+
+  @Input() public headerTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+  @Input() public footerActionsTemplate?: TemplateRef<any>;
+
+  @ContentChild('header') public contentHeader?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  @ContentChild('footer') public contentFooter?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+
+  public get effectiveHeader(): TemplateRef<any> | undefined {
+    return this.headerTemplate || this.contentHeader;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
+
+  public get effectiveFooterActions(): TemplateRef<any> | undefined {
+    return this.footerActionsTemplate || this.contentFooter || this.contentActions;
+  }
 
   private formValues: Record<string, string> = {};
 

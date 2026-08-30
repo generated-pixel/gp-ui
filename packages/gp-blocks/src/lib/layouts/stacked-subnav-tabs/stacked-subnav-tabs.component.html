@@ -1,32 +1,68 @@
-<div class="gp-stacked-subnav-tabs-shell">
-  <header class="top-nav-bar">
-    <div class="brand-group">
-      <gp-icon [name]="brandIcon()" size="1.2em" class="brand-ico" />
-      <span class="brand-title">{{ brandName() }}</span>
-    </div>
-    <div class="user-badge" (click)="userClick.emit()" style="cursor: pointer;">
-      <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
-    </div>
+<div class="gp-stacked-subnav-shell">
+  <!-- Primary Header -->
+  <header class="primary-header">
+    <ng-container *ngIf="effectiveHeader; else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    </ng-container>
+    <ng-template #defaultHeader>
+      <ng-content select="[header], [slot=header]" />
+        <div class="header-inner">
+          <div class="brand-group">
+            <gp-icon [name]="brandIcon()" size="1.2em" />
+            <span class="brand-name">{{ brandName() }}</span>
+          </div>
+
+          <ng-container *ngIf="effectiveUser; else defaultUser">
+            <ng-container *ngTemplateOutlet="effectiveUser" />
+          </ng-container>
+          <ng-template #defaultUser>
+            <ng-content select="[user], [slot=user]" />
+
+
+              <div class="user-badge" *ngIf="userName()" (click)="userClick.emit()" style="cursor: pointer;">
+                <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+                <span class="user-name">{{ userName() }}</span>
+              </div>
+            
+          </ng-template>
+        </div>
+      
+    </ng-template>
   </header>
 
-  <!-- Subheader with Tab Bar & Breadcrumbs -->
-  <div class="sub-nav-tabs-bar" *ngIf="tabs() && tabs().length > 0">
-    <div class="tabs-inner-container">
-      <div class="subnav-tabs">
-        <a
-          href="javascript:void(0)"
-          *ngFor="let tab of tabs()"
-          class="tab-item"
-          [class.active]="tab.id === activeTabId() || tab.active"
-          (click)="tabChange.emit(tab)"
-        >
-          {{ tab.label }}
-        </a>
-      </div>
-    </div>
+  <!-- Secondary Subnav Tabs Strip -->
+  <div class="subnav-tabs-strip">
+    <ng-container *ngIf="effectiveTabs; else defaultTabs">
+      <ng-container *ngTemplateOutlet="effectiveTabs" />
+    </ng-container>
+    <ng-template #defaultTabs>
+      <ng-content select="[tabs], [slot=tabs], [subnav], [slot=subnav]" />
+
+        <div class="tabs-inner" *ngIf="tabs() && tabs().length > 0">
+          <gp-button
+            type="button"
+            *ngFor="let tab of tabs()"
+            variant="text"
+            severity="secondary"
+            styleClass="tab-btn"
+            [class.active]="tab.id === activeTabId() || tab.active"
+            (onClickEvent)="tabChange.emit(tab)"
+          >
+            {{ tab.label }}
+          </gp-button>
+        </div>
+      
+    </ng-template>
   </div>
 
-  <main class="page-content-wrapper">
-    <ng-content />
+  <!-- Main Subnav Body -->
+  <main class="subnav-content-container">
+    <ng-container *ngIf="effectiveContent; else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent" />
+    </ng-container>
+    <ng-template #defaultContent>
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+        <ng-content />
+    </ng-template>
   </main>
 </div>

@@ -1,41 +1,66 @@
 <div class="gp-header-page-actions">
   <div class="header-breadcrumbs" *ngIf="breadcrumbs() && breadcrumbs().length > 0">
-    <nav class="breadcrumb-trail">
-      <ng-container *ngFor="let crumb of breadcrumbs(); let last = last">
-        <a
-          *ngIf="!last && crumb.url"
-          [href]="crumb.url"
-          class="crumb-link"
-          (click)="$event.preventDefault(); breadcrumbClick.emit(crumb)"
-        >
-          {{ crumb.label }}
-        </a>
-        <span *ngIf="!last && !crumb.url" class="crumb-link" (click)="breadcrumbClick.emit(crumb)">{{ crumb.label }}</span>
-        <span *ngIf="last" class="crumb-current">{{ crumb.label }}</span>
-        <span *ngIf="!last" class="crumb-sep">/</span>
-      </ng-container>
-    </nav>
+    <ng-container *ngIf="effectiveBreadcrumbs; else defaultBreadcrumbs">
+      <ng-container *ngTemplateOutlet="effectiveBreadcrumbs" />
+    </ng-container>
+    <ng-template #defaultBreadcrumbs>
+      <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
+
+        <nav class="breadcrumb-trail">
+          <ng-container *ngFor="let crumb of breadcrumbs(); let last = last">
+            <a
+              *ngIf="!last && crumb.url"
+              [href]="crumb.url"
+              class="crumb-link"
+              (click)="$event.preventDefault(); breadcrumbClick.emit(crumb)"
+            >
+              {{ crumb.label }}
+            </a>
+            <span *ngIf="!last && !crumb.url" class="crumb-link" (click)="breadcrumbClick.emit(crumb)">{{ crumb.label }}</span>
+            <span *ngIf="last" class="crumb-current">{{ crumb.label }}</span>
+            <span *ngIf="!last" class="crumb-sep">/</span>
+          </ng-container>
+        </nav>
+      
+    </ng-template>
   </div>
 
   <div class="header-main-row">
-    <div class="title-group">
-      <div class="title-with-badge">
-        <h1 class="page-title">{{ title() }}</h1>
-        <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
-      </div>
-      <p class="page-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
-    </div>
+    <ng-container *ngIf="effectiveTitle; else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    </ng-container>
+    <ng-template #defaultTitle>
+      <ng-content select="[title], [slot=title]" />
 
-    <div class="header-actions" *ngIf="actions() && actions().length > 0">
-      <gp-button
-        *ngFor="let act of actions()"
-        [variant]="act.variant || 'filled'"
-        [severity]="act.severity || 'primary'"
-        (onClick)="actionClick.emit(act)"
-      >
-        <gp-icon *ngIf="act.icon" [name]="act.icon" size="0.85em" style="margin-right: 0.35rem;" />
-        {{ act.label }}
-      </gp-button>
+        <div class="title-group">
+          <div class="title-with-badge">
+            <h1 class="page-title">{{ title() }}</h1>
+            <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
+          </div>
+          <p class="page-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+        </div>
+      
+    </ng-template>
+
+    <div class="header-actions">
+      <ng-container *ngIf="effectiveActions; else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions" />
+      </ng-container>
+      <ng-template #defaultActions>
+        <ng-content select="[actions], [slot=actions]" />
+
+          <gp-button
+            *ngFor="let act of actions()"
+            [variant]="act.variant || 'filled'"
+            [severity]="act.severity || 'primary'"
+            (onClickEvent)="actionClick.emit(act)"
+          >
+            <gp-icon *ngIf="act.icon" [name]="act.icon" size="0.85em" style="margin-right: 0.35rem;" />
+            {{ act.label }}
+          </gp-button>
+        
+      </ng-template>
     </div>
   </div>
+  <ng-content />
 </div>

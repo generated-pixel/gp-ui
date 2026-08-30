@@ -1,29 +1,53 @@
 <div class="gp-file-list-card">
-  <div class="card-head">
-    <h3 class="title">{{ title() }}</h3>
-    <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="uploadClick.emit()">
-      <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem;" />
-      {{ uploadBtnLabel() }}
-    </gp-button>
-  </div>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="files-list" *ngIf="files() && files().length > 0">
-    <div class="file-row" *ngFor="let f of files()">
-      <div class="file-icon-box">
-        <gp-icon name="file" size="1.2em" />
+      <div class="card-head" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <gp-button severity="primary" size="sm" (onClickEvent)="uploadClick.emit()">
+          <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem;" />
+          {{ uploadBtnLabel() }}
+        </gp-button>
       </div>
-      <div class="file-info">
-        <span class="f-name">{{ f.name }}</span>
-        <span class="f-meta">{{ f.size }} &bull; Uploaded by {{ f.by }} on {{ f.date }}</span>
+    
+  </ng-template>
+
+  <!-- Files List Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[files], [slot=files]" />
+
+      <div class="file-items-list" *ngIf="files() && files().length > 0">
+        <ng-container *ngFor="let f of files()">
+          <ng-container *ngIf="effectiveFileTemplate; else defaultFile">
+            <ng-container *ngTemplateOutlet="effectiveFileTemplate; context: { $implicit: f }" />
+          </ng-container>
+          <ng-template #defaultFile>
+            <div class="file-row">
+              <div class="file-info-group">
+                <div class="file-icon-box">
+                  <gp-icon name="file-text" size="1.1em" />
+                </div>
+                <div class="file-meta">
+                  <span class="f-name">{{ f.name }}</span>
+                  <span class="f-sub">{{ f.size }} &bull; Uploaded {{ f.date }} by {{ f.by }}</span>
+                </div>
+              </div>
+              <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadFile.emit(f)">
+                <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+                Download
+              </gp-button>
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
-      <button
-        type="button"
-        class="btn-download"
-        (click)="downloadFile.emit(f)"
-        title="Download file"
-      >
-        <gp-icon name="download" size="1em" />
-      </button>
-    </div>
-  </div>
+    
+  </ng-template>
+  <ng-content />
 </div>

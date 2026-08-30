@@ -2,6 +2,7 @@
   class="gp-badge"
   [class]="'gp-badge-' + severity() + ' gp-badge-' + size()"
   [class.gp-badge-dot]="!value() && value() !== 0"
+  [attr.title]="displayTitle()"
 >
-  {{ value() }}
+  <span class="gp-badge-text">{{ value() }}<ng-content /></span>
 </span>

@@ -1,6 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-layout-2col-split {
-        display: grid;
-        width: 100%;
+  display: grid;
+  width: 100%;
+  box-sizing: border-box;
         min-height: 480px;
         background: var(--gp-surface-ground);
         border: 1px solid var(--gp-surface-border);

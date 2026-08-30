@@ -226,7 +226,7 @@
               *ngIf="schema()?.resetButton"
               variant="outlined"
               severity="secondary"
-              (onClick)="onReset()"
+              (onClickEvent)="onReset()"
             >
               {{ schema()?.resetButton?.label || 'Reset' }}
             </gp-button>
@@ -235,7 +235,7 @@
               *ngFor="let sec of schema()?.secondaryActions"
               [variant]="sec.variant || 'outlined'"
               [severity]="sec.severity || 'secondary'"
-              (onClick)="onActionClick(sec)"
+              (onClickEvent)="onActionClick(sec)"
             >
               <gp-icon *ngIf="sec.icon" [name]="sec.icon" size="0.9em" style="margin-right: 0.35rem;" />
               {{ sec.label }}
@@ -247,7 +247,7 @@
               [severity]="schema()?.submitButton?.severity || 'primary'"
               [variant]="schema()?.submitButton?.variant || 'filled'"
               [disabled]="form.invalid && formSubmitted()"
-              (onClick)="onSubmit()"
+              (onClickEvent)="onSubmit()"
             >
               <gp-icon
                 *ngIf="schema()?.submitButton?.icon"

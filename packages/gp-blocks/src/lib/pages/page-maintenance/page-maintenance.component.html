@@ -1,13 +1,31 @@
-<div class="gp-maintenance-root">
-  <div class="maint-icon-wrap">
-    <gp-icon [name]="icon()" size="2.5em" />
-  </div>
-  <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity() || 'warning'" />
-  <h1 class="maint-title">{{ title() }}</h1>
-  <p class="maint-desc" *ngIf="description()">{{ description() }}</p>
+<div class="gp-page-state-shell">
+  <div class="state-card">
+    <ng-container *ngIf="effectiveContent; else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent" />
+    </ng-container>
+    <ng-template #defaultContent>
+      <!-- Icon -->
+      <ng-container *ngIf="effectiveIcon; else defaultIcon">
+        <ng-container *ngTemplateOutlet="effectiveIcon" />
+      </ng-container>
+      <ng-template #defaultIcon>
+        <ng-content select="[icon], [slot=icon]" />
 
-  <div class="uptime-box" *ngIf="estimatedUptime()">
-    <span class="est-label">{{ estimatedUptimeLabel() }}</span>
-    <span class="est-val">{{ estimatedUptime() }}</span>
+          <div class="maintenance-icon-box">
+            <gp-icon [name]="icon()" size="1.75em" />
+          </div>
+        
+      </ng-template>
+
+      <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" [style]="{ marginBottom: '1rem' }" />
+      <h2 class="state-title" *ngIf="title()">{{ title() }}</h2>
+      <p class="state-desc" *ngIf="description()">{{ description() }}</p>
+
+      <div class="uptime-box" *ngIf="estimatedUptime()">
+        <span class="u-label">{{ estimatedUptimeLabel() }}</span>
+        <strong class="u-val">{{ estimatedUptime() }}</strong>
+      </div>
+      <ng-content />
+    </ng-template>
   </div>
 </div>

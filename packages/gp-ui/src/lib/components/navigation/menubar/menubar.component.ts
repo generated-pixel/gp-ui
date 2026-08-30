@@ -13,6 +13,7 @@ import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 
 export interface GpMenubarItem extends GpMenuItem {
   items?: GpMenubarItem[];
+  active?: boolean;
 }
 
 @Component({
@@ -61,12 +62,8 @@ export class GpMenubarComponent extends GpMenuBaseComponent<GpMenubarItem> {
     if (item.items && item.items.length > 0) {
       event.preventDefault();
       event.stopPropagation();
-      if (this.activeItem() === item) {
-        this.close();
-      } else {
-        this.activeItem.set(item);
-        this.activeSubItem.set(null);
-      }
+      this.activeItem.set(item);
+      this.activeSubItem.set(null);
     } else {
       this.onItemClick(item, event);
     }

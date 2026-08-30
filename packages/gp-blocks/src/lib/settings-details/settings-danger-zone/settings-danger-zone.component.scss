@@ -1,60 +1,68 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-danger-zone-card {
-        background: #fff;
-        border: 1px solid #fecaca;
-        border-radius: 12px;
-        padding: 1.75rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-      }
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-danger-border, var(--gp-danger));
+  border-radius: var(--gp-border-radius-lg, 12px);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-      .danger-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-        color: #b91c1c;
-      }
+.danger-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--gp-danger, #ef4444);
+}
 
-      .danger-subtitle {
-        font-size: 0.875rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0.25rem 0 0 0;
-      }
+.danger-subtitle {
+  font-size: 0.875rem;
+  color: var(--gp-text-color-secondary);
+  margin: 0;
+}
 
-      .danger-actions-list {
-        display: flex;
-        flex-direction: column;
-      }
+.danger-actions-list {
+  display: flex;
+  flex-direction: column;
+}
 
-      .danger-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.25rem 0;
-        border-top: 1px solid #fee2e2;
-        gap: 1.5rem;
-      }
+.danger-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--gp-surface-border);
+  gap: 1.5rem;
+}
 
-      .danger-info {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
+.danger-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
 
-      .d-action-title {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
+.d-action-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gp-text-color);
+}
 
-      .d-action-desc {
-        font-size: 0.825rem;
-        color: var(--gp-text-color-secondary);
-      }
+.d-action-desc {
+  font-size: 0.825rem;
+  color: var(--gp-text-color-secondary);
+}
 
-      @media (max-width: 640px) {
-        .danger-row {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
+@media (max-width: 640px) {
+  .danger-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

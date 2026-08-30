@@ -1,75 +1,106 @@
 <div class="gp-settings-card">
-  <div class="settings-head">
-    <h3 class="settings-title">{{ title() }}</h3>
-    <p class="settings-subtitle">{{ subtitle() }}</p>
-  </div>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="profile-avatar-row">
-    <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
-    <div class="avatar-controls">
-      <div class="btn-group">
-        <gp-button severity="primary" size="sm" (onClick)="changeAvatar.emit()">{{ changeAvatarLabel() }}</gp-button>
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="removeAvatar.emit()">{{ removeAvatarLabel() }}</gp-button>
+      <div class="settings-head">
+        <h3 class="settings-title">{{ title() }}</h3>
+        <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-      <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
-    </div>
-  </div>
+    
+  </ng-template>
 
-  <div class="form-fields-grid">
-    <div class="field-col col-6">
-      <label class="f-label">First Name</label>
-      <input
-        type="text"
-        class="form-inp"
-        [value]="firstName()"
-        (input)="onFieldChange('firstName', $event)"
-        placeholder="First name"
-      />
-    </div>
-    <div class="field-col col-6">
-      <label class="f-label">Last Name</label>
-      <input
-        type="text"
-        class="form-inp"
-        [value]="lastName()"
-        (input)="onFieldChange('lastName', $event)"
-        placeholder="Last name"
-      />
-    </div>
-    <div class="field-col col-6">
-      <label class="f-label">Email Address</label>
-      <input
-        type="email"
-        class="form-inp"
-        [value]="email()"
-        (input)="onFieldChange('email', $event)"
-        placeholder="email@domain.com"
-      />
-    </div>
-    <div class="field-col col-6">
-      <label class="f-label">Job Title</label>
-      <input
-        type="text"
-        class="form-inp"
-        [value]="jobTitle()"
-        (input)="onFieldChange('jobTitle', $event)"
-        placeholder="e.g. Lead Engineer"
-      />
-    </div>
-    <div class="field-col col-12">
-      <label class="f-label">Biography</label>
-      <textarea
-        class="form-inp"
-        rows="3"
-        [value]="bio()"
-        (input)="onFieldChange('bio', $event)"
-        placeholder="Tell us a little about yourself..."
-      ></textarea>
-    </div>
-  </div>
+  <!-- Body Content / Form -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content], [form], [slot=form]" />
+      <div class="profile-avatar-row">
+        <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
+        <div class="avatar-controls">
+          <div class="btn-group">
+            <gp-button severity="primary" size="sm" (onClickEvent)="changeAvatar.emit()">{{ changeAvatarLabel() }}</gp-button>
+            <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="removeAvatar.emit()">{{ removeAvatarLabel() }}</gp-button>
+          </div>
+          <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
+        </div>
+      </div>
 
-  <div class="settings-footer">
-    <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-    <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
-  </div>
+      <div class="form-fields-grid">
+        <div class="field-col col-6">
+          <label class="f-label">First Name</label>
+          <gp-input-text
+            type="text"
+            styleClass="form-inp"
+            [fluid]="true"
+            [value]="firstName()"
+            (onInputEvent)="onFieldChange('firstName', $event)"
+            placeholder="First name"
+          />
+        </div>
+        <div class="field-col col-6">
+          <label class="f-label">Last Name</label>
+          <gp-input-text
+            type="text"
+            styleClass="form-inp"
+            [fluid]="true"
+            [value]="lastName()"
+            (onInputEvent)="onFieldChange('lastName', $event)"
+            placeholder="Last name"
+          />
+        </div>
+        <div class="field-col col-6">
+          <label class="f-label">Email Address</label>
+          <gp-input-text
+            type="email"
+            styleClass="form-inp"
+            [fluid]="true"
+            [value]="email()"
+            (onInputEvent)="onFieldChange('email', $event)"
+            placeholder="email@domain.com"
+          />
+        </div>
+        <div class="field-col col-6">
+          <label class="f-label">Job Title</label>
+          <gp-input-text
+            type="text"
+            styleClass="form-inp"
+            [fluid]="true"
+            [value]="jobTitle()"
+            (onInputEvent)="onFieldChange('jobTitle', $event)"
+            placeholder="e.g. Lead Engineer"
+          />
+        </div>
+        <div class="field-col col-12">
+          <label class="f-label">Biography</label>
+          <gp-textarea
+            styleClass="form-inp"
+            [fluid]="true"
+            [rows]="3"
+            [value]="bio()"
+            (onInputEvent)="onFieldChange('bio', $event)"
+            placeholder="Tell us a little about yourself..."
+          />
+        </div>
+      </div>
+      <ng-content />
+  </ng-template>
+
+  <!-- Footer Actions -->
+  <ng-container *ngIf="effectiveFooterActions; else defaultFooter">
+    <ng-container *ngTemplateOutlet="effectiveFooterActions" />
+  </ng-container>
+  <ng-template #defaultFooter>
+    <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />
+
+      <div class="settings-footer">
+        <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+        <gp-button severity="primary" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
+      </div>
+    
+  </ng-template>
 </div>

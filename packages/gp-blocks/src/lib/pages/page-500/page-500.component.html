@@ -1,14 +1,41 @@
-<div class="gp-page-error-root">
-  <div class="error-visual-badge error-red">{{ code() }}</div>
-  <h1 class="error-title">{{ title() }}</h1>
-  <p class="error-desc" *ngIf="description()">{{ description() }}</p>
-  <div class="error-actions">
-    <gp-button variant="outlined" severity="secondary" (onClick)="contactSupport.emit()">
-      {{ supportBtnLabel() }}
-    </gp-button>
-    <gp-button severity="danger" (onClick)="retry.emit()">
-      <gp-icon name="refresh" size="0.85em" style="margin-right: 0.35rem;" />
-      {{ retryBtnLabel() }}
-    </gp-button>
+<div class="gp-page-state-shell">
+  <div class="state-card">
+    <ng-container *ngIf="effectiveContent; else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent" />
+    </ng-container>
+    <ng-template #defaultContent>
+      <!-- Big Error Code -->
+      <ng-container *ngIf="effectiveCode; else defaultCode">
+        <ng-container *ngTemplateOutlet="effectiveCode" />
+      </ng-container>
+      <ng-template #defaultCode>
+        <ng-content select="[code], [slot=code]" />
+
+          <h1 class="state-code">{{ code() }}</h1>
+        
+      </ng-template>
+
+      <!-- Headings -->
+      <h2 class="state-title" *ngIf="title()">{{ title() }}</h2>
+      <p class="state-desc" *ngIf="description()">{{ description() }}</p>
+
+      <!-- Actions -->
+      <ng-container *ngIf="effectiveActions; else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions" />
+      </ng-container>
+      <ng-template #defaultActions>
+        <ng-content select="[actions], [slot=actions]" />
+
+          <div class="state-actions-row">
+            <gp-button variant="outlined" severity="secondary" (onClickEvent)="contactSupport.emit()">{{ supportBtnLabel() }}</gp-button>
+            <gp-button severity="primary" (onClickEvent)="retry.emit()">
+              <gp-icon name="rotate-cw" size="0.85em" style="margin-right: 0.35rem;" />
+              {{ retryBtnLabel() }}
+            </gp-button>
+          </div>
+        
+      </ng-template>
+      <ng-content />
+    </ng-template>
   </div>
 </div>

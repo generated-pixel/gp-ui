@@ -1,3 +1,9 @@
+gp-badge {
+  display: inline-flex;
+  vertical-align: middle;
+  max-width: 100%;
+}
+
 .gp-badge {
   display: inline-flex;
   align-items: center;
@@ -5,23 +11,39 @@
   font-weight: 700;
   line-height: 1;
   padding: 0.25rem 0.5rem;
-  border-radius: var(--gp-border-radius-full);
+  border-radius: var(--gp-border-radius-full, 9999px);
   font-size: var(--gp-font-size-xs);
   min-width: 1.25rem;
   height: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
+.gp-badge-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+}
+
 .gp-badge-dot {
   width: 0.65rem;
   height: 0.65rem;
   min-width: 0;
   padding: 0;
 }
+
 .gp-badge-sm {
   font-size: 0.65rem;
   height: 1rem;
   min-width: 1rem;
   padding: 0.15rem 0.35rem;
 }
+
 .gp-badge-lg {
   font-size: var(--gp-font-size-sm);
   height: 1.75rem;
@@ -33,26 +55,32 @@
   background: var(--gp-primary);
   color: var(--gp-primary-text);
 }
+
 .gp-badge-secondary {
   background: var(--gp-secondary);
   color: var(--gp-secondary-text);
 }
+
 .gp-badge-success {
   background: var(--gp-success);
   color: var(--gp-success-text);
 }
+
 .gp-badge-info {
   background: var(--gp-info);
   color: var(--gp-info-text);
 }
+
 .gp-badge-warning {
   background: var(--gp-warning);
   color: var(--gp-warning-text);
 }
+
 .gp-badge-danger {
   background: var(--gp-danger);
   color: var(--gp-danger-text);
 }
+
 .gp-badge-contrast {
   background: var(--gp-contrast);
   color: var(--gp-contrast-text);

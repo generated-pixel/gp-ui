@@ -1,64 +1,103 @@
-<div class="gp-form-profile-card">
-  <div class="form-head">
-    <h2 class="title">{{ title() }}</h2>
-    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
-  </div>
+<div class="gp-form-user-profile-card">
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="profile-grid">
-    <div class="col-6">
-      <label class="lbl">First Name</label>
-      <input
-        type="text"
-        class="form-inp"
-        [value]="firstName()"
-        (input)="firstName.set($any($event.target).value)"
-        placeholder="First name"
-      />
-    </div>
-    <div class="col-6">
-      <label class="lbl">Last Name</label>
-      <input
-        type="text"
-        class="form-inp"
-        [value]="lastName()"
-        (input)="lastName.set($any($event.target).value)"
-        placeholder="Last name"
-      />
-    </div>
-    <div class="col-6">
-      <label class="lbl">Email Address</label>
-      <input
-        type="email"
-        class="form-inp"
-        [value]="email()"
-        (input)="email.set($any($event.target).value)"
-        placeholder="email@company.dev"
-      />
-    </div>
-    <div class="col-6">
-      <label class="lbl">Phone Number</label>
-      <input
-        type="tel"
-        class="form-inp"
-        [value]="phone()"
-        (input)="phone.set($any($event.target).value)"
-        placeholder="+1 (555) 000-0000"
-      />
-    </div>
-    <div class="col-12">
-      <label class="lbl">Headline & Bio</label>
-      <textarea
-        class="form-inp"
-        rows="3"
-        [value]="bio()"
-        (input)="bio.set($any($event.target).value)"
-        placeholder="Bio"
-      ></textarea>
-    </div>
-  </div>
+      <div class="form-head" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+      </div>
+    
+  </ng-template>
 
-  <div class="form-footer">
-    <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-    <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
-  </div>
+  <!-- Form Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content]" />
+      <ng-container *ngIf="effectiveForm; else defaultForm">
+        <ng-container *ngTemplateOutlet="effectiveForm" />
+      </ng-container>
+      <ng-template #defaultForm>
+        <ng-content select="[form], [slot=form]" />
+
+          <div class="form-grid">
+            <div class="col-6">
+              <label class="input-label">First Name</label>
+              <gp-input-text
+                type="text"
+                styleClass="form-input"
+                [fluid]="true"
+                [value]="firstName()"
+                (valueChange)="firstName.set($event)"
+                placeholder="First name"
+              />
+            </div>
+            <div class="col-6">
+              <label class="input-label">Last Name</label>
+              <gp-input-text
+                type="text"
+                styleClass="form-input"
+                [fluid]="true"
+                [value]="lastName()"
+                (valueChange)="lastName.set($event)"
+                placeholder="Last name"
+              />
+            </div>
+            <div class="col-6">
+              <label class="input-label">Email Address</label>
+              <gp-input-text
+                type="email"
+                styleClass="form-input"
+                [fluid]="true"
+                [value]="email()"
+                (valueChange)="email.set($event)"
+                placeholder="name@company.com"
+              />
+            </div>
+            <div class="col-6">
+              <label class="input-label">Phone Number</label>
+              <gp-input-text
+                type="tel"
+                styleClass="form-input"
+                [fluid]="true"
+                [value]="phone()"
+                (valueChange)="phone.set($event)"
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+            <div class="col-12">
+              <label class="input-label">Biography</label>
+              <gp-textarea
+                styleClass="form-input textarea"
+                [fluid]="true"
+                [rows]="3"
+                [value]="bio()"
+                (valueChange)="bio.set($event)"
+                placeholder="Brief personal background..."
+              />
+            </div>
+          </div>
+        
+      </ng-template>
+
+      <!-- Footer Actions -->
+      <ng-container *ngIf="effectiveFooterActions; else defaultFooter">
+        <ng-container *ngTemplateOutlet="effectiveFooterActions" />
+      </ng-container>
+      <ng-template #defaultFooter>
+        <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />
+
+          <div class="form-actions">
+            <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+            <gp-button severity="primary" size="sm" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
+          </div>
+        
+      </ng-template>
+      <ng-content />
+  </ng-template>
 </div>

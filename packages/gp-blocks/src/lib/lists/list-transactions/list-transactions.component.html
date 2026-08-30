@@ -1,29 +1,60 @@
 <div class="gp-transactions-card">
-  <div class="card-head">
-    <h3 class="title">{{ title() }}</h3>
-    <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity() || 'success'" />
-  </div>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="tx-list" *ngIf="transactions() && transactions().length > 0">
-    <div
-      class="tx-row"
-      *ngFor="let tx of transactions()"
-      (click)="transactionClick.emit(tx)"
-      style="cursor: pointer;"
-    >
-      <div class="tx-ico-box" [class.pos]="tx.type === 'in'" [class.neg]="tx.type === 'out'">
-        <gp-icon [name]="tx.type === 'in' ? 'download' : 'upload'" size="1em" />
+      <div class="card-head" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
       </div>
-      <div class="tx-info">
-        <span class="tx-title">{{ tx.title }}</span>
-        <span class="tx-meta">{{ tx.category }} &bull; {{ tx.date }}</span>
+    
+  </ng-template>
+
+  <!-- Transactions List Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[transactions], [slot=transactions], [items], [slot=items]" />
+
+      <div class="trans-list" *ngIf="transactions() && transactions().length > 0">
+        <ng-container *ngFor="let t of transactions()">
+          <ng-container *ngIf="effectiveTransactionTemplate; else defaultTrans">
+            <ng-container *ngTemplateOutlet="effectiveTransactionTemplate; context: { $implicit: t }" />
+          </ng-container>
+          <ng-template #defaultTrans>
+            <div
+              class="trans-row"
+              (click)="transactionClick.emit(t)"
+              style="cursor: pointer;"
+            >
+              <div class="trans-left">
+                <div class="trans-icon" [class.in]="t.type === 'in'" [class.out]="t.type === 'out'">
+                  <gp-icon [name]="t.type === 'in' ? 'arrow-down-left' : 'arrow-up-right'" size="1em" />
+                </div>
+                <div class="trans-meta">
+                  <span class="trans-title">{{ t.title }}</span>
+                  <span class="trans-sub">{{ t.category }} &bull; {{ t.date }}</span>
+                </div>
+              </div>
+
+              <div class="trans-right">
+                <span class="trans-amt" [class.in]="t.type === 'in'" [class.out]="t.type === 'out'">
+                  {{ t.type === 'in' ? '+' : '-' }}{{ t.amount }}
+                </span>
+                <gp-badge
+                  [value]="t.status"
+                  [severity]="t.status === 'Completed' ? 'success' : (t.status === 'Pending' ? 'warning' : 'danger')"
+                />
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
-      <div class="tx-amount-col">
-        <span class="tx-amount" [class.pos]="tx.type === 'in'" [class.neg]="tx.type === 'out'">
-          {{ tx.type === 'in' ? '+' : '-' }}{{ tx.amount }}
-        </span>
-        <span class="tx-status">{{ tx.status }}</span>
-      </div>
-    </div>
-  </div>
+    
+  </ng-template>
+  <ng-content />
 </div>

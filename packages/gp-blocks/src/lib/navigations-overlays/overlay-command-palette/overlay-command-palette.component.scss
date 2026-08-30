@@ -1,107 +1,119 @@
-.gp-command-palette-backdrop {
-        background: rgba(15, 23, 42, 0.4);
-        padding: 3rem 1.5rem;
-        border-radius: 14px;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-      .palette-modal {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        width: 100%;
-        max-width: 580px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
+.gp-command-palette-launcher {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  background: var(--gp-surface-ground);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 12px);
+}
 
-      .palette-input-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 1rem 1.25rem;
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
+.gp-command-palette-dialog .gp-dialog-content {
+  padding: 0;
+}
 
-      .p-search-ico { color: var(--gp-text-color-secondary); }
+.palette-search-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--gp-surface-border);
+}
 
-      .p-input {
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        color: var(--gp-text-color);
-        background: transparent;
-      }
+.palette-search-row gp-input-text {
+  flex: 1;
+}
 
-      .p-esc-hint {
-        font-size: 0.7rem;
-        font-weight: 700;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 4px;
-        padding: 0.15rem 0.4rem;
-        color: var(--gp-text-color-secondary);
-      }
+.esc-badge,
+.cmd-shortcut {
+  color: var(--gp-text-color-secondary);
+  font-size: var(--gp-font-size-xs, 0.75rem);
+}
 
-      .palette-results {
-        padding: 0.75rem 0.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-      }
+.esc-badge {
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  background: var(--gp-surface-ground);
+  font-weight: 700;
+}
 
-      .results-group-label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        color: var(--gp-text-color-secondary);
-        padding: 0.4rem 0.75rem;
-      }
+.palette-body {
+  padding: 0.75rem 0.5rem;
+}
 
-      .palette-item {
-        display: flex;
-        align-items: center;
-        gap: 0.85rem;
-        padding: 0.65rem 0.75rem;
-        border-radius: 8px;
-        cursor: pointer;
-      }
+.group-tag {
+  padding: 0.4rem 0.75rem;
+  color: var(--gp-text-color-secondary);
+  font-size: var(--gp-font-size-xs, 0.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+}
 
-      .palette-item:hover, .palette-item.active {
-        background: var(--gp-surface-ground);
-      }
+.cmd-item,
+.cmd-left,
+.cmd-label-group,
+.palette-foot,
+.nav-hint {
+  display: flex;
+}
 
-      .palette-item.active {
-        background: rgba(59, 130, 246, 0.08);
-      }
+.cmd-item {
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--gp-border-radius-sm, 6px);
+  cursor: pointer;
+}
 
-      .item-ico {
-        color: var(--gp-primary);
-      }
+.cmd-item:hover,
+.cmd-item.active {
+  background: var(--gp-surface-hover);
+}
 
-      .item-text {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
+.cmd-left {
+  align-items: center;
+  gap: 0.85rem;
+}
 
-      .main-label {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+.cmd-ico {
+  color: var(--gp-primary);
+}
 
-      .sub-label {
-        font-size: 0.75rem;
-        color: var(--gp-text-color-secondary);
-      }
+.cmd-label-group {
+  flex-direction: column;
+}
 
-      .item-shortcut {
-        font-size: 0.85rem;
-        color: var(--gp-text-color-secondary);
-      }
+.cmd-label {
+  color: var(--gp-text-color);
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  font-weight: 600;
+}
+
+.cmd-sub {
+  color: var(--gp-text-color-secondary);
+  font-size: var(--gp-font-size-xs, 0.75rem);
+}
+
+.palette-foot {
+  justify-content: flex-end;
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid var(--gp-surface-border);
+}
+
+.nav-hint {
+  gap: 1rem;
+  color: var(--gp-text-color-secondary);
+  font-size: var(--gp-font-size-xs, 0.75rem);
+}
+
+.palette-empty {
+  padding: 2rem;
+  color: var(--gp-text-color-secondary);
+  text-align: center;
+}

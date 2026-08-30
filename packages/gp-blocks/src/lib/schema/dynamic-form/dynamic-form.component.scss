@@ -1,6 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-dynamic-form-wrapper {
-        font-family: inherit;
-        color: var(--gp-text-color);
+  font-family: inherit;
+  color: var(--gp-text-color);
+  width: 100%;
+  box-sizing: border-box;
       }
 
       .gp-dynamic-form-wrapper.card-mode {

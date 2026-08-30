@@ -1,21 +1,46 @@
 <div class="gp-meter-metrics-card">
-  <div class="card-head">
-    <h3 class="title">{{ title() }}</h3>
-    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
-  </div>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="meters-list" *ngIf="meters() && meters().length > 0">
-    <div
-      class="meter-item"
-      *ngFor="let m of meters()"
-      (click)="meterClick.emit(m)"
-      style="cursor: pointer;"
-    >
-      <div class="meter-info">
-        <span class="m-label">{{ m.label }}</span>
-        <span class="m-value">{{ m.current }} / {{ m.max }} ({{ m.pct }}%)</span>
+      <div class="card-head" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-      <gp-progress-bar [value]="m.pct" [showValue]="false" />
-    </div>
-  </div>
+    
+  </ng-template>
+
+  <!-- Meters Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[meters], [slot=meters]" />
+
+      <div class="meters-list" *ngIf="meters() && meters().length > 0">
+        <ng-container *ngFor="let m of meters()">
+          <ng-container *ngIf="effectiveMeterTemplate; else defaultMeter">
+            <ng-container *ngTemplateOutlet="effectiveMeterTemplate; context: { $implicit: m }" />
+          </ng-container>
+          <ng-template #defaultMeter>
+            <div
+              class="meter-item"
+              (click)="meterClick.emit(m)"
+              style="cursor: pointer;"
+            >
+              <div class="meter-head">
+                <span class="m-label">{{ m.label }}</span>
+                <span class="m-vals">{{ m.current }} / {{ m.max }}</span>
+              </div>
+              <gp-progress-bar [value]="m.pct" [showValue]="false" />
+            </div>
+          </ng-template>
+        </ng-container>
+      </div>
+    
+  </ng-template>
+  <ng-content />
 </div>

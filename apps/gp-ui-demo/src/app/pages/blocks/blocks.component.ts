@@ -1,9 +1,10 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpCarouselComponent } from 'gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from 'gp-ui';
 import { BLOCKS_DEMO_DATA } from './blocks-mock-data';
+import { BLOCKS_CODE_EXAMPLES } from './blocks-code-examples';
 
 // Import Layouts
 import {
@@ -143,7 +144,7 @@ export interface BlockItem {
     GpBadgeComponent,
     GpButtonComponent,
     GpIconComponent,
-    GpCarouselComponent,
+    GpInputTextComponent,
     // Layouts
     GpLayoutThreeColumnFluidComponent,
     GpLayoutTwoColumnSplitComponent,
@@ -259,40 +260,52 @@ export interface BlockItem {
         </div>
       </div>
 
-      <!-- Categories Navigation Bar powered by gp-carousel -->
+      <!-- Categories Navigation Bar with Smooth Scroll & Arrows -->
       <div class="blocks-toolbar">
-        <div class="categories-carousel-wrapper">
-          <gp-carousel
-            [value]="categoryGroups()"
-            [circular]="false"
-            [showIndicators]="false"
-            class="categories-carousel"
-          >
-            <ng-template #item let-group>
-              <div class="cat-group-row">
-                <button
-                  type="button"
-                  *ngFor="let cat of group"
-                  class="cat-chip"
-                  [class.active]="selectedCategory() === cat.id"
-                  (click)="selectedCategory.set(cat.id)"
-                >
-                  <span>{{ cat.name }}</span>
-                  <span class="cat-count">{{ cat.count }}</span>
-                </button>
-              </div>
-            </ng-template>
-          </gp-carousel>
+        <div class="categories-nav-wrapper">
+          <gp-button
+            icon="chevron-left"
+            [iconOnly]="true"
+            variant="text"
+            styleClass="cat-nav-btn prev-btn"
+            (onClickEvent)="scrollCategories(-240)"
+            [disabled]="!canScrollLeft()"
+            title="Scroll categories left"
+            ariaLabel="Previous categories"
+          />
+
+          <div #catTrack class="cat-track" (scroll)="updateScrollState()">
+            <gp-button
+              *ngFor="let cat of categories"
+              variant="text"
+              [styleClass]="'cat-chip' + (selectedCategory() === cat.id ? ' active' : '')"
+              (onClickEvent)="selectCategory(cat.id, $event)"
+            >
+              <span>{{ cat.name }}</span>
+              <span class="cat-count">{{ cat.count }}</span>
+            </gp-button>
+          </div>
+
+          <gp-button
+            icon="chevron-right"
+            [iconOnly]="true"
+            variant="text"
+            styleClass="cat-nav-btn next-btn"
+            (onClickEvent)="scrollCategories(240)"
+            [disabled]="!canScrollRight()"
+            title="Scroll categories right"
+            ariaLabel="Next categories"
+          />
         </div>
 
         <div class="search-wrap">
           <gp-icon name="search" size="0.85em" class="s-ico" />
-          <input
-            type="text"
-            class="s-input"
+          <gp-input-text
+            styleClass="s-input"
             placeholder="Search blocks..."
-            [ngModel]="searchQuery()"
-            (ngModelChange)="searchQuery.set($event)"
+            [value]="searchQuery()"
+            (onInputEvent)="searchQuery.set($any($event.target).value)"
+            ariaLabel="Search blocks"
           />
         </div>
       </div>
@@ -311,64 +324,50 @@ export interface BlockItem {
             <div class="head-controls">
               <!-- Viewport Switcher -->
               <div class="viewport-toggle">
-                <button
-                  type="button"
-                  class="v-btn"
-                  [class.active]="viewports[block.id] === 'desktop' || !viewports[block.id]"
-                  (click)="setViewport(block.id, 'desktop')"
+                <gp-button
+                  icon="window"
+                  [iconOnly]="true"
+                  variant="text"
+                  [styleClass]="'v-btn' + (viewports[block.id] === 'desktop' || !viewports[block.id] ? ' active' : '')"
+                  (onClickEvent)="setViewport(block.id, 'desktop')"
                   title="Desktop View (100%)"
-                >
-                  <gp-icon name="window" size="0.85em" />
-                </button>
-                <button
-                  type="button"
-                  class="v-btn"
-                  [class.active]="viewports[block.id] === 'tablet'"
-                  (click)="setViewport(block.id, 'tablet')"
+                  ariaLabel="Desktop view"
+                />
+                <gp-button
+                  icon="sliders"
+                  [iconOnly]="true"
+                  variant="text"
+                  [styleClass]="'v-btn' + (viewports[block.id] === 'tablet' ? ' active' : '')"
+                  (onClickEvent)="setViewport(block.id, 'tablet')"
                   title="Tablet View (768px)"
-                >
-                  <gp-icon name="sliders" size="0.85em" />
-                </button>
-                <button
-                  type="button"
-                  class="v-btn"
-                  [class.active]="viewports[block.id] === 'mobile'"
-                  (click)="setViewport(block.id, 'mobile')"
+                  ariaLabel="Tablet view"
+                />
+                <gp-button
+                  icon="bars"
+                  [iconOnly]="true"
+                  variant="text"
+                  [styleClass]="'v-btn' + (viewports[block.id] === 'mobile' ? ' active' : '')"
+                  (onClickEvent)="setViewport(block.id, 'mobile')"
                   title="Mobile View (375px)"
-                >
-                  <gp-icon name="bars" size="0.85em" />
-                </button>
+                  ariaLabel="Mobile view"
+                />
               </div>
 
               <!-- Preview / Code Mode Toggle -->
               <div class="mode-toggle">
-                <button
-                  type="button"
-                  class="mode-btn"
-                  [class.active]="modeState[block.id] !== 'code'"
-                  (click)="setMode(block.id, 'preview')"
-                >
-                  Preview
-                </button>
-                <button
-                  type="button"
-                  class="mode-btn"
-                  [class.active]="modeState[block.id] === 'code'"
-                  (click)="setMode(block.id, 'code')"
-                >
-                  Code
-                </button>
+                <gp-button label="Preview" size="sm" [variant]="modeState[block.id] !== 'code' ? 'filled' : 'text'" [styleClass]="'mode-btn' + (modeState[block.id] !== 'code' ? ' active' : '')" (onClickEvent)="setMode(block.id, 'preview')" />
+                <gp-button label="Code" size="sm" [variant]="modeState[block.id] === 'code' ? 'filled' : 'text'" [styleClass]="'mode-btn' + (modeState[block.id] === 'code' ? ' active' : '')" (onClickEvent)="setMode(block.id, 'code')" />
               </div>
 
-              <button
-                type="button"
-                class="btn-copy"
-                (click)="copyCode(block.code, block.id)"
+              <gp-button
+                [label]="copiedState[block.id] ? 'Copied!' : 'Copy'"
+                [icon]="copiedState[block.id] ? 'check' : 'copy'"
+                size="sm"
+                variant="text"
+                styleClass="btn-copy"
+                (onClickEvent)="copyCode(block.code, block.id)"
                 title="Copy Angular snippet"
-              >
-                <gp-icon [name]="copiedState[block.id] ? 'check' : 'copy'" size="0.9em" />
-                <span>{{ copiedState[block.id] ? 'Copied!' : 'Copy' }}</span>
-              </button>
+              />
             </div>
           </div>
 
@@ -576,44 +575,58 @@ export interface BlockItem {
         backdrop-filter: blur(16px);
       }
 
-      .categories-carousel-wrapper {
+      .categories-nav-wrapper {
         flex: 1;
         min-width: 0;
         max-width: calc(100% - 250px);
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        position: relative;
       }
 
-      .categories-carousel {
-        width: 100%;
+      .cat-track {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE / Edge */
+        padding: 0.25rem 0.15rem;
       }
 
-      :host ::ng-deep .categories-carousel .gp-carousel-content {
-        gap: 0.25rem;
+      .cat-track::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
       }
 
-      :host ::ng-deep .categories-carousel .gp-carousel-nav-btn {
+      .cat-nav-btn {
         width: 2rem;
         height: 2rem;
+        border-radius: 50%;
         background: var(--gp-surface-section);
         border: 1px solid var(--gp-surface-border);
         color: var(--gp-text-color-secondary);
-        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.15s ease;
       }
 
-      :host ::ng-deep .categories-carousel .gp-carousel-nav-btn:hover:not(:disabled) {
+      .cat-nav-btn:hover:not(:disabled) {
         background: var(--gp-primary);
         color: var(--gp-primary-text);
+        border-color: var(--gp-primary);
+        transform: scale(1.05);
       }
 
-      :host ::ng-deep .categories-carousel .gp-carousel-item {
-        padding: 0 0.25rem;
-      }
-
-      .cat-group-row {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: flex-start;
-        width: 100%;
+      .cat-nav-btn:disabled {
+        opacity: 0.25;
+        cursor: not-allowed;
+        pointer-events: none;
       }
 
       .cat-chip {
@@ -629,6 +642,7 @@ export interface BlockItem {
         font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
+        flex-shrink: 0;
         transition: all 0.15s ease;
       }
 
@@ -641,13 +655,15 @@ export interface BlockItem {
         background: var(--gp-primary);
         border-color: var(--gp-primary);
         color: var(--gp-primary-text);
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
       }
 
       .cat-count {
-        background: rgba(0, 0, 0, 0.15);
-        padding: 0.1rem 0.4rem;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.1rem 0.45rem;
         border-radius: 9999px;
         font-size: 0.7rem;
+        font-weight: 700;
       }
 
       .search-wrap {
@@ -796,10 +812,18 @@ export interface BlockItem {
         padding: 2rem;
         background: var(--gp-surface-ground);
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: stretch;
         transition: max-width 0.2s ease;
         margin: 0 auto;
         width: 100%;
+        box-sizing: border-box;
+
+        > * {
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+        }
       }
 
       .block-preview-viewport.vp-tablet {
@@ -831,17 +855,22 @@ export interface BlockItem {
       }
 
       @media (max-width: 900px) {
-        .categories-carousel-wrapper {
+        .categories-nav-wrapper {
           max-width: 100%;
         }
       }
     `
   ]
 })
-export class BlocksPageComponent {
+export class BlocksPageComponent implements AfterViewInit {
+  @ViewChild('catTrack') catTrackRef?: ElementRef<HTMLDivElement>;
+
   demoData = BLOCKS_DEMO_DATA;
   selectedCategory = signal<string>('all');
   searchQuery = signal<string>('');
+
+  canScrollLeft = signal<boolean>(false);
+  canScrollRight = signal<boolean>(true);
 
   viewports: Record<string, string> = {};
   modeState: Record<string, string> = {};
@@ -863,119 +892,138 @@ export class BlocksPageComponent {
     { id: 'pages', name: 'Basic Pages', count: 6 }
   ];
 
-  categoryGroups = computed(() => {
-    const chunkSize = 4;
-    const groups: Array<typeof this.categories> = [];
-    for (let i = 0; i < this.categories.length; i += chunkSize) {
-      groups.push(this.categories.slice(i, i + chunkSize));
+  ngAfterViewInit(): void {
+    setTimeout(() => this.updateScrollState(), 150);
+  }
+
+  scrollCategories(offset: number): void {
+    if (this.catTrackRef?.nativeElement) {
+      this.catTrackRef.nativeElement.scrollBy({ left: offset, behavior: 'smooth' });
     }
-    return groups;
-  });
+  }
+
+  updateScrollState(): void {
+    const el = this.catTrackRef?.nativeElement;
+    if (!el) return;
+    this.canScrollLeft.set(el.scrollLeft > 4);
+    this.canScrollRight.set(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }
+
+  selectCategory(catId: string, event?: MouseEvent): void {
+    this.selectedCategory.set(catId);
+    if (event?.currentTarget) {
+      (event.currentTarget as HTMLElement).scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+  }
 
   allBlocks: BlockItem[] = [
     // 1. Multi-Column Layouts
-    { id: 'three-col-fluid', name: 'Three-Column Fluid Shell', category: 'Multi-Column', description: 'Fluid responsive layout with collapsible tree sidebar, workspace feed, and contextual right details panel.', code: '<gp-layout-three-column-fluid />' },
-    { id: 'two-col-split', name: 'Two-Column Split Shell', category: 'Multi-Column', description: '50/50 dual pane layout ideal for split-screen authoring, master-detail and comparison.', code: '<gp-layout-two-column-split />' },
-    { id: 'three-col-workspace', name: 'Three-Column Workspace', category: 'Multi-Column', description: 'Slack-style channel/team navigation, primary feed, and contextual metadata column.', code: '<gp-layout-three-column-workspace />' },
-    { id: 'four-col-grid', name: 'Four-Column Dashboard Grid', category: 'Multi-Column', description: 'Modular 4-column application container with KPI cards and responsive column stacking.', code: '<gp-layout-four-column-grid />' },
+    { id: 'three-col-fluid', name: 'Three-Column Fluid Shell', category: 'Multi-Column', description: 'Fluid responsive layout with collapsible tree sidebar, workspace feed, and contextual right details panel.', code: BLOCKS_CODE_EXAMPLES['three-col-fluid'] },
+    { id: 'two-col-split', name: 'Two-Column Split Shell', category: 'Multi-Column', description: '50/50 dual pane layout ideal for split-screen authoring, master-detail and comparison.', code: BLOCKS_CODE_EXAMPLES['two-col-split'] },
+    { id: 'three-col-workspace', name: 'Three-Column Workspace', category: 'Multi-Column', description: 'Slack-style channel/team navigation, primary feed, and contextual metadata column.', code: BLOCKS_CODE_EXAMPLES['three-col-workspace'] },
+    { id: 'four-col-grid', name: 'Four-Column Dashboard Grid', category: 'Multi-Column', description: 'Modular 4-column application container with KPI cards and responsive column stacking.', code: BLOCKS_CODE_EXAMPLES['four-col-grid'] },
 
     // 2. Sidebar Layouts (14)
-    { id: 'sb-dark', name: 'Dark Sidebar Shell', category: 'Sidebar Layouts', description: 'High contrast dark navigation sidebar with top header search and notifications.', code: '<gp-layout-sidebar-dark />' },
-    { id: 'sb-light', name: 'Light Clean Sidebar', category: 'Sidebar Layouts', description: 'Modern minimalist white sidebar with subtle gray active link highlights.', code: '<gp-layout-sidebar-light />' },
-    { id: 'sb-mini', name: 'Icon-Only Mini Sidebar', category: 'Sidebar Layouts', description: 'Compact icon-only navigation rail designed for maximum content viewport area.', code: '<gp-layout-sidebar-mini />' },
-    { id: 'sb-dual', name: 'Dual Sidebar Multi-Tier', category: 'Sidebar Layouts', description: 'Two-tier navigation: Primary icon rail coupled with a secondary submenu panel.', code: '<gp-layout-sidebar-dual />' },
-    { id: 'sb-floating', name: 'Floating Card Sidebar', category: 'Sidebar Layouts', description: 'Elevated floating navigation container with rounded edges and card drop shadows.', code: '<gp-layout-sidebar-floating />' },
-    { id: 'sb-gradient', name: 'Gradient Accent Sidebar', category: 'Sidebar Layouts', description: 'Vibrant indigo-to-cyan gradient background with glowing active badges.', code: '<gp-layout-sidebar-gradient />' },
-    { id: 'sb-header-over', name: 'Header Spanning Sidebar', category: 'Sidebar Layouts', description: 'Full-width topbar header extending across the entire browser viewport width.', code: '<gp-layout-sidebar-header-over />' },
-    { id: 'sb-workspace', name: 'Workspace Channel Sidebar', category: 'Sidebar Layouts', description: 'Workspace-centric navigation with collapsible project channels and direct messages.', code: '<gp-layout-sidebar-workspace />' },
-    { id: 'sb-search-tree', name: 'Search & Hierarchy Tree Sidebar', category: 'Sidebar Layouts', description: 'Search-enabled nested folder tree navigation with expand/collapse nodes.', code: '<gp-layout-sidebar-search-tree />' },
-    { id: 'sb-pinned-status', name: 'Pinned Status Sidebar', category: 'Sidebar Layouts', description: 'Sidebar featuring persistent cluster health status and active worker pill widgets.', code: '<gp-layout-sidebar-pinned-status />' },
-    { id: 'sb-offcanvas', name: 'Slide-Over Offcanvas Sidebar', category: 'Sidebar Layouts', description: 'Off-canvas drawer navigation optimized for compact desktop and mobile devices.', code: '<gp-layout-sidebar-offcanvas />' },
-    { id: 'sb-minimal', name: 'Border-Separated Minimal Sidebar', category: 'Sidebar Layouts', description: 'Borderline minimalist sidebar focusing purely on typography and whitespace.', code: '<gp-layout-sidebar-minimal />' },
-    { id: 'sb-stepper', name: 'Wizard Stepper Sidebar', category: 'Sidebar Layouts', description: 'Step-by-step progress tracking sidebar with active and completed milestone markers.', code: '<gp-layout-sidebar-stepper />' },
-    { id: 'sb-accordion', name: 'Accordion Grouped Sidebar', category: 'Sidebar Layouts', description: 'Categorized accordion groups allowing multiple menu sections to expand simultaneously.', code: '<gp-layout-sidebar-accordion />' },
+    { id: 'sb-dark', name: 'Dark Sidebar Shell', category: 'Sidebar Layouts', description: 'High contrast dark navigation sidebar with top header search and notifications.', code: BLOCKS_CODE_EXAMPLES['sb-dark'] },
+    { id: 'sb-light', name: 'Light Clean Sidebar', category: 'Sidebar Layouts', description: 'Modern minimalist white sidebar with subtle gray active link highlights.', code: BLOCKS_CODE_EXAMPLES['sb-light'] },
+    { id: 'sb-mini', name: 'Icon-Only Mini Sidebar', category: 'Sidebar Layouts', description: 'Compact icon-only navigation rail designed for maximum content viewport area.', code: BLOCKS_CODE_EXAMPLES['sb-mini'] },
+    { id: 'sb-dual', name: 'Dual Sidebar Multi-Tier', category: 'Sidebar Layouts', description: 'Two-tier navigation: Primary icon rail coupled with a secondary submenu panel.', code: BLOCKS_CODE_EXAMPLES['sb-dual'] },
+    { id: 'sb-floating', name: 'Floating Card Sidebar', category: 'Sidebar Layouts', description: 'Elevated floating navigation container with rounded edges and card drop shadows.', code: BLOCKS_CODE_EXAMPLES['sb-floating'] },
+    { id: 'sb-gradient', name: 'Gradient Accent Sidebar', category: 'Sidebar Layouts', description: 'Vibrant indigo-to-cyan gradient background with glowing active badges.', code: BLOCKS_CODE_EXAMPLES['sb-gradient'] },
+    { id: 'sb-header-over', name: 'Header Spanning Sidebar', category: 'Sidebar Layouts', description: 'Full-width topbar header extending across the entire browser viewport width.', code: BLOCKS_CODE_EXAMPLES['sb-header-over'] },
+    { id: 'sb-workspace', name: 'Workspace Channel Sidebar', category: 'Sidebar Layouts', description: 'Workspace-centric navigation with collapsible project channels and direct messages.', code: BLOCKS_CODE_EXAMPLES['sb-workspace'] },
+    { id: 'sb-search-tree', name: 'Search & Hierarchy Tree Sidebar', category: 'Sidebar Layouts', description: 'Search-enabled nested folder tree navigation with expand/collapse nodes.', code: BLOCKS_CODE_EXAMPLES['sb-search-tree'] },
+    { id: 'sb-pinned-status', name: 'Pinned Status Sidebar', category: 'Sidebar Layouts', description: 'Sidebar featuring persistent cluster health status and active worker pill widgets.', code: BLOCKS_CODE_EXAMPLES['sb-pinned-status'] },
+    { id: 'sb-offcanvas', name: 'Slide-Over Offcanvas Sidebar', category: 'Sidebar Layouts', description: 'Off-canvas drawer navigation optimized for compact desktop and mobile devices.', code: BLOCKS_CODE_EXAMPLES['sb-offcanvas'] },
+    { id: 'sb-minimal', name: 'Border-Separated Minimal Sidebar', category: 'Sidebar Layouts', description: 'Borderline minimalist sidebar focusing purely on typography and whitespace.', code: BLOCKS_CODE_EXAMPLES['sb-minimal'] },
+    { id: 'sb-stepper', name: 'Wizard Stepper Sidebar', category: 'Sidebar Layouts', description: 'Step-by-step progress tracking sidebar with active and completed milestone markers.', code: BLOCKS_CODE_EXAMPLES['sb-stepper'] },
+    { id: 'sb-accordion', name: 'Accordion Grouped Sidebar', category: 'Sidebar Layouts', description: 'Categorized accordion groups allowing multiple menu sections to expand simultaneously.', code: BLOCKS_CODE_EXAMPLES['sb-accordion'] },
 
     // 3. Stacked Layouts (6)
-    { id: 'st-classic', name: 'Stacked Classic Shell', category: 'Stacked Layouts', description: 'Full-width top navigation bar with centralized container content area.', code: '<gp-layout-stacked-classic />' },
-    { id: 'st-subnav-tabs', name: 'Stacked with Subnav Tabs', category: 'Stacked Layouts', description: 'Two-tier topbar header with secondary horizontal navigation pill tabs.', code: '<gp-layout-stacked-subnav-tabs />' },
-    { id: 'st-hero-banner', name: 'Stacked with Hero Header', category: 'Stacked Layouts', description: 'Deep indigo hero banner header with title, subtitle, and overlapping cards.', code: '<gp-layout-stacked-hero-banner />' },
-    { id: 'st-floating-card', name: 'Floating Card Stacked Shell', category: 'Stacked Layouts', description: 'Elevated floating header card separated from the viewport edge.', code: '<gp-layout-stacked-floating-card />' },
-    { id: 'st-sticky-bar', name: 'Sticky Action Bar Stacked', category: 'Stacked Layouts', description: 'Fixed topbar paired with a sticky bottom action bar for transactional tasks.', code: '<gp-layout-stacked-sticky-action-bar />' },
-    { id: 'st-bottom-dock', name: 'Bottom Dock App Shell', category: 'Stacked Layouts', description: 'macOS-style floating bottom dock toolbar with interactive icon items.', code: '<gp-layout-stacked-bottom-dock />' },
+    { id: 'st-classic', name: 'Stacked Classic Shell', category: 'Stacked Layouts', description: 'Full-width top navigation bar with centralized container content area.', code: BLOCKS_CODE_EXAMPLES['st-classic'] },
+    { id: 'st-subnav-tabs', name: 'Stacked with Subnav Tabs', category: 'Stacked Layouts', description: 'Two-tier topbar header with secondary horizontal navigation pill tabs.', code: BLOCKS_CODE_EXAMPLES['st-subnav-tabs'] },
+    { id: 'st-hero-banner', name: 'Stacked with Hero Header', category: 'Stacked Layouts', description: 'Deep indigo hero banner header with title, subtitle, and overlapping cards.', code: BLOCKS_CODE_EXAMPLES['st-hero-banner'] },
+    { id: 'st-floating-card', name: 'Floating Card Stacked Shell', category: 'Stacked Layouts', description: 'Elevated floating header card separated from the viewport edge.', code: BLOCKS_CODE_EXAMPLES['st-floating-card'] },
+    { id: 'st-sticky-bar', name: 'Sticky Action Bar Stacked', category: 'Stacked Layouts', description: 'Fixed topbar paired with a sticky bottom action bar for transactional tasks.', code: BLOCKS_CODE_EXAMPLES['st-sticky-bar'] },
+    { id: 'st-bottom-dock', name: 'Bottom Dock App Shell', category: 'Stacked Layouts', description: 'macOS-style floating bottom dock toolbar with interactive icon items.', code: BLOCKS_CODE_EXAMPLES['st-bottom-dock'] },
 
     // 4. Dashboards (6)
-    { id: 'dash-saas', name: 'SaaS Business Overview Dashboard', category: 'Dashboards', description: 'MRR metrics, active user growth, and recent billing customer transaction table.', code: '<gp-dashboard-saas-overview />' },
-    { id: 'dash-ecom', name: 'Ecommerce Sales & Order Hub', category: 'Dashboards', description: 'Order volume, average basket value, recent transactions, and top category breakdown.', code: '<gp-dashboard-ecommerce />' },
-    { id: 'dash-analytics', name: 'Traffic & Web Telemetry Analytics', category: 'Dashboards', description: 'Real-time active visitors, bounce rate, global geography traffic, and page latency.', code: '<gp-dashboard-analytics />' },
-    { id: 'dash-finance', name: 'Corporate Financial & Cash Flow', category: 'Dashboards', description: 'Working capital, quarterly runway, enterprise burn rate, and investment accounts.', code: '<gp-dashboard-finance />' },
-    { id: 'dash-pm', name: 'Agile Project Management Sprint Board', category: 'Dashboards', description: 'Sprint velocity, burndown progress, milestone progress bars, and team tasks.', code: '<gp-dashboard-project-management />' },
-    { id: 'dash-ops', name: 'Cloud Infrastructure & SRE Operations', category: 'Dashboards', description: 'Kubernetes cluster health, edge node CPU/RAM quotas, and region latency metrics.', code: '<gp-dashboard-operations />' },
+    { id: 'dash-saas', name: 'SaaS Business Overview Dashboard', category: 'Dashboards', description: 'MRR metrics, active user growth, and recent billing customer transaction table.', code: BLOCKS_CODE_EXAMPLES['dash-saas'] },
+    { id: 'dash-ecom', name: 'Ecommerce Sales & Order Hub', category: 'Dashboards', description: 'Order volume, average basket value, recent transactions, and top category breakdown.', code: BLOCKS_CODE_EXAMPLES['dash-ecom'] },
+    { id: 'dash-analytics', name: 'Traffic & Web Telemetry Analytics', category: 'Dashboards', description: 'Real-time active visitors, bounce rate, global geography traffic, and page latency.', code: BLOCKS_CODE_EXAMPLES['dash-analytics'] },
+    { id: 'dash-finance', name: 'Corporate Financial & Cash Flow', category: 'Dashboards', description: 'Working capital, quarterly runway, enterprise burn rate, and investment accounts.', code: BLOCKS_CODE_EXAMPLES['dash-finance'] },
+    { id: 'dash-pm', name: 'Agile Project Management Sprint Board', category: 'Dashboards', description: 'Sprint velocity, burndown progress, milestone progress bars, and team tasks.', code: BLOCKS_CODE_EXAMPLES['dash-pm'] },
+    { id: 'dash-ops', name: 'Cloud Infrastructure & SRE Operations', category: 'Dashboards', description: 'Kubernetes cluster health, edge node CPU/RAM quotas, and region latency metrics.', code: BLOCKS_CODE_EXAMPLES['dash-ops'] },
 
     // 5. Settings & Details (9)
-    { id: 'set-profile', name: 'User Profile & Bio Settings', category: 'Settings & Details', description: 'Avatar upload, personal details, contact information, and public profile bio.', code: '<gp-settings-profile />' },
-    { id: 'set-security', name: 'Security & 2FA Configuration', category: 'Settings & Details', description: 'Password reset inputs, TOTP authenticator switches, and active device sessions.', code: '<gp-settings-security />' },
-    { id: 'set-billing', name: 'Billing & Invoices Management', category: 'Settings & Details', description: 'Active plan tier, payment credit cards on file, and downloadable PDF receipts.', code: '<gp-settings-billing />' },
-    { id: 'set-notifications', name: 'Notification Preferences Matrix', category: 'Settings & Details', description: 'Granular toggle switches for email digests, SMS alerts, and marketing broadcasts.', code: '<gp-settings-notifications />' },
-    { id: 'set-team-roles', name: 'Team Member Roles & Permissions', category: 'Settings & Details', description: 'Invite collaborators, assign RBAC access roles (Owner, Admin, Member, Viewer).', code: '<gp-settings-team-roles />' },
-    { id: 'set-api-keys', name: 'API Keys & Webhooks Management', category: 'Settings & Details', description: 'Scoped production and staging API tokens with 1-click secret clipboard copy.', code: '<gp-settings-api-keys />' },
-    { id: 'set-danger-zone', name: 'Account & Resource Danger Zone', category: 'Settings & Details', description: 'Destructive action panel for transferring ownership and permanent data deletion.', code: '<gp-settings-danger-zone />' },
-    { id: 'det-customer', name: 'Customer 360 Overview Screen', category: 'Settings & Details', description: 'Complete customer dossier with Lifetime Value, account age, and active licenses.', code: '<gp-details-customer-overview />' },
-    { id: 'det-order', name: 'Order Summary & Tracking Dossier', category: 'Settings & Details', description: 'Itemized product receipts, shipping milestones, tracking ID, and tax breakdown.', code: '<gp-details-order-summary />' },
+    { id: 'set-profile', name: 'User Profile & Bio Settings', category: 'Settings & Details', description: 'Avatar upload, personal details, contact information, and public profile bio.', code: BLOCKS_CODE_EXAMPLES['set-profile'] },
+    { id: 'set-security', name: 'Security & 2FA Configuration', category: 'Settings & Details', description: 'Password reset inputs, TOTP authenticator switches, and active device sessions.', code: BLOCKS_CODE_EXAMPLES['set-security'] },
+    { id: 'set-billing', name: 'Billing & Invoices Management', category: 'Settings & Details', description: 'Active plan tier, payment credit cards on file, and downloadable PDF receipts.', code: BLOCKS_CODE_EXAMPLES['set-billing'] },
+    { id: 'set-notifications', name: 'Notification Preferences Matrix', category: 'Settings & Details', description: 'Granular toggle switches for email digests, SMS alerts, and marketing broadcasts.', code: BLOCKS_CODE_EXAMPLES['set-notifications'] },
+    { id: 'set-team-roles', name: 'Team Member Roles & Permissions', category: 'Settings & Details', description: 'Invite collaborators, assign RBAC access roles (Owner, Admin, Member, Viewer).', code: BLOCKS_CODE_EXAMPLES['set-team-roles'] },
+    { id: 'set-api-keys', name: 'API Keys & Webhooks Management', category: 'Settings & Details', description: 'Scoped production and staging API tokens with 1-click secret clipboard copy.', code: BLOCKS_CODE_EXAMPLES['set-api-keys'] },
+    { id: 'set-danger-zone', name: 'Account & Resource Danger Zone', category: 'Settings & Details', description: 'Destructive action panel for transferring ownership and permanent data deletion.', code: BLOCKS_CODE_EXAMPLES['set-danger-zone'] },
+    { id: 'det-customer', name: 'Customer 360 Overview Screen', category: 'Settings & Details', description: 'Complete customer dossier with Lifetime Value, account age, and active licenses.', code: BLOCKS_CODE_EXAMPLES['det-customer'] },
+    { id: 'det-order', name: 'Order Summary & Tracking Dossier', category: 'Settings & Details', description: 'Itemized product receipts, shipping milestones, tracking ID, and tax breakdown.', code: BLOCKS_CODE_EXAMPLES['det-order'] },
 
     // 6. Headings (6)
-    { id: 'hdr-actions', name: 'Page Header with Actions', category: 'Headings', description: 'Page title, description, and primary/secondary button toolbar.', code: '<gp-header-page-with-actions />' },
-    { id: 'hdr-filters', name: 'Header with Search & Filter Bar', category: 'Headings', description: 'Integrated keyword search and dropdown filter inputs in the header.', code: '<gp-header-search-filters />' },
-    { id: 'hdr-tabs', name: 'Header with Section Tabs', category: 'Headings', description: 'Header bar with underline tab navigation and counter badges.', code: '<gp-header-section-tabs />' },
-    { id: 'hdr-stats', name: 'Header with Metric Stats Pills', category: 'Headings', description: 'Page header with embedded KPI highlight pill widgets.', code: '<gp-header-with-stats />' },
-    { id: 'hdr-breadcrumb', name: 'Compact Breadcrumb Header', category: 'Headings', description: 'Streamlined single-line breadcrumb header with back navigation button.', code: '<gp-header-compact-breadcrumb />' },
-    { id: 'hdr-profile-banner', name: 'Profile Banner Cover Header', category: 'Headings', description: 'Gradient banner cover image with overlapping avatar and author bio details.', code: '<gp-header-profile-banner />' },
+    { id: 'hdr-actions', name: 'Page Header with Actions', category: 'Headings', description: 'Page title, description, and primary/secondary button toolbar.', code: BLOCKS_CODE_EXAMPLES['hdr-actions'] },
+    { id: 'hdr-filters', name: 'Header with Search & Filter Bar', category: 'Headings', description: 'Integrated keyword search and dropdown filter inputs in the header.', code: BLOCKS_CODE_EXAMPLES['hdr-filters'] },
+    { id: 'hdr-tabs', name: 'Header with Section Tabs', category: 'Headings', description: 'Header bar with underline tab navigation and counter badges.', code: BLOCKS_CODE_EXAMPLES['hdr-tabs'] },
+    { id: 'hdr-stats', name: 'Header with Metric Stats Pills', category: 'Headings', description: 'Page header with embedded KPI highlight pill widgets.', code: BLOCKS_CODE_EXAMPLES['hdr-stats'] },
+    { id: 'hdr-breadcrumb', name: 'Compact Breadcrumb Header', category: 'Headings', description: 'Streamlined single-line breadcrumb header with back navigation button.', code: BLOCKS_CODE_EXAMPLES['hdr-breadcrumb'] },
+    { id: 'hdr-profile-banner', name: 'Profile Banner Cover Header', category: 'Headings', description: 'Gradient banner cover image with overlapping avatar and author bio details.', code: BLOCKS_CODE_EXAMPLES['hdr-profile-banner'] },
 
     // 7. Data Displays (6)
-    { id: 'dd-kpi', name: 'KPI Metric Stat Cards', category: 'Data Displays', description: '4-card metric grid with percentage growth badges, icons, and trends.', code: '<gp-data-display-kpi-cards />' },
-    { id: 'dd-desc-list', name: 'Technical Description List', category: 'Data Displays', description: '2-column structured key-value specification grid with badges.', code: '<gp-data-display-description-list />' },
-    { id: 'dd-timeline', name: 'Activity Stream Timeline', category: 'Data Displays', description: 'Vertical chronological audit log with icons, timestamps, and avatars.', code: '<gp-data-display-timeline-stream />' },
-    { id: 'dd-meter', name: 'Quota & Capacity Meter Group', category: 'Data Displays', description: 'Progress bar meter metrics displaying server resources and bandwidth limits.', code: '<gp-data-display-meter-metrics />' },
-    { id: 'dd-badges', name: 'Badge & Tag Taxonomy Clusters', category: 'Data Displays', description: 'Categorized tag pills and status indicators for metadata grouping.', code: '<gp-data-display-badge-clusters />' },
-    { id: 'dd-counter', name: 'High-Impact Stats Counters', category: 'Data Displays', description: 'Dark gradient hero section highlighting enterprise scale and uptime.', code: '<gp-data-display-stats-counter />' },
+    { id: 'dd-kpi', name: 'KPI Metric Stat Cards', category: 'Data Displays', description: '4-card metric grid with percentage growth badges, icons, and trends.', code: BLOCKS_CODE_EXAMPLES['dd-kpi'] },
+    { id: 'dd-desc-list', name: 'Technical Description List', category: 'Data Displays', description: '2-column structured key-value specification grid with badges.', code: BLOCKS_CODE_EXAMPLES['dd-desc-list'] },
+    { id: 'dd-timeline', name: 'Activity Stream Timeline', category: 'Data Displays', description: 'Vertical chronological audit log with icons, timestamps, and avatars.', code: BLOCKS_CODE_EXAMPLES['dd-timeline'] },
+    { id: 'dd-meter', name: 'Quota & Capacity Meter Group', category: 'Data Displays', description: 'Progress bar meter metrics displaying server resources and bandwidth limits.', code: BLOCKS_CODE_EXAMPLES['dd-meter'] },
+    { id: 'dd-badges', name: 'Badge & Tag Taxonomy Clusters', category: 'Data Displays', description: 'Categorized tag pills and status indicators for metadata grouping.', code: BLOCKS_CODE_EXAMPLES['dd-badges'] },
+    { id: 'dd-counter', name: 'High-Impact Stats Counters', category: 'Data Displays', description: 'Dark gradient hero section highlighting enterprise scale and uptime.', code: BLOCKS_CODE_EXAMPLES['dd-counter'] },
 
     // 8. Lists (6)
-    { id: 'list-grid', name: 'Responsive Data Grid Table', category: 'Lists', description: 'Table view with checkboxes, search, filters, badges, and paginator footer.', code: '<gp-list-data-grid />' },
-    { id: 'list-feed', name: 'Stacked Collaboration Feed', category: 'Lists', description: 'Activity feed stream with user avatars, formatted action messages, and timestamps.', code: '<gp-list-stacked-feed />' },
-    { id: 'list-cards', name: 'Grid of Resource Cards', category: 'Lists', description: '3-column card grid with hover animations, status badges, and action buttons.', code: '<gp-list-card-grid />' },
-    { id: 'list-tx', name: 'Transaction History Ledger', category: 'Lists', description: 'Banking transaction ledger with incoming/outgoing payment indicators.', code: '<gp-list-transactions />' },
-    { id: 'list-users', name: 'User Directory Grid', category: 'Lists', description: '4-column directory grid with avatar indicators, user roles, and quick actions.', code: '<gp-list-user-directory />' },
-    { id: 'list-files', name: 'File Attachments Download List', category: 'Lists', description: 'Downloadable assets file list with file sizes, authors, and download buttons.', code: '<gp-list-file-list-download />' },
+    { id: 'list-grid', name: 'Responsive Data Grid Table', category: 'Lists', description: 'Table view with checkboxes, search, filters, badges, and paginator footer.', code: BLOCKS_CODE_EXAMPLES['list-grid'] },
+    { id: 'list-feed', name: 'Stacked Collaboration Feed', category: 'Lists', description: 'Activity feed stream with user avatars, formatted action messages, and timestamps.', code: BLOCKS_CODE_EXAMPLES['list-feed'] },
+    { id: 'list-cards', name: 'Grid of Resource Cards', category: 'Lists', description: '3-column card grid with hover animations, status badges, and action buttons.', code: BLOCKS_CODE_EXAMPLES['list-cards'] },
+    { id: 'list-tx', name: 'Transaction History Ledger', category: 'Lists', description: 'Banking transaction ledger with incoming/outgoing payment indicators.', code: BLOCKS_CODE_EXAMPLES['list-tx'] },
+    { id: 'list-users', name: 'User Directory Grid', category: 'Lists', description: '4-column directory grid with avatar indicators, user roles, and quick actions.', code: BLOCKS_CODE_EXAMPLES['list-users'] },
+    { id: 'list-files', name: 'File Attachments Download List', category: 'Lists', description: 'Downloadable assets file list with file sizes, authors, and download buttons.', code: BLOCKS_CODE_EXAMPLES['list-files'] },
 
     // 9. Forms (6)
-    { id: 'form-wizard', name: 'Multi-Step Registration Wizard', category: 'Forms', description: '3-step interactive onboarding flow with step indicators and validation.', code: '<gp-form-multi-step-wizard />' },
-    { id: 'form-auth', name: 'Split Screen Authentication Form', category: 'Forms', description: '50/50 split sign-in screen with branded hero banner and login form.', code: '<gp-form-auth-split />' },
-    { id: 'form-profile', name: 'User Profile Edit Form', category: 'Forms', description: '12-column responsive profile form with name, email, phone, and bio inputs.', code: '<gp-form-user-profile />' },
-    { id: 'form-checkout', name: 'Credit Card Payment Form', category: 'Forms', description: 'Payment checkout screen with 256-bit SSL badge and formatted card inputs.', code: '<gp-form-checkout-payment />' },
-    { id: 'form-contact', name: 'Contact & Feedback Form', category: 'Forms', description: 'Customer feedback form with category selector, rating stars, and message area.', code: '<gp-form-contact-feedback />' },
-    { id: 'form-filter', name: 'Advanced Condition Filter Builder', category: 'Forms', description: 'Dynamic SQL-like rule builder with add/remove condition rows.', code: '<gp-form-advanced-filter-builder />' },
+    { id: 'form-wizard', name: 'Multi-Step Registration Wizard', category: 'Forms', description: '3-step interactive onboarding flow with step indicators and validation.', code: BLOCKS_CODE_EXAMPLES['form-wizard'] },
+    { id: 'form-auth', name: 'Split Screen Authentication Form', category: 'Forms', description: '50/50 split sign-in screen with branded hero banner and login form.', code: BLOCKS_CODE_EXAMPLES['form-auth'] },
+    { id: 'form-profile', name: 'User Profile Edit Form', category: 'Forms', description: '12-column responsive profile form with name, email, phone, and bio inputs.', code: BLOCKS_CODE_EXAMPLES['form-profile'] },
+    { id: 'form-checkout', name: 'Credit Card Payment Form', category: 'Forms', description: 'Payment checkout screen with 256-bit SSL badge and formatted card inputs.', code: BLOCKS_CODE_EXAMPLES['form-checkout'] },
+    { id: 'form-contact', name: 'Contact & Feedback Form', category: 'Forms', description: 'Customer feedback form with category selector, rating stars, and message area.', code: BLOCKS_CODE_EXAMPLES['form-contact'] },
+    { id: 'form-filter', name: 'Advanced Condition Filter Builder', category: 'Forms', description: 'Dynamic SQL-like rule builder with add/remove condition rows.', code: BLOCKS_CODE_EXAMPLES['form-filter'] },
 
     // 10. Feedbacks (5)
-    { id: 'fb-alerts', name: 'Color-Coded Alert Banners', category: 'Feedbacks', description: 'Info, Success, Warning, and Danger notification banners with icons and dismiss.', code: '<gp-feedback-alert-banners />' },
-    { id: 'fb-empty', name: 'Illustrated Empty State Block', category: 'Feedbacks', description: 'Placeholder empty state with icon, title, description, and primary CTA button.', code: '<gp-feedback-empty-states />' },
-    { id: 'fb-confirm', name: 'Destructive Confirm Dialog Modal', category: 'Feedbacks', description: 'Confirmation dialog mock with warning icon and action buttons.', code: '<gp-feedback-confirm-modals />' },
-    { id: 'fb-toast', name: 'Notification Toast Messages', category: 'Feedbacks', description: 'Floating status toast notifications with timestamps and close buttons.', code: '<gp-feedback-toast-status />' },
-    { id: 'fb-rating', name: 'Satisfaction Rating & Review', category: 'Feedbacks', description: 'Interactive star rating card with feedback prompt and action buttons.', code: '<gp-feedback-rating-review />' },
+    { id: 'fb-alerts', name: 'Color-Coded Alert Banners', category: 'Feedbacks', description: 'Info, Success, Warning, and Danger notification banners with icons and dismiss.', code: BLOCKS_CODE_EXAMPLES['fb-alerts'] },
+    { id: 'fb-empty', name: 'Illustrated Empty State Block', category: 'Feedbacks', description: 'Placeholder empty state with icon, title, description, and primary CTA button.', code: BLOCKS_CODE_EXAMPLES['fb-empty'] },
+    { id: 'fb-confirm', name: 'Destructive Confirm Dialog Modal', category: 'Feedbacks', description: 'Confirmation dialog mock with warning icon and action buttons.', code: BLOCKS_CODE_EXAMPLES['fb-confirm'] },
+    { id: 'fb-toast', name: 'Notification Toast Messages', category: 'Feedbacks', description: 'Floating status toast notifications with timestamps and close buttons.', code: BLOCKS_CODE_EXAMPLES['fb-toast'] },
+    { id: 'fb-rating', name: 'Satisfaction Rating & Review', category: 'Feedbacks', description: 'Interactive star rating card with feedback prompt and action buttons.', code: BLOCKS_CODE_EXAMPLES['fb-rating'] },
 
     // 11. Navigations & Overlays (6)
-    { id: 'nav-topbar', name: 'Responsive Application Topbar', category: 'Nav & Overlays', description: 'Top navigation bar with logo, desktop links, search box, and avatar.', code: '<gp-nav-responsive-top-bar />' },
-    { id: 'nav-palette', name: 'Command Palette Overlay (Cmd+K)', category: 'Nav & Overlays', description: 'Spotlight command search modal with shortcuts and quick actions.', code: '<gp-overlay-command-palette />' },
-    { id: 'nav-slide-over', name: 'Slide-Over Properties Drawer', category: 'Nav & Overlays', description: 'Side drawer panel for modifying settings and properties without leaving context.', code: '<gp-overlay-slide-over-panel />' },
-    { id: 'nav-dropdown', name: 'Action Dropdown Menu', category: 'Nav & Overlays', description: 'User account dropdown menu with profile links and destructive sign-out item.', code: '<gp-nav-dropdown-action-menu />' },
-    { id: 'nav-mega', name: 'Multi-Column Mega Menu', category: 'Nav & Overlays', description: '3-column expanded navigation panel with feature links and promo card.', code: '<gp-nav-mega-menu-block />' },
-    { id: 'nav-tabs', name: 'Tab Navigation Variants', category: 'Nav & Overlays', description: 'Underline and rounded pill navigation tabs with count badges.', code: '<gp-nav-tab-navigation />' },
+    { id: 'nav-topbar', name: 'Responsive Application Topbar', category: 'Nav & Overlays', description: 'Top navigation bar with logo, desktop links, search box, and avatar.', code: BLOCKS_CODE_EXAMPLES['nav-topbar'] },
+    { id: 'nav-palette', name: 'Command Palette Overlay (Cmd+K)', category: 'Nav & Overlays', description: 'Spotlight command search modal with shortcuts and quick actions.', code: BLOCKS_CODE_EXAMPLES['nav-palette'] },
+    { id: 'nav-slide-over', name: 'Slide-Over Properties Drawer', category: 'Nav & Overlays', description: 'Side drawer panel for modifying settings and properties without leaving context.', code: BLOCKS_CODE_EXAMPLES['nav-slide-over'] },
+    { id: 'nav-dropdown', name: 'Action Dropdown Menu', category: 'Nav & Overlays', description: 'User account dropdown menu with profile links and destructive sign-out item.', code: BLOCKS_CODE_EXAMPLES['nav-dropdown'] },
+    { id: 'nav-mega', name: 'Multi-Column Mega Menu', category: 'Nav & Overlays', description: '3-column expanded navigation panel with feature links and promo card.', code: BLOCKS_CODE_EXAMPLES['nav-mega'] },
+    { id: 'nav-tabs', name: 'Tab Navigation Variants', category: 'Nav & Overlays', description: 'Underline and rounded pill navigation tabs with count badges.', code: BLOCKS_CODE_EXAMPLES['nav-tabs'] },
 
     // 12. Pages (6)
-    { id: 'page-404', name: '404 Page Not Found', category: 'Basic Pages', description: 'High-impact 404 error page with gradient typography and action buttons.', code: '<gp-page-404 />' },
-    { id: 'page-500', name: '500 Internal Server Error', category: 'Basic Pages', description: 'Server failure error screen with retry button and support links.', code: '<gp-page-500 />' },
-    { id: 'page-403', name: '403 Access Forbidden', category: 'Basic Pages', description: 'Permission denied screen with request access action button.', code: '<gp-page-403 />' },
-    { id: 'page-maint', name: 'Scheduled Maintenance Page', category: 'Basic Pages', description: 'System maintenance screen with estimated completion time widget.', code: '<gp-page-maintenance />' },
-    { id: 'page-coming', name: 'Coming Soon & Waitlist Page', category: 'Basic Pages', description: 'Launch countdown timer and work email waitlist capture form.', code: '<gp-page-coming-soon />' },
-    { id: 'page-success', name: 'Success & Order Confirmation', category: 'Basic Pages', description: 'Payment success screen with order receipt details and dashboard CTA.', code: '<gp-page-success-confirmation />' }
+    { id: 'page-404', name: '404 Page Not Found', category: 'Basic Pages', description: 'High-impact 404 error page with gradient typography and action buttons.', code: BLOCKS_CODE_EXAMPLES['page-404'] },
+    { id: 'page-500', name: '500 Internal Server Error', category: 'Basic Pages', description: 'Server failure error screen with retry button and support links.', code: BLOCKS_CODE_EXAMPLES['page-500'] },
+    { id: 'page-403', name: '403 Access Forbidden', category: 'Basic Pages', description: 'Permission denied screen with request access action button.', code: BLOCKS_CODE_EXAMPLES['page-403'] },
+    { id: 'page-maint', name: 'Scheduled Maintenance Page', category: 'Basic Pages', description: 'System maintenance screen with estimated completion time widget.', code: BLOCKS_CODE_EXAMPLES['page-maint'] },
+    { id: 'page-coming', name: 'Coming Soon & Waitlist Page', category: 'Basic Pages', description: 'Launch countdown timer and work email waitlist capture form.', code: BLOCKS_CODE_EXAMPLES['page-coming'] },
+    { id: 'page-success', name: 'Success & Order Confirmation', category: 'Basic Pages', description: 'Payment success screen with order receipt details and dashboard CTA.', code: BLOCKS_CODE_EXAMPLES['page-success'] }
   ];
 
   filteredBlocks = computed(() => {

@@ -1,5 +1,13 @@
 @if (visible()) {
-  <div class="gp-popover" [style.top.px]="top()" [style.left.px]="left()" (click)="$event.stopPropagation()">
+  <div
+    [id]="id()"
+    [class]="'gp-popover ' + styleClass()"
+    [style]="style()"
+    [style.top.px]="top()"
+    [style.left.px]="left()"
+    [attr.aria-label]="ariaLabel() || null"
+    (click)="$event.stopPropagation()"
+  >
     <ng-content />
   </div>
 }

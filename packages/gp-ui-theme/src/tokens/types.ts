@@ -246,121 +246,140 @@ export interface GpSemanticTokens {
 
 /**
  * 3. Component Tokens Layer
- * Component-specific styling definitions
+ * Component-specific styling definitions with shared parent base interfaces
  */
-export interface GpButtonComponentTokens {
-  height?: string;
+
+export interface GpBoxSpacingTokens {
+  padding?: string;
   paddingX?: string;
   paddingY?: string;
+  margin?: string;
+  marginX?: string;
+  marginY?: string;
+  gap?: string;
+  spacing?: string;
+}
+
+export interface GpComponentBaseTokens extends GpBoxSpacingTokens {
+  background?: string;
+  color?: string;
+  borderColor?: string;
   borderRadius?: string;
-  fontWeight?: string | number;
+  fontSize?: string;
+  shadow?: string;
   [key: string]: any;
 }
 
-export interface GpInputComponentTokens {
+export interface GpGenericComponentTokens extends GpComponentBaseTokens {}
+
+export interface GpHeaderBodyFooterComponentTokens extends GpComponentBaseTokens {
+  headerBackground?: string;
+  headerBorderColor?: string;
+  headerPadding?: string;
+  headerMargin?: string;
+  headerGap?: string;
+  bodyPadding?: string;
+  bodyMargin?: string;
+  bodyGap?: string;
+  footerBackground?: string;
+  footerBorderColor?: string;
+  footerPadding?: string;
+  footerMargin?: string;
+  footerGap?: string;
+}
+
+export interface GpInputComponentBaseTokens extends GpComponentBaseTokens {
   bg?: string;
   border?: string;
   borderHover?: string;
   borderFocus?: string;
-  paddingX?: string;
-  paddingY?: string;
   height?: string;
-  borderRadius?: string;
-  [key: string]: any;
 }
 
-export interface GpCardComponentTokens {
-  bg?: string;
-  border?: string;
-  borderRadius?: string;
-  shadow?: string;
-  [key: string]: any;
-}
-
-export interface GpTooltipComponentTokens {
-  bg?: string;
-  text?: string;
-  fontSize?: string;
-  borderRadius?: string;
-  paddingX?: string;
-  paddingY?: string;
-  shadow?: string;
-  [key: string]: any;
-}
-
-export interface GpAutocompleteComponentTokens {
-  background?: string;
-  borderColor?: string;
-  borderRadius?: string;
-  dropdown?: {
-    width?: string;
-    background?: string;
-    borderColor?: string;
-    color?: string;
-    hoverBackground?: string;
-  };
+export interface GpOverlayComponentBaseTokens extends GpComponentBaseTokens {
   overlay?: {
     background?: string;
     borderColor?: string;
     shadow?: string;
+    padding?: string;
+    margin?: string;
   };
   item?: {
     padding?: string;
+    margin?: string;
+    gap?: string;
     borderRadius?: string;
     focusBackground?: string;
     focusColor?: string;
     selectedBackground?: string;
     selectedColor?: string;
   };
-  [key: string]: any;
 }
 
-export interface GpSelectComponentTokens {
-  background?: string;
-  borderColor?: string;
-  borderHover?: string;
-  borderFocus?: string;
-  borderRadius?: string;
+export interface GpButtonComponentTokens extends GpComponentBaseTokens {
+  height?: string;
+  fontWeight?: string | number;
+}
+
+export interface GpInputComponentTokens extends GpInputComponentBaseTokens {
   placeholderColor?: string;
-  overlay?: {
+}
+
+export interface GpCardComponentTokens extends GpHeaderBodyFooterComponentTokens {
+  bg?: string;
+  border?: string;
+}
+
+export interface GpTooltipComponentTokens extends GpComponentBaseTokens {
+  bg?: string;
+  text?: string;
+}
+
+export interface GpAutocompleteComponentTokens extends GpOverlayComponentBaseTokens {
+  dropdown?: {
+    width?: string;
     background?: string;
     borderColor?: string;
-    shadow?: string;
-  };
-  item?: {
+    color?: string;
+    hoverBackground?: string;
     padding?: string;
-    focusBackground?: string;
-    selectedBackground?: string;
+    margin?: string;
+    gap?: string;
   };
-  [key: string]: any;
 }
 
-export interface GpDialogComponentTokens {
-  background?: string;
-  borderColor?: string;
-  borderRadius?: string;
-  shadow?: string;
+export interface GpSelectComponentTokens extends GpOverlayComponentBaseTokens {
+  borderHover?: string;
+  borderFocus?: string;
+  placeholderColor?: string;
+}
+
+export interface GpDialogComponentTokens extends GpComponentBaseTokens {
   header?: {
     padding?: string;
+    margin?: string;
+    gap?: string;
     fontSize?: string;
     fontWeight?: string | number;
   };
   content?: {
     padding?: string;
+    margin?: string;
+    gap?: string;
   };
   footer?: {
     padding?: string;
+    margin?: string;
+    gap?: string;
   };
-  [key: string]: any;
 }
 
-export interface GpTableComponentTokens {
-  background?: string;
-  borderColor?: string;
+export interface GpTableComponentTokens extends GpComponentBaseTokens {
   header?: {
     background?: string;
     color?: string;
     padding?: string;
+    margin?: string;
     fontWeight?: string | number;
   };
   row?: {
@@ -370,35 +389,20 @@ export interface GpTableComponentTokens {
   };
   cell?: {
     padding?: string;
+    margin?: string;
+    gap?: string;
   };
-  [key: string]: any;
 }
 
-export interface GpToastComponentTokens {
-  borderRadius?: string;
-  shadow?: string;
-  padding?: string;
-  [key: string]: any;
-}
+export interface GpToastComponentTokens extends GpComponentBaseTokens {}
 
-export interface GpGenericComponentTokens {
-  background?: string;
-  color?: string;
-  borderColor?: string;
-  borderRadius?: string;
-  padding?: string;
-  fontSize?: string;
-  shadow?: string;
-  [key: string]: any;
-}
-
-export interface GpInputNumberComponentTokens extends GpGenericComponentTokens {
+export interface GpInputNumberComponentTokens extends GpComponentBaseTokens {
   buttonBackground?: string;
   buttonWidth?: string;
   horizontalButtonWidth?: string;
 }
 
-export interface GpDatePickerComponentTokens extends GpGenericComponentTokens {
+export interface GpDatePickerComponentTokens extends GpComponentBaseTokens {
   triggerColor?: string;
   panelBackground?: string;
   panelBorderColor?: string;
@@ -408,66 +412,105 @@ export interface GpDatePickerComponentTokens extends GpGenericComponentTokens {
   selectedColor?: string;
 }
 
-export interface GpButtonGroupComponentTokens extends GpGenericComponentTokens {}
-export interface GpSplitButtonComponentTokens extends GpGenericComponentTokens {}
-export interface GpSpeedDialComponentTokens extends GpGenericComponentTokens {}
-export interface GpToggleButtonComponentTokens extends GpGenericComponentTokens {}
-export interface GpCascadeSelectComponentTokens extends GpGenericComponentTokens {}
-export interface GpCheckboxComponentTokens extends GpGenericComponentTokens {}
-export interface GpColorPickerComponentTokens extends GpGenericComponentTokens {}
-export interface GpFileUploadComponentTokens extends GpGenericComponentTokens {}
-export interface GpInputMaskComponentTokens extends GpGenericComponentTokens {}
-export interface GpListboxComponentTokens extends GpGenericComponentTokens {}
-export interface GpMultiSelectComponentTokens extends GpGenericComponentTokens {}
-export interface GpPasswordComponentTokens extends GpGenericComponentTokens {}
-export interface GpRadioButtonComponentTokens extends GpGenericComponentTokens {}
-export interface GpRatingComponentTokens extends GpGenericComponentTokens {}
-export interface GpSliderComponentTokens extends GpGenericComponentTokens {}
-export interface GpSwitchComponentTokens extends GpGenericComponentTokens {}
-export interface GpTextareaComponentTokens extends GpGenericComponentTokens {}
-export interface GpTimePickerComponentTokens extends GpGenericComponentTokens {}
-export interface GpTreeSelectComponentTokens extends GpGenericComponentTokens {}
-export interface GpColumnComponentTokens extends GpGenericComponentTokens {}
-export interface GpDataViewComponentTokens extends GpGenericComponentTokens {}
-export interface GpPaginatorComponentTokens extends GpGenericComponentTokens {}
-export interface GpTreeTableComponentTokens extends GpGenericComponentTokens {}
-export interface GpVirtualScrollerComponentTokens extends GpGenericComponentTokens {}
-export interface GpConfirmDialogComponentTokens extends GpGenericComponentTokens {}
-export interface GpDrawerComponentTokens extends GpGenericComponentTokens {}
-export interface GpPopoverComponentTokens extends GpGenericComponentTokens {}
-export interface GpBreadcrumbComponentTokens extends GpGenericComponentTokens {}
-export interface GpContextMenuComponentTokens extends GpGenericComponentTokens {}
-export interface GpDockComponentTokens extends GpGenericComponentTokens {}
-export interface GpMegaMenuComponentTokens extends GpGenericComponentTokens {}
-export interface GpMenuComponentTokens extends GpGenericComponentTokens {}
-export interface GpMenubarComponentTokens extends GpGenericComponentTokens {}
-export interface GpPanelMenuComponentTokens extends GpGenericComponentTokens {}
-export interface GpStepperComponentTokens extends GpGenericComponentTokens {}
-export interface GpTabsComponentTokens extends GpGenericComponentTokens {}
-export interface GpTieredMenuComponentTokens extends GpGenericComponentTokens {}
-export interface GpToolbarComponentTokens extends GpGenericComponentTokens {}
-export interface GpAccordionComponentTokens extends GpGenericComponentTokens {}
-export interface GpDividerComponentTokens extends GpGenericComponentTokens {}
-export interface GpFieldsetComponentTokens extends GpGenericComponentTokens {}
-export interface GpPanelComponentTokens extends GpGenericComponentTokens {}
-export interface GpScrollPanelComponentTokens extends GpGenericComponentTokens {}
-export interface GpSplitterComponentTokens extends GpGenericComponentTokens {}
-export interface GpBadgeComponentTokens extends GpGenericComponentTokens {}
-export interface GpMessageComponentTokens extends GpGenericComponentTokens {}
-export interface GpProgressBarComponentTokens extends GpGenericComponentTokens {}
-export interface GpProgressSpinnerComponentTokens extends GpGenericComponentTokens {}
-export interface GpSkeletonComponentTokens extends GpGenericComponentTokens {}
-export interface GpTagComponentTokens extends GpGenericComponentTokens {}
-export interface GpOrgChartComponentTokens extends GpGenericComponentTokens {}
-export interface GpTreeComponentTokens extends GpGenericComponentTokens {}
-export interface GpAvatarComponentTokens extends GpGenericComponentTokens {}
-export interface GpCarouselComponentTokens extends GpGenericComponentTokens {}
-export interface GpChipComponentTokens extends GpGenericComponentTokens {}
-export interface GpEmptyStateComponentTokens extends GpGenericComponentTokens {}
-export interface GpImageComponentTokens extends GpGenericComponentTokens {}
-export interface GpMeterGroupComponentTokens extends GpGenericComponentTokens {}
-export interface GpTimelineComponentTokens extends GpGenericComponentTokens {}
-export interface GpIconComponentTokens extends GpGenericComponentTokens {}
+export interface GpButtonGroupComponentTokens extends GpComponentBaseTokens {}
+export interface GpSplitButtonComponentTokens extends GpComponentBaseTokens {}
+export interface GpSpeedDialComponentTokens extends GpComponentBaseTokens {}
+export interface GpToggleButtonComponentTokens extends GpComponentBaseTokens {}
+export interface GpCascadeSelectComponentTokens extends GpComponentBaseTokens {}
+export interface GpCheckboxComponentTokens extends GpComponentBaseTokens {}
+export interface GpColorPickerComponentTokens extends GpComponentBaseTokens {}
+export interface GpFileUploadComponentTokens extends GpComponentBaseTokens {}
+export interface GpInputMaskComponentTokens extends GpComponentBaseTokens {}
+export interface GpListboxComponentTokens extends GpComponentBaseTokens {}
+export interface GpMultiSelectComponentTokens extends GpComponentBaseTokens {}
+export interface GpPasswordComponentTokens extends GpComponentBaseTokens {}
+export interface GpRadioButtonComponentTokens extends GpComponentBaseTokens {}
+export interface GpRatingComponentTokens extends GpComponentBaseTokens {}
+export interface GpSliderComponentTokens extends GpComponentBaseTokens {}
+export interface GpSwitchComponentTokens extends GpComponentBaseTokens {}
+export interface GpTextareaComponentTokens extends GpComponentBaseTokens {}
+export interface GpTimePickerComponentTokens extends GpComponentBaseTokens {}
+export interface GpTreeSelectComponentTokens extends GpComponentBaseTokens {}
+export interface GpColumnComponentTokens extends GpComponentBaseTokens {}
+export interface GpDataViewComponentTokens extends GpComponentBaseTokens {}
+export interface GpPaginatorComponentTokens extends GpComponentBaseTokens {}
+export interface GpTreeTableComponentTokens extends GpComponentBaseTokens {}
+export interface GpVirtualScrollerComponentTokens extends GpComponentBaseTokens {}
+export interface GpConfirmDialogComponentTokens extends GpComponentBaseTokens {}
+export interface GpDrawerComponentTokens extends GpComponentBaseTokens {}
+export interface GpPopoverComponentTokens extends GpComponentBaseTokens {}
+export interface GpBreadcrumbComponentTokens extends GpComponentBaseTokens {}
+export interface GpContextMenuComponentTokens extends GpComponentBaseTokens {}
+export interface GpDockComponentTokens extends GpComponentBaseTokens {}
+export interface GpMegaMenuComponentTokens extends GpComponentBaseTokens {}
+export interface GpMenuComponentTokens extends GpComponentBaseTokens {}
+export interface GpMenubarComponentTokens extends GpComponentBaseTokens {}
+export interface GpPanelMenuComponentTokens extends GpComponentBaseTokens {}
+export interface GpStepperComponentTokens extends GpComponentBaseTokens {}
+export interface GpTabsComponentTokens extends GpComponentBaseTokens {}
+export interface GpTieredMenuComponentTokens extends GpComponentBaseTokens {}
+export interface GpToolbarComponentTokens extends GpComponentBaseTokens {}
+export interface GpAccordionComponentTokens extends GpComponentBaseTokens {}
+export interface GpDividerComponentTokens extends GpComponentBaseTokens {}
+export interface GpFieldsetComponentTokens extends GpComponentBaseTokens {}
+export interface GpPanelComponentTokens extends GpComponentBaseTokens {}
+export interface GpScrollPanelComponentTokens extends GpComponentBaseTokens {}
+export interface GpSplitterComponentTokens extends GpComponentBaseTokens {}
+export interface GpBadgeComponentTokens extends GpComponentBaseTokens {}
+export interface GpMessageComponentTokens extends GpComponentBaseTokens {}
+export interface GpProgressBarComponentTokens extends GpComponentBaseTokens {}
+export interface GpProgressSpinnerComponentTokens extends GpComponentBaseTokens {}
+export interface GpSkeletonComponentTokens extends GpComponentBaseTokens {}
+export interface GpTagComponentTokens extends GpComponentBaseTokens {}
+export interface GpOrgChartComponentTokens extends GpComponentBaseTokens {}
+export interface GpTreeComponentTokens extends GpComponentBaseTokens {}
+export interface GpAvatarComponentTokens extends GpComponentBaseTokens {}
+export interface GpCarouselComponentTokens extends GpComponentBaseTokens {}
+export interface GpChipComponentTokens extends GpComponentBaseTokens {}
+export interface GpEmptyStateComponentTokens extends GpComponentBaseTokens {}
+export interface GpImageComponentTokens extends GpComponentBaseTokens {}
+export interface GpMeterGroupComponentTokens extends GpComponentBaseTokens {}
+export interface GpTimelineComponentTokens extends GpComponentBaseTokens {}
+
+export interface GpGridComponentTokens extends GpComponentBaseTokens {
+  rowGap?: string;
+  columnGap?: string;
+  guideBorderColor?: string;
+  placeholderBorderColor?: string;
+  placeholderBackground?: string;
+}
+
+export interface GpGridWidgetComponentTokens extends GpHeaderBodyFooterComponentTokens {
+  dragHandleColor?: string;
+  dragHandleHoverColor?: string;
+  resizeHandleColor?: string;
+  lockedBorderColor?: string;
+}
+
+export interface GpBlockCardComponentTokens extends GpHeaderBodyFooterComponentTokens {}
+
+export interface GpSidebarComponentTokens extends GpComponentBaseTokens {
+  width?: string;
+  navItemPadding?: string;
+  navItemMargin?: string;
+  navItemGap?: string;
+  darkBackground?: string;
+  lightBackground?: string;
+  navItemHoverBackground?: string;
+  navItemActiveBackground?: string;
+  navItemActiveColor?: string;
+}
+
+export interface GpKpiCardComponentTokens extends GpComponentBaseTokens {
+  trendGap?: string;
+  labelColor?: string;
+  valueColor?: string;
+  valueFontSize?: string;
+  iconBackground?: string;
+  trendPositiveColor?: string;
+  trendNegativeColor?: string;
+  trendNeutralColor?: string;
+}
 
 export interface GpComponentTokens {
   button?: GpButtonComponentTokens;
@@ -541,7 +584,12 @@ export interface GpComponentTokens {
   image?: GpImageComponentTokens;
   meterGroup?: GpMeterGroupComponentTokens;
   timeline?: GpTimelineComponentTokens;
-  icon?: GpIconComponentTokens;
+  icon?: GpGenericComponentTokens;
+  grid?: GpGridComponentTokens;
+  gridWidget?: GpGridWidgetComponentTokens;
+  blockCard?: GpBlockCardComponentTokens;
+  sidebar?: GpSidebarComponentTokens;
+  kpiCard?: GpKpiCardComponentTokens;
   [component: string]: GpGenericComponentTokens | undefined;
 }
 

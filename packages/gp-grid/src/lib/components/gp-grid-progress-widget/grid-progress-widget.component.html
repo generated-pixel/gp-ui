@@ -1,0 +1,50 @@
+<div class="gp-grid-progress-widget">
+  <div class="gp-grid-progress-header">
+    <h4 class="gp-grid-progress-title">{{ effectiveTitle() }}</h4>
+    @if (effectiveTarget()) {
+      <span class="gp-grid-progress-target">{{ effectiveTarget() }}</span>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <div class="gp-grid-progress-loading">
+      <div class="gp-grid-progress-skeleton-item" *ngFor="let i of [1, 2, 3]">
+        <div style="display: flex; justify-content: space-between;">
+          <gp-skeleton width="45%" height="1rem" />
+          <gp-skeleton width="15%" height="1rem" />
+        </div>
+        <gp-skeleton width="100%" height="8px" />
+      </div>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="gp-grid-progress-error">
+      <gp-icon name="circle-alert" size="1.75em" class="gp-grid-progress-error-icon" />
+      <span class="gp-grid-progress-error-text">{{ errorMessage() }}</span>
+      <button type="button" class="gp-grid-progress-retry-btn" (click)="refresh()">Retry</button>
+    </div>
+  } @else {
+    <div class="gp-grid-progress-list">
+      @for (goal of effectiveItems(); track goal.label) {
+        <div
+          class="gp-grid-progress-item"
+          [class.gp-grid-progress-item--clickable]="!!goal.routerLink || !!goal.onClick || !!normalizedData().onItemClick"
+          (click)="(goal.routerLink || goal.onClick || normalizedData().onItemClick) && onItemClicked(goal, $event)"
+          (keydown.enter)="(goal.routerLink || goal.onClick || normalizedData().onItemClick) && onItemClicked(goal, $event)"
+          (keydown.space)="$event.preventDefault(); (goal.routerLink || goal.onClick || normalizedData().onItemClick) && onItemClicked(goal, $event)"
+          [attr.tabindex]="(goal.routerLink || goal.onClick || normalizedData().onItemClick) ? 0 : null"
+          [attr.role]="(goal.routerLink || goal.onClick || normalizedData().onItemClick) ? 'button' : null"
+        >
+          <div class="gp-grid-progress-top">
+            <span class="gp-grid-progress-label">{{ goal.label }}</span>
+            <span class="gp-grid-progress-val">{{ goal.valueText || goal.valText || (goal.percentage + '%') }}</span>
+          </div>
+          <gp-progress-bar
+            [value]="goal.percentage"
+            [showValue]="false"
+            styleClass="gp-grid-progress-bar"
+          />
+        </div>
+      }
+    </div>
+  }
+</div>

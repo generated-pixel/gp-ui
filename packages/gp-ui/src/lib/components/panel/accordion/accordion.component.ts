@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
   signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class GpAccordionTabComponent extends GpBaseComponent {
 @Component({
   selector: 'gp-accordion',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, NgTemplateOutlet, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './accordion.component.html',

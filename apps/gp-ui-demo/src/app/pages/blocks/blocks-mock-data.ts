@@ -793,11 +793,11 @@ export const BLOCKS_DEMO_DATA = {
       brandName: 'Generated Pixel',
       userName: 'Graeme G.',
       navLinks: [
-        { label: 'Dashboard', active: true },
-        { label: 'Components' },
-        { label: 'Blocks' },
-        { label: 'Templates' },
-        { label: 'Documentation' }
+        { id: 'dashboard', label: 'Dashboard', url: '/', active: true },
+        { id: 'components', label: 'Components', url: '/components' },
+        { id: 'blocks', label: 'Blocks', url: '/blocks' },
+        { id: 'templates', label: 'Templates', url: '/templates' },
+        { id: 'documentation', label: 'Documentation', url: '/docs' }
       ]
     },
     palette: {
@@ -831,17 +831,17 @@ export const BLOCKS_DEMO_DATA = {
         {
           title: 'Products & Platforms',
           links: [
-            { title: 'Core UI Kit', desc: '80+ accessible primitives and rich widgets' },
-            { title: 'Blocks Library', desc: 'Pre-assembled application shells and screens' },
-            { title: 'Iconography Engine', desc: 'Over 1,200 vectorized scalable SVGs' }
+            { title: 'Core UI Kit', desc: '80+ accessible primitives and rich widgets', url: '/components' },
+            { title: 'Blocks Library', desc: 'Pre-assembled application shells and screens', url: '/blocks' },
+            { title: 'Iconography Engine', desc: 'Over 1,200 vectorized scalable SVGs', url: '/icons' }
           ]
         },
         {
           title: 'Developer Resources',
           links: [
-            { title: 'Documentation', desc: 'Getting started guides and API references' },
-            { title: 'Interactive Playground', desc: 'JSON schema sandbox and theme editor' },
-            { title: 'Community Discord', desc: 'Connect with fellow Angular engineers' }
+            { title: 'Documentation', desc: 'Getting started guides and API references', url: '/docs' },
+            { title: 'Interactive Playground', desc: 'JSON schema sandbox and theme editor', url: '/blocks-playground' },
+            { title: 'Community Discord', desc: 'Connect with fellow Angular engineers', url: '/community' }
           ]
         }
       ],

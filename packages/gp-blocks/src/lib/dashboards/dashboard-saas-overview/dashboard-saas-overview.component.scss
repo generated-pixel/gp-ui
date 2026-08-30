@@ -1,9 +1,16 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-dashboard-saas-root {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        width: 100%;
-      }
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
 
       .kpi-grid {
         display: grid;

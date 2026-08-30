@@ -40,19 +40,41 @@
               {{ effectiveTitle() }}
             </h3>
           }
+          @if (effectiveSubtitle()) {
+            <span class="gp-grid-widget-subtitle">{{ effectiveSubtitle() }}</span>
+          }
           @if (badge()) {
-            <span
-              class="gp-grid-widget-badge"
-              [class]="'gp-grid-widget-badge--' + badgeSeverity()"
-            >
-              {{ badge() }}
-            </span>
+            <gp-badge
+              [value]="badge()"
+              [severity]="badgeSeverity()"
+              size="sm"
+            />
           }
           <ng-content select="[gpWidgetHeader]" />
         </div>
       </div>
 
       <div class="gp-grid-widget-header-actions">
+        <!-- Render configured action buttons -->
+        @for (act of effectiveActions(); track act.id) {
+          <button
+            type="button"
+            class="gp-grid-widget-action-btn"
+            [class.gp-grid-widget-action-btn--disabled]="act.disabled"
+            [disabled]="act.disabled"
+            [title]="act.tooltip || act.label || ''"
+            [attr.aria-label]="act.tooltip || act.label || ''"
+            (click)="onActionClick(act, $event)"
+          >
+            @if (act.icon) {
+              <gp-icon [name]="act.icon" size="14px" />
+            }
+            @if (act.label) {
+              <span class="gp-grid-widget-action-label">{{ act.label }}</span>
+            }
+          </button>
+        }
+
         <ng-content select="[gpWidgetActions]" />
 
         <!-- Options Button -->

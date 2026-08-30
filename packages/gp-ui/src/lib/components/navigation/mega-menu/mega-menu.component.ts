@@ -24,6 +24,7 @@ export interface GpMegaMenuColumn {
   icon?: string;
   items: GpMegaMenuSubItem[];
   featured?: {
+    badge?: string;
     title: string;
     description?: string;
     image?: string;
@@ -75,11 +76,7 @@ export class GpMegaMenuComponent extends GpMenuBaseComponent<GpMegaMenuItem> {
     if (item.columns && item.columns.length > 0) {
       event.preventDefault();
       event.stopPropagation();
-      if (this.activeItem() === item) {
-        this.close();
-      } else {
-        this.activeItem.set(item);
-      }
+      this.activeItem.set(item);
     } else {
       this.onItemClick(item, event);
     }

@@ -1,24 +1,46 @@
-<div class="gp-stacked-floating-card-shell">
-  <header class="floating-header-nav">
-    <div class="header-inner">
-      <div class="brand-pill" (click)="brandClick.emit()" style="cursor: pointer;">
-        <gp-icon [name]="brandIcon()" size="1em" />
-        <span class="brand-title">{{ brandName() }}</span>
-      </div>
-      <div class="user-pill" (click)="userClick.emit()" style="cursor: pointer;">
-        <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
-        <span>{{ userName() }}</span>
-      </div>
-    </div>
+<div class="gp-stacked-floating-shell">
+  <!-- Minimal Header -->
+  <header class="floating-header">
+    <ng-container *ngIf="effectiveHeader; else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    </ng-container>
+    <ng-template #defaultHeader>
+      <ng-content select="[header], [slot=header]" />
+        <div class="header-inner">
+          <div class="brand-group" (click)="brandClick.emit()" style="cursor: pointer;">
+            <gp-icon [name]="brandIcon()" size="1.2em" />
+            <span class="brand-name">{{ brandName() }}</span>
+          </div>
+
+          <ng-container *ngIf="effectiveUser; else defaultUser">
+            <ng-container *ngTemplateOutlet="effectiveUser" />
+          </ng-container>
+          <ng-template #defaultUser>
+            <ng-content select="[user], [slot=user]" />
+
+
+              <div class="user-badge" *ngIf="userName()" (click)="userClick.emit()" style="cursor: pointer;">
+                <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+              </div>
+            
+          </ng-template>
+        </div>
+      
+    </ng-template>
   </header>
 
-  <main class="floating-card-body">
-    <div class="floating-inner-card">
-      <div class="card-title-bar">
-        <h2 class="card-title">{{ title() }}</h2>
-      </div>
-      <div class="card-body-content">
-        <ng-content />
+  <!-- Centered Island Floating Card Container -->
+  <main class="floating-island-wrapper">
+    <div class="floating-island-card">
+      <h2 class="card-title" *ngIf="title()">{{ title() }}</h2>
+      <div class="card-body">
+        <ng-container *ngIf="effectiveContent; else defaultContent">
+          <ng-container *ngTemplateOutlet="effectiveContent" />
+        </ng-container>
+        <ng-template #defaultContent>
+          <ng-content select="[main], [slot=main], [content], [slot=content]" />
+            <ng-content />
+        </ng-template>
       </div>
     </div>
   </main>

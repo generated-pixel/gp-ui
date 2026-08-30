@@ -1,16 +1,53 @@
 <div class="gp-empty-state-card">
-  <div class="empty-icon-circle">
-    <gp-icon [name]="icon()" size="2.5em" />
-  </div>
-  <h3 class="empty-title">{{ title() }}</h3>
-  <p class="empty-desc" *ngIf="description()">{{ description() }}</p>
-  <div class="empty-actions">
-    <gp-button *ngIf="secondaryCta()" variant="outlined" severity="secondary" (onClick)="secondaryClick.emit()">
-      {{ secondaryCta() }}
-    </gp-button>
-    <gp-button *ngIf="primaryCta()" severity="primary" (onClick)="primaryClick.emit()">
-      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-      {{ primaryCta() }}
-    </gp-button>
-  </div>
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <!-- Icon -->
+    <ng-container *ngIf="effectiveIcon; else defaultIcon">
+      <ng-container *ngTemplateOutlet="effectiveIcon" />
+    </ng-container>
+    <ng-template #defaultIcon>
+      <ng-content select="[icon], [slot=icon]" />
+
+        <div class="empty-icon-circle">
+          <gp-icon [name]="icon()" size="1.75em" />
+        </div>
+      
+    </ng-template>
+
+    <!-- Headings -->
+    <h3 class="empty-title" *ngIf="title()">{{ title() }}</h3>
+    <p class="empty-desc" *ngIf="description()">{{ description() }}</p>
+
+    <!-- CTAs -->
+    <ng-container *ngIf="effectiveActions; else defaultActions">
+      <ng-container *ngTemplateOutlet="effectiveActions" />
+    </ng-container>
+    <ng-template #defaultActions>
+      <ng-content select="[actions], [slot=actions]" />
+
+        <div class="empty-actions-row" *ngIf="primaryCta() || secondaryCta()">
+          <gp-button
+            *ngIf="secondaryCta()"
+            variant="outlined"
+            severity="secondary"
+            size="sm"
+            (onClickEvent)="secondaryClick.emit()"
+          >
+            {{ secondaryCta() }}
+          </gp-button>
+          <gp-button
+            *ngIf="primaryCta()"
+            severity="primary"
+            size="sm"
+            (onClickEvent)="primaryClick.emit()"
+          >
+            {{ primaryCta() }}
+          </gp-button>
+        </div>
+      
+    </ng-template>
+    <ng-content />
+  </ng-template>
 </div>

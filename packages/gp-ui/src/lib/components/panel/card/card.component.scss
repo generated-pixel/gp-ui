@@ -3,6 +3,8 @@
   border: 1px solid var(--gp-card-border, var(--gp-surface-border));
   border-radius: var(--gp-card-border-radius, var(--gp-border-radius-md));
   box-shadow: var(--gp-card-shadow, var(--gp-shadow-sm));
+  margin: var(--gp-card-margin, 0);
+  padding: var(--gp-card-padding, 0);
   overflow: hidden;
   display: flex;
   flex-direction: column;

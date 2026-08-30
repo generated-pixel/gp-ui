@@ -1,33 +1,59 @@
 <div class="gp-settings-card">
-  <div class="settings-head-row">
-    <div>
-      <h3 class="settings-title">{{ title() }}</h3>
-      <p class="settings-subtitle">{{ subtitle() }}</p>
-    </div>
-    <gp-button severity="primary" (onClick)="generateKey.emit()">
-      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-      {{ generateBtnLabel() }}
-    </gp-button>
-  </div>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="keys-list" *ngIf="apiKeys() && apiKeys().length > 0">
-    <div class="key-card" *ngFor="let k of apiKeys()">
-      <div class="key-top">
-        <div class="key-name-group">
-          <span class="key-name">{{ k.name }}</span>
-          <gp-badge [value]="k.scope" severity="info" />
+      <div class="settings-head-action-row">
+        <div>
+          <h3 class="settings-title">{{ title() }}</h3>
+          <p class="settings-subtitle">{{ subtitle() }}</p>
         </div>
-        <button type="button" class="btn-trash" (click)="revokeKey.emit(k)" title="Revoke key">
-          <gp-icon name="trash" size="0.9em" />
-        </button>
+        <gp-button severity="primary" size="sm" (onClickEvent)="generateKey.emit()">
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+          {{ generateBtnLabel() }}
+        </gp-button>
       </div>
-      <div class="key-token-box">
-        <code>{{ k.token }}</code>
-        <button type="button" class="btn-copy" (click)="copyKey.emit(k)" title="Copy key">
-          <gp-icon name="copy" size="0.9em" />
-        </button>
-      </div>
-      <div class="key-meta">Created {{ k.created }} &bull; Last used {{ k.lastUsed }}</div>
-    </div>
-  </div>
+    
+  </ng-template>
+
+  <!-- Content Override or Keys List -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content]" />
+      <ng-container *ngIf="effectiveKeys; else defaultKeys">
+        <ng-container *ngTemplateOutlet="effectiveKeys" />
+      </ng-container>
+      <ng-template #defaultKeys>
+        <ng-content select="[keys], [slot=keys]" />
+
+          <div class="keys-list" *ngIf="apiKeys() && apiKeys().length > 0">
+            <div class="api-key-item" *ngFor="let k of apiKeys()">
+              <div class="key-top-info">
+                <div class="key-name-group">
+                  <span class="key-name">{{ k.name }}</span>
+                  <gp-badge [value]="k.scope" severity="primary" />
+                </div>
+                <div class="key-token-display">
+                  <code>{{ k.token }}</code>
+                  <gp-button variant="text" severity="secondary" size="sm" [iconOnly]="true" styleClass="copy-btn" ariaLabel="Copy Key" (onClickEvent)="copyKey.emit(k)">
+                    <gp-icon name="copy" size="0.9em" />
+                  </gp-button>
+                </div>
+              </div>
+              <div class="key-bottom-meta">
+                <span>Created: {{ k.created }}</span>
+                <span>Last used: {{ k.lastUsed }}</span>
+                <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeKey.emit(k)">Revoke</gp-button>
+              </div>
+            </div>
+          </div>
+        
+      </ng-template>
+      <ng-content />
+  </ng-template>
 </div>

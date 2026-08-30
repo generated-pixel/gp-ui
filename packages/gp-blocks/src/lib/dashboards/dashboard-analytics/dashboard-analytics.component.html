@@ -1,59 +1,108 @@
 <div class="gp-dashboard-analytics-root">
-  <!-- Traffic Stats Grid -->
-  <div class="traffic-stats-row" *ngIf="stats() && stats().length > 0">
-    <div
-      class="traffic-stat-card"
-      *ngFor="let s of stats()"
-      (click)="statClick.emit(s)"
-      style="cursor: pointer;"
-    >
-      <span class="stat-title">{{ s.title }}</span>
-      <span class="stat-num">{{ s.value }}</span>
-      <span
-        class="stat-diff"
-        [class.pos]="s.trend === 'pos' || (!s.trend && s.change.startsWith('+'))"
-        [class.neg]="s.trend === 'neg' || (!s.trend && s.change.startsWith('-'))"
-        [class.neu]="s.trend === 'neu'"
-      >
-        {{ s.change }}
-      </span>
-    </div>
+  <!-- Optional Top Action Bar / Slot -->
+  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
+    <ng-container *ngTemplateOutlet="contentHeaderActions" />
   </div>
+  <ng-content select="[actions], [slot=actions]" />
 
-  <!-- Sources & Countries Breakdown -->
-  <div class="analytics-panels-grid">
-    <div class="analytics-panel" *ngIf="channels() && channels().length > 0">
-      <h3>{{ channelsTitle() }}</h3>
-      <div class="channel-bars">
-        <div
-          class="channel-row"
-          *ngFor="let c of channels()"
-          (click)="channelClick.emit(c)"
-          style="cursor: pointer;"
-        >
-          <div class="ch-info">
-            <span>{{ c.name }}</span>
-            <span>{{ c.pct }}% ({{ c.users }})</span>
-          </div>
-          <gp-progress-bar [value]="c.pct" [showValue]="false" />
-        </div>
-      </div>
-    </div>
+  <!-- Drag-and-Drop Grid Canvas -->
+  <gp-grid
+    [(items)]="widgets"
+    [columns]="gridColumns()"
+    [rowHeight]="gridRowHeight()"
+    [gap]="gridGap()"
+    [compactType]="gridCompactType()"
+    [readonly]="gridReadonly()"
+    (layoutChanged)="onLayoutChanged($event)"
+  >
+    <ng-template #widgetTemplate let-item>
+      <!-- Custom User-Defined Template per Item or Widget Slot -->
+      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
+      </ng-container>
 
-    <div class="analytics-panel" *ngIf="regions() && regions().length > 0">
-      <h3>{{ regionsTitle() }}</h3>
-      <div class="region-list">
-        <div
-          class="region-item"
-          *ngFor="let r of regions()"
-          (click)="regionClick.emit(r)"
-          style="cursor: pointer;"
-        >
-          <span class="r-country">{{ r.country }}</span>
-          <span class="r-sessions">{{ r.sessions }} sessions</span>
-          <gp-badge [value]="r.pct + '%'" severity="primary" />
-        </div>
-      </div>
-    </div>
-  </div>
+      <ng-template #defaultWidgetRender>
+        <!-- 1. Stats KPI Widget -->
+        <ng-container *ngIf="item.id === 'stats'">
+          <ng-container *ngIf="contentStats; else defaultStats">
+            <ng-container *ngTemplateOutlet="contentStats" />
+          </ng-container>
+          <ng-template #defaultStats>
+            <div class="stat-banner-row" *ngIf="stats() && stats().length > 0">
+              <div
+                class="stat-box"
+                *ngFor="let s of stats()"
+                (click)="statClick.emit(s)"
+                style="cursor: pointer;"
+              >
+                <span class="stat-title">{{ s.title }}</span>
+                <div class="stat-num-row">
+                  <span class="stat-val">{{ s.value }}</span>
+                  <span
+                    class="stat-pill"
+                    [class.pos]="s.trend === 'pos' || (!s.trend && s.change.startsWith('+'))"
+                    [class.neg]="s.trend === 'neg' || (!s.trend && s.change.startsWith('-'))"
+                  >
+                    {{ s.change }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <!-- 2. Channels Widget -->
+        <ng-container *ngIf="item.id === 'channels'">
+          <ng-container *ngIf="contentChannels; else defaultChannels">
+            <ng-container *ngTemplateOutlet="contentChannels" />
+          </ng-container>
+          <ng-template #defaultChannels>
+            <div class="analytics-card" *ngIf="channels() && channels().length > 0" style="height: 100%;">
+              <h3 class="card-head">{{ channelsTitle() }}</h3>
+              <div class="progress-list">
+                <div
+                  class="progress-row"
+                  *ngFor="let c of channels()"
+                  (click)="channelClick.emit(c)"
+                  style="cursor: pointer;"
+                >
+                  <div class="row-meta">
+                    <span class="meta-name">{{ c.name }}</span>
+                    <span class="meta-val">{{ c.users }} users ({{ c.pct }}%)</span>
+                  </div>
+                  <gp-progress-bar [value]="c.pct" [showValue]="false" />
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <!-- 3. Regions Widget -->
+        <ng-container *ngIf="item.id === 'regions'">
+          <ng-container *ngIf="contentRegions; else defaultRegions">
+            <ng-container *ngTemplateOutlet="contentRegions" />
+          </ng-container>
+          <ng-template #defaultRegions>
+            <div class="analytics-card" *ngIf="regions() && regions().length > 0" style="height: 100%;">
+              <h3 class="card-head">{{ regionsTitle() }}</h3>
+              <div class="region-list">
+                <div
+                  class="region-row"
+                  *ngFor="let r of regions()"
+                  (click)="regionClick.emit(r)"
+                  style="cursor: pointer;"
+                >
+                  <span class="country-name">{{ r.country }}</span>
+                  <div class="region-meter">
+                    <gp-progress-bar [value]="r.pct" [showValue]="false" />
+                  </div>
+                  <span class="session-count">{{ r.sessions }}</span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-template>
+    </ng-template>
+  </gp-grid>
 </div>

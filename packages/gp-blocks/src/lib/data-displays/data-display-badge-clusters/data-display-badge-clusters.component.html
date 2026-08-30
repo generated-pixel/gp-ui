@@ -1,26 +1,44 @@
-<div class="gp-badge-clusters-card">
-  <h3 class="title">{{ title() }}</h3>
-  <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+<div class="gp-badge-clusters-block">
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="cluster-sections" *ngIf="groups() && groups().length > 0">
-    <div class="section-group" *ngFor="let g of groups()">
-      <span class="group-title">{{ g.title }}</span>
-      <div class="tag-row">
-        <ng-container *ngFor="let item of g.items">
-          <span class="interactive-tag-wrap" (click)="itemClick.emit(item)">
-            <gp-tag
-              *ngIf="item.isTag"
-              [value]="item.value"
-              [severity]="item.severity || 'primary'"
-            />
-            <gp-badge
-              *ngIf="!item.isTag"
-              [value]="item.value"
-              [severity]="item.severity || 'primary'"
-            />
-          </span>
-        </ng-container>
+      <div class="block-head" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </div>
-  </div>
+    
+  </ng-template>
+
+  <!-- Clusters Content -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[clusters], [slot=clusters], [groups], [slot=groups]" />
+
+      <div class="cluster-groups" *ngIf="groups() && groups().length > 0">
+        <div class="cluster-card" *ngFor="let g of groups()">
+          <h4 class="group-title">{{ g.title }}</h4>
+          <div class="badges-wrap">
+            <ng-container *ngFor="let item of g.items">
+              <ng-container *ngIf="effectiveBadgeTemplate; else defaultBadge">
+                <ng-container *ngTemplateOutlet="effectiveBadgeTemplate; context: { $implicit: item }" />
+              </ng-container>
+              <ng-template #defaultBadge>
+                <span (click)="itemClick.emit(item)" style="cursor: pointer; display: inline-flex;">
+                  <gp-tag *ngIf="item.isTag" [value]="item.value" [severity]="item.severity || 'secondary'" />
+                  <gp-badge *ngIf="!item.isTag" [value]="item.value" [severity]="item.severity || 'primary'" />
+                </span>
+              </ng-template>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    
+  </ng-template>
+  <ng-content />
 </div>

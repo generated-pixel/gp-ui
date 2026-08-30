@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GpButtonComponent } from 'gp-ui';
 import { GpIconComponent } from 'gp-ui-icons';
 import { ThemeEditorComponent } from './theme-editor.component';
 import { ThemeEditorService } from './theme-editor.service';
@@ -7,7 +8,7 @@ import { ThemeEditorService } from './theme-editor.service';
 @Component({
   selector: 'app-theme-editor-dialog',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, ThemeEditorComponent],
+  imports: [CommonModule, GpButtonComponent, GpIconComponent, ThemeEditorComponent],
   template: `
     @if (editorService.isOpen()) {
       <div
@@ -28,24 +29,25 @@ import { ThemeEditorService } from './theme-editor.service';
             </div>
 
             <div class="header-actions">
-              <button
-                type="button"
-                class="header-icon-btn"
-                (click)="toggleMaximize()"
+              <gp-button
+                [icon]="isMaximized() ? 'compress' : 'expand'"
+                [iconOnly]="true"
+                variant="text"
+                styleClass="header-icon-btn"
+                (onClickEvent)="toggleMaximize()"
                 [title]="isMaximized() ? 'Restore Window Size' : 'Expand to Fit Screen'"
-                [attr.aria-label]="isMaximized() ? 'Restore Window Size' : 'Expand to Fit Screen'"
-              >
-                <gp-icon [name]="isMaximized() ? 'compress' : 'expand'" size="1.1em" />
-              </button>
-              <button
-                type="button"
-                class="header-icon-btn close-btn"
-                (click)="editorService.close()"
-                aria-label="Close dialog"
+                [ariaLabel]="isMaximized() ? 'Restore Window Size' : 'Expand to Fit Screen'"
+              />
+              <gp-button
+                icon="xmark"
+                [iconOnly]="true"
+                variant="text"
+                severity="danger"
+                styleClass="header-icon-btn close-btn"
+                (onClickEvent)="editorService.close()"
+                ariaLabel="Close dialog"
                 title="Close Dialog"
-              >
-                <gp-icon name="xmark" size="1.2em" />
-              </button>
+              />
             </div>
           </div>
 

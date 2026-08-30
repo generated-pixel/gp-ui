@@ -1,4 +1,4 @@
-<div class="gp-tabview" [id]="id()" [class]="styleClass()" [ngStyle]="style()">
+<div class="gp-tabview" [id]="id()" [class]="styleClass()" [style]="style()">
   <div class="gp-tabview-nav-container">
     <ul class="gp-tabview-nav" role="tablist">
       @for (tab of tabPanels(); track $index) {
@@ -13,13 +13,19 @@
             class="gp-tabview-nav-link"
             [disabled]="tab.disabled()"
             (click)="selectTab(tab)"
+            (keydown)="onTabKeydown($event, $index)"
             role="tab"
             [attr.aria-selected]="tab.selected()"
+            [attr.tabindex]="tab.selected() ? 0 : -1"
           >
             @if (tab.icon()) {
               <gp-icon [name]="tab.icon()" size="0.9em" />
             }
             <span>{{ tab.header() }}</span>
+
+            @if (tab.badge() !== undefined) {
+              <gp-badge [value]="tab.badge()" [severity]="tab.badgeSeverity()" size="sm" />
+            }
 
             @if (tab.closable()) {
               <button type="button" class="gp-tabview-close-btn" (click)="closeTab(tab, $event)" aria-label="Close tab">
@@ -32,7 +38,9 @@
     </ul>
   </div>
 
-  <div class="gp-tabview-panels">
-    <ng-content />
-  </div>
+  @if (!hidePanels()) {
+    <div class="gp-tabview-panels">
+      <ng-content />
+    </div>
+  }
 </div>

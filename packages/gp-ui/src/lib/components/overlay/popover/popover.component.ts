@@ -38,6 +38,11 @@ export class GpPopoverComponent extends GpBaseComponent {
     }
   }
 
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.hide();
+  }
+
   public toggle(event: MouseEvent, target?: HTMLElement): void {
     event.stopPropagation();
     if (this.visible()) {

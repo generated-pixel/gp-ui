@@ -1,34 +1,82 @@
-<div class="gp-dropdown-menu-wrapper">
-  <div class="action-dropdown-card">
-    <div class="dropdown-header">
-      <span class="user-name">{{ signedInLabel() }}</span>
-      <strong class="user-email">{{ userEmail() }}</strong>
-    </div>
+<div class="gp-dropdown-action-menu">
+  <gp-button
+    [label]="menuLabel()"
+    icon="ellipsis-v"
+    iconPos="right"
+    variant="outlined"
+    severity="secondary"
+    (onClickEvent)="actionPopover.toggle($event)"
+  />
 
-    <div class="dropdown-links-group" *ngIf="primaryItems() && primaryItems().length > 0">
-      <a
-        href="javascript:void(0)"
-        *ngFor="let item of primaryItems()"
-        class="drop-item"
-        (click)="itemSelect.emit(item)"
-      >
-        <gp-icon *ngIf="item.icon" [name]="item.icon" size="0.9em" />
-        <span>{{ item.label }}</span>
-      </a>
-    </div>
+  <gp-popover #actionPopover styleClass="gp-dropdown-action-menu__popover" ariaLabel="Action menu">
+    <div class="gp-dropdown-action-menu__content" role="menu">
+      @if (effectiveContent) {
+        <ng-container *ngTemplateOutlet="effectiveContent" />
+      } @else {
+        @if (effectiveUserHeader) {
+          <ng-container *ngTemplateOutlet="effectiveUserHeader" />
+        } @else {
+          <ng-content select="[user-header], [slot=user-header]" />
 
-    <div class="dropdown-divider" *ngIf="dangerItems() && dangerItems().length > 0"></div>
+            @if (userEmail()) {
+              <div class="gp-dropdown-action-menu__user">
+                <span>{{ signedInLabel() }}</span>
+                <strong>{{ userEmail() }}</strong>
+              </div>
+            }
+          
+        }
 
-    <div class="dropdown-links-group" *ngIf="dangerItems() && dangerItems().length > 0">
-      <a
-        href="javascript:void(0)"
-        *ngFor="let item of dangerItems()"
-        class="drop-item danger"
-        (click)="itemSelect.emit(item)"
-      >
-        <gp-icon *ngIf="item.icon" [name]="item.icon" size="0.9em" />
-        <span>{{ item.label }}</span>
-      </a>
+        @if (userEmail()) {
+          <gp-divider />
+        }
+
+        <ng-content select="[primary-items], [slot=primary-items]" />
+
+          <div class="gp-dropdown-action-menu__section">
+            @for (item of primaryItems(); track item.id) {
+              @if (effectiveItemTemplate) {
+                <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+              } @else {
+                <gp-button
+                  [label]="item.label"
+                  [icon]="item.icon || ''"
+                  variant="text"
+                  severity="secondary"
+                  [fluid]="true"
+                  styleClass="gp-dropdown-action-menu__item"
+                  (onClickEvent)="selectItem(item)"
+                />
+              }
+            }
+          </div>
+        
+
+        @if (dangerItems().length) {
+          <gp-divider />
+          <ng-content select="[danger-items], [slot=danger-items]" />
+
+            <div class="gp-dropdown-action-menu__section">
+              @for (item of dangerItems(); track item.id) {
+                @if (effectiveItemTemplate) {
+                  <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+                } @else {
+                  <gp-button
+                    [label]="item.label"
+                    [icon]="item.icon || ''"
+                    variant="text"
+                    severity="danger"
+                    [fluid]="true"
+                    styleClass="gp-dropdown-action-menu__item"
+                    (onClickEvent)="selectItem(item)"
+                  />
+                }
+              }
+            </div>
+          
+        }
+        <ng-content />
+      }
     </div>
-  </div>
+  </gp-popover>
 </div>

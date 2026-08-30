@@ -1,81 +1,117 @@
-<div class="gp-list-data-grid-card">
-  <!-- Toolbar -->
-  <div class="grid-toolbar">
-    <div class="search-box">
-      <gp-icon name="search" size="0.85em" class="s-ico" />
-      <input
-        type="text"
-        [value]="searchQuery()"
-        [placeholder]="searchPlaceholder()"
-        (input)="onSearchInput($event)"
-        class="s-inp"
-      />
-    </div>
-    <div class="toolbar-actions">
-      <gp-button variant="outlined" severity="secondary" (onClick)="filterClick.emit()">
-        <gp-icon name="filter" size="0.85em" style="margin-right: 0.35rem;" />
-        {{ filterBtnLabel() }}
-      </gp-button>
-      <gp-button severity="primary" (onClick)="newOrderClick.emit()">
-        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-        {{ newOrderBtnLabel() }}
-      </gp-button>
-    </div>
-  </div>
+<div class="gp-data-grid-block">
+  <!-- Toolbar Header -->
+  <ng-container *ngIf="effectiveToolbar; else defaultToolbar">
+    <ng-container *ngTemplateOutlet="effectiveToolbar" />
+  </ng-container>
+  <ng-template #defaultToolbar>
+    <ng-content select="[toolbar], [slot=toolbar]" />
 
-  <!-- Table View -->
-  <div class="table-scroll-container" *ngIf="rows() && rows().length > 0">
-    <table class="grid-table">
-      <thead>
-        <tr>
-          <th><input type="checkbox" /></th>
-          <th>Order ID</th>
-          <th>Customer</th>
-          <th>Date</th>
-          <th>Total Amount</th>
-          <th>Payment Status</th>
-          <th>Fulfillment</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of rows()">
-          <td><input type="checkbox" /></td>
-          <td (click)="rowClick.emit(row)" style="cursor: pointer;"><strong>#{{ row.id }}</strong></td>
-          <td (click)="rowClick.emit(row)" style="cursor: pointer;">{{ row.customer }}</td>
-          <td (click)="rowClick.emit(row)" style="cursor: pointer;">{{ row.date }}</td>
-          <td (click)="rowClick.emit(row)" style="cursor: pointer;"><strong>{{ row.amount }}</strong></td>
-          <td>
-            <gp-badge
-              [value]="row.payment"
-              [severity]="row.payment === 'Paid' ? 'success' : (row.payment === 'Pending' ? 'warning' : 'danger')"
-            />
-          </td>
-          <td>
-            <gp-badge
-              [value]="row.fulfillment"
-              [severity]="row.fulfillment === 'Delivered' ? 'success' : (row.fulfillment === 'Shipped' ? 'info' : 'secondary')"
-            />
-          </td>
-          <td>
-            <button type="button" class="action-dots" (click)="rowActionClick.emit(row)" title="Options">
-              <gp-icon name="ellipsis-v" size="1em" />
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <div class="grid-toolbar">
+        <div class="search-box">
+          <gp-input-text
+            [value]="searchQuery()"
+            [placeholder]="searchPlaceholder()"
+            iconLeft="search"
+            size="sm"
+            [fluid]="true"
+            styleClass="search-input"
+            (onInputEvent)="onSearchInput($event)"
+          />
+        </div>
+        <div class="toolbar-actions">
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="filterClick.emit()">
+            <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem;" />
+            {{ filterBtnLabel() }}
+          </gp-button>
+          <gp-button severity="primary" size="sm" (onClickEvent)="newOrderClick.emit()">
+            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+            {{ newOrderBtnLabel() }}
+          </gp-button>
+        </div>
+      </div>
+    
+  </ng-template>
 
-  <!-- Paginator Footer -->
-  <div class="grid-footer">
-    <span class="showing-count">{{ footerCountText() }}</span>
-    <div class="pagination-buttons">
-      <button type="button" class="p-btn" disabled>&lt; Previous</button>
-      <button type="button" class="p-btn active">1</button>
-      <button type="button" class="p-btn">2</button>
-      <button type="button" class="p-btn">3</button>
-      <button type="button" class="p-btn">Next &gt;</button>
-    </div>
-  </div>
+  <!-- Table Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content]" />
+
+      <div class="table-scroll-wrap" *ngIf="rows() && rows().length > 0">
+        <table class="gp-block-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Payment</th>
+              <th>Fulfillment</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let r of rows()">
+              <ng-container *ngIf="effectiveRowTemplate; else defaultRow">
+                <ng-container *ngTemplateOutlet="effectiveRowTemplate; context: { $implicit: r }" />
+              </ng-container>
+              <ng-template #defaultRow>
+                <tr (click)="rowClick.emit(r)" style="cursor: pointer;">
+                  <td><span class="id-tag">#{{ r.id }}</span></td>
+                  <td><strong>{{ r.customer }}</strong></td>
+                  <td>{{ r.date }}</td>
+                  <td><strong>{{ r.amount }}</strong></td>
+                  <td>
+                    <gp-badge
+                      [value]="r.payment"
+                      [severity]="r.payment === 'Paid' ? 'success' : (r.payment === 'Pending' ? 'warning' : 'danger')"
+                    />
+                  </td>
+                  <td>
+                    <gp-badge
+                      [value]="r.fulfillment"
+                      [severity]="r.fulfillment === 'Delivered' ? 'success' : (r.fulfillment === 'Processing' ? 'primary' : 'secondary')"
+                    />
+                  </td>
+                  <td style="text-align: right;">
+                    <gp-button
+                      variant="text"
+                      severity="secondary"
+                      size="sm"
+                      [iconOnly]="true"
+                      styleClass="row-action-btn"
+                      ariaLabel="Row Options"
+                      (onClickEvent)="$event.stopPropagation(); rowActionClick.emit(r)"
+                    >
+                      <gp-icon name="more-horizontal" size="1em" />
+                    </gp-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    
+  </ng-template>
+
+  <!-- Footer Pagination / Status -->
+  <ng-container *ngIf="effectiveFooter; else defaultFooter">
+    <ng-container *ngTemplateOutlet="effectiveFooter" />
+  </ng-container>
+  <ng-template #defaultFooter>
+    <ng-content select="[footer], [slot=footer]" />
+
+      <div class="grid-footer" *ngIf="footerCountText()">
+        <span class="count-text">{{ footerCountText() }}</span>
+        <div class="pager-btns">
+          <gp-button variant="outlined" severity="secondary" size="sm">Previous</gp-button>
+          <gp-button variant="outlined" severity="secondary" size="sm">Next</gp-button>
+        </div>
+      </div>
+    
+  </ng-template>
+  <ng-content />
 </div>

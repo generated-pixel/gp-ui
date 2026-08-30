@@ -1,61 +1,92 @@
-<div class="gp-details-customer-root">
-  <!-- Customer Identity Bar -->
-  <div class="cust-overview-card">
-    <div class="cust-main-info">
-      <gp-avatar [label]="customerName().charAt(0)" size="xlarge" shape="circle" />
-      <div class="cust-text-info">
-        <div class="cust-title-row">
-          <h2 class="cust-name">{{ customerName() }}</h2>
-          <gp-badge [value]="customerStatus()" severity="success" />
-        </div>
-        <p class="cust-company">{{ companyName() }} &bull; {{ location() }}</p>
-        <div class="cust-tags" *ngIf="tags() && tags().length > 0">
-          <span class="c-tag" *ngFor="let t of tags()">{{ t }}</span>
-        </div>
-      </div>
-    </div>
+<div class="gp-details-overview-card">
+  <!-- Top Profile Header Row -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-    <div class="cust-actions">
-      <gp-button variant="outlined" severity="secondary" (onClick)="editContact.emit()">
-        <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem;" />
-        {{ editBtnLabel() }}
-      </gp-button>
-      <gp-button severity="primary" (onClick)="newDeal.emit()">
-        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-        {{ newDealBtnLabel() }}
-      </gp-button>
-    </div>
-  </div>
-
-  <!-- Detail Grid & Activity Feed -->
-  <div class="cust-details-grid">
-    <div class="detail-panel" *ngIf="metaFields() && metaFields().length > 0">
-      <h3 class="panel-heading">Contact Details</h3>
-      <dl class="meta-list">
-        <div class="meta-row" *ngFor="let f of metaFields()">
-          <dt>{{ f.label }}</dt>
-          <dd *ngIf="!f.isLink">{{ f.value }}</dd>
-          <dd *ngIf="f.isLink"><a [href]="f.href || ('mailto:' + f.value)">{{ f.value }}</a></dd>
-        </div>
-      </dl>
-    </div>
-
-    <div class="detail-panel" *ngIf="timelineEvents() && timelineEvents().length > 0">
-      <h3 class="panel-heading">Recent Timeline Events</h3>
-      <div class="activity-timeline">
-        <div
-          class="t-event"
-          *ngFor="let ev of timelineEvents()"
-          (click)="eventClick.emit(ev)"
-          style="cursor: pointer;"
-        >
-          <span class="t-bullet" [ngClass]="ev.bulletClass || 'bg-blue'"></span>
-          <div class="t-content">
-            <span class="t-title">{{ ev.title }}</span>
-            <span class="t-date">{{ ev.date }}</span>
+      <div class="overview-header">
+        <div class="profile-info-group">
+          <gp-avatar [label]="(customerName() || 'C').charAt(0)" size="xlarge" shape="circle" />
+          <div class="name-meta">
+            <div class="name-badge-line">
+              <h2 class="customer-name">{{ customerName() }}</h2>
+              <gp-badge [value]="customerStatus()" severity="success" />
+            </div>
+            <div class="company-loc-line">
+              <span class="comp-name">{{ companyName() }}</span>
+              <span class="dot-sep" *ngIf="location()">&bull;</span>
+              <span class="loc-name" *ngIf="location()">{{ location() }}</span>
+            </div>
           </div>
         </div>
+
+        <div class="header-action-buttons">
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="editContact.emit()">{{ editBtnLabel() }}</gp-button>
+          <gp-button severity="primary" size="sm" (onClickEvent)="newDeal.emit()">{{ newDealBtnLabel() }}</gp-button>
+        </div>
       </div>
-    </div>
+    
+  </ng-template>
+
+  <!-- Tags Row -->
+  <div class="tags-row" *ngIf="tags() && tags().length > 0">
+    <gp-badge *ngFor="let t of tags()" [value]="t" severity="secondary" />
   </div>
+
+  <!-- Content Override or Meta + Timeline Split -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content]" />
+      <div class="overview-split-body">
+        <!-- Meta Details Column -->
+        <ng-container *ngIf="effectiveMeta; else defaultMeta">
+          <ng-container *ngTemplateOutlet="effectiveMeta" />
+        </ng-container>
+        <ng-template #defaultMeta>
+          <ng-content select="[meta], [slot=meta]" />
+
+            <div class="meta-col" *ngIf="metaFields() && metaFields().length > 0">
+              <h4 class="section-title">Contact Information</h4>
+              <div class="meta-field" *ngFor="let f of metaFields()">
+                <span class="f-label">{{ f.label }}</span>
+                <span class="f-val" *ngIf="!f.isLink">{{ f.value }}</span>
+                <a class="f-link" *ngIf="f.isLink" [href]="f.href || ('mailto:' + f.value)">{{ f.value }}</a>
+              </div>
+            </div>
+          
+        </ng-template>
+
+        <!-- Timeline Events Column -->
+        <ng-container *ngIf="effectiveTimeline; else defaultTimeline">
+          <ng-container *ngTemplateOutlet="effectiveTimeline" />
+        </ng-container>
+        <ng-template #defaultTimeline>
+          <ng-content select="[timeline], [slot=timeline]" />
+
+            <div class="timeline-col" *ngIf="timelineEvents() && timelineEvents().length > 0">
+              <h4 class="section-title">Activity Timeline</h4>
+              <div class="timeline-tree">
+                <div
+                  class="timeline-node"
+                  *ngFor="let ev of timelineEvents()"
+                  (click)="eventClick.emit(ev)"
+                  style="cursor: pointer;"
+                >
+                  <div class="node-bullet" [ngClass]="ev.bulletClass || 'primary'"></div>
+                  <div class="node-content">
+                    <span class="node-title">{{ ev.title }}</span>
+                    <span class="node-date">{{ ev.date }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+        </ng-template>
+      </div>
+      <ng-content />
+  </ng-template>
 </div>

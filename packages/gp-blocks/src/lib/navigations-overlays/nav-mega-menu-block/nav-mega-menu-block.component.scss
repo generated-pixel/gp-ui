@@ -1,99 +1,27 @@
-.gp-mega-menu-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        padding: 2rem;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
-        width: 100%;
-      }
+:host {
+  display: block;
+  width: 100%;
+}
 
-      .mega-columns-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1.2fr;
-        gap: 2rem;
-      }
+.gp-mega-menu-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gp-spacing-4, 1rem);
+  width: 100%;
+  padding: var(--gp-spacing-5, 1.25rem);
+  background: var(--gp-surface-section);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 0.75rem);
+  box-sizing: border-box;
+}
 
-      .mega-col {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-      }
+.gp-mega-menu-block .gp-megamenu {
+  background: var(--gp-surface-card);
+}
 
-      .col-title {
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--gp-text-color-secondary);
-        margin: 0;
-      }
-
-      .mega-link {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-        padding: 0.5rem;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: background 0.15s ease;
-      }
-
-      .mega-link:hover {
-        background: var(--gp-surface-ground);
-      }
-
-      .m-link-title {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
-
-      .m-link-desc {
-        font-size: 0.775rem;
-        color: var(--gp-text-color-secondary);
-      }
-
-      .mega-promo-box {
-        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        border: 1px solid #bfdbfe;
-        border-radius: 10px;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .promo-badge {
-        font-size: 0.7rem;
-        font-weight: 800;
-        color: #2563eb;
-        background: #fff;
-        padding: 0.15rem 0.5rem;
-        border-radius: 9999px;
-        align-self: flex-start;
-      }
-
-      .promo-title {
-        font-size: 1.15rem;
-        font-weight: 800;
-        margin: 0;
-        color: #1e3a8a;
-      }
-
-      .promo-text {
-        font-size: 0.85rem;
-        color: #1e40af;
-        margin: 0 0 0.5rem 0;
-        line-height: 1.4;
-      }
-
-      .promo-cta {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #2563eb;
-        text-decoration: none;
-      }
-
-      @media (max-width: 868px) {
-        .mega-columns-grid { grid-template-columns: 1fr; }
-      }
+.gp-mega-menu-block__custom-promo {
+  padding: var(--gp-spacing-4, 1rem);
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius, 0.5rem);
+}

@@ -1,91 +1,99 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .gp-stacked-bottom-dock-shell {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        min-height: 520px;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: var(--gp-border-radius-lg, 16px);
-        overflow: hidden;
-      }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 520px;
+  background: var(--gp-surface-ground);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 16px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
-      .minimal-topbar {
-        height: 54px;
-        background: var(--gp-surface-card);
-        border-bottom: 1px solid var(--gp-surface-border);
-        padding: 0 1.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+.minimal-topbar {
+  height: 54px;
+  background: var(--gp-surface-card);
+  border-bottom: 1px solid var(--gp-surface-border);
+  padding: 0 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-      .brand-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
+.brand-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gp-text-color);
+}
 
-      .view-tag {
-        font-size: 0.775rem;
-        font-weight: 600;
-        color: var(--gp-text-color-secondary);
-        background: var(--gp-surface-hover);
-        padding: 0.25rem 0.6rem;
-        border-radius: 9999px;
-      }
+.view-tag {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--gp-text-color-secondary);
+  background: var(--gp-surface-hover);
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+}
 
-      .dock-main-area {
-        padding: 2rem 2rem 5rem 2rem;
-        flex: 1;
-        overflow-y: auto;
-      }
+.dock-main-area {
+  padding: 2rem 2rem 5rem 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
 
-      .bottom-dock-wrapper {
-        position: absolute;
-        bottom: 1.25rem;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        pointer-events: none;
-        z-index: 30;
-      }
+.bottom-dock-wrapper {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 30;
+}
 
-      .dock-pill-bar {
-        pointer-events: auto;
-        background: rgba(15, 23, 42, 0.85);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 9999px;
-        padding: 0.4rem 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-      }
+.dock-pill-bar {
+  pointer-events: auto;
+  background: var(--gp-surface-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: 9999px;
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--gp-shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.15));
+}
 
-      .dock-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: none;
-        background: transparent;
-        color: #94a3b8;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+.dock-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--gp-text-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--gp-transition-duration, 150ms) ease;
+}
 
-      .dock-btn:hover {
-        background: rgba(255, 255, 255, 0.15);
-        color: #fff;
-        transform: translateY(-2px) scale(1.1);
-      }
+.dock-btn:hover {
+  background: var(--gp-surface-hover);
+  color: var(--gp-text-color);
+  transform: translateY(-2px);
+}
 
-      .dock-btn.active {
-        background: var(--gp-primary);
-        color: #fff;
-      }
+.dock-btn.active {
+  background: var(--gp-primary);
+  color: var(--gp-primary-text, #fff);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}

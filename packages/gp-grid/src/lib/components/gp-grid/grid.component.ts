@@ -20,8 +20,13 @@ import { GpGridItem } from '../../models/grid-item.model';
 import { GpGridCompactType } from '../../models/grid-config.model';
 import { GpGridChangeEvent } from '../../models/grid-events.model';
 import { GpGridEngine } from '../../engine/grid-engine';
-import { GpIconComponent, GpTranslationService } from '@generatedpixel/gp-ui';
+import { GpIconComponent, GpEmptyStateComponent, GpTranslationService, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 import { GpGridWidgetComponent } from '../gp-grid-widget/grid-widget.component';
+import { GpGridKpiWidgetComponent } from '../gp-grid-kpi-widget/grid-kpi-widget.component';
+import { GpGridChartWidgetComponent } from '../gp-grid-chart-widget/grid-chart-widget.component';
+import { GpGridTableWidgetComponent } from '../gp-grid-table-widget/grid-table-widget.component';
+import { GpGridListWidgetComponent } from '../gp-grid-list-widget/grid-list-widget.component';
+import { GpGridProgressWidgetComponent } from '../gp-grid-progress-widget/grid-progress-widget.component';
 
 export interface DragState {
   itemId: string;
@@ -50,7 +55,17 @@ export interface ResizeState {
 @Component({
   selector: 'gp-grid',
   standalone: true,
-  imports: [CommonModule, GpGridWidgetComponent, GpIconComponent],
+  imports: [
+    CommonModule,
+    GpGridWidgetComponent,
+    GpGridKpiWidgetComponent,
+    GpGridChartWidgetComponent,
+    GpGridTableWidgetComponent,
+    GpGridListWidgetComponent,
+    GpGridProgressWidgetComponent,
+    GpEmptyStateComponent,
+    GpIconComponent
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid.component.html',
@@ -175,6 +190,8 @@ export class GpGridComponent implements OnInit, OnDestroy {
   public itemResized = output<GpGridChangeEvent>();
   public itemRemoved = output<GpGridItem>();
   public itemOptionsClick = output<{ event: MouseEvent; item: GpGridItem }>();
+  public itemNavigate = output<{ routerLink: string | any[]; queryParams?: Record<string, any>; item: GpGridItem }>();
+  public itemClick = output<{ data?: any; item: GpGridItem }>();
   public layoutChanged = output<GpGridItem[]>();
 
   // --- INTERNAL REACTIVE STATE ---
@@ -235,6 +252,21 @@ export class GpGridComponent implements OnInit, OnDestroy {
       });
       this.resizeObserver.observe(this.elementRef.nativeElement);
     }
+  }
+
+  public asBadgeSeverity(sev?: string): GpBadgeSeverity {
+    if (
+      sev === 'primary' ||
+      sev === 'secondary' ||
+      sev === 'success' ||
+      sev === 'warning' ||
+      sev === 'danger' ||
+      sev === 'info' ||
+      sev === 'contrast'
+    ) {
+      return sev;
+    }
+    return 'primary';
   }
 
   public ngOnDestroy(): void {

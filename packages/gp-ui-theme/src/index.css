@@ -1,6 +1,7 @@
 /**
  * gp-ui Global Styles, Reset, Utilities & Keyframes
  */
+@import './themes/all.css';
 
 /* Box Sizing & Typography */
 *,
@@ -33,13 +34,37 @@ body {
 
 /* Base Form Control & Link Reset */
 input,
-button,
 select,
 textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   color: inherit;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+/* Sibling gap between adjacent buttons by default */
+button + button,
+gp-button + gp-button,
+gp-button + button,
+button + gp-button,
+.gp-button + .gp-button {
+  margin-inline-start: var(--gp-button-gap, 0.5rem);
+}
+
+.gp-button-group > button + button,
+.gp-button-group > gp-button + gp-button,
+.gp-button-group > gp-button + button,
+.gp-button-group > button + gp-button,
+.gp-button-group > .gp-button + .gp-button {
+  margin-inline-start: -1px;
 }
 
 a,

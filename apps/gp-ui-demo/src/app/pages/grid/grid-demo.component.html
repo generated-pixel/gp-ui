@@ -14,24 +14,8 @@
 
     <!-- Tabs Header -->
     <div class="page-tabs">
-      <button
-        type="button"
-        class="tab-btn"
-        [class.tab-btn--active]="activeTab() === 'demo'"
-        (click)="activeTab.set('demo')"
-      >
-        <gp-icon name="layout-grid" size="1em" />
-        <span>Interactive Studio</span>
-      </button>
-      <button
-        type="button"
-        class="tab-btn"
-        [class.tab-btn--active]="activeTab() === 'api'"
-        (click)="activeTab.set('api')"
-      >
-        <gp-icon name="code" size="1em" />
-        <span>API & Documentation</span>
-      </button>
+      <gp-button label="Interactive Studio" icon="layout-grid" [variant]="activeTab() === 'demo' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'demo' ? ' tab-btn--active' : '')" (onClickEvent)="activeTab.set('demo')" />
+      <gp-button label="API & Documentation" icon="code" [variant]="activeTab() === 'api' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'api' ? ' tab-btn--active' : '')" (onClickEvent)="activeTab.set('api')" />
     </div>
   </header>
 
@@ -43,85 +27,45 @@
         <div class="toolbar-group">
           <!-- Add Widget Dropdown -->
           <div class="add-widget-dropdown">
-            <button type="button" class="btn-primary add-btn">
-              <gp-icon name="plus" size="1em" />
-              <span>Add Widget</span>
-            </button>
+            <gp-button label="Add Widget" icon="plus" styleClass="btn-primary add-btn" />
             <div class="dropdown-menu">
-              <button type="button" (click)="addWidget('kpi-revenue')">
-                <gp-icon name="star" size="0.9em" />
-                <span>Revenue KPI Card (4x2)</span>
-              </button>
-              <button type="button" (click)="addWidget('kpi-server')">
-                <gp-icon name="sliders" size="0.9em" />
-                <span>Server Health KPI (4x2)</span>
-              </button>
-              <button type="button" (click)="addWidget('chart-analytics')">
-                <gp-icon name="sparkles" size="0.9em" />
-                <span>Traffic Analytics Chart (6x3)</span>
-              </button>
-              <button type="button" (click)="addWidget('table-nodes')">
-                <gp-icon name="bars" size="0.9em" />
-                <span>Cluster Nodes Table (6x3)</span>
-              </button>
-              <button type="button" (click)="addWidget('list-activity')">
-                <gp-icon name="list" size="0.9em" />
-                <span>Activity Audit Stream (4x3)</span>
-              </button>
-              <button type="button" (click)="addWidget('locked-banner')">
-                <gp-icon name="lock" size="0.9em" />
-                <span>🔒 Locked Anchor Widget (4x2)</span>
-              </button>
-              <button type="button" (click)="addWidget('notes')">
-                <gp-icon name="edit" size="0.9em" />
-                <span>Sticky Notes Widget (4x2)</span>
-              </button>
+              <gp-button label="Revenue KPI Card (4x2)" icon="star" variant="text" (onClickEvent)="addWidget('kpi-revenue')" />
+              <gp-button label="Server Health KPI (4x2)" icon="sliders" variant="text" (onClickEvent)="addWidget('kpi-server')" />
+              <gp-button label="Traffic Analytics Chart (6x3)" icon="sparkles" variant="text" (onClickEvent)="addWidget('chart-analytics')" />
+              <gp-button label="Cluster Nodes Table (6x3)" icon="bars" variant="text" (onClickEvent)="addWidget('table-nodes')" />
+              <gp-button label="Activity Audit Stream (4x3)" icon="list" variant="text" (onClickEvent)="addWidget('list-activity')" />
+              <gp-button label="Locked Anchor Widget (4x2)" icon="lock" variant="text" (onClickEvent)="addWidget('locked-banner')" />
+              <gp-button label="Sticky Notes Widget (4x2)" icon="edit" variant="text" (onClickEvent)="addWidget('notes')" />
             </div>
           </div>
 
           <!-- Preset & Reset Actions -->
-          <button type="button" class="btn-secondary" (click)="loadDefaultPreset()" title="Load default preset layout">
-            <gp-icon name="refresh" size="0.9em" />
-            <span>Reset Layout</span>
-          </button>
-          <button type="button" class="btn-secondary" (click)="compactGrid()" title="Pack widgets upwards">
-            <gp-icon name="compress" size="0.9em" />
-            <span>Compact</span>
-          </button>
-          <button type="button" class="btn-secondary btn-danger-hover" (click)="clearAllWidgets()" title="Clear all widgets">
-            <gp-icon name="trash" size="0.9em" />
-            <span>Clear Grid</span>
-          </button>
+          <gp-button label="Reset Layout" icon="refresh" variant="outlined" severity="secondary" styleClass="btn-secondary" (onClickEvent)="loadDefaultPreset()" title="Load default preset layout" />
+          <gp-button label="Compact" icon="compress" variant="outlined" severity="secondary" styleClass="btn-secondary" (onClickEvent)="compactGrid()" title="Pack widgets upwards" />
+          <gp-button label="Clear Grid" icon="trash" variant="outlined" severity="danger" styleClass="btn-secondary btn-danger-hover" (onClickEvent)="clearAllWidgets()" title="Clear all widgets" />
         </div>
 
         <div class="toolbar-group toolbar-group--settings">
           <!-- Column Selector -->
           <div class="setting-item">
-            <label for="col-select">Columns:</label>
-            <select
-              id="col-select"
+            <label>Columns:</label>
+            <gp-select
+              [options]="columnOptions"
               [value]="columns()"
-              (change)="columns.set(+$any($event.target).value)"
-            >
-              <option [value]="6">6 Cols</option>
-              <option [value]="8">8 Cols</option>
-              <option [value]="12">12 Cols</option>
-              <option [value]="16">16 Cols</option>
-            </select>
+              ariaLabel="Grid columns"
+              (onChange)="columns.set($event.value)"
+            />
           </div>
 
           <!-- Row Height Selector -->
           <div class="setting-item">
-            <label for="row-select">Row Height:</label>
-            <select
-              id="row-select"
+            <label>Row Height:</label>
+            <gp-select
+              [options]="rowHeightOptions"
               [value]="rowHeight()"
-              (change)="rowHeight.set(+$any($event.target).value)"
-            >
-              <option [value]="65">Compact (65px)</option>
-              <option [value]="85">Normal (85px)</option>
-              <option [value]="105">Large (105px)</option>
-            </select>
+              ariaLabel="Grid row height"
+              (onChange)="rowHeight.set($event.value)"
+            />
           </div>
 
           <!-- Grid Lines Toggle -->
@@ -143,15 +87,7 @@
           </div>
 
           <!-- Inspector Toggle -->
-          <button
-            type="button"
-            class="btn-secondary"
-            [class.btn-secondary--active]="showInspector()"
-            (click)="showInspector.update(v => !v)"
-          >
-            <gp-icon name="code" size="0.9em" />
-            <span>State Inspector</span>
-          </button>
+          <gp-button label="State Inspector" icon="code" [variant]="showInspector() ? 'filled' : 'outlined'" severity="secondary" [styleClass]="'btn-secondary' + (showInspector() ? ' btn-secondary--active' : '')" (onClickEvent)="showInspector.update(v => !v)" />
         </div>
       </section>
 
@@ -214,7 +150,7 @@
                   </div>
                   <span class="kpi-subtext">vs $125,200 previous month</span>
                   <div class="kpi-progress-bar">
-                    <div class="kpi-progress-fill" style="width: 78%"></div>
+                    <div class="kpi-progress-fill w-[78%]"></div>
                   </div>
                 </div>
               }
@@ -274,13 +210,13 @@
                     </div>
                   </div>
                   <div class="chart-bars-container">
-                    <div class="chart-bar-wrap" title="Mon: 420k"><div class="chart-bar" style="height: 45%"></div><span class="chart-label">M</span></div>
-                    <div class="chart-bar-wrap" title="Tue: 680k"><div class="chart-bar" style="height: 70%"></div><span class="chart-label">T</span></div>
-                    <div class="chart-bar-wrap" title="Wed: 890k"><div class="chart-bar" style="height: 90%"></div><span class="chart-label">W</span></div>
-                    <div class="chart-bar-wrap" title="Thu: 740k"><div class="chart-bar" style="height: 75%"></div><span class="chart-label">T</span></div>
-                    <div class="chart-bar-wrap" title="Fri: 960k"><div class="chart-bar chart-bar--peak" style="height: 100%"></div><span class="chart-label">F</span></div>
-                    <div class="chart-bar-wrap" title="Sat: 510k"><div class="chart-bar" style="height: 52%"></div><span class="chart-label">S</span></div>
-                    <div class="chart-bar-wrap" title="Sun: 390k"><div class="chart-bar" style="height: 40%"></div><span class="chart-label">S</span></div>
+                    <div class="chart-bar-wrap" title="Mon: 420k"><div class="chart-bar h-[45%]"></div><span class="chart-label">M</span></div>
+                    <div class="chart-bar-wrap" title="Tue: 680k"><div class="chart-bar h-[70%]"></div><span class="chart-label">T</span></div>
+                    <div class="chart-bar-wrap" title="Wed: 890k"><div class="chart-bar h-[90%]"></div><span class="chart-label">W</span></div>
+                    <div class="chart-bar-wrap" title="Thu: 740k"><div class="chart-bar h-[75%]"></div><span class="chart-label">T</span></div>
+                    <div class="chart-bar-wrap" title="Fri: 960k"><div class="chart-bar chart-bar--peak h-full"></div><span class="chart-label">F</span></div>
+                    <div class="chart-bar-wrap" title="Sat: 510k"><div class="chart-bar h-[52%]"></div><span class="chart-label">S</span></div>
+                    <div class="chart-bar-wrap" title="Sun: 390k"><div class="chart-bar h-[40%]"></div><span class="chart-label">S</span></div>
                   </div>
                 </div>
               }
@@ -352,9 +288,9 @@
               @if (item.customData?.type === 'notes') {
                 <div class="widget-notes-content">
                   <ul class="notes-list">
-                    <li><input type="checkbox" checked /> Complete gp-grid library release</li>
-                    <li><input type="checkbox" checked /> Verify locked-in-place obstacle avoidance</li>
-                    <li><input type="checkbox" /> Connect real-time telemetry API</li>
+                    <li><gp-checkbox label="Complete gp-grid library release" [value]="true" /></li>
+                    <li><gp-checkbox label="Verify locked-in-place obstacle avoidance" [value]="true" /></li>
+                    <li><gp-checkbox label="Connect real-time telemetry API" [value]="false" /></li>
                   </ul>
                 </div>
               }
@@ -407,14 +343,14 @@
                       </span>
                     </td>
                     <td>
-                      <button
-                        type="button"
-                        class="btn-mini"
-                        (click)="toggleItemLock(w)"
+                      <gp-button
+                        [label]="w.locked ? 'Unlock' : 'Lock'"
+                        size="sm"
+                        variant="text"
+                        styleClass="btn-mini"
+                        (onClickEvent)="toggleItemLock(w)"
                         [title]="w.locked ? 'Unlock item' : 'Lock in place'"
-                      >
-                        {{ w.locked ? 'Unlock' : 'Lock' }}
-                      </button>
+                      />
                     </td>
                   </tr>
                 }

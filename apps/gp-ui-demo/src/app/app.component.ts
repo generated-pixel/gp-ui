@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
-import { GpBadgeComponent, GpDirectionService, GP_UI_VERSION } from 'gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpDirectionService, GpInputTextComponent, GP_UI_VERSION } from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 import { ThemeEditorDialogComponent } from './pages/theming/theme-editor-dialog.component';
@@ -27,16 +27,14 @@ export interface ComponentCatalogueItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpIconComponent, ThemeEditorDialogComponent],
+  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpButtonComponent, GpInputTextComponent, GpIconComponent, ThemeEditorDialogComponent],
   template: `
     <div class="app-layout">
       <!-- Top Navigation Header -->
       <header class="app-header">
         <div class="site-shell-header">
           <div class="header-left">
-            <button class="mobile-menu-btn" (click)="toggleSidebar()" aria-label="Toggle navigation">
-              <gp-icon name="bars" size="1.25em" />
-            </button>
+            <gp-button icon="bars" [iconOnly]="true" variant="text" styleClass="mobile-menu-btn" ariaLabel="Toggle navigation" (onClickEvent)="toggleSidebar()" />
 
             <a routerLink="/" class="brand-mark">
               <img src="/img/generated-pixel-logomark.svg" alt="Generated Pixel logo" class="brand-mark__logo" />
@@ -64,42 +62,40 @@ export interface ComponentCatalogueItem {
           <div class="header-center">
             <div class="search-input-wrap">
               <gp-icon name="search" size="0.9em" class="search-icon" />
-              <input
-                type="text"
-                class="search-input"
+              <gp-input-text
+                styleClass="search-input"
                 placeholder="Search components (e.g. table, select, dialog)..."
                 [value]="searchQuery()"
-                (input)="onSearchInput($event)"
-                aria-label="Search component catalogue"
+                (onInputEvent)="onSearchInput($event)"
+                ariaLabel="Search component catalogue"
               />
             </div>
           </div>
 
           <div class="header-right">
             <!-- Prominent Theme Studio Launch Button -->
-            <button
-              type="button"
-              class="header-theme-studio-btn"
-              (click)="themeEditorService.open()"
+            <gp-button
+              label="Theme Studio"
+              icon="sliders"
+              styleClass="header-theme-studio-btn"
+              (onClickEvent)="themeEditorService.open()"
               title="Open Interactive Theme Editor Dialog"
-            >
-              <gp-icon name="sliders" size="1.1em" />
-              <span>Theme Studio</span>
-            </button>
+            />
 
             <!-- Theme Palette Selector Dropdown -->
             <div class="theme-switcher-container">
-              <button
-                type="button"
-                class="header-icon-btn theme-palette-btn"
-                (click)="toggleThemeMenu()"
+              <gp-button
+                icon="palette"
+                [iconOnly]="true"
+                variant="text"
+                styleClass="header-icon-btn theme-palette-btn"
+                (onClickEvent)="toggleThemeMenu()"
                 [attr.aria-expanded]="themeMenuOpen()"
-                aria-label="Select Theme Preset"
+                ariaLabel="Select Theme Preset"
                 title="Theme: {{ currentThemeName() }} (Click to Change)"
               >
-                <gp-icon name="palette" size="1.2em" />
                 <span class="theme-dot-indicator" [style.backgroundColor]="currentThemeColor()"></span>
-              </button>
+              </gp-button>
 
               @if (themeMenuOpen()) {
                 <div class="theme-dropdown-backdrop" (click)="closeThemeMenu()"></div>
@@ -109,22 +105,15 @@ export interface ComponentCatalogueItem {
                     <span class="theme-mode-badge">{{ isDark() ? 'Dark Mode' : 'Light Mode' }}</span>
                   </div>
                   <div class="theme-dropdown-studio-cta">
-                    <button
-                      type="button"
-                      class="dropdown-studio-btn"
-                      (click)="themeEditorService.open(); closeThemeMenu()"
-                    >
-                      <gp-icon name="sliders" size="1em" />
-                      <span>Open Theme Editor Studio...</span>
-                    </button>
+                    <gp-button label="Open Theme Editor Studio..." icon="sliders" variant="text" styleClass="dropdown-studio-btn" (onClickEvent)="themeEditorService.open(); closeThemeMenu()" />
                   </div>
                   <div class="theme-list">
                     @for (t of availableThemes; track t.id) {
-                      <button
-                        type="button"
-                        class="theme-option-btn"
-                        [class.theme-option-active]="activeThemeId() === t.id"
-                        (click)="selectTheme(t.id)"
+                      <gp-button
+                        variant="text"
+                        [styleClass]="'theme-option-btn' + (activeThemeId() === t.id ? ' theme-option-active' : '')"
+                        [ariaLabel]="'Select ' + t.name + ' theme'"
+                        (onClickEvent)="selectTheme(t.id)"
                       >
                         <div class="theme-swatch-pair">
                           <span class="theme-swatch" [style.backgroundColor]="t.primaryColor"></span>
@@ -136,7 +125,7 @@ export interface ComponentCatalogueItem {
                         @if (activeThemeId() === t.id) {
                           <gp-icon name="check" size="0.9em" class="theme-check-icon" />
                         }
-                      </button>
+                      </gp-button>
                     }
                   </div>
                 </div>
@@ -144,26 +133,26 @@ export interface ComponentCatalogueItem {
             </div>
 
             <!-- Light / Dark Mode Toggle Button -->
-            <button
-              type="button"
-              class="header-icon-btn"
-              (click)="toggleThemeMode()"
-              [attr.aria-label]="isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+            <gp-button
+              [icon]="isDark() ? 'sun' : 'moon'"
+              [iconOnly]="true"
+              variant="text"
+              styleClass="header-icon-btn"
+              (onClickEvent)="toggleThemeMode()"
+              [ariaLabel]="isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
               [title]="isDark() ? 'Mode: Dark (Click for Light)' : 'Mode: Light (Click for Dark)'"
-            >
-              <gp-icon [name]="isDark() ? 'sun' : 'moon'" size="1.2em" />
-            </button>
+            />
 
             <!-- RTL Direction Toggle Button -->
-            <button
-              type="button"
-              class="header-icon-btn"
-              (click)="toggleRtl()"
-              aria-label="Toggle RTL Direction"
+            <gp-button
+              icon="globe"
+              [iconOnly]="true"
+              variant="text"
+              styleClass="header-icon-btn"
+              (onClickEvent)="toggleRtl()"
+              ariaLabel="Toggle RTL Direction"
               title="Toggle Text Direction (LTR / RTL)"
-            >
-              <gp-icon name="globe" size="1.2em" />
-            </button>
+            />
 
             <a
               href="https://github.com/generated-pixel/gp-ui"
@@ -186,14 +175,7 @@ export interface ComponentCatalogueItem {
         <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
           <div class="sidebar-header-note">
             <span>gp-ui Framework v{{ version }}</span>
-            <button
-              type="button"
-              class="sidebar-studio-btn"
-              (click)="themeEditorService.open(); closeSidebarOnMobile()"
-            >
-              <gp-icon name="sliders" size="0.9em" />
-              <span>Theme Studio</span>
-            </button>
+            <gp-button label="Theme Studio" icon="sliders" size="sm" variant="text" styleClass="sidebar-studio-btn" (onClickEvent)="themeEditorService.open(); closeSidebarOnMobile()" />
           </div>
           <nav class="sidebar-nav">
             @for (cat of categories(); track cat) {
@@ -265,16 +247,16 @@ export interface ComponentCatalogueItem {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        background-color: var(--gp-surface-ground, #0b0f19);
-        color: var(--gp-text-color, #f8fafc);
+        background-color: var(--gp-surface-ground);
+        color: var(--gp-text-color);
       }
       .app-header {
         position: sticky;
         top: 0;
         z-index: 100;
         backdrop-filter: blur(18px);
-        background: var(--gp-surface-card, #0f172a);
-        border-bottom: 1px solid var(--gp-surface-border, rgba(51, 65, 85, 0.4));
+        background: var(--gp-surface-card);
+        border-bottom: 1px solid var(--gp-surface-border);
         transition:
           background-color var(--gp-transition-duration, 150ms) ease,
           border-color var(--gp-transition-duration, 150ms) ease;
@@ -305,12 +287,12 @@ export interface ComponentCatalogueItem {
         gap: 0.45rem;
         padding: 0.5rem 0.75rem;
         border-radius: 999px;
-        border: 1px solid rgba(96, 165, 250, 0.5);
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(168, 85, 247, 0.1));
-        color: var(--gp-text-color, #ffffff);
+        border: 1px solid var(--gp-primary-border, rgba(96, 165, 250, 0.5));
+        background: var(--gp-primary-light, rgba(59, 130, 246, 0.15));
+        color: var(--gp-text-color);
         text-decoration: none;
         font-weight: 700;
-        box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.08);
+        box-shadow: var(--gp-shadow-sm);
         transition:
           transform 150ms ease,
           border-color 150ms ease,
@@ -318,8 +300,9 @@ export interface ComponentCatalogueItem {
       }
       .company-link:hover {
         transform: translateY(-1px);
-        border-color: rgba(96, 165, 250, 0.8);
-        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(168, 85, 247, 0.14));
+        border-color: var(--gp-primary);
+        background: var(--gp-primary-hover);
+        color: var(--gp-primary-text, #fff);
       }
       .company-link__label {
         font-size: 0.62rem;
@@ -341,13 +324,13 @@ export interface ComponentCatalogueItem {
         gap: 0.1rem;
       }
       .brand-mark__name {
-        color: var(--gp-text-color, #ffffff);
+        color: var(--gp-text-color);
         font-size: 1.15rem;
         font-weight: 700;
         letter-spacing: 0.02em;
       }
       .brand-mark__tag {
-        color: var(--gp-text-color-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
         font-size: 0.68rem;
         letter-spacing: 0.25em;
         text-transform: uppercase;
@@ -377,7 +360,7 @@ export interface ComponentCatalogueItem {
         display: none;
         background: none;
         border: none;
-        color: var(--gp-text-color, #e2e8f0);
+        color: var(--gp-text-color);
         cursor: pointer;
         padding: 0.25rem;
       }
@@ -405,16 +388,16 @@ export interface ComponentCatalogueItem {
         left: 0.75rem;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--gp-text-color-muted, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
       .search-input {
         width: 100%;
         height: 2.25rem;
         padding: 0 0.75rem 0 2.25rem;
         border-radius: 999px;
-        border: 1px solid var(--gp-input-border, rgba(255, 255, 255, 0.15));
-        background: var(--gp-input-bg, rgba(15, 23, 42, 0.6));
-        color: var(--gp-text-color, #ffffff);
+        border: 1px solid var(--gp-input-border, var(--gp-surface-border));
+        background: var(--gp-input-bg, var(--gp-surface-ground));
+        color: var(--gp-input-text, var(--gp-text-color));
         font-size: 0.85rem;
         outline: none;
         transition:
@@ -422,7 +405,7 @@ export interface ComponentCatalogueItem {
           background-color 0.15s ease;
       }
       .search-input:focus {
-        border-color: var(--gp-primary, #38bdf8);
+        border-color: var(--gp-primary);
         box-shadow: var(--gp-focus-ring);
       }
       .header-right {
@@ -436,7 +419,7 @@ export interface ComponentCatalogueItem {
         border-radius: 50%;
         border: none;
         background: transparent;
-        color: var(--gp-text-color-secondary, #cbd5e1);
+        color: var(--gp-text-color-secondary);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -446,8 +429,8 @@ export interface ComponentCatalogueItem {
         position: relative;
       }
       .header-icon-btn:hover {
-        background: var(--gp-surface-hover, rgba(255, 255, 255, 0.1));
-        color: var(--gp-primary, #38bdf8);
+        background: var(--gp-surface-hover);
+        color: var(--gp-primary);
       }
       .header-theme-studio-btn {
         display: inline-flex;
@@ -455,23 +438,23 @@ export interface ComponentCatalogueItem {
         gap: 0.45rem;
         padding: 0.4rem 0.8rem;
         border-radius: 999px;
-        border: 1px solid var(--gp-primary, #6366f1);
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15));
-        color: var(--gp-text-color, #ffffff);
+        border: 1px solid var(--gp-primary);
+        background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
+        color: var(--gp-primary);
         font-size: 0.82rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
       }
       .header-theme-studio-btn:hover {
-        background: var(--gp-primary, #6366f1);
-        color: #ffffff;
+        background: var(--gp-primary);
+        color: var(--gp-primary-text, #ffffff);
         box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
         transform: translateY(-1px);
       }
       .theme-dropdown-studio-cta {
         padding: 0.5rem;
-        border-bottom: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.1));
+        border-bottom: 1px solid var(--gp-surface-border);
       }
       .dropdown-studio-btn {
         width: 100%;
@@ -481,17 +464,17 @@ export interface ComponentCatalogueItem {
         gap: 0.45rem;
         padding: 0.5rem;
         border-radius: 0.375rem;
-        border: 1px solid var(--gp-primary, #6366f1);
+        border: 1px solid var(--gp-primary);
         background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
-        color: var(--gp-primary, #6366f1);
+        color: var(--gp-primary);
         font-size: 0.8rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
       }
       .dropdown-studio-btn:hover {
-        background: var(--gp-primary, #6366f1);
-        color: #ffffff;
+        background: var(--gp-primary);
+        color: var(--gp-primary-text, #ffffff);
       }
       .theme-switcher-container {
         position: relative;
@@ -515,8 +498,8 @@ export interface ComponentCatalogueItem {
         top: calc(100% + 0.5rem);
         right: 0;
         width: 17.5rem;
-        background: var(--gp-surface-card, #0f172a);
-        border: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.15));
+        background: var(--gp-surface-card);
+        border: 1px solid var(--gp-surface-border);
         border-radius: var(--gp-border-radius-md, 8px);
         box-shadow: var(--gp-shadow-xl);
         padding: 0.5rem;
@@ -528,11 +511,11 @@ export interface ComponentCatalogueItem {
         align-items: center;
         justify-content: space-between;
         padding: 0.4rem 0.5rem 0.5rem;
-        border-bottom: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.1));
+        border-bottom: 1px solid var(--gp-surface-border);
         margin-bottom: 0.4rem;
         font-size: 0.78rem;
         font-weight: 700;
-        color: var(--gp-text-color-muted, #94a3b8);
+        color: var(--gp-text-color-secondary);
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
@@ -566,7 +549,7 @@ export interface ComponentCatalogueItem {
         transition: background-color 0.12s ease;
       }
       .theme-option-btn:hover {
-        background: var(--gp-surface-hover, rgba(255, 255, 255, 0.08));
+        background: var(--gp-surface-hover);
       }
       .theme-option-active {
         background: var(--gp-primary-light, rgba(99, 102, 241, 0.15)) !important;
@@ -618,8 +601,8 @@ export interface ComponentCatalogueItem {
       }
       .app-sidebar {
         width: 18rem;
-        border-right: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.1));
-        background: var(--gp-surface-card, #0f172a);
+        border-right: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-card);
         position: sticky;
         top: 3.75rem;
         height: calc(100vh - 3.75rem);
@@ -646,7 +629,7 @@ export interface ComponentCatalogueItem {
         padding: 1rem 1.25rem 0.5rem;
         font-size: 0.75rem;
         font-weight: 700;
-        color: var(--gp-primary, #38bdf8);
+        color: var(--gp-primary);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         display: flex;
@@ -660,17 +643,17 @@ export interface ComponentCatalogueItem {
         gap: 0.35rem;
         padding: 0.25rem 0.6rem;
         border-radius: 999px;
-        border: 1px solid var(--gp-primary, #6366f1);
+        border: 1px solid var(--gp-primary);
         background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
-        color: var(--gp-primary, #6366f1);
+        color: var(--gp-primary);
         font-size: 0.72rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
       }
       .sidebar-studio-btn:hover {
-        background: var(--gp-primary, #6366f1);
-        color: #ffffff;
+        background: var(--gp-primary);
+        color: var(--gp-primary-text, #ffffff);
       }
       .sidebar-nav {
         padding: 0.75rem 1rem 2rem;
@@ -681,7 +664,7 @@ export interface ComponentCatalogueItem {
       .nav-category-title {
         font-size: 0.72rem;
         font-weight: 700;
-        color: var(--gp-text-color-muted, #94a3b8);
+        color: var(--gp-text-color-secondary);
         text-transform: uppercase;
         letter-spacing: 0.06em;
         margin-bottom: 0.4rem;
@@ -701,26 +684,26 @@ export interface ComponentCatalogueItem {
         gap: 0.65rem;
         padding: 0.5rem 0.75rem;
         border-radius: var(--gp-border-radius, 6px);
-        color: var(--gp-text-color-secondary, #cbd5e1);
+        color: var(--gp-text-color-secondary);
         text-decoration: none;
         font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.15s ease;
       }
       .nav-link:hover {
-        background: var(--gp-surface-hover, rgba(255, 255, 255, 0.06));
-        color: var(--gp-text-color, #ffffff);
+        background: var(--gp-surface-hover);
+        color: var(--gp-text-color);
       }
       .nav-link-active {
         background: var(--gp-primary-light, rgba(14, 165, 233, 0.18)) !important;
-        color: var(--gp-primary, #38bdf8) !important;
+        color: var(--gp-primary) !important;
         font-weight: 700;
       }
       .nav-link-sub {
         margin-left: 0.8rem;
         padding-left: 0.8rem;
         font-size: 0.82rem;
-        border-left: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.2));
+        border-left: 1px solid var(--gp-surface-border);
       }
       .nav-icon {
         color: inherit;
@@ -743,8 +726,8 @@ export interface ComponentCatalogueItem {
         overflow-x: hidden;
       }
       .site-footer {
-        border-top: 1px solid var(--gp-surface-border, rgba(51, 65, 85, 0.4));
-        background: rgba(15, 23, 42, 0.7);
+        border-top: 1px solid var(--gp-surface-border);
+        background: var(--gp-surface-card);
       }
       .site-footer__inner {
         width: min(100% - 3rem, 74rem);
@@ -755,7 +738,7 @@ export interface ComponentCatalogueItem {
         gap: 0.5rem;
         padding: 1rem 0 1.25rem;
         font-size: 0.8rem;
-        color: var(--gp-text-color-secondary, #94a3b8);
+        color: var(--gp-text-color-secondary);
       }
       .site-footer__label {
         text-transform: uppercase;
@@ -763,7 +746,7 @@ export interface ComponentCatalogueItem {
         font-size: 0.68rem;
       }
       .site-footer__link {
-        color: var(--gp-primary, #60a5fa);
+        color: var(--gp-primary);
         text-decoration: none;
         font-weight: 700;
       }

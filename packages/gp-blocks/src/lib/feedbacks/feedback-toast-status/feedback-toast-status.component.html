@@ -1,18 +1,30 @@
-<div class="gp-toast-status-stack" *ngIf="toasts() && toasts().length > 0">
-  <div
-    class="toast-card"
-    *ngFor="let t of toasts()"
-    [ngClass]="'toast-' + t.severity"
-  >
-    <div class="t-ico">
-      <gp-icon [name]="t.icon || (t.severity === 'success' ? 'check-circle' : (t.severity === 'info' ? 'info-circle' : (t.severity === 'warning' ? 'exclamation-triangle' : 'times-circle')))" size="1.2em" />
-    </div>
-    <div class="t-body">
-      <span class="t-title">{{ t.title }}</span>
-      <span class="t-desc">{{ t.desc }}</span>
-    </div>
-    <button type="button" class="t-close" (click)="closeToast.emit(t)" title="Close">
-      <gp-icon name="close" size="0.8em" />
-    </button>
-  </div>
+<div class="gp-toast-status-stack">
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[toasts], [slot=toasts]" />
+
+      <ng-container *ngFor="let t of toasts()">
+        <ng-container *ngIf="effectiveToastTemplate; else defaultToast">
+          <ng-container *ngTemplateOutlet="effectiveToastTemplate; context: { $implicit: t }" />
+        </ng-container>
+        <ng-template #defaultToast>
+          <div class="toast-card" [ngClass]="'severity-' + t.severity">
+            <div class="toast-ico">
+              <gp-icon [name]="t.icon || (t.severity === 'success' ? 'check-circle' : (t.severity === 'danger' ? 'alert-octagon' : 'info'))" size="1.2em" />
+            </div>
+            <div class="toast-text">
+              <h4 class="toast-title">{{ t.title }}</h4>
+              <p class="toast-desc">{{ t.desc }}</p>
+            </div>
+            <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="close-toast-btn" ariaLabel="Close notification" (onClickEvent)="closeToast.emit(t)">
+              <gp-icon name="close" size="0.85em" />
+            </gp-button>
+          </div>
+        </ng-template>
+      </ng-container>
+    
+  </ng-template>
+  <ng-content />
 </div>

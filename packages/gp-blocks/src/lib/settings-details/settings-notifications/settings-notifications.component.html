@@ -1,20 +1,54 @@
 <div class="gp-settings-card">
-  <div class="settings-head">
-    <h3 class="settings-title">{{ title() }}</h3>
-    <p class="settings-subtitle">{{ subtitle() }}</p>
-  </div>
-
-  <div class="notifications-list" *ngIf="preferences() && preferences().length > 0">
-    <div class="notif-row" *ngFor="let item of preferences()">
-      <div class="notif-info">
-        <span class="notif-label">{{ item.title }}</span>
-        <span class="notif-desc">{{ item.desc }}</span>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
+    <ng-container *ngIf="!hasProjectedHeader">
+      <div class="settings-head">
+        <h3 class="settings-title">{{ title() }}</h3>
+        <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-      <gp-switch [value]="item.enabled" (valueChange)="onToggle(item, $event)" />
-    </div>
-  </div>
+    </ng-container>
+  </ng-template>
 
-  <div class="settings-footer">
-    <gp-button severity="primary" (onClick)="save.emit(preferences())">{{ saveBtnLabel() }}</gp-button>
-  </div>
+  <!-- Content Override or Preferences List -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content]" />
+    <ng-container *ngIf="effectivePreferences; else defaultPreferences">
+      <ng-container *ngTemplateOutlet="effectivePreferences" />
+    </ng-container>
+    <ng-template #defaultPreferences>
+      <ng-content select="[preferences], [slot=preferences]" />
+
+      <div class="notifications-list" *ngIf="preferences() && preferences().length > 0">
+        <div class="pref-item" *ngFor="let p of preferences()">
+          <div class="pref-text">
+            <span class="pref-title">{{ p.title }}</span>
+            <p class="pref-desc">{{ p.desc }}</p>
+          </div>
+          <gp-switch [value]="p.enabled" (valueChange)="onToggle(p, $event)" />
+        </div>
+      </div>
+
+    </ng-template>
+    <ng-content />
+  </ng-template>
+
+  <!-- Footer Actions -->
+  <ng-container *ngIf="effectiveFooterActions; else defaultFooter">
+    <ng-container *ngTemplateOutlet="effectiveFooterActions" />
+  </ng-container>
+  <ng-template #defaultFooter>
+    <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />
+
+    <div class="settings-footer">
+      <gp-button severity="primary" (onClickEvent)="save.emit(preferences())">{{ saveBtnLabel() }}</gp-button>
+    </div>
+
+  </ng-template>
 </div>

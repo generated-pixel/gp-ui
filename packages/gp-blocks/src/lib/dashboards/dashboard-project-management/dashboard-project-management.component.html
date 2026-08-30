@@ -1,43 +1,94 @@
 <div class="gp-dashboard-pm-root">
-  <!-- Sprint Metrics Header -->
-  <div class="pm-header-grid" *ngIf="metrics() && metrics().length > 0">
-    <div
-      class="pm-metric-box"
-      *ngFor="let m of metrics()"
-      (click)="metricClick.emit(m)"
-      style="cursor: pointer;"
-    >
-      <span class="m-title">{{ m.title }}</span>
-      <span class="m-val">{{ m.value }}</span>
-      <gp-progress-bar *ngIf="m.progress !== undefined" [value]="m.progress" [showValue]="false" />
-      <span class="m-sub" *ngIf="m.subText">{{ m.subText }}</span>
-    </div>
+  <!-- Optional Top Action Bar / Slot -->
+  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
+    <ng-container *ngTemplateOutlet="contentHeaderActions" />
   </div>
+  <ng-content select="[actions], [slot=actions]" />
 
-  <!-- Kanban Columns Mini View -->
-  <div class="kanban-preview-grid" *ngIf="columns() && columns().length > 0">
-    <div class="kanban-col" *ngFor="let col of columns()">
-      <div class="k-col-head">
-        <span class="k-title">{{ col.title }}</span>
-        <gp-badge [value]="col.count.toString()" [severity]="col.badgeSeverity || 'primary'" />
-      </div>
-      <div class="k-cards">
-        <div
-          class="k-task-card"
-          *ngFor="let task of col.tasks"
-          (click)="taskClick.emit(task)"
-          style="cursor: pointer;"
-        >
-          <span class="task-tag" [class.feat]="task.tagType === 'feat'" [class.bug]="task.tagType === 'bug'">
-            {{ task.tag }}
-          </span>
-          <h4 class="task-title">{{ task.title }}</h4>
-          <div class="task-footer">
-            <gp-avatar [label]="task.assigneeLabel" size="normal" shape="circle" />
-            <span class="task-pts">{{ task.points }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Drag-and-Drop Grid Canvas -->
+  <gp-grid
+    [(items)]="widgets"
+    [columns]="gridColumns()"
+    [rowHeight]="gridRowHeight()"
+    [gap]="gridGap()"
+    [compactType]="gridCompactType()"
+    [readonly]="gridReadonly()"
+    (layoutChanged)="onLayoutChanged($event)"
+  >
+    <ng-template #widgetTemplate let-item>
+      <!-- Custom User-Defined Template per Item or Widget Slot -->
+      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
+      </ng-container>
+
+      <ng-template #defaultWidgetRender>
+        <!-- 1. Sprint Metrics Widget -->
+        <ng-container *ngIf="item.id === 'metrics'">
+          <ng-container *ngIf="contentMetrics; else defaultMetrics">
+            <ng-container *ngTemplateOutlet="contentMetrics" />
+          </ng-container>
+          <ng-template #defaultMetrics>
+            <div class="metrics-summary-row" *ngIf="metrics() && metrics().length > 0">
+              <div
+                class="metric-box"
+                *ngFor="let m of metrics()"
+                (click)="metricClick.emit(m)"
+                style="cursor: pointer;"
+              >
+                <span class="m-title">{{ m.title }}</span>
+                <div class="m-val">{{ m.value }}</div>
+                <span class="m-sub" *ngIf="m.subText">{{ m.subText }}</span>
+                <div class="m-prog" *ngIf="m.progress !== undefined">
+                  <gp-progress-bar [value]="m.progress" [showValue]="false" />
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <!-- 2. Kanban Board Widget -->
+        <ng-container *ngIf="item.id === 'kanban'">
+          <ng-container *ngIf="contentKanban; else defaultKanban">
+            <ng-container *ngTemplateOutlet="contentKanban" />
+          </ng-container>
+          <ng-template #defaultKanban>
+            <div class="kanban-board-grid" *ngIf="columns() && columns().length > 0" style="height: 100%;">
+              <div class="kanban-column" *ngFor="let col of columns()">
+                <div class="col-head">
+                  <span class="col-title">{{ col.title }}</span>
+                  <gp-badge [value]="col.count" [severity]="col.badgeSeverity || 'secondary'" />
+                </div>
+
+                <div class="task-cards-list">
+                  <div
+                    class="task-card"
+                    *ngFor="let task of col.tasks"
+                    (click)="taskClick.emit(task)"
+                    style="cursor: pointer;"
+                  >
+                    <div class="card-top-tags">
+                      <span
+                        class="task-tag"
+                        [class.tag-feat]="task.tagType === 'feat'"
+                        [class.tag-bug]="task.tagType === 'bug'"
+                        [class.tag-chore]="task.tagType === 'chore'"
+                      >
+                        {{ task.tag }}
+                      </span>
+                      <span class="task-pts">{{ task.points }} pts</span>
+                    </div>
+                    <h4 class="task-title">{{ task.title }}</h4>
+                    <div class="task-footer">
+                      <gp-avatar [label]="task.assigneeLabel" size="normal" shape="circle" />
+                      <span class="assignee-text">{{ task.assigneeLabel }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-template>
+    </ng-template>
+  </gp-grid>
 </div>

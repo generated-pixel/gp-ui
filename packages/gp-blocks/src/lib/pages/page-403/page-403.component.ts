@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent } from '@generatedpixel/gp-ui';
 
@@ -18,4 +18,24 @@ export class GpPage403Component {
 
   public returnHome = output<void>();
   public requestAccess = output<void>();
+
+  @Input() public codeTemplate?: TemplateRef<any>;
+  @Input() public actionsTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('code') public contentCode?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveCode(): TemplateRef<any> | undefined {
+    return this.codeTemplate || this.contentCode;
+  }
+
+  public get effectiveActions(): TemplateRef<any> | undefined {
+    return this.actionsTemplate || this.contentActions;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 }

@@ -1,0 +1,188 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.gp-grid-chart-widget {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  margin: var(--gp-grid-widget-margin, 0);
+  padding: var(--gp-grid-widget-body-padding, 1.25rem);
+  background: var(--gp-grid-widget-background, var(--gp-surface-card, #0f172a));
+  border: 1px solid var(--gp-grid-widget-border-color, var(--gp-surface-border, rgba(148, 163, 184, 0.15)));
+  border-radius: var(--gp-grid-widget-border-radius, var(--gp-border-radius-lg, 10px));
+  box-sizing: border-box;
+}
+
+.gp-grid-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.gp-grid-chart-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gp-grid-chart-range-pills {
+  display: inline-flex;
+  align-items: center;
+  background: var(--gp-surface-ground, rgba(0, 0, 0, 0.2));
+  padding: 2px;
+  border-radius: var(--gp-border-radius-sm, 6px);
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.15));
+}
+
+.gp-grid-chart-range-pill {
+  border: none;
+  background: transparent;
+  color: var(--gp-text-color-muted, #94a3b8);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--gp-text-color, #ffffff);
+  }
+
+  &--active {
+    background: var(--gp-primary, #6366f1);
+    color: #ffffff !important;
+  }
+}
+
+.gp-grid-chart-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gp-text-color, #f8fafc);
+}
+
+.gp-grid-chart-sub {
+  margin: 0.2rem 0 0 0;
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.gp-grid-chart-bars-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  min-height: 120px;
+}
+
+.gp-grid-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 0.75rem;
+}
+
+.gp-grid-chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  outline: none;
+
+  &:hover .gp-grid-bar-fill {
+    background: var(--gp-primary-hover, #818cf8);
+    box-shadow: 0 0 12px var(--gp-primary-light, rgba(99, 102, 241, 0.4));
+  }
+
+  &--clickable {
+    cursor: pointer;
+  }
+}
+
+.gp-grid-bar-track {
+  flex: 1;
+  width: 100%;
+  max-width: 32px;
+  background: var(--gp-surface-ground-alt, rgba(255, 255, 255, 0.04));
+  border-radius: var(--gp-border-radius-sm, 6px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.08));
+}
+
+.gp-grid-bar-fill {
+  width: 100%;
+  background: var(--gp-primary, #6366f1);
+  border-radius: var(--gp-border-radius-sm, 6px) var(--gp-border-radius-sm, 6px) 0 0;
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease;
+}
+
+.gp-grid-col-month {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.gp-grid-col-amt {
+  font-size: 0.7rem;
+  color: var(--gp-text-color-muted, #64748b);
+  margin-top: 0.15rem;
+}
+
+.gp-grid-chart-loading {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  min-height: 120px;
+}
+
+.gp-grid-chart-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.gp-grid-chart-error-icon {
+  color: var(--gp-danger, #ef4444);
+}
+
+.gp-grid-chart-error-text {
+  font-size: 0.825rem;
+  color: var(--gp-danger, #ef4444);
+}
+
+.gp-grid-chart-retry-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--gp-surface-border, rgba(148, 163, 184, 0.2));
+  background: var(--gp-surface-hover, rgba(255, 255, 255, 0.05));
+  color: var(--gp-text-color, #f8fafc);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--gp-primary-light, rgba(99, 102, 241, 0.15));
+    border-color: var(--gp-primary, #6366f1);
+    color: var(--gp-primary, #6366f1);
+  }
+}

@@ -1,51 +1,65 @@
 <div class="gp-layout-3col-workspace">
   <!-- Left Activity Bar (Thin icon strip) -->
   <nav class="activity-icon-bar">
-    <div class="top-icons">
-      <button type="button" class="bar-btn active" title="Explorer">
-        <gp-icon name="folder" size="1.2em" />
-      </button>
-      <button type="button" class="bar-btn" title="Search">
-        <gp-icon name="search" size="1.2em" />
-      </button>
-      <button type="button" class="bar-btn" title="Extensions">
-        <gp-icon name="layer-group" size="1.2em" />
-      </button>
-    </div>
-    <div class="bottom-icons">
-      <button type="button" class="bar-btn" title="Settings">
-        <gp-icon name="sliders" size="1.2em" />
-      </button>
-    </div>
+    <ng-container *ngIf="effectiveActivityBar; else defaultActivityBar">
+      <ng-container *ngTemplateOutlet="effectiveActivityBar" />
+    </ng-container>
+    <ng-template #defaultActivityBar>
+      <ng-content select="[activity-bar], [slot=activity-bar]" />
+
+        <div class="top-icons">
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn active" ariaLabel="Explorer">
+            <gp-icon name="folder" size="1.2em" />
+          </gp-button>
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn" ariaLabel="Search">
+            <gp-icon name="search" size="1.2em" />
+          </gp-button>
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn" ariaLabel="Extensions">
+            <gp-icon name="layer-group" size="1.2em" />
+          </gp-button>
+        </div>
+        <div class="bottom-icons">
+          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="bar-btn" ariaLabel="Settings">
+            <gp-icon name="sliders" size="1.2em" />
+          </gp-button>
+        </div>
+      
+    </ng-template>
   </nav>
 
   <!-- Sidebar Tree Explorer -->
   <aside class="workspace-sidebar">
     <div class="sidebar-head">
       <span class="head-title">{{ explorerTitle() }}</span>
-      <button type="button" class="action-icon-btn" title="New File">
+      <gp-button variant="text" severity="secondary" size="sm" [iconOnly]="true" styleClass="action-icon-btn" ariaLabel="New File">
         <gp-icon name="plus" size="0.85em" />
-      </button>
+      </gp-button>
     </div>
     <div class="sidebar-tree">
-      <ng-content select="[slot=explorer]">
-        <div class="tree-item active">
-          <gp-icon name="folder-open" size="0.9em" class="tree-icon" />
-          <span>src / components</span>
-        </div>
-        <div class="tree-item indent">
-          <gp-icon name="file" size="0.85em" class="tree-icon" />
-          <span>button.component.ts</span>
-        </div>
-        <div class="tree-item indent">
-          <gp-icon name="file" size="0.85em" class="tree-icon" />
-          <span>card.component.ts</span>
-        </div>
-        <div class="tree-item">
-          <gp-icon name="folder" size="0.9em" class="tree-icon" />
-          <span>src / services</span>
-        </div>
-      </ng-content>
+      <ng-container *ngIf="effectiveExplorer; else projectedExplorer">
+        <ng-container *ngTemplateOutlet="effectiveExplorer" />
+      </ng-container>
+      <ng-template #projectedExplorer>
+        <ng-content select="[explorer], [slot=explorer], [tree], [slot=tree]" />
+
+          <div class="tree-item active">
+            <gp-icon name="folder-open" size="0.9em" class="tree-icon" />
+            <span>src / components</span>
+          </div>
+          <div class="tree-item indent">
+            <gp-icon name="file" size="0.85em" class="tree-icon" />
+            <span>button.component.ts</span>
+          </div>
+          <div class="tree-item indent">
+            <gp-icon name="file" size="0.85em" class="tree-icon" />
+            <span>card.component.ts</span>
+          </div>
+          <div class="tree-item">
+            <gp-icon name="folder" size="0.9em" class="tree-icon" />
+            <span>src / services</span>
+          </div>
+        
+      </ng-template>
     </div>
   </aside>
 
@@ -59,18 +73,24 @@
       </div>
     </div>
     <div class="editor-content">
-      <ng-content select="[slot=editor]">
-        <div class="editor-placeholder">
-          <div class="code-preview">
-            <span class="code-kw">import</span> &#123; Component &#125; <span class="code-kw">from</span> '@angular/core';<br /><br />
-            <span class="code-dec">&#64;Component</span>(&#123;<br />
-            &nbsp;&nbsp;selector: 'app-root',<br />
-            &nbsp;&nbsp;template: '&lt;h1&gt;Workspace Shell Ready&lt;/h1&gt;'<br />
-            &#125;)<br />
-            <span class="code-kw">export class</span> AppComponent &#123;&#125;
+      <ng-container *ngIf="effectiveEditor; else projectedEditor">
+        <ng-container *ngTemplateOutlet="effectiveEditor" />
+      </ng-container>
+      <ng-template #projectedEditor>
+        <ng-content select="[editor], [slot=editor], [main], [slot=main]" />
+
+          <div class="editor-placeholder">
+            <div class="code-preview">
+              <span class="code-kw">import</span> &#123; Component &#125; <span class="code-kw">from</span> '@angular/core';<br /><br />
+              <span class="code-dec">&#64;Component</span>(&#123;<br />
+              &nbsp;&nbsp;selector: 'app-root',<br />
+              &nbsp;&nbsp;template: '&lt;h1&gt;Workspace Shell Ready&lt;/h1&gt;'<br />
+              &#125;)<br />
+              <span class="code-kw">export class</span> AppComponent &#123;&#125;
+            </div>
           </div>
-        </div>
-      </ng-content>
+        
+      </ng-template>
     </div>
   </main>
 </div>

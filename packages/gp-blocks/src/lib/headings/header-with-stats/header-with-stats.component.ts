@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface GpHeaderWithStatItem {
@@ -19,4 +19,18 @@ export class GpHeaderWithStatsComponent {
   public stats = input<GpHeaderWithStatItem[]>([]);
 
   public statClick = output<GpHeaderWithStatItem>();
+
+  @Input() public titleTemplate?: TemplateRef<any>;
+  @Input() public statsTemplate?: TemplateRef<any>;
+
+  @ContentChild('title') public contentTitle?: TemplateRef<any>;
+  @ContentChild('stats') public contentStats?: TemplateRef<any>;
+
+  public get effectiveTitle(): TemplateRef<any> | undefined {
+    return this.titleTemplate || this.contentTitle;
+  }
+
+  public get effectiveStats(): TemplateRef<any> | undefined {
+    return this.statsTemplate || this.contentStats;
+  }
 }

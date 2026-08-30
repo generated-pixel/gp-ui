@@ -18,7 +18,7 @@
     <div
       class="gp-grid-placeholder"
       [class.gp-grid-placeholder--invalid]="!ph.valid"
-      [ngStyle]="getPlaceholderStyle()"
+      [style]="getPlaceholderStyle()"
     >
       <div class="gp-grid-placeholder-inner">
         @if (!ph.valid) {
@@ -38,7 +38,7 @@
       [class.gp-grid-item-wrapper--resizing]="activeResize()?.itemId === item.id"
       [class.gp-grid-item-wrapper--locked]="item.locked"
       [class.gp-grid-item-wrapper--fixed]="item.fixed"
-      [ngStyle]="getItemStyle(item)"
+      [style]="getItemStyle(item)"
       [attr.data-grid-id]="item.id"
       (pointerdown)="onWidgetPointerDown($event, item)"
     >
@@ -46,13 +46,56 @@
         <ng-container
           *ngTemplateOutlet="widgetTemplate; context: { $implicit: item }"
         />
+      } @else if (item.widgetType === 'kpi') {
+        <gp-grid-kpi-widget
+          [item]="item"
+          [dataSource]="item.dataSource || item.widgetData"
+          [label]="item.title || ''"
+          [icon]="item.icon || ''"
+          (navigate)="itemNavigate.emit({ routerLink: $event.routerLink, queryParams: $event.queryParams, item })"
+          (kpiClick)="itemClick.emit({ data: $event, item })"
+        />
+      } @else if (item.widgetType === 'chart') {
+        <gp-grid-chart-widget
+          [item]="item"
+          [dataSource]="item.dataSource || item.widgetData"
+          [title]="item.title || ''"
+          [badge]="item.badge || ''"
+          [badgeSeverity]="asBadgeSeverity(item.badgeSeverity || 'success')"
+          (navigate)="itemNavigate.emit({ routerLink: $event.routerLink, queryParams: $event.queryParams, item })"
+          (columnClick)="itemClick.emit({ data: $event, item })"
+        />
+      } @else if (item.widgetType === 'table') {
+        <gp-grid-table-widget
+          [item]="item"
+          [dataSource]="item.dataSource || item.widgetData"
+          [title]="item.title || ''"
+          (navigate)="itemNavigate.emit({ routerLink: $event.routerLink, queryParams: $event.queryParams, item })"
+          (rowClick)="itemClick.emit({ data: $event, item })"
+        />
+      } @else if (item.widgetType === 'list' || item.widgetType === 'feed') {
+        <gp-grid-list-widget
+          [item]="item"
+          [dataSource]="item.dataSource || item.widgetData"
+          [title]="item.title || ''"
+          (navigate)="itemNavigate.emit({ routerLink: $event.routerLink, queryParams: $event.queryParams, item })"
+          (itemClick)="itemClick.emit({ data: $event, item })"
+        />
+      } @else if (item.widgetType === 'progress' || item.widgetType === 'stats') {
+        <gp-grid-progress-widget
+          [item]="item"
+          [dataSource]="item.dataSource || item.widgetData"
+          [title]="item.title || ''"
+          (navigate)="itemNavigate.emit({ routerLink: $event.routerLink, queryParams: $event.queryParams, item })"
+          (itemClick)="itemClick.emit({ data: $event, item })"
+        />
       } @else {
         <gp-grid-widget
           [item]="item"
           [title]="item.title || ''"
           [icon]="item.icon || ''"
           [badge]="item.badge || ''"
-          [badgeSeverity]="item.badgeSeverity || 'primary'"
+          [badgeSeverity]="asBadgeSeverity(item.badgeSeverity || 'primary')"
           [draggable]="item.draggable"
           [resizable]="item.resizable"
           [closeable]="item.closeable"
@@ -64,6 +107,7 @@
           (close)="onWidgetClose(item)"
           (optionsClick)="onWidgetOptions($event, item)"
           (lockToggle)="onWidgetLockToggle($event, item)"
+          (navigate)="itemNavigate.emit({ routerLink: $event.routerLink, queryParams: $event.queryParams, item })"
         >
           <!-- Custom widget content should be provided via widgetTemplate to avoid unsafe HTML injection -->
         </gp-grid-widget>
@@ -89,15 +133,11 @@
       @if (emptyTemplate) {
         <ng-container *ngTemplateOutlet="emptyTemplate" />
       } @else {
-        <div class="gp-grid-default-empty">
-          <div class="gp-grid-empty-icon-wrap">
-            <gp-icon name="layout-grid" size="36px" />
-          </div>
-          <h4 class="gp-grid-empty-title">{{ effectiveEmptyTitle() }}</h4>
-          <p class="gp-grid-empty-desc">
-            {{ effectiveEmptyMessage() }}
-          </p>
-        </div>
+        <gp-empty-state
+          icon="layout-grid"
+          [title]="effectiveEmptyTitle()"
+          [message]="effectiveEmptyMessage()"
+        />
       }
     </div>
   }

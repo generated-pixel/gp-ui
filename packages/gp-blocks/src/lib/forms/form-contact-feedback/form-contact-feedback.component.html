@@ -1,71 +1,92 @@
-<div class="gp-contact-feedback-card">
-  <div class="feedback-head">
-    <h2 class="title">{{ title() }}</h2>
-    <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
-  </div>
+<div class="gp-form-contact-card">
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]" />
 
-  <div class="feedback-fields">
-    <div class="col-6">
-      <label class="lbl">Your Name</label>
-      <input
-        type="text"
-        class="form-inp"
-        [value]="name()"
-        (input)="name.set($any($event.target).value)"
-        placeholder="Alex Smith"
-      />
-    </div>
-    <div class="col-6">
-      <label class="lbl">Email Address</label>
-      <input
-        type="email"
-        class="form-inp"
-        [value]="email()"
-        (input)="email.set($any($event.target).value)"
-        placeholder="alex@company.com"
-      />
-    </div>
-    <div class="col-12">
-      <label class="lbl">Inquiry Category</label>
-      <select
-        class="form-inp"
-        [value]="category()"
-        (change)="category.set($any($event.target).value)"
-      >
-        <option value="general">General Inquiry</option>
-        <option value="feature">Feature Request</option>
-        <option value="bug">Bug Report</option>
-        <option value="billing">Billing & Subscription</option>
-      </select>
-    </div>
-    <div class="col-12">
-      <label class="lbl">Rate your experience</label>
-      <div class="rating-row" style="display: flex; gap: 0.35rem; margin-top: 0.25rem;">
-        <button
-          type="button"
-          *ngFor="let star of [1, 2, 3, 4, 5]"
-          (click)="rating.set(star)"
-          style="background: transparent; border: none; cursor: pointer; color: var(--gp-primary-500, #3b82f6); padding: 0.25rem;"
-        >
-          <gp-icon [name]="star <= rating() ? 'star' : 'star'" size="1.25em" />
-        </button>
+      <div class="form-head" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
       </div>
-    </div>
-    <div class="col-12">
-      <label class="lbl">Your Message or Feedback</label>
-      <textarea
-        class="form-inp"
-        rows="4"
-        [value]="message()"
-        (input)="message.set($any($event.target).value)"
-        placeholder="How can we help or what can we improve?"
-      ></textarea>
-    </div>
-  </div>
+    
+  </ng-template>
 
-  <div class="feedback-footer">
-    <gp-button severity="primary" (onClick)="onSubmit()">
-      {{ sendBtnLabel() }}
-    </gp-button>
-  </div>
+  <!-- Form Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[form], [slot=form]" />
+
+      <div class="form-body">
+        <div class="field-row">
+          <div class="field-col">
+            <label class="input-label">Your Name</label>
+            <gp-input-text
+              type="text"
+              styleClass="form-input"
+              [fluid]="true"
+              [value]="name()"
+              (valueChange)="name.set($event)"
+              placeholder="Full name"
+            />
+          </div>
+          <div class="field-col">
+            <label class="input-label">Email Address</label>
+            <gp-input-text
+              type="email"
+              styleClass="form-input"
+              [fluid]="true"
+              [value]="email()"
+              (valueChange)="email.set($event)"
+              placeholder="name@domain.com"
+            />
+          </div>
+        </div>
+
+        <div class="field-col full">
+          <label class="input-label">Feedback Category</label>
+          <gp-select styleClass="form-input" [fluid]="true" [options]="categoryOptions" [value]="category()" (valueChange)="category.set($event)" />
+        </div>
+
+        <div class="field-col full">
+          <label class="input-label">Experience Rating</label>
+          <div class="star-rating">
+            <gp-button
+              type="button"
+              *ngFor="let s of [1,2,3,4,5]"
+              variant="text"
+              severity="secondary"
+              [iconOnly]="true"
+              styleClass="star-btn"
+              [class.active]="s <= rating()"
+              [ariaLabel]="s + ' stars'"
+              (onClickEvent)="rating.set(s)"
+            >
+              <gp-icon name="star" size="1.2em" />
+            </gp-button>
+          </div>
+        </div>
+
+        <div class="field-col full">
+          <label class="input-label">Your Feedback / Comments</label>
+          <gp-textarea
+            styleClass="form-input textarea"
+            [fluid]="true"
+            [rows]="4"
+            [value]="message()"
+            (valueChange)="message.set($event)"
+            placeholder="Share your thoughts..."
+          />
+        </div>
+
+        <div class="form-foot">
+          <gp-button severity="primary" (onClickEvent)="onSubmit()">{{ sendBtnLabel() }}</gp-button>
+        </div>
+      </div>
+    
+  </ng-template>
+  <ng-content />
 </div>
