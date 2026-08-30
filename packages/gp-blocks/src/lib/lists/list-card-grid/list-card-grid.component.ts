@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -26,4 +26,24 @@ export class GpListCardGridComponent {
 
   public createClick = output<void>();
   public cardClick = output<GpCardGridItem>();
+
+  @Input() public headerTemplate?: TemplateRef<any>;
+  @Input() public cardTemplate?: TemplateRef<{ $implicit: GpCardGridItem }>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('header') public contentHeader?: TemplateRef<any>;
+  @ContentChild('cardTemplate') public contentCardTemplate?: TemplateRef<{ $implicit: GpCardGridItem }>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveHeader(): TemplateRef<any> | undefined {
+    return this.headerTemplate || this.contentHeader;
+  }
+
+  public get effectiveCardTemplate(): TemplateRef<{ $implicit: GpCardGridItem }> | undefined {
+    return this.cardTemplate || this.contentCardTemplate;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -36,6 +36,38 @@ export class GpFormMultiStepWizardComponent {
     companyWebsite: string;
     agreeTerms: boolean;
   }>();
+
+  @Input() public stepperTemplate?: TemplateRef<any>;
+  @Input() public step1Template?: TemplateRef<any>;
+  @Input() public step2Template?: TemplateRef<any>;
+  @Input() public step3Template?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('stepper') public contentStepper?: TemplateRef<any>;
+  @ContentChild('step1') public contentStep1?: TemplateRef<any>;
+  @ContentChild('step2') public contentStep2?: TemplateRef<any>;
+  @ContentChild('step3') public contentStep3?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveStepper(): TemplateRef<any> | undefined {
+    return this.stepperTemplate || this.contentStepper;
+  }
+
+  public get effectiveStep1(): TemplateRef<any> | undefined {
+    return this.step1Template || this.contentStep1;
+  }
+
+  public get effectiveStep2(): TemplateRef<any> | undefined {
+    return this.step2Template || this.contentStep2;
+  }
+
+  public get effectiveStep3(): TemplateRef<any> | undefined {
+    return this.step3Template || this.contentStep3;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 
   public nextStep(): void {
     if (this.currentStep() < this.steps().length) {

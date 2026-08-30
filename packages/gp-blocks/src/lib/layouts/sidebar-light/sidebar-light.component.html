@@ -1,46 +1,90 @@
 <div class="gp-sidebar-light-shell">
   <aside class="light-sidebar">
-    <div class="brand-header">
-      <div class="brand-badge">
-        <gp-icon [name]="brandIcon()" size="1.2em" />
-      </div>
-      <span class="brand-title">{{ brandName() }}</span>
-    </div>
+    <ng-container *ngIf="effectiveSidebar; else defaultSidebar">
+      <ng-container *ngTemplateOutlet="effectiveSidebar" />
+    </ng-container>
 
-    <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
-      <a
-        href="javascript:void(0)"
-        *ngFor="let item of navItems()"
-        class="nav-item"
-        [class.active]="item.id === activeNavId() || item.active"
-        (click)="navItemClick.emit(item)"
-      >
-        <gp-icon [name]="item.icon" size="1.1em" />
-        <span>{{ item.label }}</span>
-        <gp-badge
-          *ngIf="item.badge"
-          [value]="item.badge"
-          [severity]="item.badgeSeverity || 'success'"
-        />
-      </a>
-    </nav>
+    <ng-template #defaultSidebar>
+      <ng-content select="[sidebar], [slot=sidebar]">
+        <!-- Brand Header -->
+        <ng-container *ngIf="effectiveBrand; else defaultBrand">
+          <ng-container *ngTemplateOutlet="effectiveBrand" />
+        </ng-container>
+        <ng-template #defaultBrand>
+          <ng-content select="[brand], [slot=brand]">
+            <div class="brand-header">
+              <div class="brand-badge">
+                <gp-icon [name]="brandIcon()" size="1.2em" />
+              </div>
+              <span class="brand-title">{{ brandName() }}</span>
+            </div>
+          </ng-content>
+        </ng-template>
 
-    <div class="upgrade-card" *ngIf="upgradeTitle()">
-      <span class="upgrade-title">{{ upgradeTitle() }}</span>
-      <p class="upgrade-text" *ngIf="upgradeText()">{{ upgradeText() }}</p>
-      <button type="button" class="upgrade-btn" (click)="upgradeClick.emit()">{{ upgradeBtnLabel() }}</button>
-    </div>
+        <!-- Nav -->
+        <ng-container *ngIf="effectiveNav; else defaultNav">
+          <ng-container *ngTemplateOutlet="effectiveNav" />
+        </ng-container>
+        <ng-template #defaultNav>
+          <ng-content select="[nav], [slot=nav]">
+            <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
+              <a
+                href="javascript:void(0)"
+                *ngFor="let item of navItems()"
+                class="nav-item"
+                [class.active]="item.id === activeNavId() || item.active"
+                (click)="navItemClick.emit(item)"
+              >
+                <gp-icon [name]="item.icon" size="1.1em" />
+                <span>{{ item.label }}</span>
+                <gp-badge
+                  *ngIf="item.badge"
+                  [value]="item.badge"
+                  [severity]="item.badgeSeverity || 'success'"
+                />
+              </a>
+            </nav>
+          </ng-content>
+        </ng-template>
+
+        <!-- Upgrade Card -->
+        <ng-container *ngIf="effectiveUpgrade; else defaultUpgrade">
+          <ng-container *ngTemplateOutlet="effectiveUpgrade" />
+        </ng-container>
+        <ng-template #defaultUpgrade>
+          <ng-content select="[upgrade], [slot=upgrade]">
+            <div class="upgrade-card" *ngIf="upgradeTitle()">
+              <span class="upgrade-title">{{ upgradeTitle() }}</span>
+              <p class="upgrade-text" *ngIf="upgradeText()">{{ upgradeText() }}</p>
+              <button type="button" class="upgrade-btn" (click)="upgradeClick.emit()">{{ upgradeBtnLabel() }}</button>
+            </div>
+          </ng-content>
+        </ng-template>
+      </ng-content>
+    </ng-template>
   </aside>
 
   <div class="main-shell">
     <header class="top-nav-bar">
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
-        <ng-content select="[slot=top-actions]" />
+        <ng-container *ngIf="effectiveTopActions; else projectedTopActions">
+          <ng-container *ngTemplateOutlet="effectiveTopActions" />
+        </ng-container>
+        <ng-template #projectedTopActions>
+          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        </ng-template>
       </div>
     </header>
     <main class="page-content-area">
-      <ng-content />
+      <ng-container *ngIf="effectiveContent; else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent" />
+      </ng-container>
+      <ng-template #defaultContent>
+        <ng-content select="[main], [slot=main], [content], [slot=content]">
+          <ng-content />
+        </ng-content>
+      </ng-template>
     </main>
   </div>
 </div>

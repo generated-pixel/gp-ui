@@ -1,26 +1,47 @@
-<div class="gp-coming-soon-card">
-  <div class="cs-badge" *ngIf="badgeText()">{{ badgeText() }}</div>
-  <h1 class="cs-title">{{ title() }}</h1>
-  <p class="cs-desc" *ngIf="description()">{{ description() }}</p>
+<div class="gp-page-state-shell">
+  <div class="state-card wide">
+    <ng-container *ngIf="effectiveContent; else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent" />
+    </ng-container>
+    <ng-template #defaultContent>
+      <span class="launch-badge" *ngIf="badgeText()">{{ badgeText() }}</span>
+      <h1 class="state-title large" *ngIf="title()">{{ title() }}</h1>
+      <p class="state-desc" *ngIf="description()">{{ description() }}</p>
 
-  <!-- Countdown Timer -->
-  <div class="countdown-row" *ngIf="countdown() && countdown().length > 0">
-    <div class="count-box" *ngFor="let u of countdown()">
-      <span class="count-num">{{ u.value }}</span>
-      <span class="count-lbl">{{ u.label }}</span>
-    </div>
-  </div>
+      <!-- Countdown Timers -->
+      <ng-container *ngIf="effectiveCountdown; else defaultCountdown">
+        <ng-container *ngTemplateOutlet="effectiveCountdown" />
+      </ng-container>
+      <ng-template #defaultCountdown>
+        <ng-content select="[countdown], [slot=countdown]">
+          <div class="countdown-row" *ngIf="countdown() && countdown().length > 0">
+            <div class="count-box" *ngFor="let unit of countdown()">
+              <span class="count-val">{{ unit.value }}</span>
+              <span class="count-unit">{{ unit.label }}</span>
+            </div>
+          </div>
+        </ng-content>
+      </ng-template>
 
-  <!-- Email Capture Form -->
-  <div class="email-capture-form">
-    <input
-      type="email"
-      [value]="email()"
-      (input)="email.set($any($event.target).value)"
-      (keydown.enter)="onSubscribe()"
-      [placeholder]="emailPlaceholder()"
-      class="cs-inp"
-    />
-    <gp-button severity="primary" (onClick)="onSubscribe()">{{ notifyBtnLabel() }}</gp-button>
+      <!-- Email Capture -->
+      <ng-container *ngIf="effectiveForm; else defaultForm">
+        <ng-container *ngTemplateOutlet="effectiveForm" />
+      </ng-container>
+      <ng-template #defaultForm>
+        <ng-content select="[form], [slot=form]">
+          <div class="subscribe-form">
+            <input
+              type="email"
+              class="sub-input"
+              [placeholder]="emailPlaceholder()"
+              [value]="email()"
+              (input)="email.set($any($event.target).value)"
+            />
+            <gp-button severity="primary" (onClick)="onSubscribe()">{{ notifyBtnLabel() }}</gp-button>
+          </div>
+        </ng-content>
+      </ng-template>
+      <ng-content />
+    </ng-template>
   </div>
 </div>

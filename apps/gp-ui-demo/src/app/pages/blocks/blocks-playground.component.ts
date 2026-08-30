@@ -17,7 +17,6 @@ import {
     FormsModule,
     RouterModule,
     GpBadgeComponent,
-    GpButtonComponent,
     GpIconComponent,
     GpDynamicBlockRendererComponent
   ],

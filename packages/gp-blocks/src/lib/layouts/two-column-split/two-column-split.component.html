@@ -3,45 +3,65 @@
   <section class="split-pane pane-primary">
     <div class="pane-header">
       <div class="pane-title-group">
-        <h3 class="pane-title">{{ primaryTitle() }}</h3>
+        <h3 class="pane-title" *ngIf="primaryTitle()">{{ primaryTitle() }}</h3>
         <gp-badge *ngIf="primaryBadge()" [value]="primaryBadge()" severity="primary" />
       </div>
       <div class="pane-header-actions">
-        <ng-content select="[slot=primary-actions]" />
+        <ng-container *ngIf="effectivePrimaryActions; else projectedPrimaryActions">
+          <ng-container *ngTemplateOutlet="effectivePrimaryActions" />
+        </ng-container>
+        <ng-template #projectedPrimaryActions>
+          <ng-content select="[primary-actions], [slot=primary-actions]" />
+        </ng-template>
       </div>
     </div>
     <div class="pane-body">
-      <ng-content select="[slot=primary]">
-        <div class="split-default-content">
-          <p class="lead-text">{{ primaryDescription() }}</p>
-          <div class="sample-content-box">
-            <h4>Main Editor & Workspace</h4>
-            <p>Use slot="primary" to embed dynamic forms, data tables, or visual editors.</p>
+      <ng-container *ngIf="effectivePrimary; else projectedOrFallbackPrimary">
+        <ng-container *ngTemplateOutlet="effectivePrimary" />
+      </ng-container>
+      <ng-template #projectedOrFallbackPrimary>
+        <ng-content select="[primary], [slot=primary], [left], [slot=left], [col1], [slot=col1]">
+          <div class="split-default-content">
+            <p class="lead-text" *ngIf="primaryDescription()">{{ primaryDescription() }}</p>
+            <div class="sample-content-box">
+              <h4>Main Editor & Workspace</h4>
+              <p>Project custom content or pass [primaryTemplate] to embed forms, tables, or editors.</p>
+            </div>
           </div>
-        </div>
-      </ng-content>
+        </ng-content>
+      </ng-template>
     </div>
   </section>
 
   <!-- Right Column (Secondary / Preview / Context) -->
   <section class="split-pane pane-secondary">
     <div class="pane-header">
-      <h3 class="pane-title">{{ secondaryTitle() }}</h3>
+      <h3 class="pane-title" *ngIf="secondaryTitle()">{{ secondaryTitle() }}</h3>
       <div class="pane-header-actions">
-        <ng-content select="[slot=secondary-actions]" />
+        <ng-container *ngIf="effectiveSecondaryActions; else projectedSecondaryActions">
+          <ng-container *ngTemplateOutlet="effectiveSecondaryActions" />
+        </ng-container>
+        <ng-template #projectedSecondaryActions>
+          <ng-content select="[secondary-actions], [slot=secondary-actions]" />
+        </ng-template>
       </div>
     </div>
     <div class="pane-body">
-      <ng-content select="[slot=secondary]">
-        <div class="split-default-content">
-          <p class="lead-text">{{ secondaryDescription() }}</p>
-          <div class="sample-preview-box">
-            <gp-icon name="window" size="2em" class="preview-icon" />
-            <h4>Live Preview & Side Effects</h4>
-            <p>Slot="secondary" displays real-time previews, summaries, or metadata logs.</p>
+      <ng-container *ngIf="effectiveSecondary; else projectedOrFallbackSecondary">
+        <ng-container *ngTemplateOutlet="effectiveSecondary" />
+      </ng-container>
+      <ng-template #projectedOrFallbackSecondary>
+        <ng-content select="[secondary], [slot=secondary], [right], [slot=right], [col2], [slot=col2]">
+          <div class="split-default-content">
+            <p class="lead-text" *ngIf="secondaryDescription()">{{ secondaryDescription() }}</p>
+            <div class="sample-preview-box">
+              <gp-icon name="window" size="2em" class="preview-icon" />
+              <h4>Live Preview & Side Effects</h4>
+              <p>Project custom preview cards, summaries, or metadata logs.</p>
+            </div>
           </div>
-        </div>
-      </ng-content>
+        </ng-content>
+      </ng-template>
     </div>
   </section>
 </div>

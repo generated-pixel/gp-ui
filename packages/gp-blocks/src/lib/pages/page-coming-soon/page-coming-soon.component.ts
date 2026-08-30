@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent } from '@generatedpixel/gp-ui';
 
@@ -24,6 +24,26 @@ export class GpPageComingSoonComponent {
 
   public email = signal<string>('');
   public subscribe = output<string>();
+
+  @Input() public countdownTemplate?: TemplateRef<any>;
+  @Input() public formTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('countdown') public contentCountdown?: TemplateRef<any>;
+  @ContentChild('form') public contentForm?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveCountdown(): TemplateRef<any> | undefined {
+    return this.countdownTemplate || this.contentCountdown;
+  }
+
+  public get effectiveForm(): TemplateRef<any> | undefined {
+    return this.formTemplate || this.contentForm;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 
   public onSubscribe(): void {
     if (this.email().trim()) {

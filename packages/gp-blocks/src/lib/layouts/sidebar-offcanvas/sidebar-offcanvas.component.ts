@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -27,6 +27,28 @@ export class GpLayoutSidebarOffcanvasComponent {
 
   public navItemClick = output<GpOffcanvasNavEntry>();
   public openChange = output<boolean>();
+
+  @Input() public sidebarTemplate?: TemplateRef<any>;
+  @Input() public topActionsTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('sidebar') public contentSidebar?: TemplateRef<any>;
+  @ContentChild('topActions') public contentTopActions?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  @ContentChild('main') public contentMain?: TemplateRef<any>;
+
+  public get effectiveSidebar(): TemplateRef<any> | undefined {
+    return this.sidebarTemplate || this.contentSidebar;
+  }
+
+  public get effectiveTopActions(): TemplateRef<any> | undefined {
+    return this.topActionsTemplate || this.contentTopActions || this.contentActions;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea || this.contentMain;
+  }
 
   public toggleSidebar(): void {
     this.sidebarOpen.update(v => {

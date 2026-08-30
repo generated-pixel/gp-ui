@@ -1,24 +1,47 @@
-<div class="gp-mega-menu-card">
-  <div class="mega-columns-grid">
-    <div class="mega-col" *ngFor="let sec of sections()">
-      <h4 class="col-title">{{ sec.title }}</h4>
-      <a
-        href="javascript:void(0)"
-        *ngFor="let link of sec.links"
-        class="mega-link"
-        (click)="linkClick.emit(link)"
-      >
-        <span class="m-link-title">{{ link.title }}</span>
-        <span class="m-link-desc">{{ link.desc }}</span>
-      </a>
-    </div>
+<div class="gp-mega-menu-dropdown">
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <!-- Sections Grid -->
+    <ng-container *ngIf="effectiveSections; else defaultSections">
+      <ng-container *ngTemplateOutlet="effectiveSections" />
+    </ng-container>
+    <ng-template #defaultSections>
+      <ng-content select="[sections], [slot=sections]">
+        <div class="sections-grid" *ngIf="sections() && sections().length > 0">
+          <div class="menu-col" *ngFor="let s of sections()">
+            <h4 class="col-title">{{ s.title }}</h4>
+            <div class="links-stack">
+              <a
+                href="javascript:void(0)"
+                *ngFor="let link of s.links"
+                class="mega-link-item"
+                (click)="linkClick.emit(link)"
+              >
+                <span class="l-title">{{ link.title }}</span>
+                <span class="l-desc">{{ link.desc }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </ng-content>
+    </ng-template>
 
-    <!-- Featured Promo Banner -->
-    <div class="mega-promo-box" *ngIf="promo()" (click)="promoClick.emit(promo()!)" style="cursor: pointer;">
-      <span class="promo-badge" *ngIf="promo()!.badge">{{ promo()!.badge }}</span>
-      <h4 class="promo-title">{{ promo()!.title }}</h4>
-      <p class="promo-text">{{ promo()!.text }}</p>
-      <a href="javascript:void(0)" class="promo-cta">{{ promo()!.ctaText }}</a>
-    </div>
-  </div>
+    <!-- Side Promo Card -->
+    <ng-container *ngIf="effectivePromo; else defaultPromo">
+      <ng-container *ngTemplateOutlet="effectivePromo" />
+    </ng-container>
+    <ng-template #defaultPromo>
+      <ng-content select="[promo], [slot=promo]">
+        <div class="promo-card" *ngIf="promo()" (click)="promoClick.emit(promo()!)" style="cursor: pointer;">
+          <span class="promo-badge" *ngIf="promo()?.badge">{{ promo()?.badge }}</span>
+          <h4 class="promo-title">{{ promo()?.title }}</h4>
+          <p class="promo-text">{{ promo()?.text }}</p>
+          <span class="promo-cta">{{ promo()?.ctaText }} &rarr;</span>
+        </div>
+      </ng-content>
+    </ng-template>
+    <ng-content />
+  </ng-template>
 </div>

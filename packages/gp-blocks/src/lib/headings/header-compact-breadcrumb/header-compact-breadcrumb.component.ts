@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -18,4 +18,18 @@ export class GpHeaderCompactBreadcrumbComponent {
   public backClick = output<void>();
   public editClick = output<void>();
   public shareClick = output<void>();
+
+  @Input() public breadcrumbsTemplate?: TemplateRef<any>;
+  @Input() public actionsTemplate?: TemplateRef<any>;
+
+  @ContentChild('breadcrumbs') public contentBreadcrumbs?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+
+  public get effectiveBreadcrumbs(): TemplateRef<any> | undefined {
+    return this.breadcrumbsTemplate || this.contentBreadcrumbs;
+  }
+
+  public get effectiveActions(): TemplateRef<any> | undefined {
+    return this.actionsTemplate || this.contentActions;
+  }
 }

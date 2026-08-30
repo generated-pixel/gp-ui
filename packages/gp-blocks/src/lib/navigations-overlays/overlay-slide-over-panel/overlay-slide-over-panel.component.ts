@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -21,6 +21,32 @@ export class GpOverlaySlideOverPanelComponent {
   public close = output<void>();
   public cancel = output<void>();
   public save = output<{ configTag: string; workerNodes: number }>();
+
+  @Input() public headerTemplate?: TemplateRef<any>;
+  @Input() public bodyTemplate?: TemplateRef<any>;
+  @Input() public actionsTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('header') public contentHeader?: TemplateRef<any>;
+  @ContentChild('body') public contentBody?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveHeader(): TemplateRef<any> | undefined {
+    return this.headerTemplate || this.contentHeader;
+  }
+
+  public get effectiveBody(): TemplateRef<any> | undefined {
+    return this.bodyTemplate || this.contentBody;
+  }
+
+  public get effectiveActions(): TemplateRef<any> | undefined {
+    return this.actionsTemplate || this.contentActions;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 
   public onSave(): void {
     this.save.emit({

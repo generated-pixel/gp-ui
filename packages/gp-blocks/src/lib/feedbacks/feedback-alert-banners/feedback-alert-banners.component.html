@@ -1,18 +1,31 @@
-<div class="gp-alerts-stack" *ngIf="alerts() && alerts().length > 0">
-  <div
-    class="alert-box"
-    *ngFor="let a of alerts()"
-    [ngClass]="'alert-' + a.severity"
-  >
-    <div class="alert-icon-col">
-      <gp-icon [name]="a.icon || (a.severity === 'info' ? 'info-circle' : (a.severity === 'success' ? 'check-circle' : (a.severity === 'warning' ? 'exclamation-triangle' : 'times-circle')))" size="1.2em" />
-    </div>
-    <div class="alert-content-col">
-      <h4 class="alert-title">{{ a.title }}</h4>
-      <p class="alert-message">{{ a.message }}</p>
-    </div>
-    <button type="button" class="btn-dismiss" (click)="dismiss.emit(a)" title="Dismiss">
-      <gp-icon name="close" size="0.85em" />
-    </button>
-  </div>
+<div class="gp-alert-banners-group">
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[alerts], [slot=alerts]">
+      <ng-container *ngFor="let a of alerts()">
+        <ng-container *ngIf="effectiveAlertTemplate; else defaultAlert">
+          <ng-container *ngTemplateOutlet="effectiveAlertTemplate; context: { $implicit: a }" />
+        </ng-container>
+        <ng-template #defaultAlert>
+          <div class="alert-banner" [ngClass]="'severity-' + a.severity">
+            <div class="alert-left">
+              <div class="alert-ico">
+                <gp-icon [name]="a.icon || (a.severity === 'success' ? 'check' : (a.severity === 'danger' ? 'alert-triangle' : 'info'))" size="1.1em" />
+              </div>
+              <div class="alert-text">
+                <strong class="alert-title">{{ a.title }}</strong>
+                <span class="alert-msg">{{ a.message }}</span>
+              </div>
+            </div>
+            <button type="button" class="dismiss-btn" (click)="dismiss.emit(a)" aria-label="Dismiss alert">
+              <gp-icon name="close" size="0.85em" />
+            </button>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-content>
+  </ng-template>
+  <ng-content />
 </div>

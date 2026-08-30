@@ -1,37 +1,73 @@
-<div class="gp-slide-over-wrapper">
-  <div class="slide-over-card">
-    <div class="slide-head">
-      <h3 class="title">{{ title() }}</h3>
-      <button type="button" class="btn-close" (click)="close.emit()" title="Close">
-        <gp-icon name="close" size="0.85em" />
-      </button>
+<div class="gp-slide-over-backdrop" (click)="close.emit()">
+  <div class="gp-slide-panel" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <ng-container *ngIf="effectiveHeader; else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    </ng-container>
+    <ng-template #defaultHeader>
+      <ng-content select="[header], [slot=header]">
+        <div class="panel-head">
+          <div class="head-titles" *ngIf="title()">
+            <h3 class="head-title">{{ title() }}</h3>
+            <p class="head-desc" *ngIf="description()">{{ description() }}</p>
+          </div>
+          <button type="button" class="close-btn" (click)="close.emit()" aria-label="Close panel">
+            <gp-icon name="close" size="1.1em" />
+          </button>
+        </div>
+      </ng-content>
+    </ng-template>
+
+    <!-- Body -->
+    <div class="panel-body">
+      <ng-container *ngIf="effectiveContent; else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent" />
+      </ng-container>
+      <ng-template #defaultContent>
+        <ng-container *ngIf="effectiveBody; else defaultBody">
+          <ng-container *ngTemplateOutlet="effectiveBody" />
+        </ng-container>
+        <ng-template #defaultBody>
+          <ng-content select="[body], [slot=body]">
+            <div class="field-wrap">
+              <label class="input-label">Configuration Tag</label>
+              <input
+                type="text"
+                class="panel-input"
+                [value]="configTag()"
+                (input)="configTag.set($any($event.target).value)"
+                placeholder="tag-name"
+              />
+            </div>
+
+            <div class="field-wrap">
+              <label class="input-label">Worker Cluster Size (Nodes)</label>
+              <input
+                type="number"
+                class="panel-input"
+                [value]="workerNodes()"
+                (input)="workerNodes.set(+$any($event.target).value)"
+                min="1"
+                max="64"
+              />
+            </div>
+          </ng-content>
+        </ng-template>
+        <ng-content />
+      </ng-template>
     </div>
 
-    <div class="slide-body">
-      <p class="desc" *ngIf="description()">{{ description() }}</p>
-      <div class="field-box">
-        <label class="lbl">Cluster Configuration Tag</label>
-        <input
-          type="text"
-          [value]="configTag()"
-          (input)="configTag.set($any($event.target).value)"
-          class="inp"
-        />
-      </div>
-      <div class="field-box">
-        <label class="lbl">Allocated Worker Nodes</label>
-        <input
-          type="number"
-          [value]="workerNodes()"
-          (input)="workerNodes.set(+$any($event.target).value)"
-          class="inp"
-        />
-      </div>
-    </div>
-
-    <div class="slide-footer">
-      <gp-button variant="outlined" severity="secondary" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-      <gp-button severity="primary" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
-    </div>
+    <!-- Actions Footer -->
+    <ng-container *ngIf="effectiveActions; else defaultActions">
+      <ng-container *ngTemplateOutlet="effectiveActions" />
+    </ng-container>
+    <ng-template #defaultActions>
+      <ng-content select="[actions], [slot=actions]">
+        <div class="panel-foot">
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
+          <gp-button severity="primary" size="sm" (onClick)="onSave()">{{ saveBtnLabel() }}</gp-button>
+        </div>
+      </ng-content>
+    </ng-template>
   </div>
 </div>

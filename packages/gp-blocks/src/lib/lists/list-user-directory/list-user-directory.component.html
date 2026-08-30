@@ -1,32 +1,54 @@
-<div class="gp-user-directory-card">
-  <div class="dir-header">
-    <h3 class="title">{{ title() }}</h3>
-    <div class="search-input-mini">
-      <gp-icon name="search" size="0.8em" class="s-ico" />
-      <input
-        type="text"
-        [value]="searchQuery()"
-        [placeholder]="searchPlaceholder()"
-        (input)="onSearchInput($event)"
-        class="s-inp"
-      />
-    </div>
-  </div>
-
-  <div class="user-grid" *ngIf="users() && users().length > 0">
-    <div class="user-card-item" *ngFor="let u of users()">
-      <div class="user-avatar-wrap">
-        <gp-avatar [label]="u.name.charAt(0)" size="large" shape="circle" />
-        <span class="status-dot" [class.online]="u.online"></span>
+<div class="gp-user-directory-block">
+  <!-- Header with Search -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]">
+      <div class="dir-top" *ngIf="title()">
+        <h3 class="head-title">{{ title() }}</h3>
+        <div class="search-box">
+          <gp-icon name="search" size="0.9em" class="search-ico" />
+          <input
+            type="text"
+            [value]="searchQuery()"
+            [placeholder]="searchPlaceholder()"
+            (input)="onSearchInput($event)"
+            class="search-input"
+          />
+        </div>
       </div>
+    </ng-content>
+  </ng-template>
 
-      <span class="u-name">{{ u.name }}</span>
-      <span class="u-role">{{ u.role }}</span>
-
-      <div class="user-card-actions">
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="profileClick.emit(u)">{{ profileBtnLabel() }}</gp-button>
-        <gp-button severity="primary" size="sm" (onClick)="messageClick.emit(u)">{{ messageBtnLabel() }}</gp-button>
+  <!-- User Cards Grid Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[users], [slot=users], [directory], [slot=directory]">
+      <div class="user-grid" *ngIf="users() && users().length > 0">
+        <ng-container *ngFor="let u of users()">
+          <ng-container *ngIf="effectiveUserTemplate; else defaultUser">
+            <ng-container *ngTemplateOutlet="effectiveUserTemplate; context: { $implicit: u }" />
+          </ng-container>
+          <ng-template #defaultUser>
+            <div class="user-card">
+              <div class="avatar-wrap">
+                <gp-avatar [label]="u.name.charAt(0)" size="xlarge" shape="circle" />
+                <span class="online-indicator" *ngIf="u.online"></span>
+              </div>
+              <h4 class="user-name">{{ u.name }}</h4>
+              <span class="user-role">{{ u.role }}</span>
+              <div class="user-actions">
+                <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="profileClick.emit(u)">{{ profileBtnLabel() }}</gp-button>
+                <gp-button severity="primary" size="sm" (onClick)="messageClick.emit(u)">{{ messageBtnLabel() }}</gp-button>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
-    </div>
-  </div>
+    </ng-content>
+  </ng-template>
+  <ng-content />
 </div>

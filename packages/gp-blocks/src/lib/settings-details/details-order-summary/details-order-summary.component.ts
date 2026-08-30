@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpBadgeComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -32,4 +32,30 @@ export class GpDetailsOrderSummaryComponent {
 
   public downloadReceipt = output<void>();
   public itemClick = output<GpOrderItem>();
+
+  @Input() public headerTemplate?: TemplateRef<any>;
+  @Input() public itemsTemplate?: TemplateRef<any>;
+  @Input() public totalsTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('header') public contentHeader?: TemplateRef<any>;
+  @ContentChild('items') public contentItems?: TemplateRef<any>;
+  @ContentChild('totals') public contentTotals?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveHeader(): TemplateRef<any> | undefined {
+    return this.headerTemplate || this.contentHeader;
+  }
+
+  public get effectiveItems(): TemplateRef<any> | undefined {
+    return this.itemsTemplate || this.contentItems;
+  }
+
+  public get effectiveTotals(): TemplateRef<any> | undefined {
+    return this.totalsTemplate || this.contentTotals;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 }

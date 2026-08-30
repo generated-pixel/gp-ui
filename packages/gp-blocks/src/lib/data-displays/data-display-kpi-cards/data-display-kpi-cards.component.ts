@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -25,4 +25,18 @@ export class GpDataDisplayKpiCardsComponent {
   public kpis = input<GpKpiCardItem[]>([]);
 
   public kpiClick = output<GpKpiCardItem>();
+
+  @Input() public cardTemplate?: TemplateRef<{ $implicit: GpKpiCardItem }>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('cardTemplate') public contentCardTemplate?: TemplateRef<{ $implicit: GpKpiCardItem }>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveCardTemplate(): TemplateRef<{ $implicit: GpKpiCardItem }> | undefined {
+    return this.cardTemplate || this.contentCardTemplate;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 }

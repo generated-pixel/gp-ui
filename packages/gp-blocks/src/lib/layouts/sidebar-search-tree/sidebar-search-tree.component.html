@@ -1,50 +1,79 @@
 <div class="gp-sidebar-search-tree-shell">
   <aside class="tree-sidebar">
-    <!-- Search Input -->
-    <div class="sidebar-search-box">
-      <gp-icon name="search" size="0.9em" class="search-ico" />
-      <input
-        type="text"
-        [value]="searchQuery()"
-        [placeholder]="searchPlaceholder()"
-        (input)="onSearch($event)"
-        class="search-inp"
-      />
-    </div>
+    <ng-container *ngIf="effectiveSidebar; else defaultSidebar">
+      <ng-container *ngTemplateOutlet="effectiveSidebar" />
+    </ng-container>
+    <ng-template #defaultSidebar>
+      <ng-content select="[sidebar], [slot=sidebar]">
+        <!-- Search Input -->
+        <div class="sidebar-search-box">
+          <gp-icon name="search" size="0.9em" class="search-ico" />
+          <input
+            type="text"
+            [value]="searchQuery()"
+            [placeholder]="searchPlaceholder()"
+            (input)="onSearch($event)"
+            class="search-inp"
+          />
+        </div>
 
-    <div class="tree-container">
-      <div class="tree-group-label" *ngIf="catalogLabel()">{{ catalogLabel() }}</div>
-      <div
-        class="tree-node"
-        *ngFor="let node of treeData()"
-        [class.expanded]="node.expanded"
-      >
-        <div class="node-row" (click)="toggleNode(node)" style="cursor: pointer;">
-          <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
-          <gp-icon [name]="node.expanded ? 'folder-open' : 'folder'" size="0.9em" class="folder-ico" />
-          <span>{{ node.label }}</span>
+        <div class="tree-container">
+          <ng-container *ngIf="effectiveTree; else defaultTree">
+            <ng-container *ngTemplateOutlet="effectiveTree" />
+          </ng-container>
+          <ng-template #defaultTree>
+            <ng-content select="[tree], [slot=tree]">
+              <div class="tree-group-label" *ngIf="catalogLabel()">{{ catalogLabel() }}</div>
+              <div
+                class="tree-node"
+                *ngFor="let node of treeData()"
+                [class.expanded]="node.expanded"
+              >
+                <div class="node-row" (click)="toggleNode(node)" style="cursor: pointer;">
+                  <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
+                  <gp-icon [name]="node.expanded ? 'folder-open' : 'folder'" size="0.9em" class="folder-ico" />
+                  <span>{{ node.label }}</span>
+                </div>
+                <div class="node-children" *ngIf="node.expanded && node.children">
+                  <div
+                    class="leaf-node"
+                    *ngFor="let leaf of node.children"
+                    [class.active]="leaf.id === activeLeafId() || leaf.active"
+                    (click)="leafClick.emit(leaf)"
+                    style="cursor: pointer;"
+                  >
+                    <span>{{ leaf.label }}</span>
+                  </div>
+                </div>
+              </div>
+            </ng-content>
+          </ng-template>
         </div>
-        <div class="node-children" *ngIf="node.expanded && node.children">
-          <div
-            class="leaf-node"
-            *ngFor="let leaf of node.children"
-            [class.active]="leaf.id === activeLeafId() || leaf.active"
-            (click)="leafClick.emit(leaf)"
-            style="cursor: pointer;"
-          >
-            <span>{{ leaf.label }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      </ng-content>
+    </ng-template>
   </aside>
 
   <div class="main-shell">
     <header class="top-nav-bar">
       <h2 class="page-title">{{ title() }}</h2>
+      <div class="top-actions">
+        <ng-container *ngIf="effectiveTopActions; else projectedTopActions">
+          <ng-container *ngTemplateOutlet="effectiveTopActions" />
+        </ng-container>
+        <ng-template #projectedTopActions>
+          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        </ng-template>
+      </div>
     </header>
     <main class="page-content-area">
-      <ng-content />
+      <ng-container *ngIf="effectiveContent; else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent" />
+      </ng-container>
+      <ng-template #defaultContent>
+        <ng-content select="[main], [slot=main], [content], [slot=content]">
+          <ng-content />
+        </ng-content>
+      </ng-template>
     </main>
   </div>
 </div>

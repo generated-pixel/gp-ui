@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -24,4 +24,24 @@ export class GpNavTabNavigationComponent {
 
   public underlineTabChange = output<GpNavTabItem>();
   public pillTabChange = output<GpNavTabItem>();
+
+  @Input() public underlineTabsTemplate?: TemplateRef<any>;
+  @Input() public pillTabsTemplate?: TemplateRef<any>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('underlineTabs') public contentUnderlineTabs?: TemplateRef<any>;
+  @ContentChild('pillTabs') public contentPillTabs?: TemplateRef<any>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveUnderlineTabs(): TemplateRef<any> | undefined {
+    return this.underlineTabsTemplate || this.contentUnderlineTabs;
+  }
+
+  public get effectivePillTabs(): TemplateRef<any> | undefined {
+    return this.pillTabsTemplate || this.contentPillTabs;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 }

@@ -1,18 +1,35 @@
-<div class="gp-header-stats-card">
-  <div class="header-left">
-    <h1 class="header-title">{{ title() }}</h1>
-    <p class="header-desc" *ngIf="description()">{{ description() }}</p>
+<div class="gp-header-stats-wrapper">
+  <div class="header-content-col">
+    <ng-container *ngIf="effectiveTitle; else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    </ng-container>
+    <ng-template #defaultTitle>
+      <ng-content select="[title], [slot=title]">
+        <h2 class="header-title">{{ title() }}</h2>
+        <p class="header-desc" *ngIf="description()">{{ description() }}</p>
+      </ng-content>
+    </ng-template>
   </div>
 
-  <div class="header-right-stats" *ngIf="stats() && stats().length > 0">
-    <div
-      class="stat-pill"
-      *ngFor="let s of stats()"
-      (click)="statClick.emit(s)"
-      style="cursor: pointer;"
-    >
-      <span class="p-label">{{ s.label }}</span>
-      <span class="p-val">{{ s.value }}</span>
-    </div>
+  <div class="header-stats-col">
+    <ng-container *ngIf="effectiveStats; else defaultStats">
+      <ng-container *ngTemplateOutlet="effectiveStats" />
+    </ng-container>
+    <ng-template #defaultStats>
+      <ng-content select="[stats], [slot=stats]">
+        <div class="stats-row" *ngIf="stats() && stats().length > 0">
+          <div
+            class="stat-box"
+            *ngFor="let s of stats()"
+            (click)="statClick.emit(s)"
+            style="cursor: pointer;"
+          >
+            <span class="stat-label">{{ s.label }}</span>
+            <span class="stat-value">{{ s.value }}</span>
+          </div>
+        </div>
+      </ng-content>
+    </ng-template>
   </div>
+  <ng-content />
 </div>

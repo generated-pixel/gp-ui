@@ -1,27 +1,60 @@
-<div class="gp-success-confirm-card">
-  <div class="success-icon-wrap">
-    <gp-icon [name]="icon()" size="2.5em" />
-  </div>
-  <h1 class="success-title">{{ title() }}</h1>
-  <p class="success-desc" *ngIf="description()">{{ description() }}</p>
+<div class="gp-page-state-shell">
+  <div class="state-card">
+    <ng-container *ngIf="effectiveContent; else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent" />
+    </ng-container>
+    <ng-template #defaultContent>
+      <!-- Success Icon -->
+      <ng-container *ngIf="effectiveIcon; else defaultIcon">
+        <ng-container *ngTemplateOutlet="effectiveIcon" />
+      </ng-container>
+      <ng-template #defaultIcon>
+        <ng-content select="[icon], [slot=icon]">
+          <div class="success-icon-box">
+            <gp-icon [name]="icon()" size="2em" />
+          </div>
+        </ng-content>
+      </ng-template>
 
-  <div class="receipt-box">
-    <div class="receipt-row" *ngIf="orderNumber()">
-      <span>{{ orderNumberLabel() }}</span>
-      <strong>{{ orderNumber() }}</strong>
-    </div>
-    <div class="receipt-row" *ngIf="email()">
-      <span>{{ emailLabel() }}</span>
-      <strong>{{ email() }}</strong>
-    </div>
-  </div>
+      <!-- Headings -->
+      <h2 class="state-title" *ngIf="title()">{{ title() }}</h2>
+      <p class="state-desc" *ngIf="description()">{{ description() }}</p>
 
-  <div class="success-actions">
-    <gp-button *ngIf="secondaryBtnLabel()" variant="outlined" severity="secondary" (onClick)="secondaryAction.emit()">
-      {{ secondaryBtnLabel() }}
-    </gp-button>
-    <gp-button *ngIf="primaryBtnLabel()" severity="primary" (onClick)="primaryAction.emit()">
-      {{ primaryBtnLabel() }}
-    </gp-button>
+      <!-- Details Box -->
+      <ng-container *ngIf="effectiveDetails; else defaultDetails">
+        <ng-container *ngTemplateOutlet="effectiveDetails" />
+      </ng-container>
+      <ng-template #defaultDetails>
+        <ng-content select="[details], [slot=details]">
+          <div class="receipt-box" *ngIf="orderNumber() || email()">
+            <div class="receipt-row" *ngIf="orderNumber()">
+              <span>{{ orderNumberLabel() }}</span>
+              <strong>{{ orderNumber() }}</strong>
+            </div>
+            <div class="receipt-row" *ngIf="email()">
+              <span>{{ emailLabel() }}</span>
+              <strong>{{ email() }}</strong>
+            </div>
+          </div>
+        </ng-content>
+      </ng-template>
+
+      <!-- Actions -->
+      <ng-container *ngIf="effectiveActions; else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions" />
+      </ng-container>
+      <ng-template #defaultActions>
+        <ng-content select="[actions], [slot=actions]">
+          <div class="state-actions-row">
+            <gp-button variant="outlined" severity="secondary" (onClick)="secondaryAction.emit()">{{ secondaryBtnLabel() }}</gp-button>
+            <gp-button severity="primary" (onClick)="primaryAction.emit()">
+              <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+              {{ primaryBtnLabel() }}
+            </gp-button>
+          </div>
+        </ng-content>
+      </ng-template>
+      <ng-content />
+    </ng-template>
   </div>
 </div>

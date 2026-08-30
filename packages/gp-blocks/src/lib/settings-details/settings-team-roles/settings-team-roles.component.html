@@ -1,48 +1,57 @@
 <div class="gp-settings-card">
-  <div class="settings-head-row">
-    <div>
-      <h3 class="settings-title">{{ title() }}</h3>
-      <p class="settings-subtitle">{{ subtitle() }}</p>
-    </div>
-    <gp-button severity="primary" (onClick)="inviteMember.emit()">
-      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-      {{ inviteBtnLabel() }}
-    </gp-button>
-  </div>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]">
+      <div class="settings-head-action-row">
+        <div>
+          <h3 class="settings-title">{{ title() }}</h3>
+          <p class="settings-subtitle">{{ subtitle() }}</p>
+        </div>
+        <gp-button severity="primary" size="sm" (onClick)="inviteMember.emit()">
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+          {{ inviteBtnLabel() }}
+        </gp-button>
+      </div>
+    </ng-content>
+  </ng-template>
 
-  <div class="members-table-wrap" *ngIf="members() && members().length > 0">
-    <table class="members-table">
-      <thead>
-        <tr>
-          <th>Member</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let m of members()">
-          <td>
-            <div class="member-cell">
-              <gp-avatar [label]="m.name.charAt(0)" size="normal" shape="circle" />
-              <div>
-                <div class="m-name">{{ m.name }}</div>
-                <div class="m-email">{{ m.email }}</div>
+  <!-- Content Override or Members List -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[content], [slot=content]">
+      <ng-container *ngIf="effectiveMembers; else defaultMembers">
+        <ng-container *ngTemplateOutlet="effectiveMembers" />
+      </ng-container>
+      <ng-template #defaultMembers>
+        <ng-content select="[members], [slot=members]">
+          <div class="team-list" *ngIf="members() && members().length > 0">
+            <div
+              class="team-member-row"
+              *ngFor="let m of members()"
+              (click)="editMember.emit(m)"
+              style="cursor: pointer;"
+            >
+              <div class="member-profile">
+                <gp-avatar [label]="m.name.charAt(0)" size="normal" shape="circle" />
+                <div class="member-meta">
+                  <span class="member-name">{{ m.name }}</span>
+                  <span class="member-email">{{ m.email }}</span>
+                </div>
+              </div>
+              <div class="member-right">
+                <span class="role-badge">{{ m.role }}</span>
+                <gp-badge [value]="m.status" [severity]="m.status === 'Active' ? 'success' : 'secondary'" />
               </div>
             </div>
-          </td>
-          <td><span class="role-tag">{{ m.role }}</span></td>
-          <td>
-            <gp-badge
-              [value]="m.status"
-              [severity]="m.status === 'Active' ? 'success' : (m.status === 'Pending Invite' ? 'warning' : 'secondary')"
-            />
-          </td>
-          <td>
-            <gp-button variant="text" severity="secondary" size="sm" (onClick)="editMember.emit(m)">Edit</gp-button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          </div>
+        </ng-content>
+      </ng-template>
+      <ng-content />
+    </ng-content>
+  </ng-template>
 </div>

@@ -1,34 +1,69 @@
-<div class="gp-command-palette-backdrop" (click)="close.emit()">
-  <div class="palette-modal" (click)="$event.stopPropagation()">
-    <div class="palette-input-row">
-      <gp-icon name="search" size="1.1em" class="p-search-ico" />
-      <input
-        type="text"
-        [value]="searchQuery()"
-        [placeholder]="placeholder()"
-        (input)="onInput($event)"
-        class="p-input"
-        autofocus
-      />
-      <span class="p-esc-hint" (click)="close.emit()" style="cursor: pointer;">ESC</span>
-    </div>
+<div class="gp-palette-backdrop" (click)="close.emit()">
+  <div class="gp-palette-dialog" (click)="$event.stopPropagation()">
+    <ng-container *ngIf="effectiveContent; else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent" />
+    </ng-container>
+    <ng-template #defaultContent>
+      <!-- Search Input Top -->
+      <ng-container *ngIf="effectiveSearch; else defaultSearch">
+        <ng-container *ngTemplateOutlet="effectiveSearch" />
+      </ng-container>
+      <ng-template #defaultSearch>
+        <ng-content select="[search], [slot=search]">
+          <div class="palette-search-row">
+            <gp-icon name="search" size="1.1em" class="search-ico" />
+            <input
+              type="text"
+              class="search-field"
+              [placeholder]="placeholder()"
+              [value]="searchQuery()"
+              (input)="onInput($event)"
+              autofocus
+            />
+            <span class="esc-badge">ESC</span>
+          </div>
+        </ng-content>
+      </ng-template>
 
-    <div class="palette-results" *ngIf="commands() && commands().length > 0">
-      <div class="results-group-label" *ngIf="groupLabel()">{{ groupLabel() }}</div>
-      <div
-        class="palette-item"
-        *ngFor="let item of commands()"
-        [class.active]="item.active"
-        (click)="selectCommand.emit(item)"
-        style="cursor: pointer;"
-      >
-        <gp-icon [name]="item.icon || 'plus'" size="1em" class="item-ico" />
-        <div class="item-text">
-          <span class="main-label">{{ item.label }}</span>
-          <span class="sub-label" *ngIf="item.subLabel">{{ item.subLabel }}</span>
+      <!-- Commands List -->
+      <ng-content select="[commands], [slot=commands]">
+        <div class="palette-body" *ngIf="commands() && commands().length > 0">
+          <div class="group-tag" *ngIf="groupLabel()">{{ groupLabel() }}</div>
+          <div class="commands-list">
+            <ng-container *ngFor="let cmd of commands()">
+              <ng-container *ngIf="effectiveCommandTemplate; else defaultCmd">
+                <ng-container *ngTemplateOutlet="effectiveCommandTemplate; context: { $implicit: cmd }" />
+              </ng-container>
+              <ng-template #defaultCmd>
+                <div
+                  class="cmd-item"
+                  [class.active]="cmd.active"
+                  (click)="selectCommand.emit(cmd)"
+                  style="cursor: pointer;"
+                >
+                  <div class="cmd-left">
+                    <gp-icon *ngIf="cmd.icon" [name]="cmd.icon" size="1em" class="cmd-ico" />
+                    <div class="cmd-label-group">
+                      <span class="cmd-label">{{ cmd.label }}</span>
+                      <span class="cmd-sub" *ngIf="cmd.subLabel">{{ cmd.subLabel }}</span>
+                    </div>
+                  </div>
+                  <span class="cmd-shortcut" *ngIf="cmd.shortcut">{{ cmd.shortcut }}</span>
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
         </div>
-        <span class="item-shortcut" *ngIf="item.shortcut">{{ item.shortcut }}</span>
+      </ng-content>
+
+      <!-- Palette Footer -->
+      <div class="palette-foot">
+        <div class="nav-hint">
+          <span>&uarr; &darr; navigate</span>
+          <span>&crarr; select</span>
+        </div>
       </div>
-    </div>
+      <ng-content />
+    </ng-template>
   </div>
 </div>

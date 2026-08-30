@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpAvatarComponent, GpBadgeComponent, GpIconComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -20,4 +20,24 @@ export class GpHeaderProfileBannerComponent {
 
   public connectClick = output<void>();
   public messageClick = output<void>();
+
+  @Input() public bannerTemplate?: TemplateRef<any>;
+  @Input() public profileTemplate?: TemplateRef<any>;
+  @Input() public actionsTemplate?: TemplateRef<any>;
+
+  @ContentChild('banner') public contentBanner?: TemplateRef<any>;
+  @ContentChild('profile') public contentProfile?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+
+  public get effectiveBanner(): TemplateRef<any> | undefined {
+    return this.bannerTemplate || this.contentBanner;
+  }
+
+  public get effectiveProfile(): TemplateRef<any> | undefined {
+    return this.profileTemplate || this.contentProfile;
+  }
+
+  public get effectiveActions(): TemplateRef<any> | undefined {
+    return this.actionsTemplate || this.contentActions;
+  }
 }

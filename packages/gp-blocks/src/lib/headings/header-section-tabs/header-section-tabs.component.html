@@ -1,29 +1,56 @@
-<div class="gp-header-section-tabs-card">
-  <div class="header-upper">
-    <div>
-      <h2 class="title">{{ title() }}</h2>
-      <p class="desc" *ngIf="description()">{{ description() }}</p>
+<div class="gp-section-tabs-header">
+  <div class="header-top-row">
+    <ng-container *ngIf="effectiveTitle; else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    </ng-container>
+    <ng-template #defaultTitle>
+      <ng-content select="[title], [slot=title]">
+        <div class="header-titles">
+          <h3 class="section-title">{{ title() }}</h3>
+          <p class="section-desc" *ngIf="description()">{{ description() }}</p>
+        </div>
+      </ng-content>
+    </ng-template>
+
+    <div class="header-actions">
+      <ng-container *ngIf="effectiveActions; else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions" />
+      </ng-container>
+      <ng-template #defaultActions>
+        <ng-content select="[actions], [slot=actions]">
+          <gp-button severity="primary" size="sm" (onClick)="actionClick.emit()">
+            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+            {{ actionBtnLabel() }}
+          </gp-button>
+        </ng-content>
+      </ng-template>
     </div>
-    <gp-button severity="primary" size="sm" (onClick)="actionClick.emit()">
-      <gp-icon name="plus" size="0.8em" style="margin-right: 0.3rem;" />
-      {{ actionBtnLabel() }}
-    </gp-button>
   </div>
 
-  <div class="tabs-nav-bar" *ngIf="tabs() && tabs().length > 0">
-    <a
-      href="javascript:void(0)"
-      *ngFor="let tab of tabs()"
-      class="tab-link"
-      [class.active]="tab.id === activeTabId() || tab.active"
-      (click)="onTabClick(tab)"
-    >
-      <span>{{ tab.label }}</span>
-      <gp-badge
-        *ngIf="tab.count !== undefined"
-        [value]="tab.count.toString()"
-        [severity]="tab.badgeSeverity || 'primary'"
-      />
-    </a>
+  <div class="tabs-nav-bar">
+    <ng-container *ngIf="effectiveTabs; else defaultTabs">
+      <ng-container *ngTemplateOutlet="effectiveTabs" />
+    </ng-container>
+    <ng-template #defaultTabs>
+      <ng-content select="[tabs], [slot=tabs]">
+        <div class="tabs-list" *ngIf="tabs() && tabs().length > 0">
+          <button
+            type="button"
+            *ngFor="let t of tabs()"
+            class="tab-link"
+            [class.active]="t.id === activeTabId() || t.active"
+            (click)="onTabClick(t)"
+          >
+            <span>{{ t.label }}</span>
+            <gp-badge
+              *ngIf="t.count !== undefined"
+              [value]="t.count"
+              [severity]="t.badgeSeverity || (t.id === activeTabId() || t.active ? 'primary' : 'secondary')"
+            />
+          </button>
+        </div>
+      </ng-content>
+    </ng-template>
   </div>
+  <ng-content />
 </div>

@@ -141,7 +141,6 @@ export interface BlockItem {
     FormsModule,
     RouterModule,
     GpBadgeComponent,
-    GpButtonComponent,
     GpIconComponent,
     GpCarouselComponent,
     // Layouts

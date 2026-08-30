@@ -1,42 +1,75 @@
-<div class="gp-header-search-filters-card">
-  <div class="top-row">
-    <div>
-      <h2 class="title">{{ title() }}</h2>
-      <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+<div class="gp-search-filter-header">
+  <div class="header-top-row">
+    <ng-container *ngIf="effectiveTitle; else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    </ng-container>
+    <ng-template #defaultTitle>
+      <ng-content select="[title], [slot=title]">
+        <div class="header-titles">
+          <h2 class="head-title">{{ title() }}</h2>
+          <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+        </div>
+      </ng-content>
+    </ng-template>
+
+    <div class="top-action-slot">
+      <ng-container *ngIf="effectiveActions; else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions" />
+      </ng-container>
+      <ng-template #defaultActions>
+        <ng-content select="[actions], [slot=actions]">
+          <gp-button severity="primary" size="sm" (onClick)="createClick.emit()">
+            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+            {{ createBtnLabel() }}
+          </gp-button>
+        </ng-content>
+      </ng-template>
     </div>
-    <gp-button severity="primary" (onClick)="createClick.emit()">
-      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-      {{ createBtnLabel() }}
-    </gp-button>
   </div>
 
-  <!-- Filters and Search Toolbar -->
-  <div class="filters-toolbar">
-    <div class="search-input-box">
-      <gp-icon name="search" size="0.85em" class="s-ico" />
-      <input
-        type="text"
-        [value]="searchQuery()"
-        [placeholder]="searchPlaceholder()"
-        (input)="onSearchInput($event)"
-        class="s-inp"
-      />
-    </div>
+  <div class="filter-controls-row">
+    <ng-container *ngIf="effectiveSearch; else defaultSearch">
+      <ng-container *ngTemplateOutlet="effectiveSearch" />
+    </ng-container>
+    <ng-template #defaultSearch>
+      <ng-content select="[search], [slot=search]">
+        <div class="search-box">
+          <gp-icon name="search" size="0.9em" class="search-ico" />
+          <input
+            type="text"
+            [value]="searchQuery()"
+            [placeholder]="searchPlaceholder()"
+            (input)="onSearchInput($event)"
+            class="search-input"
+          />
+        </div>
+      </ng-content>
+    </ng-template>
 
-    <div class="filter-dropdowns">
-      <select
-        class="custom-select"
-        *ngFor="let g of filterGroups()"
-        [value]="g.selectedValue || g.options[0]?.value"
-        (change)="onSelectChange(g.id, $event)"
-      >
-        <option *ngFor="let opt of g.options" [value]="opt.value">{{ opt.label }}</option>
-      </select>
+    <ng-container *ngIf="effectiveFilters; else defaultFilters">
+      <ng-container *ngTemplateOutlet="effectiveFilters" />
+    </ng-container>
+    <ng-template #defaultFilters>
+      <ng-content select="[filters], [slot=filters]">
+        <div class="dropdowns-group" *ngIf="filterGroups() && filterGroups().length > 0">
+          <select
+            *ngFor="let g of filterGroups()"
+            class="filter-select"
+            [value]="g.selectedValue || ''"
+            (change)="onSelectChange(g.id, $event)"
+          >
+            <option *ngFor="let opt of g.options" [value]="opt.value">{{ opt.label }}</option>
+          </select>
+        </div>
+      </ng-content>
+    </ng-template>
 
-      <gp-button variant="outlined" severity="secondary" (onClick)="moreFiltersClick.emit()">
-        <gp-icon name="filter" size="0.85em" style="margin-right: 0.35rem;" />
-        More Filters
+    <div class="filter-btn-wrap">
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClick)="moreFiltersClick.emit()">
+        <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem;" />
+        Filters
       </gp-button>
     </div>
   </div>
+  <ng-content />
 </div>

@@ -16,11 +16,11 @@ try {
   console.log('4/7 Building Core Component Library (ng-packagr)...');
   execSync('npx ng-packagr -p packages/gp-ui/ng-package.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
-  console.log('5/7 Building gp-blocks Library (ng-packagr)...');
-  execSync('npx ng-packagr -p packages/gp-blocks/ng-package.json -c packages/gp-blocks/tsconfig.lib.prod.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
-
-  console.log('6/7 Building gp-grid Package (ng-packagr)...');
+  console.log('5/7 Building gp-grid Package (ng-packagr)...');
   execSync('npx ng-packagr -p packages/gp-grid/ng-package.json -c packages/gp-grid/tsconfig.lib.prod.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+
+  console.log('6/7 Building gp-blocks Library (ng-packagr)...');
+  execSync('npx ng-packagr -p packages/gp-blocks/ng-package.json -c packages/gp-blocks/tsconfig.lib.prod.json', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
   console.log('7/7 Building Demo Application (ng build gp-ui-demo)...');
   execSync('npx ng build gp-ui-demo', { stdio: 'inherit', cwd: path.join(__dirname, '..') });

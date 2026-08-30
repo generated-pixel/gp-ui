@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -21,4 +21,18 @@ export class GpFeedbackToastStatusComponent {
   public toasts = input<GpToastStatusItem[]>([]);
 
   public closeToast = output<GpToastStatusItem>();
+
+  @Input() public toastTemplate?: TemplateRef<{ $implicit: GpToastStatusItem }>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('toastTemplate') public contentToastTemplate?: TemplateRef<{ $implicit: GpToastStatusItem }>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveToastTemplate(): TemplateRef<{ $implicit: GpToastStatusItem }> | undefined {
+    return this.toastTemplate || this.contentToastTemplate;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 }

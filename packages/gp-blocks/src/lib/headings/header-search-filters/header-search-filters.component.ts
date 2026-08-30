@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -33,6 +33,32 @@ export class GpHeaderSearchFiltersComponent {
   public createClick = output<void>();
   public moreFiltersClick = output<void>();
   public filterChange = output<{ groupId: string; value: string }>();
+
+  @Input() public titleTemplate?: TemplateRef<any>;
+  @Input() public searchTemplate?: TemplateRef<any>;
+  @Input() public filtersTemplate?: TemplateRef<any>;
+  @Input() public actionsTemplate?: TemplateRef<any>;
+
+  @ContentChild('title') public contentTitle?: TemplateRef<any>;
+  @ContentChild('search') public contentSearch?: TemplateRef<any>;
+  @ContentChild('filters') public contentFilters?: TemplateRef<any>;
+  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+
+  public get effectiveTitle(): TemplateRef<any> | undefined {
+    return this.titleTemplate || this.contentTitle;
+  }
+
+  public get effectiveSearch(): TemplateRef<any> | undefined {
+    return this.searchTemplate || this.contentSearch;
+  }
+
+  public get effectiveFilters(): TemplateRef<any> | undefined {
+    return this.filtersTemplate || this.contentFilters;
+  }
+
+  public get effectiveActions(): TemplateRef<any> | undefined {
+    return this.actionsTemplate || this.contentActions;
+  }
 
   public onSearchInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;

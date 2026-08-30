@@ -1,31 +1,53 @@
 <div class="gp-timeline-stream-card">
-  <h3 class="timeline-title">{{ title() }}</h3>
+  <!-- Header -->
+  <ng-container *ngIf="effectiveHeader; else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  </ng-container>
+  <ng-template #defaultHeader>
+    <ng-content select="[header], [slot=header]">
+      <h3 class="card-head-title" *ngIf="title()">{{ title() }}</h3>
+    </ng-content>
+  </ng-template>
 
-  <div class="stream-feed" *ngIf="events() && events().length > 0">
-    <div
-      class="stream-item"
-      *ngFor="let item of events(); let last = last"
-      (click)="eventClick.emit(item)"
-      style="cursor: pointer;"
-    >
-      <div class="stream-line-col">
-        <div class="stream-icon-badge" [style.backgroundColor]="item.color || 'var(--gp-primary)'">
-          <gp-icon [name]="item.icon || 'check'" size="0.8em" style="color: #fff;" />
-        </div>
-        <div class="stream-v-line" *ngIf="!last"></div>
+  <!-- Timeline Body -->
+  <ng-container *ngIf="effectiveContent; else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent" />
+  </ng-container>
+  <ng-template #defaultContent>
+    <ng-content select="[events], [slot=events], [timeline], [slot=timeline]">
+      <div class="stream-flow" *ngIf="events() && events().length > 0">
+        <ng-container *ngFor="let ev of events()">
+          <ng-container *ngIf="effectiveEventTemplate; else defaultEvent">
+            <ng-container *ngTemplateOutlet="effectiveEventTemplate; context: { $implicit: ev }" />
+          </ng-container>
+          <ng-template #defaultEvent>
+            <div
+              class="stream-node"
+              (click)="eventClick.emit(ev)"
+              style="cursor: pointer;"
+            >
+              <div class="node-left-track">
+                <div class="icon-orb" [style.backgroundColor]="ev.color || 'var(--gp-primary)'">
+                  <gp-icon [name]="ev.icon || 'star'" size="0.75em" />
+                </div>
+                <div class="track-line"></div>
+              </div>
+              <div class="node-body">
+                <div class="node-head">
+                  <span class="node-title">{{ ev.title }}</span>
+                  <span class="node-time">{{ ev.time }}</span>
+                </div>
+                <p class="node-desc" *ngIf="ev.desc">{{ ev.desc }}</p>
+                <div class="node-author" *ngIf="ev.author">
+                  <gp-avatar [label]="ev.author.charAt(0)" size="normal" shape="circle" />
+                  <span>{{ ev.author }}</span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
       </div>
-
-      <div class="stream-body">
-        <div class="body-top">
-          <span class="event-title">{{ item.title }}</span>
-          <span class="event-time">{{ item.time }}</span>
-        </div>
-        <p class="event-desc">{{ item.desc }}</p>
-        <div class="event-author" *ngIf="item.author">
-          <gp-avatar [label]="item.author.charAt(0)" size="normal" shape="circle" />
-          <span class="author-name">{{ item.author }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    </ng-content>
+  </ng-template>
+  <ng-content />
 </div>

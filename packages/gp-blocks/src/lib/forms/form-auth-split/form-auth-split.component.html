@@ -1,63 +1,87 @@
-<div class="gp-auth-split-card">
-  <div class="auth-left-brand-panel">
-    <div class="brand-top">
-      <gp-icon [name]="brandIcon()" size="1.4em" />
-      <span>{{ brandName() }}</span>
-    </div>
-    <div class="brand-hero">
-      <h2>{{ heroTitle() }}</h2>
-      <p>{{ heroDesc() }}</p>
-    </div>
-    <div class="brand-footer">
-      <span>&copy; 2026 {{ brandName() }}</span>
-    </div>
+<div class="gp-auth-split-shell">
+  <!-- Left Brand Hero Column -->
+  <div class="auth-hero-col">
+    <ng-container *ngIf="effectiveHero; else defaultHero">
+      <ng-container *ngTemplateOutlet="effectiveHero" />
+    </ng-container>
+    <ng-template #defaultHero>
+      <ng-content select="[hero], [slot=hero]">
+        <div class="brand-row" *ngIf="brandName()">
+          <div class="brand-sq">
+            <gp-icon [name]="brandIcon()" size="1.2em" />
+          </div>
+          <span class="brand-name">{{ brandName() }}</span>
+        </div>
+        <div class="hero-center-content">
+          <h1 class="hero-title" *ngIf="heroTitle()">{{ heroTitle() }}</h1>
+          <p class="hero-desc" *ngIf="heroDesc()">{{ heroDesc() }}</p>
+        </div>
+      </ng-content>
+    </ng-template>
   </div>
 
-  <div class="auth-right-form-panel">
-    <div class="form-wrapper">
-      <h2 class="auth-title">{{ formTitle() }}</h2>
-      <p class="auth-subtitle">{{ formSubtitle() }}</p>
+  <!-- Right Form Column -->
+  <div class="auth-form-col">
+    <div class="form-container-card">
+      <ng-container *ngIf="effectiveContent; else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent" />
+      </ng-container>
+      <ng-template #defaultContent>
+        <ng-container *ngIf="effectiveForm; else defaultForm">
+          <ng-container *ngTemplateOutlet="effectiveForm" />
+        </ng-container>
+        <ng-template #defaultForm>
+          <ng-content select="[form], [slot=form]">
+            <div class="auth-form-head" *ngIf="formTitle()">
+              <h2 class="form-title">{{ formTitle() }}</h2>
+              <p class="form-sub" *ngIf="formSubtitle()">{{ formSubtitle() }}</p>
+            </div>
 
-      <form class="auth-form-body" (submit)="$event.preventDefault(); onSubmit()">
-        <div class="form-group">
-          <label class="lbl">Email address</label>
-          <input
-            type="email"
-            class="form-inp"
-            [value]="email()"
-            (input)="email.set($any($event.target).value)"
-            placeholder="you@company.com"
-          />
-        </div>
+            <div class="auth-form-body">
+              <div class="form-field">
+                <label class="input-label">Email Address</label>
+                <input
+                  type="email"
+                  class="form-input"
+                  [value]="email()"
+                  (input)="email.set($any($event.target).value)"
+                  placeholder="name@company.com"
+                />
+              </div>
 
-        <div class="form-group">
-          <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <label class="lbl" style="margin-bottom: 0;">Password</label>
-            <a href="javascript:void(0)" class="forgot-link" (click)="forgotPasswordClick.emit()" style="font-size: 0.85em; color: var(--gp-primary-500, #3b82f6); text-decoration: none;">Forgot password?</a>
-          </div>
-          <input
-            type="password"
-            class="form-inp"
-            [value]="password()"
-            (input)="password.set($any($event.target).value)"
-            placeholder="••••••••"
-          />
-        </div>
+              <div class="form-field">
+                <div class="pass-label-row">
+                  <label class="input-label">Password</label>
+                  <a href="javascript:void(0)" class="forgot-link" (click)="forgotPasswordClick.emit()">Forgot password?</a>
+                </div>
+                <input
+                  type="password"
+                  class="form-input"
+                  [value]="password()"
+                  (input)="password.set($any($event.target).value)"
+                  placeholder="Enter your password"
+                />
+              </div>
 
-        <div class="form-group-remember" style="display: flex; align-items: center; gap: 0.5rem; margin: 0.75rem 0;">
-          <input
-            type="checkbox"
-            id="rememberMeCheck"
-            [checked]="rememberMe()"
-            (change)="rememberMe.set($any($event.target).checked)"
-          />
-          <label for="rememberMeCheck" style="font-size: 0.85em; cursor: pointer; color: var(--gp-text-color-secondary, #64748b);">Remember this device for 30 days</label>
-        </div>
+              <div class="remember-row">
+                <label class="check-label">
+                  <input
+                    type="checkbox"
+                    [checked]="rememberMe()"
+                    (change)="rememberMe.set($any($event.target).checked)"
+                  />
+                  <span>Remember this device for 30 days</span>
+                </label>
+              </div>
 
-        <gp-button severity="primary" class="full-width-control" (onClick)="onSubmit()">
-          {{ submitBtnLabel() }}
-        </gp-button>
-      </form>
+              <gp-button severity="primary" [style]="{ width: '100%' }" (onClick)="onSubmit()">
+                {{ submitBtnLabel() }}
+              </gp-button>
+            </div>
+          </ng-content>
+        </ng-template>
+        <ng-content />
+      </ng-template>
     </div>
   </div>
 </div>

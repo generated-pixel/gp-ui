@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -28,6 +28,26 @@ export class GpOverlayCommandPaletteComponent {
   public searchChange = output<string>();
   public selectCommand = output<GpPaletteCommandItem>();
   public close = output<void>();
+
+  @Input() public searchTemplate?: TemplateRef<any>;
+  @Input() public commandTemplate?: TemplateRef<{ $implicit: GpPaletteCommandItem }>;
+  @Input() public contentTemplate?: TemplateRef<any>;
+
+  @ContentChild('search') public contentSearch?: TemplateRef<any>;
+  @ContentChild('commandTemplate') public contentCommandTemplate?: TemplateRef<{ $implicit: GpPaletteCommandItem }>;
+  @ContentChild('content') public contentArea?: TemplateRef<any>;
+
+  public get effectiveSearch(): TemplateRef<any> | undefined {
+    return this.searchTemplate || this.contentSearch;
+  }
+
+  public get effectiveCommandTemplate(): TemplateRef<{ $implicit: GpPaletteCommandItem }> | undefined {
+    return this.commandTemplate || this.contentCommandTemplate;
+  }
+
+  public get effectiveContent(): TemplateRef<any> | undefined {
+    return this.contentTemplate || this.contentArea;
+  }
 
   public onInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;
