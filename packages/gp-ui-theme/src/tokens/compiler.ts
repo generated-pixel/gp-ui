@@ -93,6 +93,13 @@ const inheritedComponentTokenDefaults = componentTokenNames.reduce<Record<string
       borderColor: '{semantic.surfaces.border}',
       borderRadius: '{primitives.borderRadius.base}',
       padding: '{primitives.spacing.4}',
+      paddingX: '{primitives.spacing.4}',
+      paddingY: '{primitives.spacing.3}',
+      margin: '0',
+      marginX: '0',
+      marginY: '0',
+      gap: '{primitives.spacing.2}',
+      spacing: '{primitives.spacing.2}',
       fontSize: '{primitives.typography.fontSize.base}',
       shadow: '{semantic.shadows.sm}'
     };
@@ -265,10 +272,9 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   vars['--gp-mask-bg'] = sem.mask.bg;
 
   // 11. Component Specific Tokens (Recursive Flattening & W3C Token Alias Resolution)
-  if (comp) {
-    const compVars = flattenComponentTokens(comp, '--gp', (val) => resolveTokenAlias(val, theme, mode));
-    Object.assign(vars, compVars);
-  }
+  const mergedComponents = deepMerge(inheritedComponentTokenDefaults, comp || {});
+  const compVars = flattenComponentTokens(mergedComponents, '--gp', (val) => resolveTokenAlias(val, theme, mode));
+  Object.assign(vars, compVars);
 
   return vars;
 }
