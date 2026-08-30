@@ -1,74 +1,75 @@
-<div class="gp-slide-over-backdrop" (click)="close.emit()">
-  <div class="gp-slide-panel" (click)="$event.stopPropagation()">
-    <!-- Header -->
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
+<div class="gp-slide-over-launcher">
+  <gp-button [label]="openLabel()" icon="sliders" variant="outlined" (onClickEvent)="open()" />
+</div>
+
+<gp-drawer
+  position="right"
+  [header]="title()"
+  [visible]="visible()"
+  [dismissable]="true"
+  [modal]="true"
+  (visibleChange)="onVisibleChange($event)"
+  (onHide)="onDrawerHide()"
+>
+  <div class="gp-slide-over-content">
+    @if (effectiveHeader) {
       <ng-container *ngTemplateOutlet="effectiveHeader" />
-    </ng-container>
-    <ng-template #defaultHeader>
+    } @else {
       <ng-content select="[header], [slot=header]">
-        <div class="panel-head">
-          <div class="head-titles" *ngIf="title()">
-            <h3 class="head-title">{{ title() }}</h3>
-            <p class="head-desc" *ngIf="description()">{{ description() }}</p>
-          </div>
-          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="close-btn" ariaLabel="Close panel" (onClickEvent)="close.emit()">
-            <gp-icon name="close" size="1.1em" />
-          </gp-button>
-        </div>
+        @if (description()) {
+          <p class="gp-slide-over-description">{{ description() }}</p>
+        }
       </ng-content>
-    </ng-template>
+    }
 
-    <!-- Body -->
-    <div class="panel-body">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
+    <div class="gp-slide-over-body">
+      @if (effectiveContent) {
         <ng-container *ngTemplateOutlet="effectiveContent" />
-      </ng-container>
-      <ng-template #defaultContent>
-        <ng-container *ngIf="effectiveBody; else defaultBody">
-          <ng-container *ngTemplateOutlet="effectiveBody" />
-        </ng-container>
-        <ng-template #defaultBody>
-          <ng-content select="[body], [slot=body]">
-            <div class="field-wrap">
-              <label class="input-label">Configuration Tag</label>
-              <gp-input-text
-                type="text"
-                styleClass="panel-input"
-                [fluid]="true"
-                [value]="configTag()"
-                (valueChange)="configTag.set($event)"
-                placeholder="tag-name"
-              />
-            </div>
+      } @else if (effectiveBody) {
+        <ng-container *ngTemplateOutlet="effectiveBody" />
+      } @else {
+        <ng-content select="[body], [slot=body]">
+          <div class="gp-slide-over-field">
+            <label for="gp-slide-config-tag">Configuration Tag</label>
+            <gp-input-text
+              inputId="gp-slide-config-tag"
+              [fluid]="true"
+              [value]="configTag()"
+              (onInputEvent)="configTag.set($any($event.target).value)"
+              placeholder="tag-name"
+            />
+          </div>
 
-            <div class="field-wrap">
-              <label class="input-label">Worker Cluster Size (Nodes)</label>
-              <gp-input-number
-                styleClass="panel-input"
-                [fluid]="true"
-                [value]="workerNodes()"
-                (onInputEvent)="workerNodes.set(+$any($event.target).value)"
-                [min]="1"
-                [max]="64"
-              />
-            </div>
-          </ng-content>
-        </ng-template>
+          <div class="gp-slide-over-field">
+            <label for="gp-slide-worker-nodes">Worker Cluster Size (Nodes)</label>
+            <gp-input-number
+              inputId="gp-slide-worker-nodes"
+              [fluid]="true"
+              [value]="workerNodes()"
+              (onValueChange)="workerNodes.set($event ?? 1)"
+              [min]="1"
+              [max]="64"
+            />
+          </div>
+        </ng-content>
         <ng-content />
-      </ng-template>
+      }
     </div>
 
-    <!-- Actions Footer -->
-    <ng-container *ngIf="effectiveActions; else defaultActions">
-      <ng-container *ngTemplateOutlet="effectiveActions" />
-    </ng-container>
-    <ng-template #defaultActions>
-      <ng-content select="[actions], [slot=actions]">
-        <div class="panel-foot">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-          <gp-button severity="primary" size="sm" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
-        </div>
-      </ng-content>
-    </ng-template>
+    <div class="gp-slide-over-actions">
+      @if (effectiveActions) {
+        <ng-container *ngTemplateOutlet="effectiveActions" />
+      } @else {
+        <ng-content select="[actions], [slot=actions]">
+          <gp-button
+            [label]="cancelBtnLabel()"
+            variant="outlined"
+            severity="secondary"
+            (onClickEvent)="onCancel()"
+          />
+          <gp-button [label]="saveBtnLabel()" severity="primary" (onClickEvent)="onSave()" />
+        </ng-content>
+      }
+    </div>
   </div>
-</div>
+</gp-drawer>

@@ -111,7 +111,7 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   [navItems]="[
     { id: 'overview', icon: 'grid', label: 'Overview', badge: 'New' },
     { id: 'analytics', icon: 'bar-chart-2', label: 'Analytics' },
-    { id: 'customers', icon: 'users', label: 'Customers', count: 128 },
+    { id: 'customers', icon: 'users', label: 'Customers', badge: '128' },
     { id: 'settings', icon: 'settings', label: 'Settings' }
   ]"
   (navClick)="onNavigate($event)"
@@ -129,7 +129,7 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   [activeNavId]="'projects'"
   [navItems]="[
     { id: 'projects', icon: 'folder', label: 'Projects' },
-    { id: 'tasks', icon: 'check-circle', label: 'My Tasks', count: 5 },
+    { id: 'tasks', icon: 'check-circle', label: 'My Tasks', badge: '5' },
     { id: 'team', icon: 'users', label: 'Team Directory' },
     { id: 'reports', icon: 'file-text', label: 'Weekly Reports' }
   ]"
@@ -626,7 +626,7 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   <!-- Optional custom footer slot -->
   <div slot="actions">
     <gp-button variant="outlined" severity="secondary">Discard</gp-button>
-    <gp-button severity="primary" (onClick)="onSaveProfile()">Save Profile</gp-button>
+    <gp-button severity="primary" (onClickEvent)="onSaveProfile()">Save Profile</gp-button>
   </div>
 </gp-settings-profile>`,
 
@@ -746,8 +746,8 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   [badgeSeverity]="'success'"
   [subtitle]="'Manage and monitor continuous delivery pipelines across cloud clusters.'"
   [breadcrumbs]="[
-    { label: 'Home', href: '/' },
-    { label: 'Projects', href: '/projects' },
+    { label: 'Home', url: '/' },
+    { label: 'Projects', url: '/projects' },
     { label: 'Deployments', active: true }
   ]"
   [actions]="[
@@ -881,7 +881,7 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
     { id: 'TRX-103', customer: 'Wayne Enterprises', amount: '$9,400.00', status: 'Completed', date: 'Aug 26, 2026' }
   ]"
   (rowSelect)="onRowSelected($event)"
-  (search)="onSearchTable($event)"
+  (searchChange)="onSearchTable($event)"
 />`,
 
   'list-feed': `<gp-list-stacked-feed
@@ -1040,13 +1040,14 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   'nav-topbar': `<gp-nav-responsive-top-bar
   [brandName]="'Acme Cloud'"
   [userName]="'Sarah Connor'"
+  [activeLinkId]="'overview'"
   [links]="[
-    { label: 'Overview', href: '/overview', active: true },
-    { label: 'Deployments', href: '/deployments' },
-    { label: 'Security', href: '/security' },
-    { label: 'Documentation', href: '/docs' }
+    { id: 'overview', label: 'Overview', url: '/overview' },
+    { id: 'deployments', label: 'Deployments', url: '/deployments' },
+    { id: 'security', label: 'Security', url: '/security' },
+    { id: 'docs', label: 'Documentation', url: '/docs' }
   ]"
-  (search)="onGlobalSearch($event)"
+  (searchChange)="onGlobalSearch($event)"
   (profileClick)="openProfileMenu()"
 />`,
 
@@ -1059,8 +1060,8 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
     { id: '3', icon: 'user-plus', label: 'Invite Collaborator to Workspace', shortcut: '⌘I' },
     { id: '4', icon: 'settings', label: 'Organization Settings & Billing', shortcut: '⌘,' }
   ]"
-  (commandSelect)="onExecuteCommand($event)"
-  (closed)="closeCommandPalette()"
+  (selectCommand)="onExecuteCommand($event)"
+  (close)="closeCommandPalette()"
 >
   <!-- Optional slot for tips or shortcut guide -->
   <div slot="footer" class="palette-tips">
@@ -1071,19 +1072,11 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   'nav-slide-over': `<gp-overlay-slide-over-panel
   [title]="'Edit Node Properties'"
   [description]="'Adjust compute allocation and network VPC rules for this instance.'"
-  (closePanel)="onCloseDrawer()"
-  (save)="onSaveProperties()"
->
-  <div class="drawer-fields">
-    <label>Node Hostname</label>
-    <input type="text" class="gp-inputtext" value="us-east-1a.acme.cloud" />
-  </div>
-
-  <div slot="actions">
-    <gp-button variant="outlined" severity="secondary" (onClick)="onCloseDrawer()">Cancel</gp-button>
-    <gp-button severity="primary" (onClick)="onSaveProperties()">Save Changes</gp-button>
-  </div>
-</gp-overlay-slide-over-panel>`,
+  [openLabel]="'Edit node properties'"
+  (close)="onCloseDrawer()"
+  (cancel)="onCloseDrawer()"
+  (save)="onSaveProperties($event)"
+/>`,
 
   'nav-dropdown': `<gp-nav-dropdown-action-menu
   [signedInLabel]="'Signed in as'"
@@ -1104,15 +1097,15 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
     {
       title: 'Core Platform',
       links: [
-        { title: 'Serverless Functions', desc: 'Execute on-demand event handlers at the edge.' },
-        { title: 'Edge Routing & CDN', desc: 'Sub-20ms asset distribution worldwide.' }
+        { title: 'Serverless Functions', desc: 'Execute on-demand event handlers at the edge.', url: '/platform/functions' },
+        { title: 'Edge Routing & CDN', desc: 'Sub-20ms asset distribution worldwide.', url: '/platform/edge' }
       ]
     },
     {
       title: 'Developer Tools',
       links: [
-        { title: 'CLI Toolkit', desc: 'Deploy directly from your local terminal.' },
-        { title: 'SDK & Rest API', desc: 'Full TypeScript and Python client libraries.' }
+        { title: 'CLI Toolkit', desc: 'Deploy directly from your local terminal.', url: '/tools/cli' },
+        { title: 'SDK & Rest API', desc: 'Full TypeScript and Python client libraries.', url: '/tools/sdk' }
       ]
     }
   ]"
@@ -1129,7 +1122,7 @@ export const BLOCKS_CODE_EXAMPLES: Record<string, string> = {
   'nav-tabs': `<gp-nav-tab-navigation
   [underlineTabs]="[
     { id: 'overview', label: 'Overview' },
-    { id: 'telemetry', label: 'Telemetry', count: 4 },
+    { id: 'telemetry', label: 'Telemetry', badge: 4 },
     { id: 'settings', label: 'Settings' }
   ]"
   [activeUnderlineTab]="'overview'"

@@ -1,58 +1,79 @@
-<div class="gp-dropdown-menu-popover">
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
-    <!-- User Email Header -->
-    <ng-container *ngIf="effectiveUserHeader; else defaultUserHeader">
-      <ng-container *ngTemplateOutlet="effectiveUserHeader" />
-    </ng-container>
-    <ng-template #defaultUserHeader>
-      <ng-content select="[user-header], [slot=user-header]">
-        <div class="user-email-header" *ngIf="userEmail()">
-          <span class="signed-label">{{ signedInLabel() }}</span>
-          <strong class="email-val">{{ userEmail() }}</strong>
-        </div>
-      </ng-content>
-    </ng-template>
+<div class="gp-dropdown-action-menu">
+  <gp-button
+    [label]="menuLabel()"
+    icon="ellipsis-v"
+    iconPos="right"
+    variant="outlined"
+    severity="secondary"
+    (onClickEvent)="actionPopover.toggle($event)"
+  />
 
-    <div class="menu-divider" *ngIf="userEmail()"></div>
+  <gp-popover #actionPopover styleClass="gp-dropdown-action-menu__popover" ariaLabel="Action menu">
+    <div class="gp-dropdown-action-menu__content" role="menu">
+      @if (effectiveContent) {
+        <ng-container *ngTemplateOutlet="effectiveContent" />
+      } @else {
+        @if (effectiveUserHeader) {
+          <ng-container *ngTemplateOutlet="effectiveUserHeader" />
+        } @else {
+          <ng-content select="[user-header], [slot=user-header]">
+            @if (userEmail()) {
+              <div class="gp-dropdown-action-menu__user">
+                <span>{{ signedInLabel() }}</span>
+                <strong>{{ userEmail() }}</strong>
+              </div>
+            }
+          </ng-content>
+        }
 
-    <!-- Primary Menu Items -->
-    <ng-content select="[primary-items], [slot=primary-items]">
-      <div class="menu-section" *ngIf="primaryItems() && primaryItems().length > 0">
-        <ng-container *ngFor="let item of primaryItems()">
-          <ng-container *ngIf="effectiveItemTemplate; else defaultItem">
-            <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
-          </ng-container>
-          <ng-template #defaultItem>
-            <gp-button variant="text" severity="secondary" styleClass="menu-btn" (onClickEvent)="itemSelect.emit(item)">
-              <gp-icon *ngIf="item.icon" [name]="item.icon" size="1.1em" class="menu-ico" />
-              <span>{{ item.label }}</span>
-            </gp-button>
-          </ng-template>
-        </ng-container>
-      </div>
-    </ng-content>
+        @if (userEmail()) {
+          <gp-divider />
+        }
 
-    <div class="menu-divider" *ngIf="dangerItems() && dangerItems().length > 0"></div>
+        <ng-content select="[primary-items], [slot=primary-items]">
+          <div class="gp-dropdown-action-menu__section">
+            @for (item of primaryItems(); track item.id) {
+              @if (effectiveItemTemplate) {
+                <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+              } @else {
+                <gp-button
+                  [label]="item.label"
+                  [icon]="item.icon || ''"
+                  variant="text"
+                  severity="secondary"
+                  [fluid]="true"
+                  styleClass="gp-dropdown-action-menu__item"
+                  (onClickEvent)="selectItem(item)"
+                />
+              }
+            }
+          </div>
+        </ng-content>
 
-    <!-- Danger Menu Items -->
-    <ng-content select="[danger-items], [slot=danger-items]">
-      <div class="menu-section" *ngIf="dangerItems() && dangerItems().length > 0">
-        <ng-container *ngFor="let item of dangerItems()">
-          <ng-container *ngIf="effectiveItemTemplate; else defaultDangerItem">
-            <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
-          </ng-container>
-          <ng-template #defaultDangerItem>
-            <gp-button variant="text" severity="danger" styleClass="menu-btn danger-btn" (onClickEvent)="itemSelect.emit(item)">
-              <gp-icon *ngIf="item.icon" [name]="item.icon" size="1.1em" class="menu-ico" />
-              <span>{{ item.label }}</span>
-            </gp-button>
-          </ng-template>
-        </ng-container>
-      </div>
-    </ng-content>
-    <ng-content />
-  </ng-template>
+        @if (dangerItems().length) {
+          <gp-divider />
+          <ng-content select="[danger-items], [slot=danger-items]">
+            <div class="gp-dropdown-action-menu__section">
+              @for (item of dangerItems(); track item.id) {
+                @if (effectiveItemTemplate) {
+                  <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+                } @else {
+                  <gp-button
+                    [label]="item.label"
+                    [icon]="item.icon || ''"
+                    variant="text"
+                    severity="danger"
+                    [fluid]="true"
+                    styleClass="gp-dropdown-action-menu__item"
+                    (onClickEvent)="selectItem(item)"
+                  />
+                }
+              }
+            </div>
+          </ng-content>
+        }
+        <ng-content />
+      }
+    </div>
+  </gp-popover>
 </div>

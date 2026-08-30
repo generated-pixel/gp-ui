@@ -1,4 +1,10 @@
-<div class="gp-toolbar" role="toolbar">
+<div
+  [id]="id()"
+  [class]="'gp-toolbar ' + styleClass()"
+  [ngStyle]="style()"
+  role="toolbar"
+  [attr.aria-label]="ariaLabel() || null"
+>
   <div class="gp-toolbar-start">
     <ng-content select="[start]" />
   </div>

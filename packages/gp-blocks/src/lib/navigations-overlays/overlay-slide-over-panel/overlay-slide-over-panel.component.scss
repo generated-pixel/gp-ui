@@ -1,92 +1,61 @@
 :host {
   display: block;
   width: 100%;
-  box-sizing: border-box;
 }
 
-.gp-slide-over-wrapper {
-  background: var(--gp-surface-section, rgba(15, 23, 42, 0.2));
-  padding: 2rem 1rem;
-  border-radius: var(--gp-border-radius-lg, 14px);
+.gp-slide-over-launcher {
+  display: flex;
+  justify-content: center;
+  padding: var(--gp-spacing-6, 1.5rem);
+  background: var(--gp-surface-section);
   border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 0.75rem);
+}
+
+.gp-slide-over-content {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 5rem);
+  width: min(24rem, 100%);
+}
+
+.gp-slide-over-description {
+  margin: 0 0 var(--gp-spacing-5, 1.25rem);
+  color: var(--gp-text-color-secondary);
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  line-height: 1.5;
+}
+
+.gp-slide-over-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--gp-spacing-5, 1.25rem);
+}
+
+.gp-slide-over-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gp-spacing-2, 0.5rem);
+}
+
+.gp-slide-over-field label {
+  color: var(--gp-text-color);
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  font-weight: 600;
+}
+
+.gp-slide-over-actions {
   display: flex;
   justify-content: flex-end;
-  width: 100%;
-  box-sizing: border-box;
+  gap: var(--gp-spacing-3, 0.75rem);
+  margin-top: var(--gp-spacing-6, 1.5rem);
+  padding-top: var(--gp-spacing-4, 1rem);
+  border-top: 1px solid var(--gp-surface-border);
 }
 
-      .slide-over-card {
-        background: var(--gp-surface-card);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 12px;
-        width: 100%;
-        max-width: 420px;
-        box-shadow: -10px 0 25px -5px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-
-      .slide-head {
-        height: 60px;
-        padding: 0 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
-
-      .title {
-        font-size: 1.15rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
-
-      .btn-close {
-        background: transparent;
-        border: none;
-        color: var(--gp-text-color-secondary);
-        cursor: pointer;
-      }
-
-      .slide-body {
-        padding: 1.5rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-      }
-
-      .desc {
-        font-size: 0.85rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0;
-      }
-
-      .field-box {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-      }
-
-      .lbl {
-        font-size: 0.825rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
-
-      .inp {
-        padding: 0.5rem 0.75rem;
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 6px;
-        font-size: 0.85rem;
-      }
-
-      .slide-footer {
-        padding: 1.25rem 1.5rem;
-        border-top: 1px solid var(--gp-surface-border);
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.75rem;
-      }
+@media (max-width: 30rem) {
+  .gp-slide-over-content {
+    width: 100%;
+  }
+}

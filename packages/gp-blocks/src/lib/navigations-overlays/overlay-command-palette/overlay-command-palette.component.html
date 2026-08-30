@@ -1,5 +1,16 @@
-<div class="gp-palette-backdrop" (click)="close.emit()">
-  <div class="gp-palette-dialog" (click)="$event.stopPropagation()">
+<div class="gp-command-palette-launcher">
+  <gp-button label="Open command palette" icon="search" variant="outlined" (onClickEvent)="open()" />
+</div>
+
+<gp-dialog
+  header="Command palette"
+  [visible]="visible()"
+  [dismissableMask]="true"
+  [showFooter]="false"
+  width="38rem"
+  styleClass="gp-command-palette-dialog"
+  (visibleChange)="onVisibleChange($event)"
+>
     <ng-container *ngIf="effectiveContent; else defaultContent">
       <ng-container *ngTemplateOutlet="effectiveContent" />
     </ng-container>
@@ -11,13 +22,14 @@
       <ng-template #defaultSearch>
         <ng-content select="[search], [slot=search]">
           <div class="palette-search-row">
-            <gp-icon name="search" size="1.1em" class="search-ico" />
             <gp-input-text
-              type="text"
               styleClass="search-field"
               [placeholder]="placeholder()"
               [value]="searchQuery()"
+              iconLeft="search"
+              [fluid]="true"
               (onInputEvent)="onInput($event)"
+              (onKeyDownEvent)="onKeyDown($event)"
               [autofocus]="true"
             />
             <span class="esc-badge">ESC</span>
@@ -27,19 +39,21 @@
 
       <!-- Commands List -->
       <ng-content select="[commands], [slot=commands]">
-        <div class="palette-body" *ngIf="commands() && commands().length > 0">
+        <div class="palette-body" *ngIf="filteredCommands().length > 0; else noResults">
           <div class="group-tag" *ngIf="groupLabel()">{{ groupLabel() }}</div>
           <div class="commands-list">
-            <ng-container *ngFor="let cmd of commands()">
+            <ng-container *ngFor="let cmd of filteredCommands(); let index = index">
               <ng-container *ngIf="effectiveCommandTemplate; else defaultCmd">
                 <ng-container *ngTemplateOutlet="effectiveCommandTemplate; context: { $implicit: cmd }" />
               </ng-container>
               <ng-template #defaultCmd>
                 <div
                   class="cmd-item"
-                  [class.active]="cmd.active"
-                  (click)="selectCommand.emit(cmd)"
-                  style="cursor: pointer;"
+                  [class.active]="cmd.active || index === activeIndex()"
+                  [attr.aria-selected]="index === activeIndex()"
+                  role="option"
+                  (mouseenter)="activeIndex.set(index)"
+                  (click)="chooseCommand(cmd)"
                 >
                   <div class="cmd-left">
                     <gp-icon *ngIf="cmd.icon" [name]="cmd.icon" size="1em" class="cmd-ico" />
@@ -54,6 +68,9 @@
             </ng-container>
           </div>
         </div>
+        <ng-template #noResults>
+          <div class="palette-empty">No matching commands</div>
+        </ng-template>
       </ng-content>
 
       <!-- Palette Footer -->
@@ -65,5 +82,4 @@
       </div>
       <ng-content />
     </ng-template>
-  </div>
-</div>
+</gp-dialog>

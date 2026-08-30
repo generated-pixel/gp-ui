@@ -70,6 +70,8 @@
                             [attr.target]="sub.target || null"
                             class="gp-megamenu-link"
                             (click)="onItemClick(sub, $event)"
+                            role="menuitem"
+                            [attr.aria-disabled]="sub.disabled || null"
                           >
                             @if (sub.icon) {
                               <div
@@ -104,6 +106,9 @@
 
                   @if (col.featured; as feat) {
                     <div class="gp-megamenu-featured">
+                      @if (feat.badge) {
+                        <span class="gp-menu-item-badge">{{ feat.badge }}</span>
+                      }
                       <h4 class="gp-megamenu-featured-title">{{ feat.title }}</h4>
                       @if (feat.description) {
                         <p class="gp-megamenu-featured-desc">{{ feat.description }}</p>

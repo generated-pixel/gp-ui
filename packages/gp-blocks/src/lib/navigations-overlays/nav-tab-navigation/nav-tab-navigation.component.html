@@ -1,61 +1,48 @@
 <div class="gp-tab-navigation-block">
-  <ng-container *ngIf="effectiveContent; else defaultContent">
+  @if (effectiveContent) {
     <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
-    <!-- 1. Underline Tabs Row -->
-    <ng-container *ngIf="effectiveUnderlineTabs; else defaultUnderlineTabs">
+  } @else {
+    @if (effectiveUnderlineTabs) {
       <ng-container *ngTemplateOutlet="effectiveUnderlineTabs" />
-    </ng-container>
-    <ng-template #defaultUnderlineTabs>
+    } @else {
       <ng-content select="[underline-tabs], [slot=underline-tabs]">
-        <div class="underline-tabs-row" *ngIf="underlineTabs() && underlineTabs().length > 0">
-          <gp-button
-            type="button"
-            *ngFor="let tab of underlineTabs()"
-            variant="text"
-            severity="secondary"
-            styleClass="underline-tab-btn"
-            [class.active]="tab.id === activeUnderlineTab()"
-            (onClickEvent)="underlineTabChange.emit(tab)"
-          >
-            <span>{{ tab.label }}</span>
-            <gp-badge
-              *ngIf="tab.badge !== undefined"
-              [value]="tab.badge"
-              [severity]="tab.badgeSeverity || (tab.id === activeUnderlineTab() ? 'primary' : 'secondary')"
+        <gp-tabs
+          styleClass="gp-tab-navigation-block__underline"
+          [activeIndex]="underlineActiveIndex()"
+          [hidePanels]="true"
+          (onChange)="onUnderlineChange($event.index)"
+        >
+          @for (tab of underlineTabs(); track tab.id) {
+            <gp-tab-panel
+              [header]="tab.label"
+              [badge]="tab.badge"
+              [badgeSeverity]="tab.badgeSeverity || 'secondary'"
             />
-          </gp-button>
-        </div>
+          }
+        </gp-tabs>
       </ng-content>
-    </ng-template>
+    }
 
-    <!-- 2. Pill Tabs Row -->
-    <ng-container *ngIf="effectivePillTabs; else defaultPillTabs">
+    @if (effectivePillTabs) {
       <ng-container *ngTemplateOutlet="effectivePillTabs" />
-    </ng-container>
-    <ng-template #defaultPillTabs>
+    } @else {
       <ng-content select="[pill-tabs], [slot=pill-tabs]">
-        <div class="pill-tabs-row" *ngIf="pillTabs() && pillTabs().length > 0">
-          <gp-button
-            type="button"
-            *ngFor="let tab of pillTabs()"
-            variant="text"
-            severity="secondary"
-            styleClass="pill-tab-btn"
-            [class.active]="tab.id === activePillTab()"
-            (onClickEvent)="pillTabChange.emit(tab)"
-          >
-            <span>{{ tab.label }}</span>
-            <gp-badge
-              *ngIf="tab.badge !== undefined"
-              [value]="tab.badge"
-              [severity]="tab.badgeSeverity || (tab.id === activePillTab() ? 'primary' : 'secondary')"
+        <gp-tabs
+          styleClass="gp-tab-navigation-block__pills"
+          [activeIndex]="pillActiveIndex()"
+          [hidePanels]="true"
+          (onChange)="onPillChange($event.index)"
+        >
+          @for (tab of pillTabs(); track tab.id) {
+            <gp-tab-panel
+              [header]="tab.label"
+              [badge]="tab.badge"
+              [badgeSeverity]="tab.badgeSeverity || 'secondary'"
             />
-          </gp-button>
-        </div>
+          }
+        </gp-tabs>
       </ng-content>
-    </ng-template>
+    }
     <ng-content />
-  </ng-template>
+  }
 </div>

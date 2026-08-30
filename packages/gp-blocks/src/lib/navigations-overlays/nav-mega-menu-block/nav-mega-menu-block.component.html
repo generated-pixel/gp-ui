@@ -1,47 +1,22 @@
-<div class="gp-mega-menu-dropdown">
-  <ng-container *ngIf="effectiveContent; else defaultContent">
+<div class="gp-mega-menu-block">
+  @if (effectiveContent) {
     <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
-    <!-- Sections Grid -->
-    <ng-container *ngIf="effectiveSections; else defaultSections">
+  } @else {
+    @if (effectiveSections) {
       <ng-container *ngTemplateOutlet="effectiveSections" />
-    </ng-container>
-    <ng-template #defaultSections>
+    } @else {
       <ng-content select="[sections], [slot=sections]">
-        <div class="sections-grid" *ngIf="sections() && sections().length > 0">
-          <div class="menu-col" *ngFor="let s of sections()">
-            <h4 class="col-title">{{ s.title }}</h4>
-            <div class="links-stack">
-              <a
-                href="javascript:void(0)"
-                *ngFor="let link of s.links"
-                class="mega-link-item"
-                (click)="linkClick.emit(link)"
-              >
-                <span class="l-title">{{ link.title }}</span>
-                <span class="l-desc">{{ link.desc }}</span>
-              </a>
-            </div>
-          </div>
-        </div>
+        <gp-mega-menu [model]="menuItems()" orientation="horizontal" />
       </ng-content>
-    </ng-template>
+    }
 
-    <!-- Side Promo Card -->
-    <ng-container *ngIf="effectivePromo; else defaultPromo">
-      <ng-container *ngTemplateOutlet="effectivePromo" />
-    </ng-container>
-    <ng-template #defaultPromo>
-      <ng-content select="[promo], [slot=promo]">
-        <div class="promo-card" *ngIf="promo()" (click)="promoClick.emit(promo()!)" style="cursor: pointer;">
-          <span class="promo-badge" *ngIf="promo()?.badge">{{ promo()?.badge }}</span>
-          <h4 class="promo-title">{{ promo()?.title }}</h4>
-          <p class="promo-text">{{ promo()?.text }}</p>
-          <span class="promo-cta">{{ promo()?.ctaText }} &rarr;</span>
-        </div>
-      </ng-content>
-    </ng-template>
+    @if (effectivePromo) {
+      <div class="gp-mega-menu-block__custom-promo">
+        <ng-container *ngTemplateOutlet="effectivePromo" />
+      </div>
+    } @else {
+      <ng-content select="[promo], [slot=promo]" />
+    }
     <ng-content />
-  </ng-template>
+  }
 </div>

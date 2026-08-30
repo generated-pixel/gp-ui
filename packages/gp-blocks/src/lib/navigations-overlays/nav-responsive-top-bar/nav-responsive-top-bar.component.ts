@@ -1,6 +1,14 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, computed, Input, TemplateRef, ContentChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpIconComponent, GpAvatarComponent, GpButtonComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
+import {
+  GpAvatarComponent,
+  GpButtonComponent,
+  GpIconComponent,
+  GpInputTextComponent,
+  GpMenubarComponent,
+  GpMenubarItem,
+  GpToolbarComponent
+} from '@generatedpixel/gp-ui';
 
 export interface GpTopBarNavLink {
   id?: string;
@@ -12,9 +20,19 @@ export interface GpTopBarNavLink {
 @Component({
   selector: 'gp-nav-responsive-top-bar',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpAvatarComponent, GpButtonComponent, GpInputTextComponent],
+  imports: [
+    CommonModule,
+    GpAvatarComponent,
+    GpButtonComponent,
+    GpIconComponent,
+    GpInputTextComponent,
+    GpMenubarComponent,
+    GpToolbarComponent
+  ],
+  host: { class: 'gp-nav-responsive-topbar-host' },
   templateUrl: './nav-responsive-top-bar.component.html',
-  styleUrl: './nav-responsive-top-bar.component.scss'
+  styleUrl: './nav-responsive-top-bar.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class GpNavResponsiveTopBarComponent {
   public brandName = input<string>('');
@@ -25,6 +43,14 @@ export class GpNavResponsiveTopBarComponent {
   public searchPlaceholder = input<string>('Search anything...');
 
   public searchQuery = signal<string>('');
+  public menuItems = computed<GpMenubarItem[]>(() =>
+    this.links().map((link) => ({
+      label: link.label,
+      url: link.url,
+      active: link.id === this.activeLinkId() || link.active,
+      command: () => this.linkClick.emit(link)
+    }))
+  );
 
   public linkClick = output<GpTopBarNavLink>();
   public searchChange = output<string>();

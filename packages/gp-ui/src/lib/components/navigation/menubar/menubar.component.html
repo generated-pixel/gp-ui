@@ -1,4 +1,10 @@
-<div class="gp-menubar" role="menubar">
+<div
+  [id]="id()"
+  [class]="'gp-menubar ' + styleClass()"
+  [ngStyle]="style()"
+  [attr.aria-label]="ariaLabel() || null"
+  role="menubar"
+>
   <div class="gp-menubar-start">
     <ng-content select="[start]" />
   </div>
@@ -7,7 +13,7 @@
     @for (item of model(); track $index) {
       <li
         class="gp-menubar-item"
-        [class.gp-menubar-item-active]="activeItem() === item"
+        [class.gp-menubar-item-active]="activeItem() === item || item.active"
         (mouseenter)="onItemMouseEnter(item)"
         role="none"
       >
@@ -20,6 +26,7 @@
           role="menuitem"
           [attr.aria-haspopup]="item.items ? 'true' : null"
           [attr.aria-expanded]="activeItem() === item"
+          [attr.aria-current]="item.active ? 'page' : null"
         >
           @if (item.icon) {
             <gp-icon [name]="item.icon" class="gp-menubar-icon" />

@@ -1,6 +1,6 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, Input, TemplateRef, ContentChild, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
+import { GpButtonComponent, GpDividerComponent, GpPopoverComponent } from '@generatedpixel/gp-ui';
 
 export interface GpDropdownMenuItem {
   id: string;
@@ -11,13 +11,17 @@ export interface GpDropdownMenuItem {
 @Component({
   selector: 'gp-nav-dropdown-action-menu',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent],
+  imports: [CommonModule, GpButtonComponent, GpDividerComponent, GpPopoverComponent],
   templateUrl: './nav-dropdown-action-menu.component.html',
-  styleUrl: './nav-dropdown-action-menu.component.scss'
+  styleUrl: './nav-dropdown-action-menu.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class GpNavDropdownActionMenuComponent {
+  @ViewChild(GpPopoverComponent) private popover?: GpPopoverComponent;
+
   public signedInLabel = input<string>('Signed in as');
   public userEmail = input<string>('');
+  public menuLabel = input<string>('Open actions');
   public primaryItems = input<GpDropdownMenuItem[]>([]);
   public dangerItems = input<GpDropdownMenuItem[]>([]);
 
@@ -41,5 +45,10 @@ export class GpNavDropdownActionMenuComponent {
 
   public get effectiveContent(): TemplateRef<any> | undefined {
     return this.contentTemplate || this.contentArea;
+  }
+
+  public selectItem(item: GpDropdownMenuItem): void {
+    this.itemSelect.emit(item);
+    this.popover?.hide();
   }
 }
