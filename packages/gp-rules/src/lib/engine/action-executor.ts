@@ -182,6 +182,11 @@ export class GpActionExecutor {
    */
   public static evaluateFormula(formula: string, context: GpRuleContext): any {
     try {
+      const blocked = /\b(?:window|document|globalThis|Function|constructor|__proto__|prototype|eval|import|require|process)\b/;
+      if (blocked.test(formula)) {
+        console.warn(`[GpActionExecutor] Blocked potentially unsafe formula "${formula}"`);
+        return 0;
+      }
       // Replace field names with state lookups
       const keys = Object.keys(context.state).filter((k) => !k.startsWith('_'));
       const values = keys.map((k) => {
@@ -190,7 +195,7 @@ export class GpActionExecutor {
       });
 
       const sanitized = formula.replace(/[^a-zA-Z0-9_\s\.\+\-\*\/\%\(\)\?\:\>\<\=\!\&\|\'\"\,]/g, '');
-      const fn = new Function(...keys, `return (${sanitized});`);
+      const fn = new Function(...keys, `"use strict"; return (${sanitized});`);
       return fn(...values);
     } catch (err) {
       console.warn(`[GpActionExecutor] Failed to calculate formula "${formula}":`, err);
