@@ -1,0 +1,84 @@
+.gp-floatlabel {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.gp-floatlabel label,
+.gp-floatlabel .gp-label {
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  transition: var(--gp-float-label-transition, transform 150ms cubic-bezier(0.4, 0, 0.2, 1), font-size 150ms cubic-bezier(0.4, 0, 0.2, 1), top 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease);
+  font-size: var(--gp-label-font-size-md, 0.875rem);
+  font-weight: 500;
+  color: var(--gp-label-color-muted, #94a3b8);
+  margin-bottom: 0;
+  z-index: 1;
+}
+
+/* Float Label Active States: focus-within, populated inputs, filled classes, or always */
+.gp-floatlabel:focus-within label,
+.gp-floatlabel:focus-within .gp-label,
+.gp-floatlabel:has(input:focus) label,
+.gp-floatlabel:has(input:not(:placeholder-shown)) label,
+.gp-floatlabel:has(textarea:focus) label,
+.gp-floatlabel:has(textarea:not(:placeholder-shown)) label,
+.gp-floatlabel:has(.gp-input-filled) label,
+.gp-floatlabel:has(.gp-select-open) label,
+.gp-floatlabel--always label,
+.gp-floatlabel--always .gp-label {
+  color: var(--gp-float-label-active-color, var(--gp-primary, #6366f1));
+  font-weight: 600;
+}
+
+/* Variant: 'on' (On the top border with background cutout) */
+.gp-floatlabel--on:focus-within label,
+.gp-floatlabel--on:focus-within .gp-label,
+.gp-floatlabel--on:has(input:focus) label,
+.gp-floatlabel--on:has(input:not(:placeholder-shown)) label,
+.gp-floatlabel--on:has(textarea:focus) label,
+.gp-floatlabel--on:has(textarea:not(:placeholder-shown)) label,
+.gp-floatlabel--on:has(.gp-input-filled) label,
+.gp-floatlabel--on:has(.gp-select-open) label,
+.gp-floatlabel--on.gp-floatlabel--always label,
+.gp-floatlabel--on.gp-floatlabel--always .gp-label {
+  top: 0;
+  transform: translateY(-50%) scale(var(--gp-float-label-scale, 0.85));
+  transform-origin: left top;
+  background: var(--gp-float-label-active-bg, var(--gp-surface-card, #ffffff));
+  padding: 0 0.25rem;
+  border-radius: var(--gp-border-radius-sm, 2px);
+}
+
+/* Variant: 'in' (Inside the top edge of input) */
+.gp-floatlabel--in:focus-within label,
+.gp-floatlabel--in:focus-within .gp-label,
+.gp-floatlabel--in:has(input:focus) label,
+.gp-floatlabel--in:has(input:not(:placeholder-shown)) label,
+.gp-floatlabel--in:has(textarea:focus) label,
+.gp-floatlabel--in:has(textarea:not(:placeholder-shown)) label,
+.gp-floatlabel--in:has(.gp-input-filled) label,
+.gp-floatlabel--in.gp-floatlabel--always label,
+.gp-floatlabel--in.gp-floatlabel--always .gp-label {
+  top: 0.35rem;
+  transform: translateY(0) scale(0.75);
+  transform-origin: left top;
+}
+
+/* Variant: 'over' (Floating cleanly above the input) */
+.gp-floatlabel--over:focus-within label,
+.gp-floatlabel--over:focus-within .gp-label,
+.gp-floatlabel--over:has(input:focus) label,
+.gp-floatlabel--over:has(input:not(:placeholder-shown)) label,
+.gp-floatlabel--over:has(textarea:focus) label,
+.gp-floatlabel--over:has(textarea:not(:placeholder-shown)) label,
+.gp-floatlabel--over:has(.gp-input-filled) label,
+.gp-floatlabel--over.gp-floatlabel--always label,
+.gp-floatlabel--over.gp-floatlabel--always .gp-label {
+  top: -0.65rem;
+  transform: translateY(0) scale(var(--gp-float-label-scale, 0.85));
+  transform-origin: left top;
+}
