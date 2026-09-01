@@ -731,6 +731,406 @@ export const cyberpunkTheme: GpThemeDefinition = extendTheme({
       },
       mask: {
         bg: 'rgba(5, 5, 8, 0.85)'
+      },
+      scrollbar: {
+        thumb: '#facc15',
+        thumbHover: '#00f0ff',
+        track: 'rgba(5, 5, 8, 0.5)',
+        size: '6px',
+        radius: '0px'
+      }
+    }
+  }
+});
+
+export const highContrastDarkTheme: GpThemeDefinition = extendTheme({
+  id: 'high-contrast-dark',
+  name: 'High Contrast Dark (WCAG AAA)',
+  description: 'Maximum contrast dark mode compliant with WCAG 2.2 AAA with vibrant yellow accent and distinct white borders.',
+  primitives: {
+    borderRadius: {
+      base: '4px',
+      sm: '2px',
+      md: '4px',
+      lg: '6px'
+    }
+  },
+  light: {
+    semantic: {
+      primaryScale: defaultPrimitives.colors.amber,
+      primary: {
+        main: '#000000',
+        text: '#ffffff',
+        hover: '#1a1a1a',
+        active: '#333333',
+        light: '#f5f5f5',
+        border: '#000000'
+      },
+      contrast: {
+        main: '#000000',
+        text: '#ffffff',
+        hover: '#1a1a1a'
+      },
+      surfaces: {
+        ground: '#ffffff',
+        section: '#f0f0f0',
+        card: '#ffffff',
+        overlay: '#ffffff',
+        hover: '#eaeaea',
+        active: '#dddddd',
+        border: '#000000',
+        divider: '#000000'
+      },
+      text: {
+        primary: '#000000',
+        secondary: '#1a1a1a',
+        muted: '#404040',
+        disabled: '#757575'
+      },
+      focus: {
+        ring: '0 0 0 3px #000000',
+        ringDanger: '0 0 0 3px #cc0000'
+      },
+      mask: {
+        bg: 'rgba(0, 0, 0, 0.75)'
+      }
+    }
+  },
+  dark: {
+    semantic: {
+      primaryScale: {
+        50: '#332b00',
+        100: '#665700',
+        200: '#998200',
+        300: '#ccae00',
+        400: '#ffda00',
+        500: '#ffff00',
+        600: '#ffff33',
+        700: '#ffff66',
+        800: '#ffff99',
+        900: '#ffffcc',
+        950: '#ffffe6'
+      },
+      primary: {
+        main: '#ffff00',
+        text: '#000000',
+        hover: '#ffff66',
+        active: '#cccc00',
+        light: 'rgba(255, 255, 0, 0.25)',
+        border: '#ffff00'
+      },
+      secondary: {
+        main: '#00ffff',
+        text: '#000000',
+        hover: '#66ffff',
+        active: '#00cccc',
+        light: 'rgba(0, 255, 255, 0.25)'
+      },
+      contrast: {
+        main: '#ffffff',
+        text: '#000000',
+        hover: '#ffffcc'
+      },
+      surfaces: {
+        ground: '#000000',
+        section: '#0d0d0d',
+        card: '#121212',
+        overlay: '#1a1a1a',
+        hover: '#262626',
+        active: '#333333',
+        border: '#ffffff',
+        divider: '#ffffff'
+      },
+      text: {
+        primary: '#ffffff',
+        secondary: '#f0f0f0',
+        muted: '#cccccc',
+        disabled: '#8c8c8c'
+      },
+      focus: {
+        ring: '0 0 0 3px #ffff00',
+        ringDanger: '0 0 0 3px #ff3333'
+      },
+      mask: {
+        bg: 'rgba(0, 0, 0, 0.9)'
+      },
+      scrollbar: {
+        thumb: '#ffff00',
+        thumbHover: '#ffffff',
+        track: '#000000',
+        size: '12px',
+        radius: '2px'
+      }
+    }
+  }
+});
+
+export const highContrastLightTheme: GpThemeDefinition = extendTheme({
+  id: 'high-contrast-light',
+  name: 'High Contrast Light (WCAG AAA)',
+  description: 'Maximum contrast light mode with solid pure black text and borders against pure white surfaces.',
+  primitives: {
+    borderRadius: {
+      base: '4px',
+      sm: '2px',
+      md: '4px',
+      lg: '6px'
+    }
+  },
+  light: {
+    semantic: {
+      primaryScale: defaultPrimitives.colors.slate,
+      primary: {
+        main: '#000000',
+        text: '#ffffff',
+        hover: '#222222',
+        active: '#444444',
+        light: '#f5f5f5',
+        border: '#000000'
+      },
+      contrast: {
+        main: '#000000',
+        text: '#ffffff',
+        hover: '#222222'
+      },
+      surfaces: {
+        ground: '#ffffff',
+        section: '#f8f8f8',
+        card: '#ffffff',
+        overlay: '#ffffff',
+        hover: '#f0f0f0',
+        active: '#e4e4e4',
+        border: '#000000',
+        divider: '#000000'
+      },
+      text: {
+        primary: '#000000',
+        secondary: '#111111',
+        muted: '#333333',
+        disabled: '#757575'
+      },
+      focus: {
+        ring: '0 0 0 3px #000000',
+        ringDanger: '0 0 0 3px #cc0000'
+      },
+      mask: {
+        bg: 'rgba(0, 0, 0, 0.7)'
+      },
+      scrollbar: {
+        thumb: '#000000',
+        thumbHover: '#333333',
+        track: '#ffffff',
+        size: '12px',
+        radius: '2px'
+      }
+    }
+  },
+  dark: {
+    semantic: {
+      primaryScale: {
+        50: '#333333',
+        100: '#555555',
+        200: '#777777',
+        300: '#999999',
+        400: '#bbbbbb',
+        500: '#dddddd',
+        600: '#eeeeee',
+        700: '#f5f5f5',
+        800: '#fafafa',
+        900: '#ffffff',
+        950: '#ffffff'
+      },
+      primary: {
+        main: '#ffffff',
+        text: '#000000',
+        hover: '#eeeeee',
+        active: '#cccccc',
+        light: 'rgba(255, 255, 255, 0.25)',
+        border: '#ffffff'
+      },
+      contrast: {
+        main: '#ffffff',
+        text: '#000000',
+        hover: '#f0f0f0'
+      },
+      surfaces: {
+        ground: '#000000',
+        section: '#101010',
+        card: '#181818',
+        overlay: '#181818',
+        hover: '#282828',
+        active: '#383838',
+        border: '#ffffff',
+        divider: '#ffffff'
+      },
+      text: {
+        primary: '#ffffff',
+        secondary: '#f0f0f0',
+        muted: '#cccccc',
+        disabled: '#888888'
+      },
+      focus: {
+        ring: '0 0 0 3px #ffffff',
+        ringDanger: '0 0 0 3px #ff3333'
+      },
+      mask: {
+        bg: 'rgba(0, 0, 0, 0.85)'
+      },
+      scrollbar: {
+        thumb: '#ffffff',
+        thumbHover: '#e0e0e0',
+        track: '#000000',
+        size: '12px',
+        radius: '2px'
+      }
+    }
+  }
+});
+
+export const prideTheme: GpThemeDefinition = extendTheme({
+  id: 'pride',
+  name: 'Pride (Rainbow & Progress)',
+  description: 'Vibrant and celebratory Pride palette with dynamic rainbow spectrum accents and royal violet tones.',
+  primitives: {
+    borderRadius: {
+      base: '8px',
+      sm: '4px',
+      md: '8px',
+      lg: '12px',
+      full: '9999px'
+    }
+  },
+  light: {
+    semantic: {
+      primaryScale: {
+        50: '#fdf4ff',
+        100: '#fae8ff',
+        200: '#f5d0fe',
+        300: '#f0abfc',
+        400: '#e879f9',
+        500: '#d946ef',
+        600: '#c026d3',
+        700: '#a21caf',
+        800: '#86198f',
+        900: '#701a75',
+        950: '#4a044e'
+      },
+      primary: {
+        main: '#c026d3',
+        text: '#ffffff',
+        hover: '#a21caf',
+        active: '#86198f',
+        light: '#fdf4ff',
+        border: '#f5d0fe'
+      },
+      secondary: {
+        main: '#06b6d4',
+        text: '#ffffff',
+        hover: '#0891b2',
+        active: '#0e7490',
+        light: '#ecfeff'
+      },
+      contrast: {
+        main: '#4a044e',
+        text: '#ffffff',
+        hover: '#701a75'
+      },
+      surfaces: {
+        ground: '#fdfaff',
+        section: '#faeffe',
+        card: '#ffffff',
+        overlay: '#ffffff',
+        hover: '#fdf4ff',
+        active: '#f5d0fe',
+        border: '#f0abfc',
+        divider: '#fae8ff'
+      },
+      text: {
+        primary: '#4a044e',
+        secondary: '#86198f',
+        muted: '#c026d3',
+        disabled: '#cbd5e1'
+      },
+      focus: {
+        ring: '0 0 0 3px rgba(217, 70, 239, 0.35)',
+        ringDanger: '0 0 0 3px rgba(239, 68, 68, 0.35)'
+      },
+      mask: {
+        bg: 'rgba(74, 4, 78, 0.45)'
+      },
+      scrollbar: {
+        thumb: '#c026d3',
+        thumbHover: '#a21caf',
+        track: '#faeffe',
+        size: '8px',
+        radius: '9999px'
+      }
+    }
+  },
+  dark: {
+    semantic: {
+      primaryScale: {
+        50: '#4a044e',
+        100: '#701a75',
+        200: '#86198f',
+        300: '#a21caf',
+        400: '#c026d3',
+        500: '#d946ef',
+        600: '#e879f9',
+        700: '#f0abfc',
+        800: '#f5d0fe',
+        900: '#fae8ff',
+        950: '#fdf4ff'
+      },
+      primary: {
+        main: '#f0abfc',
+        text: '#4a044e',
+        hover: '#f5d0fe',
+        active: '#fae8ff',
+        light: 'rgba(217, 70, 239, 0.22)',
+        border: 'rgba(217, 70, 239, 0.45)'
+      },
+      secondary: {
+        main: '#22d3ee',
+        text: '#083344',
+        hover: '#67e8f9',
+        active: '#a5f3fc',
+        light: 'rgba(6, 182, 212, 0.2)'
+      },
+      contrast: {
+        main: '#fdf4ff',
+        text: '#4a044e',
+        hover: '#ffffff'
+      },
+      surfaces: {
+        ground: '#130724',
+        section: '#1f0d3a',
+        card: '#29124d',
+        overlay: '#29124d',
+        hover: '#3b1a6e',
+        active: '#4f2393',
+        border: '#451f7d',
+        divider: '#451f7d'
+      },
+      text: {
+        primary: '#fdf4ff',
+        secondary: '#f5d0fe',
+        muted: '#e879f9',
+        disabled: '#64748b'
+      },
+      focus: {
+        ring: '0 0 0 3px rgba(240, 171, 252, 0.4)',
+        ringDanger: '0 0 0 3px rgba(251, 113, 133, 0.4)'
+      },
+      mask: {
+        bg: 'rgba(19, 7, 36, 0.85)'
+      },
+      scrollbar: {
+        thumb: '#f0abfc',
+        thumbHover: '#e879f9',
+        track: '#1f0d3a',
+        size: '8px',
+        radius: '9999px'
       }
     }
   }
@@ -744,5 +1144,8 @@ export const builtInThemes: GpThemeDefinition[] = [
   amethystTheme,
   roseTheme,
   nordTheme,
-  cyberpunkTheme
+  cyberpunkTheme,
+  prideTheme,
+  highContrastDarkTheme,
+  highContrastLightTheme
 ];
