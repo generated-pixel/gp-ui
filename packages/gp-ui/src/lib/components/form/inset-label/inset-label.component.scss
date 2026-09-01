@@ -7,7 +7,7 @@
 .gp-inset-label label,
 .gp-inset-label .gp-label {
   position: absolute;
-  top: 0.35rem;
+  top: 0.45rem;
   left: 0.75rem;
   font-size: var(--gp-inset-label-font-size, 0.7rem);
   font-weight: 700;
@@ -23,13 +23,40 @@
 /* Style direct input / gp-inputtext / select / textarea inside inset-label */
 .gp-inset-label input,
 .gp-inset-label textarea,
-.gp-inset-label .gp-inputtext,
-.gp-inset-label .gp-select,
-.gp-inset-label .gp-datepicker,
-.gp-inset-label .gp-timepicker {
-  padding-top: var(--gp-inset-label-padding-top, 1.35rem) !important;
-  padding-bottom: 0.35rem !important;
+.gp-inset-label .gp-inputtext {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color, #1e293b);
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: var(--gp-inset-label-padding-top, 1.35rem) var(--gp-input-padding-x, 0.75rem) 0.35rem var(--gp-input-padding-x, 0.75rem) !important;
   min-height: 3.25rem;
+  line-height: 1.5;
+  transition:
+    border-color var(--gp-transition-duration, 150ms) ease,
+    box-shadow var(--gp-transition-duration, 150ms) ease,
+    background-color var(--gp-transition-duration, 150ms) ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.gp-inset-label input:hover:not(:disabled):not([readonly]),
+.gp-inset-label textarea:hover:not(:disabled):not([readonly]),
+.gp-inset-label .gp-inputtext:hover:not(:disabled):not([readonly]) {
+  border-color: var(--gp-input-border-hover, var(--gp-primary-hover, #4f46e5));
+}
+
+.gp-inset-label input:focus,
+.gp-inset-label input:focus-visible,
+.gp-inset-label textarea:focus,
+.gp-inset-label textarea:focus-visible,
+.gp-inset-label .gp-inputtext:focus,
+.gp-inset-label .gp-inputtext:focus-visible {
+  border-color: var(--gp-input-border-focus, var(--gp-primary, #6366f1));
+  box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.2));
 }
 
 .gp-inset-label:focus-within label,
@@ -39,7 +66,7 @@
 
 .gp-inset-label--sm label,
 .gp-inset-label--sm .gp-label {
-  top: 0.25rem;
+  top: 0.3rem;
   font-size: calc(var(--gp-inset-label-font-size, 0.7rem) * 0.9);
 }
 .gp-inset-label--sm input,
@@ -51,7 +78,7 @@
 
 .gp-inset-label--lg label,
 .gp-inset-label--lg .gp-label {
-  top: 0.45rem;
+  top: 0.55rem;
   font-size: calc(var(--gp-inset-label-font-size, 0.7rem) * 1.1);
 }
 .gp-inset-label--lg input,

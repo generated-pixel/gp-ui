@@ -4,6 +4,44 @@
   width: 100%;
 }
 
+.gp-floatlabel input,
+.gp-floatlabel textarea,
+.gp-floatlabel .gp-inputtext {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color, #1e293b);
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: var(--gp-input-padding-y, 0.55rem) var(--gp-input-padding-x, 0.75rem);
+  min-height: var(--gp-input-height, 2.5rem);
+  line-height: 1.5;
+  transition:
+    border-color var(--gp-transition-duration, 150ms) ease,
+    box-shadow var(--gp-transition-duration, 150ms) ease,
+    background-color var(--gp-transition-duration, 150ms) ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.gp-floatlabel input:hover:not(:disabled):not([readonly]),
+.gp-floatlabel textarea:hover:not(:disabled):not([readonly]),
+.gp-floatlabel .gp-inputtext:hover:not(:disabled):not([readonly]) {
+  border-color: var(--gp-input-border-hover, var(--gp-primary-hover, #4f46e5));
+}
+
+.gp-floatlabel input:focus,
+.gp-floatlabel input:focus-visible,
+.gp-floatlabel textarea:focus,
+.gp-floatlabel textarea:focus-visible,
+.gp-floatlabel .gp-inputtext:focus,
+.gp-floatlabel .gp-inputtext:focus-visible {
+  border-color: var(--gp-input-border-focus, var(--gp-primary, #6366f1));
+  box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.2));
+}
+
 .gp-floatlabel label,
 .gp-floatlabel .gp-label {
   position: absolute;
@@ -54,6 +92,13 @@
 }
 
 /* Variant: 'in' (Inside the top edge of input) */
+.gp-floatlabel--in input,
+.gp-floatlabel--in textarea,
+.gp-floatlabel--in .gp-inputtext {
+  padding-top: 1.1rem;
+  padding-bottom: 0.25rem;
+}
+
 .gp-floatlabel--in:focus-within label,
 .gp-floatlabel--in:focus-within .gp-label,
 .gp-floatlabel--in:has(input:focus) label,
@@ -69,6 +114,10 @@
 }
 
 /* Variant: 'over' (Floating cleanly above the input) */
+.gp-floatlabel--over {
+  margin-top: 0.75rem;
+}
+
 .gp-floatlabel--over:focus-within label,
 .gp-floatlabel--over:focus-within .gp-label,
 .gp-floatlabel--over:has(input:focus) label,
