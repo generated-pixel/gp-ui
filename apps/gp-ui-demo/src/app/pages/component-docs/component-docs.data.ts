@@ -1261,13 +1261,28 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: '<gp-autocomplete [suggestions]="cities" (completeMethod)="search($event)" />',
     properties: [
       { name: 'suggestions', type: 'any[]', default: '[]', description: 'Matching results shown during typing.' },
+      { name: 'field', type: 'string', default: "''", description: 'Property name to use as the display label on object items.' },
+      { name: 'multiple', type: 'boolean', default: 'false', description: 'Enables multiple selection mode with removable token chips.' },
+      {
+        name: 'externalSelection',
+        type: 'Observable<any | any[]>',
+        default: 'undefined',
+        description: 'Observable stream that automatically injects selected items from external search dialogs or subscriptions.'
+      },
+      { name: 'showAdvancedSearch', type: 'boolean', default: 'false', description: 'Shows an Advanced Search footer action row in the overlay.' },
+      { name: 'hasMore', type: 'boolean', default: 'false', description: 'Indicates more results exist beyond the current suggestions.' },
+      { name: 'totalResults', type: 'number', default: 'undefined', description: 'Total results count displayed in the advanced search badge.' },
+      { name: 'advancedSearchLabel', type: 'string', default: "'Advanced Search...'", description: 'Label for the advanced search action button.' },
+      { name: 'showAdvancedSearchButton', type: 'boolean', default: 'false', description: 'Renders an advanced search icon button in the input wrapper.' },
+      { name: 'showClear', type: 'boolean', default: 'false', description: 'Shows a clear button when values are selected.' },
       { name: 'dropdown', type: 'boolean', default: 'false', description: 'Shows a dropdown arrow button.' },
       {
         name: 'minLength',
         type: 'number',
         default: '1',
         description: 'Minimum characters before suggestions are requested.'
-      }
+      },
+      { name: 'debounce', type: 'number', default: '250', description: 'Debounce delay in milliseconds before completeMethod is triggered.' }
     ]
   },
   {
