@@ -63,14 +63,14 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
 
   private resolveTarget(): HTMLElement | null {
     const target = this.gpAppendTo();
-    if (!target || target === 'self') {
+    if (target === 'self') {
       return null;
     }
-    if (target === 'body') {
+    if (target === 'body' || !target) {
       return this.document.body;
     }
     if (typeof target === 'string') {
-      return this.document.querySelector(target) as HTMLElement;
+      return (this.document.querySelector(target) as HTMLElement | null) || this.document.body;
     }
     if (target instanceof ElementRef) {
       return target.nativeElement as HTMLElement;
