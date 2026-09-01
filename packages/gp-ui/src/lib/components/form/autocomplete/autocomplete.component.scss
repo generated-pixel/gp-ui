@@ -4,24 +4,228 @@
   width: 100%;
 }
 
-.gp-autocomplete-dropdown-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: var(--gp-autocomplete-dropdown-width, 2.25rem);
-  background: var(--gp-autocomplete-dropdown-background, var(--gp-surface-section));
-  border: 1px solid var(--gp-autocomplete-dropdown-border-color, var(--gp-input-border));
-  border-left: none;
-  border-top-right-radius: var(--gp-autocomplete-border-radius, var(--gp-border-radius));
-  border-bottom-right-radius: var(--gp-autocomplete-border-radius, var(--gp-border-radius));
-  color: var(--gp-autocomplete-dropdown-color, var(--gp-text-color-secondary));
-  cursor: pointer;
+.gp-autocomplete-input-wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  width: 100%;
+  min-height: var(--gp-input-height, 2.5rem);
+  background: var(--gp-input-bg, var(--gp-surface-card));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: 0.25rem 0.5rem;
+  gap: 0.35rem;
+  box-sizing: border-box;
+  transition:
+    border-color var(--gp-transition-duration, 150ms),
+    box-shadow var(--gp-transition-duration, 150ms);
+
+  &:hover:not(.gp-input-disabled) {
+    border-color: var(--gp-input-border-hover, var(--gp-primary));
+  }
+
+  &:focus-within {
+    border-color: var(--gp-primary);
+    box-shadow: 0 0 0 1px var(--gp-primary);
+  }
+}
+
+.gp-autocomplete.gp-input-invalid .gp-autocomplete-input-wrapper {
+  border-color: var(--gp-danger, #ef4444);
+}
+
+.gp-autocomplete.gp-input-disabled .gp-autocomplete-input-wrapper {
+  background: var(--gp-surface-section, rgba(0, 0, 0, 0.05));
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gp-autocomplete-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.gp-autocomplete-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--gp-primary-light, rgba(99, 102, 241, 0.12));
+  color: var(--gp-primary-text-contrast, var(--gp-text-color));
+  border: 1px solid var(--gp-primary-light-border, rgba(99, 102, 241, 0.25));
+  border-radius: var(--gp-border-radius-sm, 4px);
+  padding: 0.15rem 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.gp-autocomplete-token-label {
+  max-width: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gp-autocomplete-token-remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  transition: opacity 0.12s ease;
 
   &:hover {
-    background: var(--gp-autocomplete-dropdown-hover-background, var(--gp-surface-hover));
+    opacity: 1;
   }
+}
+
+.gp-autocomplete-input {
+  flex: 1 1 5rem;
+  min-width: 4rem;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0.15rem 0.25rem !important;
+  height: auto !important;
+  color: var(--gp-text-color);
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  outline: none;
+}
+
+.gp-autocomplete-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.gp-autocomplete-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--gp-text-color-secondary);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background: var(--gp-surface-hover);
+    color: var(--gp-text-color);
+  }
+}
+
+.gp-autocomplete-search-btn:hover {
+  color: var(--gp-primary);
+}
+
+.gp-autocomplete-dropdown-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--gp-text-color-secondary);
+  cursor: pointer;
+  border-radius: var(--gp-border-radius-sm, 4px);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background: var(--gp-surface-hover);
+    color: var(--gp-text-color);
+  }
+}
+
+.gp-autocomplete-overlay {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius, 6px);
+  box-shadow: var(--gp-shadow-lg, 0 10px 25px -5px rgba(0, 0, 0, 0.1));
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.gp-autocomplete-empty-message {
+  padding: 0.75rem 1rem;
+  color: var(--gp-text-color-secondary);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.gp-autocomplete-advanced-search-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: var(--gp-surface-section, rgba(0, 0, 0, 0.03));
+  border-top: 1px solid var(--gp-surface-border);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--gp-primary-light, rgba(99, 102, 241, 0.12));
+    color: var(--gp-primary);
+  }
+}
+
+.gp-autocomplete-advanced-search-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gp-autocomplete-adv-icon {
+  color: var(--gp-primary);
+}
+
+.gp-autocomplete-adv-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gp-primary);
+}
+
+.gp-autocomplete-total-badge {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary);
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+}
+
+.gp-autocomplete-header-slot,
+.gp-autocomplete-footer-slot {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--gp-surface-border);
+}
+
+.gp-autocomplete-footer-slot {
+  border-bottom: none;
+  border-top: 1px solid var(--gp-surface-border);
 }

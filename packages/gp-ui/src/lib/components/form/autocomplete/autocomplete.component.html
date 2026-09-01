@@ -1,10 +1,44 @@
-<div class="gp-autocomplete" [class.gp-input-disabled]="isEffectivelyDisabled()" [class.gp-input-invalid]="isInvalid()">
-  <div class="gp-input-wrapper">
+<div
+  class="gp-autocomplete"
+  [class.gp-autocomplete-multiple]="multiple()"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-invalid]="isInvalid()"
+  (click)="onContainerClick($event)"
+>
+  <div class="gp-input-wrapper gp-autocomplete-input-wrapper">
+    <!-- Multiple Mode Chips/Tokens -->
+    @if (multiple() && selectedItems().length > 0) {
+      <div class="gp-autocomplete-tokens">
+        @for (item of selectedItems(); track $index) {
+          @if (effectiveChipTemplate()) {
+            <ng-container
+              *ngTemplateOutlet="effectiveChipTemplate()!; context: { $implicit: item, index: $index, remove: removeMultipleItem.bind(this, item) }"
+            />
+          } @else {
+            <span class="gp-autocomplete-token">
+              <span class="gp-autocomplete-token-label">{{ getItemLabel(item) }}</span>
+              @if (!isEffectivelyDisabled() && !readonly()) {
+                <button
+                  type="button"
+                  class="gp-autocomplete-token-remove"
+                  aria-label="Remove item"
+                  (click)="removeMultipleItem(item, $event)"
+                >
+                  <gp-icon name="times" size="0.65em" />
+                </button>
+              }
+            </span>
+          }
+        }
+      </div>
+    }
+
     <input
+      #nativeInput
       [id]="inputId()"
       type="text"
       [value]="inputDisplayValue()"
-      [placeholder]="placeholder()"
+      [placeholder]="multiple() && selectedItems().length > 0 ? '' : placeholder()"
       [disabled]="isEffectivelyDisabled()"
       [readonly]="readonly()"
       [attr.aria-label]="ariaLabel() || placeholder() || 'Auto Complete'"
@@ -15,35 +49,111 @@
       (focus)="onFocus($event)"
       (blur)="onBlur()"
       (keydown)="onKeyDown($event)"
-      class="gp-inputtext"
+      class="gp-inputtext gp-autocomplete-input"
     />
 
-    @if (dropdown()) {
-      <button
-        type="button"
-        class="gp-autocomplete-dropdown-btn"
-        aria-label="Open suggestions"
-        (click)="toggleDropdown($event)"
-      >
-        <gp-icon name="chevron-down" size="0.85em" />
-      </button>
-    }
+    <!-- Trailing Action Icons -->
+    <div class="gp-autocomplete-actions">
+      <!-- Clear Button -->
+      @if (showClear() && ((multiple() && selectedItems().length > 0) || (!multiple() && (internalValue() != null || query()))) && !isEffectivelyDisabled() && !readonly()) {
+        <button
+          type="button"
+          class="gp-autocomplete-action-btn gp-autocomplete-clear-btn"
+          aria-label="Clear selection"
+          (click)="clear($event)"
+        >
+          <gp-icon name="times" size="0.8em" />
+        </button>
+      }
+
+      <!-- Advanced Search Action Button -->
+      @if (showAdvancedSearchButton()) {
+        <button
+          type="button"
+          class="gp-autocomplete-action-btn gp-autocomplete-search-btn"
+          aria-label="Open advanced search dialog"
+          [title]="advancedSearchLabel()"
+          (click)="triggerAdvancedSearch($event)"
+        >
+          <gp-icon name="search" size="0.85em" />
+        </button>
+      }
+
+      <!-- Dropdown Toggle Button -->
+      @if (dropdown()) {
+        <button
+          type="button"
+          class="gp-autocomplete-dropdown-btn"
+          aria-label="Open suggestions"
+          (click)="toggleDropdown($event)"
+        >
+          <gp-icon name="chevron-down" size="0.85em" />
+        </button>
+      }
+    </div>
   </div>
 
-  @if (overlayVisible() && suggestions() && suggestions().length > 0) {
+  <!-- Suggestions Overlay -->
+  @if (overlayVisible()) {
     <div class="gp-select-overlay gp-autocomplete-overlay" role="listbox" (click)="$event.stopPropagation()">
-      <ul class="gp-select-items">
-        @for (item of suggestions(); track $index) {
-          <li
-            class="gp-select-item"
-            [class.gp-select-item-selected]="$index === activeIndex()"
-            role="option"
-            (click)="selectItem(item, $event)"
-          >
-            <span>{{ getItemLabel(item) }}</span>
-          </li>
+      <!-- Header Slot -->
+      @if (effectiveHeaderTemplate()) {
+        <div class="gp-autocomplete-header-slot">
+          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate()!" />
+        </div>
+      }
+
+      <!-- Items List -->
+      @if (suggestions() && suggestions().length > 0) {
+        <ul class="gp-select-items">
+          @for (item of suggestions(); track $index) {
+            <li
+              class="gp-select-item"
+              [class.gp-select-item-selected]="$index === activeIndex()"
+              role="option"
+              (click)="selectItem(item, $event)"
+            >
+              @if (effectiveItemTemplate()) {
+                <ng-container
+                  *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item, index: $index }"
+                />
+              } @else {
+                <span>{{ getItemLabel(item) }}</span>
+              }
+            </li>
+          }
+        </ul>
+      } @else if (isMinLengthMet()) {
+        @if (effectiveEmptyTemplate()) {
+          <div class="gp-autocomplete-empty-slot">
+            <ng-container *ngTemplateOutlet="effectiveEmptyTemplate()!" />
+          </div>
+        } @else {
+          <div class="gp-autocomplete-empty-message">
+            <span>{{ emptyMessage() }}</span>
+          </div>
         }
-      </ul>
+      }
+
+      <!-- Advanced Search Prompt Row (Too many results / search more) -->
+      @if (showAdvancedSearchRow()) {
+        <div class="gp-autocomplete-advanced-search-row" (click)="triggerAdvancedSearch($event)">
+          <div class="gp-autocomplete-advanced-search-left">
+            <gp-icon name="search" size="0.9em" class="gp-autocomplete-adv-icon" />
+            <span class="gp-autocomplete-adv-label">{{ advancedSearchLabel() }}</span>
+          </div>
+          @if (totalResults() !== undefined) {
+            <span class="gp-autocomplete-total-badge">{{ totalResults() }} results available</span>
+          }
+        </div>
+      }
+
+      <!-- Footer Slot -->
+      @if (effectiveFooterTemplate()) {
+        <div class="gp-autocomplete-footer-slot">
+          <ng-container *ngTemplateOutlet="effectiveFooterTemplate()!" />
+        </div>
+      }
     </div>
   }
 </div>
