@@ -8,7 +8,7 @@ import {
   signal,
   Signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpBadgeComponent, GpBadgeSeverity, GpIconComponent, GpSkeletonComponent } from '@generatedpixel/gp-ui';
 import { GpChartWidgetData, GpChartWidgetMonthlyData } from '../../models/grid-widget.model';
 import { normalizeChartWidgetData } from '../../services/widget-data-resolver';
@@ -17,7 +17,7 @@ import { GpGridWidgetBase } from '../../base/gp-grid-widget.base';
 @Component({
   selector: 'gp-grid-chart-widget',
   standalone: true,
-  imports: [CommonModule, GpBadgeComponent, GpIconComponent, GpSkeletonComponent],
+  imports: [GpBadgeComponent, GpIconComponent, GpSkeletonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid-chart-widget.component.html',
@@ -44,11 +44,17 @@ export class GpGridChartWidgetComponent extends GpGridWidgetBase<GpChartWidgetDa
     return normalizeChartWidgetData(this.rawData());
   });
 
-  public effectiveTitle = computed(() => this.title() || this.normalizedData().title || this.item()?.title || 'Revenue & Performance');
+  public effectiveTitle = computed(
+    () => this.title() || this.normalizedData().title || this.item()?.title || 'Revenue & Performance'
+  );
   public effectiveSubtitle = computed(() => this.subtitle() || this.normalizedData().subtitle || '');
   public effectiveBadge = computed(() => this.badge() || this.normalizedData().badge || '');
-  public effectiveBadgeSeverity = computed<GpBadgeSeverity>(() => this.badgeSeverity() || this.normalizedData().badgeSeverity || 'success');
-  public effectiveRanges = computed(() => this.timeRangeOptions() || this.normalizedData().timeRangeOptions || ['7D', '30D', '90D', '1Y']);
+  public effectiveBadgeSeverity = computed<GpBadgeSeverity>(
+    () => this.badgeSeverity() || this.normalizedData().badgeSeverity || 'success'
+  );
+  public effectiveRanges = computed(
+    () => this.timeRangeOptions() || this.normalizedData().timeRangeOptions || ['7D', '30D', '90D', '1Y']
+  );
 
   public effectiveMonthlyData = computed<GpChartWidgetMonthlyData[]>(() => {
     if (this.monthlyData() && this.monthlyData().length > 0) return this.monthlyData();
