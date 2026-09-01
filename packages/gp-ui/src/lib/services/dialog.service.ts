@@ -1,0 +1,60 @@
+import {
+  Injectable,
+  ApplicationRef,
+  createComponent,
+  EnvironmentInjector,
+  Type,
+  inject,
+  DOCUMENT
+} from '@angular/core';
+import {
+  GpDialogRef,
+  GpDynamicDialogConfig,
+  GP_DIALOG_CONFIG,
+  GP_DIALOG_DATA,
+  GP_DIALOG_REF
+} from './dialog.interface';
+import { GpDynamicDialogComponent } from '../components/overlay/dialog/dynamic-dialog.component';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GpDialogService {
+  private appRef = inject(ApplicationRef);
+  private injector = inject(EnvironmentInjector);
+  private document = inject(DOCUMENT);
+
+  /**
+   * Dynamically opens a modal dialog rendering the given component type.
+   * Returns a GpDialogRef handle with an `onClose` Observable of the selected result.
+   */
+  public open<TData = any, TResult = any>(
+    componentType: Type<any>,
+    config: GpDynamicDialogConfig<TData> = {}
+  ): GpDialogRef<TResult> {
+    const dialogRef = new GpDialogRef<TResult>();
+
+    const componentRef = createComponent(GpDynamicDialogComponent, {
+      environmentInjector: this.injector
+    });
+
+    componentRef.instance.childComponentType = componentType;
+    componentRef.instance.config = config;
+    componentRef.instance.dialogRef = dialogRef;
+
+    this.appRef.attachView(componentRef.hostView);
+
+    const domElem = (componentRef.hostView as any).rootNodes[0] as HTMLElement;
+    this.document.body.appendChild(domElem);
+
+    dialogRef.onDestroy.subscribe(() => {
+      this.appRef.detachView(componentRef.hostView);
+      componentRef.destroy();
+      if (domElem && domElem.parentNode) {
+        domElem.parentNode.removeChild(domElem);
+      }
+    });
+
+    return dialogRef;
+  }
+}
