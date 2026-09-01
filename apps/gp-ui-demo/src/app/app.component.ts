@@ -81,6 +81,19 @@ export interface ComponentCatalogueItem {
               <span class="company-link__label">Built by</span>
               <span class="company-link__brand">Generated Pixel</span>
             </a>
+
+            <!-- Buy Me A Coffee Donation CTA (Prominently next to Generated Pixel Logo) -->
+            <a
+              href="https://buymeacoffee.com/generatedpixel"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bmc-donation-btn bmc-donation-btn--header"
+              title="Support Generated Pixel & gp-ui on Buy Me a Coffee"
+              aria-label="Buy Me a Coffee - Support Generated Pixel"
+            >
+              <span class="bmc-cup-icon" aria-hidden="true">☕</span>
+              <span class="bmc-btn-text">Buy me a coffee</span>
+            </a>
           </div>
 
           <!-- Component Search Bar -->
@@ -206,14 +219,6 @@ export interface ComponentCatalogueItem {
         <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
           <div class="sidebar-header-note">
             <span>gp-ui Framework v{{ version }}</span>
-            <gp-button
-              label="Theme Studio"
-              icon="sliders"
-              size="sm"
-              variant="text"
-              styleClass="sidebar-studio-btn"
-              (onClickEvent)="themeEditorService.open(); closeSidebarOnMobile()"
-            />
           </div>
           <nav class="sidebar-nav">
             @for (cat of categories(); track cat) {
@@ -490,6 +495,55 @@ export interface ComponentCatalogueItem {
       .header-icon-btn:hover {
         background: var(--gp-surface-hover);
         color: var(--gp-primary);
+      }
+      .bmc-donation-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.42rem 0.95rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #FFDD00 0%, #F59E0B 100%);
+        color: #000000 !important;
+        font-weight: 800;
+        font-size: 0.84rem;
+        text-decoration: none !important;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow:
+          0 2px 10px rgba(245, 158, 11, 0.4),
+          0 0 0 1px rgba(255, 221, 0, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .bmc-donation-btn:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow:
+          0 6px 20px rgba(245, 158, 11, 0.65),
+          0 0 0 2px rgba(255, 221, 0, 0.5);
+        background: linear-gradient(135deg, #FFE54C 0%, #D97706 100%);
+        color: #000000 !important;
+      }
+      .bmc-cup-icon {
+        font-size: 1.15rem;
+        line-height: 1;
+        display: inline-block;
+        animation: bmcWiggle 3s ease-in-out infinite;
+        transform-origin: bottom center;
+      }
+      @keyframes bmcWiggle {
+        0%, 75%, 100% { transform: rotate(0deg) scale(1); }
+        80% { transform: rotate(-12deg) scale(1.15); }
+        85% { transform: rotate(12deg) scale(1.15); }
+        90% { transform: rotate(-6deg) scale(1.1); }
+        95% { transform: rotate(6deg) scale(1.05); }
+      }
+      @media (max-width: 768px) {
+        .bmc-btn-text {
+          display: none;
+        }
+        .bmc-donation-btn {
+          padding: 0.38rem 0.6rem;
+        }
       }
       .header-theme-studio-btn {
         display: inline-flex;
