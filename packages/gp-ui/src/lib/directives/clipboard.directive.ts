@@ -20,9 +20,10 @@ export class GpClipboardDirective {
 
   @HostListener('click', ['$event'])
   public async handleClick(event: MouseEvent): Promise<void> {
-    event.preventDefault();
-    event.stopPropagation();
-
+    const native = this.el.nativeElement as HTMLElement;
+    if (native.tagName === 'A' || (native.tagName === 'BUTTON' && (native as HTMLButtonElement).type !== 'button')) {
+      event.preventDefault();
+    }
     const targetText = this.textToCopy() || this.el.nativeElement.innerText || '';
     if (!targetText) {
       return;
