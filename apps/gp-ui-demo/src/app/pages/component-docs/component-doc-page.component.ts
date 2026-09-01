@@ -77,7 +77,13 @@ import {
   GpTreeComponent,
   GpTreeSelectComponent,
   GpTreeTableComponent,
-  GpVirtualScrollerComponent
+  GpVirtualScrollerComponent,
+  GpLabelComponent,
+  GpFloatLabelComponent,
+  GpInsetLabelComponent,
+  GpFormFieldComponent,
+  GpDateRangePickerComponent,
+  GpInputTextDirective
 } from 'gp-ui';
 import { GpIconComponent, GP_DEFAULT_ICONS } from 'gp-ui-icons';
 import { DocApiTableComponent } from '../../shared/doc-api-table.component';
@@ -161,6 +167,12 @@ import { getComponentDoc } from './component-docs.data';
     GpTreeSelectComponent,
     GpTreeTableComponent,
     GpVirtualScrollerComponent,
+    GpLabelComponent,
+    GpFloatLabelComponent,
+    GpInsetLabelComponent,
+    GpFormFieldComponent,
+    GpDateRangePickerComponent,
+    GpInputTextDirective,
     DocCodeComponent,
     DocApiTableComponent
   ],
@@ -252,6 +264,57 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('toggle-button') {
           <gp-toggle-button label="Bold" [value]="true" />
+        }
+        @case ('label') {
+          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 380px; width: 100%;">
+            <div>
+              <gp-label for="doc-label-demo" text="Username" [required]="true" helpText="Your unique handle identifier" />
+              <input id="doc-label-demo" gpInputText placeholder="johndoe" />
+            </div>
+            <div>
+              <gp-label for="doc-label-opt" text="Organization" [optional]="true" size="sm" />
+              <input id="doc-label-opt" gpInputText placeholder="Acme Global Inc." />
+            </div>
+          </div>
+        }
+        @case ('float-label') {
+          <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 380px; width: 100%;">
+            <gp-float-label variant="on">
+              <input id="doc-fl-border" gpInputText placeholder=" " />
+              <label for="doc-fl-border">Email Address (Border Cutout)</label>
+            </gp-float-label>
+            <gp-float-label variant="in">
+              <input id="doc-fl-in" gpInputText placeholder=" " />
+              <label for="doc-fl-in">User ID (Inner Top)</label>
+            </gp-float-label>
+          </div>
+        }
+        @case ('inset-label') {
+          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 380px; width: 100%;">
+            <gp-inset-label>
+              <label for="doc-inset-first">First Name</label>
+              <input id="doc-inset-first" gpInputText placeholder="Jane" />
+            </gp-inset-label>
+            <gp-inset-label>
+              <label for="doc-inset-last">Last Name</label>
+              <input id="doc-inset-last" gpInputText placeholder="Doe" />
+            </gp-inset-label>
+          </div>
+        }
+        @case ('form-field') {
+          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 420px; width: 100%;">
+            <gp-form-field label="Corporate Email" appearance="outlined" [required]="true" helpText="Used for two-factor authentication">
+              <input gpInputText placeholder="name@company.com" />
+            </gp-form-field>
+            <gp-form-field label="Fixed Top Label Mode" floatLabel="never" hint="Always rendered in top standard position">
+              <input gpInputText placeholder="Enter details..." />
+            </gp-form-field>
+          </div>
+        }
+        @case ('date-range-picker') {
+          <div style="max-width: 380px; width: 100%;">
+            <gp-date-range-picker placeholder="Select billing period..." />
+          </div>
         }
         @case ('input-text') {
           <gp-input-text label="Name" placeholder="Jane Doe" />

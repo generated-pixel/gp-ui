@@ -32,7 +32,8 @@ import {
   GpErrorDirective,
   GpLabelComponent,
   GpFloatLabelComponent,
-  GpInsetLabelComponent
+  GpInsetLabelComponent,
+  GpInputTextDirective
 } from 'gp-ui';
 import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
@@ -74,6 +75,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpLabelComponent,
     GpFloatLabelComponent,
     GpInsetLabelComponent,
+    GpInputTextDirective,
     GpIconComponent,
     DocCodeComponent,
     DocApiTableComponent

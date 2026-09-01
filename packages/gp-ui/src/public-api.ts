@@ -64,6 +64,7 @@ export * from './lib/components/button/speed-dial/speed-dial.component';
 export * from './lib/components/button/toggle-button/toggle-button.component';
 
 // Form Components
+export * from './lib/components/form/input-text/input-text.directive';
 export * from './lib/components/form/input-text/input-text.component';
 export * from './lib/components/form/textarea/textarea.component';
 export * from './lib/components/form/password/password.component';

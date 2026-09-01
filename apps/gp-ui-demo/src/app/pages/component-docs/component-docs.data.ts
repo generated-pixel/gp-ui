@@ -1351,6 +1351,92 @@ export const componentDocs: ComponentDocDefinition[] = [
         description: 'Badge color scheme.'
       }
     ]
+  },
+  {
+    slug: 'label',
+    name: 'Label',
+    category: 'Form Controls',
+    icon: 'tag',
+    description: 'Accessible form label component with required asterisks, optional text markers, interactive tooltips, and signal properties.',
+    importStatement: `import { GpLabelComponent } from '@generatedpixel/gp-ui';`,
+    exampleCode: `<gp-label for="username-input" text="Username" [required]="true" helpText="Enter your unique system handle" />\n<input id="username-input" gpInputText placeholder="e.g. johndoe" />`,
+    properties: [
+      { name: 'for', type: 'input<string>', default: "''", description: 'HTML for attribute linking the label to the target input ID.' },
+      { name: 'text', type: 'input<string>', default: "''", description: 'Label text content.' },
+      { name: 'icon', type: 'input<string | undefined>', default: 'undefined', description: 'Icon name rendered before the label text.' },
+      { name: 'required', type: 'input<boolean>', default: 'false', description: 'Whether to show the red required asterisk marker (*).' },
+      { name: 'optional', type: 'input<boolean>', default: 'false', description: 'Whether to display an optional badge marker.' },
+      { name: 'optionalText', type: 'input<string>', default: "'(optional)'", description: 'Custom optional text indicator.' },
+      { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Label typography scale.' },
+      { name: 'severity', type: "input<'default' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'>", default: "'default'", description: 'Color severity state.' },
+      { name: 'helpText', type: 'input<string | undefined>', default: 'undefined', description: 'Tooltip help text shown when hovering over the info icon.' },
+      { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Whether the label is rendered in disabled style.' }
+    ]
+  },
+  {
+    slug: 'float-label',
+    name: 'Float Label',
+    category: 'Form Controls',
+    icon: 'arrow-up',
+    description: 'Animated floating label container that moves smoothly when child input receives focus or has value.',
+    importStatement: `import { GpFloatLabelComponent } from '@generatedpixel/gp-ui';`,
+    exampleCode: `<gp-float-label variant="on">\n  <input id="email" gpInputText placeholder=" " />\n  <label for="email">Email Address</label>\n</gp-float-label>`,
+    properties: [
+      { name: 'variant', type: "input<'on' | 'in' | 'over'>", default: "'on'", description: "Floating label animation style: 'on' (on border), 'in' (inside top edge), or 'over' (cleanly above)." },
+      { name: 'always', type: 'input<boolean>', default: 'false', description: 'Forces the label to stay permanently floated in the active position.' }
+    ]
+  },
+  {
+    slug: 'inset-label',
+    name: 'Inset Label',
+    category: 'Form Controls',
+    icon: 'square-check',
+    description: 'Embedded top-left inset label container with integrated input padding and focus accent color shifts.',
+    importStatement: `import { GpInsetLabelComponent } from '@generatedpixel/gp-ui';`,
+    exampleCode: `<gp-inset-label>\n  <label for="firstname">First Name</label>\n  <input id="firstname" gpInputText placeholder="Jane" />\n</gp-inset-label>`,
+    properties: [
+      { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Inset container scale and padding dimensions.' },
+      { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disabled presentation state.' }
+    ]
+  },
+  {
+    slug: 'form-field',
+    name: 'Form Field',
+    category: 'Form Controls',
+    icon: 'square',
+    description: 'Universal form field wrapper with support for floating labels, inset labels, prefix/suffix icons, helper text, and validation error messages.',
+    importStatement: `import { GpFormFieldComponent } from '@generatedpixel/gp-ui';`,
+    exampleCode: `<gp-form-field label="Work Email" [required]="true" helpText="We will never share your email" appearance="outlined">\n  <input gpInputText placeholder="user@company.com" />\n</gp-form-field>`,
+    properties: [
+      { name: 'label', type: 'input<string | undefined>', default: 'undefined', description: 'Label text to display or float.' },
+      { name: 'appearance', type: "input<'outlined' | 'filled' | 'inset'>", default: "'outlined'", description: 'Visual container styling variant.' },
+      { name: 'floatLabel', type: "input<'auto' | 'always' | 'never' | 'on' | 'in' | 'over' | 'inset'>", default: "'auto'", description: 'Float behavior and position style.' },
+      { name: 'required', type: 'input<boolean>', default: 'false', description: 'Shows required asterisk indicator.' },
+      { name: 'optional', type: 'input<boolean>', default: 'false', description: 'Shows optional indicator.' },
+      { name: 'helpText', type: 'input<string | undefined>', default: 'undefined', description: 'Tooltip help text trigger.' },
+      { name: 'icon', type: 'input<string | undefined>', default: 'undefined', description: 'Prefix icon name.' },
+      { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disables field.' },
+      { name: 'invalid', type: 'input<boolean>', default: 'false', description: 'Explicit invalid error state.' },
+      { name: 'hint', type: 'input<string | undefined>', default: 'undefined', description: 'Helper hint message rendered below the input.' },
+      { name: 'errorMessage', type: 'input<string | undefined>', default: 'undefined', description: 'Error message shown when invalid.' }
+    ]
+  },
+  {
+    slug: 'date-range-picker',
+    name: 'Date Range Picker',
+    category: 'Form Controls',
+    icon: 'calendar',
+    description: 'Calendar range picker with dual-pane month navigation, preset shortcuts (Today, Last 7 Days, Last 30 Days), and reactive signals.',
+    importStatement: `import { GpDateRangePickerComponent } from '@generatedpixel/gp-ui';`,
+    exampleCode: `<gp-date-range-picker placeholder="Select start & end date..." />`,
+    properties: [
+      { name: 'placeholder', type: 'input<string>', default: "'Select date range...'", description: 'Placeholder label.' },
+      { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disabled control state.' },
+      { name: 'presets', type: 'input<GpDateRangePreset[]>', default: 'Default presets', description: 'Array of quick range preset shortcuts.' }
+    ],
+    events: [
+      { name: 'rangeChange', type: 'output<GpDateRange | null>', default: '-', description: 'Emitted when a complete date range is selected or cleared.' }
+    ]
   }
 ];
 
