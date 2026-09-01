@@ -1,0 +1,35 @@
+<label
+  [attr.for]="htmlFor() || null"
+  class="gp-label"
+  [class.gp-label--sm]="size() === 'sm'"
+  [class.gp-label--md]="size() === 'md'"
+  [class.gp-label--lg]="size() === 'lg'"
+  [class.gp-label--disabled]="disabled()"
+  [class.gp-label--required]="required()"
+  [ngClass]="severity() !== 'default' ? 'gp-label--' + severity() : ''"
+>
+  @if (icon()) {
+    <gp-icon [name]="icon()!" size="0.9em" class="gp-label__icon" />
+  }
+
+  <span class="gp-label__text">
+    @if (text()) {
+      {{ text() }}
+    }
+    <ng-content />
+  </span>
+
+  @if (required()) {
+    <span class="gp-label__required-marker" aria-hidden="true">*</span>
+  }
+
+  @if (optional()) {
+    <span class="gp-label__optional-text">{{ optionalText() }}</span>
+  }
+
+  @if (helpText()) {
+    <span class="gp-label__help-icon" [title]="helpText()!">
+      <gp-icon name="info-circle" size="0.85em" />
+    </span>
+  }
+</label>
