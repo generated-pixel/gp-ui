@@ -1,0 +1,70 @@
+<div
+  class="gp-form-field"
+  [class.gp-form-field-outlined]="appearance() === 'outlined'"
+  [class.gp-form-field-filled]="appearance() === 'filled'"
+  [class.gp-form-field-small]="size() === 'small'"
+  [class.gp-form-field-large]="size() === 'large'"
+  [class.gp-form-field-focused]="isFocused()"
+  [class.gp-form-field-floating]="isFloating()"
+  [class.gp-form-field-has-prefix]="hasPrefix()"
+  [class.gp-form-field-has-suffix]="hasSuffix()"
+  [class.gp-form-field-invalid]="isInvalid()"
+  [class.gp-form-field-disabled]="disabled()"
+  (click)="focusControl()"
+>
+  <!-- Control Container -->
+  <div class="gp-form-field-wrapper">
+    <!-- Prefix Slot -->
+    @if (hasPrefix()) {
+      <div class="gp-form-field-prefix" (click)="$event.stopPropagation()">
+        <ng-content select="[gpPrefix]" />
+      </div>
+    }
+
+    <!-- Infix (Floating Label + Input Content) -->
+    <div class="gp-form-field-infix">
+      @if (label()) {
+        <label class="gp-form-field-label">
+          {{ label() }}
+          @if (required()) {
+            <span class="gp-form-field-required-marker" aria-hidden="true">*</span>
+          }
+        </label>
+      }
+
+      <div class="gp-form-field-control">
+        <ng-content />
+      </div>
+    </div>
+
+    <!-- Suffix Slot -->
+    @if (hasSuffix()) {
+      <div class="gp-form-field-suffix" (click)="$event.stopPropagation()">
+        <ng-content select="[gpSuffix]" />
+      </div>
+    }
+  </div>
+
+  <!-- Subscript (Helper / Error Message) -->
+  @if (hasSubscript()) {
+    <div class="gp-form-field-subscript">
+      @if (isInvalid() && (errorMessage() || hasErrorDirective())) {
+        <div class="gp-form-error-item gp-form-field-error" role="alert">
+          <ng-content select="[gpError]" />
+          @if (!hasErrorDirective() && errorMessage()) {
+            <span>{{ errorMessage() }}</span>
+          }
+        </div>
+      }
+
+      @if (!isInvalid() && (hint() || hasHelperDirective())) {
+        <div class="gp-form-field-hint">
+          <ng-content select="[gpHelper]" />
+          @if (!hasHelperDirective() && hint()) {
+            <span>{{ hint() }}</span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

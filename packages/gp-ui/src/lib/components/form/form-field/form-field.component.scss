@@ -1,0 +1,191 @@
+:host {
+  display: block;
+  margin-bottom: var(--gp-form-field-margin-bottom, 1rem);
+}
+
+.gp-form-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: inherit;
+}
+
+.gp-form-field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 46px;
+  border-radius: var(--gp-border-radius-base, 6px);
+  background: var(--gp-surface-card, #ffffff);
+  border: 1px solid var(--gp-surface-border, #cbd5e1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.gp-form-field-filled .gp-form-field-wrapper {
+  background: var(--gp-surface-ground, #f8fafc);
+  border-bottom: 2px solid var(--gp-surface-border, #94a3b8);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: var(--gp-border-radius-base, 6px) var(--gp-border-radius-base, 6px) 0 0;
+}
+
+.gp-form-field-small .gp-form-field-wrapper {
+  min-height: 38px;
+}
+
+.gp-form-field-large .gp-form-field-wrapper {
+  min-height: 54px;
+}
+
+.gp-form-field-prefix,
+.gp-form-field-suffix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  color: var(--gp-text-muted, #64748b);
+  flex-shrink: 0;
+}
+
+.gp-form-field-infix {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 6px 12px;
+}
+
+.gp-form-field-has-prefix .gp-form-field-infix {
+  padding-left: 0;
+}
+
+.gp-form-field-has-suffix .gp-form-field-infix {
+  padding-right: 0;
+}
+
+.gp-form-field-label {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem;
+  color: var(--gp-text-muted, #64748b);
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+              font-size 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+              color 0.2s ease,
+              top 0.2s ease;
+  transform-origin: left top;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.gp-form-field-has-prefix .gp-form-field-label {
+  left: 0;
+}
+
+.gp-form-field-floating .gp-form-field-label {
+  top: 4px;
+  transform: translateY(0) scale(0.75);
+  color: var(--gp-text-secondary, #475569);
+  font-weight: 500;
+}
+
+.gp-form-field-focused.gp-form-field-floating .gp-form-field-label {
+  color: var(--gp-primary, #4f46e5);
+}
+
+.gp-form-field-required-marker {
+  color: var(--gp-danger, #ef4444);
+  margin-left: 2px;
+}
+
+.gp-form-field-control {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.gp-form-field-floating .gp-form-field-control {
+  margin-top: 10px;
+}
+
+/* Focus styling */
+.gp-form-field-focused .gp-form-field-wrapper {
+  border-color: var(--gp-primary, #4f46e5);
+  box-shadow: 0 0 0 3px var(--gp-primary-light, rgba(79, 70, 229, 0.15));
+}
+
+.gp-form-field-filled.gp-form-field-focused .gp-form-field-wrapper {
+  border-bottom-color: var(--gp-primary, #4f46e5);
+  box-shadow: none;
+}
+
+/* Invalid styling */
+.gp-form-field-invalid .gp-form-field-wrapper {
+  border-color: var(--gp-danger, #ef4444) !important;
+}
+
+.gp-form-field-invalid.gp-form-field-focused .gp-form-field-wrapper {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
+.gp-form-field-invalid .gp-form-field-label {
+  color: var(--gp-danger, #ef4444) !important;
+}
+
+/* Disabled */
+.gp-form-field-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gp-form-field-disabled .gp-form-field-wrapper {
+  background-color: var(--gp-surface-ground, #f1f5f9);
+}
+
+/* Subscript (Hint / Error) */
+.gp-form-field-subscript {
+  padding: 4px 12px 0;
+  font-size: 0.78rem;
+  min-height: 18px;
+}
+
+.gp-form-field-hint {
+  color: var(--gp-text-muted, #64748b);
+}
+
+.gp-form-field-error {
+  color: var(--gp-danger, #ef4444);
+  font-weight: 500;
+  animation: gp-form-error-in 0.15s ease-out;
+}
+
+@keyframes gp-form-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Deep style children inputs when inside form-field */
+:host ::ng-deep input,
+:host ::ng-deep textarea,
+:host ::ng-deep select {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100% !important;
+}
