@@ -84,7 +84,7 @@ export class GpAnnouncementBarComponent implements OnInit {
       action.action();
     }
     if (action.url && typeof window !== 'undefined') {
-      window.open(action.url, '_blank');
+      window.open(action.url, '_blank', 'noopener,noreferrer');
     }
     this.onAction.emit(action);
   }
