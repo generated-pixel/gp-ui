@@ -1,3 +1,15 @@
-<div class="gp-avatar-group">
+<div
+  class="gp-avatar"
+  [class]="'gp-avatar-' + size() + ' gp-avatar-' + shape()"
+  [style.background-color]="bgColor() || null"
+  [style.color]="textColor() || null"
+>
+  @if (image()) {
+    <img [src]="image()" [alt]="label() || 'avatar'" class="gp-avatar-img" />
+  } @else if (icon()) {
+    <gp-icon [name]="icon()" [size]="iconSize()" class="gp-avatar-icon" />
+  } @else if (label()) {
+    <span class="gp-avatar-text">{{ label() }}</span>
+  }
   <ng-content />
 </div>
