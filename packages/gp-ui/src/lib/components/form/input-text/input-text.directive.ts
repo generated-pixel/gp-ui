@@ -1,4 +1,4 @@
-import { Directive, input, computed, HostBinding } from '@angular/core';
+import { Directive, input } from '@angular/core';
 
 export type GpInputTextSize = 'sm' | 'md' | 'lg' | 'small' | 'large';
 
