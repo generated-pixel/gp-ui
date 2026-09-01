@@ -1,8 +1,8 @@
 <div class="gp-sidebar-header-over-shell">
   <!-- Full-Width Header Spanning Across -->
   <header class="spanning-header">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
     </ng-container>
     <ng-template #defaultHeader>
       <ng-content select="[header], [slot=header]" />
@@ -24,8 +24,8 @@
   <!-- Bottom Body Split (Sidebar + Content) -->
   <div class="spanning-body">
     <aside class="nested-sidebar">
-      <ng-container *ngIf="effectiveSidebar; else defaultSidebar">
-        <ng-container *ngTemplateOutlet="effectiveSidebar" />
+      <ng-container *ngIf="effectiveSidebar(); else defaultSidebar">
+        <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
       </ng-container>
       <ng-template #defaultSidebar>
         <ng-content select="[sidebar], [slot=sidebar]" />
@@ -47,8 +47,8 @@
     </aside>
 
     <main class="spanning-main">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
+      <ng-container *ngIf="effectiveContent(); else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
       </ng-container>
       <ng-template #defaultContent>
         <ng-content select="[main], [slot=main], [content], [slot=content]" />

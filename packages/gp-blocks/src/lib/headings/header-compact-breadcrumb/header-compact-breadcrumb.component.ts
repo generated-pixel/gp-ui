@@ -1,8 +1,10 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-compact-breadcrumb',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent],
@@ -19,17 +21,13 @@ export class GpHeaderCompactBreadcrumbComponent {
   public editClick = output<void>();
   public shareClick = output<void>();
 
-  @Input() public breadcrumbsTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
+  public breadcrumbsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('breadcrumbs') public contentBreadcrumbs?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentBreadcrumbs = contentChild<TemplateRef<any>>('breadcrumbs');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveBreadcrumbs(): TemplateRef<any> | undefined {
-    return this.breadcrumbsTemplate || this.contentBreadcrumbs;
-  }
+  public effectiveBreadcrumbs = computed(() => this.breadcrumbsTemplate() || this.contentBreadcrumbs());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 }

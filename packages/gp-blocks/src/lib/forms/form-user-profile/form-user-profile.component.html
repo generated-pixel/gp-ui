@@ -1,7 +1,7 @@
 <div class="gp-form-user-profile-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,13 +14,13 @@
   </ng-template>
 
   <!-- Form Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[content], [slot=content]" />
-      <ng-container *ngIf="effectiveForm; else defaultForm">
-        <ng-container *ngTemplateOutlet="effectiveForm" />
+      <ng-container *ngIf="effectiveForm(); else defaultForm">
+        <ng-container *ngTemplateOutlet="effectiveForm()!" />
       </ng-container>
       <ng-template #defaultForm>
         <ng-content select="[form], [slot=form]" />
@@ -86,8 +86,8 @@
       </ng-template>
 
       <!-- Footer Actions -->
-      <ng-container *ngIf="effectiveFooterActions; else defaultFooter">
-        <ng-container *ngTemplateOutlet="effectiveFooterActions" />
+      <ng-container *ngIf="effectiveFooterActions(); else defaultFooter">
+        <ng-container *ngTemplateOutlet="effectiveFooterActions()!" />
       </ng-container>
       <ng-template #defaultFooter>
         <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />

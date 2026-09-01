@@ -1,7 +1,7 @@
 <div class="gp-dashboard-ops-root">
   <!-- Optional Top Action Bar / Slot -->
-  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
-    <ng-container *ngTemplateOutlet="contentHeaderActions" />
+  <div class="dashboard-top-slot" *ngIf="contentHeaderActions()">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
   </div>
   <ng-content select="[actions], [slot=actions]" />
 
@@ -17,15 +17,15 @@
   >
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
-      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
+      <ng-container *ngIf="effectiveWidgetTemplate(); else defaultWidgetRender">
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       </ng-container>
 
       <ng-template #defaultWidgetRender>
         <!-- 1. Fleet Status Banner Widget -->
         <ng-container *ngIf="item.id === 'fleet-status'">
-          <ng-container *ngIf="contentStatus; else defaultStatus">
-            <ng-container *ngTemplateOutlet="contentStatus" />
+          <ng-container *ngIf="contentStatus(); else defaultStatus">
+            <ng-container *ngTemplateOutlet="contentStatus()!" />
           </ng-container>
           <ng-template #defaultStatus>
             <div class="ops-status-banner">
@@ -40,8 +40,8 @@
 
         <!-- 2. Nodes List Widget -->
         <ng-container *ngIf="item.id === 'nodes-list'">
-          <ng-container *ngIf="contentNodes; else defaultNodes">
-            <ng-container *ngTemplateOutlet="contentNodes" />
+          <ng-container *ngIf="contentNodes(); else defaultNodes">
+            <ng-container *ngTemplateOutlet="contentNodes()!" />
           </ng-container>
           <ng-template #defaultNodes>
             <div class="ops-node-grid" *ngIf="nodes() && nodes().length > 0" style="height: 100%;">

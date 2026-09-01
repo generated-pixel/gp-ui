@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -11,6 +11,8 @@ export interface GpAlertBannerItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-feedback-alert-banners',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent],
@@ -22,17 +24,13 @@ export class GpFeedbackAlertBannersComponent {
 
   public dismiss = output<GpAlertBannerItem>();
 
-  @Input() public alertTemplate?: TemplateRef<{ $implicit: GpAlertBannerItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public alertTemplate = input<TemplateRef<{ $implicit: GpAlertBannerItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('alertTemplate') public contentAlertTemplate?: TemplateRef<{ $implicit: GpAlertBannerItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentAlertTemplate = contentChild<TemplateRef<{ $implicit: GpAlertBannerItem }>>('alertTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveAlertTemplate(): TemplateRef<{ $implicit: GpAlertBannerItem }> | undefined {
-    return this.alertTemplate || this.contentAlertTemplate;
-  }
+  public effectiveAlertTemplate = computed(() => this.alertTemplate() || this.contentAlertTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

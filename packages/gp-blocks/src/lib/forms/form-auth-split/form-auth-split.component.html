@@ -1,8 +1,8 @@
 <div class="gp-auth-split-shell">
   <!-- Left Brand Hero Column -->
   <div class="auth-hero-col">
-    <ng-container *ngIf="effectiveHero; else defaultHero">
-      <ng-container *ngTemplateOutlet="effectiveHero" />
+    <ng-container *ngIf="effectiveHero(); else defaultHero">
+      <ng-container *ngTemplateOutlet="effectiveHero()!" />
     </ng-container>
     <ng-template #defaultHero>
       <ng-content select="[hero], [slot=hero]" />
@@ -24,12 +24,12 @@
   <!-- Right Form Column -->
   <div class="auth-form-col">
     <div class="form-container-card">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
+      <ng-container *ngIf="effectiveContent(); else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
       </ng-container>
       <ng-template #defaultContent>
-        <ng-container *ngIf="effectiveForm; else defaultForm">
-          <ng-container *ngTemplateOutlet="effectiveForm" />
+        <ng-container *ngIf="effectiveForm(); else defaultForm">
+          <ng-container *ngTemplateOutlet="effectiveForm()!" />
         </ng-container>
         <ng-template #defaultForm>
           <ng-content select="[form], [slot=form]" />

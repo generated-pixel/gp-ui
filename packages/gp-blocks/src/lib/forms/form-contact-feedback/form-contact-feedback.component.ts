@@ -1,8 +1,10 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-contact-feedback',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent, GpTextareaComponent],
@@ -35,25 +37,19 @@ export class GpFormContactFeedbackComponent {
     message: string;
   }>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public formTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public formTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('form') public contentForm?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentForm = contentChild<TemplateRef<any>>('form');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveForm(): TemplateRef<any> | undefined {
-    return this.formTemplate || this.contentForm;
-  }
+  public effectiveForm = computed(() => this.formTemplate() || this.contentForm());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onSubmit(): void {
     this.submitFeedback.emit({

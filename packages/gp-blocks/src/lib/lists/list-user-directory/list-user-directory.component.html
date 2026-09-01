@@ -1,7 +1,7 @@
 <div class="gp-user-directory-block">
   <!-- Header with Search -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -23,16 +23,16 @@
   </ng-template>
 
   <!-- User Cards Grid Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[users], [slot=users], [directory], [slot=directory]" />
 
       <div class="user-grid" *ngIf="users() && users().length > 0">
         <ng-container *ngFor="let u of users()">
-          <ng-container *ngIf="effectiveUserTemplate; else defaultUser">
-            <ng-container *ngTemplateOutlet="effectiveUserTemplate; context: { $implicit: u }" />
+          <ng-container *ngIf="effectiveUserTemplate(); else defaultUser">
+            <ng-container *ngTemplateOutlet="effectiveUserTemplate()!; context: { $implicit: u }" />
           </ng-container>
           <ng-template #defaultUser>
             <div class="user-card">

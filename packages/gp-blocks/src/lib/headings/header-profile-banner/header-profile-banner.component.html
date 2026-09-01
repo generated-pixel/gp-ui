@@ -1,7 +1,7 @@
 <div class="gp-profile-banner-header">
   <div class="banner-gradient">
-    <ng-container *ngIf="effectiveBanner; else defaultBanner">
-      <ng-container *ngTemplateOutlet="effectiveBanner" />
+    <ng-container *ngIf="effectiveBanner(); else defaultBanner">
+      <ng-container *ngTemplateOutlet="effectiveBanner()!" />
     </ng-container>
     <ng-template #defaultBanner>
       <ng-content select="[banner], [slot=banner]" />
@@ -9,8 +9,8 @@
   </div>
 
   <div class="profile-info-bar">
-    <ng-container *ngIf="effectiveProfile; else defaultProfile">
-      <ng-container *ngTemplateOutlet="effectiveProfile" />
+    <ng-container *ngIf="effectiveProfile(); else defaultProfile">
+      <ng-container *ngTemplateOutlet="effectiveProfile()!" />
     </ng-container>
     <ng-template #defaultProfile>
       <ng-content select="[profile], [slot=profile]" />
@@ -38,8 +38,8 @@
     </ng-template>
 
     <div class="profile-actions">
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
+      <ng-container *ngIf="effectiveActions(); else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions()!" />
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]" />

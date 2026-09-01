@@ -1,8 +1,10 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-page-403',
   standalone: true,
   imports: [CommonModule, GpButtonComponent],
@@ -19,23 +21,17 @@ export class GpPage403Component {
   public returnHome = output<void>();
   public requestAccess = output<void>();
 
-  @Input() public codeTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public codeTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('code') public contentCode?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentCode = contentChild<TemplateRef<any>>('code');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveCode(): TemplateRef<any> | undefined {
-    return this.codeTemplate || this.contentCode;
-  }
+  public effectiveCode = computed(() => this.codeTemplate() || this.contentCode());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

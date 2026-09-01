@@ -1,8 +1,10 @@
-import { Component, input, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-three-column-workspace',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent],
@@ -13,23 +15,17 @@ export class GpLayoutThreeColumnWorkspaceComponent {
   public explorerTitle = input<string>('EXPLORER');
   public activeFileName = input<string>('button.component.ts');
 
-  @Input() public activityBarTemplate?: TemplateRef<any>;
-  @Input() public explorerTemplate?: TemplateRef<any>;
-  @Input() public editorTemplate?: TemplateRef<any>;
+  public activityBarTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public explorerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public editorTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('activityBar') public contentActivityBar?: TemplateRef<any>;
-  @ContentChild('explorer') public contentExplorer?: TemplateRef<any>;
-  @ContentChild('editor') public contentEditor?: TemplateRef<any>;
+  public contentActivityBar = contentChild<TemplateRef<any>>('activityBar');
+  public contentExplorer = contentChild<TemplateRef<any>>('explorer');
+  public contentEditor = contentChild<TemplateRef<any>>('editor');
 
-  public get effectiveActivityBar(): TemplateRef<any> | undefined {
-    return this.activityBarTemplate || this.contentActivityBar;
-  }
+  public effectiveActivityBar = computed(() => this.activityBarTemplate() || this.contentActivityBar());
 
-  public get effectiveExplorer(): TemplateRef<any> | undefined {
-    return this.explorerTemplate || this.contentExplorer;
-  }
+  public effectiveExplorer = computed(() => this.explorerTemplate() || this.contentExplorer());
 
-  public get effectiveEditor(): TemplateRef<any> | undefined {
-    return this.editorTemplate || this.contentEditor;
-  }
+  public effectiveEditor = computed(() => this.editorTemplate() || this.contentEditor());
 }

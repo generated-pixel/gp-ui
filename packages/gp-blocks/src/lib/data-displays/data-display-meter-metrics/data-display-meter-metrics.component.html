@@ -1,7 +1,7 @@
 <div class="gp-meter-metrics-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,16 +14,16 @@
   </ng-template>
 
   <!-- Meters Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[meters], [slot=meters]" />
 
       <div class="meters-list" *ngIf="meters() && meters().length > 0">
         <ng-container *ngFor="let m of meters()">
-          <ng-container *ngIf="effectiveMeterTemplate; else defaultMeter">
-            <ng-container *ngTemplateOutlet="effectiveMeterTemplate; context: { $implicit: m }" />
+          <ng-container *ngIf="effectiveMeterTemplate(); else defaultMeter">
+            <ng-container *ngTemplateOutlet="effectiveMeterTemplate()!; context: { $implicit: m }" />
           </ng-container>
           <ng-template #defaultMeter>
             <div

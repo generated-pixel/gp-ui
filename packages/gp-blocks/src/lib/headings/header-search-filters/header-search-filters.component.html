@@ -1,7 +1,7 @@
 <div class="gp-search-filter-header">
   <div class="header-top-row">
-    <ng-container *ngIf="effectiveTitle; else defaultTitle">
-      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    <ng-container *ngIf="effectiveTitle(); else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle()!" />
     </ng-container>
     <ng-template #defaultTitle>
       <ng-content select="[title], [slot=title]" />
@@ -14,8 +14,8 @@
     </ng-template>
 
     <div class="top-action-slot">
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
+      <ng-container *ngIf="effectiveActions(); else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions()!" />
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]" />
@@ -30,8 +30,8 @@
   </div>
 
   <div class="filter-controls-row">
-    <ng-container *ngIf="effectiveSearch; else defaultSearch">
-      <ng-container *ngTemplateOutlet="effectiveSearch" />
+    <ng-container *ngIf="effectiveSearch(); else defaultSearch">
+      <ng-container *ngTemplateOutlet="effectiveSearch()!" />
     </ng-container>
     <ng-template #defaultSearch>
       <ng-content select="[search], [slot=search]" />
@@ -49,8 +49,8 @@
       
     </ng-template>
 
-    <ng-container *ngIf="effectiveFilters; else defaultFilters">
-      <ng-container *ngTemplateOutlet="effectiveFilters" />
+    <ng-container *ngIf="effectiveFilters(); else defaultFilters">
+      <ng-container *ngTemplateOutlet="effectiveFilters()!" />
     </ng-container>
     <ng-template #defaultFilters>
       <ng-content select="[filters], [slot=filters]" />

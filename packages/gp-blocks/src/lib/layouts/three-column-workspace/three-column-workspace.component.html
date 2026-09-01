@@ -1,8 +1,8 @@
 <div class="gp-layout-3col-workspace">
   <!-- Left Activity Bar (Thin icon strip) -->
   <nav class="activity-icon-bar">
-    <ng-container *ngIf="effectiveActivityBar; else defaultActivityBar">
-      <ng-container *ngTemplateOutlet="effectiveActivityBar" />
+    <ng-container *ngIf="effectiveActivityBar(); else defaultActivityBar">
+      <ng-container *ngTemplateOutlet="effectiveActivityBar()!" />
     </ng-container>
     <ng-template #defaultActivityBar>
       <ng-content select="[activity-bar], [slot=activity-bar]" />
@@ -36,8 +36,8 @@
       </gp-button>
     </div>
     <div class="sidebar-tree">
-      <ng-container *ngIf="effectiveExplorer; else projectedExplorer">
-        <ng-container *ngTemplateOutlet="effectiveExplorer" />
+      <ng-container *ngIf="effectiveExplorer(); else projectedExplorer">
+        <ng-container *ngTemplateOutlet="effectiveExplorer()!" />
       </ng-container>
       <ng-template #projectedExplorer>
         <ng-content select="[explorer], [slot=explorer], [tree], [slot=tree]" />
@@ -73,8 +73,8 @@
       </div>
     </div>
     <div class="editor-content">
-      <ng-container *ngIf="effectiveEditor; else projectedEditor">
-        <ng-container *ngTemplateOutlet="effectiveEditor" />
+      <ng-container *ngIf="effectiveEditor(); else projectedEditor">
+        <ng-container *ngTemplateOutlet="effectiveEditor()!" />
       </ng-container>
       <ng-template #projectedEditor>
         <ng-content select="[editor], [slot=editor], [main], [slot=main]" />

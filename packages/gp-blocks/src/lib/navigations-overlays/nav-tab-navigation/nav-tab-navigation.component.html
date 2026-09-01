@@ -1,9 +1,9 @@
 <div class="gp-tab-navigation-block">
-  @if (effectiveContent) {
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    @if (effectiveUnderlineTabs) {
-      <ng-container *ngTemplateOutlet="effectiveUnderlineTabs" />
+    @if (effectiveUnderlineTabs()) {
+      <ng-container *ngTemplateOutlet="effectiveUnderlineTabs()!" />
     } @else {
       <ng-content select="[underline-tabs], [slot=underline-tabs]" />
 
@@ -24,8 +24,8 @@
       
     }
 
-    @if (effectivePillTabs) {
-      <ng-container *ngTemplateOutlet="effectivePillTabs" />
+    @if (effectivePillTabs()) {
+      <ng-container *ngTemplateOutlet="effectivePillTabs()!" />
     } @else {
       <ng-content select="[pill-tabs], [slot=pill-tabs]" />
 

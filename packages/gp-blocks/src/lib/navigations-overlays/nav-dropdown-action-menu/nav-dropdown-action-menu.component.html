@@ -10,11 +10,11 @@
 
   <gp-popover #actionPopover styleClass="gp-dropdown-action-menu__popover" ariaLabel="Action menu">
     <div class="gp-dropdown-action-menu__content" role="menu">
-      @if (effectiveContent) {
-        <ng-container *ngTemplateOutlet="effectiveContent" />
+      @if (effectiveContent()) {
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        @if (effectiveUserHeader) {
-          <ng-container *ngTemplateOutlet="effectiveUserHeader" />
+        @if (effectiveUserHeader()) {
+          <ng-container *ngTemplateOutlet="effectiveUserHeader()!" />
         } @else {
           <ng-content select="[user-header], [slot=user-header]" />
 
@@ -35,8 +35,8 @@
 
           <div class="gp-dropdown-action-menu__section">
             @for (item of primaryItems(); track item.id) {
-              @if (effectiveItemTemplate) {
-                <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+              @if (effectiveItemTemplate()) {
+                <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
               } @else {
                 <gp-button
                   [label]="item.label"
@@ -58,8 +58,8 @@
 
             <div class="gp-dropdown-action-menu__section">
               @for (item of dangerItems(); track item.id) {
-                @if (effectiveItemTemplate) {
-                  <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+                @if (effectiveItemTemplate()) {
+                  <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
                 } @else {
                   <gp-button
                     [label]="item.label"

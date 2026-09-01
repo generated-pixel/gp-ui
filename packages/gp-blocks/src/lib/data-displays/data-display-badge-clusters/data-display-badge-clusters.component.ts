@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpTagComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -15,6 +15,8 @@ export interface GpBadgeClusterGroup {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-data-display-badge-clusters',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpTagComponent],
@@ -28,23 +30,17 @@ export class GpDataDisplayBadgeClustersComponent {
 
   public itemClick = output<GpBadgeItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public badgeTemplate?: TemplateRef<{ $implicit: GpBadgeItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public badgeTemplate = input<TemplateRef<{ $implicit: GpBadgeItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('badgeTemplate') public contentBadgeTemplate?: TemplateRef<{ $implicit: GpBadgeItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentBadgeTemplate = contentChild<TemplateRef<{ $implicit: GpBadgeItem }>>('badgeTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveBadgeTemplate(): TemplateRef<{ $implicit: GpBadgeItem }> | undefined {
-    return this.badgeTemplate || this.contentBadgeTemplate;
-  }
+  public effectiveBadgeTemplate = computed(() => this.badgeTemplate() || this.contentBadgeTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

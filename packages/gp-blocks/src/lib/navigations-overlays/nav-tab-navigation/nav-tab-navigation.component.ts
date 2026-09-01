@@ -1,4 +1,4 @@
-import { Component, input, output, computed, Input, TemplateRef, ContentChild, ViewEncapsulation } from '@angular/core';
+import { Component, input, output, computed, TemplateRef, ViewEncapsulation, contentChild, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeSeverity, GpTabPanelComponent, GpTabsComponent } from '@generatedpixel/gp-ui';
 
@@ -10,6 +10,7 @@ export interface GpNavTabItem {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-nav-tab-navigation',
   standalone: true,
   imports: [CommonModule, GpTabPanelComponent, GpTabsComponent],
@@ -29,25 +30,19 @@ export class GpNavTabNavigationComponent {
   public underlineTabChange = output<GpNavTabItem>();
   public pillTabChange = output<GpNavTabItem>();
 
-  @Input() public underlineTabsTemplate?: TemplateRef<any>;
-  @Input() public pillTabsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public underlineTabsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public pillTabsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('underlineTabs') public contentUnderlineTabs?: TemplateRef<any>;
-  @ContentChild('pillTabs') public contentPillTabs?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentUnderlineTabs = contentChild<TemplateRef<any>>('underlineTabs');
+  public contentPillTabs = contentChild<TemplateRef<any>>('pillTabs');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveUnderlineTabs(): TemplateRef<any> | undefined {
-    return this.underlineTabsTemplate || this.contentUnderlineTabs;
-  }
+  public effectiveUnderlineTabs = computed(() => this.underlineTabsTemplate() || this.contentUnderlineTabs());
 
-  public get effectivePillTabs(): TemplateRef<any> | undefined {
-    return this.pillTabsTemplate || this.contentPillTabs;
-  }
+  public effectivePillTabs = computed(() => this.pillTabsTemplate() || this.contentPillTabs());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onUnderlineChange(index: number): void {
     const tab = this.underlineTabs()[index];

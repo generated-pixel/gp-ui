@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -15,6 +15,8 @@ export interface GpKpiCardItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-data-display-kpi-cards',
   standalone: true,
   imports: [CommonModule, GpIconComponent],
@@ -26,17 +28,13 @@ export class GpDataDisplayKpiCardsComponent {
 
   public kpiClick = output<GpKpiCardItem>();
 
-  @Input() public cardTemplate?: TemplateRef<{ $implicit: GpKpiCardItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public cardTemplate = input<TemplateRef<{ $implicit: GpKpiCardItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('cardTemplate') public contentCardTemplate?: TemplateRef<{ $implicit: GpKpiCardItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentCardTemplate = contentChild<TemplateRef<{ $implicit: GpKpiCardItem }>>('cardTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveCardTemplate(): TemplateRef<{ $implicit: GpKpiCardItem }> | undefined {
-    return this.cardTemplate || this.contentCardTemplate;
-  }
+  public effectiveCardTemplate = computed(() => this.cardTemplate() || this.contentCardTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

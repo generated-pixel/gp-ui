@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, input, output, TemplateRef, ViewEncapsulation, contentChild, viewChild, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpDividerComponent, GpPopoverComponent } from '@generatedpixel/gp-ui';
 
@@ -9,6 +9,7 @@ export interface GpDropdownMenuItem {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-nav-dropdown-action-menu',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpDividerComponent, GpPopoverComponent],
@@ -17,7 +18,7 @@ export interface GpDropdownMenuItem {
   encapsulation: ViewEncapsulation.None
 })
 export class GpNavDropdownActionMenuComponent {
-  @ViewChild(GpPopoverComponent) private popover?: GpPopoverComponent;
+  private popover = viewChild(GpPopoverComponent);
 
   public signedInLabel = input<string>('Signed in as');
   public userEmail = input<string>('');
@@ -27,28 +28,20 @@ export class GpNavDropdownActionMenuComponent {
 
   public itemSelect = output<GpDropdownMenuItem>();
 
-  @Input() public userHeaderTemplate?: TemplateRef<any>;
-  @Input() public itemTemplate?: TemplateRef<{ $implicit: GpDropdownMenuItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public userHeaderTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public itemTemplate = input<TemplateRef<{ $implicit: GpDropdownMenuItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('userHeader') public contentUserHeader?: TemplateRef<any>;
-  @ContentChild('itemTemplate') public contentItemTemplate?: TemplateRef<{ $implicit: GpDropdownMenuItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentUserHeader = contentChild<TemplateRef<any>>('userHeader');
+  public contentItemTemplate = contentChild<TemplateRef<{ $implicit: GpDropdownMenuItem }>>('itemTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveUserHeader(): TemplateRef<any> | undefined {
-    return this.userHeaderTemplate || this.contentUserHeader;
-  }
-
-  public get effectiveItemTemplate(): TemplateRef<{ $implicit: GpDropdownMenuItem }> | undefined {
-    return this.itemTemplate || this.contentItemTemplate;
-  }
-
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveUserHeader = computed(() => this.userHeaderTemplate() || this.contentUserHeader());
+  public effectiveItemTemplate = computed(() => this.itemTemplate() || this.contentItemTemplate());
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public selectItem(item: GpDropdownMenuItem): void {
     this.itemSelect.emit(item);
-    this.popover?.hide();
+    this.popover()?.hide();
   }
 }

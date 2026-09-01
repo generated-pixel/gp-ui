@@ -1,7 +1,7 @@
 <div class="gp-checkout-payment-card">
   <!-- Top Header Row -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -20,8 +20,8 @@
   </ng-template>
 
   <!-- Payment Form Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[form], [slot=form]" />

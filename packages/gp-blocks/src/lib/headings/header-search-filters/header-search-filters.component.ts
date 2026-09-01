@@ -1,4 +1,4 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent } from '@generatedpixel/gp-ui';
 
@@ -14,6 +14,8 @@ export interface GpFilterGroupItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-search-filters',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent],
@@ -34,31 +36,23 @@ export class GpHeaderSearchFiltersComponent {
   public moreFiltersClick = output<void>();
   public filterChange = output<{ groupId: string; value: string }>();
 
-  @Input() public titleTemplate?: TemplateRef<any>;
-  @Input() public searchTemplate?: TemplateRef<any>;
-  @Input() public filtersTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
+  public titleTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public searchTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public filtersTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('title') public contentTitle?: TemplateRef<any>;
-  @ContentChild('search') public contentSearch?: TemplateRef<any>;
-  @ContentChild('filters') public contentFilters?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentTitle = contentChild<TemplateRef<any>>('title');
+  public contentSearch = contentChild<TemplateRef<any>>('search');
+  public contentFilters = contentChild<TemplateRef<any>>('filters');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveTitle(): TemplateRef<any> | undefined {
-    return this.titleTemplate || this.contentTitle;
-  }
+  public effectiveTitle = computed(() => this.titleTemplate() || this.contentTitle());
 
-  public get effectiveSearch(): TemplateRef<any> | undefined {
-    return this.searchTemplate || this.contentSearch;
-  }
+  public effectiveSearch = computed(() => this.searchTemplate() || this.contentSearch());
 
-  public get effectiveFilters(): TemplateRef<any> | undefined {
-    return this.filtersTemplate || this.contentFilters;
-  }
+  public effectiveFilters = computed(() => this.filtersTemplate() || this.contentFilters());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 
   public onSearchInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;

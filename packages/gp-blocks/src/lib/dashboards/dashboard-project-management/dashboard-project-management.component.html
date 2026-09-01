@@ -1,7 +1,7 @@
 <div class="gp-dashboard-pm-root">
   <!-- Optional Top Action Bar / Slot -->
-  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
-    <ng-container *ngTemplateOutlet="contentHeaderActions" />
+  <div class="dashboard-top-slot" *ngIf="contentHeaderActions()">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
   </div>
   <ng-content select="[actions], [slot=actions]" />
 
@@ -17,15 +17,15 @@
   >
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
-      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
+      <ng-container *ngIf="effectiveWidgetTemplate(); else defaultWidgetRender">
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       </ng-container>
 
       <ng-template #defaultWidgetRender>
         <!-- 1. Sprint Metrics Widget -->
         <ng-container *ngIf="item.id === 'metrics'">
-          <ng-container *ngIf="contentMetrics; else defaultMetrics">
-            <ng-container *ngTemplateOutlet="contentMetrics" />
+          <ng-container *ngIf="contentMetrics(); else defaultMetrics">
+            <ng-container *ngTemplateOutlet="contentMetrics()!" />
           </ng-container>
           <ng-template #defaultMetrics>
             <div class="metrics-summary-row" *ngIf="metrics() && metrics().length > 0">
@@ -48,8 +48,8 @@
 
         <!-- 2. Kanban Board Widget -->
         <ng-container *ngIf="item.id === 'kanban'">
-          <ng-container *ngIf="contentKanban; else defaultKanban">
-            <ng-container *ngTemplateOutlet="contentKanban" />
+          <ng-container *ngIf="contentKanban(); else defaultKanban">
+            <ng-container *ngTemplateOutlet="contentKanban()!" />
           </ng-container>
           <ng-template #defaultKanban>
             <div class="kanban-board-grid" *ngIf="columns() && columns().length > 0" style="height: 100%;">

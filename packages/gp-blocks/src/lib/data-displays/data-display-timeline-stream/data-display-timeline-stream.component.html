@@ -1,7 +1,7 @@
 <div class="gp-timeline-stream-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -11,16 +11,16 @@
   </ng-template>
 
   <!-- Timeline Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[events], [slot=events], [timeline], [slot=timeline]" />
 
       <div class="stream-flow" *ngIf="events() && events().length > 0">
         <ng-container *ngFor="let ev of events()">
-          <ng-container *ngIf="effectiveEventTemplate; else defaultEvent">
-            <ng-container *ngTemplateOutlet="effectiveEventTemplate; context: { $implicit: ev }" />
+          <ng-container *ngIf="effectiveEventTemplate(); else defaultEvent">
+            <ng-container *ngTemplateOutlet="effectiveEventTemplate()!; context: { $implicit: ev }" />
           </ng-container>
           <ng-template #defaultEvent>
             <div

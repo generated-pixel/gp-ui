@@ -1,8 +1,10 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent, GpPasswordComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-auth-split',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent, GpPasswordComponent],
@@ -25,25 +27,19 @@ export class GpFormAuthSplitComponent {
   public submitLogin = output<{ email: string; pass: string; remember: boolean }>();
   public forgotPasswordClick = output<void>();
 
-  @Input() public heroTemplate?: TemplateRef<any>;
-  @Input() public formTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public heroTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public formTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('hero') public contentHero?: TemplateRef<any>;
-  @ContentChild('form') public contentForm?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHero = contentChild<TemplateRef<any>>('hero');
+  public contentForm = contentChild<TemplateRef<any>>('form');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHero(): TemplateRef<any> | undefined {
-    return this.heroTemplate || this.contentHero;
-  }
+  public effectiveHero = computed(() => this.heroTemplate() || this.contentHero());
 
-  public get effectiveForm(): TemplateRef<any> | undefined {
-    return this.formTemplate || this.contentForm;
-  }
+  public effectiveForm = computed(() => this.formTemplate() || this.contentForm());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onSubmit(): void {
     this.submitLogin.emit({

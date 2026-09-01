@@ -8,8 +8,8 @@
       </gp-button>
     </div>
     <div class="col-content" *ngIf="!leftCollapsed()">
-      <ng-container *ngIf="effectiveLeft; else projectedOrFallbackLeft">
-        <ng-container *ngTemplateOutlet="effectiveLeft" />
+      <ng-container *ngIf="effectiveLeft(); else projectedOrFallbackLeft">
+        <ng-container *ngTemplateOutlet="effectiveLeft()!" />
       </ng-container>
       <ng-template #projectedOrFallbackLeft>
         <ng-content select="[left], [slot=left], [col1], [slot=col1]" />
@@ -59,8 +59,8 @@
     </header>
 
     <div class="main-content-scroll">
-      <ng-container *ngIf="effectiveMain; else projectedOrFallbackMain">
-        <ng-container *ngTemplateOutlet="effectiveMain" />
+      <ng-container *ngIf="effectiveMain(); else projectedOrFallbackMain">
+        <ng-container *ngTemplateOutlet="effectiveMain()!" />
       </ng-container>
       <ng-template #projectedOrFallbackMain>
         <ng-content select="[main], [slot=main], [content], [slot=content], [col2], [slot=col2]" />
@@ -84,8 +84,8 @@
       </gp-button>
     </div>
     <div class="col-content" *ngIf="!rightCollapsed()">
-      <ng-container *ngIf="effectiveRight; else projectedOrFallbackRight">
-        <ng-container *ngTemplateOutlet="effectiveRight" />
+      <ng-container *ngIf="effectiveRight(); else projectedOrFallbackRight">
+        <ng-container *ngTemplateOutlet="effectiveRight()!" />
       </ng-container>
       <ng-template #projectedOrFallbackRight>
         <ng-content select="[right], [slot=right], [col3], [slot=col3]" />

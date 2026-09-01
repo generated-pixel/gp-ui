@@ -1,8 +1,8 @@
 <div class="gp-stacked-hero-shell">
   <!-- Top Navigation -->
   <header class="hero-topbar">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
     </ng-container>
     <ng-template #defaultHeader>
       <ng-content select="[header], [slot=header]" />
@@ -31,8 +31,8 @@
 
   <!-- Big Hero Banner -->
   <section class="hero-banner-section">
-    <ng-container *ngIf="effectiveHero; else defaultHero">
-      <ng-container *ngTemplateOutlet="effectiveHero" />
+    <ng-container *ngIf="effectiveHero(); else defaultHero">
+      <ng-container *ngTemplateOutlet="effectiveHero()!" />
     </ng-container>
     <ng-template #defaultHero>
       <ng-content select="[hero], [slot=hero]" />
@@ -56,8 +56,8 @@
   <!-- Main Body Content Card overlapping Hero -->
   <main class="hero-main-container">
     <div class="hero-content-card">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
+      <ng-container *ngIf="effectiveContent(); else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
       </ng-container>
       <ng-template #defaultContent>
         <ng-content select="[main], [slot=main], [content], [slot=content]" />

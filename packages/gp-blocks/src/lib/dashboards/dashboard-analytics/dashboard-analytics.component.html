@@ -1,7 +1,7 @@
 <div class="gp-dashboard-analytics-root">
   <!-- Optional Top Action Bar / Slot -->
-  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
-    <ng-container *ngTemplateOutlet="contentHeaderActions" />
+  <div class="dashboard-top-slot" *ngIf="contentHeaderActions()">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
   </div>
   <ng-content select="[actions], [slot=actions]" />
 
@@ -17,15 +17,15 @@
   >
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
-      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
+      <ng-container *ngIf="effectiveWidgetTemplate(); else defaultWidgetRender">
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       </ng-container>
 
       <ng-template #defaultWidgetRender>
         <!-- 1. Stats KPI Widget -->
         <ng-container *ngIf="item.id === 'stats'">
-          <ng-container *ngIf="contentStats; else defaultStats">
-            <ng-container *ngTemplateOutlet="contentStats" />
+          <ng-container *ngIf="contentStats(); else defaultStats">
+            <ng-container *ngTemplateOutlet="contentStats()!" />
           </ng-container>
           <ng-template #defaultStats>
             <div class="stat-banner-row" *ngIf="stats() && stats().length > 0">
@@ -53,8 +53,8 @@
 
         <!-- 2. Channels Widget -->
         <ng-container *ngIf="item.id === 'channels'">
-          <ng-container *ngIf="contentChannels; else defaultChannels">
-            <ng-container *ngTemplateOutlet="contentChannels" />
+          <ng-container *ngIf="contentChannels(); else defaultChannels">
+            <ng-container *ngTemplateOutlet="contentChannels()!" />
           </ng-container>
           <ng-template #defaultChannels>
             <div class="analytics-card" *ngIf="channels() && channels().length > 0" style="height: 100%;">
@@ -79,8 +79,8 @@
 
         <!-- 3. Regions Widget -->
         <ng-container *ngIf="item.id === 'regions'">
-          <ng-container *ngIf="contentRegions; else defaultRegions">
-            <ng-container *ngTemplateOutlet="contentRegions" />
+          <ng-container *ngIf="contentRegions(); else defaultRegions">
+            <ng-container *ngTemplateOutlet="contentRegions()!" />
           </ng-container>
           <ng-template #defaultRegions>
             <div class="analytics-card" *ngIf="regions() && regions().length > 0" style="height: 100%;">

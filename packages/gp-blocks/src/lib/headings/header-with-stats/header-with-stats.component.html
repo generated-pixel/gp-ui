@@ -1,7 +1,7 @@
 <div class="gp-header-stats-wrapper">
   <div class="header-content-col">
-    <ng-container *ngIf="effectiveTitle; else defaultTitle">
-      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    <ng-container *ngIf="effectiveTitle(); else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle()!" />
     </ng-container>
     <ng-template #defaultTitle>
       <ng-content select="[title], [slot=title]" />
@@ -13,8 +13,8 @@
   </div>
 
   <div class="header-stats-col">
-    <ng-container *ngIf="effectiveStats; else defaultStats">
-      <ng-container *ngTemplateOutlet="effectiveStats" />
+    <ng-container *ngIf="effectiveStats(); else defaultStats">
+      <ng-container *ngTemplateOutlet="effectiveStats()!" />
     </ng-container>
     <ng-template #defaultStats>
       <ng-content select="[stats], [slot=stats]" />

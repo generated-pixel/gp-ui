@@ -1,7 +1,7 @@
 <div class="gp-transactions-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,16 +14,16 @@
   </ng-template>
 
   <!-- Transactions List Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[transactions], [slot=transactions], [items], [slot=items]" />
 
       <div class="trans-list" *ngIf="transactions() && transactions().length > 0">
         <ng-container *ngFor="let t of transactions()">
-          <ng-container *ngIf="effectiveTransactionTemplate; else defaultTrans">
-            <ng-container *ngTemplateOutlet="effectiveTransactionTemplate; context: { $implicit: t }" />
+          <ng-container *ngIf="effectiveTransactionTemplate(); else defaultTrans">
+            <ng-container *ngTemplateOutlet="effectiveTransactionTemplate()!; context: { $implicit: t }" />
           </ng-container>
           <ng-template #defaultTrans>
             <div

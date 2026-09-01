@@ -1,11 +1,11 @@
 <div class="gp-empty-state-card">
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <!-- Icon -->
-    <ng-container *ngIf="effectiveIcon; else defaultIcon">
-      <ng-container *ngTemplateOutlet="effectiveIcon" />
+    <ng-container *ngIf="effectiveIcon(); else defaultIcon">
+      <ng-container *ngTemplateOutlet="effectiveIcon()!" />
     </ng-container>
     <ng-template #defaultIcon>
       <ng-content select="[icon], [slot=icon]" />
@@ -21,8 +21,8 @@
     <p class="empty-desc" *ngIf="description()">{{ description() }}</p>
 
     <!-- CTAs -->
-    <ng-container *ngIf="effectiveActions; else defaultActions">
-      <ng-container *ngTemplateOutlet="effectiveActions" />
+    <ng-container *ngIf="effectiveActions(); else defaultActions">
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
     </ng-container>
     <ng-template #defaultActions>
       <ng-content select="[actions], [slot=actions]" />

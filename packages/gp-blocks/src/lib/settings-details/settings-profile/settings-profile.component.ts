@@ -1,8 +1,10 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-settings-profile',
   standalone: true,
   imports: [CommonModule, GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent],
@@ -28,26 +30,20 @@ export class GpSettingsProfileComponent {
   public save = output<Record<string, string>>();
   public cancel = output<void>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
-  @Input() public footerActionsTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public footerActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
-  @ContentChild('footer') public contentFooter?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentArea = contentChild<TemplateRef<any>>('content');
+  public contentFooter = contentChild<TemplateRef<any>>('footer');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
-  public get effectiveFooterActions(): TemplateRef<any> | undefined {
-    return this.footerActionsTemplate || this.contentFooter || this.contentActions;
-  }
+  public effectiveFooterActions = computed<TemplateRef<any> | undefined>(() => this.footerActionsTemplate() || this.contentFooter() || this.contentActions());
 
   private formValues: Record<string, string> = {};
 

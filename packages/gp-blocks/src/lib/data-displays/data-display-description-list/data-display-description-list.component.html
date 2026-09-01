@@ -1,7 +1,7 @@
 <div class="gp-description-list-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,16 +14,16 @@
   </ng-template>
 
   <!-- Items Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[items], [slot=items]" />
 
       <div class="desc-grid" *ngIf="items() && items().length > 0">
         <ng-container *ngFor="let item of items()">
-          <ng-container *ngIf="effectiveItemTemplate; else defaultItem">
-            <ng-container *ngTemplateOutlet="effectiveItemTemplate; context: { $implicit: item }" />
+          <ng-container *ngIf="effectiveItemTemplate(); else defaultItem">
+            <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
           </ng-container>
           <ng-template #defaultItem>
             <div

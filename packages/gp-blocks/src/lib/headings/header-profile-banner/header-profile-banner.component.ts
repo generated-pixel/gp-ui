@@ -1,8 +1,10 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpAvatarComponent, GpBadgeComponent, GpIconComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-profile-banner',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpAvatarComponent, GpBadgeComponent, GpIconComponent],
@@ -21,23 +23,17 @@ export class GpHeaderProfileBannerComponent {
   public connectClick = output<void>();
   public messageClick = output<void>();
 
-  @Input() public bannerTemplate?: TemplateRef<any>;
-  @Input() public profileTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
+  public bannerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public profileTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('banner') public contentBanner?: TemplateRef<any>;
-  @ContentChild('profile') public contentProfile?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentBanner = contentChild<TemplateRef<any>>('banner');
+  public contentProfile = contentChild<TemplateRef<any>>('profile');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveBanner(): TemplateRef<any> | undefined {
-    return this.bannerTemplate || this.contentBanner;
-  }
+  public effectiveBanner = computed(() => this.bannerTemplate() || this.contentBanner());
 
-  public get effectiveProfile(): TemplateRef<any> | undefined {
-    return this.profileTemplate || this.contentProfile;
-  }
+  public effectiveProfile = computed(() => this.profileTemplate() || this.contentProfile());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 }

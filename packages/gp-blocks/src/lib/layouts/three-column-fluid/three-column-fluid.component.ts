@@ -1,8 +1,10 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, contentChild, ChangeDetectionStrategy, ViewEncapsulation, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-three-column-fluid',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent],
@@ -21,28 +23,22 @@ export class GpLayoutThreeColumnFluidComponent {
 
   public actionClick = output<string>();
 
-  @Input() public leftTemplate?: TemplateRef<any>;
-  @Input() public mainTemplate?: TemplateRef<any>;
-  @Input() public rightTemplate?: TemplateRef<any>;
+  public leftTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public mainTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public rightTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('left') public contentLeft?: TemplateRef<any>;
-  @ContentChild('leftTemplate') public contentLeftTpl?: TemplateRef<any>;
-  @ContentChild('main') public contentMain?: TemplateRef<any>;
-  @ContentChild('mainTemplate') public contentMainTpl?: TemplateRef<any>;
-  @ContentChild('right') public contentRight?: TemplateRef<any>;
-  @ContentChild('rightTemplate') public contentRightTpl?: TemplateRef<any>;
+  public contentLeft = contentChild<TemplateRef<any>>('left');
+  public contentLeftTpl = contentChild<TemplateRef<any>>('leftTemplate');
+  public contentMain = contentChild<TemplateRef<any>>('main');
+  public contentMainTpl = contentChild<TemplateRef<any>>('mainTemplate');
+  public contentRight = contentChild<TemplateRef<any>>('right');
+  public contentRightTpl = contentChild<TemplateRef<any>>('rightTemplate');
 
-  public get effectiveLeft(): TemplateRef<any> | undefined {
-    return this.leftTemplate || this.contentLeft || this.contentLeftTpl;
-  }
+  public effectiveLeft = computed<TemplateRef<any> | undefined>(() => this.leftTemplate() || this.contentLeft() || this.contentLeftTpl());
 
-  public get effectiveMain(): TemplateRef<any> | undefined {
-    return this.mainTemplate || this.contentMain || this.contentMainTpl;
-  }
+  public effectiveMain = computed<TemplateRef<any> | undefined>(() => this.mainTemplate() || this.contentMain() || this.contentMainTpl());
 
-  public get effectiveRight(): TemplateRef<any> | undefined {
-    return this.rightTemplate || this.contentRight || this.contentRightTpl;
-  }
+  public effectiveRight = computed<TemplateRef<any> | undefined>(() => this.rightTemplate() || this.contentRight() || this.contentRightTpl());
 
   public toggleLeft(): void {
     this.leftCollapsed.update(c => !c);

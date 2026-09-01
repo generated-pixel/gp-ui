@@ -5,8 +5,8 @@
       <gp-badge *ngIf="col1Badge()" [value]="col1Badge()" severity="primary" />
     </div>
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol1; else projectedOrFallbackCol1">
-        <ng-container *ngTemplateOutlet="effectiveCol1" />
+      <ng-container *ngIf="effectiveCol1(); else projectedOrFallbackCol1">
+        <ng-container *ngTemplateOutlet="effectiveCol1()!" />
       </ng-container>
       <ng-template #projectedOrFallbackCol1>
         <ng-content select="[col1], [slot=col1]" />
@@ -23,8 +23,8 @@
       <gp-badge *ngIf="col2Badge()" [value]="col2Badge()" severity="success" />
     </div>
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol2; else projectedOrFallbackCol2">
-        <ng-container *ngTemplateOutlet="effectiveCol2" />
+      <ng-container *ngIf="effectiveCol2(); else projectedOrFallbackCol2">
+        <ng-container *ngTemplateOutlet="effectiveCol2()!" />
       </ng-container>
       <ng-template #projectedOrFallbackCol2>
         <ng-content select="[col2], [slot=col2]" />
@@ -41,8 +41,8 @@
       <gp-badge *ngIf="col3Badge()" [value]="col3Badge()" severity="info" />
     </div>
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol3; else projectedOrFallbackCol3">
-        <ng-container *ngTemplateOutlet="effectiveCol3" />
+      <ng-container *ngIf="effectiveCol3(); else projectedOrFallbackCol3">
+        <ng-container *ngTemplateOutlet="effectiveCol3()!" />
       </ng-container>
       <ng-template #projectedOrFallbackCol3>
         <ng-content select="[col3], [slot=col3]" />
@@ -59,8 +59,8 @@
       <gp-badge *ngIf="col4Badge()" [value]="col4Badge()" severity="warning" />
     </div>
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol4; else projectedOrFallbackCol4">
-        <ng-container *ngTemplateOutlet="effectiveCol4" />
+      <ng-container *ngIf="effectiveCol4(); else projectedOrFallbackCol4">
+        <ng-container *ngTemplateOutlet="effectiveCol4()!" />
       </ng-container>
       <ng-template #projectedOrFallbackCol4>
         <ng-content select="[col4], [slot=col4]" />

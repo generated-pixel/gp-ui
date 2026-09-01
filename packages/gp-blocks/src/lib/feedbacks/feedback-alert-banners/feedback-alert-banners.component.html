@@ -1,13 +1,13 @@
 <div class="gp-alert-banners-group">
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[alerts], [slot=alerts]" />
 
       <ng-container *ngFor="let a of alerts()">
-        <ng-container *ngIf="effectiveAlertTemplate; else defaultAlert">
-          <ng-container *ngTemplateOutlet="effectiveAlertTemplate; context: { $implicit: a }" />
+        <ng-container *ngIf="effectiveAlertTemplate(); else defaultAlert">
+          <ng-container *ngTemplateOutlet="effectiveAlertTemplate()!; context: { $implicit: a }" />
         </ng-container>
         <ng-template #defaultAlert>
           <div class="alert-banner" [ngClass]="'severity-' + a.severity">

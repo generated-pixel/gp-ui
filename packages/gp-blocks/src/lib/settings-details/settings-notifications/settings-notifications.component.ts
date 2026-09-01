@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild, ElementRef } from '@angular/core';
+import { Component, input, output, TemplateRef, ElementRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
 
@@ -10,6 +10,8 @@ export interface GpNotificationPreference {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-settings-notifications',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpSwitchComponent],
@@ -27,32 +29,24 @@ export class GpSettingsNotificationsComponent {
   public save = output<GpNotificationPreference[]>();
   public togglePreference = output<{ item: GpNotificationPreference; enabled: boolean }>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public preferencesTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
-  @Input() public footerActionsTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public preferencesTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public footerActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('preferences') public contentPreferences?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
-  @ContentChild('footer') public contentFooter?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentPreferences = contentChild<TemplateRef<any>>('preferences');
+  public contentArea = contentChild<TemplateRef<any>>('content');
+  public contentFooter = contentChild<TemplateRef<any>>('footer');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectivePreferences(): TemplateRef<any> | undefined {
-    return this.preferencesTemplate || this.contentPreferences;
-  }
+  public effectivePreferences = computed(() => this.preferencesTemplate() || this.contentPreferences());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
-  public get effectiveFooterActions(): TemplateRef<any> | undefined {
-    return this.footerActionsTemplate || this.contentFooter || this.contentActions;
-  }
+  public effectiveFooterActions = computed<TemplateRef<any> | undefined>(() => this.footerActionsTemplate() || this.contentFooter() || this.contentActions());
 
   public get hasProjectedHeader(): boolean {
     return !!this.host.nativeElement.querySelector('[header], [slot="header"]');

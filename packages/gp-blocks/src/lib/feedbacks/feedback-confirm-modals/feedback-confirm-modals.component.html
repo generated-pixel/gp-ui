@@ -1,13 +1,13 @@
 <div class="gp-confirm-modal-shell">
   <div class="modal-card">
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
+    <ng-container *ngIf="effectiveContent(); else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
     </ng-container>
     <ng-template #defaultContent>
       <div class="modal-body-content">
         <!-- Icon Top -->
-        <ng-container *ngIf="effectiveIcon; else defaultIcon">
-          <ng-container *ngTemplateOutlet="effectiveIcon" />
+        <ng-container *ngIf="effectiveIcon(); else defaultIcon">
+          <ng-container *ngTemplateOutlet="effectiveIcon()!" />
         </ng-container>
         <ng-template #defaultIcon>
           <ng-content select="[icon], [slot=icon]" />
@@ -19,8 +19,8 @@
         </ng-template>
 
         <!-- Message Body -->
-        <ng-container *ngIf="effectiveBody; else defaultBody">
-          <ng-container *ngTemplateOutlet="effectiveBody" />
+        <ng-container *ngIf="effectiveBody(); else defaultBody">
+          <ng-container *ngTemplateOutlet="effectiveBody()!" />
         </ng-container>
         <ng-template #defaultBody>
           <ng-content select="[body], [slot=body], [message], [slot=message]" />
@@ -32,8 +32,8 @@
       </div>
 
       <!-- Action Buttons -->
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
+      <ng-container *ngIf="effectiveActions(); else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions()!" />
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]" />

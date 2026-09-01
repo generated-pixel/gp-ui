@@ -1,8 +1,8 @@
 <div class="gp-stacked-dock-shell">
   <!-- Minimal Top Header -->
   <header class="dock-topbar">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
     </ng-container>
     <ng-template #defaultHeader>
       <ng-content select="[header], [slot=header]" />
@@ -15,8 +15,8 @@
 
   <!-- Full-Screen Content Area -->
   <main class="dock-main-stage">
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
+    <ng-container *ngIf="effectiveContent(); else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
     </ng-container>
     <ng-template #defaultContent>
       <ng-content select="[main], [slot=main], [content], [slot=content]" />
@@ -26,8 +26,8 @@
 
   <!-- Floating Mac-style Bottom Dock -->
   <footer class="bottom-dock-bar">
-    <ng-container *ngIf="effectiveDock; else defaultDock">
-      <ng-container *ngTemplateOutlet="effectiveDock" />
+    <ng-container *ngIf="effectiveDock(); else defaultDock">
+      <ng-container *ngTemplateOutlet="effectiveDock()!" />
     </ng-container>
     <ng-template #defaultDock>
       <ng-content select="[dock], [slot=dock]" />

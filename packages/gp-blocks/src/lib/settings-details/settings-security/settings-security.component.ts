@@ -1,4 +1,4 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpPasswordComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
 
@@ -12,6 +12,8 @@ export interface GpSession {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-settings-security',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpPasswordComponent, GpSwitchComponent],
@@ -32,37 +34,27 @@ export class GpSettingsSecurityComponent {
   public twoFaChange = output<boolean>();
   public revokeSession = output<GpSession>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
-  @Input() public passwordTemplate?: TemplateRef<any>;
-  @Input() public twoFaTemplate?: TemplateRef<any>;
-  @Input() public sessionsTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public passwordTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public twoFaTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public sessionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
-  @ContentChild('password') public contentPassword?: TemplateRef<any>;
-  @ContentChild('twoFa') public contentTwoFa?: TemplateRef<any>;
-  @ContentChild('sessions') public contentSessions?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentArea = contentChild<TemplateRef<any>>('content');
+  public contentPassword = contentChild<TemplateRef<any>>('password');
+  public contentTwoFa = contentChild<TemplateRef<any>>('twoFa');
+  public contentSessions = contentChild<TemplateRef<any>>('sessions');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
-  public get effectivePassword(): TemplateRef<any> | undefined {
-    return this.passwordTemplate || this.contentPassword;
-  }
+  public effectivePassword = computed(() => this.passwordTemplate() || this.contentPassword());
 
-  public get effectiveTwoFa(): TemplateRef<any> | undefined {
-    return this.twoFaTemplate || this.contentTwoFa;
-  }
+  public effectiveTwoFa = computed(() => this.twoFaTemplate() || this.contentTwoFa());
 
-  public get effectiveSessions(): TemplateRef<any> | undefined {
-    return this.sessionsTemplate || this.contentSessions;
-  }
+  public effectiveSessions = computed(() => this.sessionsTemplate() || this.contentSessions());
 
   public onUpdatePassword(): void {
     this.updatePassword.emit({

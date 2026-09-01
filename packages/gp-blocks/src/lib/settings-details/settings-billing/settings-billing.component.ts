@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -11,6 +11,8 @@ export interface GpBillingInvoice {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-settings-billing',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
@@ -29,29 +31,21 @@ export class GpSettingsBillingComponent {
   public cancelPlan = output<void>();
   public downloadInvoice = output<GpBillingInvoice>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public planTemplate?: TemplateRef<any>;
-  @Input() public invoicesTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public planTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public invoicesTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('plan') public contentPlan?: TemplateRef<any>;
-  @ContentChild('invoices') public contentInvoices?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentPlan = contentChild<TemplateRef<any>>('plan');
+  public contentInvoices = contentChild<TemplateRef<any>>('invoices');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectivePlan(): TemplateRef<any> | undefined {
-    return this.planTemplate || this.contentPlan;
-  }
+  public effectivePlan = computed(() => this.planTemplate() || this.contentPlan());
 
-  public get effectiveInvoices(): TemplateRef<any> | undefined {
-    return this.invoicesTemplate || this.contentInvoices;
-  }
+  public effectiveInvoices = computed(() => this.invoicesTemplate() || this.contentInvoices());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

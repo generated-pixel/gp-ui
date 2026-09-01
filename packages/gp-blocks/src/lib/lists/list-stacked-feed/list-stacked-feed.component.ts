@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -13,6 +13,8 @@ export interface GpFeedItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-list-stacked-feed',
   standalone: true,
   imports: [CommonModule, GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent],
@@ -28,23 +30,17 @@ export class GpListStackedFeedComponent {
   public itemClick = output<GpFeedItem>();
   public itemOptionsClick = output<GpFeedItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public feedItemTemplate?: TemplateRef<{ $implicit: GpFeedItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public feedItemTemplate = input<TemplateRef<{ $implicit: GpFeedItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('feedItemTemplate') public contentFeedItemTemplate?: TemplateRef<{ $implicit: GpFeedItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentFeedItemTemplate = contentChild<TemplateRef<{ $implicit: GpFeedItem }>>('feedItemTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveFeedItemTemplate(): TemplateRef<{ $implicit: GpFeedItem }> | undefined {
-    return this.feedItemTemplate || this.contentFeedItemTemplate;
-  }
+  public effectiveFeedItemTemplate = computed(() => this.feedItemTemplate() || this.contentFeedItemTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

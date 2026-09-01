@@ -1,7 +1,7 @@
 <div class="gp-settings-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,14 +14,14 @@
   </ng-template>
 
   <!-- Full Content Override or Sections -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[content], [slot=content]" />
       <!-- Password Change Section -->
-      <ng-container *ngIf="effectivePassword; else defaultPassword">
-        <ng-container *ngTemplateOutlet="effectivePassword" />
+      <ng-container *ngIf="effectivePassword(); else defaultPassword">
+        <ng-container *ngTemplateOutlet="effectivePassword()!" />
       </ng-container>
       <ng-template #defaultPassword>
         <ng-content select="[password], [slot=password]" />
@@ -71,8 +71,8 @@
       </ng-template>
 
       <!-- 2FA Section -->
-      <ng-container *ngIf="effectiveTwoFa; else defaultTwoFa">
-        <ng-container *ngTemplateOutlet="effectiveTwoFa" />
+      <ng-container *ngIf="effectiveTwoFa(); else defaultTwoFa">
+        <ng-container *ngTemplateOutlet="effectiveTwoFa()!" />
       </ng-container>
       <ng-template #defaultTwoFa>
         <ng-content select="[two-fa], [slot=two-fa], [2fa], [slot=2fa]" />
@@ -93,8 +93,8 @@
       </ng-template>
 
       <!-- Active Sessions -->
-      <ng-container *ngIf="effectiveSessions; else defaultSessions">
-        <ng-container *ngTemplateOutlet="effectiveSessions" />
+      <ng-container *ngIf="effectiveSessions(); else defaultSessions">
+        <ng-container *ngTemplateOutlet="effectiveSessions()!" />
       </ng-container>
       <ng-template #defaultSessions>
         <ng-content select="[sessions], [slot=sessions]" />

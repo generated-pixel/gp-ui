@@ -1,7 +1,7 @@
 <div class="gp-settings-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,14 +14,14 @@
   </ng-template>
 
   <!-- Full Content Override or Sections -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[content], [slot=content]" />
       <!-- Current Subscription Box -->
-      <ng-container *ngIf="effectivePlan; else defaultPlan">
-        <ng-container *ngTemplateOutlet="effectivePlan" />
+      <ng-container *ngIf="effectivePlan(); else defaultPlan">
+        <ng-container *ngTemplateOutlet="effectivePlan()!" />
       </ng-container>
       <ng-template #defaultPlan>
         <ng-content select="[plan], [slot=plan]" />
@@ -43,8 +43,8 @@
       </ng-template>
 
       <!-- Invoices History -->
-      <ng-container *ngIf="effectiveInvoices; else defaultInvoices">
-        <ng-container *ngTemplateOutlet="effectiveInvoices" />
+      <ng-container *ngIf="effectiveInvoices(); else defaultInvoices">
+        <ng-container *ngTemplateOutlet="effectiveInvoices()!" />
       </ng-container>
       <ng-template #defaultInvoices>
         <ng-content select="[invoices], [slot=invoices]" />

@@ -1,8 +1,10 @@
-import { Component, input, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-page-maintenance',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent],
@@ -18,17 +20,13 @@ export class GpPageMaintenanceComponent {
   public estimatedUptimeLabel = input<string>('Estimated Completion');
   public estimatedUptime = input<string>('');
 
-  @Input() public iconTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public iconTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('icon') public contentIcon?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentIcon = contentChild<TemplateRef<any>>('icon');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveIcon(): TemplateRef<any> | undefined {
-    return this.iconTemplate || this.contentIcon;
-  }
+  public effectiveIcon = computed(() => this.iconTemplate() || this.contentIcon());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

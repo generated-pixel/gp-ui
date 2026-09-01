@@ -1,7 +1,7 @@
 <div class="gp-rating-review-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,12 +14,12 @@
   </ng-template>
 
   <!-- Content Override or Stars Rating Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
-    <ng-container *ngIf="effectiveStars; else defaultStars">
-      <ng-container *ngTemplateOutlet="effectiveStars" />
+    <ng-container *ngIf="effectiveStars(); else defaultStars">
+      <ng-container *ngTemplateOutlet="effectiveStars()!" />
     </ng-container>
     <ng-template #defaultStars>
       <ng-content select="[stars], [slot=stars], [rating], [slot=rating]" />
@@ -37,8 +37,8 @@
     </ng-template>
 
     <!-- Footer Actions -->
-    <ng-container *ngIf="effectiveActions; else defaultActions">
-      <ng-container *ngTemplateOutlet="effectiveActions" />
+    <ng-container *ngIf="effectiveActions(); else defaultActions">
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
     </ng-container>
     <ng-template #defaultActions>
       <ng-content select="[actions], [slot=actions]" />

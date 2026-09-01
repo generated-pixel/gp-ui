@@ -1,13 +1,13 @@
 <div class="gp-kpi-cards-grid">
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[kpis], [slot=kpis]" />
 
       <ng-container *ngFor="let k of kpis()">
-        <ng-container *ngIf="effectiveCardTemplate; else defaultCard">
-          <ng-container *ngTemplateOutlet="effectiveCardTemplate; context: { $implicit: k }" />
+        <ng-container *ngIf="effectiveCardTemplate(); else defaultCard">
+          <ng-container *ngTemplateOutlet="effectiveCardTemplate()!; context: { $implicit: k }" />
         </ng-container>
         <ng-template #defaultCard>
           <div

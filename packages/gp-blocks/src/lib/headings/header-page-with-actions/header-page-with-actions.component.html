@@ -1,7 +1,7 @@
 <div class="gp-header-page-actions">
   <div class="header-breadcrumbs" *ngIf="breadcrumbs() && breadcrumbs().length > 0">
-    <ng-container *ngIf="effectiveBreadcrumbs; else defaultBreadcrumbs">
-      <ng-container *ngTemplateOutlet="effectiveBreadcrumbs" />
+    <ng-container *ngIf="effectiveBreadcrumbs(); else defaultBreadcrumbs">
+      <ng-container *ngTemplateOutlet="effectiveBreadcrumbs()!" />
     </ng-container>
     <ng-template #defaultBreadcrumbs>
       <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
@@ -26,8 +26,8 @@
   </div>
 
   <div class="header-main-row">
-    <ng-container *ngIf="effectiveTitle; else defaultTitle">
-      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    <ng-container *ngIf="effectiveTitle(); else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle()!" />
     </ng-container>
     <ng-template #defaultTitle>
       <ng-content select="[title], [slot=title]" />
@@ -43,8 +43,8 @@
     </ng-template>
 
     <div class="header-actions">
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
+      <ng-container *ngIf="effectiveActions(); else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions()!" />
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]" />

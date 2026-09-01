@@ -1,7 +1,7 @@
 <div class="gp-stacked-feed-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,16 +14,16 @@
   </ng-template>
 
   <!-- Feed Items Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[feed], [slot=feed], [items], [slot=items]" />
 
       <div class="feed-list" *ngIf="feedItems() && feedItems().length > 0">
         <ng-container *ngFor="let f of feedItems()">
-          <ng-container *ngIf="effectiveFeedItemTemplate; else defaultFeedItem">
-            <ng-container *ngTemplateOutlet="effectiveFeedItemTemplate; context: { $implicit: f }" />
+          <ng-container *ngIf="effectiveFeedItemTemplate(); else defaultFeedItem">
+            <ng-container *ngTemplateOutlet="effectiveFeedItemTemplate()!; context: { $implicit: f }" />
           </ng-container>
           <ng-template #defaultFeedItem>
             <div

@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   GpButtonComponent,
@@ -23,6 +23,8 @@ export interface GpHeaderAction {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-page-with-actions',
   standalone: true,
   imports: [
@@ -45,23 +47,17 @@ export class GpHeaderPageWithActionsComponent {
   public actionClick = output<GpHeaderAction>();
   public breadcrumbClick = output<GpHeaderBreadcrumb>();
 
-  @Input() public breadcrumbsTemplate?: TemplateRef<any>;
-  @Input() public titleTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
+  public breadcrumbsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public titleTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('breadcrumbs') public contentBreadcrumbs?: TemplateRef<any>;
-  @ContentChild('title') public contentTitle?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentBreadcrumbs = contentChild<TemplateRef<any>>('breadcrumbs');
+  public contentTitle = contentChild<TemplateRef<any>>('title');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveBreadcrumbs(): TemplateRef<any> | undefined {
-    return this.breadcrumbsTemplate || this.contentBreadcrumbs;
-  }
+  public effectiveBreadcrumbs = computed(() => this.breadcrumbsTemplate() || this.contentBreadcrumbs());
 
-  public get effectiveTitle(): TemplateRef<any> | undefined {
-    return this.titleTemplate || this.contentTitle;
-  }
+  public effectiveTitle = computed(() => this.titleTemplate() || this.contentTitle());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 }

@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpBadgeComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -11,6 +11,8 @@ export interface GpOrderItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-details-order-summary',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpBadgeComponent, GpIconComponent],
@@ -33,29 +35,21 @@ export class GpDetailsOrderSummaryComponent {
   public downloadReceipt = output<void>();
   public itemClick = output<GpOrderItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public itemsTemplate?: TemplateRef<any>;
-  @Input() public totalsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public itemsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public totalsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('items') public contentItems?: TemplateRef<any>;
-  @ContentChild('totals') public contentTotals?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentItems = contentChild<TemplateRef<any>>('items');
+  public contentTotals = contentChild<TemplateRef<any>>('totals');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveItems(): TemplateRef<any> | undefined {
-    return this.itemsTemplate || this.contentItems;
-  }
+  public effectiveItems = computed(() => this.itemsTemplate() || this.contentItems());
 
-  public get effectiveTotals(): TemplateRef<any> | undefined {
-    return this.totalsTemplate || this.contentTotals;
-  }
+  public effectiveTotals = computed(() => this.totalsTemplate() || this.contentTotals());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

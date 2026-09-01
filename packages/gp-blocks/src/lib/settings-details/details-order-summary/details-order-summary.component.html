@@ -1,7 +1,7 @@
 <div class="gp-order-summary-card">
   <!-- Top Order Info Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -23,13 +23,13 @@
   </ng-template>
 
   <!-- Items Table / Content -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[content], [slot=content]" />
-      <ng-container *ngIf="effectiveItems; else defaultItems">
-        <ng-container *ngTemplateOutlet="effectiveItems" />
+      <ng-container *ngIf="effectiveItems(); else defaultItems">
+        <ng-container *ngTemplateOutlet="effectiveItems()!" />
       </ng-container>
       <ng-template #defaultItems>
         <ng-content select="[items], [slot=items]" />
@@ -64,8 +64,8 @@
       </ng-template>
 
       <!-- Totals Footer Breakdown -->
-      <ng-container *ngIf="effectiveTotals; else defaultTotals">
-        <ng-container *ngTemplateOutlet="effectiveTotals" />
+      <ng-container *ngIf="effectiveTotals(); else defaultTotals">
+        <ng-container *ngTemplateOutlet="effectiveTotals()!" />
       </ng-container>
       <ng-template #defaultTotals>
         <ng-content select="[totals], [slot=totals]" />

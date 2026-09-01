@@ -1,7 +1,7 @@
 <div class="gp-data-grid-block">
   <!-- Toolbar Header -->
-  <ng-container *ngIf="effectiveToolbar; else defaultToolbar">
-    <ng-container *ngTemplateOutlet="effectiveToolbar" />
+  <ng-container *ngIf="effectiveToolbar(); else defaultToolbar">
+    <ng-container *ngTemplateOutlet="effectiveToolbar()!" />
   </ng-container>
   <ng-template #defaultToolbar>
     <ng-content select="[toolbar], [slot=toolbar]" />
@@ -33,8 +33,8 @@
   </ng-template>
 
   <!-- Table Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[content], [slot=content]" />
@@ -54,8 +54,8 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let r of rows()">
-              <ng-container *ngIf="effectiveRowTemplate; else defaultRow">
-                <ng-container *ngTemplateOutlet="effectiveRowTemplate; context: { $implicit: r }" />
+              <ng-container *ngIf="effectiveRowTemplate(); else defaultRow">
+                <ng-container *ngTemplateOutlet="effectiveRowTemplate()!; context: { $implicit: r }" />
               </ng-container>
               <ng-template #defaultRow>
                 <tr (click)="rowClick.emit(r)" style="cursor: pointer;">
@@ -98,8 +98,8 @@
   </ng-template>
 
   <!-- Footer Pagination / Status -->
-  <ng-container *ngIf="effectiveFooter; else defaultFooter">
-    <ng-container *ngTemplateOutlet="effectiveFooter" />
+  <ng-container *ngIf="effectiveFooter(); else defaultFooter">
+    <ng-container *ngTemplateOutlet="effectiveFooter()!" />
   </ng-container>
   <ng-template #defaultFooter>
     <ng-content select="[footer], [slot=footer]" />

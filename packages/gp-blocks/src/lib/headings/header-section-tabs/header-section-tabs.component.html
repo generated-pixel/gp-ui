@@ -1,7 +1,7 @@
 <div class="gp-section-tabs-header">
   <div class="header-top-row">
-    <ng-container *ngIf="effectiveTitle; else defaultTitle">
-      <ng-container *ngTemplateOutlet="effectiveTitle" />
+    <ng-container *ngIf="effectiveTitle(); else defaultTitle">
+      <ng-container *ngTemplateOutlet="effectiveTitle()!" />
     </ng-container>
     <ng-template #defaultTitle>
       <ng-content select="[title], [slot=title]" />
@@ -14,8 +14,8 @@
     </ng-template>
 
     <div class="header-actions">
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
+      <ng-container *ngIf="effectiveActions(); else defaultActions">
+        <ng-container *ngTemplateOutlet="effectiveActions()!" />
       </ng-container>
       <ng-template #defaultActions>
         <ng-content select="[actions], [slot=actions]" />
@@ -30,8 +30,8 @@
   </div>
 
   <div class="tabs-nav-bar">
-    <ng-container *ngIf="effectiveTabs; else defaultTabs">
-      <ng-container *ngTemplateOutlet="effectiveTabs" />
+    <ng-container *ngIf="effectiveTabs(); else defaultTabs">
+      <ng-container *ngTemplateOutlet="effectiveTabs()!" />
     </ng-container>
     <ng-template #defaultTabs>
       <ng-content select="[tabs], [slot=tabs]" />

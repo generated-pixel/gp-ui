@@ -1,8 +1,10 @@
-import { Component, input, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-two-column-split',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent],
@@ -17,33 +19,25 @@ export class GpLayoutTwoColumnSplitComponent {
   public secondaryTitle = input<string>('');
   public secondaryDescription = input<string>('');
 
-  @Input() public primaryTemplate?: TemplateRef<any>;
-  @Input() public secondaryTemplate?: TemplateRef<any>;
-  @Input() public primaryActionsTemplate?: TemplateRef<any>;
-  @Input() public secondaryActionsTemplate?: TemplateRef<any>;
+  public primaryTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public secondaryTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public primaryActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public secondaryActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('primary') public contentPrimary?: TemplateRef<any>;
-  @ContentChild('primaryTemplate') public contentPrimaryTpl?: TemplateRef<any>;
-  @ContentChild('left') public contentLeft?: TemplateRef<any>;
-  @ContentChild('secondary') public contentSecondary?: TemplateRef<any>;
-  @ContentChild('secondaryTemplate') public contentSecondaryTpl?: TemplateRef<any>;
-  @ContentChild('right') public contentRight?: TemplateRef<any>;
-  @ContentChild('primaryActions') public contentPrimaryActions?: TemplateRef<any>;
-  @ContentChild('secondaryActions') public contentSecondaryActions?: TemplateRef<any>;
+  public contentPrimary = contentChild<TemplateRef<any>>('primary');
+  public contentPrimaryTpl = contentChild<TemplateRef<any>>('primaryTemplate');
+  public contentLeft = contentChild<TemplateRef<any>>('left');
+  public contentSecondary = contentChild<TemplateRef<any>>('secondary');
+  public contentSecondaryTpl = contentChild<TemplateRef<any>>('secondaryTemplate');
+  public contentRight = contentChild<TemplateRef<any>>('right');
+  public contentPrimaryActions = contentChild<TemplateRef<any>>('primaryActions');
+  public contentSecondaryActions = contentChild<TemplateRef<any>>('secondaryActions');
 
-  public get effectivePrimary(): TemplateRef<any> | undefined {
-    return this.primaryTemplate || this.contentPrimary || this.contentPrimaryTpl || this.contentLeft;
-  }
+  public effectivePrimary = computed<TemplateRef<any> | undefined>(() => this.primaryTemplate() || this.contentPrimary() || this.contentPrimaryTpl() || this.contentLeft());
 
-  public get effectiveSecondary(): TemplateRef<any> | undefined {
-    return this.secondaryTemplate || this.contentSecondary || this.contentSecondaryTpl || this.contentRight;
-  }
+  public effectiveSecondary = computed<TemplateRef<any> | undefined>(() => this.secondaryTemplate() || this.contentSecondary() || this.contentSecondaryTpl() || this.contentRight());
 
-  public get effectivePrimaryActions(): TemplateRef<any> | undefined {
-    return this.primaryActionsTemplate || this.contentPrimaryActions;
-  }
+  public effectivePrimaryActions = computed(() => this.primaryActionsTemplate() || this.contentPrimaryActions());
 
-  public get effectiveSecondaryActions(): TemplateRef<any> | undefined {
-    return this.secondaryActionsTemplate || this.contentSecondaryActions;
-  }
+  public effectiveSecondaryActions = computed(() => this.secondaryActionsTemplate() || this.contentSecondaryActions());
 }

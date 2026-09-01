@@ -1,54 +1,67 @@
 <div class="gp-dynamic-form-wrapper" [class.card-mode]="schema()?.cardShell !== false">
-      <div *ngIf="schema()?.title || schema()?.subtitle" class="gp-dynamic-form-header">
-        <div class="gp-dynamic-form-title-row">
-          <gp-icon *ngIf="schema()?.icon" [name]="schema()?.icon!" size="1.4em" class="form-icon" />
-          <div>
-            <h3 *ngIf="schema()?.title" class="gp-dynamic-form-title">{{ schema()?.title }}</h3>
-            <p *ngIf="schema()?.subtitle" class="gp-dynamic-form-subtitle">{{ schema()?.subtitle }}</p>
-          </div>
+  @if (schema()?.title || schema()?.subtitle) {
+    <div class="gp-dynamic-form-header">
+      <div class="gp-dynamic-form-title-row">
+        @if (schema()?.icon) {
+          <gp-icon [name]="schema()!.icon!" size="1.4em" class="form-icon" />
+        }
+        <div>
+          @if (schema()?.title) {
+            <h3 class="gp-dynamic-form-title">{{ schema()?.title }}</h3>
+          }
+          @if (schema()?.subtitle) {
+            <p class="gp-dynamic-form-subtitle">{{ schema()?.subtitle }}</p>
+          }
         </div>
-        <gp-divider *ngIf="schema()?.title || schema()?.subtitle" />
       </div>
+      <gp-divider />
+    </div>
+  }
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="gp-dynamic-form-body">
-        <div
-          class="gp-dynamic-form-grid"
-          [style.gridTemplateColumns]="'repeat(' + (schema()?.gridColumns || 12) + ', 1fr)'"
-        >
-          <ng-container *ngFor="let field of visibleFields()">
-            <!-- Divider field -->
-            <div
-              *ngIf="field.type === 'divider'"
-              class="gp-form-field-col"
-              [style.gridColumn]="'span ' + (field.colSpan || (schema()?.gridColumns || 12))"
-            >
-              <gp-divider />
-            </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="gp-dynamic-form-body">
+    <div
+      class="gp-dynamic-form-grid"
+      [style.gridTemplateColumns]="'repeat(' + (schema()?.gridColumns || 12) + ', 1fr)'"
+    >
+      @for (field of visibleFields(); track field.name) {
+        @if (field.type === 'divider') {
+          <div
+            class="gp-form-field-col"
+            [style.gridColumn]="'span ' + (field.colSpan || (schema()?.gridColumns || 12))"
+          >
+            <gp-divider />
+          </div>
+        } @else if (field.type === 'heading') {
+          <div
+            class="gp-form-field-col gp-form-section-heading"
+            [style.gridColumn]="'span ' + (field.colSpan || (schema()?.gridColumns || 12))"
+          >
+            <h4 class="section-title">{{ field.label }}</h4>
+            @if (field.helperText) {
+              <p class="section-subtitle">{{ field.helperText }}</p>
+            }
+          </div>
+        } @else {
+          <div
+            class="gp-form-field-col"
+            [style.gridColumn]="'span ' + (field.colSpan || 12)"
+            [class.has-error]="isFieldInvalid(field.name)"
+          >
+            @if (field.label && field.type !== 'checkbox' && field.type !== 'inset-label' && field.type !== 'float-label') {
+              <gp-label
+                [for]="field.name"
+                [text]="field.label"
+                [required]="field.required || field.validation?.required || false"
+                [optional]="field.optional || false"
+                [helpText]="field.helpText"
+                [icon]="field.icon"
+                [severity]="field.severity || 'default'"
+              />
+            }
 
-            <!-- Heading field -->
-            <div
-              *ngIf="field.type === 'heading'"
-              class="gp-form-field-col gp-form-section-heading"
-              [style.gridColumn]="'span ' + (field.colSpan || (schema()?.gridColumns || 12))"
-            >
-              <h4 class="section-title">{{ field.label }}</h4>
-              <p *ngIf="field.helperText" class="section-subtitle">{{ field.helperText }}</p>
-            </div>
-
-            <!-- Standard Input Fields -->
-            <div
-              *ngIf="field.type !== 'divider' && field.type !== 'heading'"
-              class="gp-form-field-col"
-              [style.gridColumn]="'span ' + (field.colSpan || 12)"
-              [class.has-error]="isFieldInvalid(field.name)"
-            >
-              <label *ngIf="field.label" [for]="field.name" class="gp-field-label">
-                {{ field.label }}
-                <span *ngIf="field.required || field.validation?.required" class="required-star">*</span>
-              </label>
-
-              <!-- Text Input -->
-              <div *ngIf="field.type === 'text'" class="input-control-wrap">
+            <!-- Text / Input -->
+            @if (field.type === 'text' || field.type === 'input') {
+              <div class="input-control-wrap">
                 <gp-input-text
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -58,9 +71,11 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Password Input -->
-              <div *ngIf="field.type === 'password'" class="input-control-wrap">
+            <!-- Password -->
+            @if (field.type === 'password') {
+              <div class="input-control-wrap">
                 <gp-password
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -69,9 +84,11 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Textarea Input -->
-              <div *ngIf="field.type === 'textarea'" class="input-control-wrap">
+            <!-- Textarea -->
+            @if (field.type === 'textarea') {
+              <div class="input-control-wrap">
                 <gp-textarea
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -82,9 +99,11 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Number Input -->
-              <div *ngIf="field.type === 'number'" class="input-control-wrap">
+            <!-- Input Number -->
+            @if (field.type === 'number' || field.type === 'input-number') {
+              <div class="input-control-wrap">
                 <gp-input-number
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -96,9 +115,26 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Single Select -->
-              <div *ngIf="field.type === 'select'" class="input-control-wrap">
+            <!-- Input Mask -->
+            @if (field.type === 'mask' || field.type === 'input-mask') {
+              <div class="input-control-wrap">
+                <gp-input-mask
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [mask]="field.mask || '(999) 999-9999'"
+                  [slotChar]="field.maskSlotChar || '_'"
+                  [placeholder]="field.placeholder || ''"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                />
+              </div>
+            }
+
+            <!-- Single Select / Dropdown -->
+            @if (field.type === 'select' || field.type === 'dropdown') {
+              <div class="input-control-wrap">
                 <gp-select
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -108,9 +144,11 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Multi Select -->
-              <div *ngIf="field.type === 'multi-select'" class="input-control-wrap">
+            <!-- Multi Select -->
+            @if (field.type === 'multi-select') {
+              <div class="input-control-wrap">
                 <gp-multi-select
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -120,9 +158,66 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Checkbox -->
-              <div *ngIf="field.type === 'checkbox'" class="checkbox-control-wrap">
+            <!-- Autocomplete -->
+            @if (field.type === 'autocomplete') {
+              <div class="input-control-wrap">
+                <gp-autocomplete
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [suggestions]="field.suggestions || field.options || []"
+                  [placeholder]="field.placeholder || 'Type to search...'"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                />
+              </div>
+            }
+
+            <!-- Cascade Select -->
+            @if (field.type === 'cascade-select') {
+              <div class="input-control-wrap">
+                <gp-cascade-select
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [options]="field.cascadeOptions || field.options || []"
+                  [placeholder]="field.placeholder || 'Select category...'"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                />
+              </div>
+            }
+
+            <!-- Tree Select -->
+            @if (field.type === 'tree-select') {
+              <div class="input-control-wrap">
+                <gp-tree-select
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [options]="field.treeNodes || []"
+                  [placeholder]="field.placeholder || 'Select node...'"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                />
+              </div>
+            }
+
+            <!-- Listbox -->
+            @if (field.type === 'listbox') {
+              <div class="input-control-wrap">
+                <gp-listbox
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [options]="field.options || []"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                />
+              </div>
+            }
+
+            <!-- Checkbox -->
+            @if (field.type === 'checkbox') {
+              <div class="checkbox-control-wrap">
                 <gp-checkbox
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -130,9 +225,28 @@
                   [disabled]="field.disabled || false"
                 />
               </div>
+            }
 
-              <!-- Switch -->
-              <div *ngIf="field.type === 'switch'" class="switch-control-wrap">
+            <!-- Radio Buttons -->
+            @if (field.type === 'radio' || field.type === 'radio-button') {
+              <div class="radio-group-wrap">
+                @for (opt of field.options || []; track opt.value) {
+                  <div class="radio-option-item">
+                    <gp-radio-button
+                      [name]="field.name"
+                      [value]="opt.value"
+                      [label]="opt.label"
+                      [formControlName]="field.name"
+                      [disabled]="opt.disabled || field.disabled || false"
+                    />
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Switch -->
+            @if (field.type === 'switch') {
+              <div class="switch-control-wrap">
                 <gp-switch
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -140,9 +254,24 @@
                 />
                 <span class="switch-label-text">{{ field.placeholder || 'Enable' }}</span>
               </div>
+            }
 
-              <!-- Slider -->
-              <div *ngIf="field.type === 'slider'" class="slider-control-wrap">
+            <!-- Toggle Button -->
+            @if (field.type === 'toggle-button') {
+              <div class="toggle-control-wrap">
+                <gp-toggle-button
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [onLabel]="field.label || 'Yes'"
+                  [offLabel]="field.placeholder || 'No'"
+                  [disabled]="field.disabled || false"
+                />
+              </div>
+            }
+
+            <!-- Slider -->
+            @if (field.type === 'slider') {
+              <div class="slider-control-wrap">
                 <gp-slider
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -153,28 +282,34 @@
                 />
                 <div class="slider-val-hint">{{ form.get(field.name)?.value }}</div>
               </div>
+            }
 
-              <!-- Rating -->
-              <div *ngIf="field.type === 'rating'" class="rating-control-wrap">
+            <!-- Rating -->
+            @if (field.type === 'rating') {
+              <div class="rating-control-wrap">
                 <gp-rating
                   [id]="field.name"
                   [formControlName]="field.name"
-                  [stars]="field.max || 5"
+                  [stars]="field.stars || field.max || 5"
                   [disabled]="field.disabled || false"
                 />
               </div>
+            }
 
-              <!-- Color Picker -->
-              <div *ngIf="field.type === 'color'" class="color-control-wrap">
+            <!-- Color Picker -->
+            @if (field.type === 'color' || field.type === 'color-picker') {
+              <div class="color-control-wrap">
                 <gp-color-picker
                   [id]="field.name"
                   [formControlName]="field.name"
                   [disabled]="field.disabled || false"
                 />
               </div>
+            }
 
-              <!-- Date Picker -->
-              <div *ngIf="field.type === 'date'" class="input-control-wrap">
+            <!-- Date Picker -->
+            @if (field.type === 'date' || field.type === 'date-picker') {
+              <div class="input-control-wrap">
                 <gp-date-picker
                   [id]="field.name"
                   [formControlName]="field.name"
@@ -183,81 +318,161 @@
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Time Picker -->
-              <div *ngIf="field.type === 'time'" class="input-control-wrap">
-                <gp-time-picker
+            <!-- Date Range Picker -->
+            @if (field.type === 'date-range' || field.type === 'date-range-picker') {
+              <div class="input-control-wrap">
+                <gp-date-range-picker
                   [id]="field.name"
                   [formControlName]="field.name"
-                  [placeholder]="field.placeholder || 'Select time'"
+                  [placeholder]="field.placeholder || 'Select date range...'"
                   [disabled]="field.disabled || false"
                   class="full-width-control"
                 />
               </div>
+            }
 
-              <!-- Radio Buttons -->
-              <div *ngIf="field.type === 'radio'" class="radio-group-wrap">
-                <div *ngFor="let opt of field.options" class="radio-option-item">
-                  <gp-radio-button
-                    [name]="field.name"
-                    [value]="opt.value"
-                    [label]="opt.label"
-                    [formControlName]="field.name"
-                    [disabled]="opt.disabled || field.disabled || false"
-                  />
-                </div>
+            <!-- Time Picker -->
+            @if (field.type === 'time' || field.type === 'time-picker') {
+              <div class="input-control-wrap">
+                <gp-time-picker
+                  [id]="field.name"
+                  [formControlName]="field.name"
+                  [hourFormat]="field.hourFormat || '12'"
+                  [stepMinute]="field.stepMinute || 1"
+                  [minuteSteps]="field.minuteSteps || null"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                />
               </div>
+            }
 
-              <!-- Helper Text / Error message -->
-              <div *ngIf="field.helperText && !isFieldInvalid(field.name)" class="gp-field-helper">
+            <!-- File Upload -->
+            @if (field.type === 'file-upload' || field.type === 'file') {
+              <div class="input-control-wrap">
+                <gp-file-upload
+                  [id]="field.name"
+                  [accept]="field.accept || '*/*'"
+                  [multiple]="field.multiple || false"
+                  [disabled]="field.disabled || false"
+                />
+              </div>
+            }
+
+            <!-- Inset Label Input Wrapper -->
+            @if (field.type === 'inset-label') {
+              <div class="input-control-wrap">
+                <gp-inset-label [size]="field.insetLabelSize || 'md'" [disabled]="field.disabled || false">
+                  <label [for]="field.name">{{ field.label }}</label>
+                  <gp-input-text
+                    [id]="field.name"
+                    [formControlName]="field.name"
+                    [placeholder]="field.placeholder || ''"
+                    [disabled]="field.disabled || false"
+                    class="full-width-control"
+                  />
+                </gp-inset-label>
+              </div>
+            }
+
+            <!-- Float Label Input Wrapper -->
+            @if (field.type === 'float-label') {
+              <div class="input-control-wrap">
+                <gp-float-label [variant]="field.floatLabelVariant || 'on'">
+                  <gp-input-text
+                    [id]="field.name"
+                    [formControlName]="field.name"
+                    placeholder=" "
+                    [disabled]="field.disabled || false"
+                    class="full-width-control"
+                  />
+                  <label [for]="field.name">{{ field.label }}</label>
+                </gp-float-label>
+              </div>
+            }
+
+            <!-- Form Field Wrapper -->
+            @if (field.type === 'form-field') {
+              <div class="input-control-wrap">
+                <gp-form-field
+                  [label]="field.label"
+                  [appearance]="field.appearance || 'outlined'"
+                  [required]="field.required || false"
+                  [optional]="field.optional || false"
+                  [helpText]="field.helpText"
+                  [disabled]="field.disabled || false"
+                  class="full-width-control"
+                >
+                  <gp-input-text
+                    [id]="field.name"
+                    [formControlName]="field.name"
+                    [placeholder]="field.placeholder || ''"
+                  />
+                </gp-form-field>
+              </div>
+            }
+
+            <!-- Helper Text / Error message -->
+            @if (field.helperText && !isFieldInvalid(field.name)) {
+              <div class="gp-field-helper">
                 {{ field.helperText }}
               </div>
-              <div *ngIf="isFieldInvalid(field.name)" class="gp-field-error">
+            }
+            @if (isFieldInvalid(field.name)) {
+              <div class="gp-field-error">
                 {{ getFieldErrorMessage(field) }}
               </div>
-            </div>
-          </ng-container>
-        </div>
-
-        <!-- Form Actions Toolbar -->
-        <div class="gp-form-actions-bar">
-          <div class="secondary-actions">
-            <gp-button
-              *ngIf="schema()?.resetButton"
-              variant="outlined"
-              severity="secondary"
-              (onClickEvent)="onReset()"
-            >
-              {{ schema()?.resetButton?.label || 'Reset' }}
-            </gp-button>
-
-            <gp-button
-              *ngFor="let sec of schema()?.secondaryActions"
-              [variant]="sec.variant || 'outlined'"
-              [severity]="sec.severity || 'secondary'"
-              (onClickEvent)="onActionClick(sec)"
-            >
-              <gp-icon *ngIf="sec.icon" [name]="sec.icon" size="0.9em" style="margin-right: 0.35rem;" />
-              {{ sec.label }}
-            </gp-button>
+            }
           </div>
-
-          <div class="primary-actions">
-            <gp-button
-              [severity]="schema()?.submitButton?.severity || 'primary'"
-              [variant]="schema()?.submitButton?.variant || 'filled'"
-              [disabled]="form.invalid && formSubmitted()"
-              (onClickEvent)="onSubmit()"
-            >
-              <gp-icon
-                *ngIf="schema()?.submitButton?.icon"
-                [name]="schema()?.submitButton?.icon!"
-                size="0.9em"
-                style="margin-right: 0.35rem;"
-              />
-              {{ schema()?.submitButton?.label || 'Submit' }}
-            </gp-button>
-          </div>
-        </div>
-      </form>
+        }
+      }
     </div>
+
+    <!-- Form Actions Toolbar -->
+    <div class="gp-form-actions-bar">
+      <div class="secondary-actions">
+        @if (schema()?.resetButton) {
+          <gp-button
+            variant="outlined"
+            severity="secondary"
+            (onClickEvent)="onReset()"
+          >
+            {{ schema()?.resetButton?.label || 'Reset' }}
+          </gp-button>
+        }
+
+        @for (sec of schema()?.secondaryActions; track sec.id) {
+          <gp-button
+            [variant]="sec.variant || 'outlined'"
+            [severity]="sec.severity || 'secondary'"
+            (onClickEvent)="onActionClick(sec)"
+          >
+            @if (sec.icon) {
+              <gp-icon [name]="sec.icon" size="0.9em" style="margin-right: 0.35rem;" />
+            }
+            {{ sec.label }}
+          </gp-button>
+        }
+      </div>
+
+      <div class="primary-actions">
+        <gp-button
+          [severity]="schema()?.submitButton?.severity || 'primary'"
+          [variant]="schema()?.submitButton?.variant || 'filled'"
+          [disabled]="form.invalid && formSubmitted()"
+          (onClickEvent)="onSubmit()"
+        >
+          @if (schema()?.submitButton?.icon) {
+            <gp-icon
+              [name]="schema()!.submitButton!.icon!"
+              size="0.9em"
+              style="margin-right: 0.35rem;"
+            />
+          }
+          {{ schema()?.submitButton?.label || 'Submit' }}
+        </gp-button>
+      </div>
+    </div>
+  </form>
+</div>

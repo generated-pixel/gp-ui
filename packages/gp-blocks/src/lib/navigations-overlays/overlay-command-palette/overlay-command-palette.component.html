@@ -11,13 +11,13 @@
   styleClass="gp-command-palette-dialog"
   (visibleChange)="onVisibleChange($event)"
 >
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
+    <ng-container *ngIf="effectiveContent(); else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
     </ng-container>
     <ng-template #defaultContent>
       <!-- Search Input Top -->
-      <ng-container *ngIf="effectiveSearch; else defaultSearch">
-        <ng-container *ngTemplateOutlet="effectiveSearch" />
+      <ng-container *ngIf="effectiveSearch(); else defaultSearch">
+        <ng-container *ngTemplateOutlet="effectiveSearch()!" />
       </ng-container>
       <ng-template #defaultSearch>
         <ng-content select="[search], [slot=search]" />
@@ -45,8 +45,8 @@
           <div class="group-tag" *ngIf="groupLabel()">{{ groupLabel() }}</div>
           <div class="commands-list">
             <ng-container *ngFor="let cmd of filteredCommands(); let index = index">
-              <ng-container *ngIf="effectiveCommandTemplate; else defaultCmd">
-                <ng-container *ngTemplateOutlet="effectiveCommandTemplate; context: { $implicit: cmd }" />
+              <ng-container *ngIf="effectiveCommandTemplate(); else defaultCmd">
+                <ng-container *ngTemplateOutlet="effectiveCommandTemplate()!; context: { $implicit: cmd }" />
               </ng-container>
               <ng-template #defaultCmd>
                 <div

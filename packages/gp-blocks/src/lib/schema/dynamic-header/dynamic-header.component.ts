@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   GpButtonComponent,
@@ -20,6 +20,8 @@ import { GpHeaderSchema, GpFormAction } from '../schema.types';
     GpBreadcrumbComponent,
     GpIconComponent
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './dynamic-header.component.html',
   styleUrl: './dynamic-header.component.scss'
 })

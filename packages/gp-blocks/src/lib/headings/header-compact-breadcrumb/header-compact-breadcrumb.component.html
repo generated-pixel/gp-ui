@@ -1,7 +1,7 @@
 <div class="gp-header-compact">
   <div class="left-actions">
-    <ng-container *ngIf="effectiveBreadcrumbs; else defaultBreadcrumbs">
-      <ng-container *ngTemplateOutlet="effectiveBreadcrumbs" />
+    <ng-container *ngIf="effectiveBreadcrumbs(); else defaultBreadcrumbs">
+      <ng-container *ngTemplateOutlet="effectiveBreadcrumbs()!" />
     </ng-container>
     <ng-template #defaultBreadcrumbs>
       <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
@@ -17,8 +17,8 @@
   </div>
 
   <div class="right-actions">
-    <ng-container *ngIf="effectiveActions; else defaultActions">
-      <ng-container *ngTemplateOutlet="effectiveActions" />
+    <ng-container *ngIf="effectiveActions(); else defaultActions">
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
     </ng-container>
     <ng-template #defaultActions>
       <ng-content select="[actions], [slot=actions]" />

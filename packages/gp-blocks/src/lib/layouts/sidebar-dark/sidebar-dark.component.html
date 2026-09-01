@@ -1,15 +1,15 @@
 <div class="gp-sidebar-dark-shell">
   <!-- Dark Sidebar -->
   <aside class="dark-sidebar">
-    <ng-container *ngIf="effectiveSidebar; else defaultSidebar">
-      <ng-container *ngTemplateOutlet="effectiveSidebar" />
+    <ng-container *ngIf="effectiveSidebar(); else defaultSidebar">
+      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     </ng-container>
 
     <ng-template #defaultSidebar>
       <ng-content select="[sidebar], [slot=sidebar]" />
         <!-- Brand Header -->
-        <ng-container *ngIf="effectiveBrand; else defaultBrand">
-          <ng-container *ngTemplateOutlet="effectiveBrand" />
+        <ng-container *ngIf="effectiveBrand(); else defaultBrand">
+          <ng-container *ngTemplateOutlet="effectiveBrand()!" />
         </ng-container>
         <ng-template #defaultBrand>
           <ng-content select="[brand], [slot=brand]" />
@@ -24,8 +24,8 @@
         </ng-template>
 
         <!-- Nav -->
-        <ng-container *ngIf="effectiveNav; else defaultNav">
-          <ng-container *ngTemplateOutlet="effectiveNav" />
+        <ng-container *ngIf="effectiveNav(); else defaultNav">
+          <ng-container *ngTemplateOutlet="effectiveNav()!" />
         </ng-container>
         <ng-template #defaultNav>
           <ng-content select="[nav], [slot=nav]" />
@@ -52,8 +52,8 @@
         </ng-template>
 
         <!-- User Footer -->
-        <ng-container *ngIf="effectiveUser; else defaultUser">
-          <ng-container *ngTemplateOutlet="effectiveUser" />
+        <ng-container *ngIf="effectiveUser(); else defaultUser">
+          <ng-container *ngTemplateOutlet="effectiveUser()!" />
         </ng-container>
         <ng-template #defaultUser>
           <ng-content select="[user], [slot=user]" />
@@ -77,8 +77,8 @@
     <header class="top-nav-bar">
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
-        <ng-container *ngIf="effectiveTopActions; else projectedTopActions">
-          <ng-container *ngTemplateOutlet="effectiveTopActions" />
+        <ng-container *ngIf="effectiveTopActions(); else projectedTopActions">
+          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         </ng-container>
         <ng-template #projectedTopActions>
           <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
@@ -86,8 +86,8 @@
       </div>
     </header>
     <main class="page-content-area">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
+      <ng-container *ngIf="effectiveContent(); else defaultContent">
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
       </ng-container>
       <ng-template #defaultContent>
         <ng-content select="[main], [slot=main], [content], [slot=content]" />

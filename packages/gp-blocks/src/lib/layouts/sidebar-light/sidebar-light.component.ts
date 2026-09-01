@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
 
@@ -12,6 +12,8 @@ export interface GpLightSidebarNavEntry {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-sidebar-light',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent, GpButtonComponent],
@@ -33,43 +35,31 @@ export class GpLayoutSidebarLightComponent {
   public navItemClick = output<GpLightSidebarNavEntry>();
   public upgradeClick = output<void>();
 
-  @Input() public sidebarTemplate?: TemplateRef<any>;
-  @Input() public brandTemplate?: TemplateRef<any>;
-  @Input() public navTemplate?: TemplateRef<any>;
-  @Input() public upgradeTemplate?: TemplateRef<any>;
-  @Input() public topActionsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public sidebarTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public brandTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public navTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public upgradeTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public topActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('sidebar') public contentSidebar?: TemplateRef<any>;
-  @ContentChild('brand') public contentBrand?: TemplateRef<any>;
-  @ContentChild('nav') public contentNav?: TemplateRef<any>;
-  @ContentChild('upgrade') public contentUpgrade?: TemplateRef<any>;
-  @ContentChild('topActions') public contentTopActions?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
-  @ContentChild('main') public contentMain?: TemplateRef<any>;
+  public contentSidebar = contentChild<TemplateRef<any>>('sidebar');
+  public contentBrand = contentChild<TemplateRef<any>>('brand');
+  public contentNav = contentChild<TemplateRef<any>>('nav');
+  public contentUpgrade = contentChild<TemplateRef<any>>('upgrade');
+  public contentTopActions = contentChild<TemplateRef<any>>('topActions');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
+  public contentArea = contentChild<TemplateRef<any>>('content');
+  public contentMain = contentChild<TemplateRef<any>>('main');
 
-  public get effectiveSidebar(): TemplateRef<any> | undefined {
-    return this.sidebarTemplate || this.contentSidebar;
-  }
+  public effectiveSidebar = computed(() => this.sidebarTemplate() || this.contentSidebar());
 
-  public get effectiveBrand(): TemplateRef<any> | undefined {
-    return this.brandTemplate || this.contentBrand;
-  }
+  public effectiveBrand = computed(() => this.brandTemplate() || this.contentBrand());
 
-  public get effectiveNav(): TemplateRef<any> | undefined {
-    return this.navTemplate || this.contentNav;
-  }
+  public effectiveNav = computed(() => this.navTemplate() || this.contentNav());
 
-  public get effectiveUpgrade(): TemplateRef<any> | undefined {
-    return this.upgradeTemplate || this.contentUpgrade;
-  }
+  public effectiveUpgrade = computed(() => this.upgradeTemplate() || this.contentUpgrade());
 
-  public get effectiveTopActions(): TemplateRef<any> | undefined {
-    return this.topActionsTemplate || this.contentTopActions || this.contentActions;
-  }
+  public effectiveTopActions = computed<TemplateRef<any> | undefined>(() => this.topActionsTemplate() || this.contentTopActions() || this.contentActions());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea || this.contentMain;
-  }
+  public effectiveContent = computed<TemplateRef<any> | undefined>(() => this.contentTemplate() || this.contentArea() || this.contentMain());
 }

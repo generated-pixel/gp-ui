@@ -1,9 +1,9 @@
 <div class="gp-mega-menu-block">
-  @if (effectiveContent) {
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    @if (effectiveSections) {
-      <ng-container *ngTemplateOutlet="effectiveSections" />
+    @if (effectiveSections()) {
+      <ng-container *ngTemplateOutlet="effectiveSections()!" />
     } @else {
       <ng-content select="[sections], [slot=sections]" />
 
@@ -11,9 +11,9 @@
       
     }
 
-    @if (effectivePromo) {
+    @if (effectivePromo()) {
       <div class="gp-mega-menu-block__custom-promo">
-        <ng-container *ngTemplateOutlet="effectivePromo" />
+        <ng-container *ngTemplateOutlet="effectivePromo()!" />
       </div>
     } @else {
       <ng-content select="[promo], [slot=promo]" />

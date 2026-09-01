@@ -1,7 +1,7 @@
 <div class="gp-dashboard-saas-root">
   <!-- Optional Top Action Bar / Slot -->
-  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
-    <ng-container *ngTemplateOutlet="contentHeaderActions" />
+  <div class="dashboard-top-slot" *ngIf="contentHeaderActions()">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
   </div>
   <ng-content select="[actions], [slot=actions]" />
 
@@ -17,15 +17,15 @@
   >
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
-      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
+      <ng-container *ngIf="effectiveWidgetTemplate(); else defaultWidgetRender">
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       </ng-container>
 
       <ng-template #defaultWidgetRender>
         <!-- 1. KPI Widget -->
         <ng-container *ngIf="item.id === 'kpis'">
-          <ng-container *ngIf="contentKpis; else defaultKpis">
-            <ng-container *ngTemplateOutlet="contentKpis" />
+          <ng-container *ngIf="contentKpis(); else defaultKpis">
+            <ng-container *ngTemplateOutlet="contentKpis()!" />
           </ng-container>
           <ng-template #defaultKpis>
             <div class="kpi-grid" *ngIf="kpis() && kpis().length > 0">
@@ -60,8 +60,8 @@
 
         <!-- 2. Revenue Chart Widget -->
         <ng-container *ngIf="item.id === 'revenue-chart'">
-          <ng-container *ngIf="contentChart; else defaultChart">
-            <ng-container *ngTemplateOutlet="contentChart" />
+          <ng-container *ngIf="contentChart(); else defaultChart">
+            <ng-container *ngTemplateOutlet="contentChart()!" />
           </ng-container>
           <ng-template #defaultChart>
             <div class="panel-card chart-panel" *ngIf="monthlyData() && monthlyData().length > 0" style="height: 100%;">
@@ -84,8 +84,8 @@
 
         <!-- 3. Conversion Quotas Widget -->
         <ng-container *ngIf="item.id === 'conversion-quotas'">
-          <ng-container *ngIf="contentQuotas; else defaultQuotas">
-            <ng-container *ngTemplateOutlet="contentQuotas" />
+          <ng-container *ngIf="contentQuotas(); else defaultQuotas">
+            <ng-container *ngTemplateOutlet="contentQuotas()!" />
           </ng-container>
           <ng-template #defaultQuotas>
             <div class="panel-card quota-panel" *ngIf="quotas() && quotas().length > 0" style="height: 100%;">
@@ -108,8 +108,8 @@
 
         <!-- 4. Recent Subscriptions Table Widget -->
         <ng-container *ngIf="item.id === 'recent-signups'">
-          <ng-container *ngIf="contentTable; else defaultTable">
-            <ng-container *ngTemplateOutlet="contentTable" />
+          <ng-container *ngIf="contentTable(); else defaultTable">
+            <ng-container *ngTemplateOutlet="contentTable()!" />
           </ng-container>
           <ng-template #defaultTable>
             <div class="panel-card table-panel" *ngIf="recentSignups() && recentSignups().length > 0" style="height: 100%;">

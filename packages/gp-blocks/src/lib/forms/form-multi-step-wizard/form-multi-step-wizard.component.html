@@ -1,8 +1,8 @@
 <div class="gp-wizard-shell">
   <!-- Stepper Indicator Header -->
   <div class="wizard-header">
-    <ng-container *ngIf="effectiveStepper; else defaultStepper">
-      <ng-container *ngTemplateOutlet="effectiveStepper" />
+    <ng-container *ngIf="effectiveStepper(); else defaultStepper">
+      <ng-container *ngTemplateOutlet="effectiveStepper()!" />
     </ng-container>
     <ng-template #defaultStepper>
       <ng-content select="[stepper], [slot=stepper]" />
@@ -27,14 +27,14 @@
 
   <!-- Wizard Step Body -->
   <div class="wizard-body-card">
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
+    <ng-container *ngIf="effectiveContent(); else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
     </ng-container>
     <ng-template #defaultContent>
       <!-- Step 1 -->
       <div *ngIf="currentStep() === 1" class="step-container">
-        <ng-container *ngIf="effectiveStep1; else defaultStep1">
-          <ng-container *ngTemplateOutlet="effectiveStep1" />
+        <ng-container *ngIf="effectiveStep1(); else defaultStep1">
+          <ng-container *ngTemplateOutlet="effectiveStep1()!" />
         </ng-container>
         <ng-template #defaultStep1>
           <ng-content select="[step1], [slot=step1]" />
@@ -70,8 +70,8 @@
 
       <!-- Step 2 -->
       <div *ngIf="currentStep() === 2" class="step-container">
-        <ng-container *ngIf="effectiveStep2; else defaultStep2">
-          <ng-container *ngTemplateOutlet="effectiveStep2" />
+        <ng-container *ngIf="effectiveStep2(); else defaultStep2">
+          <ng-container *ngTemplateOutlet="effectiveStep2()!" />
         </ng-container>
         <ng-template #defaultStep2>
           <ng-content select="[step2], [slot=step2]" />
@@ -107,8 +107,8 @@
 
       <!-- Step 3 -->
       <div *ngIf="currentStep() === 3" class="step-container">
-        <ng-container *ngIf="effectiveStep3; else defaultStep3">
-          <ng-container *ngTemplateOutlet="effectiveStep3" />
+        <ng-container *ngIf="effectiveStep3(); else defaultStep3">
+          <ng-container *ngTemplateOutlet="effectiveStep3()!" />
         </ng-container>
         <ng-template #defaultStep3>
           <ng-content select="[step3], [slot=step3]" />

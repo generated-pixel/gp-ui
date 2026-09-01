@@ -1,4 +1,4 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -10,6 +10,8 @@ export interface GpDescriptionListItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-data-display-description-list',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent],
@@ -23,23 +25,17 @@ export class GpDataDisplayDescriptionListComponent {
 
   public itemClick = output<GpDescriptionListItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public itemTemplate?: TemplateRef<{ $implicit: GpDescriptionListItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public itemTemplate = input<TemplateRef<{ $implicit: GpDescriptionListItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('itemTemplate') public contentItemTemplate?: TemplateRef<{ $implicit: GpDescriptionListItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentItemTemplate = contentChild<TemplateRef<{ $implicit: GpDescriptionListItem }>>('itemTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveItemTemplate(): TemplateRef<{ $implicit: GpDescriptionListItem }> | undefined {
-    return this.itemTemplate || this.contentItemTemplate;
-  }
+  public effectiveItemTemplate = computed(() => this.itemTemplate() || this.contentItemTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

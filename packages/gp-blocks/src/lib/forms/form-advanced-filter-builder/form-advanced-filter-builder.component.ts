@@ -1,4 +1,4 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent } from '@generatedpixel/gp-ui';
@@ -15,6 +15,8 @@ export interface GpFilterCondition {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-advanced-filter-builder',
   standalone: true,
   imports: [CommonModule, FormsModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent],
@@ -46,41 +48,30 @@ export class GpFormAdvancedFilterBuilderComponent {
   public applyFilter = output<GpFilterCondition[]>();
   public resetFilter = output<void>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public conditionRowTemplate?: TemplateRef<{ $implicit: GpFilterCondition; index: number }>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public conditionRowTemplate = input<TemplateRef<{ $implicit: GpFilterCondition; index: number }> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('conditionRowTemplate') public contentConditionRowTemplate?: TemplateRef<{ $implicit: GpFilterCondition; index: number }>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentConditionRowTemplate = contentChild<TemplateRef<{ $implicit: GpFilterCondition; index: number }>>('conditionRowTemplate');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
-
-  public get effectiveConditionRowTemplate(): TemplateRef<{ $implicit: GpFilterCondition; index: number }> | undefined {
-    return this.conditionRowTemplate || this.contentConditionRowTemplate;
-  }
-
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
-
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
+  public effectiveConditionRowTemplate = computed(() => this.conditionRowTemplate() || this.contentConditionRowTemplate());
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public addCondition(): void {
-    this.conditions.update(c => [
+    this.conditions.update((c) => [
       ...c,
       { field: 'status', operator: 'eq', value: '' }
     ]);
   }
 
   public removeCondition(idx: number): void {
-    this.conditions.update(c => c.filter((_, i) => i !== idx));
+    this.conditions.update((c) => c.filter((_, i) => i !== idx));
   }
 
   public resetFilters(): void {

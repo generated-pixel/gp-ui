@@ -1,7 +1,7 @@
 <div class="gp-badge-clusters-block">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
+  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   </ng-container>
   <ng-template #defaultHeader>
     <ng-content select="[header], [slot=header]" />
@@ -14,8 +14,8 @@
   </ng-template>
 
   <!-- Clusters Content -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
+  <ng-container *ngIf="effectiveContent(); else defaultContent">
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
   </ng-container>
   <ng-template #defaultContent>
     <ng-content select="[clusters], [slot=clusters], [groups], [slot=groups]" />
@@ -25,8 +25,8 @@
           <h4 class="group-title">{{ g.title }}</h4>
           <div class="badges-wrap">
             <ng-container *ngFor="let item of g.items">
-              <ng-container *ngIf="effectiveBadgeTemplate; else defaultBadge">
-                <ng-container *ngTemplateOutlet="effectiveBadgeTemplate; context: { $implicit: item }" />
+              <ng-container *ngIf="effectiveBadgeTemplate(); else defaultBadge">
+                <ng-container *ngTemplateOutlet="effectiveBadgeTemplate()!; context: { $implicit: item }" />
               </ng-container>
               <ng-template #defaultBadge>
                 <span (click)="itemClick.emit(item)" style="cursor: pointer; display: inline-flex;">

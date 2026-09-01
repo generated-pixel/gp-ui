@@ -1,8 +1,8 @@
 <div class="gp-stacked-sticky-shell">
   <!-- Brand Nav Top Header -->
   <header class="sticky-nav-header">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
+    <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
     </ng-container>
     <ng-template #defaultHeader>
       <ng-content select="[header], [slot=header]" />
@@ -31,8 +31,8 @@
 
   <!-- Sticky Action & Search Bar -->
   <div class="sticky-action-bar">
-    <ng-container *ngIf="effectiveActionBar; else defaultActionBar">
-      <ng-container *ngTemplateOutlet="effectiveActionBar" />
+    <ng-container *ngIf="effectiveActionBar(); else defaultActionBar">
+      <ng-container *ngTemplateOutlet="effectiveActionBar()!" />
     </ng-container>
     <ng-template #defaultActionBar>
       <ng-content select="[action-bar], [slot=action-bar], [actions], [slot=actions]" />
@@ -66,8 +66,8 @@
 
   <!-- Page Content Scroll -->
   <main class="sticky-main-content">
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
+    <ng-container *ngIf="effectiveContent(); else defaultContent">
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
     </ng-container>
     <ng-template #defaultContent>
       <ng-content select="[main], [slot=main], [content], [slot=content]" />
