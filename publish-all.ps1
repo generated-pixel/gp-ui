@@ -53,7 +53,8 @@ $PackagePaths = @(
   (Join-Path $ScriptDir "packages/gp-ui-icons/package.json"),
   (Join-Path $ScriptDir "packages/gp-css/package.json"),
   (Join-Path $ScriptDir "packages/gp-blocks/package.json"),
-  (Join-Path $ScriptDir "packages/gp-grid/package.json")
+  (Join-Path $ScriptDir "packages/gp-grid/package.json"),
+  (Join-Path $ScriptDir "packages/gp-rules/package.json")
 )
 
 # 1. Version Handling
@@ -140,7 +141,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Copy package-specific Readme to corresponding output packages
-$PackageNames = @("gp-ui", "gp-ui-theme", "gp-ui-icons", "gp-css", "gp-blocks", "gp-grid")
+$PackageNames = @("gp-ui", "gp-ui-theme", "gp-ui-icons", "gp-css", "gp-blocks", "gp-grid", "gp-rules")
 $DistPackages = @()
 
 foreach ($pkg in $PackageNames) {
@@ -217,6 +218,7 @@ if (-not $SkipPublish) {
   Write-Host "  - @generatedpixel/gp-css@$NewVersion" -ForegroundColor Cyan
   Write-Host "  - @generatedpixel/gp-blocks@$NewVersion" -ForegroundColor Cyan
   Write-Host "  - @generatedpixel/gp-grid@$NewVersion" -ForegroundColor Cyan
+  Write-Host "  - @generatedpixel/gp-rules@$NewVersion" -ForegroundColor Cyan
 } else {
   Write-Host ""
   Write-Host "Publishing skipped as requested. Artifacts are ready in dist/packages/." -ForegroundColor Yellow
