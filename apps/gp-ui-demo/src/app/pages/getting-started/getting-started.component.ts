@@ -132,6 +132,17 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
           </li>
         </ul>
       </div>
+
+      <!-- Community & Contribution -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="heart" size="1em" />
+          Contributing & Support
+        </h2>
+        <p class="doc-section-desc">
+          Want to help? <a href="mailto:hello@generatedpixel.dev" style="color: var(--gp-primary); font-weight: 600;">Email us at hello&#64;generatedpixel.dev</a>
+        </p>
+      </div>
     </div>
   `,
   styles: [

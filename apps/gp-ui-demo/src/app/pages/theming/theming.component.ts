@@ -9,9 +9,10 @@ import {
   GpColorPickerComponent,
   GpBadgeComponent,
   GpTagComponent,
-  GpProgressBarComponent
+  GpProgressBarComponent,
+  GpThemeScopeDirective
 } from 'gp-ui';
-import { GpThemeManager, GpThemeMeta, GpThemeMode } from 'gp-ui-theme';
+import { GpThemeManager, GpThemeMeta, GpThemeMode, exportToW3C, exportToUtilityConfig, exportToCssVariables, evaluateContrast } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
@@ -33,6 +34,7 @@ import { ThemeEditorService } from './theme-editor.service';
     GpBadgeComponent,
     GpTagComponent,
     GpProgressBarComponent,
+    GpThemeScopeDirective,
     GpIconComponent,
     DocCodeComponent,
     DocApiTableComponent,
@@ -319,6 +321,48 @@ import { ThemeEditorService } from './theme-editor.service';
         <doc-code [code]="cssVariablesCode" language="css" />
         <doc-code [code]="aliasCode" language="typescript" />
         <doc-api-table title="Runtime behavior" [properties]="runtimeBehavior" [hasDefaults]="false" />
+      </div>
+
+      <!-- Scoped Sub-Theming Showcase -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">
+          <gp-icon name="layer-group" size="1em" />
+          Scoped Sub-Theming (<code>[gpThemeScope]</code>)
+        </h2>
+        <p class="doc-section-desc">
+          Apply different themes or color modes to specific UI subtrees (such as an always-dark navigation bar or a cyberpunk preview card) without affecting the global page:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
+          <div [gpThemeScope]="'cyberpunk'" mode="dark" style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 1px solid var(--gp-surface-border); color: var(--gp-text-primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Cyberpunk Dark Scope</span>
+              <gp-badge value="Scoped" severity="warning" />
+            </div>
+            <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">This container is isolated to Cyberpunk Dark.</p>
+            <gp-button label="Action in Scope" severity="primary" size="sm" />
+          </div>
+
+          <div [gpThemeScope]="'ocean'" mode="light" style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 1px solid var(--gp-surface-border); color: var(--gp-text-primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Ocean Light Scope</span>
+              <gp-badge value="Scoped" severity="info" />
+            </div>
+            <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">This container is isolated to Ocean Light.</p>
+            <gp-button label="Action in Scope" severity="primary" size="sm" />
+          </div>
+
+          <div [gpThemeScope]="'high-contrast-dark'" mode="dark" style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 2px solid #ffffff; color: #ffffff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">WCAG AAA Dark</span>
+              <gp-badge value="AAA" severity="success" />
+            </div>
+            <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">High-contrast mode with yellow accents and white borders.</p>
+            <gp-button label="High Contrast" severity="primary" size="sm" />
+          </div>
+        </div>
+
+        <doc-code [code]="themeScopeCode" language="html" />
       </div>
 
       <!-- Section 4: Token Reference Table -->
@@ -657,6 +701,17 @@ export class ThemingPageComponent implements OnInit, OnDestroy {
 # Optional companion packages
 npm install @generatedpixel/gp-ui @generatedpixel/gp-css @generatedpixel/gp-ui-icons`;
 
+  themeScopeCode = `<!-- Localized Scoped Sub-Themes -->
+<div [gpThemeScope]="'cyberpunk'" mode="dark">
+  <h3>Dark Cyberpunk Scope</h3>
+  <gp-button label="Cyberpunk Button" />
+</div>
+
+<div [gpThemeScope]="'high-contrast-dark'" mode="dark">
+  <h3>WCAG AAA High Contrast Scope</h3>
+  <gp-button label="AAA Button" />
+</div>`;
+
   startupCode = `import { GpThemeManager } from '@generatedpixel/gp-ui-theme';
 
 // Call once during browser application startup.
@@ -873,7 +928,37 @@ const unsubscribe = GpThemeManager.onChange((state) => {
       name: '--gp-border-radius',
       type: 'length',
       default: '6px (theme configurable)',
-      description: 'Standard corner radius for buttons, inputs, and cards.'
+      description: 'Base border radius for buttons, cards, dialogs, inputs, and chips.'
+    },
+    {
+      name: '--gp-scrollbar-thumb',
+      type: 'color',
+      default: 'rgba(100, 116, 139, 0.32) / theme configured',
+      description: 'Thumb / handle color of scrollbars across the document and scrollable containers.'
+    },
+    {
+      name: '--gp-scrollbar-thumb-hover',
+      type: 'color',
+      default: 'rgba(100, 116, 139, 0.55) / theme configured',
+      description: 'Hover color of scrollbar thumb on mouseover or dragging.'
+    },
+    {
+      name: '--gp-scrollbar-track',
+      type: 'color',
+      default: 'transparent / theme configured',
+      description: 'Background track color behind the scrollbar thumb.'
+    },
+    {
+      name: '--gp-scrollbar-size',
+      type: 'length',
+      default: '8px (12px in High Contrast, 6px in Cyberpunk)',
+      description: 'Width of vertical scrollbars and height of horizontal scrollbars.'
+    },
+    {
+      name: '--gp-scrollbar-radius',
+      type: 'length',
+      default: '4px (9999px in Pride, 2px in High Contrast, 0px in Cyberpunk)',
+      description: 'Border radius applied to scrollbar thumbs.'
     }
   ];
 

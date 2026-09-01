@@ -17,14 +17,21 @@ import {
   GpAutoCompleteComponent,
   GpTreeSelectComponent,
   GpDatePickerComponent,
+  GpDateRangePickerComponent,
   GpTimePickerComponent,
   GpFileUploadComponent,
   GpButtonComponent,
   GpCardComponent,
   GpValidators,
   GpFormDirective,
-  GpFormErrorComponent
+  GpFormErrorComponent,
+  GpFormFieldComponent,
+  GpPrefixDirective,
+  GpSuffixDirective,
+  GpHelperDirective,
+  GpErrorDirective
 } from 'gp-ui';
+import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
@@ -50,11 +57,18 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpAutoCompleteComponent,
     GpTreeSelectComponent,
     GpDatePickerComponent,
+    GpDateRangePickerComponent,
     GpTimePickerComponent,
     GpFileUploadComponent,
     GpButtonComponent,
     GpFormDirective,
     GpFormErrorComponent,
+    GpFormFieldComponent,
+    GpPrefixDirective,
+    GpSuffixDirective,
+    GpHelperDirective,
+    GpErrorDirective,
+    GpIconComponent,
     DocCodeComponent,
     DocApiTableComponent
   ],
@@ -77,6 +91,50 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
       <!-- Reactive Form Container -->
       <form [formGroup]="demoForm" (ngSubmit)="onSubmit()">
+        <!-- Unified Form Field & Floating Labels Showcase -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">Unified Form Field & Floating Labels (<span style="font-family: monospace; font-size: 0.9em;">gp-form-field</span>)</h2>
+          <p class="doc-section-desc">
+            Encapsulates inputs with animated floating labels, appearance styles (<code>outlined</code>, <code>filled</code>), prefix/suffix icon slots, inline validation hints, and helper text.
+          </p>
+          <div class="form-grid">
+            <div>
+              <gp-form-field label="Work Email Address" appearance="outlined" [required]="true">
+                <gp-icon name="mail" gpPrefix />
+                <input gpInputText type="email" formControlName="fullName" placeholder=" " />
+                <gp-icon name="info" gpSuffix />
+                <span gpHelper>We will send your verification link here.</span>
+              </gp-form-field>
+            </div>
+
+            <div>
+              <gp-form-field label="Account Password" appearance="outlined" [required]="true">
+                <gp-icon name="lock" gpPrefix />
+                <input gpInputText type="password" formControlName="password" placeholder=" " />
+                <gp-icon name="eye" gpSuffix style="cursor: pointer;" />
+                <span gpHelper>Must be at least 8 characters.</span>
+              </gp-form-field>
+            </div>
+
+            <div>
+              <gp-form-field label="Filled Variant Example" appearance="filled">
+                <gp-icon name="user" gpPrefix />
+                <input gpInputText placeholder=" " />
+                <span gpHelper>Material / Apple style bottom-border input.</span>
+              </gp-form-field>
+            </div>
+
+            <div>
+              <gp-form-field label="Phone Number" appearance="outlined">
+                <gp-icon name="phone" gpPrefix />
+                <input gpInputText placeholder=" " />
+                <span gpHelper>Optional mobile contact.</span>
+                <span gpError>Please enter a valid phone number.</span>
+              </gp-form-field>
+            </div>
+          </div>
+        </div>
+
         <!-- Text Inputs -->
         <div class="doc-section">
           <h2 class="doc-section-title">Text Inputs & Textarea</h2>
@@ -175,8 +233,27 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
             </div>
 
             <div class="form-field">
-              <label>Appointment Time (Time Picker)</label>
-              <gp-time-picker formControlName="appointmentTime" hourFormat="12" />
+              <label>Appointment Time (12h with 1m, 5m, 15m Step Chooser)</label>
+              <gp-time-picker
+                formControlName="appointmentTime"
+                hourFormat="12"
+                [minuteSteps]="[1, 5, 10, 15, 30]"
+                [showStepPicker]="true"
+              />
+            </div>
+
+            <div class="form-field">
+              <label>Shift Start Time (24h with 15m Increments)</label>
+              <gp-time-picker
+                hourFormat="24"
+                [stepMinute]="15"
+                [minuteSteps]="[5, 15, 30]"
+              />
+            </div>
+
+            <div class="form-field gp-col-span-2">
+              <label>Event Date Range (With Built-in Presets)</label>
+              <gp-date-range-picker placeholder="Choose date range (e.g. Last 7 Days, This Month)" />
             </div>
           </div>
         </div>
