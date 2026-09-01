@@ -9,7 +9,7 @@ import {
   signal,
   inject
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Subscription } from 'rxjs';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpConfirmationService } from '../../../services/confirmation.service';
@@ -20,7 +20,7 @@ import { GpButtonComponent } from '../../button/button/button.component';
 @Component({
   selector: 'gp-confirm-dialog',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpDialogComponent, GpButtonComponent],
+  imports: [GpIconComponent, GpDialogComponent, GpButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './confirm-dialog.component.html',

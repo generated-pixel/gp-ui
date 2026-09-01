@@ -8,7 +8,7 @@ import {
   HostListener,
   signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { GpButtonComponent } from '../button/button.component';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -37,7 +37,7 @@ export interface GpMenuItem {
 @Component({
   selector: 'gp-split-button',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpButtonComponent, GpIconComponent],
+  imports: [RouterModule, GpButtonComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './split-button.component.html',

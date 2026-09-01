@@ -1,12 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef,
-  computed
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, computed } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpCheckboxComponent } from '../checkbox/checkbox.component';
@@ -18,7 +11,7 @@ export type GpMultiSelectDisplay = 'comma' | 'chip';
 @Component({
   selector: 'gp-multi-select',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent, GpCheckboxComponent],
+  imports: [FormsModule, GpIconComponent, GpCheckboxComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

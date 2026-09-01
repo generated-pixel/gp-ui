@@ -1,11 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  HostListener
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, HostListener } from '@angular/core';
+
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpButtonComponent } from '../../button/button/button.component';
@@ -42,7 +36,7 @@ export interface GpMegaMenuItem extends GpMenuItem {
 @Component({
   selector: 'gp-mega-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpIconComponent, GpButtonComponent],
+  imports: [RouterModule, GpIconComponent, GpButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './mega-menu.component.html',

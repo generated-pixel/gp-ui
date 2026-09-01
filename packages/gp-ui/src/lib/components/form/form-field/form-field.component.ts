@@ -12,7 +12,7 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NgControl } from '@angular/forms';
 import { GpFormFieldAppearance, GpFormFieldSize, GpFormFieldFloatLabel } from './form-field.interface';
 import { GpPrefixDirective, GpSuffixDirective, GpHelperDirective, GpErrorDirective } from './form-field.directives';
@@ -22,7 +22,7 @@ import { GpIconComponent } from '../../../icons/icon.component';
 @Component({
   selector: 'gp-form-field',
   standalone: true,
-  imports: [CommonModule, GpLabelComponent, GpIconComponent],
+  imports: [GpLabelComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './form-field.component.html',

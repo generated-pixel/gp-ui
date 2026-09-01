@@ -1,11 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UniqueId } from '../../../utils/unique-id';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
@@ -14,7 +8,7 @@ import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.compon
 @Component({
   selector: 'gp-radio-button',
   standalone: true,
-  imports: [CommonModule, GpRippleDirective],
+  imports: [GpRippleDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

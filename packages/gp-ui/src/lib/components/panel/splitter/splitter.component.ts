@@ -1,16 +1,10 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'gp-splitter-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './splitter-panel.component.html',
   styleUrl: './splitter-panel.component.scss'
 })
@@ -22,7 +16,7 @@ export class GpSplitterPanelComponent extends GpBaseComponent {
 @Component({
   selector: 'gp-splitter',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './splitter.component.html',

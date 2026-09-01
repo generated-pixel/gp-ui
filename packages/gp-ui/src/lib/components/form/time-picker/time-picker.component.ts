@@ -12,7 +12,7 @@ import {
   HostListener,
   OnInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
@@ -20,7 +20,7 @@ import { UniqueId } from '../../../utils/unique-id';
 @Component({
   selector: 'gp-time-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [FormsModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -140,7 +140,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   public spinHour(delta: number): void {
     const step = this.stepHour() || 1;
     let max = this.hourFormat() === '24' ? 24 : 12;
-    let h = (this.hours() + (delta * step)) % max;
+    let h = (this.hours() + delta * step) % max;
     if (h < 0) {
       h += max;
     }
@@ -150,7 +150,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
 
   public spinMinute(direction: number): void {
     const step = this.activeStepMinute();
-    let m = (this.minutes() + (direction * step)) % 60;
+    let m = (this.minutes() + direction * step) % 60;
     if (m < 0) {
       m += 60;
     }
@@ -160,7 +160,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
 
   public spinSecond(direction: number): void {
     const step = this.stepSecond() || 1;
-    let s = (this.seconds() + (direction * step)) % 60;
+    let s = (this.seconds() + direction * step) % 60;
     if (s < 0) {
       s += 60;
     }

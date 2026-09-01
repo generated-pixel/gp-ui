@@ -1,11 +1,11 @@
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpPanelBaseComponent } from '../../../base/gp-panel-base.component';
 
 @Component({
   selector: 'gp-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './card.component.html',

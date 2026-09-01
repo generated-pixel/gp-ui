@@ -10,14 +10,14 @@ import {
   signal,
   effect
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpBadgeComponent, GpBadgeSeverity } from '../../feedback/badge/badge.component';
 
 @Component({
   selector: 'gp-tab-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './tab-panel.component.html',
   styleUrl: './tab-panel.component.scss'
 })
@@ -33,7 +33,7 @@ export class GpTabPanelComponent extends GpBaseComponent {
 @Component({
   selector: 'gp-tabs',
   standalone: true,
-  imports: [CommonModule, GpBadgeComponent, GpIconComponent],
+  imports: [GpBadgeComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './tabs.component.html',
@@ -96,9 +96,7 @@ export class GpTabsComponent extends GpBaseComponent {
     if (nextTab) {
       this.selectTab(nextTab);
       const target = event.currentTarget as HTMLElement;
-      target.closest('[role="tablist"]')
-        ?.querySelectorAll<HTMLElement>('[role="tab"]')
-        [nextIndex]?.focus();
+      target.closest('[role="tablist"]')?.querySelectorAll<HTMLElement>('[role="tab"]')[nextIndex]?.focus();
     }
   }
 

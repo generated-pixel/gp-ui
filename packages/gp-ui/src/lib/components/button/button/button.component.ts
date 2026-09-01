@@ -1,9 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
 import {
@@ -14,17 +10,12 @@ import {
   GpIconPosition
 } from '../../../base/gp-button-base.component';
 
-export {
-  GpButtonVariant,
-  GpButtonSeverity,
-  GpButtonSize,
-  GpIconPosition
-};
+export { GpButtonVariant, GpButtonSeverity, GpButtonSize, GpIconPosition };
 
 @Component({
   selector: 'gp-button',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpRippleDirective],
+  imports: [GpIconComponent, GpRippleDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './button.component.html',

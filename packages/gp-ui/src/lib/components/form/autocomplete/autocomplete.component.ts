@@ -13,7 +13,7 @@ import {
   OnDestroy,
   WritableSignal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
@@ -27,7 +27,7 @@ export interface GpAutoCompleteCompleteEvent {
 @Component({
   selector: 'gp-autocomplete',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [FormsModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

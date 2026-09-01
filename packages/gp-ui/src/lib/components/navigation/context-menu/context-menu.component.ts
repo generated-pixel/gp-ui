@@ -1,11 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  HostListener,
-  signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, HostListener, signal } from '@angular/core';
+
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
@@ -14,7 +8,7 @@ import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 @Component({
   selector: 'gp-context-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpIconComponent],
+  imports: [RouterModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './context-menu.component.html',

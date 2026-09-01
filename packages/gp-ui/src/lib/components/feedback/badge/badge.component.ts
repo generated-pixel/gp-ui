@@ -1,6 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import { Component, input, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type GpBadgeSeverity = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast';
 export type GpBadgeSize = 'sm' | 'md' | 'lg';
@@ -8,7 +7,7 @@ export type GpBadgeSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'gp-badge',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './badge.component.html',

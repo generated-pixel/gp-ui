@@ -14,7 +14,7 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { GpCommandItem, GpCommandGroup } from './command-palette.interface';
 import { GpCommandPaletteService } from './command-palette.service';
@@ -25,7 +25,7 @@ import { GpBadgeComponent } from '../../feedback/badge/badge.component';
 @Component({
   selector: 'gp-command-palette',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent, GpBadgeComponent],
+  imports: [FormsModule, GpIconComponent, GpBadgeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './command-palette.component.html',
@@ -121,7 +121,10 @@ export class GpCommandPaletteComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const sc = this.shortcut();
     if (sc) {
-      const combos = sc.split(',').map((c) => c.trim()).filter(Boolean);
+      const combos = sc
+        .split(',')
+        .map((c) => c.trim())
+        .filter(Boolean);
       const unregs = combos.map((combo) => this.hotkeyService.register(combo, () => this.toggle()));
       this.unregisterHotkey = () => unregs.forEach((u) => u());
     }

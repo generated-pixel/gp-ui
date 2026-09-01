@@ -1,11 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UniqueId } from '../../../utils/unique-id';
 import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.component';
@@ -13,7 +7,7 @@ import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.compon
 @Component({
   selector: 'gp-switch',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

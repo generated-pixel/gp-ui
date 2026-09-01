@@ -12,7 +12,7 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpButtonComponent } from '../../button/button/button.component';
@@ -21,7 +21,7 @@ import { GpDateRange, GpDateRangePreset } from './date-range-picker.interface';
 @Component({
   selector: 'gp-date-range-picker',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpButtonComponent],
+  imports: [GpIconComponent, GpButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -265,11 +265,7 @@ export class GpDateRangePickerComponent implements ControlValueAccessor {
   }
 
   private isSameDay(d1: Date, d2: Date): boolean {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
+    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
   }
 
   public formatDate(d: Date | null): string {

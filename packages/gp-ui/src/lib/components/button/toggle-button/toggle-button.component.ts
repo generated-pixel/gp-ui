@@ -9,20 +9,16 @@ import {
   signal,
   computed
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
-import {
-  GpButtonSeverity,
-  GpButtonSize,
-  GpIconPosition
-} from '../../../base/gp-button-base.component';
+import { GpButtonSeverity, GpButtonSize, GpIconPosition } from '../../../base/gp-button-base.component';
 
 @Component({
   selector: 'gp-toggle-button',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpRippleDirective],
+  imports: [GpIconComponent, GpRippleDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

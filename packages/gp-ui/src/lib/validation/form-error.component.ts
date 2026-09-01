@@ -1,5 +1,5 @@
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpEditableBaseComponent } from '../base/gp-editable-base.component';
 import { GpValidationError } from './types';
 import { GpIconComponent } from '../icons/icon.component';
@@ -11,7 +11,7 @@ import { GpIconComponent } from '../icons/icon.component';
 @Component({
   selector: 'gp-form-error',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './form-error.component.html',

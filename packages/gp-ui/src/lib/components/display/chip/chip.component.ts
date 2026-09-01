@@ -1,19 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import {
-  Component,
-  input,
-  output,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 
 @Component({
   selector: 'gp-chip',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './chip.component.html',

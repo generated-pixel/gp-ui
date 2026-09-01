@@ -1,11 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpSelectBaseComponent, GpSelectItem } from '../../../base/gp-select-base.component';
@@ -14,7 +8,7 @@ import { ObjectUtils } from '../../../utils/object-utils';
 @Component({
   selector: 'gp-listbox',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [FormsModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

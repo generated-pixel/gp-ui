@@ -1,12 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef,
-  effect
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef, effect } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
@@ -16,7 +9,7 @@ import { GpCheckableBaseComponent } from '../../../base/gp-checkable-base.compon
 @Component({
   selector: 'gp-checkbox',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpRippleDirective],
+  imports: [GpIconComponent, GpRippleDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

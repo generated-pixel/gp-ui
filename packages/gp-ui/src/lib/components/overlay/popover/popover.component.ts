@@ -8,12 +8,11 @@ import {
   ElementRef,
   HostListener
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gp-popover',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './popover.component.html',

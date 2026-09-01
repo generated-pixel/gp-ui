@@ -9,7 +9,7 @@ import {
   signal,
   inject
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Subscription } from 'rxjs';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpToastService } from '../../../services/toast.service';
@@ -19,7 +19,7 @@ import { ZIndexService } from '../../../overlay/z-index.service';
 @Component({
   selector: 'gp-toast',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './toast.component.html',
