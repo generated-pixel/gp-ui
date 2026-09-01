@@ -16,7 +16,8 @@ import { GpIconComponent } from '../../../icons/icon.component';
   selector: 'gp-accordion-tab',
   standalone: true,
   imports: [CommonModule],
-  template: '<ng-content />'
+  templateUrl: './accordion-tab.component.html',
+  styleUrl: './accordion-tab.component.scss'
 })
 export class GpAccordionTabComponent extends GpBaseComponent {
   public header = input<string>('');
