@@ -1,0 +1,74 @@
+<div class="gp-rule-inspector-card">
+  <div class="inspector-header">
+    <div class="inspector-title-wrap">
+      <gp-icon name="sparkles" size="1.1em" class="inspector-icon" />
+      <h4 class="inspector-title">{{ title() }}</h4>
+      <gp-badge [value]="engine.logs().length + ' Events'" severity="info" />
+    </div>
+    <div class="inspector-actions">
+      <gp-button
+        variant="text"
+        severity="secondary"
+        size="sm"
+        [disabled]="engine.logs().length === 0"
+        (onClickEvent)="onClear()"
+      >
+        Clear Logs
+      </gp-button>
+    </div>
+  </div>
+
+  <div class="inspector-body">
+    @if (engine.logs().length === 0) {
+      <div class="inspector-empty">
+        <gp-icon name="info-circle" size="1.4em" />
+        <p>No business rules executed yet. Interact with inputs, buttons, or controls to see live rule evaluations.</p>
+      </div>
+    } @else {
+      <div class="logs-stream">
+        @for (log of engine.logs().slice(0, maxLogs()); track log.timestamp.getTime() + log.ruleId) {
+          <div class="log-item" [class.matched]="log.conditionMet" [class.unmatched]="!log.conditionMet">
+            <div class="log-head-row">
+              <div class="log-rule-meta">
+                <gp-badge
+                  [value]="log.conditionMet ? 'MATCH' : 'NO MATCH'"
+                  [severity]="log.conditionMet ? 'success' : 'secondary'"
+                />
+                <span class="log-rule-name">{{ log.ruleName || log.ruleId }}</span>
+                <span class="log-event-tag">[{{ log.triggerEvent }}]</span>
+              </div>
+              <div class="log-timing">
+                <span class="log-duration">{{ log.durationMs }}ms</span>
+                <span class="log-time">{{ log.timestamp | date:'HH:mm:ss.SSS' }}</span>
+              </div>
+            </div>
+
+            @if (log.triggerValue !== undefined) {
+              <div class="log-trigger-val">
+                <span class="val-label">Trigger Value:</span>
+                <code>{{ log.triggerValue | json }}</code>
+              </div>
+            }
+
+            @if (log.actionsExecuted.length > 0) {
+              <div class="log-actions-list">
+                <span class="val-label">Actions:</span>
+                <ul>
+                  @for (action of log.actionsExecuted; track action) {
+                    <li>{{ action }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (log.error) {
+              <div class="log-error-text">
+                Error: {{ log.error }}
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

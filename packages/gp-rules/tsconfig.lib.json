@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": [],
+    "paths": {
+      "@generatedpixel/gp-ui": ["dist/packages/gp-ui/types/generatedpixel-gp-ui.d.ts", "dist/packages/gp-ui"],
+      "@generatedpixel/gp-ui-icons": ["dist/packages/gp-ui-icons/types/generatedpixel-gp-ui-icons.d.ts", "dist/packages/gp-ui-icons"],
+      "@generatedpixel/gp-ui-theme": ["dist/packages/gp-ui-theme/types/index.d.ts", "dist/packages/gp-ui-theme"],
+      "@generatedpixel/gp-grid": ["dist/packages/gp-grid/types/generatedpixel-gp-grid.d.ts", "dist/packages/gp-grid"],
+      "@generatedpixel/gp-css": ["dist/packages/gp-css"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
+}
