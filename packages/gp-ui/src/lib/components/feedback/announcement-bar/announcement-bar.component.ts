@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, input, output } from '@angular/core';
+import { Component, OnInit, signal, computed, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpBadgeComponent } from '../badge/badge.component';
@@ -8,6 +8,8 @@ import { GpBannerSeverity, GpBannerAction } from './announcement-bar.interface';
   selector: 'gp-announcement-bar',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './announcement-bar.component.html',
   styleUrl: './announcement-bar.component.scss'
 })

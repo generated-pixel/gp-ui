@@ -7,7 +7,9 @@ import {
   computed,
   input,
   model,
-  output
+  output,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
@@ -16,6 +18,8 @@ import { GpIconComponent } from '../../../icons/icon.component';
   selector: 'gp-bottom-sheet',
   standalone: true,
   imports: [CommonModule, GpIconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './bottom-sheet.component.html',
   styleUrl: './bottom-sheet.component.scss'
 })

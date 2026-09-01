@@ -8,7 +8,9 @@ import {
   input,
   contentChild,
   signal,
-  computed
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl } from '@angular/forms';
@@ -21,6 +23,8 @@ import { GpIconComponent } from '../../../icons/icon.component';
   selector: 'gp-form-field',
   standalone: true,
   imports: [CommonModule, GpLabelComponent, GpIconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss'
 })

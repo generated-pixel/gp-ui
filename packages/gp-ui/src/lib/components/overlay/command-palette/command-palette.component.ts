@@ -10,7 +10,9 @@ import {
   signal,
   input,
   model,
-  output
+  output,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +26,8 @@ import { GpBadgeComponent } from '../../feedback/badge/badge.component';
   selector: 'gp-command-palette',
   standalone: true,
   imports: [CommonModule, FormsModule, GpIconComponent, GpBadgeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './command-palette.component.html',
   styleUrl: './command-palette.component.scss'
 })

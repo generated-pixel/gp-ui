@@ -8,7 +8,9 @@ import {
   inject,
   input,
   output,
-  effect
+  effect,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -20,6 +22,8 @@ import { GpDateRange, GpDateRangePreset } from './date-range-picker.interface';
   selector: 'gp-date-range-picker',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

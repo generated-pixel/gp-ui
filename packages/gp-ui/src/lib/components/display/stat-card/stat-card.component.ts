@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpBadgeComponent } from '../../feedback/badge/badge.component';
@@ -9,6 +9,8 @@ import { GpStatTrendDirection } from './stat-card.interface';
   selector: 'gp-stat-card',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent, GpProgressBarComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './stat-card.component.html',
   styleUrl: './stat-card.component.scss'
 })
