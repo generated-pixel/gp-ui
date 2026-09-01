@@ -9,15 +9,8 @@ import {
   computed,
   effect
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-  ValidatorFn
-} from '@angular/forms';
+
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import {
   GpButtonComponent,
   GpInputTextComponent,
@@ -56,7 +49,6 @@ import { GpFormSchema, GpFieldSchema, GpFormAction } from '../schema.types';
   selector: 'gp-dynamic-form',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     GpButtonComponent,
@@ -180,7 +172,12 @@ export class GpDynamicFormComponent implements OnInit {
           initialVal = false;
         } else if (field.type === 'multi-select' || field.type === 'tree-select') {
           initialVal = [];
-        } else if (field.type === 'number' || field.type === 'input-number' || field.type === 'slider' || field.type === 'rating') {
+        } else if (
+          field.type === 'number' ||
+          field.type === 'input-number' ||
+          field.type === 'slider' ||
+          field.type === 'rating'
+        ) {
           initialVal = field.min !== undefined ? field.min : 0;
         } else if (field.type === 'color' || field.type === 'color-picker') {
           initialVal = '#6366f1';
@@ -189,10 +186,7 @@ export class GpDynamicFormComponent implements OnInit {
         }
       }
 
-      group[field.name] = new FormControl(
-        { value: initialVal, disabled: field.disabled || false },
-        validators
-      );
+      group[field.name] = new FormControl({ value: initialVal, disabled: field.disabled || false }, validators);
     });
 
     this.form = new FormGroup(group);

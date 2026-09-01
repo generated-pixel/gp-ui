@@ -1,45 +1,41 @@
 <div class="gp-data-grid-block">
   <!-- Toolbar Header -->
-  <ng-container *ngIf="effectiveToolbar(); else defaultToolbar">
+  @if (effectiveToolbar()) {
     <ng-container *ngTemplateOutlet="effectiveToolbar()!" />
-  </ng-container>
-  <ng-template #defaultToolbar>
+  } @else {
     <ng-content select="[toolbar], [slot=toolbar]" />
-
-      <div class="grid-toolbar">
-        <div class="search-box">
-          <gp-input-text
-            [value]="searchQuery()"
-            [placeholder]="searchPlaceholder()"
-            iconLeft="search"
-            size="sm"
-            [fluid]="true"
-            styleClass="search-input"
-            (onInputEvent)="onSearchInput($event)"
-          />
-        </div>
-        <div class="toolbar-actions">
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="filterClick.emit()">
-            <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem;" />
-            {{ filterBtnLabel() }}
-          </gp-button>
-          <gp-button severity="primary" size="sm" (onClickEvent)="newOrderClick.emit()">
-            <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-            {{ newOrderBtnLabel() }}
-          </gp-button>
-        </div>
+    <div class="grid-toolbar">
+      <div class="search-box">
+        <gp-input-text
+          [value]="searchQuery()"
+          [placeholder]="searchPlaceholder()"
+          iconLeft="search"
+          size="sm"
+          [fluid]="true"
+          styleClass="search-input"
+          (onInputEvent)="onSearchInput($event)"
+        />
       </div>
-    
-  </ng-template>
+      <div class="toolbar-actions">
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="filterClick.emit()">
+          <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem" />
+          {{ filterBtnLabel() }}
+        </gp-button>
+        <gp-button severity="primary" size="sm" (onClickEvent)="newOrderClick.emit()">
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+          {{ newOrderBtnLabel() }}
+        </gp-button>
+      </div>
+    </div>
+  }
 
   <!-- Table Body -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[content], [slot=content]" />
-
-      <div class="table-scroll-wrap" *ngIf="rows() && rows().length > 0">
+    @if (rows() && rows().length > 0) {
+      <div class="table-scroll-wrap">
         <table class="gp-block-table">
           <thead>
             <tr>
@@ -49,33 +45,44 @@
               <th>Amount</th>
               <th>Payment</th>
               <th>Fulfillment</th>
-              <th style="text-align: right;">Action</th>
+              <th style="text-align: right">Action</th>
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let r of rows()">
-              <ng-container *ngIf="effectiveRowTemplate(); else defaultRow">
+            @for (r of rows(); track r) {
+              @if (effectiveRowTemplate()) {
                 <ng-container *ngTemplateOutlet="effectiveRowTemplate()!; context: { $implicit: r }" />
-              </ng-container>
-              <ng-template #defaultRow>
-                <tr (click)="rowClick.emit(r)" style="cursor: pointer;">
-                  <td><span class="id-tag">#{{ r.id }}</span></td>
-                  <td><strong>{{ r.customer }}</strong></td>
+              } @else {
+                <tr (click)="rowClick.emit(r)" style="cursor: pointer">
+                  <td>
+                    <span class="id-tag">#{{ r.id }}</span>
+                  </td>
+                  <td>
+                    <strong>{{ r.customer }}</strong>
+                  </td>
                   <td>{{ r.date }}</td>
-                  <td><strong>{{ r.amount }}</strong></td>
+                  <td>
+                    <strong>{{ r.amount }}</strong>
+                  </td>
                   <td>
                     <gp-badge
                       [value]="r.payment"
-                      [severity]="r.payment === 'Paid' ? 'success' : (r.payment === 'Pending' ? 'warning' : 'danger')"
+                      [severity]="r.payment === 'Paid' ? 'success' : r.payment === 'Pending' ? 'warning' : 'danger'"
                     />
                   </td>
                   <td>
                     <gp-badge
                       [value]="r.fulfillment"
-                      [severity]="r.fulfillment === 'Delivered' ? 'success' : (r.fulfillment === 'Processing' ? 'primary' : 'secondary')"
+                      [severity]="
+                        r.fulfillment === 'Delivered'
+                          ? 'success'
+                          : r.fulfillment === 'Processing'
+                            ? 'primary'
+                            : 'secondary'
+                      "
                     />
                   </td>
-                  <td style="text-align: right;">
+                  <td style="text-align: right">
                     <gp-button
                       variant="text"
                       severity="secondary"
@@ -89,29 +96,28 @@
                     </gp-button>
                   </td>
                 </tr>
-              </ng-template>
-            </ng-container>
+              }
+            }
           </tbody>
         </table>
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Footer Pagination / Status -->
-  <ng-container *ngIf="effectiveFooter(); else defaultFooter">
+  @if (effectiveFooter()) {
     <ng-container *ngTemplateOutlet="effectiveFooter()!" />
-  </ng-container>
-  <ng-template #defaultFooter>
+  } @else {
     <ng-content select="[footer], [slot=footer]" />
-
-      <div class="grid-footer" *ngIf="footerCountText()">
+    @if (footerCountText()) {
+      <div class="grid-footer">
         <span class="count-text">{{ footerCountText() }}</span>
         <div class="pager-btns">
           <gp-button variant="outlined" severity="secondary" size="sm">Previous</gp-button>
           <gp-button variant="outlined" severity="secondary" size="sm">Next</gp-button>
         </div>
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

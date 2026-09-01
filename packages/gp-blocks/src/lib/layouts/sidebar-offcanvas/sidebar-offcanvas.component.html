@@ -1,63 +1,76 @@
 <div class="gp-sidebar-offcanvas-shell">
   <!-- Offcanvas Backdrop -->
-  <div class="offcanvas-backdrop" *ngIf="sidebarOpen()" (click)="closeSidebar()"></div>
+  @if (sidebarOpen()) {
+    <div class="offcanvas-backdrop" (click)="closeSidebar()"></div>
+  }
 
   <!-- Offcanvas Sidebar -->
   <aside class="offcanvas-sidebar" [class.open]="sidebarOpen()">
-    <ng-container *ngIf="effectiveSidebar(); else defaultSidebar">
+    @if (effectiveSidebar()) {
       <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
-    </ng-container>
-    <ng-template #defaultSidebar>
+    } @else {
       <ng-content select="[sidebar], [slot=sidebar]" />
-
-        <div class="offcanvas-head">
-          <span class="brand-title">{{ brandName() }}</span>
-          <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="close-btn" ariaLabel="Close sidebar" (onClickEvent)="closeSidebar()">
-            <gp-icon name="close" size="1em" />
-          </gp-button>
-        </div>
-
-        <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
-          <a
-            href="javascript:void(0)"
-            *ngFor="let item of navItems()"
-            class="nav-item"
-            [class.active]="item.id === activeNavId() || item.active"
-            (click)="navItemClick.emit(item); closeSidebar()"
-          >
-            <gp-icon [name]="item.icon" size="1.1em" />
-            <span>{{ item.label }}</span>
-          </a>
+      <div class="offcanvas-head">
+        <span class="brand-title">{{ brandName() }}</span>
+        <gp-button
+          variant="text"
+          severity="secondary"
+          [iconOnly]="true"
+          styleClass="close-btn"
+          ariaLabel="Close sidebar"
+          (onClickEvent)="closeSidebar()"
+        >
+          <gp-icon name="close" size="1em" />
+        </gp-button>
+      </div>
+      @if (navItems() && navItems().length > 0) {
+        <nav class="sidebar-nav">
+          @for (item of navItems(); track item) {
+            <a
+              href="javascript:void(0)"
+              class="nav-item"
+              [class.active]="item.id === activeNavId() || item.active"
+              (click)="navItemClick.emit(item); closeSidebar()"
+            >
+              <gp-icon [name]="item.icon" size="1.1em" />
+              <span>{{ item.label }}</span>
+            </a>
+          }
         </nav>
-      
-    </ng-template>
+      }
+    }
   </aside>
 
   <div class="main-shell">
     <header class="top-nav-bar">
       <div class="topbar-left">
-        <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="hamburger-btn" ariaLabel="Toggle menu" (onClickEvent)="toggleSidebar()">
+        <gp-button
+          variant="text"
+          severity="secondary"
+          [iconOnly]="true"
+          styleClass="hamburger-btn"
+          ariaLabel="Toggle menu"
+          (onClickEvent)="toggleSidebar()"
+        >
           <gp-icon name="bars" size="1.2em" />
         </gp-button>
         <h2 class="page-title">{{ title() }}</h2>
       </div>
       <div class="top-actions">
-        <ng-container *ngIf="effectiveTopActions(); else projectedTopActions">
+        @if (effectiveTopActions()) {
           <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
-        </ng-container>
-        <ng-template #projectedTopActions>
+        } @else {
           <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
-        </ng-template>
+        }
       </div>
     </header>
     <main class="page-content-area">
-      <ng-container *ngIf="effectiveContent(); else defaultContent">
+      @if (effectiveContent()) {
         <ng-container *ngTemplateOutlet="effectiveContent()!" />
-      </ng-container>
-      <ng-template #defaultContent>
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
-      </ng-template>
+        <ng-content />
+      }
     </main>
   </div>
 </div>

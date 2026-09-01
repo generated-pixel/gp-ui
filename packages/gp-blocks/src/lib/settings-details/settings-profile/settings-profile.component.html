@@ -1,106 +1,104 @@
 <div class="gp-settings-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+  @if (effectiveHeader()) {
     <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="settings-head">
-        <h3 class="settings-title">{{ title() }}</h3>
-        <p class="settings-subtitle">{{ subtitle() }}</p>
-      </div>
-    
-  </ng-template>
+    <div class="settings-head">
+      <h3 class="settings-title">{{ title() }}</h3>
+      <p class="settings-subtitle">{{ subtitle() }}</p>
+    </div>
+  }
 
   <!-- Body Content / Form -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[content], [slot=content], [form], [slot=form]" />
-      <div class="profile-avatar-row">
-        <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
-        <div class="avatar-controls">
-          <div class="btn-group">
-            <gp-button severity="primary" size="sm" (onClickEvent)="changeAvatar.emit()">{{ changeAvatarLabel() }}</gp-button>
-            <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="removeAvatar.emit()">{{ removeAvatarLabel() }}</gp-button>
-          </div>
-          <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
+    <div class="profile-avatar-row">
+      <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
+      <div class="avatar-controls">
+        <div class="btn-group">
+          <gp-button severity="primary" size="sm" (onClickEvent)="changeAvatar.emit()">{{
+            changeAvatarLabel()
+          }}</gp-button>
+          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="removeAvatar.emit()">{{
+            removeAvatarLabel()
+          }}</gp-button>
         </div>
+        <span class="avatar-hint">JPG, GIF or PNG. 1MB max.</span>
       </div>
-
-      <div class="form-fields-grid">
-        <div class="field-col col-6">
-          <label class="f-label">First Name</label>
-          <gp-input-text
-            type="text"
-            styleClass="form-inp"
-            [fluid]="true"
-            [value]="firstName()"
-            (onInputEvent)="onFieldChange('firstName', $event)"
-            placeholder="First name"
-          />
-        </div>
-        <div class="field-col col-6">
-          <label class="f-label">Last Name</label>
-          <gp-input-text
-            type="text"
-            styleClass="form-inp"
-            [fluid]="true"
-            [value]="lastName()"
-            (onInputEvent)="onFieldChange('lastName', $event)"
-            placeholder="Last name"
-          />
-        </div>
-        <div class="field-col col-6">
-          <label class="f-label">Email Address</label>
-          <gp-input-text
-            type="email"
-            styleClass="form-inp"
-            [fluid]="true"
-            [value]="email()"
-            (onInputEvent)="onFieldChange('email', $event)"
-            placeholder="email@domain.com"
-          />
-        </div>
-        <div class="field-col col-6">
-          <label class="f-label">Job Title</label>
-          <gp-input-text
-            type="text"
-            styleClass="form-inp"
-            [fluid]="true"
-            [value]="jobTitle()"
-            (onInputEvent)="onFieldChange('jobTitle', $event)"
-            placeholder="e.g. Lead Engineer"
-          />
-        </div>
-        <div class="field-col col-12">
-          <label class="f-label">Biography</label>
-          <gp-textarea
-            styleClass="form-inp"
-            [fluid]="true"
-            [rows]="3"
-            [value]="bio()"
-            (onInputEvent)="onFieldChange('bio', $event)"
-            placeholder="Tell us a little about yourself..."
-          />
-        </div>
+    </div>
+    <div class="form-fields-grid">
+      <div class="field-col col-6">
+        <label class="f-label">First Name</label>
+        <gp-input-text
+          type="text"
+          styleClass="form-inp"
+          [fluid]="true"
+          [value]="firstName()"
+          (onInputEvent)="onFieldChange('firstName', $event)"
+          placeholder="First name"
+        />
       </div>
-      <ng-content />
-  </ng-template>
+      <div class="field-col col-6">
+        <label class="f-label">Last Name</label>
+        <gp-input-text
+          type="text"
+          styleClass="form-inp"
+          [fluid]="true"
+          [value]="lastName()"
+          (onInputEvent)="onFieldChange('lastName', $event)"
+          placeholder="Last name"
+        />
+      </div>
+      <div class="field-col col-6">
+        <label class="f-label">Email Address</label>
+        <gp-input-text
+          type="email"
+          styleClass="form-inp"
+          [fluid]="true"
+          [value]="email()"
+          (onInputEvent)="onFieldChange('email', $event)"
+          placeholder="email@domain.com"
+        />
+      </div>
+      <div class="field-col col-6">
+        <label class="f-label">Job Title</label>
+        <gp-input-text
+          type="text"
+          styleClass="form-inp"
+          [fluid]="true"
+          [value]="jobTitle()"
+          (onInputEvent)="onFieldChange('jobTitle', $event)"
+          placeholder="e.g. Lead Engineer"
+        />
+      </div>
+      <div class="field-col col-12">
+        <label class="f-label">Biography</label>
+        <gp-textarea
+          styleClass="form-inp"
+          [fluid]="true"
+          [rows]="3"
+          [value]="bio()"
+          (onInputEvent)="onFieldChange('bio', $event)"
+          placeholder="Tell us a little about yourself..."
+        />
+      </div>
+    </div>
+    <ng-content />
+  }
 
   <!-- Footer Actions -->
-  <ng-container *ngIf="effectiveFooterActions(); else defaultFooter">
+  @if (effectiveFooterActions()) {
     <ng-container *ngTemplateOutlet="effectiveFooterActions()!" />
-  </ng-container>
-  <ng-template #defaultFooter>
+  } @else {
     <ng-content select="[footer], [slot=footer], [actions], [slot=actions]" />
-
-      <div class="settings-footer">
-        <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-        <gp-button severity="primary" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
-      </div>
-    
-  </ng-template>
+    <div class="settings-footer">
+      <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{
+        cancelBtnLabel()
+      }}</gp-button>
+      <gp-button severity="primary" (onClickEvent)="onSave()">{{ saveBtnLabel() }}</gp-button>
+    </div>
+  }
 </div>

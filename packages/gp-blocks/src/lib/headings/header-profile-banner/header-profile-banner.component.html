@@ -1,59 +1,60 @@
 <div class="gp-profile-banner-header">
   <div class="banner-gradient">
-    <ng-container *ngIf="effectiveBanner(); else defaultBanner">
+    @if (effectiveBanner()) {
       <ng-container *ngTemplateOutlet="effectiveBanner()!" />
-    </ng-container>
-    <ng-template #defaultBanner>
+    } @else {
       <ng-content select="[banner], [slot=banner]" />
-    </ng-template>
+    }
   </div>
 
   <div class="profile-info-bar">
-    <ng-container *ngIf="effectiveProfile(); else defaultProfile">
+    @if (effectiveProfile()) {
       <ng-container *ngTemplateOutlet="effectiveProfile()!" />
-    </ng-container>
-    <ng-template #defaultProfile>
+    } @else {
       <ng-content select="[profile], [slot=profile]" />
-
-        <div class="profile-left">
-          <div class="avatar-holder">
-            <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
+      <div class="profile-left">
+        <div class="avatar-holder">
+          <gp-avatar [label]="(userName() || 'U').charAt(0)" size="xlarge" shape="circle" />
+        </div>
+        <div class="text-meta">
+          <div class="name-status-row">
+            <h2 class="user-name">{{ userName() }}</h2>
+            @if (statusText()) {
+              <gp-badge [value]="statusText()" [severity]="statusSeverity()" />
+            }
           </div>
-          <div class="text-meta">
-            <div class="name-status-row">
-              <h2 class="user-name">{{ userName() }}</h2>
-              <gp-badge *ngIf="statusText()" [value]="statusText()" [severity]="statusSeverity()" />
-            </div>
-            <div class="title-loc-row">
-              <span class="user-title" *ngIf="userTitle()">{{ userTitle() }}</span>
-              <span class="dot" *ngIf="location() && userTitle()">&bull;</span>
-              <span class="user-loc" *ngIf="location()">
+          <div class="title-loc-row">
+            @if (userTitle()) {
+              <span class="user-title">{{ userTitle() }}</span>
+            }
+            @if (location() && userTitle()) {
+              <span class="dot">&bull;</span>
+            }
+            @if (location()) {
+              <span class="user-loc">
                 <gp-icon name="map-pin" size="0.85em" />
                 {{ location() }}
               </span>
-            </div>
+            }
           </div>
         </div>
-      
-    </ng-template>
+      </div>
+    }
 
     <div class="profile-actions">
-      <ng-container *ngIf="effectiveActions(); else defaultActions">
+      @if (effectiveActions()) {
         <ng-container *ngTemplateOutlet="effectiveActions()!" />
-      </ng-container>
-      <ng-template #defaultActions>
+      } @else {
         <ng-content select="[actions], [slot=actions]" />
-
-          <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="messageClick.emit()">
-            <gp-icon name="message-square" size="0.85em" style="margin-right: 0.35rem;" />
-            {{ messageBtnLabel() }}
-          </gp-button>
-          <gp-button severity="primary" size="sm" (onClickEvent)="connectClick.emit()">
-            <gp-icon name="user-plus" size="0.85em" style="margin-right: 0.35rem;" />
-            {{ connectBtnLabel() }}
-          </gp-button>
-        
-      </ng-template>
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="messageClick.emit()">
+          <gp-icon name="message-square" size="0.85em" style="margin-right: 0.35rem" />
+          {{ messageBtnLabel() }}
+        </gp-button>
+        <gp-button severity="primary" size="sm" (onClickEvent)="connectClick.emit()">
+          <gp-icon name="user-plus" size="0.85em" style="margin-right: 0.35rem" />
+          {{ connectBtnLabel() }}
+        </gp-button>
+      }
     </div>
   </div>
   <ng-content />

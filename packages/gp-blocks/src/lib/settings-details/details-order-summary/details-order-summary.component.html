@@ -1,95 +1,98 @@
 <div class="gp-order-summary-card">
   <!-- Top Order Info Header -->
-  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+  @if (effectiveHeader()) {
     <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="order-summary-head">
-        <div class="head-left">
-          <div class="order-title-line">
-            <h3 class="order-id-title">Order {{ orderId() }}</h3>
-            <gp-badge [value]="orderStatus()" [severity]="orderStatus() === 'Paid' ? 'success' : 'secondary'" />
-          </div>
-          <span class="order-meta-text">Placed on {{ orderDate() }} &bull; Paid with {{ paymentMethod() }}</span>
+    <div class="order-summary-head">
+      <div class="head-left">
+        <div class="order-title-line">
+          <h3 class="order-id-title">Order {{ orderId() }}</h3>
+          <gp-badge [value]="orderStatus()" [severity]="orderStatus() === 'Paid' ? 'success' : 'secondary'" />
         </div>
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadReceipt.emit()">
-          <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
-          {{ downloadReceiptBtnLabel() }}
-        </gp-button>
+        <span class="order-meta-text">Placed on {{ orderDate() }} &bull; Paid with {{ paymentMethod() }}</span>
       </div>
-    
-  </ng-template>
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadReceipt.emit()">
+        <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem" />
+        {{ downloadReceiptBtnLabel() }}
+      </gp-button>
+    </div>
+  }
 
   <!-- Items Table / Content -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[content], [slot=content]" />
-      <ng-container *ngIf="effectiveItems(); else defaultItems">
-        <ng-container *ngTemplateOutlet="effectiveItems()!" />
-      </ng-container>
-      <ng-template #defaultItems>
-        <ng-content select="[items], [slot=items]" />
-
-          <div class="items-table-wrap" *ngIf="items() && items().length > 0">
-            <table class="order-items-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>SKU</th>
-                  <th style="text-align: center;">Qty</th>
-                  <th style="text-align: right;">Unit Price</th>
-                  <th style="text-align: right;">Total</th>
+    @if (effectiveItems()) {
+      <ng-container *ngTemplateOutlet="effectiveItems()!" />
+    } @else {
+      <ng-content select="[items], [slot=items]" />
+      @if (items() && items().length > 0) {
+        <div class="items-table-wrap">
+          <table class="order-items-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>SKU</th>
+                <th style="text-align: center">Qty</th>
+                <th style="text-align: right">Unit Price</th>
+                <th style="text-align: right">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of items(); track item) {
+                <tr (click)="itemClick.emit(item)" style="cursor: pointer">
+                  <td>
+                    <strong>{{ item.name }}</strong>
+                  </td>
+                  <td>
+                    <span class="sku-tag">{{ item.sku }}</span>
+                  </td>
+                  <td style="text-align: center">{{ item.qty }}</td>
+                  <td style="text-align: right">{{ item.price }}</td>
+                  <td style="text-align: right">
+                    <strong>{{ item.total }}</strong>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let item of items()"
-                  (click)="itemClick.emit(item)"
-                  style="cursor: pointer;"
-                >
-                  <td><strong>{{ item.name }}</strong></td>
-                  <td><span class="sku-tag">{{ item.sku }}</span></td>
-                  <td style="text-align: center;">{{ item.qty }}</td>
-                  <td style="text-align: right;">{{ item.price }}</td>
-                  <td style="text-align: right;"><strong>{{ item.total }}</strong></td>
-                </tr>
-              </tbody>
-            </table>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+    <!-- Totals Footer Breakdown -->
+    @if (effectiveTotals()) {
+      <ng-container *ngTemplateOutlet="effectiveTotals()!" />
+    } @else {
+      <ng-content select="[totals], [slot=totals]" />
+      <div class="totals-breakdown">
+        @if (subtotal()) {
+          <div class="total-row">
+            <span>Subtotal</span>
+            <span>{{ subtotal() }}</span>
           </div>
-        
-      </ng-template>
-
-      <!-- Totals Footer Breakdown -->
-      <ng-container *ngIf="effectiveTotals(); else defaultTotals">
-        <ng-container *ngTemplateOutlet="effectiveTotals()!" />
-      </ng-container>
-      <ng-template #defaultTotals>
-        <ng-content select="[totals], [slot=totals]" />
-
-          <div class="totals-breakdown">
-            <div class="total-row" *ngIf="subtotal()">
-              <span>Subtotal</span>
-              <span>{{ subtotal() }}</span>
-            </div>
-            <div class="total-row" *ngIf="shipping()">
-              <span>Shipping</span>
-              <span>{{ shipping() }}</span>
-            </div>
-            <div class="total-row" *ngIf="tax()">
-              <span>Tax</span>
-              <span>{{ tax() }}</span>
-            </div>
-            <div class="total-row grand-total" *ngIf="grandTotal()">
-              <span>Grand Total</span>
-              <span class="grand-amount">{{ grandTotal() }}</span>
-            </div>
+        }
+        @if (shipping()) {
+          <div class="total-row">
+            <span>Shipping</span>
+            <span>{{ shipping() }}</span>
           </div>
-        
-      </ng-template>
-      <ng-content />
-  </ng-template>
+        }
+        @if (tax()) {
+          <div class="total-row">
+            <span>Tax</span>
+            <span>{{ tax() }}</span>
+          </div>
+        }
+        @if (grandTotal()) {
+          <div class="total-row grand-total">
+            <span>Grand Total</span>
+            <span class="grand-amount">{{ grandTotal() }}</span>
+          </div>
+        }
+      </div>
+    }
+    <ng-content />
+  }
 </div>

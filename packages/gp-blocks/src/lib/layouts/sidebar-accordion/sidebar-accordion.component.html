@@ -1,63 +1,60 @@
 <div class="gp-sidebar-accordion-shell">
   <aside class="accordion-sidebar">
-    <ng-container *ngIf="effectiveSidebar(); else defaultSidebar">
+    @if (effectiveSidebar()) {
       <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
-    </ng-container>
-    <ng-template #defaultSidebar>
+    } @else {
       <ng-content select="[sidebar], [slot=sidebar]" />
-
-        <div class="brand-box">
-          <span>{{ brandName() }}</span>
-        </div>
-
-        <div class="accordion-groups" *ngIf="groups() && groups().length > 0">
-          <div
-            class="nav-group"
-            *ngFor="let g of groups(); let i = index"
-            [class.open]="g.open"
-          >
-            <div class="group-header" (click)="toggleGroup(i)" style="cursor: pointer;">
-              <gp-icon [name]="g.icon" size="1.1em" />
-              <span class="group-title">{{ g.title }}</span>
-              <gp-icon [name]="g.open ? 'chevron-up' : 'chevron-down'" size="0.75em" class="chev-ico" />
+      <div class="brand-box">
+        <span>{{ brandName() }}</span>
+      </div>
+      @if (groups() && groups().length > 0) {
+        <div class="accordion-groups">
+          @for (g of groups(); track g; let i = $index) {
+            <div class="nav-group" [class.open]="g.open">
+              <div class="group-header" (click)="toggleGroup(i)" style="cursor: pointer">
+                <gp-icon [name]="g.icon" size="1.1em" />
+                <span class="group-title">{{ g.title }}</span>
+                <gp-icon [name]="g.open ? 'chevron-up' : 'chevron-down'" size="0.75em" class="chev-ico" />
+              </div>
+              @if (g.open && g.links) {
+                <div class="group-sublinks">
+                  @for (link of g.links; track link) {
+                    <a
+                      href="javascript:void(0)"
+                      class="sublink"
+                      [class.active]="link.id === activeSubLinkId() || link.active"
+                      (click)="linkClick.emit(link)"
+                    >
+                      <span>{{ link.label }}</span>
+                    </a>
+                  }
+                </div>
+              }
             </div>
-            <div class="group-sublinks" *ngIf="g.open && g.links">
-              <a
-                href="javascript:void(0)"
-                *ngFor="let link of g.links"
-                class="sublink"
-                [class.active]="link.id === activeSubLinkId() || link.active"
-                (click)="linkClick.emit(link)"
-              >
-                <span>{{ link.label }}</span>
-              </a>
-            </div>
-          </div>
+          }
         </div>
-      
-    </ng-template>
+      }
+    }
   </aside>
 
   <div class="main-shell">
     <header class="top-nav-bar">
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
-        <ng-container *ngIf="effectiveTopActions(); else projectedTopActions">
+        @if (effectiveTopActions()) {
           <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
-        </ng-container>
-        <ng-template #projectedTopActions>
+        } @else {
           <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
-        </ng-template>
+        }
       </div>
     </header>
     <main class="page-content-area">
-      <ng-container *ngIf="effectiveContent(); else defaultContent">
+      @if (effectiveContent()) {
         <ng-container *ngTemplateOutlet="effectiveContent()!" />
-      </ng-container>
-      <ng-template #defaultContent>
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
-      </ng-template>
+        <ng-content />
+      }
     </main>
   </div>
 </div>

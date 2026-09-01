@@ -1,44 +1,43 @@
 <div class="gp-description-list-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+  @if (effectiveHeader()) {
     <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="card-head" *ngIf="title()">
+    @if (title()) {
+      <div class="card-head">
         <h3 class="head-title">{{ title() }}</h3>
-        <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+        @if (subtitle()) {
+          <p class="head-subtitle">{{ subtitle() }}</p>
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Items Body -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[items], [slot=items]" />
-
-      <div class="desc-grid" *ngIf="items() && items().length > 0">
-        <ng-container *ngFor="let item of items()">
-          <ng-container *ngIf="effectiveItemTemplate(); else defaultItem">
+    @if (items() && items().length > 0) {
+      <div class="desc-grid">
+        @for (item of items(); track item) {
+          @if (effectiveItemTemplate()) {
             <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
-          </ng-container>
-          <ng-template #defaultItem>
-            <div
-              class="desc-row"
-              (click)="itemClick.emit(item)"
-              style="cursor: pointer;"
-            >
+          } @else {
+            <div class="desc-row" (click)="itemClick.emit(item)" style="cursor: pointer">
               <span class="desc-label">{{ item.label }}</span>
-              <span class="desc-value" *ngIf="!item.badge">{{ item.value }}</span>
-              <gp-badge *ngIf="item.badge" [value]="item.value" [severity]="item.badgeSeverity || 'secondary'" />
+              @if (!item.badge) {
+                <span class="desc-value">{{ item.value }}</span>
+              }
+              @if (item.badge) {
+                <gp-badge [value]="item.value" [severity]="item.badgeSeverity || 'secondary'" />
+              }
             </div>
-          </ng-template>
-        </ng-container>
+          }
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

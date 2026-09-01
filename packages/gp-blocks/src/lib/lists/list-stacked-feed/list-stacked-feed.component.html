@@ -1,36 +1,31 @@
 <div class="gp-stacked-feed-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+  @if (effectiveHeader()) {
     <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="card-head" *ngIf="title()">
+    @if (title()) {
+      <div class="card-head">
         <h3 class="head-title">{{ title() }}</h3>
-        <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
+        @if (badgeText()) {
+          <gp-badge [value]="badgeText()" [severity]="badgeSeverity()" />
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Feed Items Body -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[feed], [slot=feed], [items], [slot=items]" />
-
-      <div class="feed-list" *ngIf="feedItems() && feedItems().length > 0">
-        <ng-container *ngFor="let f of feedItems()">
-          <ng-container *ngIf="effectiveFeedItemTemplate(); else defaultFeedItem">
+    @if (feedItems() && feedItems().length > 0) {
+      <div class="feed-list">
+        @for (f of feedItems(); track f) {
+          @if (effectiveFeedItemTemplate()) {
             <ng-container *ngTemplateOutlet="effectiveFeedItemTemplate()!; context: { $implicit: f }" />
-          </ng-container>
-          <ng-template #defaultFeedItem>
-            <div
-              class="feed-item-row"
-              (click)="itemClick.emit(f)"
-              style="cursor: pointer;"
-            >
+          } @else {
+            <div class="feed-item-row" (click)="itemClick.emit(f)" style="cursor: pointer">
               <gp-avatar [label]="f.author.charAt(0)" size="normal" shape="circle" />
               <div class="feed-main-col">
                 <div class="feed-action-line">
@@ -38,9 +33,11 @@
                   <span class="action-text">{{ f.action }}</span>
                   <span class="target-name">{{ f.target }}</span>
                 </div>
-                <div class="feed-message-box" *ngIf="f.message">
-                  {{ f.message }}
-                </div>
+                @if (f.message) {
+                  <div class="feed-message-box">
+                    {{ f.message }}
+                  </div>
+                }
                 <span class="feed-time">{{ f.time }}</span>
               </div>
               <gp-button
@@ -55,10 +52,10 @@
                 <gp-icon name="more-horizontal" size="1em" />
               </gp-button>
             </div>
-          </ng-template>
-        </ng-container>
+          }
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

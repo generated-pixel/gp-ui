@@ -1,90 +1,91 @@
 <div class="gp-auth-split-shell">
   <!-- Left Brand Hero Column -->
   <div class="auth-hero-col">
-    <ng-container *ngIf="effectiveHero(); else defaultHero">
+    @if (effectiveHero()) {
       <ng-container *ngTemplateOutlet="effectiveHero()!" />
-    </ng-container>
-    <ng-template #defaultHero>
+    } @else {
       <ng-content select="[hero], [slot=hero]" />
-
-        <div class="brand-row" *ngIf="brandName()">
+      @if (brandName()) {
+        <div class="brand-row">
           <div class="brand-sq">
             <gp-icon [name]="brandIcon()" size="1.2em" />
           </div>
           <span class="brand-name">{{ brandName() }}</span>
         </div>
-        <div class="hero-center-content">
-          <h1 class="hero-title" *ngIf="heroTitle()">{{ heroTitle() }}</h1>
-          <p class="hero-desc" *ngIf="heroDesc()">{{ heroDesc() }}</p>
-        </div>
-      
-    </ng-template>
+      }
+      <div class="hero-center-content">
+        @if (heroTitle()) {
+          <h1 class="hero-title">{{ heroTitle() }}</h1>
+        }
+        @if (heroDesc()) {
+          <p class="hero-desc">{{ heroDesc() }}</p>
+        }
+      </div>
+    }
   </div>
 
   <!-- Right Form Column -->
   <div class="auth-form-col">
     <div class="form-container-card">
-      <ng-container *ngIf="effectiveContent(); else defaultContent">
+      @if (effectiveContent()) {
         <ng-container *ngTemplateOutlet="effectiveContent()!" />
-      </ng-container>
-      <ng-template #defaultContent>
-        <ng-container *ngIf="effectiveForm(); else defaultForm">
+      } @else {
+        @if (effectiveForm()) {
           <ng-container *ngTemplateOutlet="effectiveForm()!" />
-        </ng-container>
-        <ng-template #defaultForm>
+        } @else {
           <ng-content select="[form], [slot=form]" />
-
-            <div class="auth-form-head" *ngIf="formTitle()">
+          @if (formTitle()) {
+            <div class="auth-form-head">
               <h2 class="form-title">{{ formTitle() }}</h2>
-              <p class="form-sub" *ngIf="formSubtitle()">{{ formSubtitle() }}</p>
+              @if (formSubtitle()) {
+                <p class="form-sub">{{ formSubtitle() }}</p>
+              }
             </div>
-
-            <div class="auth-form-body">
-              <div class="form-field">
-                <label class="input-label">Email Address</label>
-                <gp-input-text
-                  type="email"
-                  styleClass="form-input"
-                  [fluid]="true"
-                  [value]="email()"
-                  (valueChange)="email.set($event)"
-                  placeholder="name@company.com"
-                />
-              </div>
-
-              <div class="form-field">
-                <div class="pass-label-row">
-                  <label class="input-label">Password</label>
-                  <a href="javascript:void(0)" class="forgot-link" (click)="forgotPasswordClick.emit()">Forgot password?</a>
-                </div>
-                <gp-password
-                  styleClass="form-input"
-                  [fluid]="true"
-                  [feedback]="false"
-                  [value]="password()"
-                  (valueChange)="password.set($event)"
-                  placeholder="Enter your password"
-                />
-              </div>
-
-              <div class="remember-row">
-                <gp-checkbox
-                  styleClass="check-label"
-                  [binary]="true"
-                  [checked]="rememberMe()"
-                  label="Remember this device for 30 days"
-                  (valueChange)="rememberMe.set($event)"
-                />
-              </div>
-
-              <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onSubmit()">
-                {{ submitBtnLabel() }}
-              </gp-button>
+          }
+          <div class="auth-form-body">
+            <div class="form-field">
+              <label class="input-label">Email Address</label>
+              <gp-input-text
+                type="email"
+                styleClass="form-input"
+                [fluid]="true"
+                [value]="email()"
+                (valueChange)="email.set($event)"
+                placeholder="name@company.com"
+              />
             </div>
-          
-        </ng-template>
+            <div class="form-field">
+              <div class="pass-label-row">
+                <label class="input-label">Password</label>
+                <a href="javascript:void(0)" class="forgot-link" (click)="forgotPasswordClick.emit()"
+                  >Forgot password?</a
+                >
+              </div>
+              <gp-password
+                styleClass="form-input"
+                [fluid]="true"
+                [feedback]="false"
+                [value]="password()"
+                (valueChange)="password.set($event)"
+                placeholder="Enter your password"
+              />
+            </div>
+            <div class="remember-row">
+              <gp-checkbox
+                styleClass="check-label"
+                [binary]="true"
+                [checked]="rememberMe()"
+                label="Remember this device for 30 days"
+                (valueChange)="rememberMe.set($event)"
+              />
+            </div>
+            <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onSubmit()">
+              {{ submitBtnLabel() }}
+            </gp-button>
+          </div>
+        }
         <ng-content />
-      </ng-template>
+      }
     </div>
   </div>
 </div>

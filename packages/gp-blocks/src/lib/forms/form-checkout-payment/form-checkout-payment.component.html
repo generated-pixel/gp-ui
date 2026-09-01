@@ -1,93 +1,93 @@
 <div class="gp-checkout-payment-card">
   <!-- Top Header Row -->
-  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+  @if (effectiveHeader()) {
     <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="card-head">
-        <div class="head-titles" *ngIf="title()">
+    <div class="card-head">
+      @if (title()) {
+        <div class="head-titles">
           <h3 class="head-title">{{ title() }}</h3>
-          <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+          @if (subtitle()) {
+            <p class="head-subtitle">{{ subtitle() }}</p>
+          }
         </div>
-        <div class="security-pill" *ngIf="securityBadgeText()">
+      }
+      @if (securityBadgeText()) {
+        <div class="security-pill">
           <gp-icon name="lock" size="0.85em" />
           <span>{{ securityBadgeText() }}</span>
         </div>
-      </div>
-    
-  </ng-template>
+      }
+    </div>
+  }
 
   <!-- Payment Form Body -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[form], [slot=form]" />
-
-      <div class="payment-form-body">
+    <div class="payment-form-body">
+      <div class="field-wrap">
+        <label class="input-label">Cardholder Name</label>
+        <gp-input-text
+          type="text"
+          styleClass="form-input"
+          [fluid]="true"
+          [value]="cardholderName()"
+          (valueChange)="cardholderName.set($event)"
+          placeholder="Name on card"
+        />
+      </div>
+      <div class="field-wrap">
+        <label class="input-label">Card Number</label>
+        <div class="card-num-box">
+          <gp-icon name="credit-card" size="1.1em" class="card-ico" />
+          <gp-input-text
+            type="text"
+            styleClass="form-input with-ico"
+            [fluid]="true"
+            [value]="cardNumber()"
+            (valueChange)="cardNumber.set($event)"
+            placeholder="0000 0000 0000 0000"
+          />
+        </div>
+      </div>
+      <div class="split-row">
         <div class="field-wrap">
-          <label class="input-label">Cardholder Name</label>
+          <label class="input-label">Expiration Date</label>
           <gp-input-text
             type="text"
             styleClass="form-input"
             [fluid]="true"
-            [value]="cardholderName()"
-            (valueChange)="cardholderName.set($event)"
-            placeholder="Name on card"
+            [value]="expiration()"
+            (valueChange)="expiration.set($event)"
+            placeholder="MM/YY"
           />
         </div>
-
         <div class="field-wrap">
-          <label class="input-label">Card Number</label>
-          <div class="card-num-box">
-            <gp-icon name="credit-card" size="1.1em" class="card-ico" />
-            <gp-input-text
-              type="text"
-              styleClass="form-input with-ico"
-              [fluid]="true"
-              [value]="cardNumber()"
-              (valueChange)="cardNumber.set($event)"
-              placeholder="0000 0000 0000 0000"
-            />
-          </div>
-        </div>
-
-        <div class="split-row">
-          <div class="field-wrap">
-            <label class="input-label">Expiration Date</label>
-            <gp-input-text
-              type="text"
-              styleClass="form-input"
-              [fluid]="true"
-              [value]="expiration()"
-              (valueChange)="expiration.set($event)"
-              placeholder="MM/YY"
-            />
-          </div>
-          <div class="field-wrap">
-            <label class="input-label">CVC / CVV</label>
-            <gp-password
-              styleClass="form-input"
-              [fluid]="true"
-              [feedback]="false"
-              [value]="cvc()"
-              (valueChange)="cvc.set($event)"
-              placeholder="123"
-              [maxlength]="4"
-            />
-          </div>
-        </div>
-
-        <div class="pay-btn-wrap">
-          <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onPay()">
-            <gp-icon name="lock" size="0.9em" style="margin-right: 0.35rem;" />
-            {{ payBtnLabel() }} <span *ngIf="amount()">({{ amount() }})</span>
-          </gp-button>
+          <label class="input-label">CVC / CVV</label>
+          <gp-password
+            styleClass="form-input"
+            [fluid]="true"
+            [feedback]="false"
+            [value]="cvc()"
+            (valueChange)="cvc.set($event)"
+            placeholder="123"
+            [maxlength]="4"
+          />
         </div>
       </div>
-    
-  </ng-template>
+      <div class="pay-btn-wrap">
+        <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onPay()">
+          <gp-icon name="lock" size="0.9em" style="margin-right: 0.35rem" />
+          {{ payBtnLabel() }}
+          @if (amount()) {
+            <span>({{ amount() }})</span>
+          }
+        </gp-button>
+      </div>
+    </div>
+  }
   <ng-content />
 </div>

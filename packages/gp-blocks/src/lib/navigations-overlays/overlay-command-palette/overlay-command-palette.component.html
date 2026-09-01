@@ -11,77 +11,77 @@
   styleClass="gp-command-palette-dialog"
   (visibleChange)="onVisibleChange($event)"
 >
-    <ng-container *ngIf="effectiveContent(); else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent()!" />
-    </ng-container>
-    <ng-template #defaultContent>
-      <!-- Search Input Top -->
-      <ng-container *ngIf="effectiveSearch(); else defaultSearch">
-        <ng-container *ngTemplateOutlet="effectiveSearch()!" />
-      </ng-container>
-      <ng-template #defaultSearch>
-        <ng-content select="[search], [slot=search]" />
-
-          <div class="palette-search-row">
-            <gp-input-text
-              styleClass="search-field"
-              [placeholder]="placeholder()"
-              [value]="searchQuery()"
-              iconLeft="search"
-              [fluid]="true"
-              (onInputEvent)="onInput($event)"
-              (onKeyDownEvent)="onKeyDown($event)"
-              [autofocus]="true"
-            />
-            <span class="esc-badge">ESC</span>
-          </div>
-        
-      </ng-template>
-
-      <!-- Commands List -->
-      <ng-content select="[commands], [slot=commands]" />
-
-        <div class="palette-body" *ngIf="filteredCommands().length > 0; else noResults">
-          <div class="group-tag" *ngIf="groupLabel()">{{ groupLabel() }}</div>
-          <div class="commands-list">
-            <ng-container *ngFor="let cmd of filteredCommands(); let index = index">
-              <ng-container *ngIf="effectiveCommandTemplate(); else defaultCmd">
-                <ng-container *ngTemplateOutlet="effectiveCommandTemplate()!; context: { $implicit: cmd }" />
-              </ng-container>
-              <ng-template #defaultCmd>
-                <div
-                  class="cmd-item"
-                  [class.active]="cmd.active || index === activeIndex()"
-                  [attr.aria-selected]="index === activeIndex()"
-                  role="option"
-                  (mouseenter)="activeIndex.set(index)"
-                  (click)="chooseCommand(cmd)"
-                >
-                  <div class="cmd-left">
-                    <gp-icon *ngIf="cmd.icon" [name]="cmd.icon" size="1em" class="cmd-ico" />
-                    <div class="cmd-label-group">
-                      <span class="cmd-label">{{ cmd.label }}</span>
-                      <span class="cmd-sub" *ngIf="cmd.subLabel">{{ cmd.subLabel }}</span>
-                    </div>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
+    <!-- Search Input Top -->
+    @if (effectiveSearch()) {
+      <ng-container *ngTemplateOutlet="effectiveSearch()!" />
+    } @else {
+      <ng-content select="[search], [slot=search]" />
+      <div class="palette-search-row">
+        <gp-input-text
+          styleClass="search-field"
+          [placeholder]="placeholder()"
+          [value]="searchQuery()"
+          iconLeft="search"
+          [fluid]="true"
+          (onInputEvent)="onInput($event)"
+          (onKeyDownEvent)="onKeyDown($event)"
+          [autofocus]="true"
+        />
+        <span class="esc-badge">ESC</span>
+      </div>
+    }
+    <!-- Commands List -->
+    <ng-content select="[commands], [slot=commands]" />
+    @if (filteredCommands().length > 0) {
+      <div class="palette-body">
+        @if (groupLabel()) {
+          <div class="group-tag">{{ groupLabel() }}</div>
+        }
+        <div class="commands-list">
+          @for (cmd of filteredCommands(); track cmd; let index = $index) {
+            @if (effectiveCommandTemplate()) {
+              <ng-container *ngTemplateOutlet="effectiveCommandTemplate()!; context: { $implicit: cmd }" />
+            } @else {
+              <div
+                class="cmd-item"
+                [class.active]="cmd.active || index === activeIndex()"
+                [attr.aria-selected]="index === activeIndex()"
+                role="option"
+                (mouseenter)="activeIndex.set(index)"
+                (click)="chooseCommand(cmd)"
+              >
+                <div class="cmd-left">
+                  @if (cmd.icon) {
+                    <gp-icon [name]="cmd.icon" size="1em" class="cmd-ico" />
+                  }
+                  <div class="cmd-label-group">
+                    <span class="cmd-label">{{ cmd.label }}</span>
+                    @if (cmd.subLabel) {
+                      <span class="cmd-sub">{{ cmd.subLabel }}</span>
+                    }
                   </div>
-                  <span class="cmd-shortcut" *ngIf="cmd.shortcut">{{ cmd.shortcut }}</span>
                 </div>
-              </ng-template>
-            </ng-container>
-          </div>
-        </div>
-        <ng-template #noResults>
-          <div class="palette-empty">No matching commands</div>
-        </ng-template>
-      
-
-      <!-- Palette Footer -->
-      <div class="palette-foot">
-        <div class="nav-hint">
-          <span>&uarr; &darr; navigate</span>
-          <span>&crarr; select</span>
+                @if (cmd.shortcut) {
+                  <span class="cmd-shortcut">{{ cmd.shortcut }}</span>
+                }
+              </div>
+            }
+          }
         </div>
       </div>
-      <ng-content />
-    </ng-template>
+    } @else {
+      <div class="palette-empty">No matching commands</div>
+    }
+    <!-- Palette Footer -->
+    <div class="palette-foot">
+      <div class="nav-hint">
+        <span>&uarr; &darr; navigate</span>
+        <span>&crarr; select</span>
+      </div>
+    </div>
+    <ng-content />
+  }
 </gp-dialog>

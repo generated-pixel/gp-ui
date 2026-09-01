@@ -1,54 +1,52 @@
 <div class="gp-stacked-dock-shell">
   <!-- Minimal Top Header -->
   <header class="dock-topbar">
-    <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+    @if (effectiveHeader()) {
       <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-    </ng-container>
-    <ng-template #defaultHeader>
+    } @else {
       <ng-content select="[header], [slot=header]" />
-
-        <div class="brand-title">{{ brandName() }}</div>
-        <span class="active-tab-title">{{ activeTab() }}</span>
-      
-    </ng-template>
+      <div class="brand-title">{{ brandName() }}</div>
+      <span class="active-tab-title">{{ activeTab() }}</span>
+    }
   </header>
 
   <!-- Full-Screen Content Area -->
   <main class="dock-main-stage">
-    <ng-container *ngIf="effectiveContent(); else defaultContent">
+    @if (effectiveContent()) {
       <ng-container *ngTemplateOutlet="effectiveContent()!" />
-    </ng-container>
-    <ng-template #defaultContent>
+    } @else {
       <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
-    </ng-template>
+      <ng-content />
+    }
   </main>
 
   <!-- Floating Mac-style Bottom Dock -->
   <footer class="bottom-dock-bar">
-    <ng-container *ngIf="effectiveDock(); else defaultDock">
+    @if (effectiveDock()) {
       <ng-container *ngTemplateOutlet="effectiveDock()!" />
-    </ng-container>
-    <ng-template #defaultDock>
+    } @else {
       <ng-content select="[dock], [slot=dock]" />
-
-        <div class="dock-pill" *ngIf="dockItems() && dockItems().length > 0">
-          <gp-button
-            type="button"
-            *ngFor="let item of dockItems()"
-            variant="text"
-            severity="secondary"
-            [iconOnly]="true"
-            styleClass="dock-item"
-            [class.active]="item.id === activeDockId() || item.active"
-            [ariaLabel]="item.title"
-            (onClickEvent)="dockItemClick.emit(item)"
-          >
-            <gp-icon [name]="item.icon" size="1.25em" />
-            <span class="dock-dot" *ngIf="item.id === activeDockId() || item.active"></span>
-          </gp-button>
+      @if (dockItems() && dockItems().length > 0) {
+        <div class="dock-pill">
+          @for (item of dockItems(); track item) {
+            <gp-button
+              type="button"
+              variant="text"
+              severity="secondary"
+              [iconOnly]="true"
+              styleClass="dock-item"
+              [class.active]="item.id === activeDockId() || item.active"
+              [ariaLabel]="item.title"
+              (onClickEvent)="dockItemClick.emit(item)"
+            >
+              <gp-icon [name]="item.icon" size="1.25em" />
+              @if (item.id === activeDockId() || item.active) {
+                <span class="dock-dot"></span>
+              }
+            </gp-button>
+          }
         </div>
-      
-    </ng-template>
+      }
+    }
   </footer>
 </div>

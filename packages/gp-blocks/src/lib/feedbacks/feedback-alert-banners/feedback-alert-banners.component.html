@@ -1,32 +1,40 @@
 <div class="gp-alert-banners-group">
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[alerts], [slot=alerts]" />
-
-      <ng-container *ngFor="let a of alerts()">
-        <ng-container *ngIf="effectiveAlertTemplate(); else defaultAlert">
-          <ng-container *ngTemplateOutlet="effectiveAlertTemplate()!; context: { $implicit: a }" />
-        </ng-container>
-        <ng-template #defaultAlert>
-          <div class="alert-banner" [ngClass]="'severity-' + a.severity">
-            <div class="alert-left">
-              <div class="alert-ico">
-                <gp-icon [name]="a.icon || (a.severity === 'success' ? 'check' : (a.severity === 'danger' ? 'alert-triangle' : 'info'))" size="1.1em" />
-              </div>
-              <div class="alert-text">
-                <strong class="alert-title">{{ a.title }}</strong>
-                <span class="alert-msg">{{ a.message }}</span>
-              </div>
+    @for (a of alerts(); track a) {
+      @if (effectiveAlertTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveAlertTemplate()!; context: { $implicit: a }" />
+      } @else {
+        <div class="alert-banner" [ngClass]="'severity-' + a.severity">
+          <div class="alert-left">
+            <div class="alert-ico">
+              <gp-icon
+                [name]="
+                  a.icon || (a.severity === 'success' ? 'check' : a.severity === 'danger' ? 'alert-triangle' : 'info')
+                "
+                size="1.1em"
+              />
             </div>
-            <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="dismiss-btn" ariaLabel="Dismiss alert" (onClickEvent)="dismiss.emit(a)">
-              <gp-icon name="close" size="0.85em" />
-            </gp-button>
+            <div class="alert-text">
+              <strong class="alert-title">{{ a.title }}</strong>
+              <span class="alert-msg">{{ a.message }}</span>
+            </div>
           </div>
-        </ng-template>
-      </ng-container>
-    
-  </ng-template>
+          <gp-button
+            variant="text"
+            severity="secondary"
+            [iconOnly]="true"
+            styleClass="dismiss-btn"
+            ariaLabel="Dismiss alert"
+            (onClickEvent)="dismiss.emit(a)"
+          >
+            <gp-icon name="close" size="0.85em" />
+          </gp-button>
+        </div>
+      }
+    }
+  }
   <ng-content />
 </div>

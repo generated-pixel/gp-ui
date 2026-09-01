@@ -3,17 +3,23 @@
   <aside class="col-left" [class.collapsed]="leftCollapsed()">
     <div class="col-header">
       <span class="col-title">{{ leftTitle() }}</span>
-      <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="icon-toggle-btn" ariaLabel="Toggle navigation" (onClickEvent)="toggleLeft()">
+      <gp-button
+        variant="text"
+        severity="secondary"
+        [iconOnly]="true"
+        styleClass="icon-toggle-btn"
+        ariaLabel="Toggle navigation"
+        (onClickEvent)="toggleLeft()"
+      >
         <gp-icon [name]="leftCollapsed() ? 'chevron-right' : 'chevron-left'" size="0.9em" />
       </gp-button>
     </div>
-    <div class="col-content" *ngIf="!leftCollapsed()">
-      <ng-container *ngIf="effectiveLeft(); else projectedOrFallbackLeft">
-        <ng-container *ngTemplateOutlet="effectiveLeft()!" />
-      </ng-container>
-      <ng-template #projectedOrFallbackLeft>
-        <ng-content select="[left], [slot=left], [col1], [slot=col1]" />
-
+    @if (!leftCollapsed()) {
+      <div class="col-content">
+        @if (effectiveLeft()) {
+          <ng-container *ngTemplateOutlet="effectiveLeft()!" />
+        } @else {
+          <ng-content select="[left], [slot=left], [col1], [slot=col1]" />
           <nav class="default-nav-list">
             <a href="javascript:void(0)" class="nav-item active">
               <gp-icon name="home" size="1em" />
@@ -33,9 +39,9 @@
               <span>Preferences</span>
             </a>
           </nav>
-        
-      </ng-template>
-    </div>
+        }
+      </div>
+    }
   </aside>
 
   <!-- Center Column: Primary Main Content -->
@@ -48,30 +54,31 @@
       <div class="topbar-actions">
         <ng-content select="[actions], [slot=actions]" />
         <gp-button variant="outlined" severity="secondary" (onClickEvent)="actionClick.emit('filter')">
-          <gp-icon name="filter" size="0.9em" style="margin-right: 0.35rem;" />
+          <gp-icon name="filter" size="0.9em" style="margin-right: 0.35rem" />
           Filter
         </gp-button>
         <gp-button severity="primary" (onClickEvent)="actionClick.emit('create')">
-          <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
+          <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem" />
           New Item
         </gp-button>
       </div>
     </header>
 
     <div class="main-content-scroll">
-      <ng-container *ngIf="effectiveMain(); else projectedOrFallbackMain">
+      @if (effectiveMain()) {
         <ng-container *ngTemplateOutlet="effectiveMain()!" />
-      </ng-container>
-      <ng-template #projectedOrFallbackMain>
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content], [col2], [slot=col2]" />
-          <div class="default-main-placeholder">
-            <h2 class="main-title" *ngIf="mainTitle()">{{ mainTitle() }}</h2>
-            <p class="main-desc" *ngIf="mainSubtitle()">{{ mainSubtitle() }}</p>
-            <ng-content />
-
-          </div>
-        
-      </ng-template>
+        <div class="default-main-placeholder">
+          @if (mainTitle()) {
+            <h2 class="main-title">{{ mainTitle() }}</h2>
+          }
+          @if (mainSubtitle()) {
+            <p class="main-desc">{{ mainSubtitle() }}</p>
+          }
+          <ng-content />
+        </div>
+      }
     </div>
   </main>
 
@@ -79,17 +86,23 @@
   <aside class="col-right" [class.collapsed]="rightCollapsed()">
     <div class="col-header">
       <span class="col-title">{{ rightTitle() }}</span>
-      <gp-button variant="text" severity="secondary" [iconOnly]="true" styleClass="icon-toggle-btn" ariaLabel="Toggle details" (onClickEvent)="toggleRight()">
+      <gp-button
+        variant="text"
+        severity="secondary"
+        [iconOnly]="true"
+        styleClass="icon-toggle-btn"
+        ariaLabel="Toggle details"
+        (onClickEvent)="toggleRight()"
+      >
         <gp-icon [name]="rightCollapsed() ? 'chevron-left' : 'chevron-right'" size="0.9em" />
       </gp-button>
     </div>
-    <div class="col-content" *ngIf="!rightCollapsed()">
-      <ng-container *ngIf="effectiveRight(); else projectedOrFallbackRight">
-        <ng-container *ngTemplateOutlet="effectiveRight()!" />
-      </ng-container>
-      <ng-template #projectedOrFallbackRight>
-        <ng-content select="[right], [slot=right], [col3], [slot=col3]" />
-
+    @if (!rightCollapsed()) {
+      <div class="col-content">
+        @if (effectiveRight()) {
+          <ng-container *ngTemplateOutlet="effectiveRight()!" />
+        } @else {
+          <ng-content select="[right], [slot=right], [col3], [slot=col3]" />
           <div class="default-context-panel">
             <h4 class="context-heading">Live Activity</h4>
             <div class="activity-mini-item">
@@ -114,8 +127,8 @@
               </div>
             </div>
           </div>
-        
-      </ng-template>
-    </div>
+        }
+      </div>
+    }
   </aside>
 </div>

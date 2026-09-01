@@ -1,44 +1,46 @@
 <div class="gp-wizard-shell">
   <!-- Stepper Indicator Header -->
   <div class="wizard-header">
-    <ng-container *ngIf="effectiveStepper(); else defaultStepper">
+    @if (effectiveStepper()) {
       <ng-container *ngTemplateOutlet="effectiveStepper()!" />
-    </ng-container>
-    <ng-template #defaultStepper>
+    } @else {
       <ng-content select="[stepper], [slot=stepper]" />
-
-        <div class="stepper-track" *ngIf="steps() && steps().length > 0">
-          <div
-            class="step-node"
-            *ngFor="let s of steps()"
-            [class.active]="s.number === currentStep()"
-            [class.completed]="s.number < currentStep()"
-          >
-            <div class="node-circle">
-              <gp-icon *ngIf="s.number < currentStep()" name="check" size="0.85em" />
-              <span *ngIf="s.number >= currentStep()">{{ s.number }}</span>
+      @if (steps() && steps().length > 0) {
+        <div class="stepper-track">
+          @for (s of steps(); track s) {
+            <div
+              class="step-node"
+              [class.active]="s.number === currentStep()"
+              [class.completed]="s.number < currentStep()"
+            >
+              <div class="node-circle">
+                @if (s.number < currentStep()) {
+                  <gp-icon name="check" size="0.85em" />
+                }
+                @if (s.number >= currentStep()) {
+                  <span>{{ s.number }}</span>
+                }
+              </div>
+              <span class="node-label">{{ s.label }}</span>
             </div>
-            <span class="node-label">{{ s.label }}</span>
-          </div>
+          }
         </div>
-      
-    </ng-template>
+      }
+    }
   </div>
 
   <!-- Wizard Step Body -->
   <div class="wizard-body-card">
-    <ng-container *ngIf="effectiveContent(); else defaultContent">
+    @if (effectiveContent()) {
       <ng-container *ngTemplateOutlet="effectiveContent()!" />
-    </ng-container>
-    <ng-template #defaultContent>
+    } @else {
       <!-- Step 1 -->
-      <div *ngIf="currentStep() === 1" class="step-container">
-        <ng-container *ngIf="effectiveStep1(); else defaultStep1">
-          <ng-container *ngTemplateOutlet="effectiveStep1()!" />
-        </ng-container>
-        <ng-template #defaultStep1>
-          <ng-content select="[step1], [slot=step1]" />
-
+      @if (currentStep() === 1) {
+        <div class="step-container">
+          @if (effectiveStep1()) {
+            <ng-container *ngTemplateOutlet="effectiveStep1()!" />
+          } @else {
+            <ng-content select="[step1], [slot=step1]" />
             <h3 class="step-title">Account Credentials</h3>
             <div class="step-form">
               <div class="field-wrap">
@@ -64,18 +66,16 @@
                 />
               </div>
             </div>
-          
-        </ng-template>
-      </div>
-
+          }
+        </div>
+      }
       <!-- Step 2 -->
-      <div *ngIf="currentStep() === 2" class="step-container">
-        <ng-container *ngIf="effectiveStep2(); else defaultStep2">
-          <ng-container *ngTemplateOutlet="effectiveStep2()!" />
-        </ng-container>
-        <ng-template #defaultStep2>
-          <ng-content select="[step2], [slot=step2]" />
-
+      @if (currentStep() === 2) {
+        <div class="step-container">
+          @if (effectiveStep2()) {
+            <ng-container *ngTemplateOutlet="effectiveStep2()!" />
+          } @else {
+            <ng-content select="[step2], [slot=step2]" />
             <h3 class="step-title">Organization Details</h3>
             <div class="step-form">
               <div class="field-wrap">
@@ -101,24 +101,30 @@
                 />
               </div>
             </div>
-          
-        </ng-template>
-      </div>
-
+          }
+        </div>
+      }
       <!-- Step 3 -->
-      <div *ngIf="currentStep() === 3" class="step-container">
-        <ng-container *ngIf="effectiveStep3(); else defaultStep3">
-          <ng-container *ngTemplateOutlet="effectiveStep3()!" />
-        </ng-container>
-        <ng-template #defaultStep3>
-          <ng-content select="[step3], [slot=step3]" />
-
+      @if (currentStep() === 3) {
+        <div class="step-container">
+          @if (effectiveStep3()) {
+            <ng-container *ngTemplateOutlet="effectiveStep3()!" />
+          } @else {
+            <ng-content select="[step3], [slot=step3]" />
             <h3 class="step-title">Review & Finish</h3>
             <div class="review-box">
-              <div class="rev-row"><span>Name:</span> <strong>{{ fullName() || '-' }}</strong></div>
-              <div class="rev-row"><span>Email:</span> <strong>{{ email() || '-' }}</strong></div>
-              <div class="rev-row"><span>Company:</span> <strong>{{ companyName() || '-' }}</strong></div>
-              <div class="rev-row"><span>Website:</span> <strong>{{ companyWebsite() || '-' }}</strong></div>
+              <div class="rev-row">
+                <span>Name:</span> <strong>{{ fullName() || '-' }}</strong>
+              </div>
+              <div class="rev-row">
+                <span>Email:</span> <strong>{{ email() || '-' }}</strong>
+              </div>
+              <div class="rev-row">
+                <span>Company:</span> <strong>{{ companyName() || '-' }}</strong>
+              </div>
+              <div class="rev-row">
+                <span>Website:</span> <strong>{{ companyWebsite() || '-' }}</strong>
+              </div>
             </div>
             <gp-checkbox
               styleClass="check-label"
@@ -128,24 +134,18 @@
               label="I accept the Service License Agreement and Privacy Policy"
               (valueChange)="agreeTerms.set($event)"
             />
-          
-        </ng-template>
-      </div>
+          }
+        </div>
+      }
       <ng-content />
-    </ng-template>
+    }
 
     <!-- Wizard Footer Controls -->
     <div class="wizard-footer">
-      <gp-button
-        *ngIf="currentStep() > 1"
-        variant="outlined"
-        severity="secondary"
-        size="sm"
-        (onClickEvent)="prevStep()"
-      >
-        Previous
-      </gp-button>
-      <div style="flex: 1;"></div>
+      @if (currentStep() > 1) {
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="prevStep()"> Previous </gp-button>
+      }
+      <div style="flex: 1"></div>
       <gp-button severity="primary" size="sm" (onClickEvent)="nextStep()">
         {{ currentStep() === steps().length ? 'Complete Setup' : 'Next Step' }}
       </gp-button>

@@ -1,38 +1,34 @@
 <div class="gp-settings-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader(); else defaultHeader">
+  @if (effectiveHeader()) {
     <ng-container *ngTemplateOutlet="effectiveHeader()!" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="settings-head-action-row">
-        <div>
-          <h3 class="settings-title">{{ title() }}</h3>
-          <p class="settings-subtitle">{{ subtitle() }}</p>
-        </div>
-        <gp-button severity="primary" size="sm" (onClickEvent)="generateKey.emit()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-          {{ generateBtnLabel() }}
-        </gp-button>
+    <div class="settings-head-action-row">
+      <div>
+        <h3 class="settings-title">{{ title() }}</h3>
+        <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-    
-  </ng-template>
+      <gp-button severity="primary" size="sm" (onClickEvent)="generateKey.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+        {{ generateBtnLabel() }}
+      </gp-button>
+    </div>
+  }
 
   <!-- Content Override or Keys List -->
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[content], [slot=content]" />
-      <ng-container *ngIf="effectiveKeys(); else defaultKeys">
-        <ng-container *ngTemplateOutlet="effectiveKeys()!" />
-      </ng-container>
-      <ng-template #defaultKeys>
-        <ng-content select="[keys], [slot=keys]" />
-
-          <div class="keys-list" *ngIf="apiKeys() && apiKeys().length > 0">
-            <div class="api-key-item" *ngFor="let k of apiKeys()">
+    @if (effectiveKeys()) {
+      <ng-container *ngTemplateOutlet="effectiveKeys()!" />
+    } @else {
+      <ng-content select="[keys], [slot=keys]" />
+      @if (apiKeys() && apiKeys().length > 0) {
+        <div class="keys-list">
+          @for (k of apiKeys(); track k) {
+            <div class="api-key-item">
               <div class="key-top-info">
                 <div class="key-name-group">
                   <span class="key-name">{{ k.name }}</span>
@@ -40,7 +36,15 @@
                 </div>
                 <div class="key-token-display">
                   <code>{{ k.token }}</code>
-                  <gp-button variant="text" severity="secondary" size="sm" [iconOnly]="true" styleClass="copy-btn" ariaLabel="Copy Key" (onClickEvent)="copyKey.emit(k)">
+                  <gp-button
+                    variant="text"
+                    severity="secondary"
+                    size="sm"
+                    [iconOnly]="true"
+                    styleClass="copy-btn"
+                    ariaLabel="Copy Key"
+                    (onClickEvent)="copyKey.emit(k)"
+                  >
                     <gp-icon name="copy" size="0.9em" />
                   </gp-button>
                 </div>
@@ -48,12 +52,15 @@
               <div class="key-bottom-meta">
                 <span>Created: {{ k.created }}</span>
                 <span>Last used: {{ k.lastUsed }}</span>
-                <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeKey.emit(k)">Revoke</gp-button>
+                <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeKey.emit(k)"
+                  >Revoke</gp-button
+                >
               </div>
             </div>
-          </div>
-        
-      </ng-template>
-      <ng-content />
-  </ng-template>
+          }
+        </div>
+      }
+    }
+    <ng-content />
+  }
 </div>

@@ -1,5 +1,5 @@
 import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpButtonComponent,
   GpBadgeComponent,
@@ -12,14 +12,7 @@ import { GpHeaderSchema, GpFormAction } from '../schema.types';
 @Component({
   selector: 'gp-dynamic-header',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpButtonComponent,
-    GpBadgeComponent,
-    GpAvatarComponent,
-    GpBreadcrumbComponent,
-    GpIconComponent
-  ],
+  imports: [GpButtonComponent, GpBadgeComponent, GpAvatarComponent, GpBreadcrumbComponent, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dynamic-header.component.html',

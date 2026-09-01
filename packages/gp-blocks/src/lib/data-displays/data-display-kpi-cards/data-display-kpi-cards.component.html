@@ -1,38 +1,34 @@
 <div class="gp-kpi-cards-grid">
-  <ng-container *ngIf="effectiveContent(); else defaultContent">
+  @if (effectiveContent()) {
     <ng-container *ngTemplateOutlet="effectiveContent()!" />
-  </ng-container>
-  <ng-template #defaultContent>
+  } @else {
     <ng-content select="[kpis], [slot=kpis]" />
-
-      <ng-container *ngFor="let k of kpis()">
-        <ng-container *ngIf="effectiveCardTemplate(); else defaultCard">
-          <ng-container *ngTemplateOutlet="effectiveCardTemplate()!; context: { $implicit: k }" />
-        </ng-container>
-        <ng-template #defaultCard>
-          <div
-            class="kpi-block-card"
-            (click)="kpiClick.emit(k)"
-            style="cursor: pointer;"
-          >
-            <div class="card-top">
-              <span class="card-label">{{ k.label }}</span>
-              <div class="ico-circle" [style.backgroundColor]="k.iconBg || 'rgba(99,102,241,0.1)'" [style.color]="k.iconColor || 'var(--gp-primary)'">
-                <gp-icon [name]="k.icon" size="1.1em" />
-              </div>
-            </div>
-            <div class="card-main-val">{{ k.value }}</div>
-            <div class="card-footer">
-              <span class="trend-badge" [class.up]="k.isUp" [class.down]="!k.isUp">
-                <gp-icon [name]="k.isUp ? 'chevron-up' : 'chevron-down'" size="0.75em" />
-                {{ k.change }}
-              </span>
-              <span class="trend-caption">{{ k.caption }}</span>
+    @for (k of kpis(); track k) {
+      @if (effectiveCardTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveCardTemplate()!; context: { $implicit: k }" />
+      } @else {
+        <div class="kpi-block-card" (click)="kpiClick.emit(k)" style="cursor: pointer">
+          <div class="card-top">
+            <span class="card-label">{{ k.label }}</span>
+            <div
+              class="ico-circle"
+              [style.backgroundColor]="k.iconBg || 'rgba(99,102,241,0.1)'"
+              [style.color]="k.iconColor || 'var(--gp-primary)'"
+            >
+              <gp-icon [name]="k.icon" size="1.1em" />
             </div>
           </div>
-        </ng-template>
-      </ng-container>
-    
-  </ng-template>
+          <div class="card-main-val">{{ k.value }}</div>
+          <div class="card-footer">
+            <span class="trend-badge" [class.up]="k.isUp" [class.down]="!k.isUp">
+              <gp-icon [name]="k.isUp ? 'chevron-up' : 'chevron-down'" size="0.75em" />
+              {{ k.change }}
+            </span>
+            <span class="trend-caption">{{ k.caption }}</span>
+          </div>
+        </div>
+      }
+    }
+  }
   <ng-content />
 </div>
