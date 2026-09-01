@@ -1,20 +1,22 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, HostListener, signal } from '@angular/core';
-
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, HostListener, signal, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
 import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-context-menu',
   standalone: true,
-  imports: [RouterModule, GpIconComponent],
+  imports: [RouterModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './context-menu.component.html',
   styleUrl: './context-menu.component.scss'
 })
 export class GpContextMenuComponent extends GpMenuBaseComponent<GpMenuItem> {
+  public appendTo = input<GpAppendToTarget>('body');
   protected activeSubItem = signal<GpMenuItem | null>(null);
 
   @HostListener('document:contextmenu', ['$event'])

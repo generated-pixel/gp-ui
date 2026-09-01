@@ -19,7 +19,12 @@
   </div>
 
   @if (overlayVisible()) {
-    <div class="gp-select-overlay gp-cascade-select-overlay" (click)="$event.stopPropagation()">
+    <div
+      class="gp-select-overlay gp-cascade-select-overlay"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="hostElRef"
+    >
       <div class="gp-cascade-select-panels">
         <ul class="gp-select-items gp-cascade-panel">
           @for (item of options(); track $index) {

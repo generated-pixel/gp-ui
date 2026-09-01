@@ -51,7 +51,14 @@
   </div>
 
   @if (overlayVisible()) {
-    <div class="gp-select-overlay" role="listbox" (click)="$event.stopPropagation()">
+    <div
+      class="gp-select-overlay"
+      role="listbox"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="selectHostEl"
+      [gpOverlayMatchWidth]="true"
+    >
       <!-- SEARCH BOX -->
       @if (filter()) {
         <div class="gp-multiselect-filter-container">

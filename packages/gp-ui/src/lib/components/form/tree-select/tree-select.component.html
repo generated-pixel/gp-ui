@@ -26,7 +26,13 @@
   </div>
 
   @if (overlayVisible()) {
-    <div class="gp-select-overlay gp-treeselect-overlay" (click)="$event.stopPropagation()">
+    <div
+      class="gp-select-overlay gp-treeselect-overlay"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="el"
+      [gpOverlayMatchWidth]="true"
+    >
       <ul class="gp-treeselect-tree" role="tree">
         @for (node of options(); track $index) {
           <ng-container *ngTemplateOutlet="treeNodeTpl; context: { $implicit: node, level: 0 }" />

@@ -1,21 +1,23 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
-
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, signal, input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenubarItem } from '../menubar/menubar.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
 import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-tiered-menu',
   standalone: true,
-  imports: [RouterModule, GpIconComponent],
+  imports: [RouterModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './tiered-menu.component.html',
   styleUrl: './tiered-menu.component.scss'
 })
 export class GpTieredMenuComponent extends GpMenuBaseComponent<GpMenubarItem> {
+  public appendTo = input<GpAppendToTarget>('body');
   protected activeSubItem = signal<GpMenubarItem | null>(null);
 
   public onItemMouseEnter(item: GpMenubarItem): void {

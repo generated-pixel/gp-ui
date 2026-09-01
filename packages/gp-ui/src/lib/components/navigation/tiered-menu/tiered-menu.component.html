@@ -4,6 +4,7 @@
     [class.gp-menu-popup]="popup()"
     [style.top.px]="popup() ? position().top : null"
     [style.left.px]="popup() ? position().left : null"
+    [gpAppendTo]="popup() ? appendTo() : 'self'"
     role="menu"
     (click)="$event.stopPropagation()"
   >

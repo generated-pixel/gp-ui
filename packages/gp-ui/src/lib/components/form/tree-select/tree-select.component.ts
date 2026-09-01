@@ -14,11 +14,13 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpTreeNode } from '../../tree/tree-node/tree-node.interface';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-tree-select',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [CommonModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -32,6 +34,7 @@ import { GpTreeNode } from '../../tree/tree-node/tree-node.interface';
   styleUrl: './tree-select.component.scss'
 })
 export class GpTreeSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
+  public appendTo = input<GpAppendToTarget>('body');
   public options = input<GpTreeNode[]>([]);
 
   public onNodeSelect = output<{ node: GpTreeNode }>();
@@ -39,7 +42,7 @@ export class GpTreeSelectComponent extends GpEditableBaseComponent implements Co
   protected selectedNode = signal<GpTreeNode | null>(null);
   protected overlayVisible = signal<boolean>(false);
 
-  constructor(private el: ElementRef) {
+  constructor(public el: ElementRef) {
     super();
   }
 

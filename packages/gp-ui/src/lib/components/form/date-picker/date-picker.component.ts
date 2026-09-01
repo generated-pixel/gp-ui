@@ -17,6 +17,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpTranslationService } from '../../../config/gp-config.service';
 import { UniqueId } from '../../../utils/unique-id';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 export interface CalendarDay {
   date: Date;
@@ -29,7 +31,7 @@ export interface CalendarDay {
 @Component({
   selector: 'gp-date-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [CommonModule, FormsModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -45,6 +47,7 @@ export interface CalendarDay {
 export class GpDatePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
   protected translationService = inject(GpTranslationService);
 
+  public appendTo = input<GpAppendToTarget>('body');
   public inputId = input<string>(UniqueId.generate('dp_'));
   public dateFormat = input<string>('mm/dd/yy');
   public icon = input<string>('calendar');
@@ -57,7 +60,7 @@ export class GpDatePickerComponent extends GpEditableBaseComponent implements Co
   protected viewDate = signal<Date>(new Date());
   protected overlayVisible = signal<boolean>(false);
 
-  constructor(private hostElRef: ElementRef) {
+  constructor(public hostElRef: ElementRef) {
     super();
   }
 

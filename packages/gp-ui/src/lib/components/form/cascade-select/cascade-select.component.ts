@@ -14,6 +14,8 @@ import {
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 export interface GpCascadeSelectItem {
   name: string;
@@ -25,7 +27,7 @@ export interface GpCascadeSelectItem {
 @Component({
   selector: 'gp-cascade-select',
   standalone: true,
-  imports: [GpIconComponent],
+  imports: [GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -39,6 +41,7 @@ export interface GpCascadeSelectItem {
   styleUrl: './cascade-select.component.scss'
 })
 export class GpCascadeSelectComponent extends GpEditableBaseComponent implements ControlValueAccessor {
+  public appendTo = input<GpAppendToTarget>('body');
   public options = input<any[]>([]);
   public optionLabel = input<string>('name');
   public optionValue = input<string>('code');
@@ -50,7 +53,7 @@ export class GpCascadeSelectComponent extends GpEditableBaseComponent implements
   protected activeItemLevel1 = signal<any>(null);
   protected activeItemLevel2 = signal<any>(null);
 
-  constructor(private hostElRef: ElementRef) {
+  constructor(public hostElRef: ElementRef) {
     super();
   }
 

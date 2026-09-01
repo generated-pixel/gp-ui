@@ -1,6 +1,7 @@
 @if (isVisible()) {
   <div
     class="gp-command-palette-backdrop"
+    [gpAppendTo]="appendTo()"
     (click)="onBackdropClick($event)"
     role="dialog"
     aria-modal="true"

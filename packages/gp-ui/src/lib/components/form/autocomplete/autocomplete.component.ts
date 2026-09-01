@@ -28,6 +28,8 @@ import { UniqueId } from '../../../utils/unique-id';
 import { ObjectUtils } from '../../../utils/object-utils';
 import { GpDialogService } from '../../../services/dialog.service';
 import { GpDynamicDialogConfig } from '../../../services/dialog.interface';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 export interface GpAutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -42,7 +44,7 @@ export interface GpAutoCompleteAdvancedSearchEvent {
 @Component({
   selector: 'gp-autocomplete',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [CommonModule, FormsModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -60,6 +62,7 @@ export class GpAutoCompleteComponent
   implements ControlValueAccessor, OnInit, OnDestroy
 {
   public inputId = input<string>(UniqueId.generate('ac_'));
+  public appendTo = input<GpAppendToTarget>('body');
   public suggestions = input<any[]>([]);
   public field = input<string>('');
   public minLength = input<number>(1);
@@ -140,7 +143,7 @@ export class GpAutoCompleteComponent
     () => this.showAdvancedSearch() || this.hasMore() || (this.totalResults() ?? 0) > (this.suggestions()?.length || 0)
   );
 
-  constructor(private hostElRef: ElementRef) {
+  constructor(public hostElRef: ElementRef) {
     super();
 
     // Setup reactive effect to handle externalSelection Observable

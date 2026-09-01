@@ -21,7 +21,12 @@
   </div>
 
   @if (overlayVisible()) {
-    <div class="gp-datepicker-panel gp-timepicker-panel" (click)="$event.stopPropagation()">
+    <div
+      class="gp-datepicker-panel gp-timepicker-panel"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="el"
+    >
       <div class="gp-timepicker-controls">
         <!-- Hours Column -->
         <div class="gp-timepicker-column">

@@ -13,7 +13,11 @@
 
   <!-- Popover Dropdown Overlay -->
   @if (isOpen()) {
-    <div class="gp-date-range__overlay">
+    <div
+      class="gp-date-range__overlay"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="hostElRef"
+    >
       <!-- Preset Sidebar -->
       @if (presets() && presets().length > 0) {
         <div class="gp-date-range__presets">

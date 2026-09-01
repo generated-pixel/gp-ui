@@ -3,6 +3,7 @@
     class="gp-menu gp-menu-popup gp-context-menu"
     [style.top.px]="position().top"
     [style.left.px]="position().left"
+    [gpAppendTo]="appendTo()"
     role="menu"
     (click)="$event.stopPropagation()"
   >

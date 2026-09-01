@@ -16,11 +16,13 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-time-picker',
   standalone: true,
-  imports: [FormsModule, GpIconComponent],
+  imports: [FormsModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -34,6 +36,7 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './time-picker.component.scss'
 })
 export class GpTimePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor, OnInit {
+  public appendTo = input<GpAppendToTarget>('body');
   public inputId = input<string>(UniqueId.generate('tp_'));
   public icon = input<string>('clock');
   public hourFormat = input<'12' | '24'>('12');
@@ -53,7 +56,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   protected overlayVisible = signal<boolean>(false);
   public activeStepMinute = signal<number>(1);
 
-  constructor(private el: ElementRef) {
+  constructor(public el: ElementRef) {
     super();
   }
 

@@ -1,5 +1,6 @@
 import { InjectionToken, TemplateRef, Type } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import { GpAppendToTarget } from '../overlay/append-to.interface';
 
 /**
  * Configuration options for opening a dynamic dialog via GpDialogService.
@@ -18,6 +19,7 @@ export interface GpDynamicDialogConfig<TData = any> {
   styleClass?: string;
   contentStyle?: Record<string, any>;
   ariaLabel?: string;
+  appendTo?: GpAppendToTarget;
 }
 
 /**

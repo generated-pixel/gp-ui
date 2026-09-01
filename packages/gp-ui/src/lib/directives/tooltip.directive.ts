@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostListener, input, OnDestroy, inject } from '@angular/core';
 import { ZIndexService } from '../overlay/z-index.service';
+import { GpAppendToTarget } from '../overlay/append-to.interface';
 
 export type GpTooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
@@ -16,6 +17,7 @@ export class GpTooltipDirective implements OnDestroy {
   public tooltipDisabled = input<boolean>(false);
   public showDelay = input<number>(150);
   public hideDelay = input<number>(100);
+  public appendTo = input<GpAppendToTarget>('body');
 
   private tooltipEl: HTMLElement | null = null;
   private showTimeout: any;
@@ -46,6 +48,24 @@ export class GpTooltipDirective implements OnDestroy {
     this.onMouseLeave();
   }
 
+  private resolveTarget(): HTMLElement {
+    const target = this.appendTo();
+    if (target === 'body' || !target) {
+      return typeof document !== 'undefined' ? document.body : (null as any);
+    }
+    if (target === 'self') {
+      return this.el.nativeElement;
+    }
+    if (typeof target === 'string') {
+      const el = document.querySelector(target) as HTMLElement;
+      return el || document.body;
+    }
+    if (target instanceof ElementRef) {
+      return target.nativeElement;
+    }
+    return target as HTMLElement;
+  }
+
   private show(): void {
     if (this.tooltipEl || !this.gpTooltip()) {
       return;
@@ -59,8 +79,11 @@ export class GpTooltipDirective implements OnDestroy {
     this.tooltipEl.style.position = 'absolute';
     this.tooltipEl.style.pointerEvents = 'none';
 
-    document.body.appendChild(this.tooltipEl);
-    this.align();
+    const targetContainer = this.resolveTarget();
+    if (targetContainer) {
+      targetContainer.appendChild(this.tooltipEl);
+      this.align();
+    }
   }
 
   private align(): void {

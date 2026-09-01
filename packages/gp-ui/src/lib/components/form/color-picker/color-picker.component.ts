@@ -12,11 +12,13 @@ import {
 } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-color-picker',
   standalone: true,
-  imports: [],
+  imports: [GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -30,6 +32,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   styleUrl: './color-picker.component.scss'
 })
 export class GpColorPickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
+  public appendTo = input<GpAppendToTarget>('body');
   public presetColors = input<string[]>([
     '#6366f1',
     '#4f46e5',
@@ -55,7 +58,7 @@ export class GpColorPickerComponent extends GpEditableBaseComponent implements C
 
   protected overlayVisible = signal<boolean>(false);
 
-  constructor(private hostElementRef: ElementRef) {
+  constructor(public hostElementRef: ElementRef) {
     super();
   }
 

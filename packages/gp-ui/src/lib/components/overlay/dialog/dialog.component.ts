@@ -1,13 +1,13 @@
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
-
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpFocusTrapDirective } from '../../../overlay/focus-trap.directive';
 import { GpOverlayBaseComponent } from '../../../base/gp-overlay-base.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 
 @Component({
   selector: 'gp-dialog',
   standalone: true,
-  imports: [GpIconComponent, GpFocusTrapDirective],
+  imports: [GpIconComponent, GpFocusTrapDirective, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dialog.component.html',

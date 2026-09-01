@@ -1,5 +1,6 @@
 import { Directive, input, output, signal, computed, ElementRef, HostListener, inject } from '@angular/core';
 import { GpEditableBaseComponent } from './gp-editable-base.component';
+import { GpAppendToTarget } from '../overlay/append-to.interface';
 
 export interface GpSelectItem<T = any> {
   label?: string;
@@ -18,7 +19,10 @@ export type GpSelectVariant = 'outlined' | 'filled';
  */
 @Directive()
 export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseComponent<T> {
-  private selectHostEl = inject(ElementRef);
+  public selectHostEl = inject(ElementRef);
+
+  /** Target DOM element where dropdown overlay should be appended ('body', 'self', selector or element) */
+  public appendTo = input<GpAppendToTarget>('body');
 
   /** Array of raw option objects or primitives */
   public options = input<(GpSelectItem | any)[]>([]);

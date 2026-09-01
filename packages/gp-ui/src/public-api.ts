@@ -31,6 +31,8 @@ export * from './lib/utils/object-utils';
 export * from './lib/utils/dom-handler';
 
 // Overlay Infrastructure
+export * from './lib/overlay/append-to.interface';
+export * from './lib/overlay/append-to.directive';
 export * from './lib/overlay/z-index.service';
 export * from './lib/overlay/focus-trap.directive';
 
@@ -123,8 +125,11 @@ export * from './lib/components/navigation/stepper/stepper.component';
 export * from './lib/components/navigation/dock/dock.component';
 export * from './lib/components/navigation/toolbar/toolbar.component';
 
-// Overlay Components
+// Overlay Components & Services
+export * from './lib/services/dialog.interface';
+export * from './lib/services/dialog.service';
 export * from './lib/components/overlay/dialog/dialog.component';
+export * from './lib/components/overlay/dialog/dynamic-dialog.component';
 export * from './lib/components/overlay/confirm-dialog/confirm-dialog.component';
 export * from './lib/components/overlay/drawer/drawer.component';
 export * from './lib/components/overlay/popover/popover.component';

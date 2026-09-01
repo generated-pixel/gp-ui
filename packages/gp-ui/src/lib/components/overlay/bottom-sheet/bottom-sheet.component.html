@@ -1,6 +1,7 @@
 @if (visible()) {
   <div
     class="gp-bottom-sheet-backdrop"
+    [gpAppendTo]="appendTo()"
     (click)="onBackdropClick($event)"
     role="dialog"
     aria-modal="true"

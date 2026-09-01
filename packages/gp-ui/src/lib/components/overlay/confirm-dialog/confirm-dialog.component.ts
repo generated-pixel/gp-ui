@@ -16,6 +16,7 @@ import { GpConfirmationService } from '../../../services/confirmation.service';
 import { GpConfirmation } from '../../../services/confirmation.interface';
 import { GpDialogComponent } from '../dialog/dialog.component';
 import { GpButtonComponent } from '../../button/button/button.component';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-confirm-dialog',
@@ -29,6 +30,7 @@ import { GpButtonComponent } from '../../button/button/button.component';
 export class GpConfirmDialogComponent extends GpBaseComponent implements OnInit, OnDestroy {
   private confirmationService = inject(GpConfirmationService);
 
+  public appendTo = input<GpAppendToTarget>('body');
   public header = input<string>('Confirmation');
   public message = input<string>('Are you sure you want to proceed?');
   public icon = input<string>('info-circle');

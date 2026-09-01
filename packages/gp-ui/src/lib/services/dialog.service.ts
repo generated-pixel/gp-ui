@@ -5,7 +5,8 @@ import {
   EnvironmentInjector,
   Type,
   inject,
-  DOCUMENT
+  DOCUMENT,
+  ElementRef
 } from '@angular/core';
 import {
   GpDialogRef,
@@ -45,7 +46,22 @@ export class GpDialogService {
     this.appRef.attachView(componentRef.hostView);
 
     const domElem = (componentRef.hostView as any).rootNodes[0] as HTMLElement;
-    this.document.body.appendChild(domElem);
+
+    let targetContainer: HTMLElement = this.document.body;
+    if (config.appendTo) {
+      if (typeof config.appendTo === 'string' && config.appendTo !== 'body' && config.appendTo !== 'self') {
+        const found = this.document.querySelector(config.appendTo) as HTMLElement;
+        if (found) {
+          targetContainer = found;
+        }
+      } else if (config.appendTo instanceof ElementRef) {
+        targetContainer = config.appendTo.nativeElement;
+      } else if (typeof HTMLElement !== 'undefined' && config.appendTo instanceof HTMLElement) {
+        targetContainer = config.appendTo;
+      }
+    }
+
+    targetContainer.appendChild(domElem);
 
     dialogRef.onDestroy.subscribe(() => {
       this.appRef.detachView(componentRef.hostView);
