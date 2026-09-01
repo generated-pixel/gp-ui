@@ -88,7 +88,10 @@ const componentTokenNames = [
   'kpiCard',
   'statCard',
   'announcementBar',
-  'dateRangePicker'
+  'dateRangePicker',
+  'label',
+  'floatLabel',
+  'insetLabel'
 ] as const;
 
 const inheritedComponentTokenDefaults = componentTokenNames.reduce<Record<string, Record<string, string>>>(
@@ -316,7 +319,37 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
     vars['--gp-scrollbar-radius'] = sem.scrollbar.radius;
   }
 
-  // 14. Component Specific Tokens (Recursive Flattening & W3C Token Alias Resolution)
+  // 14. Labels & Form Field Design Tokens
+  vars['--gp-label-color'] = sem.text.primary;
+  vars['--gp-label-color-secondary'] = sem.text.secondary;
+  vars['--gp-label-color-muted'] = sem.text.muted;
+  vars['--gp-label-font-weight'] = '600';
+  vars['--gp-label-font-size-sm'] = prim.typography.fontSize.xs || '0.75rem';
+  vars['--gp-label-font-size-md'] = prim.typography.fontSize.sm || '0.875rem';
+  vars['--gp-label-font-size-lg'] = prim.typography.fontSize.base || '1rem';
+  vars['--gp-label-required-color'] = sem.danger.main;
+  vars['--gp-label-optional-color'] = sem.text.muted;
+  vars['--gp-label-gap'] = '0.35rem';
+
+  vars['--gp-float-label-active-color'] = sem.primary.main;
+  vars['--gp-float-label-active-bg'] = sem.surfaces.card;
+  vars['--gp-float-label-scale'] = '0.85';
+  vars['--gp-float-label-transition'] = 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1), font-size 150ms cubic-bezier(0.4, 0, 0.2, 1), top 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease';
+
+  vars['--gp-inset-label-color'] = sem.text.secondary;
+  vars['--gp-inset-label-active-color'] = sem.primary.main;
+  vars['--gp-inset-label-font-size'] = '0.7rem';
+  vars['--gp-inset-label-padding-top'] = '1.35rem';
+  vars['--gp-inset-label-letter-spacing'] = '0.04em';
+
+  vars['--gp-form-field-bg'] = sem.surfaces.card;
+  vars['--gp-form-field-border'] = sem.surfaces.border;
+  vars['--gp-form-field-border-focus'] = sem.primary.main;
+  vars['--gp-form-field-radius'] = prim.borderRadius.base;
+  vars['--gp-form-field-min-height'] = '46px';
+  vars['--gp-form-field-margin-bottom'] = '1rem';
+
+  // 15. Component Specific Tokens (Recursive Flattening & W3C Token Alias Resolution)
   const mergedComponents = deepMerge(inheritedComponentTokenDefaults, comp || {});
   const compVars = flattenComponentTokens(mergedComponents, '--gp', (val) => resolveTokenAlias(val, theme, mode));
   Object.assign(vars, compVars);

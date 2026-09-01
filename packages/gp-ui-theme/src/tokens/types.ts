@@ -691,6 +691,9 @@ export interface GpComponentTokens {
   kpiCard?: GpKpiCardComponentTokens;
   statCard?: GpStatCardComponentTokens;
   announcementBar?: GpAnnouncementBarComponentTokens;
+  label?: GpGenericComponentTokens;
+  floatLabel?: GpGenericComponentTokens;
+  insetLabel?: GpGenericComponentTokens;
   [component: string]: GpGenericComponentTokens | undefined;
 }
 
