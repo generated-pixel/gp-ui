@@ -86,3 +86,7 @@
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, @generatedpixel/gp-css, @generatedpixel/gp-blocks, and @generatedpixel/gp-grid
 
 
+
+## [0.6.0] - 2026-09-01
+- Release of @generatedpixel gp-ui suite v0.6.0
+- Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
