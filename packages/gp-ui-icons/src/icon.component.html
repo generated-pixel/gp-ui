@@ -11,7 +11,7 @@
   [style.color]="color() || null"
   [style.transform]="resolvedTransform()"
   [class.gp-icon-spin]="spin()"
-  [attr.aria-hidden]="ariaHidden() !== false"
+  [attr.aria-hidden]="ariaHidden() === false || ariaHidden() === 'false' ? 'false' : 'true'"
   [attr.aria-label]="ariaLabel() || null"
   class="gp-icon"
   [innerHTML]="safeSvg()"
