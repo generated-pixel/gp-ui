@@ -123,18 +123,24 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
+    const win = this.document.defaultView;
+    if (!win) {
+      return;
+    }
+    const docEl = this.document.documentElement;
+
     const triggerRect = trigger.getBoundingClientRect();
     const overlayRect = overlay.getBoundingClientRect();
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = win.pageYOffset || docEl.scrollTop;
+    const scrollX = win.pageXOffset || docEl.scrollLeft;
 
     let targetOffsetX = 0;
     let targetOffsetY = 0;
 
     if (this.targetContainer && this.targetContainer !== this.document.body) {
       const targetRect = this.targetContainer.getBoundingClientRect();
-      targetOffsetX = targetRect.left + (window.pageXOffset || document.documentElement.scrollLeft);
-      targetOffsetY = targetRect.top + (window.pageYOffset || document.documentElement.scrollTop);
+      targetOffsetX = targetRect.left + (win.pageXOffset || docEl.scrollLeft);
+      targetOffsetY = targetRect.top + (win.pageYOffset || docEl.scrollTop);
     }
 
     let top = 0;
