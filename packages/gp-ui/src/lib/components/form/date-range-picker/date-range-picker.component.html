@@ -1,0 +1,89 @@
+<div class="gp-date-range" [class.gp-date-range--open]="isOpen()" [class.gp-date-range--disabled]="disabled()">
+  <!-- Input Trigger Display -->
+  <div class="gp-date-range__input-wrap" (click)="toggleOpen()">
+    <gp-icon name="calendar" class="gp-date-range__icon" />
+    <span class="gp-date-range__display-text">{{ formattedRange() || placeholder() }}</span>
+    @if (value()?.start && !disabled()) {
+      <button
+        type="button"
+        class="gp-date-range__clear-btn"
+        (click)="clear($event)"
+        title="Clear range"
+      >
+        <gp-icon name="times" size="0.8em" />
+      </button>
+    }
+    <gp-icon [name]="isOpen() ? 'chevron-up' : 'chevron-down'" size="0.75em" class="gp-date-range__chevron" />
+  </div>
+
+  <!-- Popover Dropdown Overlay -->
+  @if (isOpen()) {
+    <div class="gp-date-range__overlay">
+      <!-- Preset Sidebar -->
+      @if (presets() && presets().length > 0) {
+        <div class="gp-date-range__presets">
+          @for (p of presets(); track p.label) {
+            <button
+              type="button"
+              class="gp-date-range__preset-btn"
+              (click)="selectPreset(p)"
+            >
+              {{ p.label }}
+            </button>
+          }
+        </div>
+      }
+
+      <!-- Calendar Container -->
+      <div class="gp-date-range__calendar-section">
+        <!-- Calendar Month Navigation Header -->
+        <div class="gp-date-range__cal-header">
+          <button type="button" class="gp-date-range__nav-btn" (click)="prevMonth()">
+            <gp-icon name="chevron-left" size="0.85em" />
+          </button>
+          <span class="gp-date-range__month-title">{{ currentMonthName }} {{ currentYear }}</span>
+          <button type="button" class="gp-date-range__nav-btn" (click)="nextMonth()">
+            <gp-icon name="chevron-right" size="0.85em" />
+          </button>
+        </div>
+
+        <!-- Weekday Header Row -->
+        <div class="gp-date-range__weekdays">
+          @for (day of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; track day) {
+            <span>{{ day }}</span>
+          }
+        </div>
+
+        <!-- Days Grid -->
+        <div class="gp-date-range__days-grid">
+          @for (cell of calendarCells(); track cell.date.getTime()) {
+            <button
+              type="button"
+              class="gp-date-range__day-cell"
+              [class.gp-date-range__day-cell--other-month]="!cell.currentMonth"
+              [class.gp-date-range__day-cell--start]="isStartDate(cell.date)"
+              [class.gp-date-range__day-cell--end]="isEndDate(cell.date)"
+              [class.gp-date-range__day-cell--in-range]="isInRange(cell.date)"
+              [class.gp-date-range__day-cell--hover-range]="isHoverRange(cell.date)"
+              (mouseenter)="onDateHover(cell.date)"
+              (click)="onDateClick(cell.date)"
+            >
+              {{ cell.dayNumber }}
+            </button>
+          }
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="gp-date-range__footer">
+          <span class="gp-date-range__selection-status">
+            {{ value()?.start ? formatDate(value()!.start) : 'Select start date' }}
+            @if (value()?.end) {
+              <span> &rarr; {{ formatDate(value()!.end) }}</span>
+            }
+          </span>
+          <gp-button label="Done" size="sm" severity="primary" (onClickEvent)="isOpen.set(false)" />
+        </div>
+      </div>
+    </div>
+  }
+</div>
