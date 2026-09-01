@@ -16,7 +16,8 @@ import { GpIconComponent } from '../../../icons/icon.component';
   selector: 'gp-step',
   standalone: true,
   imports: [CommonModule],
-  template: '<ng-content />'
+  templateUrl: './step.component.html',
+  styleUrl: './step.component.scss'
 })
 export class GpStepComponent extends GpBaseComponent {
   public label = input<string>('');
