@@ -14,59 +14,8 @@ import { GpIconComponent } from '../icons/icon.component';
   imports: [CommonModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    @if (hasErrors()) {
-      <div class="gp-form-error-container" role="alert" aria-live="polite">
-        @if (showFirstOnly() && firstErrorMessage()) {
-          <div class="gp-form-error-item">
-            <gp-icon name="alert-circle" size="0.85em" class="gp-form-error-icon" />
-            <span class="gp-form-error-text">{{ firstErrorMessage() }}</span>
-          </div>
-        } @else {
-          @for (err of getErrorList(); track err.message) {
-            <div class="gp-form-error-item">
-              <gp-icon name="alert-circle" size="0.85em" class="gp-form-error-icon" />
-              <span class="gp-form-error-text">{{ err.message }}</span>
-            </div>
-          }
-        }
-      </div>
-    }
-  `,
-  styles: [
-    `
-      .gp-form-error-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-        margin-top: 0.35rem;
-        animation: gp-form-error-slide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .gp-form-error-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        font-size: var(--gp-font-size-xs, 0.75rem);
-        font-weight: 500;
-        color: var(--gp-danger, #ef4444);
-        line-height: 1.3;
-      }
-      .gp-form-error-icon {
-        flex-shrink: 0;
-        color: var(--gp-danger, #ef4444);
-      }
-      @keyframes gp-form-error-slide {
-        from {
-          opacity: 0;
-          transform: translateY(-4px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    `
-  ]
+  templateUrl: './form-error.component.html',
+  styleUrl: './form-error.component.scss'
 })
 export class GpFormErrorComponent {
   /** Target control to observe for validation errors */

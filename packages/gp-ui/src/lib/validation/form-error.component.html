@@ -1,0 +1,17 @@
+@if (hasErrors()) {
+  <div class="gp-form-error-container" role="alert" aria-live="polite">
+    @if (showFirstOnly() && firstErrorMessage()) {
+      <div class="gp-form-error-item">
+        <gp-icon name="alert-circle" size="0.85em" class="gp-form-error-icon" />
+        <span class="gp-form-error-text">{{ firstErrorMessage() }}</span>
+      </div>
+    } @else {
+      @for (err of getErrorList(); track err.message) {
+        <div class="gp-form-error-item">
+          <gp-icon name="alert-circle" size="0.85em" class="gp-form-error-icon" />
+          <span class="gp-form-error-text">{{ err.message }}</span>
+        </div>
+      }
+    }
+  </div>
+}
