@@ -1,0 +1,53 @@
+@if (visible()) {
+  <div
+    class="gp-bottom-sheet-backdrop"
+    (click)="onBackdropClick($event)"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="title() || 'Bottom Sheet'"
+  >
+    <div
+      #sheetContainer
+      class="gp-bottom-sheet-container"
+      [style.max-height]="maxHeight()"
+      [style.transform]="containerTransform()"
+      [style.transition]="isDragging() ? 'none' : 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)'"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Drag Handle Header -->
+      <div
+        class="gp-bottom-sheet-header-area"
+        (touchstart)="onTouchStart($event)"
+        (touchmove)="onTouchMove($event)"
+        (touchend)="onTouchEnd()"
+      >
+        @if (showDragHandle()) {
+          <div class="gp-bottom-sheet-drag-handle"></div>
+        }
+
+        @if (title() || dismissable()) {
+          <div class="gp-bottom-sheet-header">
+            @if (title()) {
+              <h3 class="gp-bottom-sheet-title">{{ title() }}</h3>
+            }
+            @if (dismissable()) {
+              <button
+                type="button"
+                class="gp-bottom-sheet-close-btn"
+                (click)="close()"
+                aria-label="Close"
+              >
+                <gp-icon name="times" />
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Sheet Content -->
+      <div class="gp-bottom-sheet-content">
+        <ng-content />
+      </div>
+    </div>
+  </div>
+}
