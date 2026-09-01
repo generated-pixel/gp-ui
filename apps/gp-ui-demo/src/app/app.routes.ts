@@ -7,11 +7,13 @@ import { ComponentDocPageComponent } from './pages/component-docs/component-doc-
 import { BlocksPageComponent } from './pages/blocks/blocks.component';
 import { BlocksPlaygroundPageComponent } from './pages/blocks/blocks-playground.component';
 import { GridDemoComponent } from './pages/grid/grid-demo.component';
+import { RulesDemoComponent } from './pages/rules-demo/rules-demo.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'getting-started', pathMatch: 'full' },
   { path: 'docs', redirectTo: 'getting-started', pathMatch: 'full' },
   { path: 'getting-started', component: GettingStartedComponent },
+  { path: 'rules', component: RulesDemoComponent },
   { path: 'blocks', component: BlocksPageComponent },
   { path: 'blocks-playground', component: BlocksPlaygroundPageComponent },
   { path: 'theming', component: ThemingPageComponent },

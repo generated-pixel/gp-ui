@@ -41,7 +41,16 @@ function checkFiles(dir) {
   }
 }
 
-checkFiles(libDir);
+checkFiles(path.join(__dirname, '../packages/gp-ui/src/lib'));
+if (fs.existsSync(path.join(__dirname, '../packages/gp-grid/src/lib'))) {
+  checkFiles(path.join(__dirname, '../packages/gp-grid/src/lib'));
+}
+if (fs.existsSync(path.join(__dirname, '../packages/gp-blocks/src/lib'))) {
+  checkFiles(path.join(__dirname, '../packages/gp-blocks/src/lib'));
+}
+if (fs.existsSync(path.join(__dirname, '../packages/gp-rules/src/lib'))) {
+  checkFiles(path.join(__dirname, '../packages/gp-rules/src/lib'));
+}
 
 if (errors === 0) {
   console.log('✅ All components pass architectural lint rules (standalone, OnPush, no 3rd-party dependencies)!');

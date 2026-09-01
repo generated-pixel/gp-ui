@@ -34,6 +34,7 @@ try {
   findSpecs(path.join(__dirname, '../packages/gp-ui-theme/src'));
   findSpecs(path.join(__dirname, '../packages/gp-grid/src'));
   findSpecs(path.join(__dirname, '../packages/gp-blocks/src'));
+  findSpecs(path.join(__dirname, '../packages/gp-rules/src'));
   console.log(`Found ${specFiles.length} spec test files in packages/`);
   specFiles.forEach((f) => console.log(`  - ${path.relative(path.join(__dirname, '..'), f)}`));
 

@@ -901,6 +901,13 @@ export class AppComponent {
 
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
+    {
+      name: 'Business Rules Engine',
+      route: '/rules',
+      category: 'General',
+      icon: 'sliders',
+      badge: 'New'
+    },
     { name: 'UI Blocks Gallery', route: '/blocks', category: 'General', icon: 'grid', badge: '60+ Blocks' },
     {
       name: 'JSON Schema Studio',
