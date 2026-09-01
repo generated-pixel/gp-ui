@@ -11,25 +11,36 @@
   font-family: inherit;
 }
 
+.gp-form-field-top-label {
+  margin-bottom: 0.35rem;
+}
+
 .gp-form-field-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 46px;
-  border-radius: var(--gp-border-radius-base, 6px);
-  background: var(--gp-surface-card, #ffffff);
-  border: 1px solid var(--gp-surface-border, #cbd5e1);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  min-height: var(--gp-form-field-min-height, 46px);
+  border-radius: var(--gp-form-field-radius, var(--gp-border-radius-base, 6px));
+  background: var(--gp-form-field-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-form-field-border, var(--gp-surface-border, #cbd5e1));
+  transition: border-color var(--gp-transition-duration, 0.2s) ease, box-shadow var(--gp-transition-duration, 0.2s) ease, background-color var(--gp-transition-duration, 0.2s) ease;
 }
 
 .gp-form-field-filled .gp-form-field-wrapper {
   background: var(--gp-surface-ground, #f8fafc);
-  border-bottom: 2px solid var(--gp-surface-border, #94a3b8);
+  border-bottom: 2px solid var(--gp-form-field-border, var(--gp-surface-border, #94a3b8));
   border-top: none;
   border-left: none;
   border-right: none;
-  border-radius: var(--gp-border-radius-base, 6px) var(--gp-border-radius-base, 6px) 0 0;
+  border-radius: var(--gp-form-field-radius, var(--gp-border-radius-base, 6px)) var(--gp-form-field-radius, var(--gp-border-radius-base, 6px)) 0 0;
+}
+
+/* Inset appearance */
+.gp-form-field-inset .gp-form-field-wrapper {
+  min-height: 52px;
+  align-items: flex-end;
+  padding-bottom: 6px;
 }
 
 .gp-form-field-small .gp-form-field-wrapper {
@@ -46,7 +57,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 12px;
-  color: var(--gp-text-muted, #64748b);
+  color: var(--gp-label-color-muted, var(--gp-text-muted, #64748b));
   flex-shrink: 0;
 }
 
@@ -68,41 +79,95 @@
   padding-right: 0;
 }
 
+.gp-form-field-label-wrapper {
+  position: relative;
+}
+
 .gp-form-field-label {
   position: absolute;
-  left: 12px;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.95rem;
-  color: var(--gp-text-muted, #64748b);
+  font-size: var(--gp-label-font-size-md, 0.95rem);
+  font-weight: var(--gp-label-font-weight, 500);
+  color: var(--gp-label-color-muted, var(--gp-text-muted, #64748b));
   pointer-events: none;
-  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
-              font-size 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
-              color 0.2s ease,
-              top 0.2s ease;
+  transition: var(--gp-float-label-transition, transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), font-size 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.2s ease, top 0.2s ease);
   transform-origin: left top;
   z-index: 1;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gp-label-gap, 0.25rem);
 }
 
-.gp-form-field-has-prefix .gp-form-field-label {
-  left: 0;
+.gp-form-field-label-icon {
+  color: var(--gp-label-color-secondary, var(--gp-text-muted, #64748b));
 }
 
+.gp-form-field-optional-marker {
+  font-size: 0.75em;
+  font-weight: 400;
+  color: var(--gp-label-optional-color, var(--gp-text-muted, #94a3b8));
+  margin-left: 0.25rem;
+}
+
+.gp-form-field-help-icon {
+  color: var(--gp-label-color-muted, var(--gp-text-muted, #94a3b8));
+  cursor: help;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Floating Label Active State (Auto/Default) */
 .gp-form-field-floating .gp-form-field-label {
-  top: 4px;
-  transform: translateY(0) scale(0.75);
-  color: var(--gp-text-secondary, #475569);
-  font-weight: 500;
+  top: -2px;
+  transform: translateY(0) scale(var(--gp-float-label-scale, 0.75));
+  color: var(--gp-label-color-secondary, var(--gp-text-secondary, #475569));
+  font-weight: 600;
 }
 
-.gp-form-field-focused.gp-form-field-floating .gp-form-field-label {
-  color: var(--gp-primary, #4f46e5);
+/* Float-On variant: on top border with pill cutout */
+.gp-form-field-float-on.gp-form-field-floating .gp-form-field-label {
+  top: -12px;
+  transform: translateY(0) scale(var(--gp-float-label-scale, 0.8));
+  background: var(--gp-float-label-active-bg, var(--gp-surface-card, #ffffff));
+  padding: 0 4px;
+  border-radius: var(--gp-border-radius-sm, 2px);
+}
+
+/* Float-In variant: inside top edge */
+.gp-form-field-float-in.gp-form-field-floating .gp-form-field-label {
+  top: 2px;
+  transform: translateY(0) scale(0.72);
+}
+
+/* Float-Over variant: cleanly above the box */
+.gp-form-field-float-over.gp-form-field-floating .gp-form-field-label {
+  top: -22px;
+  transform: translateY(0) scale(var(--gp-float-label-scale, 0.85));
+}
+
+/* Inset appearance static top-left label */
+.gp-form-field-inset .gp-form-field-label {
+  top: 2px;
+  left: 0;
+  transform: translateY(0) scale(0.7);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: var(--gp-inset-label-letter-spacing, 0.04em);
+  color: var(--gp-inset-label-color, var(--gp-text-muted, #64748b));
+}
+
+.gp-form-field-focused.gp-form-field-floating .gp-form-field-label,
+.gp-form-field-focused.gp-form-field-inset .gp-form-field-label {
+  color: var(--gp-form-field-border-focus, var(--gp-primary, #4f46e5));
 }
 
 .gp-form-field-required-marker {
-  color: var(--gp-danger, #ef4444);
+  color: var(--gp-label-required-color, var(--gp-danger, #ef4444));
   margin-left: 2px;
+  font-weight: 700;
 }
 
 .gp-form-field-control {
@@ -115,14 +180,18 @@
   margin-top: 10px;
 }
 
+.gp-form-field-inset .gp-form-field-control {
+  margin-top: 14px;
+}
+
 /* Focus styling */
 .gp-form-field-focused .gp-form-field-wrapper {
-  border-color: var(--gp-primary, #4f46e5);
+  border-color: var(--gp-form-field-border-focus, var(--gp-primary, #4f46e5));
   box-shadow: 0 0 0 3px var(--gp-primary-light, rgba(79, 70, 229, 0.15));
 }
 
 .gp-form-field-filled.gp-form-field-focused .gp-form-field-wrapper {
-  border-bottom-color: var(--gp-primary, #4f46e5);
+  border-bottom-color: var(--gp-form-field-border-focus, var(--gp-primary, #4f46e5));
   box-shadow: none;
 }
 

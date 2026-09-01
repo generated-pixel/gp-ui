@@ -12,13 +12,15 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl } from '@angular/forms';
-import { GpFormFieldAppearance, GpFormFieldSize } from './form-field.interface';
+import { GpFormFieldAppearance, GpFormFieldSize, GpFormFieldFloatLabel } from './form-field.interface';
 import { GpPrefixDirective, GpSuffixDirective, GpHelperDirective, GpErrorDirective } from './form-field.directives';
+import { GpLabelComponent } from '../label/label.component';
+import { GpIconComponent } from '../../../icons/icon.component';
 
 @Component({
   selector: 'gp-form-field',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GpLabelComponent, GpIconComponent],
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss'
 })
@@ -26,13 +28,17 @@ export class GpFormFieldComponent implements AfterContentInit, OnDestroy {
   public label = input<string | undefined>(undefined);
   public appearance = input<GpFormFieldAppearance>('outlined');
   public size = input<GpFormFieldSize>('normal');
-  public floatLabel = input<'auto' | 'always' | 'never'>('auto');
+  public floatLabel = input<GpFormFieldFloatLabel>('auto');
   public required = input<boolean>(false);
+  public optional = input<boolean>(false);
+  public helpText = input<string | undefined>(undefined);
+  public icon = input<string | undefined>(undefined);
   public disabled = input<boolean>(false);
   public invalid = input<boolean>(false);
   public hint = input<string | undefined>(undefined);
   public errorMessage = input<string | undefined>(undefined);
 
+  public labelComponent = contentChild(GpLabelComponent);
   public prefixDirective = contentChild(GpPrefixDirective);
   public suffixDirective = contentChild(GpSuffixDirective);
   public helperDirective = contentChild(GpHelperDirective);
@@ -69,6 +75,26 @@ export class GpFormFieldComponent implements AfterContentInit, OnDestroy {
     return !!this.hint() || !!this.errorMessage() || this.hasHelperDirective() || this.hasErrorDirective();
   });
 
+  public isFixedLabel = computed(() => {
+    return this.floatLabel() === 'never';
+  });
+
+  public isInset = computed(() => {
+    return this.appearance() === 'inset' || this.floatLabel() === 'inset';
+  });
+
+  public isFloatingOn = computed(() => {
+    return this.floatLabel() === 'on';
+  });
+
+  public isFloatingIn = computed(() => {
+    return this.floatLabel() === 'in';
+  });
+
+  public isFloatingOver = computed(() => {
+    return this.floatLabel() === 'over';
+  });
+
   public isInvalid = computed(() => {
     if (this.invalid()) {
       return true;
@@ -81,14 +107,14 @@ export class GpFormFieldComponent implements AfterContentInit, OnDestroy {
   });
 
   public isFloating = computed(() => {
+    if (this.isFixedLabel() || this.isInset()) {
+      return false;
+    }
     const fl = this.floatLabel();
     if (fl === 'always') {
       return true;
     }
-    if (fl === 'never') {
-      return false;
-    }
-    return this.isFocused() || this.hasValue() || !this.label();
+    return this.isFocused() || this.hasValue() || (!this.label() && !this.labelComponent());
   });
 
   ngAfterContentInit(): void {
