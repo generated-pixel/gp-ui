@@ -1,4 +1,13 @@
-import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -44,5 +53,7 @@ export class GpLayoutStackedHeroBannerComponent {
 
   public effectiveHero = computed(() => this.heroTemplate() || this.contentHero());
 
-  public effectiveContent = computed<TemplateRef<any> | undefined>(() => this.contentTemplate() || this.contentArea() || this.contentMain());
+  public effectiveContent = computed<TemplateRef<any> | undefined>(
+    () => this.contentTemplate() || this.contentArea() || this.contentMain()
+  );
 }

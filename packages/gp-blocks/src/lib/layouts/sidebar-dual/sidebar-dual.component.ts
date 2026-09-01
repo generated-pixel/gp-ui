@@ -1,4 +1,13 @@
-import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
 
@@ -53,7 +62,11 @@ export class GpLayoutSidebarDualComponent {
 
   public effectiveTier2 = computed(() => this.tier2Template() || this.contentTier2());
 
-  public effectiveTopActions = computed<TemplateRef<any> | undefined>(() => this.topActionsTemplate() || this.contentTopActions() || this.contentActions());
+  public effectiveTopActions = computed<TemplateRef<any> | undefined>(
+    () => this.topActionsTemplate() || this.contentTopActions() || this.contentActions()
+  );
 
-  public effectiveContent = computed<TemplateRef<any> | undefined>(() => this.contentTemplate() || this.contentArea() || this.contentMain());
+  public effectiveContent = computed<TemplateRef<any> | undefined>(
+    () => this.contentTemplate() || this.contentArea() || this.contentMain()
+  );
 }

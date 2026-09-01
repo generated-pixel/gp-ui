@@ -14,52 +14,52 @@
   gap: 1.5rem;
   width: 100%;
   box-sizing: border-box;
+
+  .settings-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
+
+  .settings-subtitle {
+    font-size: 0.875rem;
+    color: var(--gp-text-color-secondary);
+    margin: 0.25rem 0 0 0;
+  }
+
+  .notifications-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .notif-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--gp-surface-border);
+  }
+
+  .notif-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .notif-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gp-text-color);
+  }
+
+  .notif-desc {
+    font-size: 0.825rem;
+    color: var(--gp-text-color-secondary);
+  }
+
+  .settings-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
-
-      .settings-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
-
-      .settings-subtitle {
-        font-size: 0.875rem;
-        color: var(--gp-text-color-secondary);
-        margin: 0.25rem 0 0 0;
-      }
-
-      .notifications-list {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .notif-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.25rem 0;
-        border-bottom: 1px solid var(--gp-surface-border);
-      }
-
-      .notif-info {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
-      .notif-label {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
-
-      .notif-desc {
-        font-size: 0.825rem;
-        color: var(--gp-text-color-secondary);
-      }
-
-      .settings-footer {
-        display: flex;
-        justify-content: flex-end;
-      }

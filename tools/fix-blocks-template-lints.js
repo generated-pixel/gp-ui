@@ -9,17 +9,29 @@ function processDir(dir) {
       processDir(full);
     } else if (full.endsWith('.html')) {
       let c = fs.readFileSync(full, 'utf8');
-      
+
       // Avatar size fixes
       c = c.replace(/size="medium"/g, 'size="normal"');
       c = c.replace(/size="small"/g, 'size="normal"');
 
       // Style attributes on custom components
-      c = c.replace(/<gp-input-text([^>]*?)style="width: 100%; display: block;"/g, '<gp-input-text$1class="full-width-control"');
-      c = c.replace(/<gp-password([^>]*?)style="width: 100%; display: block;"/g, '<gp-password$1class="full-width-control"');
-      c = c.replace(/<gp-textarea([^>]*?)style="width: 100%; display: block;"/g, '<gp-textarea$1class="full-width-control"');
-      c = c.replace(/<gp-select([^>]*?)style="width: 100%; display: block;"/g, '<gp-select$1class="full-width-control"');
-      
+      c = c.replace(
+        /<gp-input-text([^>]*?)style="width: 100%; display: block;"/g,
+        '<gp-input-text$1class="full-width-control"'
+      );
+      c = c.replace(
+        /<gp-password([^>]*?)style="width: 100%; display: block;"/g,
+        '<gp-password$1class="full-width-control"'
+      );
+      c = c.replace(
+        /<gp-textarea([^>]*?)style="width: 100%; display: block;"/g,
+        '<gp-textarea$1class="full-width-control"'
+      );
+      c = c.replace(
+        /<gp-select([^>]*?)style="width: 100%; display: block;"/g,
+        '<gp-select$1class="full-width-control"'
+      );
+
       // rows on textarea
       c = c.replace(/rows="(\d+)"/g, '[rows]="$1"');
 

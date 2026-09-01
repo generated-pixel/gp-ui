@@ -164,7 +164,7 @@ export class GpActionExecutor {
       case 'custom': {
         if (action.execute) {
           await action.execute(context);
-          return `customAction()`;
+          return 'customAction()';
         }
         break;
       }

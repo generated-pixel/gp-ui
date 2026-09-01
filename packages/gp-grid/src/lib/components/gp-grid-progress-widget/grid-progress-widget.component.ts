@@ -41,7 +41,9 @@ export class GpGridProgressWidgetComponent extends GpGridWidgetBase<GpProgressWi
   );
 
   public effectiveItems = computed<GpGridProgressItem[]>(() => {
-    if (this.items() && this.items().length > 0) return this.items();
+    if (this.items() && this.items().length > 0) {
+      return this.items();
+    }
     if (this.normalizedData().items && this.normalizedData().items!.length > 0) {
       return this.normalizedData().items!;
     }

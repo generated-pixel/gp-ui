@@ -16,7 +16,9 @@
   color: var(--gp-text-color, #1e293b);
   cursor: pointer;
   min-height: 2.5rem;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .gp-date-range--open .gp-date-range__input-wrap,

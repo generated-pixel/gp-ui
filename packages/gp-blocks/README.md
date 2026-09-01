@@ -122,9 +122,7 @@ import { GpDynamicBlockRendererComponent, GpBlockSchema } from '@generatedpixel/
   selector: 'app-dynamic-view',
   standalone: true,
   imports: [GpDynamicBlockRendererComponent],
-  template: `
-    <gp-dynamic-block-renderer [schema]="pageBlockSchema" />
-  `
+  template: ` <gp-dynamic-block-renderer [schema]="pageBlockSchema" /> `
 })
 export class DynamicViewComponent {
   pageBlockSchema: GpBlockSchema = {

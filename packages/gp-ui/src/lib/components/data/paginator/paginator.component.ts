@@ -107,7 +107,9 @@ export class GpPaginatorComponent extends GpBaseComponent {
   public changePage(p: number): void {
     const maxPage = this.pageCount() - 1;
     const targetPage = Math.max(0, Math.min(p, maxPage));
-    if (targetPage === this.page()) return;
+    if (targetPage === this.page()) {
+      return;
+    }
 
     const r = this.internalRows();
     const nextFirst = targetPage * r;

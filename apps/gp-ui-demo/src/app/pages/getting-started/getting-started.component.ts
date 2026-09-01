@@ -244,7 +244,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
 })
 export class GettingStartedComponent {
   protected readonly version = GP_UI_VERSION;
-  installCode = `npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme`;
+  installCode = 'npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme';
 
   signalsExampleCode = `import { Component, signal, computed } from '@angular/core';
 import { GpInputTextComponent, GpButtonComponent, GpSelectComponent } from '@generatedpixel/gp-ui';

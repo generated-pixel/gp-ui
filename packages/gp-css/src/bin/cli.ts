@@ -111,7 +111,7 @@ export default defineConfig({
     await mkdir(outDir, { recursive: true });
     await writeFile(outputPath, result.css, 'utf-8');
 
-    console.log(`✓ gp-css compiled successfully:`);
+    console.log('✓ gp-css compiled successfully:');
     console.log(`  Scanned: ${filesToScan.length} files`);
     console.log(`  Rules generated: ${result.matchedRulesCount}`);
     console.log(`  Output: ${path.relative(process.cwd(), outputPath)} (${Buffer.byteLength(result.css)} bytes)`);

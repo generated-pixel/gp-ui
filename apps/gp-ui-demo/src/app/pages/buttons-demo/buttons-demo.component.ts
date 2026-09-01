@@ -161,7 +161,7 @@ export class ButtonsDemoComponent {
 <gp-split-button label="Save Document" icon="check" [model]="splitItems" severity="primary" />
 <gp-toggle-button onLabel="Active" offLabel="Inactive" onIcon="check" offIcon="times" />`;
 
-  speedDialCode = `<gp-speed-dial [model]="speedDialItems" direction="up" />`;
+  speedDialCode = '<gp-speed-dial [model]="speedDialItems" direction="up" />';
 
   splitItems: GpMenuItem[] = [
     { label: 'Update', icon: 'refresh' },

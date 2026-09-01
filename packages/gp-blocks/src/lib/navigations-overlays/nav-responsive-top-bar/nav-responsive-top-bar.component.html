@@ -5,11 +5,10 @@
     } @else {
       <ng-content select="[brand], [slot=brand]" />
 
-        <div class="gp-nav-topbar__brand">
-          <gp-icon [name]="brandIcon()" size="1.15em" />
-          <span>{{ brandName() }}</span>
-        </div>
-      
+      <div class="gp-nav-topbar__brand">
+        <gp-icon [name]="brandIcon()" size="1.15em" />
+        <span>{{ brandName() }}</span>
+      </div>
     }
 
     @if (effectiveNav()) {
@@ -17,10 +16,9 @@
     } @else {
       <ng-content select="[nav], [slot=nav], [links], [slot=links]" />
 
-        @if (menuItems().length) {
-          <gp-menubar [model]="menuItems()" styleClass="gp-nav-topbar__menu" />
-        }
-      
+      @if (menuItems().length) {
+        <gp-menubar [model]="menuItems()" styleClass="gp-nav-topbar__menu" />
+      }
     }
   </div>
 
@@ -30,17 +28,16 @@
     } @else {
       <ng-content select="[search], [slot=search]" />
 
-        <gp-input-text
-          type="search"
-          iconLeft="search"
-          size="sm"
-          [value]="searchQuery()"
-          [placeholder]="searchPlaceholder()"
-          (onInputEvent)="onSearchInput($event)"
-          styleClass="gp-nav-topbar__search"
-          ariaLabel="Search"
-        />
-      
+      <gp-input-text
+        type="search"
+        iconLeft="search"
+        size="sm"
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        (onInputEvent)="onSearchInput($event)"
+        styleClass="gp-nav-topbar__search"
+        ariaLabel="Search"
+      />
     }
 
     <gp-button
@@ -58,18 +55,17 @@
     } @else {
       <ng-content select="[user], [slot=user]" />
 
-        <gp-button
-          variant="text"
-          severity="secondary"
-          size="sm"
-          [iconOnly]="true"
-          ariaLabel="Open profile"
-          styleClass="gp-nav-topbar__profile"
-          (onClickEvent)="profileClick.emit()"
-        >
-          <gp-avatar [label]="(userName() || 'U').charAt(0)" size="normal" shape="circle" />
-        </gp-button>
-      
+      <gp-button
+        variant="text"
+        severity="secondary"
+        size="sm"
+        [iconOnly]="true"
+        ariaLabel="Open profile"
+        styleClass="gp-nav-topbar__profile"
+        (onClickEvent)="profileClick.emit()"
+      >
+        <gp-avatar [label]="(userName() || 'U').charAt(0)" size="normal" shape="circle" />
+      </gp-button>
     }
   </div>
 </gp-toolbar>

@@ -57,7 +57,9 @@ export class GpGridChartWidgetComponent extends GpGridWidgetBase<GpChartWidgetDa
   );
 
   public effectiveMonthlyData = computed<GpChartWidgetMonthlyData[]>(() => {
-    if (this.monthlyData() && this.monthlyData().length > 0) return this.monthlyData();
+    if (this.monthlyData() && this.monthlyData().length > 0) {
+      return this.monthlyData();
+    }
     if (this.normalizedData().monthlyData && this.normalizedData().monthlyData!.length > 0) {
       return this.normalizedData().monthlyData!;
     }

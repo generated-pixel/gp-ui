@@ -1,6 +1,21 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpDrawerComponent, GpInputNumberComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
+import {
+  GpButtonComponent,
+  GpDrawerComponent,
+  GpInputNumberComponent,
+  GpInputTextComponent
+} from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

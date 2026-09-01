@@ -1,4 +1,14 @@
-import { Component, input, output, signal, TemplateRef, contentChild, ChangeDetectionStrategy, ViewEncapsulation, computed } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -34,17 +44,23 @@ export class GpLayoutThreeColumnFluidComponent {
   public contentRight = contentChild<TemplateRef<any>>('right');
   public contentRightTpl = contentChild<TemplateRef<any>>('rightTemplate');
 
-  public effectiveLeft = computed<TemplateRef<any> | undefined>(() => this.leftTemplate() || this.contentLeft() || this.contentLeftTpl());
+  public effectiveLeft = computed<TemplateRef<any> | undefined>(
+    () => this.leftTemplate() || this.contentLeft() || this.contentLeftTpl()
+  );
 
-  public effectiveMain = computed<TemplateRef<any> | undefined>(() => this.mainTemplate() || this.contentMain() || this.contentMainTpl());
+  public effectiveMain = computed<TemplateRef<any> | undefined>(
+    () => this.mainTemplate() || this.contentMain() || this.contentMainTpl()
+  );
 
-  public effectiveRight = computed<TemplateRef<any> | undefined>(() => this.rightTemplate() || this.contentRight() || this.contentRightTpl());
+  public effectiveRight = computed<TemplateRef<any> | undefined>(
+    () => this.rightTemplate() || this.contentRight() || this.contentRightTpl()
+  );
 
   public toggleLeft(): void {
-    this.leftCollapsed.update(c => !c);
+    this.leftCollapsed.update((c) => !c);
   }
 
   public toggleRight(): void {
-    this.rightCollapsed.update(c => !c);
+    this.rightCollapsed.update((c) => !c);
   }
 }

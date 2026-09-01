@@ -1,11 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  input,
-  output,
-  inject
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpBadgeComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 import { GpRuleEngineService } from '../../engine/rule-engine.service';

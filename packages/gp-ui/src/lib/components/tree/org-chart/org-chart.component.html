@@ -77,19 +77,15 @@
       </tr>
     } @else {
       <tr class="gp-orgchart-lines" aria-hidden="true">
-        @for (child of node.children; track child.key || $index; let idx = $index; let first = $first; let last = $last) {
-          <td
-            class="gp-orgchart-line-cell gp-orgchart-line-left-half"
-            [class.gp-orgchart-line-top]="!first"
-          >
-            &nbsp;
-          </td>
-          <td
-            class="gp-orgchart-line-cell gp-orgchart-line-right-half"
-            [class.gp-orgchart-line-top]="!last"
-          >
-            &nbsp;
-          </td>
+        @for (
+          child of node.children;
+          track child.key || $index;
+          let idx = $index;
+          let first = $first;
+          let last = $last
+        ) {
+          <td class="gp-orgchart-line-cell gp-orgchart-line-left-half" [class.gp-orgchart-line-top]="!first">&nbsp;</td>
+          <td class="gp-orgchart-line-cell gp-orgchart-line-right-half" [class.gp-orgchart-line-top]="!last">&nbsp;</td>
         }
       </tr>
     }

@@ -72,4 +72,4 @@ execSync('node tools/build-all.js', { stdio: 'inherit', cwd: path.join(__dirname
 execSync('node tools/package-release.js', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
 
 console.log(`\n🎉 Release v${newVersion} ready for publishing!`);
-console.log(`To publish to NPM: cd dist/packages/gp-ui && npm publish`);
+console.log('To publish to NPM: cd dist/packages/gp-ui && npm publish');

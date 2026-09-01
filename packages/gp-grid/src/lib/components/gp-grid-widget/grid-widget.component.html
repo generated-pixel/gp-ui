@@ -44,11 +44,7 @@
             <span class="gp-grid-widget-subtitle">{{ effectiveSubtitle() }}</span>
           }
           @if (badge()) {
-            <gp-badge
-              [value]="badge()"
-              [severity]="badgeSeverity()"
-              size="sm"
-            />
+            <gp-badge [value]="badge()" [severity]="badgeSeverity()" size="sm" />
           }
           <ng-content select="[gpWidgetHeader]" />
         </div>
@@ -116,14 +112,11 @@
       role="button"
       tabindex="0"
     >
-      <svg
-        viewBox="0 0 16 16"
-        width="10"
-        height="10"
-        fill="currentColor"
-        class="gp-grid-resize-icon"
-      >
-        <path d="M14 14H12V12H14V14ZM14 9H12V11H14V9ZM9 14H11V12H9V14ZM14 6H12V8H14V6ZM6 14H8V12H6V14ZM9 11H11V9H9V11Z" opacity="0.75"/>
+      <svg viewBox="0 0 16 16" width="10" height="10" fill="currentColor" class="gp-grid-resize-icon">
+        <path
+          d="M14 14H12V12H14V14ZM14 9H12V11H14V9ZM9 14H11V12H9V14ZM14 6H12V8H14V6ZM6 14H8V12H6V14ZM9 11H11V9H9V11Z"
+          opacity="0.75"
+        />
       </svg>
     </div>
   }

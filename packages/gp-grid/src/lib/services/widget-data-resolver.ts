@@ -34,7 +34,10 @@ export function normalizeKpiWidgetData(raw: any): GpKpiWidgetData {
     };
   }
 
-  const trend = raw.trend || raw.trendType || (raw.change?.startsWith('+') ? 'pos' : raw.change?.startsWith('-') ? 'neg' : 'neutral');
+  const trend =
+    raw.trend ||
+    raw.trendType ||
+    (raw.change?.startsWith('+') ? 'pos' : raw.change?.startsWith('-') ? 'neg' : 'neutral');
 
   return {
     label: raw.label || raw.title || raw.name || 'Metric',
@@ -381,7 +384,10 @@ export function createWidgetDataResolver<T = any>(
     }
 
     // 3. Native Promise
-    if (source instanceof Promise || (typeof source === 'object' && 'then' in source && typeof (source as any).then === 'function')) {
+    if (
+      source instanceof Promise ||
+      (typeof source === 'object' && 'then' in source && typeof (source as any).then === 'function')
+    ) {
       loadingSignal.set(true);
       (source as Promise<T>)
         .then((val) => {

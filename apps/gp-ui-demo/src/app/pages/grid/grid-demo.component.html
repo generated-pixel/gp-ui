@@ -8,14 +8,27 @@
       </div>
       <h1 class="page-title">Grid & Dashboard Layout Engine</h1>
       <p class="page-subtitle">
-        High-performance, reactive draggable grid system with dynamic collision realignment, locked-in-place anchors, customizable widgets, and seamless theme integration.
+        High-performance, reactive draggable grid system with dynamic collision realignment, locked-in-place anchors,
+        customizable widgets, and seamless theme integration.
       </p>
     </div>
 
     <!-- Tabs Header -->
     <div class="page-tabs">
-      <gp-button label="Interactive Studio" icon="layout-grid" [variant]="activeTab() === 'demo' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'demo' ? ' tab-btn--active' : '')" (onClickEvent)="activeTab.set('demo')" />
-      <gp-button label="API & Documentation" icon="code" [variant]="activeTab() === 'api' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'api' ? ' tab-btn--active' : '')" (onClickEvent)="activeTab.set('api')" />
+      <gp-button
+        label="Interactive Studio"
+        icon="layout-grid"
+        [variant]="activeTab() === 'demo' ? 'filled' : 'text'"
+        [styleClass]="'tab-btn' + (activeTab() === 'demo' ? ' tab-btn--active' : '')"
+        (onClickEvent)="activeTab.set('demo')"
+      />
+      <gp-button
+        label="API & Documentation"
+        icon="code"
+        [variant]="activeTab() === 'api' ? 'filled' : 'text'"
+        [styleClass]="'tab-btn' + (activeTab() === 'api' ? ' tab-btn--active' : '')"
+        (onClickEvent)="activeTab.set('api')"
+      />
     </div>
   </header>
 
@@ -29,20 +42,79 @@
           <div class="add-widget-dropdown">
             <gp-button label="Add Widget" icon="plus" styleClass="btn-primary add-btn" />
             <div class="dropdown-menu">
-              <gp-button label="Revenue KPI Card (4x2)" icon="star" variant="text" (onClickEvent)="addWidget('kpi-revenue')" />
-              <gp-button label="Server Health KPI (4x2)" icon="sliders" variant="text" (onClickEvent)="addWidget('kpi-server')" />
-              <gp-button label="Traffic Analytics Chart (6x3)" icon="sparkles" variant="text" (onClickEvent)="addWidget('chart-analytics')" />
-              <gp-button label="Cluster Nodes Table (6x3)" icon="bars" variant="text" (onClickEvent)="addWidget('table-nodes')" />
-              <gp-button label="Activity Audit Stream (4x3)" icon="list" variant="text" (onClickEvent)="addWidget('list-activity')" />
-              <gp-button label="Locked Anchor Widget (4x2)" icon="lock" variant="text" (onClickEvent)="addWidget('locked-banner')" />
-              <gp-button label="Sticky Notes Widget (4x2)" icon="edit" variant="text" (onClickEvent)="addWidget('notes')" />
+              <gp-button
+                label="Revenue KPI Card (4x2)"
+                icon="star"
+                variant="text"
+                (onClickEvent)="addWidget('kpi-revenue')"
+              />
+              <gp-button
+                label="Server Health KPI (4x2)"
+                icon="sliders"
+                variant="text"
+                (onClickEvent)="addWidget('kpi-server')"
+              />
+              <gp-button
+                label="Traffic Analytics Chart (6x3)"
+                icon="sparkles"
+                variant="text"
+                (onClickEvent)="addWidget('chart-analytics')"
+              />
+              <gp-button
+                label="Cluster Nodes Table (6x3)"
+                icon="bars"
+                variant="text"
+                (onClickEvent)="addWidget('table-nodes')"
+              />
+              <gp-button
+                label="Activity Audit Stream (4x3)"
+                icon="list"
+                variant="text"
+                (onClickEvent)="addWidget('list-activity')"
+              />
+              <gp-button
+                label="Locked Anchor Widget (4x2)"
+                icon="lock"
+                variant="text"
+                (onClickEvent)="addWidget('locked-banner')"
+              />
+              <gp-button
+                label="Sticky Notes Widget (4x2)"
+                icon="edit"
+                variant="text"
+                (onClickEvent)="addWidget('notes')"
+              />
             </div>
           </div>
 
           <!-- Preset & Reset Actions -->
-          <gp-button label="Reset Layout" icon="refresh" variant="outlined" severity="secondary" styleClass="btn-secondary" (onClickEvent)="loadDefaultPreset()" title="Load default preset layout" />
-          <gp-button label="Compact" icon="compress" variant="outlined" severity="secondary" styleClass="btn-secondary" (onClickEvent)="compactGrid()" title="Pack widgets upwards" />
-          <gp-button label="Clear Grid" icon="trash" variant="outlined" severity="danger" styleClass="btn-secondary btn-danger-hover" (onClickEvent)="clearAllWidgets()" title="Clear all widgets" />
+          <gp-button
+            label="Reset Layout"
+            icon="refresh"
+            variant="outlined"
+            severity="secondary"
+            styleClass="btn-secondary"
+            (onClickEvent)="loadDefaultPreset()"
+            title="Load default preset layout"
+          />
+          <gp-button
+            label="Compact"
+            icon="compress"
+            variant="outlined"
+            severity="secondary"
+            styleClass="btn-secondary"
+            (onClickEvent)="compactGrid()"
+            title="Pack widgets upwards"
+          />
+          <gp-button
+            label="Clear Grid"
+            icon="trash"
+            variant="outlined"
+            severity="danger"
+            styleClass="btn-secondary btn-danger-hover"
+            (onClickEvent)="clearAllWidgets()"
+            title="Clear all widgets"
+          />
         </div>
 
         <div class="toolbar-group toolbar-group--settings">
@@ -71,10 +143,7 @@
           <!-- Grid Lines Toggle -->
           <div class="setting-item setting-item--toggle">
             <label>Guide Lines:</label>
-            <gp-switch
-              [value]="showGridLines()"
-              (valueChange)="showGridLines.set($event)"
-            />
+            <gp-switch [value]="showGridLines()" (valueChange)="showGridLines.set($event)" />
           </div>
 
           <!-- Compaction Toggle -->
@@ -87,7 +156,14 @@
           </div>
 
           <!-- Inspector Toggle -->
-          <gp-button label="State Inspector" icon="code" [variant]="showInspector() ? 'filled' : 'outlined'" severity="secondary" [styleClass]="'btn-secondary' + (showInspector() ? ' btn-secondary--active' : '')" (onClickEvent)="showInspector.update(v => !v)" />
+          <gp-button
+            label="State Inspector"
+            icon="code"
+            [variant]="showInspector() ? 'filled' : 'outlined'"
+            severity="secondary"
+            [styleClass]="'btn-secondary' + (showInspector() ? ' btn-secondary--active' : '')"
+            (onClickEvent)="showInspector.update((v) => !v)"
+          />
         </div>
       </section>
 
@@ -95,11 +171,17 @@
       <div class="feature-info-strip">
         <div class="info-pill">
           <span class="info-pill-icon">↔️</span>
-          <span><strong>Dynamic Realignment:</strong> Drag any widget and nearby widgets smoothly move out of the way.</span>
+          <span
+            ><strong>Dynamic Realignment:</strong> Drag any widget and nearby widgets smoothly move out of the
+            way.</span
+          >
         </div>
         <div class="info-pill info-pill--locked">
           <span class="info-pill-icon">🔒</span>
-          <span><strong>Locked in Place:</strong> Locked widgets never move and block incoming widgets from landing on them.</span>
+          <span
+            ><strong>Locked in Place:</strong> Locked widgets never move and block incoming widgets from landing on
+            them.</span
+          >
         </div>
         <div class="info-pill">
           <span class="info-pill-icon">📐</span>
@@ -144,9 +226,7 @@
                 <div class="widget-kpi-content">
                   <div class="kpi-metric-row">
                     <span class="kpi-main-val">$148,290</span>
-                    <span class="kpi-trend kpi-trend--up">
-                      <gp-icon name="sort-up" size="0.8em" /> 18.4%
-                    </span>
+                    <span class="kpi-trend kpi-trend--up"> <gp-icon name="sort-up" size="0.8em" /> 18.4% </span>
                   </div>
                   <span class="kpi-subtext">vs $125,200 previous month</span>
                   <div class="kpi-progress-bar">
@@ -187,7 +267,10 @@
                   </div>
                   <div class="locked-text-wrap">
                     <h4>Immovable Grid Anchor</h4>
-                    <p>This widget is locked in place. Other widgets will route around it and cannot be dropped on top of this slot.</p>
+                    <p>
+                      This widget is locked in place. Other widgets will route around it and cannot be dropped on top of
+                      this slot.
+                    </p>
                   </div>
                 </div>
               }
@@ -210,13 +293,34 @@
                     </div>
                   </div>
                   <div class="chart-bars-container">
-                    <div class="chart-bar-wrap" title="Mon: 420k"><div class="chart-bar h-[45%]"></div><span class="chart-label">M</span></div>
-                    <div class="chart-bar-wrap" title="Tue: 680k"><div class="chart-bar h-[70%]"></div><span class="chart-label">T</span></div>
-                    <div class="chart-bar-wrap" title="Wed: 890k"><div class="chart-bar h-[90%]"></div><span class="chart-label">W</span></div>
-                    <div class="chart-bar-wrap" title="Thu: 740k"><div class="chart-bar h-[75%]"></div><span class="chart-label">T</span></div>
-                    <div class="chart-bar-wrap" title="Fri: 960k"><div class="chart-bar chart-bar--peak h-full"></div><span class="chart-label">F</span></div>
-                    <div class="chart-bar-wrap" title="Sat: 510k"><div class="chart-bar h-[52%]"></div><span class="chart-label">S</span></div>
-                    <div class="chart-bar-wrap" title="Sun: 390k"><div class="chart-bar h-[40%]"></div><span class="chart-label">S</span></div>
+                    <div class="chart-bar-wrap" title="Mon: 420k">
+                      <div class="chart-bar h-[45%]"></div>
+                      <span class="chart-label">M</span>
+                    </div>
+                    <div class="chart-bar-wrap" title="Tue: 680k">
+                      <div class="chart-bar h-[70%]"></div>
+                      <span class="chart-label">T</span>
+                    </div>
+                    <div class="chart-bar-wrap" title="Wed: 890k">
+                      <div class="chart-bar h-[90%]"></div>
+                      <span class="chart-label">W</span>
+                    </div>
+                    <div class="chart-bar-wrap" title="Thu: 740k">
+                      <div class="chart-bar h-[75%]"></div>
+                      <span class="chart-label">T</span>
+                    </div>
+                    <div class="chart-bar-wrap" title="Fri: 960k">
+                      <div class="chart-bar chart-bar--peak h-full"></div>
+                      <span class="chart-label">F</span>
+                    </div>
+                    <div class="chart-bar-wrap" title="Sat: 510k">
+                      <div class="chart-bar h-[52%]"></div>
+                      <span class="chart-label">S</span>
+                    </div>
+                    <div class="chart-bar-wrap" title="Sun: 390k">
+                      <div class="chart-bar h-[40%]"></div>
+                      <span class="chart-label">S</span>
+                    </div>
                   </div>
                 </div>
               }
@@ -326,8 +430,12 @@
               <tbody>
                 @for (w of widgets(); track w.id) {
                   <tr [class.row-locked]="w.locked">
-                    <td><code>{{ w.id }}</code></td>
-                    <td><strong>{{ w.title }}</strong></td>
+                    <td>
+                      <code>{{ w.id }}</code>
+                    </td>
+                    <td>
+                      <strong>{{ w.title }}</strong>
+                    </td>
                     <td>{{ w.x }}</td>
                     <td>{{ w.y }}</td>
                     <td>{{ w.w }}</td>
@@ -382,9 +490,7 @@
     <div class="api-docs-container">
       <section class="doc-section">
         <h2 class="doc-title">Installation & Setup</h2>
-        <p class="doc-text">
-          Install the <code>@generatedpixel/gp-grid</code> package into your Angular project:
-        </p>
+        <p class="doc-text">Install the <code>@generatedpixel/gp-grid</code> package into your Angular project:</p>
         <doc-code code="npm install @generatedpixel/gp-grid" language="bash" />
       </section>
 

@@ -219,13 +219,13 @@ export class DisplayDemoComponent {
   <gp-avatar label="+3" shape="circle" />
 </gp-avatar-group>`;
 
-  chipCode = `<gp-chip label="Angular" icon="code" [removable]="true" />`;
+  chipCode = '<gp-chip label="Angular" icon="code" [removable]="true" />';
 
-  imageCode = `<gp-image src="https://picsum.photos/300/200" alt="Preview" width="240px" [preview]="true" />`;
+  imageCode = '<gp-image src="https://picsum.photos/300/200" alt="Preview" width="240px" [preview]="true" />';
 
-  meterCode = `<gp-meter-group [value]="meters" />`;
+  meterCode = '<gp-meter-group [value]="meters" />';
 
-  timelineCode = `<gp-timeline [value]="events" />`;
+  timelineCode = '<gp-timeline [value]="events" />';
 
   emptyStateCode = `<gp-empty-state title="No Transactions" message="You have no records.">
   <gp-button label="Add Item" icon="plus" size="sm" />

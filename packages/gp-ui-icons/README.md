@@ -65,15 +65,15 @@ export class IconDemoComponent {}
 
 ## Component Properties (`<gp-icon>`)
 
-| Property | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `name` | `string` | `''` | Name of the registered icon to render. |
-| `size` | `string \| number` | `'1em'` | Dimension of the icon. Numbers are treated as `px` (e.g. `24` -> `24px`). |
-| `color` | `string` | `''` | Custom CSS color override. Defaults to inheriting `currentColor`. |
-| `spin` | `boolean` | `false` | When `true`, applies a continuous 360° rotation animation. |
-| `rotate` | `number` | `0` | Degree of rotation (e.g. `90`, `180`, `270`). |
-| `ariaHidden`| `boolean \| string` | `true` | Hides icon from accessibility tree when purely decorative. |
-| `ariaLabel` | `string` | `''` | Accessible label for screen readers when `ariaHidden` is `false`. |
+| Property     | Type                | Default | Description                                                               |
+| :----------- | :------------------ | :------ | :------------------------------------------------------------------------ |
+| `name`       | `string`            | `''`    | Name of the registered icon to render.                                    |
+| `size`       | `string \| number`  | `'1em'` | Dimension of the icon. Numbers are treated as `px` (e.g. `24` -> `24px`). |
+| `color`      | `string`            | `''`    | Custom CSS color override. Defaults to inheriting `currentColor`.         |
+| `spin`       | `boolean`           | `false` | When `true`, applies a continuous 360° rotation animation.                |
+| `rotate`     | `number`            | `0`     | Degree of rotation (e.g. `90`, `180`, `270`).                             |
+| `ariaHidden` | `boolean \| string` | `true`  | Hides icon from accessibility tree when purely decorative.                |
+| `ariaLabel`  | `string`            | `''`    | Accessible label for screen readers when `ariaHidden` is `false`.         |
 
 ---
 
@@ -100,9 +100,7 @@ import { GpIconRegistry, GpIconComponent } from '@generatedpixel/gp-ui-icons';
   selector: 'app-root',
   standalone: true,
   imports: [GpIconComponent],
-  template: `
-    <gp-icon name="custom-rocket" size="24" />
-  `
+  template: ` <gp-icon name="custom-rocket" size="24" /> `
 })
 export class AppComponent {
   private iconRegistry = inject(GpIconRegistry);

@@ -56,8 +56,8 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         </div>
         <h1 class="page-title">Dynamic Business Rules Engine</h1>
         <p class="page-desc">
-          Super-flexible reactive rules engine for Angular and gp-ui. Execute declarative actions triggered by
-          keypress (with configurable debounce), blur / focus-out, value changes, button clicks, and custom events.
+          Super-flexible reactive rules engine for Angular and gp-ui. Execute declarative actions triggered by keypress
+          (with configurable debounce), blur / focus-out, value changes, button clicks, and custom events.
         </p>
       </div>
 
@@ -120,8 +120,8 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
               </div>
               <div class="demo-card-body">
                 <p class="section-hint">
-                  Type <code>SAVE20</code> in Promo Code. Notice the 300ms keypress debouncer evaluates the condition
-                  as you type, applying 20% discount and recalculating the total in real time.
+                  Type <code>SAVE20</code> in Promo Code. Notice the 300ms keypress debouncer evaluates the condition as
+                  you type, applying 20% discount and recalculating the total in real time.
                 </p>
 
                 <div class="form-grid-3">
@@ -163,15 +163,17 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                 <div class="calc-summary-box">
                   <div class="summary-row">
                     <span class="summary-label">Subtotal:</span>
-                    <span class="summary-val">\${{ orderState().subtotal | number:'1.2-2' }}</span>
+                    <span class="summary-val">\${{ orderState().subtotal | number: '1.2-2' }}</span>
                   </div>
                   <div class="summary-row" [class.discount-highlight]="orderState().discountPercent > 0">
                     <span class="summary-label">Discount ({{ orderState().discountPercent }}%):</span>
-                    <span class="summary-val">-\${{ (orderState().subtotal * orderState().discountPercent / 100) | number:'1.2-2' }}</span>
+                    <span class="summary-val"
+                      >-\${{ (orderState().subtotal * orderState().discountPercent) / 100 | number: '1.2-2' }}</span
+                    >
                   </div>
                   <div class="summary-row total-row">
                     <span class="summary-label">Final Order Total:</span>
-                    <span class="summary-val">\${{ orderState().total | number:'1.2-2' }}</span>
+                    <span class="summary-val">\${{ orderState().total | number: '1.2-2' }}</span>
                   </div>
                 </div>
               </div>
@@ -188,7 +190,8 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
               </div>
               <div class="demo-card-body">
                 <p class="section-hint">
-                  Select a country. The business rule dynamically loads and selects matching states/provinces and disables the select when none exist.
+                  Select a country. The business rule dynamically loads and selects matching states/provinces and
+                  disables the select when none exist.
                 </p>
 
                 <div class="form-grid-2">
@@ -207,7 +210,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                     <gp-select
                       [options]="stateOptions()"
                       [ngModel]="countryState().state"
-                      (ngModelChange)="countryState.update(s => ({ ...s, state: $event }))"
+                      (ngModelChange)="countryState.update((s) => ({ ...s, state: $event }))"
                       [disabled]="stateOptions().length === 0"
                       placeholder="Select State..."
                     />
@@ -326,42 +329,61 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                   <tr>
                     <td><code>eq</code> / <code>equals</code></td>
                     <td>Strict or loose equality</td>
-                    <td><code>{{ '{' }} field: 'role', operator: 'eq', value: 'admin' {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'role', operator: 'eq', value: 'admin' {{ '}' }}</code>
+                    </td>
                   </tr>
                   <tr>
                     <td><code>neq</code> / <code>notEquals</code></td>
                     <td>Not equal</td>
-                    <td><code>{{ '{' }} field: 'status', operator: 'neq', value: 'banned' {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'status', operator: 'neq', value: 'banned' {{ '}' }}</code>
+                    </td>
                   </tr>
                   <tr>
                     <td><code>gt</code> / <code>gte</code></td>
                     <td>Greater than / Greater than or equal</td>
-                    <td><code>{{ '{' }} field: 'age', operator: 'gte', value: 18 {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'age', operator: 'gte', value: 18 {{ '}' }}</code>
+                    </td>
                   </tr>
                   <tr>
                     <td><code>lt</code> / <code>lte</code></td>
                     <td>Less than / Less than or equal</td>
-                    <td><code>{{ '{' }} field: 'stock', operator: 'lt', value: 5 {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'stock', operator: 'lt', value: 5 {{ '}' }}</code>
+                    </td>
                   </tr>
                   <tr>
                     <td><code>contains</code></td>
                     <td>String substring or Array inclusion</td>
-                    <td><code>{{ '{' }} field: 'permissions', operator: 'contains', value: 'write' {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'permissions', operator: 'contains', value: 'write' {{ '}' }}</code>
+                    </td>
                   </tr>
                   <tr>
                     <td><code>startsWith</code> / <code>endsWith</code></td>
                     <td>String prefix/suffix matching</td>
-                    <td><code>{{ '{' }} field: 'taxId', operator: 'startsWith', value: 'US-' {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'taxId', operator: 'startsWith', value: 'US-' {{ '}' }}</code>
+                    </td>
                   </tr>
                   <tr>
                     <td><code>matches</code></td>
                     <td>Regular expression evaluation</td>
-                    <td><code>{{ '{' }} field: 'email', operator: 'matches', value: '^[\\\\w.-]+@[\\\\w.-]+\\\\.\\\\w+$' {{ '}' }}</code></td>
+                    <td>
+                      <code
+                        >{{ '{' }} field: 'email', operator: 'matches', value: '^[\\\\w.-]+@[\\\\w.-]+\\\\.\\\\w+$'
+                        {{ '}' }}</code
+                      >
+                    </td>
                   </tr>
                   <tr>
                     <td><code>empty</code> / <code>notEmpty</code></td>
                     <td>Null, undefined, or empty string/array check</td>
-                    <td><code>{{ '{' }} field: 'phone', operator: 'notEmpty' {{ '}' }}</code></td>
+                    <td>
+                      <code>{{ '{' }} field: 'phone', operator: 'notEmpty' {{ '}' }}</code>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -457,283 +479,287 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
       }
     </div>
   `,
-  styles: [`
-    .rules-page-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      padding-bottom: 3rem;
-    }
+  styles: [
+    `
+      .rules-page-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding-bottom: 3rem;
+      }
 
-    .header-badge-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
+      .header-badge-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
 
-    .page-title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--gp-text-color, #0f172a);
-      margin: 0;
-      letter-spacing: -0.02em;
-    }
+      .page-title {
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--gp-text-color, #0f172a);
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
 
-    .page-desc {
-      font-size: 0.95rem;
-      color: var(--gp-text-color-secondary, #64748b);
-      margin: 0.35rem 0 0 0;
-      max-width: 800px;
-      line-height: 1.6;
-    }
+      .page-desc {
+        font-size: 0.95rem;
+        color: var(--gp-text-color-secondary, #64748b);
+        margin: 0.35rem 0 0 0;
+        max-width: 800px;
+        line-height: 1.6;
+      }
 
-    .rules-tab-bar {
-      display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
-      padding-bottom: 0.5rem;
-    }
+      .rules-tab-bar {
+        display: flex;
+        gap: 0.5rem;
+        border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+        padding-bottom: 0.5rem;
+      }
 
-    .rules-tab-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.5rem 1rem;
-      border-radius: var(--gp-border-radius, 8px);
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--gp-text-color-secondary, #64748b);
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 150ms ease;
-    }
+      .rules-tab-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--gp-border-radius, 8px);
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--gp-text-color-secondary, #64748b);
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 150ms ease;
+      }
 
-    .rules-tab-btn:hover {
-      background: var(--gp-surface-ground, #f1f5f9);
-      color: var(--gp-text-color, #1e293b);
-    }
+      .rules-tab-btn:hover {
+        background: var(--gp-surface-ground, #f1f5f9);
+        color: var(--gp-text-color, #1e293b);
+      }
 
-    .rules-tab-btn.active {
-      background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
-      color: var(--gp-primary, #6366f1);
-      border-color: var(--gp-primary, #6366f1);
-    }
+      .rules-tab-btn.active {
+        background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
+        color: var(--gp-primary, #6366f1);
+        border-color: var(--gp-primary, #6366f1);
+      }
 
-    .doc-card {
-      background: var(--gp-surface-card, #ffffff);
-      border: 1px solid var(--gp-surface-border, #e2e8f0);
-      border-radius: var(--gp-border-radius-lg, 12px);
-      overflow: hidden;
-    }
+      .doc-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-surface-border, #e2e8f0);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        overflow: hidden;
+      }
 
-    .doc-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.25rem;
-      background: var(--gp-surface-ground, #f8fafc);
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
-      font-weight: 700;
-      font-size: 0.875rem;
-      color: var(--gp-text-color, #1e293b);
-    }
+      .doc-card-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        background: var(--gp-surface-ground, #f8fafc);
+        border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+        font-weight: 700;
+        font-size: 0.875rem;
+        color: var(--gp-text-color, #1e293b);
+      }
 
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    @media (max-width: 1024px) {
       .showcase-grid {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 1.35fr 1fr;
+        gap: 1.5rem;
+        align-items: start;
       }
-    }
 
-    .showcase-forms-col {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .showcase-inspector-col {
-      position: sticky;
-      top: 1.5rem;
-    }
-
-    .demo-card {
-      background: var(--gp-surface-card, #ffffff);
-      border: 1px solid var(--gp-surface-border, #e2e8f0);
-      border-radius: var(--gp-border-radius-lg, 12px);
-      overflow: hidden;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    }
-
-    .demo-card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.25rem;
-      background: var(--gp-surface-ground, #f8fafc);
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
-    }
-
-    .card-icon-title {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .card-icon-title h3 {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--gp-text-color, #1e293b);
-    }
-
-    .icon-accent {
-      color: var(--gp-primary, #6366f1);
-    }
-
-    .demo-card-body {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .section-hint {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--gp-text-color-secondary, #64748b);
-      line-height: 1.5;
-    }
-
-    .section-hint code {
-      background: var(--gp-surface-ground, #f1f5f9);
-      padding: 0.15rem 0.35rem;
-      border-radius: 4px;
-      font-weight: 600;
-      color: var(--gp-primary, #6366f1);
-    }
-
-    .form-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .form-grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    @media (max-width: 640px) {
-      .form-grid-3, .form-grid-2 {
-        grid-template-columns: 1fr;
+      @media (max-width: 1024px) {
+        .showcase-grid {
+          grid-template-columns: 1fr;
+        }
       }
-    }
 
-    .form-field-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
+      .showcase-forms-col {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
 
-    .form-field-item label {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--gp-text-color, #334155);
-    }
+      .showcase-inspector-col {
+        position: sticky;
+        top: 1.5rem;
+      }
 
-    .calc-summary-box {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      padding: 1rem;
-      background: var(--gp-surface-ground, #f8fafc);
-      border: 1px solid var(--gp-surface-border, #e2e8f0);
-      border-radius: var(--gp-border-radius, 8px);
-      margin-top: 0.5rem;
-    }
+      .demo-card {
+        background: var(--gp-surface-card, #ffffff);
+        border: 1px solid var(--gp-surface-border, #e2e8f0);
+        border-radius: var(--gp-border-radius-lg, 12px);
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      }
 
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.875rem;
-      color: var(--gp-text-color-secondary, #64748b);
-    }
+      .demo-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        background: var(--gp-surface-ground, #f8fafc);
+        border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+      }
 
-    .summary-val {
-      font-weight: 600;
-      font-family: monospace;
-      color: var(--gp-text-color, #1e293b);
-    }
+      .card-icon-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-    .discount-highlight {
-      color: var(--gp-success, #10b981) !important;
-      font-weight: 700;
-    }
+      .card-icon-title h3 {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--gp-text-color, #1e293b);
+      }
 
-    .discount-highlight .summary-val {
-      color: var(--gp-success, #10b981) !important;
-    }
+      .icon-accent {
+        color: var(--gp-primary, #6366f1);
+      }
 
-    .total-row {
-      border-top: 1px dashed var(--gp-surface-border, #cbd5e1);
-      padding-top: 0.5rem;
-      margin-top: 0.25rem;
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--gp-text-color, #0f172a);
-    }
+      .demo-card-body {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
 
-    .total-row .summary-val {
-      color: var(--gp-primary, #6366f1);
-      font-size: 1.15rem;
-    }
+      .section-hint {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--gp-text-color-secondary, #64748b);
+        line-height: 1.5;
+      }
 
-    .api-docs-container, .recipes-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+      .section-hint code {
+        background: var(--gp-surface-ground, #f1f5f9);
+        padding: 0.15rem 0.35rem;
+        border-radius: 4px;
+        font-weight: 600;
+        color: var(--gp-primary, #6366f1);
+      }
 
-    .doc-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-    }
+      .form-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
 
-    .doc-table th {
-      text-align: left;
-      padding: 0.75rem 1rem;
-      background: var(--gp-surface-ground, #f8fafc);
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
-      color: var(--gp-text-color, #1e293b);
-      font-weight: 700;
-    }
+      .form-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
 
-    .doc-table td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
-      color: var(--gp-text-color-secondary, #475569);
-    }
+      @media (max-width: 640px) {
+        .form-grid-3,
+        .form-grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    .doc-table code {
-      background: var(--gp-surface-ground, #f1f5f9);
-      padding: 0.15rem 0.35rem;
-      border-radius: 4px;
-      font-family: monospace;
-      font-size: 0.8125rem;
-      color: var(--gp-primary, #6366f1);
-      font-weight: 600;
-    }
-  `]
+      .form-field-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .form-field-item label {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--gp-text-color, #334155);
+      }
+
+      .calc-summary-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 1rem;
+        background: var(--gp-surface-ground, #f8fafc);
+        border: 1px solid var(--gp-surface-border, #e2e8f0);
+        border-radius: var(--gp-border-radius, 8px);
+        margin-top: 0.5rem;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: var(--gp-text-color-secondary, #64748b);
+      }
+
+      .summary-val {
+        font-weight: 600;
+        font-family: monospace;
+        color: var(--gp-text-color, #1e293b);
+      }
+
+      .discount-highlight {
+        color: var(--gp-success, #10b981) !important;
+        font-weight: 700;
+      }
+
+      .discount-highlight .summary-val {
+        color: var(--gp-success, #10b981) !important;
+      }
+
+      .total-row {
+        border-top: 1px dashed var(--gp-surface-border, #cbd5e1);
+        padding-top: 0.5rem;
+        margin-top: 0.25rem;
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: var(--gp-text-color, #0f172a);
+      }
+
+      .total-row .summary-val {
+        color: var(--gp-primary, #6366f1);
+        font-size: 1.15rem;
+      }
+
+      .api-docs-container,
+      .recipes-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .doc-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+      }
+
+      .doc-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: var(--gp-surface-ground, #f8fafc);
+        border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+        color: var(--gp-text-color, #1e293b);
+        font-weight: 700;
+      }
+
+      .doc-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+        color: var(--gp-text-color-secondary, #475569);
+      }
+
+      .doc-table code {
+        background: var(--gp-surface-ground, #f1f5f9);
+        padding: 0.15rem 0.35rem;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.8125rem;
+        color: var(--gp-primary, #6366f1);
+        font-weight: 600;
+      }
+    `
+  ]
 })
 export class RulesDemoComponent implements OnInit {
   private toastService = inject(GpToastService);
@@ -888,12 +914,7 @@ export const pricingFormulaRules: GpBusinessRule[] = [
 ];`;
 
   ngOnInit(): void {
-    this.engine.registerRules([
-      this.couponRule,
-      ...this.orderRules,
-      this.countryRule,
-      this.blurTaxRule
-    ]);
+    this.engine.registerRules([this.couponRule, ...this.orderRules, this.countryRule, this.blurTaxRule]);
   }
 
   public updateOrderField(field: string, val: any): void {
@@ -921,9 +942,6 @@ export const pricingFormulaRules: GpBusinessRule[] = [
 
   public onCustomRuleCreated(rule: GpBusinessRule): void {
     this.engine.registerRule(rule);
-    this.toastService.success(
-      'Rule Registered',
-      `Successfully registered rule "${rule.name || rule.id}"`
-    );
+    this.toastService.success('Rule Registered', `Successfully registered rule "${rule.name || rule.id}"`);
   }
 }

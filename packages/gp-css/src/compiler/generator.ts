@@ -235,16 +235,22 @@ export class GpCssGenerator {
       const animKey = candidate.slice(8);
       if (this.tokens.animations[animKey]) {
         const val = this.tokens.animations[animKey];
-        if (isValidCssValue(val)) return `animation: ${val};`;
+        if (isValidCssValue(val)) {
+          return `animation: ${val};`;
+        }
       }
     }
     if (candidate.startsWith('duration-')) {
       const ms = candidate.slice(9);
-      if (/^[0-9]+$/.test(ms)) return `transition-duration: ${ms}ms; animation-duration: ${ms}ms;`;
+      if (/^[0-9]+$/.test(ms)) {
+        return `transition-duration: ${ms}ms; animation-duration: ${ms}ms;`;
+      }
     }
     if (candidate.startsWith('delay-')) {
       const ms = candidate.slice(6);
-      if (/^[0-9]+$/.test(ms)) return `transition-delay: ${ms}ms; animation-delay: ${ms}ms;`;
+      if (/^[0-9]+$/.test(ms)) {
+        return `transition-delay: ${ms}ms; animation-delay: ${ms}ms;`;
+      }
     }
 
     // 3. Transforms: Scale, Rotate, Translate
@@ -252,21 +258,27 @@ export class GpCssGenerator {
       const sc = candidate.slice(6);
       if (this.tokens.transforms.scale[sc]) {
         const val = this.tokens.transforms.scale[sc];
-        if (isValidCssValue(val)) return `--gp-scale-x: ${val}; --gp-scale-y: ${val}; transform: scale(${val});`;
+        if (isValidCssValue(val)) {
+          return `--gp-scale-x: ${val}; --gp-scale-y: ${val}; transform: scale(${val});`;
+        }
       }
     }
     if (candidate.startsWith('rotate-')) {
       const rot = candidate.slice(7);
       if (this.tokens.transforms.rotate[rot]) {
         const val = this.tokens.transforms.rotate[rot];
-        if (isValidCssValue(val)) return `--gp-rotate: ${val}; transform: rotate(${val});`;
+        if (isValidCssValue(val)) {
+          return `--gp-rotate: ${val}; transform: rotate(${val});`;
+        }
       }
     }
     if (candidate.startsWith('-rotate-')) {
       const rot = '-' + candidate.slice(8);
       if (this.tokens.transforms.rotate[rot]) {
         const val = this.tokens.transforms.rotate[rot];
-        if (isValidCssValue(val)) return `--gp-rotate: ${val}; transform: rotate(${val});`;
+        if (isValidCssValue(val)) {
+          return `--gp-rotate: ${val}; transform: rotate(${val});`;
+        }
       }
     }
 
@@ -369,7 +381,9 @@ export class GpCssGenerator {
       const valKey = candidate.slice(3);
       if (this.tokens.gradients[valKey]) {
         const gVal = this.tokens.gradients[valKey];
-        if (isValidCssValue(gVal)) return `background-image: ${gVal};`;
+        if (isValidCssValue(gVal)) {
+          return `background-image: ${gVal};`;
+        }
       }
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.colors);
       if (val) {
@@ -413,7 +427,9 @@ export class GpCssGenerator {
     if (candidate.startsWith('rounded')) {
       if (candidate === 'rounded') {
         const rDef = this.tokens.borderRadius['DEFAULT'];
-        if (isValidCssValue(rDef)) return `border-radius: ${rDef};`;
+        if (isValidCssValue(rDef)) {
+          return `border-radius: ${rDef};`;
+        }
       }
       const valKey = candidate.slice(8);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.borderRadius);
@@ -443,7 +459,9 @@ export class GpCssGenerator {
       const familyKey = candidate.slice(5);
       if (this.tokens.fontFamily[familyKey]) {
         const val = this.tokens.fontFamily[familyKey];
-        if (isValidCssValue(val)) return `font-family: ${val};`;
+        if (isValidCssValue(val)) {
+          return `font-family: ${val};`;
+        }
       }
     }
 
@@ -451,7 +469,9 @@ export class GpCssGenerator {
     if (candidate.startsWith('shadow')) {
       if (candidate === 'shadow') {
         const sDef = this.tokens.boxShadow['DEFAULT'];
-        if (isValidCssValue(sDef)) return `box-shadow: ${sDef};`;
+        if (isValidCssValue(sDef)) {
+          return `box-shadow: ${sDef};`;
+        }
       }
       const valKey = candidate.slice(7);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.boxShadow);
@@ -464,7 +484,9 @@ export class GpCssGenerator {
     if (candidate.startsWith('backdrop-blur')) {
       if (candidate === 'backdrop-blur') {
         const bDef = this.tokens.backdropBlur['DEFAULT'];
-        if (isValidCssValue(bDef)) return `backdrop-filter: blur(${bDef});`;
+        if (isValidCssValue(bDef)) {
+          return `backdrop-filter: blur(${bDef});`;
+        }
       }
       const valKey = candidate.slice(14);
       const val = this.resolveValueOrArbitrary(valKey, this.tokens.backdropBlur);
@@ -479,7 +501,9 @@ export class GpCssGenerator {
       if (cols === 'none') {
         return 'grid-template-columns: none;';
       }
-      if (/^[0-9]+$/.test(cols)) return `grid-template-columns: repeat(${cols}, minmax(0, 1fr));`;
+      if (/^[0-9]+$/.test(cols)) {
+        return `grid-template-columns: repeat(${cols}, minmax(0, 1fr));`;
+      }
       if (cols.startsWith('[') && cols.endsWith(']')) {
         const arbitrary = this.resolveValueOrArbitrary(cols, {});
         if (arbitrary) {
@@ -492,7 +516,9 @@ export class GpCssGenerator {
       if (span === 'full') {
         return 'grid-column: 1 / -1;';
       }
-      if (/^[0-9]+$/.test(span)) return `grid-column: span ${span} / span ${span};`;
+      if (/^[0-9]+$/.test(span)) {
+        return `grid-column: span ${span} / span ${span};`;
+      }
     }
 
     if (candidate.startsWith('grid-rows-')) {
@@ -500,14 +526,18 @@ export class GpCssGenerator {
       if (rows === 'none') {
         return 'grid-template-rows: none;';
       }
-      if (/^[0-9]+$/.test(rows)) return `grid-template-rows: repeat(${rows}, minmax(0, 1fr));`;
+      if (/^[0-9]+$/.test(rows)) {
+        return `grid-template-rows: repeat(${rows}, minmax(0, 1fr));`;
+      }
     }
     if (candidate.startsWith('row-span-')) {
       const span = candidate.slice(9);
       if (span === 'full') {
         return 'grid-row: 1 / -1;';
       }
-      if (/^[0-9]+$/.test(span)) return `grid-row: span ${span} / span ${span};`;
+      if (/^[0-9]+$/.test(span)) {
+        return `grid-row: span ${span} / span ${span};`;
+      }
     }
 
     if (candidate.startsWith('order-')) {
@@ -521,7 +551,9 @@ export class GpCssGenerator {
       if (ord === 'none') {
         return 'order: 0;';
       }
-      if (/^[0-9]+$/.test(ord)) return `order: ${ord};`;
+      if (/^[0-9]+$/.test(ord)) {
+        return `order: ${ord};`;
+      }
     }
 
     // 14. Opacity & Z-Index
@@ -537,9 +569,13 @@ export class GpCssGenerator {
       const zKey = candidate.slice(2);
       if (this.tokens.zIndex[zKey]) {
         const zVal = this.tokens.zIndex[zKey];
-        if (isValidCssValue(zVal)) return `z-index: ${zVal};`;
+        if (isValidCssValue(zVal)) {
+          return `z-index: ${zVal};`;
+        }
       }
-      if (/^[0-9]+$/.test(zKey)) return `z-index: ${zKey};`;
+      if (/^[0-9]+$/.test(zKey)) {
+        return `z-index: ${zKey};`;
+      }
     }
 
     // 15. Width & Height Sizing
@@ -609,7 +645,9 @@ function isValidCssValue(val: string): boolean {
   for (let i = 0; i < val.length; i++) {
     if (val[i] === '(') {
       depth++;
-    } else if (val[i] === ')') depth--;
+    } else if (val[i] === ')') {
+      depth--;
+    }
     if (depth < 0) {
       return false;
     }

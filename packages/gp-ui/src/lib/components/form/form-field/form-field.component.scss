@@ -24,7 +24,10 @@
   border-radius: var(--gp-form-field-radius, var(--gp-border-radius-base, 6px));
   background: var(--gp-form-field-bg, var(--gp-surface-card, #ffffff));
   border: 1px solid var(--gp-form-field-border, var(--gp-surface-border, #cbd5e1));
-  transition: border-color var(--gp-transition-duration, 0.2s) ease, box-shadow var(--gp-transition-duration, 0.2s) ease, background-color var(--gp-transition-duration, 0.2s) ease;
+  transition:
+    border-color var(--gp-transition-duration, 0.2s) ease,
+    box-shadow var(--gp-transition-duration, 0.2s) ease,
+    background-color var(--gp-transition-duration, 0.2s) ease;
 }
 
 .gp-form-field-filled .gp-form-field-wrapper {
@@ -33,7 +36,8 @@
   border-top: none;
   border-left: none;
   border-right: none;
-  border-radius: var(--gp-form-field-radius, var(--gp-border-radius-base, 6px)) var(--gp-form-field-radius, var(--gp-border-radius-base, 6px)) 0 0;
+  border-radius: var(--gp-form-field-radius, var(--gp-border-radius-base, 6px))
+    var(--gp-form-field-radius, var(--gp-border-radius-base, 6px)) 0 0;
 }
 
 /* Inset appearance */
@@ -92,7 +96,13 @@
   font-weight: var(--gp-label-font-weight, 500);
   color: var(--gp-label-color-muted, var(--gp-text-muted, #64748b));
   pointer-events: none;
-  transition: var(--gp-float-label-transition, transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), font-size 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.2s ease, top 0.2s ease);
+  transition: var(
+    --gp-float-label-transition,
+    transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+    font-size 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
+    color 0.2s ease,
+    top 0.2s ease
+  );
   transform-origin: left top;
   z-index: 1;
   white-space: nowrap;

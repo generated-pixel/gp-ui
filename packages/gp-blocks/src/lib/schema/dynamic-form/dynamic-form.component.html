@@ -25,16 +25,13 @@
     >
       @for (field of visibleFields(); track field.name) {
         @if (field.type === 'divider') {
-          <div
-            class="gp-form-field-col"
-            [style.gridColumn]="'span ' + (field.colSpan || (schema()?.gridColumns || 12))"
-          >
+          <div class="gp-form-field-col" [style.gridColumn]="'span ' + (field.colSpan || schema()?.gridColumns || 12)">
             <gp-divider />
           </div>
         } @else if (field.type === 'heading') {
           <div
             class="gp-form-field-col gp-form-section-heading"
-            [style.gridColumn]="'span ' + (field.colSpan || (schema()?.gridColumns || 12))"
+            [style.gridColumn]="'span ' + (field.colSpan || schema()?.gridColumns || 12)"
           >
             <h4 class="section-title">{{ field.label }}</h4>
             @if (field.helperText) {
@@ -47,7 +44,9 @@
             [style.gridColumn]="'span ' + (field.colSpan || 12)"
             [class.has-error]="isFieldInvalid(field.name)"
           >
-            @if (field.label && field.type !== 'checkbox' && field.type !== 'inset-label' && field.type !== 'float-label') {
+            @if (
+              field.label && field.type !== 'checkbox' && field.type !== 'inset-label' && field.type !== 'float-label'
+            ) {
               <gp-label
                 [for]="field.name"
                 [text]="field.label"
@@ -247,11 +246,7 @@
             <!-- Switch -->
             @if (field.type === 'switch') {
               <div class="switch-control-wrap">
-                <gp-switch
-                  [id]="field.name"
-                  [formControlName]="field.name"
-                  [disabled]="field.disabled || false"
-                />
+                <gp-switch [id]="field.name" [formControlName]="field.name" [disabled]="field.disabled || false" />
                 <span class="switch-label-text">{{ field.placeholder || 'Enable' }}</span>
               </div>
             }
@@ -433,11 +428,7 @@
     <div class="gp-form-actions-bar">
       <div class="secondary-actions">
         @if (schema()?.resetButton) {
-          <gp-button
-            variant="outlined"
-            severity="secondary"
-            (onClickEvent)="onReset()"
-          >
+          <gp-button variant="outlined" severity="secondary" (onClickEvent)="onReset()">
             {{ schema()?.resetButton?.label || 'Reset' }}
           </gp-button>
         }
@@ -449,7 +440,7 @@
             (onClickEvent)="onActionClick(sec)"
           >
             @if (sec.icon) {
-              <gp-icon [name]="sec.icon" size="0.9em" style="margin-right: 0.35rem;" />
+              <gp-icon [name]="sec.icon" size="0.9em" style="margin-right: 0.35rem" />
             }
             {{ sec.label }}
           </gp-button>
@@ -464,11 +455,7 @@
           (onClickEvent)="onSubmit()"
         >
           @if (schema()?.submitButton?.icon) {
-            <gp-icon
-              [name]="schema()!.submitButton!.icon!"
-              size="0.9em"
-              style="margin-right: 0.35rem;"
-            />
+            <gp-icon [name]="schema()!.submitButton!.icon!" size="0.9em" style="margin-right: 0.35rem" />
           }
           {{ schema()?.submitButton?.label || 'Submit' }}
         </gp-button>

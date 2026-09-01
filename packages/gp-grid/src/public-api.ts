@@ -25,4 +25,3 @@ export * from './lib/components/gp-grid-table-widget/grid-table-widget.component
 export * from './lib/components/gp-grid-list-widget/grid-list-widget.component';
 export * from './lib/components/gp-grid-progress-widget/grid-progress-widget.component';
 export * from './lib/components/gp-grid/grid.component';
-

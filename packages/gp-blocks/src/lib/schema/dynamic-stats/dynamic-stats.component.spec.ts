@@ -21,9 +21,7 @@ describe('GpDynamicStatsComponent', () => {
 
   it('should render stat cards from schema', () => {
     const schema: GpStatsSchema = {
-      items: [
-        { id: 'revenue', label: 'Total Revenue', value: '$45,000', change: '+12%' }
-      ]
+      items: [{ id: 'revenue', label: 'Total Revenue', value: '$45,000', change: '+12%' }]
     };
 
     fixture.componentRef.setInput('schema', schema);

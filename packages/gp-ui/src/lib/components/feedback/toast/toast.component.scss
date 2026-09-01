@@ -52,7 +52,12 @@
 }
 
 .gp-toast-message-success {
-  background: linear-gradient(0deg, var(--gp-success-light, rgba(16, 185, 129, 0.12)), var(--gp-success-light, rgba(16, 185, 129, 0.12))),
+  background:
+    linear-gradient(
+      0deg,
+      var(--gp-success-light, rgba(16, 185, 129, 0.12)),
+      var(--gp-success-light, rgba(16, 185, 129, 0.12))
+    ),
     var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
   border-color: var(--gp-success-border, var(--gp-success));
   border-left: 4px solid var(--gp-success);
@@ -62,7 +67,12 @@
 }
 
 .gp-toast-message-info {
-  background: linear-gradient(0deg, var(--gp-info-light, rgba(14, 165, 233, 0.12)), var(--gp-info-light, rgba(14, 165, 233, 0.12))),
+  background:
+    linear-gradient(
+      0deg,
+      var(--gp-info-light, rgba(14, 165, 233, 0.12)),
+      var(--gp-info-light, rgba(14, 165, 233, 0.12))
+    ),
     var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
   border-color: var(--gp-info-border, var(--gp-info));
   border-left: 4px solid var(--gp-info);
@@ -72,7 +82,12 @@
 }
 
 .gp-toast-message-warning {
-  background: linear-gradient(0deg, var(--gp-warning-light, rgba(245, 158, 11, 0.12)), var(--gp-warning-light, rgba(245, 158, 11, 0.12))),
+  background:
+    linear-gradient(
+      0deg,
+      var(--gp-warning-light, rgba(245, 158, 11, 0.12)),
+      var(--gp-warning-light, rgba(245, 158, 11, 0.12))
+    ),
     var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
   border-color: var(--gp-warning-border, var(--gp-warning));
   border-left: 4px solid var(--gp-warning);
@@ -82,7 +97,12 @@
 }
 
 .gp-toast-message-error {
-  background: linear-gradient(0deg, var(--gp-danger-light, rgba(239, 68, 68, 0.12)), var(--gp-danger-light, rgba(239, 68, 68, 0.12))),
+  background:
+    linear-gradient(
+      0deg,
+      var(--gp-danger-light, rgba(239, 68, 68, 0.12)),
+      var(--gp-danger-light, rgba(239, 68, 68, 0.12))
+    ),
     var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
   border-color: var(--gp-danger-border, var(--gp-danger));
   border-left: 4px solid var(--gp-danger);
@@ -92,7 +112,12 @@
 }
 
 .gp-toast-message-secondary {
-  background: linear-gradient(0deg, var(--gp-secondary-light, rgba(148, 163, 184, 0.12)), var(--gp-secondary-light, rgba(148, 163, 184, 0.12))),
+  background:
+    linear-gradient(
+      0deg,
+      var(--gp-secondary-light, rgba(148, 163, 184, 0.12)),
+      var(--gp-secondary-light, rgba(148, 163, 184, 0.12))
+    ),
     var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
   border-color: var(--gp-surface-border);
   border-left: 4px solid var(--gp-secondary);

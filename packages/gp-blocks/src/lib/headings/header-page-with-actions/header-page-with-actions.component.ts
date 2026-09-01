@@ -1,4 +1,13 @@
-import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   GpButtonComponent,
@@ -27,12 +36,7 @@ export interface GpHeaderAction {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-page-with-actions',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpButtonComponent,
-    GpBadgeComponent,
-    GpIconComponent
-  ],
+  imports: [CommonModule, GpButtonComponent, GpBadgeComponent, GpIconComponent],
   templateUrl: './header-page-with-actions.component.html',
   styleUrl: './header-page-with-actions.component.scss'
 })

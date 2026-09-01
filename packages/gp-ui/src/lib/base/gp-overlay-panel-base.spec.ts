@@ -19,28 +19,15 @@ import { GpFieldsetComponent } from '../components/panel/fieldset/fieldset.compo
       <p>Dialog Body</p>
     </gp-dialog>
 
-    <gp-drawer
-      #drawerComp
-      [header]="'Test Drawer'"
-      [(visible)]="drawerVisible"
-    >
+    <gp-drawer #drawerComp [header]="'Test Drawer'" [(visible)]="drawerVisible">
       <p>Drawer Body</p>
     </gp-drawer>
 
-    <gp-panel
-      #panelComp
-      [header]="'Test Panel'"
-      [toggleable]="true"
-      (onToggle)="panelToggleFired = true"
-    >
+    <gp-panel #panelComp [header]="'Test Panel'" [toggleable]="true" (onToggle)="panelToggleFired = true">
       <p>Panel Body</p>
     </gp-panel>
 
-    <gp-fieldset
-      #fieldsetComp
-      [legend]="'Test Fieldset'"
-      [toggleable]="true"
-    >
+    <gp-fieldset #fieldsetComp [legend]="'Test Fieldset'" [toggleable]="true">
       <p>Fieldset Body</p>
     </gp-fieldset>
   `

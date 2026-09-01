@@ -54,12 +54,22 @@ export class GpGridKpiWidgetComponent extends GpGridWidgetBase<GpKpiWidgetData> 
   );
   public effectiveTrend = computed<'pos' | 'neg' | 'neutral'>(() => {
     const raw = this.trend() || this.normalizedData().trend || this.normalizedData().trendType;
-    if (raw === 'pos' || raw === 'positive') return 'pos';
-    if (raw === 'neg' || raw === 'negative') return 'neg';
-    if (raw === 'neutral') return 'neutral';
+    if (raw === 'pos' || raw === 'positive') {
+      return 'pos';
+    }
+    if (raw === 'neg' || raw === 'negative') {
+      return 'neg';
+    }
+    if (raw === 'neutral') {
+      return 'neutral';
+    }
     const c = this.effectiveChange();
-    if (c.startsWith('+')) return 'pos';
-    if (c.startsWith('-')) return 'neg';
+    if (c.startsWith('+')) {
+      return 'pos';
+    }
+    if (c.startsWith('-')) {
+      return 'neg';
+    }
     return 'neutral';
   });
   public effectiveIcon = computed(() => this.icon() || this.normalizedData().icon || this.item()?.icon || 'chart-line');

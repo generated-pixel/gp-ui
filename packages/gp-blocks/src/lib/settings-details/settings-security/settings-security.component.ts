@@ -1,6 +1,22 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpPasswordComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
+import {
+  GpBadgeComponent,
+  GpButtonComponent,
+  GpIconComponent,
+  GpPasswordComponent,
+  GpSwitchComponent
+} from '@generatedpixel/gp-ui';
 
 export interface GpSession {
   id?: string;

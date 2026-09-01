@@ -178,7 +178,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
   ]
 })
 export class GpCssPageComponent {
-  readonly installCode = `npm install --save-dev @generatedpixel/gp-css`;
+  readonly installCode = 'npm install --save-dev @generatedpixel/gp-css';
 
   readonly directivesCode = `/* src/styles.css */
 @gp-css theme;

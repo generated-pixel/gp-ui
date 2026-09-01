@@ -6,7 +6,7 @@
   [attr.aria-disabled]="disabled() || loading()"
   [attr.aria-busy]="loading()"
   [attr.autofocus]="autofocus() ? '' : null"
-  [attr.tabindex]="tabindex() !== undefined ? tabindex() : (disabled() ? -1 : 0)"
+  [attr.tabindex]="tabindex() !== undefined ? tabindex() : disabled() ? -1 : 0"
   (click)="onButtonClick($event)"
   (focus)="onButtonFocus($event)"
   (blur)="onButtonBlur($event)"

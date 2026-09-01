@@ -1,4 +1,14 @@
-import { Component, input, output, TemplateRef, ElementRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  ElementRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpSwitchComponent } from '@generatedpixel/gp-ui';
 
@@ -46,7 +56,9 @@ export class GpSettingsNotificationsComponent {
 
   public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
-  public effectiveFooterActions = computed<TemplateRef<any> | undefined>(() => this.footerActionsTemplate() || this.contentFooter() || this.contentActions());
+  public effectiveFooterActions = computed<TemplateRef<any> | undefined>(
+    () => this.footerActionsTemplate() || this.contentFooter() || this.contentActions()
+  );
 
   public get hasProjectedHeader(): boolean {
     return !!this.host.nativeElement.querySelector('[header], [slot="header"]');

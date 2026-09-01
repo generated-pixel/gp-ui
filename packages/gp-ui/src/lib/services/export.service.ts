@@ -31,11 +31,16 @@ export class GpExportService {
       return;
     }
 
-    const filename = options.filename ? (options.filename.endsWith('.csv') ? options.filename : `${options.filename}.csv`) : 'export.csv';
+    const filename = options.filename
+      ? options.filename.endsWith('.csv')
+        ? options.filename
+        : `${options.filename}.csv`
+      : 'export.csv';
     const delimiter = options.delimiter || ',';
     const includeHeaders = options.includeHeaders !== false;
 
-    const columns: GpExportColumn[] = options.columns || Object.keys(data[0]).map((key) => ({ field: key, header: key }));
+    const columns: GpExportColumn[] =
+      options.columns || Object.keys(data[0]).map((key) => ({ field: key, header: key }));
 
     let csvContent = '\uFEFF'; // UTF-8 BOM for Excel compatibility
 
@@ -66,9 +71,14 @@ export class GpExportService {
       return;
     }
 
-    const filename = options.filename ? (options.filename.endsWith('.xls') ? options.filename : `${options.filename}.xls`) : 'export.xls';
+    const filename = options.filename
+      ? options.filename.endsWith('.xls')
+        ? options.filename
+        : `${options.filename}.xls`
+      : 'export.xls';
     const sheetName = options.sheetName || 'Data';
-    const columns: GpExportColumn[] = options.columns || Object.keys(data[0]).map((key) => ({ field: key, header: key }));
+    const columns: GpExportColumn[] =
+      options.columns || Object.keys(data[0]).map((key) => ({ field: key, header: key }));
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <?mso-application progid="Excel.Sheet"?>
@@ -99,10 +109,10 @@ export class GpExportService {
       xml += `\n    <Cell><Data ss:Type="String">${this.escapeXml(col.header || col.field)}</Data></Cell>`;
     });
 
-    xml += `\n   </Row>`;
+    xml += '\n   </Row>';
 
     data.forEach((row) => {
-      xml += `\n   <Row>`;
+      xml += '\n   <Row>';
       columns.forEach((col) => {
         let val = row[col.field];
         if (col.format) {
@@ -113,7 +123,7 @@ export class GpExportService {
         const strVal = val === null || val === undefined ? '' : String(val);
         xml += `\n    <Cell><Data ss:Type="${type}">${this.escapeXml(strVal)}</Data></Cell>`;
       });
-      xml += `\n   </Row>`;
+      xml += '\n   </Row>';
     });
 
     xml += `\n  </Table>
@@ -144,7 +154,9 @@ export class GpExportService {
   }
 
   private escapeXml(val: string): string {
-    if (!val) return '';
+    if (!val) {
+      return '';
+    }
     return String(val)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')

@@ -1,4 +1,13 @@
-import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpAvatarComponent } from '@generatedpixel/gp-ui';
 
@@ -43,9 +52,13 @@ export class GpLayoutStackedClassicComponent {
 
   public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public effectiveHeaderActions = computed<TemplateRef<any> | undefined>(() => this.headerActionsTemplate() || this.contentHeaderActions() || this.contentActions());
+  public effectiveHeaderActions = computed<TemplateRef<any> | undefined>(
+    () => this.headerActionsTemplate() || this.contentHeaderActions() || this.contentActions()
+  );
 
-  public effectiveContent = computed<TemplateRef<any> | undefined>(() => this.contentTemplate() || this.contentArea() || this.contentMain());
+  public effectiveContent = computed<TemplateRef<any> | undefined>(
+    () => this.contentTemplate() || this.contentArea() || this.contentMain()
+  );
 
   public effectiveUser = computed(() => this.userTemplate() || this.contentUser());
 }

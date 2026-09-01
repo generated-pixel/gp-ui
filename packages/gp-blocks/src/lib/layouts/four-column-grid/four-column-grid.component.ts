@@ -1,4 +1,12 @@
-import { Component, input, TemplateRef, contentChild, ChangeDetectionStrategy, ViewEncapsulation, computed } from '@angular/core';
+import {
+  Component,
+  input,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent } from '@generatedpixel/gp-ui';
 
@@ -35,11 +43,19 @@ export class GpLayoutFourColumnGridComponent {
   public contentCol4 = contentChild<TemplateRef<any>>('col4');
   public contentCol4Tpl = contentChild<TemplateRef<any>>('col4Template');
 
-  public effectiveCol1 = computed<TemplateRef<any> | undefined>(() => this.col1Template() || this.contentCol1() || this.contentCol1Tpl());
+  public effectiveCol1 = computed<TemplateRef<any> | undefined>(
+    () => this.col1Template() || this.contentCol1() || this.contentCol1Tpl()
+  );
 
-  public effectiveCol2 = computed<TemplateRef<any> | undefined>(() => this.col2Template() || this.contentCol2() || this.contentCol2Tpl());
+  public effectiveCol2 = computed<TemplateRef<any> | undefined>(
+    () => this.col2Template() || this.contentCol2() || this.contentCol2Tpl()
+  );
 
-  public effectiveCol3 = computed<TemplateRef<any> | undefined>(() => this.col3Template() || this.contentCol3() || this.contentCol3Tpl());
+  public effectiveCol3 = computed<TemplateRef<any> | undefined>(
+    () => this.col3Template() || this.contentCol3() || this.contentCol3Tpl()
+  );
 
-  public effectiveCol4 = computed<TemplateRef<any> | undefined>(() => this.col4Template() || this.contentCol4() || this.contentCol4Tpl());
+  public effectiveCol4 = computed<TemplateRef<any> | undefined>(
+    () => this.col4Template() || this.contentCol4() || this.contentCol4Tpl()
+  );
 }

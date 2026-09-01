@@ -1,4 +1,13 @@
-import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -34,7 +43,8 @@ export class GpListTransactionsComponent {
   public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
   public contentHeader = contentChild<TemplateRef<any>>('header');
-  public contentTransactionTemplate = contentChild<TemplateRef<{ $implicit: GpTransactionListItem }>>('transactionTemplate');
+  public contentTransactionTemplate =
+    contentChild<TemplateRef<{ $implicit: GpTransactionListItem }>>('transactionTemplate');
   public contentArea = contentChild<TemplateRef<any>>('content');
 
   public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());

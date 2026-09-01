@@ -1,4 +1,13 @@
-import { Component, input, output, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpButtonComponent, GpInputTextComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
 
@@ -43,7 +52,9 @@ export class GpSettingsProfileComponent {
 
   public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
-  public effectiveFooterActions = computed<TemplateRef<any> | undefined>(() => this.footerActionsTemplate() || this.contentFooter() || this.contentActions());
+  public effectiveFooterActions = computed<TemplateRef<any> | undefined>(
+    () => this.footerActionsTemplate() || this.contentFooter() || this.contentActions()
+  );
 
   private formValues: Record<string, string> = {};
 

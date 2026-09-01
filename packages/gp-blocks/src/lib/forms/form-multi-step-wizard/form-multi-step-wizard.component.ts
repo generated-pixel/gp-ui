@@ -1,4 +1,14 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -63,7 +73,7 @@ export class GpFormMultiStepWizardComponent {
 
   public nextStep(): void {
     if (this.currentStep() < this.steps().length) {
-      this.currentStep.update(s => s + 1);
+      this.currentStep.update((s) => s + 1);
     } else {
       this.complete.emit({
         fullName: this.fullName(),
@@ -77,7 +87,7 @@ export class GpFormMultiStepWizardComponent {
 
   public prevStep(): void {
     if (this.currentStep() > 1) {
-      this.currentStep.update(s => s - 1);
+      this.currentStep.update((s) => s - 1);
     }
   }
 }

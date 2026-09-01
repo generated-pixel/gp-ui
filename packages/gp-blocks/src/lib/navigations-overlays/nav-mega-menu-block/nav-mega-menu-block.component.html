@@ -7,8 +7,7 @@
     } @else {
       <ng-content select="[sections], [slot=sections]" />
 
-        <gp-mega-menu [model]="menuItems()" orientation="horizontal" />
-      
+      <gp-mega-menu [model]="menuItems()" orientation="horizontal" />
     }
 
     @if (effectivePromo()) {

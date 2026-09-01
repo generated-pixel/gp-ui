@@ -7,21 +7,16 @@
     } @else {
       <ng-content select="[underline-tabs], [slot=underline-tabs]" />
 
-        <gp-tabs
-          styleClass="gp-tab-navigation-block__underline"
-          [activeIndex]="underlineActiveIndex()"
-          [hidePanels]="true"
-          (onChange)="onUnderlineChange($event.index)"
-        >
-          @for (tab of underlineTabs(); track tab.id) {
-            <gp-tab-panel
-              [header]="tab.label"
-              [badge]="tab.badge"
-              [badgeSeverity]="tab.badgeSeverity || 'secondary'"
-            />
-          }
-        </gp-tabs>
-      
+      <gp-tabs
+        styleClass="gp-tab-navigation-block__underline"
+        [activeIndex]="underlineActiveIndex()"
+        [hidePanels]="true"
+        (onChange)="onUnderlineChange($event.index)"
+      >
+        @for (tab of underlineTabs(); track tab.id) {
+          <gp-tab-panel [header]="tab.label" [badge]="tab.badge" [badgeSeverity]="tab.badgeSeverity || 'secondary'" />
+        }
+      </gp-tabs>
     }
 
     @if (effectivePillTabs()) {
@@ -29,21 +24,16 @@
     } @else {
       <ng-content select="[pill-tabs], [slot=pill-tabs]" />
 
-        <gp-tabs
-          styleClass="gp-tab-navigation-block__pills"
-          [activeIndex]="pillActiveIndex()"
-          [hidePanels]="true"
-          (onChange)="onPillChange($event.index)"
-        >
-          @for (tab of pillTabs(); track tab.id) {
-            <gp-tab-panel
-              [header]="tab.label"
-              [badge]="tab.badge"
-              [badgeSeverity]="tab.badgeSeverity || 'secondary'"
-            />
-          }
-        </gp-tabs>
-      
+      <gp-tabs
+        styleClass="gp-tab-navigation-block__pills"
+        [activeIndex]="pillActiveIndex()"
+        [hidePanels]="true"
+        (onChange)="onPillChange($event.index)"
+      >
+        @for (tab of pillTabs(); track tab.id) {
+          <gp-tab-panel [header]="tab.label" [badge]="tab.badge" [badgeSeverity]="tab.badgeSeverity || 'secondary'" />
+        }
+      </gp-tabs>
     }
     <ng-content />
   }

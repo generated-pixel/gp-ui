@@ -1,4 +1,13 @@
-import { Component, input, output, computed, TemplateRef, ViewEncapsulation, contentChild, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  computed,
+  TemplateRef,
+  ViewEncapsulation,
+  contentChild,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpMegaMenuComponent, GpMegaMenuItem } from '@generatedpixel/gp-ui';
 
@@ -44,15 +53,16 @@ export class GpNavMegaMenuBlockComponent {
         url: link.url,
         command: () => this.linkClick.emit(link)
       })),
-      featured: index === 0 && promo && !this.effectivePromo
-        ? {
-            badge: promo.badge,
-            title: promo.title,
-            description: promo.text,
-            actionLabel: promo.ctaText,
-            actionCommand: () => this.promoClick.emit(promo)
-          }
-        : undefined
+      featured:
+        index === 0 && promo && !this.effectivePromo
+          ? {
+              badge: promo.badge,
+              title: promo.title,
+              description: promo.text,
+              actionLabel: promo.ctaText,
+              actionCommand: () => this.promoClick.emit(promo)
+            }
+          : undefined
     }));
 
     if (columns.length === 0 && promo && !this.effectivePromo) {

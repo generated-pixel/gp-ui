@@ -234,7 +234,7 @@ export class NavigationDemoComponent {
   <div end><gp-button label="Profile" size="sm" /></div>
 </gp-menubar>`;
 
-  breadcrumbCode = `<gp-breadcrumb [model]="breadcrumbItems" [home]="{ icon: 'home' }" />`;
+  breadcrumbCode = '<gp-breadcrumb [model]="breadcrumbItems" [home]="{ icon: \'home\' }" />';
 
   tabsCode = `<gp-tabs>
   <gp-tab-panel header="Overview" icon="home">Overview tab content...</gp-tab-panel>

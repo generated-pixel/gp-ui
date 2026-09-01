@@ -111,7 +111,9 @@ interface Product {
         <ng-template gpTemplate="body" let-product>
           <gp-tag
             [value]="product.status"
-            [severity]="product.status === 'IN_STOCK' ? 'success' : product.status === 'LOW_STOCK' ? 'warning' : 'danger'"
+            [severity]="
+              product.status === 'IN_STOCK' ? 'success' : product.status === 'LOW_STOCK' ? 'warning' : 'danger'
+            "
           />
         </ng-template>
       </gp-column>
@@ -122,8 +124,8 @@ export class ProductTableComponent {
   products: Product[] = [
     { id: 'P1001', name: 'Quantum Processor', category: 'Hardware', price: 499.99, status: 'IN_STOCK' },
     { id: 'P1002', name: 'Neural Accelerator', category: 'Hardware', price: 899.99, status: 'LOW_STOCK' },
-    { id: 'P1003', name: 'Cloud Sync Engine', category: 'Software', price: 129.00, status: 'IN_STOCK' },
-    { id: 'P1004', name: 'Holographic Display', category: 'Peripherals', price: 1250.00, status: 'OUT_OF_STOCK' }
+    { id: 'P1003', name: 'Cloud Sync Engine', category: 'Software', price: 129.0, status: 'IN_STOCK' },
+    { id: 'P1004', name: 'Holographic Display', category: 'Peripherals', price: 1250.0, status: 'OUT_OF_STOCK' }
   ];
 }
 ```
@@ -181,12 +183,7 @@ import {
         <label for="notifications">Enable email alerts</label>
       </div>
 
-      <gp-button
-        type="submit"
-        label="Save Profile"
-        severity="primary"
-        [disabled]="userForm.invalid"
-      />
+      <gp-button type="submit" label="Save Profile" severity="primary" [disabled]="userForm.invalid" />
     </form>
   `
 })
@@ -253,13 +250,13 @@ export class ModalDemoComponent {
 
 ## Companion Ecosystem Packages
 
-| Package | Description |
-| :--- | :--- |
-| [`@generatedpixel/gp-ui-theme`](https://www.npmjs.com/package/@generatedpixel/gp-ui-theme) | Multi-theme token engine, 8 built-in themes (Light & Dark), and runtime theme switcher |
-| [`@generatedpixel/gp-blocks`](https://www.npmjs.com/package/@generatedpixel/gp-blocks) | 50+ pre-built application layouts, dashboards, settings, and dynamic JSON schema engine |
-| [`@generatedpixel/gp-grid`](https://www.npmjs.com/package/@generatedpixel/gp-grid) | Reactive draggable/resizable grid and dashboard layout engine with collision resolution |
-| [`@generatedpixel/gp-css`](https://www.npmjs.com/package/@generatedpixel/gp-css) | Utility-first JIT CSS engine with native token bridge and glassmorphism / glow effects |
-| [`@generatedpixel/gp-ui-icons`](https://www.npmjs.com/package/@generatedpixel/gp-ui-icons) | Lightweight, tree-shakeable SVG icon registry with `<gp-icon>` component |
+| Package                                                                                    | Description                                                                             |
+| :----------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
+| [`@generatedpixel/gp-ui-theme`](https://www.npmjs.com/package/@generatedpixel/gp-ui-theme) | Multi-theme token engine, 8 built-in themes (Light & Dark), and runtime theme switcher  |
+| [`@generatedpixel/gp-blocks`](https://www.npmjs.com/package/@generatedpixel/gp-blocks)     | 50+ pre-built application layouts, dashboards, settings, and dynamic JSON schema engine |
+| [`@generatedpixel/gp-grid`](https://www.npmjs.com/package/@generatedpixel/gp-grid)         | Reactive draggable/resizable grid and dashboard layout engine with collision resolution |
+| [`@generatedpixel/gp-css`](https://www.npmjs.com/package/@generatedpixel/gp-css)           | Utility-first JIT CSS engine with native token bridge and glassmorphism / glow effects  |
+| [`@generatedpixel/gp-ui-icons`](https://www.npmjs.com/package/@generatedpixel/gp-ui-icons) | Lightweight, tree-shakeable SVG icon registry with `<gp-icon>` component                |
 
 ---
 

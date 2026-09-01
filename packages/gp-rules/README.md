@@ -68,9 +68,7 @@ export const PROMO_CODE_RULE: GpBusinessRule = {
     { type: 'setValue', target: 'discount', value: 20 },
     { type: 'toast', message: 'Promo code SAVE20 applied! (20% OFF)', severity: 'success' }
   ],
-  elseActions: [
-    { type: 'setValue', target: 'discount', value: 0 }
-  ]
+  elseActions: [{ type: 'setValue', target: 'discount', value: 0 }]
 };
 ```
 
@@ -94,38 +92,38 @@ export const PROMO_CODE_RULE: GpBusinessRule = {
 
 ### Trigger Configuration (`GpRuleTrigger`)
 
-| Property | Type | Description |
-|---|---|---|
-| `event` | `'keypress' \| 'blur' \| 'focus' \| 'change' \| 'click' \| 'init'` | Event to listen for |
-| `debounce` | `number` | Debounce delay in milliseconds (e.g. `300`) |
-| `throttle` | `number` | Throttle interval in milliseconds |
-| `targetField` | `string` | Optional field name to scope trigger |
-| `keyFilter` | `string \| string[]` | Keyboard key filter (e.g. `'Enter'`) |
+| Property      | Type                                                               | Description                                 |
+| ------------- | ------------------------------------------------------------------ | ------------------------------------------- |
+| `event`       | `'keypress' \| 'blur' \| 'focus' \| 'change' \| 'click' \| 'init'` | Event to listen for                         |
+| `debounce`    | `number`                                                           | Debounce delay in milliseconds (e.g. `300`) |
+| `throttle`    | `number`                                                           | Throttle interval in milliseconds           |
+| `targetField` | `string`                                                           | Optional field name to scope trigger        |
+| `keyFilter`   | `string \| string[]`                                               | Keyboard key filter (e.g. `'Enter'`)        |
 
 ### Operators (`GpRuleOperator`)
 
-| Operator | Description | Example |
-|---|---|---|
-| `eq` / `equals` | Equality check (`===` or `==`) | `{ field: 'tier', operator: 'eq', value: 'pro' }` |
-| `neq` / `notEquals` | Not equal | `{ field: 'status', operator: 'neq', value: 'archived' }` |
-| `gt` / `gte` | Greater than / Greater than or equal | `{ field: 'age', operator: 'gte', value: 18 }` |
-| `lt` / `lte` | Less than / Less than or equal | `{ field: 'stock', operator: 'lt', value: 5 }` |
-| `contains` | Substring or array inclusion | `{ field: 'roles', operator: 'contains', value: 'admin' }` |
-| `startsWith` | String prefix matching | `{ field: 'taxId', operator: 'startsWith', value: 'US-' }` |
-| `matches` | Regular expression match | `{ field: 'email', operator: 'matches', value: '^[\\w.-]+@[\\w.-]+\\.\\w+$' }` |
-| `empty` / `notEmpty` | Checks null, undefined, empty string or array | `{ field: 'phone', operator: 'notEmpty' }` |
+| Operator             | Description                                   | Example                                                                        |
+| -------------------- | --------------------------------------------- | ------------------------------------------------------------------------------ |
+| `eq` / `equals`      | Equality check (`===` or `==`)                | `{ field: 'tier', operator: 'eq', value: 'pro' }`                              |
+| `neq` / `notEquals`  | Not equal                                     | `{ field: 'status', operator: 'neq', value: 'archived' }`                      |
+| `gt` / `gte`         | Greater than / Greater than or equal          | `{ field: 'age', operator: 'gte', value: 18 }`                                 |
+| `lt` / `lte`         | Less than / Less than or equal                | `{ field: 'stock', operator: 'lt', value: 5 }`                                 |
+| `contains`           | Substring or array inclusion                  | `{ field: 'roles', operator: 'contains', value: 'admin' }`                     |
+| `startsWith`         | String prefix matching                        | `{ field: 'taxId', operator: 'startsWith', value: 'US-' }`                     |
+| `matches`            | Regular expression match                      | `{ field: 'email', operator: 'matches', value: '^[\\w.-]+@[\\w.-]+\\.\\w+$' }` |
+| `empty` / `notEmpty` | Checks null, undefined, empty string or array | `{ field: 'phone', operator: 'notEmpty' }`                                     |
 
 ### Action Types (`GpRuleActionType`)
 
-| Action | Description | Example |
-|---|---|---|
-| `setValue` | Updates target field value | `{ type: 'setValue', target: 'discount', value: 20 }` |
-| `patchValues` | Updates multiple values at once | `{ type: 'patchValues', value: { city: 'Austin', state: 'TX' } }` |
-| `show` / `hide` | Toggles target field visibility | `{ type: 'show', target: 'shippingAddress' }` |
-| `enable` / `disable` | Toggles control disabled state | `{ type: 'disable', target: 'submitBtn' }` |
-| `compute` / `calculate` | Evaluates mathematical formulas | `{ type: 'compute', target: 'total', formula: 'quantity * unitPrice' }` |
-| `setOptions` | Populates dynamic dropdown options | `{ type: 'setOptions', target: 'state', options: [...] }` |
-| `toast` | Displays a toast notification | `{ type: 'toast', message: 'Order submitted', severity: 'success' }` |
+| Action                  | Description                        | Example                                                                 |
+| ----------------------- | ---------------------------------- | ----------------------------------------------------------------------- |
+| `setValue`              | Updates target field value         | `{ type: 'setValue', target: 'discount', value: 20 }`                   |
+| `patchValues`           | Updates multiple values at once    | `{ type: 'patchValues', value: { city: 'Austin', state: 'TX' } }`       |
+| `show` / `hide`         | Toggles target field visibility    | `{ type: 'show', target: 'shippingAddress' }`                           |
+| `enable` / `disable`    | Toggles control disabled state     | `{ type: 'disable', target: 'submitBtn' }`                              |
+| `compute` / `calculate` | Evaluates mathematical formulas    | `{ type: 'compute', target: 'total', formula: 'quantity * unitPrice' }` |
+| `setOptions`            | Populates dynamic dropdown options | `{ type: 'setOptions', target: 'state', options: [...] }`               |
+| `toast`                 | Displays a toast notification      | `{ type: 'toast', message: 'Order submitted', severity: 'success' }`    |
 
 ---
 

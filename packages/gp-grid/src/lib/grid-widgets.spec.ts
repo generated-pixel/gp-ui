@@ -63,9 +63,7 @@ describe('GpGrid Widgets & Typed Models', () => {
         { field: 'customer', header: 'Customer', type: 'avatar' },
         { field: 'amount', header: 'Amount', type: 'currency' }
       ],
-      rows: [
-        { id: 'INV-1001', customer: 'Acme Corp', amount: '$4,200', status: 'Paid' }
-      ]
+      rows: [{ id: 'INV-1001', customer: 'Acme Corp', amount: '$4,200', status: 'Paid' }]
     };
 
     const item: GpGridItem = {
@@ -84,15 +82,11 @@ describe('GpGrid Widgets & Typed Models', () => {
 
   it('should create valid List and Progress widget item definitions', () => {
     const listData: GpListWidgetData = {
-      items: [
-        { id: '1', title: 'New deployment', subtitle: 'v2.4.0', time: '5m ago' }
-      ]
+      items: [{ id: '1', title: 'New deployment', subtitle: 'v2.4.0', time: '5m ago' }]
     };
 
     const progressData: GpProgressWidgetData = {
-      items: [
-        { label: 'Storage', value: 74, formattedValue: '74 GB / 100 GB', color: 'primary' }
-      ]
+      items: [{ label: 'Storage', value: 74, formattedValue: '74 GB / 100 GB', color: 'primary' }]
     };
 
     const listItem: GpGridItem = {
@@ -130,8 +124,8 @@ describe('GpGrid Widgets & Typed Models', () => {
     const compacted = engine.compact(items);
 
     expect(compacted.length).toBe(3);
-    expect(compacted.find(i => i.id === 'kpi-1')?.row).toBe(0);
-    expect(compacted.find(i => i.id === 'kpi-2')?.row).toBe(0);
-    expect(compacted.find(i => i.id === 'chart-1')?.row).toBe(0);
+    expect(compacted.find((i) => i.id === 'kpi-1')?.row).toBe(0);
+    expect(compacted.find((i) => i.id === 'kpi-2')?.row).toBe(0);
+    expect(compacted.find((i) => i.id === 'chart-1')?.row).toBe(0);
   });
 });

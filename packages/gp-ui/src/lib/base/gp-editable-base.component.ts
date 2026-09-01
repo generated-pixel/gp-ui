@@ -1,14 +1,4 @@
-import {
-  Directive,
-  input,
-  output,
-  signal,
-  computed,
-  inject,
-  ElementRef,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { Directive, input, output, signal, computed, inject, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { GpBaseComponent } from './gp-base.component';
 import {

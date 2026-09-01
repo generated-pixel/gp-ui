@@ -1,4 +1,14 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent } from '@generatedpixel/gp-ui';
@@ -49,25 +59,27 @@ export class GpFormAdvancedFilterBuilderComponent {
   public resetFilter = output<void>();
 
   public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
-  public conditionRowTemplate = input<TemplateRef<{ $implicit: GpFilterCondition; index: number }> | undefined>(undefined);
+  public conditionRowTemplate = input<TemplateRef<{ $implicit: GpFilterCondition; index: number }> | undefined>(
+    undefined
+  );
   public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
   public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
   public contentHeader = contentChild<TemplateRef<any>>('header');
-  public contentConditionRowTemplate = contentChild<TemplateRef<{ $implicit: GpFilterCondition; index: number }>>('conditionRowTemplate');
+  public contentConditionRowTemplate =
+    contentChild<TemplateRef<{ $implicit: GpFilterCondition; index: number }>>('conditionRowTemplate');
   public contentActions = contentChild<TemplateRef<any>>('actions');
   public contentArea = contentChild<TemplateRef<any>>('content');
 
   public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
-  public effectiveConditionRowTemplate = computed(() => this.conditionRowTemplate() || this.contentConditionRowTemplate());
+  public effectiveConditionRowTemplate = computed(
+    () => this.conditionRowTemplate() || this.contentConditionRowTemplate()
+  );
   public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
   public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public addCondition(): void {
-    this.conditions.update((c) => [
-      ...c,
-      { field: 'status', operator: 'eq', value: '' }
-    ]);
+    this.conditions.update((c) => [...c, { field: 'status', operator: 'eq', value: '' }]);
   }
 
   public removeCondition(idx: number): void {

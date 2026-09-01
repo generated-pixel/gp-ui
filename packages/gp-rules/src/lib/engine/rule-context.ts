@@ -73,10 +73,7 @@ export class GpRuleContextFactory {
       }
     };
 
-    const setOptions = (
-      fieldName: string,
-      opts: Array<{ label: string; value: any; [key: string]: any }>
-    ): void => {
+    const setOptions = (fieldName: string, opts: Array<{ label: string; value: any; [key: string]: any }>): void => {
       internalState[`_options_${fieldName}`] = opts;
       if (options.onOptionsChange) {
         options.onOptionsChange(fieldName, opts);

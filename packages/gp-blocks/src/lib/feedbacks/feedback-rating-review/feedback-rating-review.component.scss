@@ -18,32 +18,32 @@
   max-width: 480px;
   margin: 0 auto;
   box-sizing: border-box;
-}
 
-.card-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+  .card-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-.head-title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 0;
-  color: var(--gp-text-color);
-}
+  .head-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
 
-.head-subtitle {
-  font-size: 0.85rem;
-  color: var(--gp-text-color-secondary);
-  margin: 0 0 0.5rem;
-}
+  .head-subtitle {
+    font-size: 0.85rem;
+    color: var(--gp-text-color-secondary);
+    margin: 0 0 0.5rem;
+  }
 
-.rating-picker-row {
-  margin: 0.5rem 0 1rem;
-}
+  .rating-picker-row {
+    margin: 0.5rem 0 1rem;
+  }
 
-.review-actions {
-  display: flex;
-  gap: 0.75rem;
+  .review-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
 }

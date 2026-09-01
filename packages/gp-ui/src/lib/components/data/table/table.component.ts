@@ -175,7 +175,9 @@ export class GpTableComponent extends GpBaseComponent {
   public isAllSelected(): boolean {
     const rows = this.displayedRows();
     const sel = this.selection();
-    if (!rows.length || !Array.isArray(sel)) return false;
+    if (!rows.length || !Array.isArray(sel)) {
+      return false;
+    }
     return rows.every((r) => this.isRowSelected(r));
   }
 

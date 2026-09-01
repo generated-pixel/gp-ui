@@ -24,9 +24,7 @@
     <div class="gp-grid-kpi-error">
       <gp-icon name="circle-alert" size="1.5em" class="gp-grid-kpi-error-icon" />
       <span class="gp-grid-kpi-error-text">{{ errorMessage() }}</span>
-      <button type="button" class="gp-grid-kpi-retry-btn" (click)="refresh(); $event.stopPropagation()">
-        Retry
-      </button>
+      <button type="button" class="gp-grid-kpi-retry-btn" (click)="refresh(); $event.stopPropagation()">Retry</button>
     </div>
   } @else {
     <div class="gp-grid-kpi-top">
@@ -55,7 +53,7 @@
             [class.gp-grid-kpi-trend--neutral]="effectiveTrend() === 'neutral'"
           >
             <gp-icon
-              [name]="effectiveTrend() === 'neg' ? 'arrow-down' : (effectiveTrend() === 'neutral' ? 'minus' : 'arrow-up')"
+              [name]="effectiveTrend() === 'neg' ? 'arrow-down' : effectiveTrend() === 'neutral' ? 'minus' : 'arrow-up'"
               size="0.8em"
             />
             <span>{{ effectiveChange() }}</span>

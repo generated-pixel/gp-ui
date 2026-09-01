@@ -31,12 +31,7 @@
               <h3 class="gp-bottom-sheet-title">{{ title() }}</h3>
             }
             @if (dismissable()) {
-              <button
-                type="button"
-                class="gp-bottom-sheet-close-btn"
-                (click)="close()"
-                aria-label="Close"
-              >
+              <button type="button" class="gp-bottom-sheet-close-btn" (click)="close()" aria-label="Close">
                 <gp-icon name="times" />
               </button>
             }

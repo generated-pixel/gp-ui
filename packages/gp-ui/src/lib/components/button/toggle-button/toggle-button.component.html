@@ -6,7 +6,7 @@
   [attr.aria-pressed]="checked()"
   [attr.aria-label]="ariaLabel() || (checked() ? onLabel() : offLabel())"
   [attr.autofocus]="autofocus() ? '' : null"
-  [attr.tabindex]="tabindex() !== undefined ? tabindex() : (isEffectivelyDisabled() ? -1 : 0)"
+  [attr.tabindex]="tabindex() !== undefined ? tabindex() : isEffectivelyDisabled() ? -1 : 0"
   (click)="toggle($event)"
   (focus)="onFocus($event)"
   (blur)="onBlur($event)"

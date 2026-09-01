@@ -33,7 +33,10 @@ export class GpRuleEngineService {
   private maxDepth = 10;
 
   /** Internal RxJS debouncers keyed by `ruleId_event` */
-  private debouncers = new Map<string, { subject: Subject<{ context: GpRuleContext; rule: GpBusinessRule }>; sub: Subscription }>();
+  private debouncers = new Map<
+    string,
+    { subject: Subject<{ context: GpRuleContext; rule: GpBusinessRule }>; sub: Subscription }
+  >();
 
   /**
    * Register a new business rule into the engine.
@@ -220,17 +223,15 @@ export class GpRuleEngineService {
     });
   }
 
-  private getMatchingTrigger(rule: GpBusinessRule, eventType: GpRuleEventType): GpRuleTrigger | GpRuleEventType | undefined {
+  private getMatchingTrigger(
+    rule: GpBusinessRule,
+    eventType: GpRuleEventType
+  ): GpRuleTrigger | GpRuleEventType | undefined {
     const triggers = Array.isArray(rule.trigger) ? rule.trigger : [rule.trigger];
     return triggers.find((t) => (typeof t === 'string' ? t : t.event) === eventType);
   }
 
-  private queueDebouncedRule(
-    rule: GpBusinessRule,
-    eventType: string,
-    delayMs: number,
-    context: GpRuleContext
-  ): void {
+  private queueDebouncedRule(rule: GpBusinessRule, eventType: string, delayMs: number, context: GpRuleContext): void {
     const key = `${rule.id}_${eventType}`;
     let debouncer = this.debouncers.get(key);
 

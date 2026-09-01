@@ -7,14 +7,7 @@ import { GpRuleEngineService } from '../engine/rule-engine.service';
 @Component({
   standalone: true,
   imports: [GpRuleDirective],
-  template: `
-    <input
-      type="text"
-      [gpRule]="testRule"
-      [gpRuleState]="state"
-      (ruleExecuted)="onExecuted($event)"
-    />
-  `
+  template: ' <input type="text" [gpRule]="testRule" [gpRuleState]="state" (ruleExecuted)="onExecuted($event)" /> '
 })
 class TestHostComponent {
   public state: Record<string, any> = { value: 'VIP' };

@@ -41,7 +41,9 @@ export class GpGridListWidgetComponent extends GpGridWidgetBase<GpListWidgetData
   public effectiveActionLabel = computed(() => this.actionLabel() || this.normalizedData().actionLabel || '');
 
   public effectiveItems = computed<GpGridListItem[]>(() => {
-    if (this.items() && this.items().length > 0) return this.items();
+    if (this.items() && this.items().length > 0) {
+      return this.items();
+    }
     if (this.normalizedData().items && this.normalizedData().items!.length > 0) {
       return this.normalizedData().items!;
     }

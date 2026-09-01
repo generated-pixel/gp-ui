@@ -24,19 +24,24 @@ export class GpStatCardComponent {
   public iconColor = input<string | undefined>(undefined);
   public iconBg = input<string | undefined>(undefined);
   public badge = input<string | undefined>(undefined);
-  public badgeSeverity = input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'>('primary');
+  public badgeSeverity = input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'>(
+    'primary'
+  );
   public progress = input<number | undefined>(undefined);
   public progressSeverity = input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'>('primary');
   public glass = input<boolean>(false);
   public interactive = input<boolean>(false);
   public styleClass = input<string>('');
 
-  public trend = input<{
-    value: string | number;
-    direction: GpStatTrendDirection;
-    label?: string;
-    isPositive?: boolean;
-  } | undefined>(undefined);
+  public trend = input<
+    | {
+        value: string | number;
+        direction: GpStatTrendDirection;
+        label?: string;
+        isPositive?: boolean;
+      }
+    | undefined
+  >(undefined);
 
   protected trendSeverity = computed(() => {
     const t = this.trend();

@@ -1,12 +1,4 @@
-import {
-  Directive,
-  input,
-  output,
-  signal,
-  effect,
-  HostListener,
-  inject
-} from '@angular/core';
+import { Directive, input, output, signal, effect, HostListener, inject } from '@angular/core';
 import { GpBaseComponent } from './gp-base.component';
 import { ZIndexService } from '../overlay/z-index.service';
 

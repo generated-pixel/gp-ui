@@ -10,7 +10,13 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
       subtitle: 'Manage your public profile information, company affiliations, and account credentials.',
       badge: { text: 'Pro Tier', severity: 'primary' },
       actions: [
-        { id: 'view-public', label: 'View Public Profile', variant: 'outlined', severity: 'secondary', icon: 'external-link' },
+        {
+          id: 'view-public',
+          label: 'View Public Profile',
+          variant: 'outlined',
+          severity: 'secondary',
+          icon: 'external-link'
+        },
         { id: 'save-changes', label: 'Save Changes', variant: 'filled', severity: 'primary', icon: 'check' }
       ]
     },
@@ -57,10 +63,32 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
       subtitle: 'Update your personal details and contact preferences.',
       gridColumns: 12,
       fields: [
-        { name: 'firstName', label: 'First Name', type: 'inset-label', placeholder: 'Jane', required: true, colSpan: 6 },
+        {
+          name: 'firstName',
+          label: 'First Name',
+          type: 'inset-label',
+          placeholder: 'Jane',
+          required: true,
+          colSpan: 6
+        },
         { name: 'lastName', label: 'Last Name', type: 'inset-label', placeholder: 'Doe', required: true, colSpan: 6 },
-        { name: 'email', label: 'Email Address', type: 'float-label', placeholder: 'jane.doe@example.com', required: true, colSpan: 6, validation: { email: true } },
-        { name: 'phone', label: 'Phone Number', type: 'mask', mask: '(999) 999-9999', placeholder: '(555) 000-0000', colSpan: 6 },
+        {
+          name: 'email',
+          label: 'Email Address',
+          type: 'float-label',
+          placeholder: 'jane.doe@example.com',
+          required: true,
+          colSpan: 6,
+          validation: { email: true }
+        },
+        {
+          name: 'phone',
+          label: 'Phone Number',
+          type: 'mask',
+          mask: '(999) 999-9999',
+          placeholder: '(555) 000-0000',
+          colSpan: 6
+        },
         {
           name: 'role',
           label: 'Primary Role',
@@ -85,9 +113,30 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
             { label: 'Cloud Architecture', value: 'cloud' }
           ]
         },
-        { name: 'bio', label: 'Biography', type: 'textarea', placeholder: 'Write a brief description about yourself...', rows: 3, colSpan: 12 },
-        { name: 'newsletter', label: 'Email Notifications', placeholder: 'Subscribe to weekly product digest', type: 'checkbox', colSpan: 6, defaultValue: true },
-        { name: 'twoFactor', label: 'Two-Factor Authentication', placeholder: 'Require 2FA code on login', type: 'switch', colSpan: 6, defaultValue: true }
+        {
+          name: 'bio',
+          label: 'Biography',
+          type: 'textarea',
+          placeholder: 'Write a brief description about yourself...',
+          rows: 3,
+          colSpan: 12
+        },
+        {
+          name: 'newsletter',
+          label: 'Email Notifications',
+          placeholder: 'Subscribe to weekly product digest',
+          type: 'checkbox',
+          colSpan: 6,
+          defaultValue: true
+        },
+        {
+          name: 'twoFactor',
+          label: 'Two-Factor Authentication',
+          placeholder: 'Require 2FA code on login',
+          type: 'switch',
+          colSpan: 6,
+          defaultValue: true
+        }
       ],
       submitButton: { id: 'submit', label: 'Update Profile', severity: 'primary', icon: 'check' },
       resetButton: { id: 'reset', label: 'Discard Changes' }
@@ -105,9 +154,27 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
     timeline: {
       title: 'Recent Security & Activity Log',
       items: [
-        { title: 'Password Changed', date: '2 hours ago', description: 'Updated security password from IP 192.168.1.42 (San Francisco, CA)', color: '#3b82f6', icon: 'lock' },
-        { title: 'API Key Generated', date: 'Yesterday at 4:32 PM', description: 'Generated new read-only API key for CI/CD deployment runner.', color: '#10b981', icon: 'code' },
-        { title: 'Team Member Invited', date: '3 days ago', description: 'Invited Sarah Connor (s.connor@acme.corp) with Developer role.', color: '#f59e0b', icon: 'user' }
+        {
+          title: 'Password Changed',
+          date: '2 hours ago',
+          description: 'Updated security password from IP 192.168.1.42 (San Francisco, CA)',
+          color: '#3b82f6',
+          icon: 'lock'
+        },
+        {
+          title: 'API Key Generated',
+          date: 'Yesterday at 4:32 PM',
+          description: 'Generated new read-only API key for CI/CD deployment runner.',
+          color: '#10b981',
+          icon: 'code'
+        },
+        {
+          title: 'Team Member Invited',
+          date: '3 days ago',
+          description: 'Invited Sarah Connor (s.connor@acme.corp) with Developer role.',
+          color: '#f59e0b',
+          icon: 'user'
+        }
       ]
     }
   },
@@ -127,8 +194,23 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
       subtitle: 'Please provide certified legal entity data.',
       gridColumns: 12,
       fields: [
-        { name: 'legalName', label: 'Legal Entity Name', type: 'inset-label', placeholder: 'Acme Technologies LLC', required: true, colSpan: 6 },
-        { name: 'taxId', label: 'Tax Identification Number (EIN)', type: 'mask', mask: '99-9999999', placeholder: '12-3456789', required: true, colSpan: 6 },
+        {
+          name: 'legalName',
+          label: 'Legal Entity Name',
+          type: 'inset-label',
+          placeholder: 'Acme Technologies LLC',
+          required: true,
+          colSpan: 6
+        },
+        {
+          name: 'taxId',
+          label: 'Tax Identification Number (EIN)',
+          type: 'mask',
+          mask: '99-9999999',
+          placeholder: '12-3456789',
+          required: true,
+          colSpan: 6
+        },
         { name: 'operatingDomain', label: 'Primary Domain', type: 'float-label', placeholder: 'acme.com', colSpan: 6 },
         {
           name: 'industryCategory',
@@ -235,14 +317,42 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
       subtitle: 'Where should we deliver your order?',
       gridColumns: 12,
       fields: [
-        { name: 'fullName', label: 'Full Recipient Name', type: 'inset-label', placeholder: 'Alex Smith', required: true, colSpan: 6 },
+        {
+          name: 'fullName',
+          label: 'Full Recipient Name',
+          type: 'inset-label',
+          placeholder: 'Alex Smith',
+          required: true,
+          colSpan: 6
+        },
         { name: 'company', label: 'Company (Optional)', type: 'inset-label', placeholder: 'Acme Inc.', colSpan: 6 },
-        { name: 'address', label: 'Street Address', type: 'text', placeholder: '123 Innovation Way, Suite 400', required: true, colSpan: 12 },
+        {
+          name: 'address',
+          label: 'Street Address',
+          type: 'text',
+          placeholder: '123 Innovation Way, Suite 400',
+          required: true,
+          colSpan: 12
+        },
         { name: 'city', label: 'City', type: 'text', placeholder: 'Austin', required: true, colSpan: 4 },
         { name: 'state', label: 'State / Province', type: 'text', placeholder: 'TX', required: true, colSpan: 4 },
-        { name: 'postalCode', label: 'Postal Code', type: 'mask', mask: '99999', placeholder: '78701', required: true, colSpan: 4 },
+        {
+          name: 'postalCode',
+          label: 'Postal Code',
+          type: 'mask',
+          mask: '99999',
+          placeholder: '78701',
+          required: true,
+          colSpan: 4
+        },
         { type: 'divider', name: 'd1', colSpan: 12 },
-        { type: 'heading', name: 'h1', label: 'Payment Method', helperText: 'All transactions are 256-bit encrypted and tokenized.', colSpan: 12 },
+        {
+          type: 'heading',
+          name: 'h1',
+          label: 'Payment Method',
+          helperText: 'All transactions are 256-bit encrypted and tokenized.',
+          colSpan: 12
+        },
         {
           name: 'paymentType',
           label: 'Select Payment Mode',
@@ -255,9 +365,33 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
             { label: 'Bank Wire Transfer', value: 'wire' }
           ]
         },
-        { name: 'cardNumber', label: 'Card Number', type: 'mask', mask: '9999 9999 9999 9999', placeholder: '4000 1234 5678 9010', required: true, colSpan: 6 },
-        { name: 'cardExpiry', label: 'Expiration Date (MM/YY)', type: 'mask', mask: '99/99', placeholder: '12/28', required: true, colSpan: 3 },
-        { name: 'cardCvc', label: 'CVC / CVV', type: 'mask', mask: '999', placeholder: '321', required: true, colSpan: 3 }
+        {
+          name: 'cardNumber',
+          label: 'Card Number',
+          type: 'mask',
+          mask: '9999 9999 9999 9999',
+          placeholder: '4000 1234 5678 9010',
+          required: true,
+          colSpan: 6
+        },
+        {
+          name: 'cardExpiry',
+          label: 'Expiration Date (MM/YY)',
+          type: 'mask',
+          mask: '99/99',
+          placeholder: '12/28',
+          required: true,
+          colSpan: 3
+        },
+        {
+          name: 'cardCvc',
+          label: 'CVC / CVV',
+          type: 'mask',
+          mask: '999',
+          placeholder: '321',
+          required: true,
+          colSpan: 3
+        }
       ],
       submitButton: { id: 'pay', label: 'Authorize & Pay $499.00', severity: 'success', icon: 'lock' },
       resetButton: { id: 'cancel', label: 'Back to Cart' }
@@ -273,7 +407,13 @@ export const GP_SCHEMA_PRESETS: Record<string, GpBlockMetadata> = {
       subtitle: 'Real-time performance metrics and subscription health for Q3.',
       badge: { text: 'Live Feed', severity: 'success' },
       actions: [
-        { id: 'download-pdf', label: 'Export PDF Report', variant: 'outlined', severity: 'secondary', icon: 'download' },
+        {
+          id: 'download-pdf',
+          label: 'Export PDF Report',
+          variant: 'outlined',
+          severity: 'secondary',
+          icon: 'download'
+        },
         { id: 'create-campaign', label: 'New Campaign', variant: 'filled', severity: 'primary', icon: 'plus' }
       ]
     },

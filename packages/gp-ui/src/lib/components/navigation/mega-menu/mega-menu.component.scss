@@ -94,7 +94,9 @@
   color: var(--gp-text-color-muted);
   font-size: 0.8em;
   margin-left: 0.15rem;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color var(--gp-transition-duration);
+  transition:
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color var(--gp-transition-duration);
 }
 
 .gp-megamenu-horizontal .gp-megamenu-root-arrow-rotated {

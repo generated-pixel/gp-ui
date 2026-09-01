@@ -362,7 +362,7 @@ export class GridDemoComponent {
   }
 
   // --- API DOCUMENTATION DATA ---
-  public importCode = `import { GpGridComponent, GpGridWidgetComponent, GpGridItem } from 'gp-grid';`;
+  public importCode = "import { GpGridComponent, GpGridWidgetComponent, GpGridItem } from 'gp-grid';";
 
   public usageCode = `@Component({
   selector: 'app-dashboard',

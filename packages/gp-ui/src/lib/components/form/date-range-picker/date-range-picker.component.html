@@ -4,12 +4,7 @@
     <gp-icon name="calendar" class="gp-date-range__icon" />
     <span class="gp-date-range__display-text">{{ formattedRange() || placeholder() }}</span>
     @if (value()?.start && !disabled()) {
-      <button
-        type="button"
-        class="gp-date-range__clear-btn"
-        (click)="clear($event)"
-        title="Clear range"
-      >
+      <button type="button" class="gp-date-range__clear-btn" (click)="clear($event)" title="Clear range">
         <gp-icon name="times" size="0.8em" />
       </button>
     }
@@ -23,11 +18,7 @@
       @if (presets() && presets().length > 0) {
         <div class="gp-date-range__presets">
           @for (p of presets(); track p.label) {
-            <button
-              type="button"
-              class="gp-date-range__preset-btn"
-              (click)="selectPreset(p)"
-            >
+            <button type="button" class="gp-date-range__preset-btn" (click)="selectPreset(p)">
               {{ p.label }}
             </button>
           }

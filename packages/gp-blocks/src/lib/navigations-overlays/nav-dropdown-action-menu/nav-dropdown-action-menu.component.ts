@@ -1,4 +1,14 @@
-import { Component, input, output, TemplateRef, ViewEncapsulation, contentChild, viewChild, computed, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  ViewEncapsulation,
+  contentChild,
+  viewChild,
+  computed,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpDividerComponent, GpPopoverComponent } from '@generatedpixel/gp-ui';
 

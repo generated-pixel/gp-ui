@@ -13,7 +13,9 @@ function replaceInDir(dir) {
       let content = fs.readFileSync(full, 'utf8');
       if (content.includes("'gp-ui-icons'")) {
         let rel = path.relative(path.dirname(full), path.join(base, 'icons/icon.component')).replace(/\\/g, '/');
-        if (!rel.startsWith('.')) rel = './' + rel;
+        if (!rel.startsWith('.')) {
+          rel = './' + rel;
+        }
         content = content.replace(/from\s+['"]gp-ui-icons['"]/g, `from '${rel}'`);
         fs.writeFileSync(full, content);
         console.log('Updated:', entry.name, '->', rel);

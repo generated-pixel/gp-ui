@@ -43,12 +43,7 @@
 
   <div class="gp-select-triggers">
     @if (showClear() && selectedOptions().length > 0 && !isEffectivelyDisabled()) {
-      <button
-        type="button"
-        class="gp-select-clear-btn"
-        aria-label="Clear selection"
-        (click)="clear($event)"
-      >
+      <button type="button" class="gp-select-clear-btn" aria-label="Clear selection" (click)="clear($event)">
         <gp-icon name="times" size="0.8em" />
       </button>
     }

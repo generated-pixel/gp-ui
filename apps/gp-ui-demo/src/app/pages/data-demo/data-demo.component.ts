@@ -192,7 +192,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   ]
 })
 export class DataDemoComponent {
-  importCode = `import { GpTableComponent, GpColumnComponent, GpDataViewComponent } from '@generatedpixel/gp-ui';`;
+  importCode = "import { GpTableComponent, GpColumnComponent, GpDataViewComponent } from '@generatedpixel/gp-ui';";
 
   tableCode = `<gp-table
   [value]="customers"

@@ -1,4 +1,14 @@
-import { Component, input, output, signal, computed, TemplateRef, contentChild, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  computed,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpDialogComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -31,9 +41,7 @@ export class GpOverlayCommandPaletteComponent {
   public filteredCommands = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();
     return query
-      ? this.commands().filter((command) =>
-          `${command.label} ${command.subLabel || ''}`.toLowerCase().includes(query)
-        )
+      ? this.commands().filter((command) => `${command.label} ${command.subLabel || ''}`.toLowerCase().includes(query))
       : this.commands();
   });
 

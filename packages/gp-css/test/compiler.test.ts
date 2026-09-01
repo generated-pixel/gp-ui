@@ -10,7 +10,8 @@ console.log('Running expanded gp-css test suite...');
 
 // Test 1: Scanner
 {
-  const sampleHtml = `<div class="flex items-center justify-between p-4 bg-panel rounded-xl hover:bg-slate-800 sm:p-6 animate-pulse scale-105 ring-2 ring-primary"><span class="bg-clip-text text-transparent">Glow</span></div>`;
+  const sampleHtml =
+    '<div class="flex items-center justify-between p-4 bg-panel rounded-xl hover:bg-slate-800 sm:p-6 animate-pulse scale-105 ring-2 ring-primary"><span class="bg-clip-text text-transparent">Glow</span></div>';
   const candidates = scanContent(sampleHtml);
   assert.ok(candidates.has('flex'), 'Should scan flex');
   assert.ok(candidates.has('items-center'), 'Should scan items-center');
@@ -95,7 +96,7 @@ console.log('Running expanded gp-css test suite...');
   });
 
   const result = compile({
-    content: [`<div class="custom-badge"></div>`],
+    content: ['<div class="custom-badge"></div>'],
     plugins: [myPlugin]
   });
 

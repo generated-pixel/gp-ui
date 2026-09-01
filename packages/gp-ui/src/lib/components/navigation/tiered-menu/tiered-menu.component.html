@@ -80,11 +80,7 @@
                                 @if (nested.separator) {
                                   <li class="gp-menu-separator" role="separator"></li>
                                 } @else {
-                                  <li
-                                    class="gp-menu-item"
-                                    [class.gp-menu-item-disabled]="nested.disabled"
-                                    role="none"
-                                  >
+                                  <li class="gp-menu-item" [class.gp-menu-item-disabled]="nested.disabled" role="none">
                                     <a
                                       [routerLink]="nested.routerLink"
                                       [attr.href]="nested.url || null"

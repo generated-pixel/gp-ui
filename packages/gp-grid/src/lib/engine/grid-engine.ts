@@ -9,22 +9,13 @@ export class GpGridEngine {
     a: { x: number; y: number; w: number; h: number },
     b: { x: number; y: number; w: number; h: number }
   ): boolean {
-    return !(
-      a.x + a.w <= b.x ||
-      b.x + b.w <= a.x ||
-      a.y + a.h <= b.y ||
-      b.y + b.h <= a.y
-    );
+    return !(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y);
   }
 
   /**
    * Clamp an item's position and size to remain within grid boundaries.
    */
-  public static clampItem(
-    item: GpGridItem,
-    columns: number,
-    maxRows = 1000
-  ): GpGridItem {
+  public static clampItem(item: GpGridItem, columns: number, maxRows = 1000): GpGridItem {
     const minW = Math.max(1, item.minW ?? 1);
     const maxW = Math.min(columns, item.maxW ?? columns);
     const minH = Math.max(1, item.minH ?? 1);
@@ -54,12 +45,7 @@ export class GpGridEngine {
     candidate: { id?: string; x: number; y: number; w: number; h: number },
     items: GpGridItem[]
   ): boolean {
-    return items.some(
-      (item) =>
-        item.locked &&
-        item.id !== candidate.id &&
-        this.doItemsOverlap(candidate, item)
-    );
+    return items.some((item) => item.locked && item.id !== candidate.id && this.doItemsOverlap(candidate, item));
   }
 
   /**
@@ -76,9 +62,7 @@ export class GpGridEngine {
     compactType: GpGridCompactType = 'vertical'
   ): GpGridItem[] {
     // Clone all items
-    const result: GpGridItem[] = items.map((it) =>
-      it.id === movingItem.id ? { ...movingItem } : { ...it }
-    );
+    const result: GpGridItem[] = items.map((it) => (it.id === movingItem.id ? { ...movingItem } : { ...it }));
 
     // If movingItem overlaps any locked item, placement cannot occur directly there.
     // In this case, we keep the moving item at its last valid or clamped position.
@@ -103,20 +87,14 @@ export class GpGridEngine {
    * Unless the resized widget directly overlaps another widget, none of the other
    * widgets in the grid will move or change positions.
    */
-  public static resolveResize(
-    items: GpGridItem[],
-    resizedItem: GpGridItem,
-    columns: number
-  ): GpGridItem[] {
+  public static resolveResize(items: GpGridItem[], resizedItem: GpGridItem, columns: number): GpGridItem[] {
     // If resizedItem overlaps any locked item, placement is blocked
     if (this.overlapsLockedItem(resizedItem, items)) {
       return items;
     }
 
     // Clone all items with the resizedItem's new dimensions
-    const result: GpGridItem[] = items.map((it) =>
-      it.id === resizedItem.id ? { ...resizedItem } : { ...it }
-    );
+    const result: GpGridItem[] = items.map((it) => (it.id === resizedItem.id ? { ...resizedItem } : { ...it }));
 
     // Only cascade-displace items that actually overlap with resizedItem
     const placedItem = result.find((it) => it.id === resizedItem.id)!;
@@ -128,11 +106,7 @@ export class GpGridEngine {
   /**
    * Cascading collision resolver.
    */
-  private static resolveCascadingCollisions(
-    items: GpGridItem[],
-    triggerItem: GpGridItem,
-    columns: number
-  ): void {
+  private static resolveCascadingCollisions(items: GpGridItem[], triggerItem: GpGridItem, columns: number): void {
     const queue: GpGridItem[] = [triggerItem];
     const visited = new Set<string>();
 
@@ -175,14 +149,12 @@ export class GpGridEngine {
   /**
    * Vertically compact all non-locked items towards y=0 without causing overlaps.
    */
-  public static compactGrid(
-    items: GpGridItem[],
-    excludedId?: string,
-    columns = 12
-  ): GpGridItem[] {
+  public static compactGrid(items: GpGridItem[], excludedId?: string, columns = 12): GpGridItem[] {
     // Sort items top-to-bottom, left-to-right
     const sorted = [...items].sort((a, b) => {
-      if (a.y !== b.y) return a.y - b.y;
+      if (a.y !== b.y) {
+        return a.y - b.y;
+      }
       return a.x - b.x;
     });
 
@@ -195,10 +167,7 @@ export class GpGridEngine {
       // Try decrementing y towards 0
       while (item.y > 0) {
         const testItem = { ...item, y: item.y - 1 };
-        const hasCollision = items.some(
-          (other) =>
-            other.id !== item.id && this.doItemsOverlap(testItem, other)
-        );
+        const hasCollision = items.some((other) => other.id !== item.id && this.doItemsOverlap(testItem, other));
 
         if (!hasCollision) {
           item.y -= 1;
@@ -227,9 +196,7 @@ export class GpGridEngine {
     while (true) {
       for (let x = 0; x <= columns - clampedW; x++) {
         const candidate = { x, y, w: clampedW, h: clampedH };
-        const hasCollision = items.some((item) =>
-          this.doItemsOverlap(candidate, item)
-        );
+        const hasCollision = items.some((item) => this.doItemsOverlap(candidate, item));
 
         if (!hasCollision) {
           return { x, y };

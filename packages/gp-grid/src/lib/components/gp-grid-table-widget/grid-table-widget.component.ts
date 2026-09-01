@@ -55,7 +55,9 @@ export class GpGridTableWidgetComponent extends GpGridWidgetBase<GpTableWidgetDa
   );
 
   public effectiveColumns = computed<GpGridTableColumn[]>(() => {
-    if (this.columns() && this.columns().length > 0) return this.columns();
+    if (this.columns() && this.columns().length > 0) {
+      return this.columns();
+    }
     if (this.normalizedData().columns && this.normalizedData().columns!.length > 0) {
       return this.normalizedData().columns!;
     }
@@ -76,7 +78,9 @@ export class GpGridTableWidgetComponent extends GpGridWidgetBase<GpTableWidgetDa
     }
 
     const q = this.filterQuery().trim().toLowerCase();
-    if (!q) return list;
+    if (!q) {
+      return list;
+    }
 
     return list.filter((row) => {
       return Object.values(row).some((val) =>
@@ -91,12 +95,19 @@ export class GpGridTableWidgetComponent extends GpGridWidgetBase<GpTableWidgetDa
     if (col.badgeSeverityField && row[col.badgeSeverityField]) {
       return row[col.badgeSeverityField] as GpBadgeSeverity;
     }
-    if (col.badgeSeverity) return col.badgeSeverity;
+    if (col.badgeSeverity) {
+      return col.badgeSeverity;
+    }
     const val = String(row[col.field] || '').toLowerCase();
-    if (val.includes('active') || val.includes('completed') || val.includes('paid') || val.includes('success'))
+    if (val.includes('active') || val.includes('completed') || val.includes('paid') || val.includes('success')) {
       return 'success';
-    if (val.includes('pending') || val.includes('processing') || val.includes('warning')) return 'warning';
-    if (val.includes('danger') || val.includes('failed') || val.includes('error')) return 'danger';
+    }
+    if (val.includes('pending') || val.includes('processing') || val.includes('warning')) {
+      return 'warning';
+    }
+    if (val.includes('danger') || val.includes('failed') || val.includes('error')) {
+      return 'danger';
+    }
     return 'primary';
   }
 

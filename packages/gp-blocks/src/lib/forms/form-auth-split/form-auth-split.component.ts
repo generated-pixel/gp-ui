@@ -1,13 +1,36 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent, GpPasswordComponent } from '@generatedpixel/gp-ui';
+import {
+  GpButtonComponent,
+  GpCheckboxComponent,
+  GpIconComponent,
+  GpInputTextComponent,
+  GpPasswordComponent
+} from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-auth-split',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent, GpPasswordComponent],
+  imports: [
+    CommonModule,
+    GpButtonComponent,
+    GpCheckboxComponent,
+    GpIconComponent,
+    GpInputTextComponent,
+    GpPasswordComponent
+  ],
   templateUrl: './form-auth-split.component.html',
   styleUrl: './form-auth-split.component.scss'
 })

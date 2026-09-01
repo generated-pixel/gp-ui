@@ -1,6 +1,7 @@
 # Changelog
 
 ## [1.0.0] - 2026-09-01
+
 - **Official v1.0.0 Production Release of the `@generatedpixel` UI Framework Suite**
 - **New Package**: `@generatedpixel/gp-rules` — Dynamic, reactive Business Rules Engine with debounced keypress, blur, focus, change, click triggers, condition evaluators, formula calculators, and visual inspector/builder.
 - **New Package**: `@generatedpixel/gp-grid` — High-performance responsive dynamic dashboard grid & KPI/Chart widget engine.
@@ -66,27 +67,33 @@
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
 
 ## [0.2.0] - 2026-08-28
+
 - Release of @generatedpixel gp-ui suite v0.2.0
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
 
 ## [0.2.1] - 2026-08-28
+
 - Release of @generatedpixel gp-ui suite v0.2.1
 - Modular base class architecture (`GpButtonBaseComponent`, `GpInputBaseComponent`, `GpSelectBaseComponent`, `GpCheckableBaseComponent`, `GpMenuBaseComponent`, `GpOverlayBaseComponent`, `GpPanelBaseComponent`)
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
 
 ## [0.4.0] - 2026-08-29
+
 - Release of @generatedpixel gp-ui suite v0.4.0
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
 
 ## [0.4.1] - 2026-08-30
+
 - Release of @generatedpixel gp-ui suite v0.4.1
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
 
 ## [0.5.0] - 2026-08-30
+
 - Release of @generatedpixel gp-ui suite v0.5.0
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, @generatedpixel/gp-css, @generatedpixel/gp-blocks, and @generatedpixel/gp-grid
 
 ## [0.6.0] - 2026-09-01
+
 - Release of @generatedpixel gp-ui suite v0.6.0
 - Added comprehensive Label Component Suite (`<gp-label>`, `<gp-float-label>`, `<gp-inset-label>`)
 - Full migration across library packages to 100% Angular Signals API (`input()`, `model()`, `output()`, `contentChild()`, `viewChild()`, `computed()`, `signal()`)
@@ -95,8 +102,7 @@
 - Enhanced Pride theme and customizable scrollbar design tokens
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, @generatedpixel/gp-css, @generatedpixel/gp-blocks, and @generatedpixel/gp-grid
 
-
-
 ## [0.6.0] - 2026-09-01
+
 - Release of @generatedpixel gp-ui suite v0.6.0
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css

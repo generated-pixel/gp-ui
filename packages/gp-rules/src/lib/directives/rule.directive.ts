@@ -3,17 +3,7 @@
  * Directive for attaching dynamic business rules directly to elements and gp-ui components.
  */
 
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  OnInit,
-  OnDestroy,
-  input,
-  output,
-  inject,
-  Optional
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, OnDestroy, input, output, inject, Optional } from '@angular/core';
 import { FormGroup, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { GpBusinessRule } from '../types/rule.types';

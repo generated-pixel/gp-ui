@@ -141,18 +141,26 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
 
           <!-- Edit Mode Toggle (Light / Dark) -->
           <div class="mode-switch-wrap">
-            <gp-button label="Light Mode" icon="sun" size="sm" [variant]="editMode() === 'light' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (editMode() === 'light' ? ' active' : '')" (onClickEvent)="setEditMode('light')" />
-            <gp-button label="Dark Mode" icon="moon" size="sm" [variant]="editMode() === 'dark' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (editMode() === 'dark' ? ' active' : '')" (onClickEvent)="setEditMode('dark')" />
+            <gp-button
+              label="Light Mode"
+              icon="sun"
+              size="sm"
+              [variant]="editMode() === 'light' ? 'filled' : 'outlined'"
+              [styleClass]="'mode-btn' + (editMode() === 'light' ? ' active' : '')"
+              (onClickEvent)="setEditMode('light')"
+            />
+            <gp-button
+              label="Dark Mode"
+              icon="moon"
+              size="sm"
+              [variant]="editMode() === 'dark' ? 'filled' : 'outlined'"
+              [styleClass]="'mode-btn' + (editMode() === 'dark' ? ' active' : '')"
+              (onClickEvent)="setEditMode('dark')"
+            />
           </div>
 
           <!-- Reset & Export Buttons -->
-          <gp-button
-            label="Reset"
-            variant="outlined"
-            severity="secondary"
-            size="sm"
-            (onClickEvent)="resetToPreset()"
-          />
+          <gp-button label="Reset" variant="outlined" severity="secondary" size="sm" (onClickEvent)="resetToPreset()" />
           <gp-button
             label="Export Theme"
             variant="filled"
@@ -169,10 +177,38 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         <div class="control-panel">
           <!-- Main Tab Navigation Bar -->
           <div class="editor-tabs">
-            <gp-button label="Primitives" icon="sliders" size="sm" [variant]="activeTab() === 'primitives' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'primitives' ? ' active' : '')" (onClickEvent)="setActiveTab('primitives')" />
-            <gp-button label="Semantics" icon="palette" size="sm" [variant]="activeTab() === 'semantics' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'semantics' ? ' active' : '')" (onClickEvent)="setActiveTab('semantics')" />
-            <gp-button label="Components" icon="box" size="sm" [variant]="activeTab() === 'components' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'components' ? ' active' : '')" (onClickEvent)="setActiveTab('components')" />
-            <gp-button label="Export Code" icon="download" size="sm" [variant]="activeTab() === 'export' ? 'filled' : 'text'" [styleClass]="'tab-btn' + (activeTab() === 'export' ? ' active' : '')" (onClickEvent)="setActiveTab('export')" />
+            <gp-button
+              label="Primitives"
+              icon="sliders"
+              size="sm"
+              [variant]="activeTab() === 'primitives' ? 'filled' : 'text'"
+              [styleClass]="'tab-btn' + (activeTab() === 'primitives' ? ' active' : '')"
+              (onClickEvent)="setActiveTab('primitives')"
+            />
+            <gp-button
+              label="Semantics"
+              icon="palette"
+              size="sm"
+              [variant]="activeTab() === 'semantics' ? 'filled' : 'text'"
+              [styleClass]="'tab-btn' + (activeTab() === 'semantics' ? ' active' : '')"
+              (onClickEvent)="setActiveTab('semantics')"
+            />
+            <gp-button
+              label="Components"
+              icon="box"
+              size="sm"
+              [variant]="activeTab() === 'components' ? 'filled' : 'text'"
+              [styleClass]="'tab-btn' + (activeTab() === 'components' ? ' active' : '')"
+              (onClickEvent)="setActiveTab('components')"
+            />
+            <gp-button
+              label="Export Code"
+              icon="download"
+              size="sm"
+              [variant]="activeTab() === 'export' ? 'filled' : 'text'"
+              [styleClass]="'tab-btn' + (activeTab() === 'export' ? ' active' : '')"
+              (onClickEvent)="setActiveTab('export')"
+            />
           </div>
 
           <div class="tab-content">
@@ -186,7 +222,10 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                       <gp-icon name="palette" size="1.2em" class="studio-header-icon" />
                       <div>
                         <h4 class="studio-title">Custom Primary Base Color (500)</h4>
-                        <p class="studio-subtext">Choose any custom hue, enter an exact Hex code, adjust HSL sliders, or generate a random palette.</p>
+                        <p class="studio-subtext">
+                          Choose any custom hue, enter an exact Hex code, adjust HSL sliders, or generate a random
+                          palette.
+                        </p>
                       </div>
                     </div>
 
@@ -205,7 +244,11 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
 
                   <!-- Visual Swatch & Direct Hex Input -->
                   <div class="custom-color-controls">
-                    <div class="color-swatch-box" [style.backgroundColor]="primaryBaseColor()" title="Click to open color wheel">
+                    <div
+                      class="color-swatch-box"
+                      [style.backgroundColor]="primaryBaseColor()"
+                      title="Click to open color wheel"
+                    >
                       <input
                         type="color"
                         class="color-native-input"
@@ -294,7 +337,11 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                         <span class="slider-name">Lightness</span>
                         <span class="slider-val">{{ lightness() }}%</span>
                       </div>
-                      <div class="slider-track-wrap lightness-track" [style.--hue]="hue()" [style.--sat]="saturation() + '%'">
+                      <div
+                        class="slider-track-wrap lightness-track"
+                        [style.--hue]="hue()"
+                        [style.--sat]="saturation() + '%'"
+                      >
                         <input
                           type="range"
                           min="15"
@@ -334,7 +381,10 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                 <div class="shade-ramp-container">
                   <div class="shade-ramp-header">
                     <h4>Generated 50–950 Scale Ramp</h4>
-                    <span class="shade-ramp-subtext">HSL-calculated shades automatically applied across components, hover states, and dark mode. Click any step to set as base.</span>
+                    <span class="shade-ramp-subtext"
+                      >HSL-calculated shades automatically applied across components, hover states, and dark mode. Click
+                      any step to set as base.</span
+                    >
                   </div>
                   <div class="shade-ramp-grid">
                     @for (step of colorScaleSteps; track step) {
@@ -344,12 +394,11 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                         (click)="onPrimaryHexChange(getPrimaryScaleStep(step))"
                         [title]="'Step ' + step + ': ' + getPrimaryScaleStep(step) + ' (Click to set as base)'"
                       >
-                        <div
-                          class="shade-swatch"
-                          [style.backgroundColor]="getPrimaryScaleStep(step)"
-                        >
+                        <div class="shade-swatch" [style.backgroundColor]="getPrimaryScaleStep(step)">
                           @if (step === 500) {
-                            <span class="base-badge" [style.color]="getBestContrastTextColor(getPrimaryScaleStep(step))">BASE</span>
+                            <span class="base-badge" [style.color]="getBestContrastTextColor(getPrimaryScaleStep(step))"
+                              >BASE</span
+                            >
                           }
                         </div>
                         <span class="shade-step">{{ step }}</span>
@@ -426,7 +475,9 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
             @if (activeTab() === 'semantics') {
               <div class="tab-section">
                 <h3>Semantic Tokens ({{ editMode() | titlecase }} Mode)</h3>
-                <p class="section-desc">Customize brand intents, status colors, surfaces, and text for {{ editMode() }} mode.</p>
+                <p class="section-desc">
+                  Customize brand intents, status colors, surfaces, and text for {{ editMode() }} mode.
+                </p>
 
                 <h4>Brand &amp; Status Colors</h4>
                 <div class="token-grid">
@@ -582,7 +633,9 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
             @if (activeTab() === 'components') {
               <div class="tab-section">
                 <h3>Component Token Overrides</h3>
-                <p class="section-desc">Select any component from the library to override its specific design tokens.</p>
+                <p class="section-desc">
+                  Select any component from the library to override its specific design tokens.
+                </p>
 
                 <div class="comp-select-row">
                   <label>Component Target:</label>
@@ -641,13 +694,39 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
             @if (activeTab() === 'export') {
               <div class="tab-section export-section">
                 <h3>Export Theme Package</h3>
-                <p class="section-desc">Copy or download your customized theme output for direct integration into Angular apps.</p>
+                <p class="section-desc">
+                  Copy or download your customized theme output for direct integration into Angular apps.
+                </p>
 
                 <div class="export-format-selector">
-                  <gp-button label="CSS Stylesheet (.css)" size="sm" [variant]="exportFormat() === 'css' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'css' ? ' active' : '')" (onClickEvent)="exportFormat.set('css')" />
-                  <gp-button label="TypeScript Definition (.ts)" size="sm" [variant]="exportFormat() === 'typescript' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'typescript' ? ' active' : '')" (onClickEvent)="exportFormat.set('typescript')" />
-                  <gp-button label="JSON Tokens (.json)" size="sm" [variant]="exportFormat() === 'json' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'json' ? ' active' : '')" (onClickEvent)="exportFormat.set('json')" />
-                  <gp-button label="Angular Integration" size="sm" [variant]="exportFormat() === 'angular' ? 'filled' : 'text'" [styleClass]="'format-btn' + (exportFormat() === 'angular' ? ' active' : '')" (onClickEvent)="exportFormat.set('angular')" />
+                  <gp-button
+                    label="CSS Stylesheet (.css)"
+                    size="sm"
+                    [variant]="exportFormat() === 'css' ? 'filled' : 'text'"
+                    [styleClass]="'format-btn' + (exportFormat() === 'css' ? ' active' : '')"
+                    (onClickEvent)="exportFormat.set('css')"
+                  />
+                  <gp-button
+                    label="TypeScript Definition (.ts)"
+                    size="sm"
+                    [variant]="exportFormat() === 'typescript' ? 'filled' : 'text'"
+                    [styleClass]="'format-btn' + (exportFormat() === 'typescript' ? ' active' : '')"
+                    (onClickEvent)="exportFormat.set('typescript')"
+                  />
+                  <gp-button
+                    label="JSON Tokens (.json)"
+                    size="sm"
+                    [variant]="exportFormat() === 'json' ? 'filled' : 'text'"
+                    [styleClass]="'format-btn' + (exportFormat() === 'json' ? ' active' : '')"
+                    (onClickEvent)="exportFormat.set('json')"
+                  />
+                  <gp-button
+                    label="Angular Integration"
+                    size="sm"
+                    [variant]="exportFormat() === 'angular' ? 'filled' : 'text'"
+                    [styleClass]="'format-btn' + (exportFormat() === 'angular' ? ' active' : '')"
+                    (onClickEvent)="exportFormat.set('angular')"
+                  />
                 </div>
 
                 <div class="export-actions-bar">
@@ -796,16 +875,12 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
               </gp-card>
 
               <gp-panel header="Sample Panel Container">
-                <p class="text-sm py-1">
-                  Panel container rendered with theme border and background tokens.
-                </p>
+                <p class="text-sm py-1">Panel container rendered with theme border and background tokens.</p>
               </gp-panel>
 
               <gp-accordion>
                 <gp-accordion-tab header="Accordion Section Preview">
-                  <p class="text-sm py-2">
-                    Accordion panel with theme typography and surface styling.
-                  </p>
+                  <p class="text-sm py-2">Accordion panel with theme typography and surface styling.</p>
                 </gp-accordion-tab>
               </gp-accordion>
             </div>
@@ -1072,7 +1147,9 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         border: 2px solid var(--gp-surface-border, rgba(0, 0, 0, 0.15));
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         overflow: hidden;
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease;
       }
 
       .color-swatch-box:hover {
@@ -1216,20 +1293,11 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
       }
 
       .saturation-track .gp-range-slider {
-        background: linear-gradient(
-          to right,
-          hsl(var(--hue, 240), 0%, 50%),
-          hsl(var(--hue, 240), 100%, 50%)
-        );
+        background: linear-gradient(to right, hsl(var(--hue, 240), 0%, 50%), hsl(var(--hue, 240), 100%, 50%));
       }
 
       .lightness-track .gp-range-slider {
-        background: linear-gradient(
-          to right,
-          #000000 0%,
-          hsl(var(--hue, 240), var(--sat, 80%), 50%) 50%,
-          #ffffff 100%
-        );
+        background: linear-gradient(to right, #000000 0%, hsl(var(--hue, 240), var(--sat, 80%), 50%) 50%, #ffffff 100%);
       }
 
       /* Quick Inspirations */
@@ -1263,7 +1331,9 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.12s ease, box-shadow 0.12s ease;
+        transition:
+          transform 0.12s ease,
+          box-shadow 0.12s ease;
       }
 
       .starter-swatch:hover {
@@ -1272,7 +1342,9 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
       }
 
       .starter-swatch-active {
-        box-shadow: 0 0 0 2px var(--gp-surface-ground, #fff), 0 0 0 4px var(--gp-primary, #4f46e5);
+        box-shadow:
+          0 0 0 2px var(--gp-surface-ground, #fff),
+          0 0 0 4px var(--gp-primary, #4f46e5);
         transform: scale(1.1);
       }
 
@@ -1558,40 +1630,75 @@ export class ThemeEditorComponent {
 
   public themeColorPresets = ['#6366f1', '#0ea5e9', '#14b8a6', '#22c55e', '#eab308', '#f97316', '#ef4444', '#64748b'];
   public componentOptions = [
-    { label: 'Button', value: 'button' }, { label: 'Button Group', value: 'buttonGroup' },
-    { label: 'Split Button', value: 'splitButton' }, { label: 'Speed Dial', value: 'speedDial' },
-    { label: 'Toggle Button', value: 'toggleButton' }, { label: 'Input / Input Text', value: 'input' },
-    { label: 'Textarea', value: 'textarea' }, { label: 'Password', value: 'password' },
-    { label: 'Input Number', value: 'inputNumber' }, { label: 'Input Mask', value: 'inputMask' },
-    { label: 'Checkbox', value: 'checkbox' }, { label: 'Radio Button', value: 'radioButton' },
-    { label: 'Switch', value: 'switch' }, { label: 'Slider', value: 'slider' },
-    { label: 'Rating', value: 'rating' }, { label: 'Color Picker', value: 'colorPicker' },
-    { label: 'Select', value: 'select' }, { label: 'MultiSelect', value: 'multiSelect' },
-    { label: 'Listbox', value: 'listbox' }, { label: 'Autocomplete', value: 'autocomplete' },
-    { label: 'Cascade Select', value: 'cascadeSelect' }, { label: 'Tree Select', value: 'treeSelect' },
-    { label: 'Date Picker', value: 'datePicker' }, { label: 'Time Picker', value: 'timePicker' },
-    { label: 'File Upload', value: 'fileUpload' }, { label: 'Table', value: 'table' },
-    { label: 'Column', value: 'column' }, { label: 'Tree Table', value: 'treeTable' },
-    { label: 'Data View', value: 'dataView' }, { label: 'Paginator', value: 'paginator' },
-    { label: 'Virtual Scroller', value: 'virtualScroller' }, { label: 'Avatar', value: 'avatar' },
-    { label: 'Chip', value: 'chip' }, { label: 'Badge', value: 'badge' }, { label: 'Tag', value: 'tag' },
-    { label: 'Image', value: 'image' }, { label: 'Carousel', value: 'carousel' },
-    { label: 'Timeline', value: 'timeline' }, { label: 'Meter Group', value: 'meterGroup' },
-    { label: 'Empty State', value: 'emptyState' }, { label: 'Toast', value: 'toast' },
-    { label: 'Message', value: 'message' }, { label: 'Progress Bar', value: 'progressBar' },
-    { label: 'Progress Spinner', value: 'progressSpinner' }, { label: 'Skeleton', value: 'skeleton' },
-    { label: 'Menu', value: 'menu' }, { label: 'Menubar', value: 'menubar' },
-    { label: 'Context Menu', value: 'contextMenu' }, { label: 'Tiered Menu', value: 'tieredMenu' },
-    { label: 'Mega Menu', value: 'megaMenu' }, { label: 'Panel Menu', value: 'panelMenu' },
-    { label: 'Breadcrumb', value: 'breadcrumb' }, { label: 'Tabs', value: 'tabs' },
-    { label: 'Stepper', value: 'stepper' }, { label: 'Dock', value: 'dock' },
-    { label: 'Toolbar', value: 'toolbar' }, { label: 'Dialog', value: 'dialog' },
-    { label: 'Confirm Dialog', value: 'confirmDialog' }, { label: 'Drawer', value: 'drawer' },
-    { label: 'Popover', value: 'popover' }, { label: 'Card', value: 'card' },
-    { label: 'Panel', value: 'panel' }, { label: 'Accordion', value: 'accordion' },
-    { label: 'Fieldset', value: 'fieldset' }, { label: 'Divider', value: 'divider' },
-    { label: 'Splitter', value: 'splitter' }, { label: 'Scroll Panel', value: 'scrollPanel' },
-    { label: 'Tree', value: 'tree' }, { label: 'Tree Node', value: 'treeNode' },
+    { label: 'Button', value: 'button' },
+    { label: 'Button Group', value: 'buttonGroup' },
+    { label: 'Split Button', value: 'splitButton' },
+    { label: 'Speed Dial', value: 'speedDial' },
+    { label: 'Toggle Button', value: 'toggleButton' },
+    { label: 'Input / Input Text', value: 'input' },
+    { label: 'Textarea', value: 'textarea' },
+    { label: 'Password', value: 'password' },
+    { label: 'Input Number', value: 'inputNumber' },
+    { label: 'Input Mask', value: 'inputMask' },
+    { label: 'Checkbox', value: 'checkbox' },
+    { label: 'Radio Button', value: 'radioButton' },
+    { label: 'Switch', value: 'switch' },
+    { label: 'Slider', value: 'slider' },
+    { label: 'Rating', value: 'rating' },
+    { label: 'Color Picker', value: 'colorPicker' },
+    { label: 'Select', value: 'select' },
+    { label: 'MultiSelect', value: 'multiSelect' },
+    { label: 'Listbox', value: 'listbox' },
+    { label: 'Autocomplete', value: 'autocomplete' },
+    { label: 'Cascade Select', value: 'cascadeSelect' },
+    { label: 'Tree Select', value: 'treeSelect' },
+    { label: 'Date Picker', value: 'datePicker' },
+    { label: 'Time Picker', value: 'timePicker' },
+    { label: 'File Upload', value: 'fileUpload' },
+    { label: 'Table', value: 'table' },
+    { label: 'Column', value: 'column' },
+    { label: 'Tree Table', value: 'treeTable' },
+    { label: 'Data View', value: 'dataView' },
+    { label: 'Paginator', value: 'paginator' },
+    { label: 'Virtual Scroller', value: 'virtualScroller' },
+    { label: 'Avatar', value: 'avatar' },
+    { label: 'Chip', value: 'chip' },
+    { label: 'Badge', value: 'badge' },
+    { label: 'Tag', value: 'tag' },
+    { label: 'Image', value: 'image' },
+    { label: 'Carousel', value: 'carousel' },
+    { label: 'Timeline', value: 'timeline' },
+    { label: 'Meter Group', value: 'meterGroup' },
+    { label: 'Empty State', value: 'emptyState' },
+    { label: 'Toast', value: 'toast' },
+    { label: 'Message', value: 'message' },
+    { label: 'Progress Bar', value: 'progressBar' },
+    { label: 'Progress Spinner', value: 'progressSpinner' },
+    { label: 'Skeleton', value: 'skeleton' },
+    { label: 'Menu', value: 'menu' },
+    { label: 'Menubar', value: 'menubar' },
+    { label: 'Context Menu', value: 'contextMenu' },
+    { label: 'Tiered Menu', value: 'tieredMenu' },
+    { label: 'Mega Menu', value: 'megaMenu' },
+    { label: 'Panel Menu', value: 'panelMenu' },
+    { label: 'Breadcrumb', value: 'breadcrumb' },
+    { label: 'Tabs', value: 'tabs' },
+    { label: 'Stepper', value: 'stepper' },
+    { label: 'Dock', value: 'dock' },
+    { label: 'Toolbar', value: 'toolbar' },
+    { label: 'Dialog', value: 'dialog' },
+    { label: 'Confirm Dialog', value: 'confirmDialog' },
+    { label: 'Drawer', value: 'drawer' },
+    { label: 'Popover', value: 'popover' },
+    { label: 'Card', value: 'card' },
+    { label: 'Panel', value: 'panel' },
+    { label: 'Accordion', value: 'accordion' },
+    { label: 'Fieldset', value: 'fieldset' },
+    { label: 'Divider', value: 'divider' },
+    { label: 'Splitter', value: 'splitter' },
+    { label: 'Scroll Panel', value: 'scrollPanel' },
+    { label: 'Tree', value: 'tree' },
+    { label: 'Tree Node', value: 'treeNode' },
     { label: 'Org Chart', value: 'orgChart' }
   ];
 
@@ -1640,7 +1747,9 @@ export class ThemeEditorComponent {
   public selectedComponent = signal<string>('button');
 
   // Working state theme definition
-  public currentTheme = signal<GpThemeDefinition>(deepMerge(defaultTheme, { id: 'my-custom-theme', name: 'My Custom Theme' }));
+  public currentTheme = signal<GpThemeDefinition>(
+    deepMerge(defaultTheme, { id: 'my-custom-theme', name: 'My Custom Theme' })
+  );
 
   public primaryBaseColor = computed(() => this.currentTheme().light.semantic.primary.main || '#4f46e5');
 
@@ -1749,16 +1858,14 @@ export class ThemeEditorComponent {
     }
     const colors = this.currentTheme().primitives.colors;
     const scale =
-      colors['primary'] ||
-      colors['indigo'] ||
-      colors['blue'] ||
-      colors['emerald'] ||
-      Object.values(colors)[0];
+      colors['primary'] || colors['indigo'] || colors['blue'] || colors['emerald'] || Object.values(colors)[0];
     return scale ? (scale as any)[step] || '#4f46e5' : '#4f46e5';
   }
 
   public onHexTextInput(rawVal: string): void {
-    if (!rawVal) return;
+    if (!rawVal) {
+      return;
+    }
     let hex = rawVal.trim();
     if (!hex.startsWith('#')) {
       hex = '#' + hex;
@@ -1767,11 +1874,19 @@ export class ThemeEditorComponent {
   }
 
   public onPrimaryHexChange(rawHex: string): void {
-    if (!rawHex) return;
+    if (!rawHex) {
+      return;
+    }
     let hex = rawHex.trim();
-    if (!hex.startsWith('#')) hex = '#' + hex;
-    if (hex.length !== 7 && hex.length !== 4) return;
-    if (!/^#[0-9A-Fa-f]{3,6}$/.test(hex)) return;
+    if (!hex.startsWith('#')) {
+      hex = '#' + hex;
+    }
+    if (hex.length !== 7 && hex.length !== 4) {
+      return;
+    }
+    if (!/^#[0-9A-Fa-f]{3,6}$/.test(hex)) {
+      return;
+    }
 
     if (hex.length === 4) {
       hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
@@ -1895,8 +2010,12 @@ export class ThemeEditorComponent {
   public updateCompToken(comp: string, tokenKey: string, val: string): void {
     const curr = JSON.parse(JSON.stringify(this.currentTheme()));
     const modeObj = this.editMode() === 'dark' ? curr.dark : curr.light;
-    if (!modeObj.components) modeObj.components = {};
-    if (!modeObj.components[comp]) modeObj.components[comp] = {};
+    if (!modeObj.components) {
+      modeObj.components = {};
+    }
+    if (!modeObj.components[comp]) {
+      modeObj.components[comp] = {};
+    }
     modeObj.components[comp][tokenKey] = val;
     this.currentTheme.set(curr);
   }
@@ -1918,10 +2037,14 @@ export class ThemeEditorComponent {
 
   public exportLanguage = computed(() => {
     switch (this.exportFormat()) {
-      case 'css': return 'css';
-      case 'typescript': return 'typescript';
-      case 'json': return 'json';
-      case 'angular': return 'typescript';
+      case 'css':
+        return 'css';
+      case 'typescript':
+        return 'typescript';
+      case 'json':
+        return 'json';
+      case 'angular':
+        return 'typescript';
     }
   });
 
@@ -1953,9 +2076,14 @@ export class ThemeEditorComponent {
 function hexToRgb(hex: string): [number, number, number] {
   hex = hex.replace(/^#/, '');
   if (hex.length === 3) {
-    hex = hex.split('').map((c) => c + c).join('');
+    hex = hex
+      .split('')
+      .map((c) => c + c)
+      .join('');
   }
-  if (hex.length !== 6) return [79, 70, 229];
+  if (hex.length !== 6) {
+    return [79, 70, 229];
+  }
   const num = parseInt(hex, 16);
   return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
 }
@@ -1972,9 +2100,15 @@ function hexToHsl(hex: string): [number, number, number] {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h /= 6;
   }
@@ -1987,13 +2121,34 @@ function hslToHex(h: number, s: number, l: number): string {
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = l - c / 2;
-  let r = 0, g = 0, b = 0;
-  if (h >= 0 && h < 60) { r = c; g = x; b = 0; }
-  else if (h >= 60 && h < 120) { r = x; g = c; b = 0; }
-  else if (h >= 120 && h < 180) { r = 0; g = c; b = x; }
-  else if (h >= 180 && h < 240) { r = 0; g = x; b = c; }
-  else if (h >= 240 && h < 300) { r = x; g = 0; b = c; }
-  else if (h >= 300 && h < 360) { r = c; g = 0; b = x; }
+  let r = 0,
+    g = 0,
+    b = 0;
+  if (h >= 0 && h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (h >= 60 && h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (h >= 120 && h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (h >= 180 && h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (h >= 240 && h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else if (h >= 300 && h < 360) {
+    r = c;
+    g = 0;
+    b = x;
+  }
 
   const toHex = (n: number) => {
     const val = Math.max(0, Math.min(255, Math.round((n + m) * 255))).toString(16);
@@ -2001,4 +2156,3 @@ function hslToHex(h: number, s: number, l: number): string {
   };
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
-

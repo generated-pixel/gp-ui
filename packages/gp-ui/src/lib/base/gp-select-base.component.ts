@@ -1,13 +1,4 @@
-import {
-  Directive,
-  input,
-  output,
-  signal,
-  computed,
-  ElementRef,
-  HostListener,
-  inject
-} from '@angular/core';
+import { Directive, input, output, signal, computed, ElementRef, HostListener, inject } from '@angular/core';
 import { GpEditableBaseComponent } from './gp-editable-base.component';
 
 export interface GpSelectItem<T = any> {
@@ -102,7 +93,11 @@ export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseCompo
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (this.overlayVisible() && this.selectHostEl?.nativeElement && !this.selectHostEl.nativeElement.contains(event.target)) {
+    if (
+      this.overlayVisible() &&
+      this.selectHostEl?.nativeElement &&
+      !this.selectHostEl.nativeElement.contains(event.target)
+    ) {
       this.hideOverlay();
     }
   }
@@ -146,9 +141,7 @@ export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseCompo
     if (!q) {
       return this.normalizedOptions();
     }
-    return this.normalizedOptions().filter((opt) =>
-      (opt.label || '').toLowerCase().includes(q)
-    );
+    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
   public toggleOverlay(event?: MouseEvent): void {
@@ -202,12 +195,16 @@ export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseCompo
   }
 
   public getOptionLabel(option: GpSelectItem | any): string {
-    if (!option) return '';
+    if (!option) {
+      return '';
+    }
     return option.label ?? option[this.optionLabel()] ?? String(option);
   }
 
   public getOptionValue(option: GpSelectItem | any): any {
-    if (!option) return null;
+    if (!option) {
+      return null;
+    }
     return option.value !== undefined ? option.value : (option[this.optionValue()] ?? option);
   }
 }

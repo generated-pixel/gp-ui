@@ -1,4 +1,14 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent, GpBadgeComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -45,9 +55,13 @@ export class GpLayoutStackedStickyActionBarComponent {
 
   public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public effectiveActionBar = computed<TemplateRef<any> | undefined>(() => this.actionBarTemplate() || this.contentActionBar() || this.contentActions());
+  public effectiveActionBar = computed<TemplateRef<any> | undefined>(
+    () => this.actionBarTemplate() || this.contentActionBar() || this.contentActions()
+  );
 
-  public effectiveContent = computed<TemplateRef<any> | undefined>(() => this.contentTemplate() || this.contentArea() || this.contentMain());
+  public effectiveContent = computed<TemplateRef<any> | undefined>(
+    () => this.contentTemplate() || this.contentArea() || this.contentMain()
+  );
 
   public onSearch(e: Event): void {
     const val = (e.target as HTMLInputElement).value;

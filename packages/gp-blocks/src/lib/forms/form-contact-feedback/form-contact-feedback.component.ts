@@ -1,13 +1,36 @@
-import { Component, input, output, signal, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent, GpTextareaComponent } from '@generatedpixel/gp-ui';
+import {
+  GpButtonComponent,
+  GpIconComponent,
+  GpInputTextComponent,
+  GpSelectComponent,
+  GpTextareaComponent
+} from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-contact-feedback',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, GpInputTextComponent, GpSelectComponent, GpTextareaComponent],
+  imports: [
+    CommonModule,
+    GpButtonComponent,
+    GpIconComponent,
+    GpInputTextComponent,
+    GpSelectComponent,
+    GpTextareaComponent
+  ],
   templateUrl: './form-contact-feedback.component.html',
   styleUrl: './form-contact-feedback.component.scss'
 })

@@ -14,11 +14,7 @@
       <div class="field-row">
         <div class="form-group flex-2">
           <label>Trigger Event</label>
-          <gp-select
-            [options]="triggerOptions"
-            [ngModel]="triggerEvent()"
-            (ngModelChange)="triggerEvent.set($event)"
-          />
+          <gp-select [options]="triggerOptions" [ngModel]="triggerEvent()" (ngModelChange)="triggerEvent.set($event)" />
         </div>
 
         @if (triggerEvent() === 'keypress' || triggerEvent() === 'input') {
@@ -75,11 +71,7 @@
       <div class="field-row">
         <div class="form-group flex-1">
           <label>Action Type</label>
-          <gp-select
-            [options]="actionOptions"
-            [ngModel]="actionType()"
-            (ngModelChange)="actionType.set($event)"
-          />
+          <gp-select [options]="actionOptions" [ngModel]="actionType()" (ngModelChange)="actionType.set($event)" />
         </div>
 
         <div class="form-group flex-1">
@@ -104,11 +96,8 @@
   </div>
 
   <div class="builder-footer">
-    <gp-button
-      severity="primary"
-      (onClickEvent)="onCreateRule()"
-    >
-      <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
+    <gp-button severity="primary" (onClickEvent)="onCreateRule()">
+      <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem" />
       Register & Attach Rule
     </gp-button>
   </div>

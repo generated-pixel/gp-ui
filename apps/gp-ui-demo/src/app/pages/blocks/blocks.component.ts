@@ -1435,7 +1435,9 @@ export class BlocksPageComponent implements AfterViewInit {
 
   updateScrollState(): void {
     const el = this.catTrackRef?.nativeElement;
-    if (!el) return;
+    if (!el) {
+      return;
+    }
     this.canScrollLeft.set(el.scrollLeft > 4);
     this.canScrollRight.set(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
   }

@@ -30,11 +30,7 @@
       @if (actions() && actions()!.length > 0) {
         <div class="gp-announcement-bar__actions">
           @for (act of actions()!; track act.label) {
-            <button
-              type="button"
-              class="gp-announcement-bar__action-btn"
-              (click)="handleAction(act)"
-            >
+            <button type="button" class="gp-announcement-bar__action-btn" (click)="handleAction(act)">
               @if (act.icon) {
                 <gp-icon [name]="act.icon" size="0.85em" />
               }
@@ -46,12 +42,7 @@
 
       <!-- Dismiss Close Button -->
       @if (dismissible()) {
-        <button
-          type="button"
-          class="gp-announcement-bar__close-btn"
-          aria-label="Dismiss banner"
-          (click)="dismiss()"
-        >
+        <button type="button" class="gp-announcement-bar__close-btn" aria-label="Dismiss banner" (click)="dismiss()">
           <gp-icon name="times" size="0.85em" />
         </button>
       }

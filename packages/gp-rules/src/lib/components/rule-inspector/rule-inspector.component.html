@@ -39,7 +39,7 @@
               </div>
               <div class="log-timing">
                 <span class="log-duration">{{ log.durationMs }}ms</span>
-                <span class="log-time">{{ log.timestamp | date:'HH:mm:ss.SSS' }}</span>
+                <span class="log-time">{{ log.timestamp | date: 'HH:mm:ss.SSS' }}</span>
               </div>
             </div>
 
@@ -62,9 +62,7 @@
             }
 
             @if (log.error) {
-              <div class="log-error-text">
-                Error: {{ log.error }}
-              </div>
+              <div class="log-error-text">Error: {{ log.error }}</div>
             }
           </div>
         }

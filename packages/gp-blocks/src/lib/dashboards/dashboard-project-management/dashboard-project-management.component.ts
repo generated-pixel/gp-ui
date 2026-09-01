@@ -1,4 +1,14 @@
-import { Component, input, output, model, TemplateRef, contentChild, ChangeDetectionStrategy, ViewEncapsulation, computed } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  model,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpAvatarComponent, GpProgressBarComponent } from '@generatedpixel/gp-ui';
 import { GpGridComponent, GpGridItem } from '@generatedpixel/gp-grid';

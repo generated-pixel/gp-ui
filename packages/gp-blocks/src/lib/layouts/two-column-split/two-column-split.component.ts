@@ -1,4 +1,12 @@
-import { Component, input, TemplateRef, contentChild, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent } from '@generatedpixel/gp-ui';
 
@@ -33,9 +41,13 @@ export class GpLayoutTwoColumnSplitComponent {
   public contentPrimaryActions = contentChild<TemplateRef<any>>('primaryActions');
   public contentSecondaryActions = contentChild<TemplateRef<any>>('secondaryActions');
 
-  public effectivePrimary = computed<TemplateRef<any> | undefined>(() => this.primaryTemplate() || this.contentPrimary() || this.contentPrimaryTpl() || this.contentLeft());
+  public effectivePrimary = computed<TemplateRef<any> | undefined>(
+    () => this.primaryTemplate() || this.contentPrimary() || this.contentPrimaryTpl() || this.contentLeft()
+  );
 
-  public effectiveSecondary = computed<TemplateRef<any> | undefined>(() => this.secondaryTemplate() || this.contentSecondary() || this.contentSecondaryTpl() || this.contentRight());
+  public effectiveSecondary = computed<TemplateRef<any> | undefined>(
+    () => this.secondaryTemplate() || this.contentSecondary() || this.contentSecondaryTpl() || this.contentRight()
+  );
 
   public effectivePrimaryActions = computed(() => this.primaryActionsTemplate() || this.contentPrimaryActions());
 

@@ -64,7 +64,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   private sanitizeStep(val: number): number {
-    if (!val || isNaN(val) || val <= 0) return 1;
+    if (!val || isNaN(val) || val <= 0) {
+      return 1;
+    }
     return Math.max(1, Math.min(59, Math.round(val)));
   }
 
@@ -80,7 +82,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
     if (this.hourFormat() === '12') {
       if (h === 0) {
         h = 12;
-      } else if (h > 12) h -= 12;
+      } else if (h > 12) {
+        h -= 12;
+      }
     }
     return String(h).padStart(2, '0');
   });
