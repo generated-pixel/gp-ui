@@ -4,7 +4,7 @@
 
 ## Overview
 
-`gp-css` is Generated Pixel's custom CSS framework—combining the flexibility of Tailwind CSS with native token bridges for `gp-theme` and pre-styled UI component helpers for `gp-ui`.
+`gp-css` is Generated Pixel's custom utility-first CSS framework—with native token bridges for `gp-theme` and pre-styled UI component helpers for `gp-ui`.
 
 - **Scanner & Compiler**: Lightning-fast JIT scanner extracting utilities from HTML, TS, TSX, JS, JSX, and template files.
 - **`gp-theme` Synergy**: Out-of-the-box support for design tokens (`bg-panel`, `text-accent`, `surface-card`, `primary`, `secondary`), glassmorphism (`glass`), glowing effects (`glow`), and custom gradients.
