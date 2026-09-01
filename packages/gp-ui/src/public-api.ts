@@ -89,6 +89,12 @@ export * from './lib/components/form/file-upload/file-upload.component';
 export * from './lib/components/form/form-field/form-field.interface';
 export * from './lib/components/form/form-field/form-field.directives';
 export * from './lib/components/form/form-field/form-field.component';
+export * from './lib/components/form/label/label.interface';
+export * from './lib/components/form/label/label.component';
+export * from './lib/components/form/float-label/float-label.interface';
+export * from './lib/components/form/float-label/float-label.component';
+export * from './lib/components/form/inset-label/inset-label.interface';
+export * from './lib/components/form/inset-label/inset-label.component';
 
 // Data Components
 export * from './lib/components/data/paginator/paginator.component';

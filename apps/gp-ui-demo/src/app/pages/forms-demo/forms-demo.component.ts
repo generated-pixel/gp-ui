@@ -29,7 +29,10 @@ import {
   GpPrefixDirective,
   GpSuffixDirective,
   GpHelperDirective,
-  GpErrorDirective
+  GpErrorDirective,
+  GpLabelComponent,
+  GpFloatLabelComponent,
+  GpInsetLabelComponent
 } from 'gp-ui';
 import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
@@ -68,6 +71,9 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpSuffixDirective,
     GpHelperDirective,
     GpErrorDirective,
+    GpLabelComponent,
+    GpFloatLabelComponent,
+    GpInsetLabelComponent,
     GpIconComponent,
     DocCodeComponent,
     DocApiTableComponent
@@ -131,6 +137,80 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
                 <span gpHelper>Optional mobile contact.</span>
                 <span gpError>Please enter a valid phone number.</span>
               </gp-form-field>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dedicated Label Component Suite -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">Label Suite (<code>gp-label</code>, <code>gp-float-label</code>, <code>gp-ifta-label</code>)</h2>
+          <p class="doc-section-desc">
+            Complete suite of label styles: standard accessible labels with required/optional markers, animated floating labels, and compact inset top-left IFTA labels.
+          </p>
+
+          <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">1. Regular Labels (&lt;gp-label&gt;)</h3>
+          <div class="form-grid">
+            <div class="form-field">
+              <gp-label for="demo-uname" text="Username" [required]="true" helpText="Your public handle" />
+              <input id="demo-uname" gpInputText placeholder="e.g. alexsmith" />
+            </div>
+
+            <div class="form-field">
+              <gp-label for="demo-tax" text="Tax ID" [optional]="true" size="sm" />
+              <input id="demo-tax" gpInputText placeholder="Optional business identifier" />
+            </div>
+
+            <div class="form-field">
+              <gp-label for="demo-vip" text="VIP Membership Code" severity="primary" icon="award" />
+              <input id="demo-vip" gpInputText placeholder="PRO-8890" />
+            </div>
+          </div>
+
+          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">2. Floating Labels (&lt;gp-float-label&gt;)</h3>
+          <div class="form-grid">
+            <div class="form-field">
+              <gp-float-label variant="on">
+                <input id="fl-username" gpInputText placeholder=" " [(ngModel)]="floatUsername" [ngModelOptions]="{standalone: true}" />
+                <label for="fl-username">Username (On-Border)</label>
+              </gp-float-label>
+            </div>
+
+            <div class="form-field">
+              <gp-float-label variant="in">
+                <input id="fl-email" gpInputText placeholder=" " [(ngModel)]="floatEmail" [ngModelOptions]="{standalone: true}" />
+                <label for="fl-email">Email Address (In-Edge)</label>
+              </gp-float-label>
+            </div>
+
+            <div class="form-field">
+              <gp-float-label variant="over">
+                <input id="fl-city" gpInputText placeholder=" " [(ngModel)]="floatCity" [ngModelOptions]="{standalone: true}" />
+                <label for="fl-city">City / Region (Over-Input)</label>
+              </gp-float-label>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">3. Inset Top-Left Embedded Labels (&lt;gp-inset-label&gt;)</h3>
+          <div class="form-grid">
+            <div class="form-field">
+              <gp-inset-label>
+                <label for="inset-first-name">First Name</label>
+                <input id="inset-first-name" gpInputText placeholder="John" />
+              </gp-inset-label>
+            </div>
+
+            <div class="form-field">
+              <gp-inset-label>
+                <label for="inset-last-name">Last Name</label>
+                <input id="inset-last-name" gpInputText placeholder="Doe" />
+              </gp-inset-label>
+            </div>
+
+            <div class="form-field">
+              <gp-inset-label>
+                <label for="inset-role">Role Title</label>
+                <input id="inset-role" gpInputText placeholder="Lead Architect" />
+              </gp-inset-label>
             </div>
           </div>
         </div>
@@ -543,6 +623,26 @@ export class MyFormComponent {
     satisfaction: new FormControl(5),
     volume: new FormControl(80)
   });
+
+  floatUsername = '';
+  floatEmail = '';
+  floatCity = '';
+
+  labelCode = `<!-- 1. Standard Accessible Label -->
+<gp-label for="uname" text="Username" [required]="true" helpText="Public handle" />
+<input id="uname" gpInputText />
+
+<!-- 2. Animated Floating Label (on, in, or over) -->
+<gp-float-label variant="on">
+  <input id="fl-email" gpInputText placeholder=" " [(ngModel)]="email" />
+  <label for="fl-email">Email Address</label>
+</gp-float-label>
+
+<!-- 3. Inset Top-Left Embedded Label -->
+<gp-inset-label>
+  <label for="inset-role">Role Title</label>
+  <input id="inset-role" gpInputText placeholder="Software Engineer" />
+</gp-inset-label>`;
 
   countries = [
     { name: 'United States', code: 'US' },
