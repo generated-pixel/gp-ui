@@ -1,0 +1,18 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  [style.width]="resolvedSize()"
+  [style.height]="resolvedSize()"
+  [style.color]="color() || null"
+  [style.transform]="resolvedTransform()"
+  [class.gp-icon-spin]="spin()"
+  [attr.aria-hidden]="ariaHidden() === false || ariaHidden() === 'false' ? 'false' : 'true'"
+  [attr.aria-label]="ariaLabel() || null"
+  class="gp-icon"
+  [innerHTML]="safeSvg()"
+></svg>

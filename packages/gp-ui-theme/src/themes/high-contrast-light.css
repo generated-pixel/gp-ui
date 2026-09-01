@@ -1,0 +1,71 @@
+/**
+ * gp-ui High Contrast Light Theme (WCAG AAA)
+ */
+:root[data-gp-theme='high-contrast-light'],
+[data-gp-theme='high-contrast-light'],
+[data-gp-theme='high-contrast-light'][data-gp-mode='light'],
+.gp-theme-high-contrast-light,
+.gp-theme-high-contrast-light.gp-light {
+  --gp-primary: #000000;
+  --gp-primary-text: #ffffff;
+  --gp-primary-hover: #222222;
+  --gp-primary-active: #444444;
+  --gp-primary-light: #f5f5f5;
+  --gp-primary-border: #000000;
+
+  --gp-secondary: #000000;
+  --gp-secondary-text: #ffffff;
+  --gp-secondary-hover: #222222;
+  --gp-secondary-light: #f5f5f5;
+
+  --gp-success: #006600;
+  --gp-success-text: #ffffff;
+  --gp-success-hover: #004d00;
+  --gp-success-light: #f0fff0;
+  --gp-success-border: #006600;
+
+  --gp-info: #0033cc;
+  --gp-info-text: #ffffff;
+  --gp-info-hover: #002699;
+  --gp-info-light: #f0f4ff;
+  --gp-info-border: #0033cc;
+
+  --gp-warning: #996600;
+  --gp-warning-text: #ffffff;
+  --gp-warning-hover: #805500;
+  --gp-warning-light: #fffdf0;
+  --gp-warning-border: #996600;
+
+  --gp-danger: #cc0000;
+  --gp-danger-text: #ffffff;
+  --gp-danger-hover: #990000;
+  --gp-danger-light: #fff0f0;
+  --gp-danger-border: #cc0000;
+
+  --gp-surface-ground: #ffffff;
+  --gp-surface-section: #f8f8f8;
+  --gp-surface-card: #ffffff;
+  --gp-surface-overlay: #ffffff;
+  --gp-surface-hover: #f0f0f0;
+  --gp-surface-active: #e4e4e4;
+  --gp-surface-border: #000000;
+  --gp-surface-divider: #000000;
+
+  --gp-text-color: #000000;
+  --gp-text-primary: #000000;
+  --gp-text-secondary: #111111;
+  --gp-text-muted: #333333;
+  --gp-text-disabled: #757575;
+
+  --gp-focus-ring: 0 0 0 3px #000000;
+  --gp-focus-ring-danger: 0 0 0 3px #cc0000;
+  --gp-mask-bg: rgba(0, 0, 0, 0.7);
+
+  /* Scrollbars */
+  --gp-scrollbar-thumb: #000000;
+  --gp-scrollbar-thumb-hover: #333333;
+  --gp-scrollbar-track: #ffffff;
+  --gp-scrollbar-size: 12px;
+  --gp-scrollbar-radius: 2px;
+}
+

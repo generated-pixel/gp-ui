@@ -9,7 +9,8 @@ import {
   signal,
   computed,
   ElementRef,
-  HostListener
+  HostListener,
+  OnInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -32,12 +33,16 @@ import { UniqueId } from '../../../utils/unique-id';
   templateUrl: './time-picker.component.html',
   styleUrl: './time-picker.component.scss'
 })
-export class GpTimePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor {
+export class GpTimePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor, OnInit {
   public inputId = input<string>(UniqueId.generate('tp_'));
+  public icon = input<string>('clock');
   public hourFormat = input<'12' | '24'>('12');
   public showSeconds = input<boolean>(false);
+  public stepHour = input<number>(1);
   public stepMinute = input<number>(1);
   public stepSecond = input<number>(1);
+  public minuteSteps = input<number[] | null>([1, 5, 10, 15, 30]);
+  public showStepPicker = input<boolean>(true);
 
   public onChange = output<{ value: string }>();
 
@@ -46,9 +51,21 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   protected seconds = signal<number>(0);
   protected isPm = signal<boolean>(false);
   protected overlayVisible = signal<boolean>(false);
+  public activeStepMinute = signal<number>(1);
 
   constructor(private el: ElementRef) {
     super();
+  }
+
+  public override ngOnInit(): void {
+    super.ngOnInit();
+    const initStep = this.sanitizeStep(this.stepMinute());
+    this.activeStepMinute.set(initStep);
+  }
+
+  private sanitizeStep(val: number): number {
+    if (!val || isNaN(val) || val <= 0) return 1;
+    return Math.max(1, Math.min(59, Math.round(val)));
   }
 
   @HostListener('document:click', ['$event'])
@@ -115,9 +132,15 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
     this.overlayVisible.update((v) => !v);
   }
 
+  public setMinuteStep(step: number): void {
+    const valid = this.sanitizeStep(step);
+    this.activeStepMinute.set(valid);
+  }
+
   public spinHour(delta: number): void {
+    const step = this.stepHour() || 1;
     let max = this.hourFormat() === '24' ? 24 : 12;
-    let h = (this.hours() + delta) % max;
+    let h = (this.hours() + (delta * step)) % max;
     if (h < 0) {
       h += max;
     }
@@ -125,8 +148,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
     this.emitChange();
   }
 
-  public spinMinute(delta: number): void {
-    let m = (this.minutes() + delta) % 60;
+  public spinMinute(direction: number): void {
+    const step = this.activeStepMinute();
+    let m = (this.minutes() + (direction * step)) % 60;
     if (m < 0) {
       m += 60;
     }
@@ -134,8 +158,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
     this.emitChange();
   }
 
-  public spinSecond(delta: number): void {
-    let s = (this.seconds() + delta) % 60;
+  public spinSecond(direction: number): void {
+    const step = this.stepSecond() || 1;
+    let s = (this.seconds() + (direction * step)) % 60;
     if (s < 0) {
       s += 60;
     }

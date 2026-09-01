@@ -224,3 +224,42 @@ a:focus-visible {
   direction: rtl;
   text-align: right;
 }
+
+/* Scrollbar Theming Engine */
+:root,
+* {
+  scrollbar-color: var(--gp-scrollbar-thumb, rgba(100, 116, 139, 0.32)) var(--gp-scrollbar-track, transparent);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: var(--gp-scrollbar-size, 8px);
+  height: var(--gp-scrollbar-size, 8px);
+}
+
+::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: var(--gp-scrollbar-track, transparent);
+}
+
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background-color: var(--gp-scrollbar-thumb, rgba(100, 116, 139, 0.32));
+  border-radius: var(--gp-scrollbar-radius, 4px);
+}
+
+::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gp-scrollbar-thumb-hover, rgba(100, 116, 139, 0.55));
+}
+
+/* Scrollbar Utility Classes */
+.gp-scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.gp-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+

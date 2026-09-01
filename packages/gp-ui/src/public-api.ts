@@ -43,12 +43,18 @@ export * from './lib/icons/icon.component';
 export * from './lib/directives/ripple.directive';
 export * from './lib/directives/auto-focus.directive';
 export * from './lib/directives/tooltip.directive';
+export * from './lib/directives/hotkey.directive';
+export * from './lib/directives/theme-scope.directive';
+export * from './lib/directives/clipboard.directive';
 
 // Services
 export * from './lib/services/toast.interface';
 export * from './lib/services/toast.service';
 export * from './lib/services/confirmation.interface';
 export * from './lib/services/confirmation.service';
+export * from './lib/services/hotkey.service';
+export * from './lib/services/export.service';
+export * from './lib/services/clipboard.service';
 
 // Button Components
 export * from './lib/components/button/button/button.component';
@@ -58,6 +64,7 @@ export * from './lib/components/button/speed-dial/speed-dial.component';
 export * from './lib/components/button/toggle-button/toggle-button.component';
 
 // Form Components
+export * from './lib/components/form/input-text/input-text.directive';
 export * from './lib/components/form/input-text/input-text.component';
 export * from './lib/components/form/textarea/textarea.component';
 export * from './lib/components/form/password/password.component';
@@ -76,8 +83,19 @@ export * from './lib/components/form/autocomplete/autocomplete.component';
 export * from './lib/components/form/cascade-select/cascade-select.component';
 export * from './lib/components/form/tree-select/tree-select.component';
 export * from './lib/components/form/date-picker/date-picker.component';
+export * from './lib/components/form/date-range-picker/date-range-picker.interface';
+export * from './lib/components/form/date-range-picker/date-range-picker.component';
 export * from './lib/components/form/time-picker/time-picker.component';
 export * from './lib/components/form/file-upload/file-upload.component';
+export * from './lib/components/form/form-field/form-field.interface';
+export * from './lib/components/form/form-field/form-field.directives';
+export * from './lib/components/form/form-field/form-field.component';
+export * from './lib/components/form/label/label.interface';
+export * from './lib/components/form/label/label.component';
+export * from './lib/components/form/float-label/float-label.interface';
+export * from './lib/components/form/float-label/float-label.component';
+export * from './lib/components/form/inset-label/inset-label.interface';
+export * from './lib/components/form/inset-label/inset-label.component';
 
 // Data Components
 export * from './lib/components/data/paginator/paginator.component';
@@ -110,6 +128,12 @@ export * from './lib/components/overlay/dialog/dialog.component';
 export * from './lib/components/overlay/confirm-dialog/confirm-dialog.component';
 export * from './lib/components/overlay/drawer/drawer.component';
 export * from './lib/components/overlay/popover/popover.component';
+export * from './lib/components/overlay/command-palette/command-palette.interface';
+export * from './lib/components/overlay/command-palette/command-palette.service';
+export * from './lib/components/overlay/command-palette/command-palette.component';
+export * from './lib/components/overlay/bottom-sheet/bottom-sheet.interface';
+export * from './lib/components/overlay/bottom-sheet/bottom-sheet.service';
+export * from './lib/components/overlay/bottom-sheet/bottom-sheet.component';
 
 // Panel Components
 export * from './lib/components/panel/card/card.component';
@@ -123,6 +147,8 @@ export * from './lib/components/panel/scroll-panel/scroll-panel.component';
 // Feedback & Message Components
 export * from './lib/components/feedback/toast/toast.component';
 export * from './lib/components/feedback/message/message.component';
+export * from './lib/components/feedback/announcement-bar/announcement-bar.interface';
+export * from './lib/components/feedback/announcement-bar/announcement-bar.component';
 export * from './lib/components/feedback/progress-bar/progress-bar.component';
 export * from './lib/components/feedback/progress-spinner/progress-spinner.component';
 export * from './lib/components/feedback/skeleton/skeleton.component';
@@ -137,3 +163,5 @@ export * from './lib/components/display/carousel/carousel.component';
 export * from './lib/components/display/timeline/timeline.component';
 export * from './lib/components/display/meter-group/meter-group.component';
 export * from './lib/components/display/empty-state/empty-state.component';
+export * from './lib/components/display/stat-card/stat-card.interface';
+export * from './lib/components/display/stat-card/stat-card.component';

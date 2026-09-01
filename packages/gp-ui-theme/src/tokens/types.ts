@@ -155,6 +155,12 @@ export interface GpPrimitiveShadows {
   inner: string;
 }
 
+export interface GpPrimitiveBlur {
+  sm: string;
+  md: string;
+  lg: string;
+}
+
 export interface GpPrimitiveTransitions {
   duration: {
     fast: string;
@@ -168,6 +174,12 @@ export interface GpPrimitiveTransitions {
     easeOut: string;
     easeInOut: string;
   };
+  easing?: {
+    standard: string;
+    emphasized: string;
+    decelerate: string;
+    spring: string;
+  };
 }
 
 export interface GpPrimitives {
@@ -177,6 +189,22 @@ export interface GpPrimitives {
   borderRadius: GpPrimitiveBorderRadius;
   shadows: GpPrimitiveShadows;
   transitions: GpPrimitiveTransitions;
+  blur?: GpPrimitiveBlur;
+  fluidTypography?: {
+    xs: string;
+    sm: string;
+    base: string;
+    lg: string;
+    xl: string;
+    '2xl': string;
+    '3xl': string;
+  };
+  fluidSpacing?: {
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+  };
 }
 
 /**
@@ -201,6 +229,8 @@ export interface GpSemanticSurfaces {
   active: string;
   border: string;
   divider: string;
+  glass?: string;
+  glassBorder?: string;
 }
 
 export interface GpSemanticText {
@@ -220,6 +250,16 @@ export interface GpSemanticElevation {
   md: string;
   lg: string;
   xl: string;
+  glowPrimary?: string;
+  glowSecondary?: string;
+}
+
+export interface GpSemanticScrollbar {
+  thumb: string;
+  thumbHover: string;
+  track: string;
+  size: string;
+  radius: string;
 }
 
 export interface GpSemanticTokens {
@@ -242,6 +282,7 @@ export interface GpSemanticTokens {
   mask: {
     bg: string;
   };
+  scrollbar?: GpSemanticScrollbar;
 }
 
 /**
@@ -512,6 +553,60 @@ export interface GpKpiCardComponentTokens extends GpComponentBaseTokens {
   trendNeutralColor?: string;
 }
 
+export interface GpCommandPaletteComponentTokens extends GpOverlayComponentBaseTokens {
+  headerBackground?: string;
+  inputBackground?: string;
+  shortcutBadgeBackground?: string;
+  shortcutBadgeColor?: string;
+  groupTitleColor?: string;
+}
+
+export interface GpFormFieldComponentTokens extends GpComponentBaseTokens {
+  labelColor?: string;
+  labelFocusColor?: string;
+  helperTextColor?: string;
+  errorTextColor?: string;
+  addonColor?: string;
+}
+
+export interface GpBottomSheetComponentTokens extends GpComponentBaseTokens {
+  handleColor?: string;
+  handleWidth?: string;
+  handleHeight?: string;
+  maxHeight?: string;
+}
+
+export interface GpDateRangePickerComponentTokens extends GpComponentBaseTokens {
+  background?: string;
+  borderColor?: string;
+  rangeBackground?: string;
+  rangeText?: string;
+  selectedBackground?: string;
+  selectedText?: string;
+  headerBackground?: string;
+}
+
+export interface GpStatCardComponentTokens extends GpComponentBaseTokens {
+  background?: string;
+  borderColor?: string;
+  valueColor?: string;
+  valueFontSize?: string;
+  trendPositiveColor?: string;
+  trendNegativeColor?: string;
+  trendNeutralColor?: string;
+  iconBackground?: string;
+}
+
+export interface GpAnnouncementBarComponentTokens extends GpComponentBaseTokens {
+  background?: string;
+  color?: string;
+  borderColor?: string;
+  height?: string;
+  fontSize?: string;
+  actionButtonBackground?: string;
+  actionButtonColor?: string;
+}
+
 export interface GpComponentTokens {
   button?: GpButtonComponentTokens;
   buttonGroup?: GpButtonGroupComponentTokens;
@@ -526,6 +621,7 @@ export interface GpComponentTokens {
   checkbox?: GpCheckboxComponentTokens;
   colorPicker?: GpColorPickerComponentTokens;
   datePicker?: GpDatePickerComponentTokens;
+  dateRangePicker?: GpDateRangePickerComponentTokens;
   fileUpload?: GpFileUploadComponentTokens;
   inputMask?: GpInputMaskComponentTokens;
   inputNumber?: GpInputNumberComponentTokens;
@@ -551,6 +647,9 @@ export interface GpComponentTokens {
   dialog?: GpDialogComponentTokens;
   drawer?: GpDrawerComponentTokens;
   popover?: GpPopoverComponentTokens;
+  commandPalette?: GpCommandPaletteComponentTokens;
+  formField?: GpFormFieldComponentTokens;
+  bottomSheet?: GpBottomSheetComponentTokens;
   breadcrumb?: GpBreadcrumbComponentTokens;
   contextMenu?: GpContextMenuComponentTokens;
   dock?: GpDockComponentTokens;
@@ -590,6 +689,11 @@ export interface GpComponentTokens {
   blockCard?: GpBlockCardComponentTokens;
   sidebar?: GpSidebarComponentTokens;
   kpiCard?: GpKpiCardComponentTokens;
+  statCard?: GpStatCardComponentTokens;
+  announcementBar?: GpAnnouncementBarComponentTokens;
+  label?: GpGenericComponentTokens;
+  floatLabel?: GpGenericComponentTokens;
+  insetLabel?: GpGenericComponentTokens;
   [component: string]: GpGenericComponentTokens | undefined;
 }
 

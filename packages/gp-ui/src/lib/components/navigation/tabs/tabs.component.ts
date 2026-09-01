@@ -18,7 +18,8 @@ import { GpBadgeComponent, GpBadgeSeverity } from '../../feedback/badge/badge.co
   selector: 'gp-tab-panel',
   standalone: true,
   imports: [CommonModule],
-  template: '<ng-content />'
+  templateUrl: './tab-panel.component.html',
+  styleUrl: './tab-panel.component.scss'
 })
 export class GpTabPanelComponent extends GpBaseComponent {
   public header = input<string>('');

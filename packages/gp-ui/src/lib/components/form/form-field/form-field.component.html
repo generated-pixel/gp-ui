@@ -1,0 +1,110 @@
+<div
+  class="gp-form-field"
+  [class.gp-form-field-outlined]="appearance() === 'outlined'"
+  [class.gp-form-field-filled]="appearance() === 'filled'"
+  [class.gp-form-field-inset]="isInset()"
+  [class.gp-form-field-small]="size() === 'small'"
+  [class.gp-form-field-large]="size() === 'large'"
+  [class.gp-form-field-focused]="isFocused()"
+  [class.gp-form-field-floating]="isFloating()"
+  [class.gp-form-field-float-on]="isFloatingOn()"
+  [class.gp-form-field-float-in]="isFloatingIn()"
+  [class.gp-form-field-float-over]="isFloatingOver()"
+  [class.gp-form-field-has-prefix]="hasPrefix()"
+  [class.gp-form-field-has-suffix]="hasSuffix()"
+  [class.gp-form-field-invalid]="isInvalid()"
+  [class.gp-form-field-disabled]="disabled()"
+  (click)="focusControl()"
+>
+  <!-- Fixed Top Label (When floatLabel="never") -->
+  @if (isFixedLabel() && (label() || labelComponent())) {
+    <div class="gp-form-field-top-label">
+      @if (labelComponent()) {
+        <ng-content select="gp-label, [gpLabel]" />
+      } @else if (label()) {
+        <gp-label
+          [text]="label()!"
+          [required]="required()"
+          [optional]="optional()"
+          [icon]="icon()"
+          [helpText]="helpText()"
+          [size]="size() === 'small' ? 'sm' : (size() === 'large' ? 'lg' : 'md')"
+        />
+      }
+    </div>
+  }
+
+  <!-- Control Wrapper Box -->
+  <div class="gp-form-field-wrapper">
+    <!-- Prefix Slot -->
+    @if (hasPrefix()) {
+      <div class="gp-form-field-prefix" (click)="$event.stopPropagation()">
+        <ng-content select="[gpPrefix]" />
+      </div>
+    }
+
+    <!-- Infix (Floating / Inset Label + Input Content) -->
+    <div class="gp-form-field-infix">
+      <!-- Floating / Inset In-Field Label (When not fixed top) -->
+      @if (!isFixedLabel() && (label() || labelComponent())) {
+        <div class="gp-form-field-label-wrapper">
+          @if (labelComponent()) {
+            <ng-content select="gp-label, [gpLabel]" />
+          } @else if (label()) {
+            <label class="gp-form-field-label">
+              @if (icon()) {
+                <gp-icon [name]="icon()!" size="0.85em" class="gp-form-field-label-icon" />
+              }
+              <span>{{ label() }}</span>
+              @if (required()) {
+                <span class="gp-form-field-required-marker" aria-hidden="true">*</span>
+              }
+              @if (optional()) {
+                <span class="gp-form-field-optional-marker">(optional)</span>
+              }
+              @if (helpText()) {
+                <span class="gp-form-field-help-icon" [title]="helpText()!">
+                  <gp-icon name="info-circle" size="0.8em" />
+                </span>
+              }
+            </label>
+          }
+        </div>
+      }
+
+      <div class="gp-form-field-control">
+        <ng-content />
+      </div>
+    </div>
+
+    <!-- Suffix Slot -->
+    @if (hasSuffix()) {
+      <div class="gp-form-field-suffix" (click)="$event.stopPropagation()">
+        <ng-content select="[gpSuffix]" />
+      </div>
+    }
+  </div>
+
+  <!-- Subscript (Helper / Error Message) -->
+  @if (hasSubscript()) {
+    <div class="gp-form-field-subscript">
+      @if (isInvalid() && (errorMessage() || hasErrorDirective())) {
+        <div class="gp-form-error-item gp-form-field-error" role="alert">
+          <ng-content select="[gpError]" />
+          @if (!hasErrorDirective() && errorMessage()) {
+            <span>{{ errorMessage() }}</span>
+          }
+        </div>
+      }
+
+      @if (!isInvalid() && (hint() || hasHelperDirective())) {
+        <div class="gp-form-field-hint">
+          <ng-content select="[gpHelper]" />
+          @if (!hasHelperDirective() && hint()) {
+            <span>{{ hint() }}</span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

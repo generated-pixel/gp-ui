@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpTableComponent, GpColumnComponent, GpButtonComponent, GpTagComponent, GpDataViewComponent } from 'gp-ui';
+import { GpTableComponent, GpColumnComponent, GpButtonComponent, GpTagComponent, GpDataViewComponent, GpExportService } from 'gp-ui';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
@@ -23,7 +23,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
         <h1>Data Table & Collection Components</h1>
         <p class="page-desc">
           High-performance data management components featuring column sorting, paginated browsing, multi-row selection,
-          CSV export, and list/grid layout viewports.
+          CSV/Excel/JSON export pipelines, and list/grid layout viewports.
         </p>
       </div>
 
@@ -38,14 +38,26 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="doc-section">
         <h2 class="doc-section-title">DataTable with Filtering, Selection, Pagination & Export</h2>
         <p class="doc-section-desc">
-          Enterprise table with multi-column sorting, custom cell templating, row selection, and CSV export.
+          Enterprise table with multi-column sorting, custom cell templating, row selection, and native multi-format data export.
         </p>
-        <div class="table-actions">
+        <div class="table-actions" style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-bottom: 0.75rem;">
           <gp-button
-            label="Export to CSV"
+            label="Export CSV"
             icon="download"
             severity="secondary"
-            (onClickEvent)="dt.exportCSV('customers.csv')"
+            (onClickEvent)="exportCsv()"
+          />
+          <gp-button
+            label="Export Excel"
+            icon="file"
+            severity="secondary"
+            (onClickEvent)="exportExcel()"
+          />
+          <gp-button
+            label="Export JSON"
+            icon="sparkles"
+            severity="secondary"
+            (onClickEvent)="exportJson()"
           />
         </div>
 
@@ -210,7 +222,23 @@ export class DataDemoComponent {
   </ng-template>
 </gp-data-view>`;
 
+  private exportService = inject(GpExportService);
   selectedCustomers: any[] = [];
+
+  public exportCsv(): void {
+    const dataToExport = this.selectedCustomers.length > 0 ? this.selectedCustomers : this.customers;
+    this.exportService.exportToCsv(dataToExport, { filename: 'customers-export' });
+  }
+
+  public exportExcel(): void {
+    const dataToExport = this.selectedCustomers.length > 0 ? this.selectedCustomers : this.customers;
+    this.exportService.exportToExcel(dataToExport, { filename: 'customers-report', sheetName: 'Customers' });
+  }
+
+  public exportJson(): void {
+    const dataToExport = this.selectedCustomers.length > 0 ? this.selectedCustomers : this.customers;
+    this.exportService.exportToJson(dataToExport, 'customers-data.json');
+  }
 
   customers = [
     { id: 101, name: 'Eleanor Vance', country: 'United States', company: 'Acme Corp', status: 'Active' },

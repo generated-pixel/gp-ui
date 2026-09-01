@@ -1,0 +1,94 @@
+.gp-inset-label {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.gp-inset-label label,
+.gp-inset-label .gp-label {
+  position: absolute;
+  top: 0.45rem;
+  left: 0.75rem;
+  font-size: var(--gp-inset-label-font-size, 0.7rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--gp-inset-label-letter-spacing, 0.04em);
+  color: var(--gp-inset-label-color, var(--gp-text-color-secondary, #64748b));
+  pointer-events: none;
+  z-index: 2;
+  transition: color var(--gp-transition-duration, 150ms) ease;
+  line-height: 1;
+}
+
+/* Style direct input / gp-inputtext / select / textarea inside inset-label */
+.gp-inset-label input,
+.gp-inset-label textarea,
+.gp-inset-label .gp-inputtext {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color, #1e293b);
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: var(--gp-inset-label-padding-top, 1.35rem) var(--gp-input-padding-x, 0.75rem) 0.35rem var(--gp-input-padding-x, 0.75rem) !important;
+  min-height: 3.25rem;
+  line-height: 1.5;
+  transition:
+    border-color var(--gp-transition-duration, 150ms) ease,
+    box-shadow var(--gp-transition-duration, 150ms) ease,
+    background-color var(--gp-transition-duration, 150ms) ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.gp-inset-label input:hover:not(:disabled):not([readonly]),
+.gp-inset-label textarea:hover:not(:disabled):not([readonly]),
+.gp-inset-label .gp-inputtext:hover:not(:disabled):not([readonly]) {
+  border-color: var(--gp-input-border-hover, var(--gp-primary-hover, #4f46e5));
+}
+
+.gp-inset-label input:focus,
+.gp-inset-label input:focus-visible,
+.gp-inset-label textarea:focus,
+.gp-inset-label textarea:focus-visible,
+.gp-inset-label .gp-inputtext:focus,
+.gp-inset-label .gp-inputtext:focus-visible {
+  border-color: var(--gp-input-border-focus, var(--gp-primary, #6366f1));
+  box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.2));
+}
+
+.gp-inset-label:focus-within label,
+.gp-inset-label:focus-within .gp-label {
+  color: var(--gp-inset-label-active-color, var(--gp-primary, #6366f1));
+}
+
+.gp-inset-label--sm label,
+.gp-inset-label--sm .gp-label {
+  top: 0.3rem;
+  font-size: calc(var(--gp-inset-label-font-size, 0.7rem) * 0.9);
+}
+.gp-inset-label--sm input,
+.gp-inset-label--sm textarea,
+.gp-inset-label--sm .gp-inputtext {
+  padding-top: 1.15rem !important;
+  min-height: 2.75rem;
+}
+
+.gp-inset-label--lg label,
+.gp-inset-label--lg .gp-label {
+  top: 0.55rem;
+  font-size: calc(var(--gp-inset-label-font-size, 0.7rem) * 1.1);
+}
+.gp-inset-label--lg input,
+.gp-inset-label--lg textarea,
+.gp-inset-label--lg .gp-inputtext {
+  padding-top: 1.55rem !important;
+  min-height: 3.75rem;
+}
+
+.gp-inset-label--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

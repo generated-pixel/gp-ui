@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
-import { GpBadgeComponent, GpButtonComponent, GpDirectionService, GpInputTextComponent, GP_UI_VERSION } from 'gp-ui';
+import { GpBadgeComponent, GpButtonComponent, GpDirectionService, GpInputTextComponent, GP_UI_VERSION, GpCommandPaletteComponent, GpCommandPaletteService, GpCommandItem } from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 import { ThemeEditorDialogComponent } from './pages/theming/theme-editor-dialog.component';
@@ -27,7 +27,7 @@ export interface ComponentCatalogueItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpButtonComponent, GpInputTextComponent, GpIconComponent, ThemeEditorDialogComponent],
+  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpButtonComponent, GpInputTextComponent, GpIconComponent, GpCommandPaletteComponent, ThemeEditorDialogComponent],
   template: `
     <div class="app-layout">
       <!-- Top Navigation Header -->
@@ -220,6 +220,13 @@ export interface ComponentCatalogueItem {
               </div>
             }
           </nav>
+          <div class="sidebar-help-card">
+            <gp-icon name="envelope" size="0.9em" class="sidebar-help-icon" />
+            <div class="sidebar-help-body">
+              <span class="sidebar-help-title">Want to help?</span>
+              <a class="sidebar-help-link" href="mailto:hello@generatedpixel.dev">Email us at hello&#64;generatedpixel.dev</a>
+            </div>
+          </div>
         </aside>
 
         <!-- Main Docs View -->
@@ -233,12 +240,22 @@ export interface ComponentCatalogueItem {
 
       <footer class="site-footer">
         <div class="site-footer__inner">
-          <span class="site-footer__label">Powered by</span>
-          <a class="site-footer__link" href="https://generatedpixel.dev/" target="_blank" rel="noopener noreferrer">
-            Generated Pixel
-          </a>
+          <div class="site-footer__powered">
+            <span class="site-footer__label">Powered by</span>
+            <a class="site-footer__link" href="https://generatedpixel.dev/" target="_blank" rel="noopener noreferrer">
+              Generated Pixel
+            </a>
+          </div>
+          <span class="site-footer__divider" aria-hidden="true">&bull;</span>
+          <div class="site-footer__help">
+            <span class="site-footer__help-prompt">Want to help?</span>
+            <a class="site-footer__link" href="mailto:hello@generatedpixel.dev">Email us at hello&#64;generatedpixel.dev</a>
+          </div>
         </div>
       </footer>
+
+      <!-- Universal Command Palette -->
+      <gp-command-palette [items]="commandPaletteItems" (onSelect)="onCommandSelected($event)" />
     </div>
   `,
   styles: [
@@ -735,22 +752,71 @@ export interface ComponentCatalogueItem {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.75rem;
         padding: 1rem 0 1.25rem;
         font-size: 0.8rem;
         color: var(--gp-text-color-secondary);
+      }
+      .site-footer__powered,
+      .site-footer__help {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .site-footer__divider {
+        color: var(--gp-surface-border);
       }
       .site-footer__label {
         text-transform: uppercase;
         letter-spacing: 0.12em;
         font-size: 0.68rem;
       }
+      .site-footer__help-prompt {
+        color: var(--gp-text-color);
+        font-weight: 500;
+      }
       .site-footer__link {
         color: var(--gp-primary);
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 600;
       }
       .site-footer__link:hover {
+        text-decoration: underline;
+      }
+      .sidebar-help-card {
+        margin: 0 1rem 1.5rem;
+        padding: 0.75rem 0.85rem;
+        border-radius: var(--gp-border-radius, 8px);
+        background: var(--gp-surface-section, rgba(0, 0, 0, 0.02));
+        border: 1px dashed var(--gp-surface-border);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+      .sidebar-help-icon {
+        color: var(--gp-primary);
+        margin-top: 0.15rem;
+        flex-shrink: 0;
+      }
+      .sidebar-help-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .sidebar-help-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--gp-text-color);
+      }
+      .sidebar-help-link {
+        font-size: 0.75rem;
+        color: var(--gp-primary);
+        text-decoration: none;
+        word-break: break-all;
+        font-weight: 600;
+      }
+      .sidebar-help-link:hover {
         text-decoration: underline;
       }
       @media (max-width: 600px) {
@@ -804,6 +870,10 @@ export class AppComponent {
     { name: 'Speed Dial', route: '/component/speed-dial', category: 'Components', icon: 'check' },
     { name: 'Button Group', route: '/component/button-group', category: 'Components', icon: 'layer-group' },
     { name: 'Toggle Button', route: '/component/toggle-button', category: 'Components', icon: 'toggle-on' },
+    { name: 'Label', route: '/component/label', category: 'Form Controls', icon: 'tag', badge: 'New' },
+    { name: 'Float Label', route: '/component/float-label', category: 'Form Controls', icon: 'arrow-up', badge: 'New' },
+    { name: 'Inset Label', route: '/component/inset-label', category: 'Form Controls', icon: 'square-check', badge: 'New' },
+    { name: 'Form Field', route: '/component/form-field', category: 'Form Controls', icon: 'square', badge: 'Updated' },
     { name: 'Input Text', route: '/component/input-text', category: 'Form Controls', icon: 'edit' },
     { name: 'Textarea', route: '/component/textarea', category: 'Form Controls', icon: 'align-left' },
     { name: 'Password', route: '/component/password', category: 'Form Controls', icon: 'lock' },
@@ -822,6 +892,7 @@ export class AppComponent {
     { name: 'Cascade Select', route: '/component/cascade-select', category: 'Form Controls', icon: 'sitemap' },
     { name: 'Tree Select', route: '/component/tree-select', category: 'Form Controls', icon: 'folder-tree' },
     { name: 'Date Picker', route: '/component/date-picker', category: 'Form Controls', icon: 'calendar' },
+    { name: 'Date Range Picker', route: '/component/date-range-picker', category: 'Form Controls', icon: 'calendar', badge: 'New' },
     { name: 'Time Picker', route: '/component/time-picker', category: 'Form Controls', icon: 'clock' },
     { name: 'File Upload', route: '/component/file-upload', category: 'Form Controls', icon: 'upload' },
     { name: 'Paginator', route: '/component/paginator', category: 'Data Presentation', icon: 'bars' },
@@ -903,6 +974,49 @@ export class AppComponent {
       (item) => item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
     );
   });
+
+  public commandPaletteItems: GpCommandItem[] = [
+    // Direct Navigation Items
+    ...this.catalogueItems.map((item) => ({
+      id: `nav-${item.route}`,
+      title: `Go to ${item.name}`,
+      category: item.category,
+      icon: item.icon,
+      badge: item.badge,
+      action: () => this.router.navigateByUrl(item.route)
+    })),
+    // Theme Switcher Actions
+    {
+      id: 'theme-studio',
+      title: 'Open Theme Studio Dialog',
+      category: 'Theming & Customization',
+      icon: 'sliders',
+      badge: 'Interactive',
+      action: () => this.themeEditorService.open()
+    },
+    {
+      id: 'theme-toggle-mode',
+      title: 'Toggle Light / Dark Color Mode',
+      category: 'Theming & Customization',
+      icon: 'moon',
+      shortcut: 'T M',
+      action: () => GpThemeManager.toggleMode()
+    },
+    {
+      id: 'theme-high-contrast',
+      title: 'Switch to High Contrast Dark (WCAG AAA)',
+      category: 'Theming & Customization',
+      icon: 'check',
+      badge: 'WCAG AAA',
+      action: () => GpThemeManager.setTheme('high-contrast-dark')
+    }
+  ];
+
+  public onCommandSelected(item: GpCommandItem): void {
+    if (item.action) {
+      item.action();
+    }
+  }
 
   protected categories = computed(() => {
     const set = new Set<string>();

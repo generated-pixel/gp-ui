@@ -42,6 +42,8 @@ import {
   builtInThemes,
   defaultTheme,
   generateColorScale,
+  autoTuneContrast,
+  evaluateContrast,
   themeToCss,
   themeToTypeScript,
   themeToJson,
@@ -235,6 +237,15 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
                           [severity]="contrastInfo().severity"
                           [rounded]="true"
                           [title]="contrastInfo().tooltip"
+                        />
+                        <gp-button
+                          label="Auto-Tune AAA"
+                          icon="sparkles"
+                          size="sm"
+                          severity="success"
+                          variant="outlined"
+                          (onClickEvent)="autoTunePrimaryContrast()"
+                          title="Automatically optimize luminance to meet WCAG 2.2 AAA (7:1) contrast"
                         />
                       </div>
                     </div>
@@ -1817,10 +1828,15 @@ export class ThemeEditorComponent {
 
   public randomizePrimaryColor(): void {
     const randomHue = Math.floor(Math.random() * 360);
-    const randomSat = Math.floor(65 + Math.random() * 30);
-    const randomLight = Math.floor(44 + Math.random() * 16);
-    const hex = hslToHex(randomHue, randomSat, randomLight);
+    const hex = hslToHex(randomHue, 80, 52);
     this.onPrimaryHexChange(hex);
+  }
+
+  public autoTunePrimaryContrast(): void {
+    const current = this.primaryBaseColor();
+    const bg = this.editMode() === 'dark' ? '#121212' : '#ffffff';
+    const tuned = autoTuneContrast(current, 7.0, bg);
+    this.onPrimaryHexChange(tuned);
   }
 
   public getBestContrastTextColor(hex: string): string {

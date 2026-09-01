@@ -1,0 +1,60 @@
+@if (visible()) {
+  <div
+    class="gp-announcement-bar"
+    [class.gp-announcement-bar--sticky]="sticky()"
+    [class.gp-announcement-bar--dismissing]="isDismissing()"
+    [ngClass]="'gp-announcement-bar--' + severity()"
+    role="alert"
+  >
+    <div class="gp-announcement-bar__content">
+      <!-- Leading Icon / Badge -->
+      <div class="gp-announcement-bar__leading">
+        @if (badge()) {
+          <gp-badge [value]="badge()!" [severity]="severity() === 'primary' ? 'contrast' : 'primary'" />
+        }
+        @if (resolvedIcon()) {
+          <gp-icon [name]="resolvedIcon()!" size="1.1em" />
+        }
+      </div>
+
+      <!-- Message Body -->
+      <div class="gp-announcement-bar__body">
+        @if (title()) {
+          <strong class="gp-announcement-bar__title">{{ title() }}</strong>
+        }
+        <span class="gp-announcement-bar__message">{{ message() }}</span>
+        <ng-content />
+      </div>
+
+      <!-- Action Buttons -->
+      @if (actions() && actions()!.length > 0) {
+        <div class="gp-announcement-bar__actions">
+          @for (act of actions()!; track act.label) {
+            <button
+              type="button"
+              class="gp-announcement-bar__action-btn"
+              (click)="handleAction(act)"
+            >
+              @if (act.icon) {
+                <gp-icon [name]="act.icon" size="0.85em" />
+              }
+              <span>{{ act.label }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      <!-- Dismiss Close Button -->
+      @if (dismissible()) {
+        <button
+          type="button"
+          class="gp-announcement-bar__close-btn"
+          aria-label="Dismiss banner"
+          (click)="dismiss()"
+        >
+          <gp-icon name="times" size="0.85em" />
+        </button>
+      }
+    </div>
+  </div>
+}

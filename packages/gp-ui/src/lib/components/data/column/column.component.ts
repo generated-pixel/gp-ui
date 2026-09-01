@@ -13,7 +13,8 @@ import {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: ``
+  templateUrl: './column.component.html',
+  styleUrl: './column.component.scss'
 })
 export class GpColumnComponent extends GpBaseComponent {
   public field = input<string>('');

@@ -55,6 +55,9 @@ const componentTokenNames = [
   'confirmDialog',
   'drawer',
   'popover',
+  'commandPalette',
+  'formField',
+  'bottomSheet',
   'card',
   'panel',
   'accordion',
@@ -82,7 +85,13 @@ const componentTokenNames = [
   'gridWidget',
   'blockCard',
   'sidebar',
-  'kpiCard'
+  'kpiCard',
+  'statCard',
+  'announcementBar',
+  'dateRangePicker',
+  'label',
+  'floatLabel',
+  'insetLabel'
 ] as const;
 
 const inheritedComponentTokenDefaults = componentTokenNames.reduce<Record<string, Record<string, string>>>(
@@ -264,14 +273,83 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   vars['--gp-border-radius-lg'] = prim.borderRadius.lg;
   vars['--gp-border-radius-full'] = prim.borderRadius.full;
 
-  // 9. Transitions
+  // 9. Transitions & Motion
   vars['--gp-transition-duration'] = prim.transitions.duration.normal;
   vars['--gp-transition-timing'] = prim.transitions.timing.ease;
+  vars['--gp-duration-fast'] = prim.transitions.duration.fast || '150ms';
+  vars['--gp-duration-normal'] = prim.transitions.duration.normal || '250ms';
+  vars['--gp-duration-slow'] = prim.transitions.duration.slow || '400ms';
+  vars['--gp-ease-standard'] = prim.transitions.easing?.standard || 'cubic-bezier(0.2, 0.0, 0, 1.0)';
+  vars['--gp-ease-emphasized'] = prim.transitions.easing?.emphasized || 'cubic-bezier(0.05, 0.7, 0.1, 1.0)';
+  vars['--gp-ease-decelerate'] = prim.transitions.easing?.decelerate || 'cubic-bezier(0.0, 0.0, 0.2, 1.0)';
+  vars['--gp-ease-spring'] = prim.transitions.easing?.spring || 'cubic-bezier(0.34, 1.56, 0.64, 1.0)';
 
-  // 10. Mask
+  // 10. Glassmorphism & Depth Elevation
+  vars['--gp-surface-glass'] = sem.surfaces.glass || (mode === 'dark' ? 'rgba(30, 41, 59, 0.72)' : 'rgba(255, 255, 255, 0.75)');
+  vars['--gp-surface-glass-border'] = sem.surfaces.glassBorder || (mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.5)');
+  vars['--gp-blur-sm'] = prim.blur?.sm || '4px';
+  vars['--gp-blur-md'] = prim.blur?.md || '12px';
+  vars['--gp-blur-lg'] = prim.blur?.lg || '24px';
+  vars['--gp-glow-primary'] = sem.shadows.glowPrimary || `0 0 20px ${sem.primary.light || 'rgba(99, 102, 241, 0.35)'}`;
+  vars['--gp-glow-secondary'] = sem.shadows.glowSecondary || `0 0 20px ${sem.secondary.light || 'rgba(6, 182, 212, 0.35)'}`;
+
+  // 11. Fluid Typography & Adaptive Spacing (CSS clamp)
+  vars['--gp-fluid-font-xs'] = prim.fluidTypography?.xs || 'clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem)';
+  vars['--gp-fluid-font-sm'] = prim.fluidTypography?.sm || 'clamp(0.8rem, 0.75rem + 0.35vw, 0.875rem)';
+  vars['--gp-fluid-font-base'] = prim.fluidTypography?.base || 'clamp(0.95rem, 0.9rem + 0.4vw, 1.05rem)';
+  vars['--gp-fluid-font-lg'] = prim.fluidTypography?.lg || 'clamp(1.1rem, 1.0rem + 0.6vw, 1.25rem)';
+  vars['--gp-fluid-font-xl'] = prim.fluidTypography?.xl || 'clamp(1.25rem, 1.15rem + 0.8vw, 1.5rem)';
+  vars['--gp-fluid-font-2xl'] = prim.fluidTypography?.['2xl'] || 'clamp(1.5rem, 1.3rem + 1.2vw, 2rem)';
+  vars['--gp-fluid-font-3xl'] = prim.fluidTypography?.['3xl'] || 'clamp(1.85rem, 1.5rem + 1.8vw, 2.75rem)';
+
+  vars['--gp-fluid-space-sm'] = prim.fluidSpacing?.sm || 'clamp(0.5rem, 0.4rem + 0.3vw, 0.75rem)';
+  vars['--gp-fluid-space-md'] = prim.fluidSpacing?.md || 'clamp(1rem, 0.85rem + 0.6vw, 1.5rem)';
+  vars['--gp-fluid-space-lg'] = prim.fluidSpacing?.lg || 'clamp(1.5rem, 1.25rem + 1.0vw, 2.25rem)';
+  vars['--gp-fluid-space-xl'] = prim.fluidSpacing?.xl || 'clamp(2rem, 1.5rem + 1.8vw, 3.5rem)';
+
+  // 12. Mask
   vars['--gp-mask-bg'] = sem.mask.bg;
 
-  // 11. Component Specific Tokens (Recursive Flattening & W3C Token Alias Resolution)
+  // 13. Scrollbars
+  if (sem.scrollbar) {
+    vars['--gp-scrollbar-thumb'] = sem.scrollbar.thumb;
+    vars['--gp-scrollbar-thumb-hover'] = sem.scrollbar.thumbHover;
+    vars['--gp-scrollbar-track'] = sem.scrollbar.track;
+    vars['--gp-scrollbar-size'] = sem.scrollbar.size;
+    vars['--gp-scrollbar-radius'] = sem.scrollbar.radius;
+  }
+
+  // 14. Labels & Form Field Design Tokens
+  vars['--gp-label-color'] = sem.text.primary;
+  vars['--gp-label-color-secondary'] = sem.text.secondary;
+  vars['--gp-label-color-muted'] = sem.text.muted;
+  vars['--gp-label-font-weight'] = '600';
+  vars['--gp-label-font-size-sm'] = prim.typography.fontSize.xs || '0.75rem';
+  vars['--gp-label-font-size-md'] = prim.typography.fontSize.sm || '0.875rem';
+  vars['--gp-label-font-size-lg'] = prim.typography.fontSize.base || '1rem';
+  vars['--gp-label-required-color'] = sem.danger.main;
+  vars['--gp-label-optional-color'] = sem.text.muted;
+  vars['--gp-label-gap'] = '0.35rem';
+
+  vars['--gp-float-label-active-color'] = sem.primary.main;
+  vars['--gp-float-label-active-bg'] = sem.surfaces.card;
+  vars['--gp-float-label-scale'] = '0.85';
+  vars['--gp-float-label-transition'] = 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1), font-size 150ms cubic-bezier(0.4, 0, 0.2, 1), top 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease';
+
+  vars['--gp-inset-label-color'] = sem.text.secondary;
+  vars['--gp-inset-label-active-color'] = sem.primary.main;
+  vars['--gp-inset-label-font-size'] = '0.7rem';
+  vars['--gp-inset-label-padding-top'] = '1.35rem';
+  vars['--gp-inset-label-letter-spacing'] = '0.04em';
+
+  vars['--gp-form-field-bg'] = sem.surfaces.card;
+  vars['--gp-form-field-border'] = sem.surfaces.border;
+  vars['--gp-form-field-border-focus'] = sem.primary.main;
+  vars['--gp-form-field-radius'] = prim.borderRadius.base;
+  vars['--gp-form-field-min-height'] = '46px';
+  vars['--gp-form-field-margin-bottom'] = '1rem';
+
+  // 15. Component Specific Tokens (Recursive Flattening & W3C Token Alias Resolution)
   const mergedComponents = deepMerge(inheritedComponentTokenDefaults, comp || {});
   const compVars = flattenComponentTokens(mergedComponents, '--gp', (val) => resolveTokenAlias(val, theme, mode));
   Object.assign(vars, compVars);
@@ -588,9 +666,7 @@ export const ${varName}: GpThemeDefinition = extendTheme(${JSON.stringify(
  */
 export function themeToJson(theme: GpThemeDefinition): string {
   return JSON.stringify(theme, null, 2);
-}
-
-/**
+}/**
  * Returns Angular project integration code snippet for the specified theme.
  */
 export function themeToAngularSetup(theme: GpThemeDefinition): string {

@@ -1,0 +1,20 @@
+.gp-icon {
+  display: inline-flex;
+  align-self: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.gp-icon-spin {
+  animation: gp-icon-spin 1s infinite linear;
+}
+
+@keyframes gp-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -8,6 +8,9 @@ import {
   GpTimelineComponent,
   GpMeterGroupComponent,
   GpEmptyStateComponent,
+  GpStatCardComponent,
+  GpAnnouncementBarComponent,
+  GpBannerAction,
   GpButtonComponent,
   GpMeterItem,
   GpTimelineEvent
@@ -27,6 +30,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpTimelineComponent,
     GpMeterGroupComponent,
     GpEmptyStateComponent,
+    GpStatCardComponent,
+    GpAnnouncementBarComponent,
     GpButtonComponent,
     DocCodeComponent,
     DocApiTableComponent
@@ -39,6 +44,75 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
           Visual display elements including Profile Avatars, Dismissible Chips, Image Lightbox Previews, Multi-Item
           Carousels, Chronological Timelines, Segmented Meter Groups, and Empty State placeholders.
         </p>
+      </div>
+
+      <!-- Announcement & Notification Banners -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">Announcement &amp; Alert Banners</h2>
+        <p class="doc-section-desc">
+          Top-level sticky or inline notification bars with severity themes, action buttons, and localStorage dismissal persistence.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <gp-announcement-bar
+            title="Spring Release v2.4"
+            message="New Glassmorphism tokens, fluid typography, and WCAG AAA themes are now live!"
+            severity="primary"
+            badge="NEW"
+            [actions]="bannerActions"
+          />
+          <gp-announcement-bar
+            message="Scheduled platform maintenance in 2 hours. Active sessions will remain unaffected."
+            severity="warning"
+          />
+        </div>
+      </div>
+
+      <!-- KPI / Metric Stat Cards -->
+      <div class="doc-section">
+        <h2 class="doc-section-title">KPI &amp; Metric Stat Cards</h2>
+        <p class="doc-section-desc">
+          Enterprise statistics cards with positive/negative trend badges, icon badges, comparison subtitles, and progress tracking.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+          <gp-stat-card
+            title="Monthly Revenue"
+            value="128,450"
+            prefix="$"
+            subtitle="vs. $114,200 last month"
+            icon="wallet"
+            [trend]="{ value: '+12.5%', direction: 'up', isPositive: true }"
+            [interactive]="true"
+          />
+          <gp-stat-card
+            title="Active Subscriptions"
+            value="14,290"
+            subtitle="vs. 13,800 last month"
+            icon="users"
+            [trend]="{ value: '+3.8%', direction: 'up', isPositive: true }"
+            [progress]="78"
+            [interactive]="true"
+          />
+          <gp-stat-card
+            title="Avg Bounce Rate"
+            value="24.3"
+            suffix="%"
+            subtitle="vs. 28.1% last month"
+            icon="chart-pie"
+            [trend]="{ value: '-3.8%', direction: 'down', isPositive: true }"
+            [interactive]="true"
+          />
+          <gp-stat-card
+            title="Glassmorphic Card"
+            value="99.98"
+            suffix="%"
+            subtitle="Uptime SLA target"
+            icon="shield-check"
+            [glass]="true"
+            badge="LIVE"
+            badgeSeverity="success"
+            [interactive]="true"
+          />
+        </div>
       </div>
 
       <!-- Import Section -->
@@ -161,6 +235,10 @@ export class DisplayDemoComponent {
     { label: 'Messages', value: 25, color: 'var(--gp-success)' },
     { label: 'Media', value: 15, color: 'var(--gp-warning)' },
     { label: 'System', value: 20, color: 'var(--gp-danger)' }
+  ];
+
+  bannerActions: GpBannerAction[] = [
+    { label: 'View Roadmap', url: 'https://github.com' }
   ];
 
   events: GpTimelineEvent[] = [

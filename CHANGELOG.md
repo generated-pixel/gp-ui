@@ -76,3 +76,13 @@
 - Release of @generatedpixel gp-ui suite v0.5.0
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, @generatedpixel/gp-css, @generatedpixel/gp-blocks, and @generatedpixel/gp-grid
 
+## [0.6.0] - 2026-09-01
+- Release of @generatedpixel gp-ui suite v0.6.0
+- Added comprehensive Label Component Suite (`<gp-label>`, `<gp-float-label>`, `<gp-inset-label>`)
+- Full migration across library packages to 100% Angular Signals API (`input()`, `model()`, `output()`, `contentChild()`, `viewChild()`, `computed()`, `signal()`)
+- Extracted all HTML templates and SCSS stylesheets into dedicated, standalone `.component.html` and `.component.scss` files
+- Added granular theme design tokens for labels, floating labels, inset labels, and form fields in `@generatedpixel/gp-ui-theme`
+- Enhanced Pride theme and customizable scrollbar design tokens
+- Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, @generatedpixel/gp-css, @generatedpixel/gp-blocks, and @generatedpixel/gp-grid
+
+

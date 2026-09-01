@@ -653,7 +653,7 @@ export const BLOCKS_DEMO_DATA = {
           items: [
             { value: 'Angular 19', severity: 'primary' as const, isTag: true },
             { value: 'TypeScript 5.6', severity: 'secondary' as const, isTag: true },
-            { value: 'Tailwind & CSS', severity: 'info' as const, isTag: true },
+            { value: 'gp-css & SCSS', severity: 'info' as const, isTag: true },
             { value: 'WebAssembly', severity: 'success' as const, isTag: true },
             { value: 'GraphQL', severity: 'contrast' as const, isTag: true }
           ]

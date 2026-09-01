@@ -95,6 +95,13 @@ export const baseTheme: GpThemeDefinition = {
       },
       mask: {
         bg: 'rgba(15, 23, 42, 0.45)'
+      },
+      scrollbar: {
+        thumb: 'rgba(100, 116, 139, 0.32)',
+        thumbHover: 'rgba(100, 116, 139, 0.55)',
+        track: 'transparent',
+        size: '8px',
+        radius: '4px'
       }
     },
     components: {
@@ -403,6 +410,13 @@ export const baseTheme: GpThemeDefinition = {
       },
       mask: {
         bg: 'rgba(0, 0, 0, 0.75)'
+      },
+      scrollbar: {
+        thumb: 'rgba(148, 163, 184, 0.35)',
+        thumbHover: 'rgba(148, 163, 184, 0.55)',
+        track: 'transparent',
+        size: '8px',
+        radius: '4px'
       }
     },
     components: {
