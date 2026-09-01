@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpButtonComponent,
   GpButtonGroupComponent,
@@ -15,7 +15,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-buttons-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpButtonComponent,
     GpButtonGroupComponent,
     GpSplitButtonComponent,

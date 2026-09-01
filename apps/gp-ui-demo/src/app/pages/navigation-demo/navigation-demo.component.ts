@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpMenubarComponent,
   GpMenuComponent,
@@ -26,7 +26,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-navigation-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpMenubarComponent,
     GpMenuComponent,
     GpContextMenuComponent,
@@ -49,7 +48,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Navigation Components</h1>
         <p class="page-desc">
-          Header Menubars, Context Menus, Breadcrumbs, TabView Panels, Multi-Step Wizards, Tiered Menus, Mega Menus, Panel Menus, Toolbars, and macOS-style animated Docks.
+          Header Menubars, Context Menus, Breadcrumbs, TabView Panels, Multi-Step Wizards, Tiered Menus, Mega Menus,
+          Panel Menus, Toolbars, and macOS-style animated Docks.
         </p>
       </div>
 
@@ -64,7 +64,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="doc-section">
         <h2 class="doc-section-title">Menubar (Multi-Level Navigation)</h2>
         <p class="doc-section-desc">
-          Top application navigation bar with multi-level nested sub-menus, badges, click/hover toggle, and custom start/end content templates.
+          Top application navigation bar with multi-level nested sub-menus, badges, click/hover toggle, and custom
+          start/end content templates.
         </p>
         <gp-menubar [model]="menubarItems">
           <div start>
@@ -112,9 +113,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- PanelMenu -->
       <div class="doc-section">
         <h2 class="doc-section-title">Panel Menu (Accordion Navigation)</h2>
-        <p class="doc-section-desc">
-          Collapsible vertical tree navigation with animated headers and nested sub-tiers.
-        </p>
+        <p class="doc-section-desc">Collapsible vertical tree navigation with animated headers and nested sub-tiers.</p>
         <div style="max-width: 320px;">
           <gp-panel-menu [model]="panelMenuItems" />
         </div>
@@ -123,12 +122,15 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <!-- Context Menu -->
       <div class="doc-section">
         <h2 class="doc-section-title">Context Menu</h2>
-        <p class="doc-section-desc">Right-click anywhere inside the interactive target area below to display the contextual popup menu.</p>
+        <p class="doc-section-desc">
+          Right-click anywhere inside the interactive target area below to display the contextual popup menu.
+        </p>
         <div
           (contextmenu)="contextMenu.show($event)"
           style="padding: 2.5rem; border: 2px dashed var(--gp-surface-border); border-radius: 8px; cursor: context-menu; text-align: center; background: var(--gp-surface-card);"
         >
-          <strong style="color: var(--gp-primary);">Right-click here</strong> to open the Context Menu with nested actions.
+          <strong style="color: var(--gp-primary);">Right-click here</strong> to open the Context Menu with nested
+          actions.
           <gp-context-menu #contextMenu [model]="contextMenuItems" />
         </div>
       </div>
@@ -483,12 +485,27 @@ export class NavigationDemoComponent {
   ];
 
   tabsProperties: DocApiProperty[] = [
-    { name: 'activeIndex', type: 'model<number>', default: '0', description: 'Zero-based index model of the currently active tab.' },
-    { name: 'styleClass', type: 'input<string>', default: "''", description: 'Custom CSS classes applied to tab wrapper.' }
+    {
+      name: 'activeIndex',
+      type: 'model<number>',
+      default: '0',
+      description: 'Zero-based index model of the currently active tab.'
+    },
+    {
+      name: 'styleClass',
+      type: 'input<string>',
+      default: "''",
+      description: 'Custom CSS classes applied to tab wrapper.'
+    }
   ];
 
   stepperProperties: DocApiProperty[] = [
-    { name: 'activeStep', type: 'model<number>', default: '0', description: 'Zero-based index model of the active step.' },
+    {
+      name: 'activeStep',
+      type: 'model<number>',
+      default: '0',
+      description: 'Zero-based index model of the active step.'
+    },
     {
       name: 'orientation',
       type: "input<'horizontal' | 'vertical'>",

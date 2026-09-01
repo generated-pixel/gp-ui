@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   GpInputTextComponent,
@@ -43,7 +43,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-forms-demo',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     GpInputTextComponent,
@@ -101,9 +100,14 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <form [formGroup]="demoForm" (ngSubmit)="onSubmit()">
         <!-- Unified Form Field & Floating Labels Showcase -->
         <div class="doc-section">
-          <h2 class="doc-section-title">Unified Form Field & Floating Labels (<span style="font-family: monospace; font-size: 0.9em;">gp-form-field</span>)</h2>
+          <h2 class="doc-section-title">
+            Unified Form Field & Floating Labels (<span style="font-family: monospace; font-size: 0.9em;"
+              >gp-form-field</span
+            >)
+          </h2>
           <p class="doc-section-desc">
-            Encapsulates inputs with animated floating labels, appearance styles (<code>outlined</code>, <code>filled</code>), prefix/suffix icon slots, inline validation hints, and helper text.
+            Encapsulates inputs with animated floating labels, appearance styles (<code>outlined</code>,
+            <code>filled</code>), prefix/suffix icon slots, inline validation hints, and helper text.
           </p>
           <div class="form-grid">
             <div>
@@ -145,12 +149,17 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
         <!-- Dedicated Label Component Suite -->
         <div class="doc-section">
-          <h2 class="doc-section-title">Label Suite (<code>gp-label</code>, <code>gp-float-label</code>, <code>gp-ifta-label</code>)</h2>
+          <h2 class="doc-section-title">
+            Label Suite (<code>gp-label</code>, <code>gp-float-label</code>, <code>gp-ifta-label</code>)
+          </h2>
           <p class="doc-section-desc">
-            Complete suite of label styles: standard accessible labels with required/optional markers, animated floating labels, and compact inset top-left IFTA labels.
+            Complete suite of label styles: standard accessible labels with required/optional markers, animated floating
+            labels, and compact inset top-left IFTA labels.
           </p>
 
-          <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">1. Regular Labels (&lt;gp-label&gt;)</h3>
+          <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">
+            1. Regular Labels (&lt;gp-label&gt;)
+          </h3>
           <div class="form-grid">
             <div class="form-field">
               <gp-label for="demo-uname" text="Username" [required]="true" helpText="Your public handle" />
@@ -168,31 +177,53 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
             </div>
           </div>
 
-          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">2. Floating Labels (&lt;gp-float-label&gt;)</h3>
+          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">
+            2. Floating Labels (&lt;gp-float-label&gt;)
+          </h3>
           <div class="form-grid">
             <div class="form-field">
               <gp-float-label variant="on">
-                <input id="fl-username" gpInputText placeholder=" " [(ngModel)]="floatUsername" [ngModelOptions]="{standalone: true}" />
+                <input
+                  id="fl-username"
+                  gpInputText
+                  placeholder=" "
+                  [(ngModel)]="floatUsername"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <label for="fl-username">Username (On-Border)</label>
               </gp-float-label>
             </div>
 
             <div class="form-field">
               <gp-float-label variant="in">
-                <input id="fl-email" gpInputText placeholder=" " [(ngModel)]="floatEmail" [ngModelOptions]="{standalone: true}" />
+                <input
+                  id="fl-email"
+                  gpInputText
+                  placeholder=" "
+                  [(ngModel)]="floatEmail"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <label for="fl-email">Email Address (In-Edge)</label>
               </gp-float-label>
             </div>
 
             <div class="form-field">
               <gp-float-label variant="over">
-                <input id="fl-city" gpInputText placeholder=" " [(ngModel)]="floatCity" [ngModelOptions]="{standalone: true}" />
+                <input
+                  id="fl-city"
+                  gpInputText
+                  placeholder=" "
+                  [(ngModel)]="floatCity"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <label for="fl-city">City / Region (Over-Input)</label>
               </gp-float-label>
             </div>
           </div>
 
-          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">3. Inset Top-Left Embedded Labels (&lt;gp-inset-label&gt;)</h3>
+          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">
+            3. Inset Top-Left Embedded Labels (&lt;gp-inset-label&gt;)
+          </h3>
           <div class="form-grid">
             <div class="form-field">
               <gp-inset-label>
@@ -326,11 +357,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
             <div class="form-field">
               <label>Shift Start Time (24h with 15m Increments)</label>
-              <gp-time-picker
-                hourFormat="24"
-                [stepMinute]="15"
-                [minuteSteps]="[5, 15, 30]"
-              />
+              <gp-time-picker hourFormat="24" [stepMinute]="15" [minuteSteps]="[5, 15, 30]" />
             </div>
 
             <div class="form-field gp-col-span-2">

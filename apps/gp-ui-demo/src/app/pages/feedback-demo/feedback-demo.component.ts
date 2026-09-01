@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpButtonComponent,
   GpToastComponent,
@@ -18,7 +18,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-feedback-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpButtonComponent,
     GpToastComponent,
     GpMessageComponent,

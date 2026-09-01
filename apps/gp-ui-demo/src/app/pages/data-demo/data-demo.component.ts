@@ -1,6 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GpTableComponent, GpColumnComponent, GpButtonComponent, GpTagComponent, GpDataViewComponent, GpExportService } from 'gp-ui';
+
+import {
+  GpTableComponent,
+  GpColumnComponent,
+  GpButtonComponent,
+  GpTagComponent,
+  GpDataViewComponent,
+  GpExportService
+} from 'gp-ui';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
@@ -8,7 +15,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-data-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpTableComponent,
     GpColumnComponent,
     GpButtonComponent,
@@ -38,27 +44,16 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="doc-section">
         <h2 class="doc-section-title">DataTable with Filtering, Selection, Pagination & Export</h2>
         <p class="doc-section-desc">
-          Enterprise table with multi-column sorting, custom cell templating, row selection, and native multi-format data export.
+          Enterprise table with multi-column sorting, custom cell templating, row selection, and native multi-format
+          data export.
         </p>
-        <div class="table-actions" style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-bottom: 0.75rem;">
-          <gp-button
-            label="Export CSV"
-            icon="download"
-            severity="secondary"
-            (onClickEvent)="exportCsv()"
-          />
-          <gp-button
-            label="Export Excel"
-            icon="file"
-            severity="secondary"
-            (onClickEvent)="exportExcel()"
-          />
-          <gp-button
-            label="Export JSON"
-            icon="sparkles"
-            severity="secondary"
-            (onClickEvent)="exportJson()"
-          />
+        <div
+          class="table-actions"
+          style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-bottom: 0.75rem;"
+        >
+          <gp-button label="Export CSV" icon="download" severity="secondary" (onClickEvent)="exportCsv()" />
+          <gp-button label="Export Excel" icon="file" severity="secondary" (onClickEvent)="exportExcel()" />
+          <gp-button label="Export JSON" icon="sparkles" severity="secondary" (onClickEvent)="exportJson()" />
         </div>
 
         <gp-table

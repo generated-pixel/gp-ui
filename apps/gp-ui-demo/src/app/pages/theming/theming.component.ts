@@ -1,5 +1,5 @@
 import { Component, signal, computed, inject, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {
   GpButtonComponent,
@@ -12,7 +12,15 @@ import {
   GpProgressBarComponent,
   GpThemeScopeDirective
 } from 'gp-ui';
-import { GpThemeManager, GpThemeMeta, GpThemeMode, exportToW3C, exportToUtilityConfig, exportToCssVariables, evaluateContrast } from 'gp-ui-theme';
+import {
+  GpThemeManager,
+  GpThemeMeta,
+  GpThemeMode,
+  exportToW3C,
+  exportToUtilityConfig,
+  exportToCssVariables,
+  evaluateContrast
+} from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
@@ -24,7 +32,6 @@ import { ThemeEditorService } from './theme-editor.service';
   selector: 'app-theming-page',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     GpButtonComponent,
     GpInputTextComponent,
@@ -57,7 +64,10 @@ import { ThemeEditorService } from './theme-editor.service';
         <div class="theme-studio-hero-banner">
           <div class="hero-text">
             <h3>Interactive Theme Studio &amp; Token Exporter</h3>
-            <p>Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in an interactive dialog modal.</p>
+            <p>
+              Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in an
+              interactive dialog modal.
+            </p>
           </div>
           <gp-button
             label="Launch Theme Studio Dialog"
@@ -94,9 +104,30 @@ import { ThemeEditorService } from './theme-editor.service';
           </h2>
           <div class="mode-toggle-group">
             <span class="mode-label">Color Scheme:</span>
-            <gp-button label="Light" icon="sun" size="sm" [variant]="currentMode() === 'light' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (currentMode() === 'light' ? ' mode-btn-active' : '')" (onClickEvent)="setMode('light')" />
-            <gp-button label="Dark" icon="moon" size="sm" [variant]="currentMode() === 'dark' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (currentMode() === 'dark' ? ' mode-btn-active' : '')" (onClickEvent)="setMode('dark')" />
-            <gp-button label="System" icon="sliders" size="sm" [variant]="currentMode() === 'system' ? 'filled' : 'outlined'" [styleClass]="'mode-btn' + (currentMode() === 'system' ? ' mode-btn-active' : '')" (onClickEvent)="setMode('system')" />
+            <gp-button
+              label="Light"
+              icon="sun"
+              size="sm"
+              [variant]="currentMode() === 'light' ? 'filled' : 'outlined'"
+              [styleClass]="'mode-btn' + (currentMode() === 'light' ? ' mode-btn-active' : '')"
+              (onClickEvent)="setMode('light')"
+            />
+            <gp-button
+              label="Dark"
+              icon="moon"
+              size="sm"
+              [variant]="currentMode() === 'dark' ? 'filled' : 'outlined'"
+              [styleClass]="'mode-btn' + (currentMode() === 'dark' ? ' mode-btn-active' : '')"
+              (onClickEvent)="setMode('dark')"
+            />
+            <gp-button
+              label="System"
+              icon="sliders"
+              size="sm"
+              [variant]="currentMode() === 'system' ? 'filled' : 'outlined'"
+              [styleClass]="'mode-btn' + (currentMode() === 'system' ? ' mode-btn-active' : '')"
+              (onClickEvent)="setMode('system')"
+            />
           </div>
         </div>
         <p class="doc-section-desc">
@@ -147,231 +178,252 @@ import { ThemeEditorService } from './theme-editor.service';
               </div>
             </div>
           }
-      </div>
+        </div>
 
-      <!-- Section 2: Interactive Theme Editor & Code Exporter -->
-      <div class="doc-section">
-        <h2 class="doc-section-title">
-          <gp-icon name="sliders" size="1em" />
-          Interactive Theme Editor &amp; Token Exporter
-        </h2>
-        <p class="doc-section-desc">
-          Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in real-time.
-          Generate compiled <strong>CSS Stylesheets</strong>, <strong>TypeScript Theme Definitions</strong>,
-          <strong>JSON Tokens</strong>, or <strong>Angular Integration Snippets</strong> ready for use in your own projects.
-        </p>
+        <!-- Section 2: Interactive Theme Editor & Code Exporter -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">
+            <gp-icon name="sliders" size="1em" />
+            Interactive Theme Editor &amp; Token Exporter
+          </h2>
+          <p class="doc-section-desc">
+            Customize primitive scale ramps, light &amp; dark semantic tokens, and component overrides in real-time.
+            Generate compiled <strong>CSS Stylesheets</strong>, <strong>TypeScript Theme Definitions</strong>,
+            <strong>JSON Tokens</strong>, or <strong>Angular Integration Snippets</strong> ready for use in your own
+            projects.
+          </p>
 
-        <app-theme-editor />
-      </div>
+          <app-theme-editor />
+        </div>
 
-      <!-- Section 3: Quick Token Tweaker Studio -->
-      <div class="theme-playground-grid">
-        <!-- Controls Panel -->
-        <div class="theme-controls-card">
-          <div class="controls-card-header">
-            <h3>Live Token Tweaker</h3>
-            <gp-button
-              label="Reset Tokens"
-              variant="text"
-              severity="secondary"
-              size="sm"
-              (onClickEvent)="resetTokens()"
-            />
-          </div>
-
-          <div class="control-group">
-            <label>Primary Brand Override</label>
-            <div class="color-picker-row">
-              <gp-color-picker [presetColors]="brandPalette" (onChange)="onPrimaryColorChange($event.value)" />
-              <span class="color-val">{{ primaryColor() }}</span>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <label>Border Radius: {{ borderRadius() }}px</label>
-            <gp-slider [min]="0" [max]="20" [step]="2" (onChange)="onBorderRadiusChange($event.value)" />
-          </div>
-
-          <div class="control-group">
-            <label>Dark Mode Switch</label>
-            <gp-switch (onChange)="toggleDarkModeSwitch($event.checked)" />
-          </div>
-
-          <!-- Dynamic Theme Creator -->
-          <div class="custom-theme-creator-box">
-            <h4>Create &amp; Register Custom Theme</h4>
-            <p class="creator-desc">
-              Register a brand new theme at runtime using the <code>GpThemeManager.registerTheme()</code> API:
-            </p>
-
-            <div class="creator-inputs">
-              <gp-input-text placeholder="Theme Name (e.g. Neon Lime)" (onInputEvent)="onNewThemeNameInput($event)" />
-              <div class="creator-color-pickers">
-                <div class="creator-pick-item">
-                  <span>Primary:</span>
-                  <gp-color-picker (onChange)="onNewThemePrimaryChange($event.value)" />
-                </div>
-                <div class="creator-pick-item">
-                  <span>Dark Surface:</span>
-                  <gp-color-picker (onChange)="onNewThemeDarkBgChange($event.value)" />
-                </div>
-              </div>
+        <!-- Section 3: Quick Token Tweaker Studio -->
+        <div class="theme-playground-grid">
+          <!-- Controls Panel -->
+          <div class="theme-controls-card">
+            <div class="controls-card-header">
+              <h3>Live Token Tweaker</h3>
               <gp-button
-                label="Register &amp; Activate Theme"
-                icon="plus"
-                severity="primary"
+                label="Reset Tokens"
+                variant="text"
+                severity="secondary"
                 size="sm"
-                (onClickEvent)="registerCustomTheme()"
+                (onClickEvent)="resetTokens()"
               />
             </div>
+
+            <div class="control-group">
+              <label>Primary Brand Override</label>
+              <div class="color-picker-row">
+                <gp-color-picker [presetColors]="brandPalette" (onChange)="onPrimaryColorChange($event.value)" />
+                <span class="color-val">{{ primaryColor() }}</span>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label>Border Radius: {{ borderRadius() }}px</label>
+              <gp-slider [min]="0" [max]="20" [step]="2" (onChange)="onBorderRadiusChange($event.value)" />
+            </div>
+
+            <div class="control-group">
+              <label>Dark Mode Switch</label>
+              <gp-switch (onChange)="toggleDarkModeSwitch($event.checked)" />
+            </div>
+
+            <!-- Dynamic Theme Creator -->
+            <div class="custom-theme-creator-box">
+              <h4>Create &amp; Register Custom Theme</h4>
+              <p class="creator-desc">
+                Register a brand new theme at runtime using the <code>GpThemeManager.registerTheme()</code> API:
+              </p>
+
+              <div class="creator-inputs">
+                <gp-input-text placeholder="Theme Name (e.g. Neon Lime)" (onInputEvent)="onNewThemeNameInput($event)" />
+                <div class="creator-color-pickers">
+                  <div class="creator-pick-item">
+                    <span>Primary:</span>
+                    <gp-color-picker (onChange)="onNewThemePrimaryChange($event.value)" />
+                  </div>
+                  <div class="creator-pick-item">
+                    <span>Dark Surface:</span>
+                    <gp-color-picker (onChange)="onNewThemeDarkBgChange($event.value)" />
+                  </div>
+                </div>
+                <gp-button
+                  label="Register &amp; Activate Theme"
+                  icon="plus"
+                  severity="primary"
+                  size="sm"
+                  (onClickEvent)="registerCustomTheme()"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Preview Panel -->
+          <div class="theme-preview-card">
+            <div class="preview-card-header">
+              <h3>Live Component Preview</h3>
+              <span class="theme-status-tag">
+                Theme: <strong>{{ activeThemeId() }}</strong> ({{ isDarkMode() ? 'Dark' : 'Light' }})
+              </span>
+            </div>
+
+            <div class="preview-group">
+              <h4>Button Severities &amp; Variants</h4>
+              <div class="preview-row">
+                <gp-button label="Primary" severity="primary" />
+                <gp-button label="Success" severity="success" />
+                <gp-button label="Info" severity="info" />
+                <gp-button label="Warning" severity="warning" />
+                <gp-button label="Danger" severity="danger" />
+                <gp-button label="Outlined" variant="outlined" severity="primary" />
+              </div>
+            </div>
+
+            <div class="preview-group">
+              <h4>Tags &amp; Badges</h4>
+              <div class="preview-row">
+                <gp-badge value="42" severity="primary" />
+                <gp-badge value="New" severity="success" />
+                <gp-tag value="Active Mode: {{ isDarkMode() ? 'Dark' : 'Light' }}" severity="primary" />
+                <gp-tag value="Theme: {{ activeThemeId() }}" severity="secondary" />
+              </div>
+            </div>
+
+            <div class="preview-group">
+              <h4>Form Controls</h4>
+              <div class="preview-form-col">
+                <gp-input-text placeholder="Themed Input Text..." />
+              </div>
+            </div>
+
+            <div class="preview-group">
+              <h4>Progress &amp; Sliders</h4>
+              <gp-progress-bar [value]="68" />
+            </div>
+
+            <div class="preview-group">
+              <h4>Themed Card Container</h4>
+              <div class="themed-subcard">
+                <h5>Container Surface &amp; Border</h5>
+                <p>This sub-container automatically inherits the active theme's surface, border, and text tokens.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Live Preview Panel -->
-        <div class="theme-preview-card">
-          <div class="preview-card-header">
-            <h3>Live Component Preview</h3>
-            <span class="theme-status-tag">
-              Theme: <strong>{{ activeThemeId() }}</strong> ({{ isDarkMode() ? 'Dark' : 'Light' }})
-            </span>
-          </div>
+        <!-- Section 3: TypeScript & JSON Theme Architecture -->
+        <div class="doc-section mt-8">
+          <h2 class="doc-section-title">
+            <gp-icon name="code" size="1em" />
+            TypeScript &amp; JSON Base Theme Architecture
+          </h2>
+          <p class="doc-section-desc">
+            gp-ui uses a 3-tier token hierarchy: <strong>Primitives</strong> (raw scales),
+            <strong>Semantic</strong> (contextual Light &amp; Dark tokens), and <strong>Components</strong> (component
+            styles). Themes are built by extending the master <code>baseTheme</code> with <code>extendTheme()</code>.
+          </p>
 
-          <div class="preview-group">
-            <h4>Button Severities &amp; Variants</h4>
-            <div class="preview-row">
-              <gp-button label="Primary" severity="primary" />
-              <gp-button label="Success" severity="success" />
-              <gp-button label="Info" severity="info" />
-              <gp-button label="Warning" severity="warning" />
-              <gp-button label="Danger" severity="danger" />
-              <gp-button label="Outlined" variant="outlined" severity="primary" />
-            </div>
-          </div>
+          <h3 class="subsection-title">1. Including gp-css (@generatedpixel/gp-ui-theme)</h3>
+          <p class="doc-section-desc">
+            <code>gp-css</code> is provided by <code>@generatedpixel/gp-ui-theme</code>. Import the core index CSS and
+            optional theme presets into your <code>styles.scss</code> or <code>angular.json</code>:
+          </p>
+          <doc-code [code]="gpCssImportCode" language="scss" />
 
-          <div class="preview-group">
-            <h4>Tags &amp; Badges</h4>
-            <div class="preview-row">
-              <gp-badge value="42" severity="primary" />
-              <gp-badge value="New" severity="success" />
-              <gp-tag value="Active Mode: {{ isDarkMode() ? 'Dark' : 'Light' }}" severity="primary" />
-              <gp-tag value="Theme: {{ activeThemeId() }}" severity="secondary" />
-            </div>
-          </div>
+          <h3 class="subsection-title mt-6">2. Extending the Base Theme in TypeScript</h3>
+          <doc-code [code]="extendThemeCode" language="typescript" />
 
-          <div class="preview-group">
-            <h4>Form Controls</h4>
-            <div class="preview-form-col">
-              <gp-input-text placeholder="Themed Input Text..." />
-            </div>
-          </div>
+          <h3 class="subsection-title mt-6">3. Theme Manager Runtime API</h3>
+          <doc-code [code]="tsUsageCode" language="typescript" />
 
-          <div class="preview-group">
-            <h4>Progress &amp; Sliders</h4>
-            <gp-progress-bar [value]="68" />
-          </div>
-
-          <div class="preview-group">
-            <h4>Themed Card Container</h4>
-            <div class="themed-subcard">
-              <h5>Container Surface &amp; Border</h5>
-              <p>This sub-container automatically inherits the active theme's surface, border, and text tokens.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 3: TypeScript & JSON Theme Architecture -->
-      <div class="doc-section mt-8">
-        <h2 class="doc-section-title">
-          <gp-icon name="code" size="1em" />
-          TypeScript &amp; JSON Base Theme Architecture
-        </h2>
-        <p class="doc-section-desc">
-          gp-ui uses a 3-tier token hierarchy: <strong>Primitives</strong> (raw scales),
-          <strong>Semantic</strong> (contextual Light &amp; Dark tokens), and <strong>Components</strong> (component
-          styles). Themes are built by extending the master <code>baseTheme</code> with <code>extendTheme()</code>.
-        </p>
-
-        <h3 class="subsection-title">1. Including gp-css (@generatedpixel/gp-ui-theme)</h3>
-        <p class="doc-section-desc">
-          <code>gp-css</code> is provided by <code>@generatedpixel/gp-ui-theme</code>. Import the core index CSS and
-          optional theme presets into your <code>styles.scss</code> or <code>angular.json</code>:
-        </p>
-        <doc-code [code]="gpCssImportCode" language="scss" />
-
-        <h3 class="subsection-title mt-6">2. Extending the Base Theme in TypeScript</h3>
-        <doc-code [code]="extendThemeCode" language="typescript" />
-
-        <h3 class="subsection-title mt-6">3. Theme Manager Runtime API</h3>
-        <doc-code [code]="tsUsageCode" language="typescript" />
-
-        <h3 class="subsection-title mt-6">4. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
-        <doc-code [code]="htmlUsageCode" language="html" />
-      </div>
-
-      <div class="doc-section">
-        <h2 class="doc-section-title">
-          <gp-icon name="paint" size="1em" />
-          CSS Variables, Aliases &amp; Lifecycle
-        </h2>
-        <p class="doc-section-desc">
-          Prefer semantic <code>--gp-*</code> variables in authored CSS. Component token paths are flattened to
-          kebab-case, and W3C-style aliases resolve independently for Light and Dark modes.
-        </p>
-        <doc-code [code]="cssVariablesCode" language="css" />
-        <doc-code [code]="aliasCode" language="typescript" />
-        <doc-api-table title="Runtime behavior" [properties]="runtimeBehavior" [hasDefaults]="false" />
-      </div>
-
-      <!-- Scoped Sub-Theming Showcase -->
-      <div class="doc-section">
-        <h2 class="doc-section-title">
-          <gp-icon name="layer-group" size="1em" />
-          Scoped Sub-Theming (<code>[gpThemeScope]</code>)
-        </h2>
-        <p class="doc-section-desc">
-          Apply different themes or color modes to specific UI subtrees (such as an always-dark navigation bar or a cyberpunk preview card) without affecting the global page:
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;">
-          <div [gpThemeScope]="'cyberpunk'" mode="dark" style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 1px solid var(--gp-surface-border); color: var(--gp-text-primary);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Cyberpunk Dark Scope</span>
-              <gp-badge value="Scoped" severity="warning" />
-            </div>
-            <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">This container is isolated to Cyberpunk Dark.</p>
-            <gp-button label="Action in Scope" severity="primary" size="sm" />
-          </div>
-
-          <div [gpThemeScope]="'ocean'" mode="light" style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 1px solid var(--gp-surface-border); color: var(--gp-text-primary);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Ocean Light Scope</span>
-              <gp-badge value="Scoped" severity="info" />
-            </div>
-            <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">This container is isolated to Ocean Light.</p>
-            <gp-button label="Action in Scope" severity="primary" size="sm" />
-          </div>
-
-          <div [gpThemeScope]="'high-contrast-dark'" mode="dark" style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 2px solid #ffffff; color: #ffffff;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-              <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">WCAG AAA Dark</span>
-              <gp-badge value="AAA" severity="success" />
-            </div>
-            <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">High-contrast mode with yellow accents and white borders.</p>
-            <gp-button label="High Contrast" severity="primary" size="sm" />
-          </div>
+          <h3 class="subsection-title mt-6">4. HTML Data Attributes &amp; Sub-Tree Scoping</h3>
+          <doc-code [code]="htmlUsageCode" language="html" />
         </div>
 
-        <doc-code [code]="themeScopeCode" language="html" />
-      </div>
+        <div class="doc-section">
+          <h2 class="doc-section-title">
+            <gp-icon name="paint" size="1em" />
+            CSS Variables, Aliases &amp; Lifecycle
+          </h2>
+          <p class="doc-section-desc">
+            Prefer semantic <code>--gp-*</code> variables in authored CSS. Component token paths are flattened to
+            kebab-case, and W3C-style aliases resolve independently for Light and Dark modes.
+          </p>
+          <doc-code [code]="cssVariablesCode" language="css" />
+          <doc-code [code]="aliasCode" language="typescript" />
+          <doc-api-table title="Runtime behavior" [properties]="runtimeBehavior" [hasDefaults]="false" />
+        </div>
 
-      <!-- Section 4: Token Reference Table -->
-      <div class="doc-section">
-        <h2 class="doc-section-title">
-          <gp-icon name="bars" size="1em" />
-          Core Design Tokens Reference
-        </h2>
-        <doc-api-table title="Design Tokens" [properties]="tokenList" />
+        <!-- Scoped Sub-Theming Showcase -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">
+            <gp-icon name="layer-group" size="1em" />
+            Scoped Sub-Theming (<code>[gpThemeScope]</code>)
+          </h2>
+          <p class="doc-section-desc">
+            Apply different themes or color modes to specific UI subtrees (such as an always-dark navigation bar or a
+            cyberpunk preview card) without affecting the global page:
+          </p>
+
+          <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0;"
+          >
+            <div
+              [gpThemeScope]="'cyberpunk'"
+              mode="dark"
+              style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 1px solid var(--gp-surface-border); color: var(--gp-text-primary);"
+            >
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;"
+                  >Cyberpunk Dark Scope</span
+                >
+                <gp-badge value="Scoped" severity="warning" />
+              </div>
+              <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">This container is isolated to Cyberpunk Dark.</p>
+              <gp-button label="Action in Scope" severity="primary" size="sm" />
+            </div>
+
+            <div
+              [gpThemeScope]="'ocean'"
+              mode="light"
+              style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 1px solid var(--gp-surface-border); color: var(--gp-text-primary);"
+            >
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Ocean Light Scope</span>
+                <gp-badge value="Scoped" severity="info" />
+              </div>
+              <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">This container is isolated to Ocean Light.</p>
+              <gp-button label="Action in Scope" severity="primary" size="sm" />
+            </div>
+
+            <div
+              [gpThemeScope]="'high-contrast-dark'"
+              mode="dark"
+              style="padding: 1.25rem; border-radius: 8px; background: var(--gp-surface-card); border: 2px solid #ffffff; color: #ffffff;"
+            >
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">WCAG AAA Dark</span>
+                <gp-badge value="AAA" severity="success" />
+              </div>
+              <p style="font-size: 0.82rem; margin: 0 0 0.75rem 0;">
+                High-contrast mode with yellow accents and white borders.
+              </p>
+              <gp-button label="High Contrast" severity="primary" size="sm" />
+            </div>
+          </div>
+
+          <doc-code [code]="themeScopeCode" language="html" />
+        </div>
+
+        <!-- Section 4: Token Reference Table -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">
+            <gp-icon name="bars" size="1em" />
+            Core Design Tokens Reference
+          </h2>
+          <doc-api-table title="Design Tokens" [properties]="tokenList" />
+        </div>
       </div>
     </div>
   `,

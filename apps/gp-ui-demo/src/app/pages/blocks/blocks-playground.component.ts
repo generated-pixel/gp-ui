@@ -1,19 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpTextareaComponent } from 'gp-ui';
-import {
-  GpDynamicBlockRendererComponent,
-  GpBlockMetadata,
-  GP_SCHEMA_PRESETS
-} from 'gp-blocks';
+import { GpDynamicBlockRendererComponent, GpBlockMetadata, GP_SCHEMA_PRESETS } from 'gp-blocks';
 
 @Component({
   selector: 'app-blocks-playground-page',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     RouterModule,
     GpBadgeComponent,
@@ -39,10 +34,34 @@ import {
         <!-- Presets Selector -->
         <div class="presets-toolbar">
           <span class="p-lbl">Presets:</span>
-          <gp-button label="User Profile" size="sm" [variant]="selectedPreset === 'profile' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'profile' ? ' active' : '')" (onClickEvent)="loadPreset('profile')" />
-          <gp-button label="Enterprise KYC" size="sm" [variant]="selectedPreset === 'onboarding' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'onboarding' ? ' active' : '')" (onClickEvent)="loadPreset('onboarding')" />
-          <gp-button label="Checkout" size="sm" [variant]="selectedPreset === 'checkout' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'checkout' ? ' active' : '')" (onClickEvent)="loadPreset('checkout')" />
-          <gp-button label="SaaS KPI" size="sm" [variant]="selectedPreset === 'kpi' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'kpi' ? ' active' : '')" (onClickEvent)="loadPreset('kpi')" />
+          <gp-button
+            label="User Profile"
+            size="sm"
+            [variant]="selectedPreset === 'profile' ? 'filled' : 'outlined'"
+            [styleClass]="'p-btn' + (selectedPreset === 'profile' ? ' active' : '')"
+            (onClickEvent)="loadPreset('profile')"
+          />
+          <gp-button
+            label="Enterprise KYC"
+            size="sm"
+            [variant]="selectedPreset === 'onboarding' ? 'filled' : 'outlined'"
+            [styleClass]="'p-btn' + (selectedPreset === 'onboarding' ? ' active' : '')"
+            (onClickEvent)="loadPreset('onboarding')"
+          />
+          <gp-button
+            label="Checkout"
+            size="sm"
+            [variant]="selectedPreset === 'checkout' ? 'filled' : 'outlined'"
+            [styleClass]="'p-btn' + (selectedPreset === 'checkout' ? ' active' : '')"
+            (onClickEvent)="loadPreset('checkout')"
+          />
+          <gp-button
+            label="SaaS KPI"
+            size="sm"
+            [variant]="selectedPreset === 'kpi' ? 'filled' : 'outlined'"
+            [styleClass]="'p-btn' + (selectedPreset === 'kpi' ? ' active' : '')"
+            (onClickEvent)="loadPreset('kpi')"
+          />
         </div>
       </div>
 
@@ -57,7 +76,13 @@ import {
             </div>
             <div class="head-actions">
               <gp-button label="Format" size="sm" variant="text" styleClass="btn-sm" (onClickEvent)="formatJson()" />
-              <gp-button label="Reset" size="sm" variant="text" styleClass="btn-sm" (onClickEvent)="resetToCurrentPreset()" />
+              <gp-button
+                label="Reset"
+                size="sm"
+                variant="text"
+                styleClass="btn-sm"
+                (onClickEvent)="resetToCurrentPreset()"
+              />
             </div>
           </div>
 
@@ -70,10 +95,12 @@ import {
             />
           </div>
 
-          <div *ngIf="jsonError" class="json-error-banner">
-            <gp-icon name="exclamation-triangle" size="0.9em" />
-            <span>{{ jsonError }}</span>
-          </div>
+          @if (jsonError) {
+            <div class="json-error-banner">
+              <gp-icon name="exclamation-triangle" size="0.9em" />
+              <span>{{ jsonError }}</span>
+            </div>
+          }
         </div>
 
         <!-- Right: Live Rendered Output & Event Logs -->
@@ -87,30 +114,42 @@ import {
           </div>
 
           <div class="preview-body">
-            <gp-dynamic-block-renderer
-              *ngIf="parsedMetadata"
-              [metadata]="parsedMetadata"
-              (formSubmit)="onFormSubmit($event)"
-              (formChange)="onFormChange($event)"
-              (actionClick)="onActionClick($event)"
-            />
+            @if (parsedMetadata) {
+              <gp-dynamic-block-renderer
+                [metadata]="parsedMetadata"
+                (formSubmit)="onFormSubmit($event)"
+                (formChange)="onFormChange($event)"
+                (actionClick)="onActionClick($event)"
+              />
+            }
           </div>
 
           <!-- Event Log Drawer -->
           <div class="event-log-box">
             <div class="log-head">
               <span>Event Stream Log ({{ logs.length }} Events)</span>
-              <gp-button label="Clear" size="sm" variant="text" severity="secondary" styleClass="btn-clear" (onClickEvent)="logs = []" />
+              <gp-button
+                label="Clear"
+                size="sm"
+                variant="text"
+                severity="secondary"
+                styleClass="btn-clear"
+                (onClickEvent)="logs = []"
+              />
             </div>
             <div class="log-list">
-              <div *ngIf="logs.length === 0" class="log-empty">No events emitted yet. Interact with the form above!</div>
-              <div *ngFor="let log of logs" class="log-row">
-                <span class="log-time">{{ log.time }}</span>
-                <span class="log-type" [class.submit]="log.type === 'SUBMIT'" [class.action]="log.type === 'ACTION'">
-                  [{{ log.type }}]
-                </span>
-                <span class="log-detail">{{ log.detail }}</span>
-              </div>
+              @if (logs.length === 0) {
+                <div class="log-empty">No events emitted yet. Interact with the form above!</div>
+              }
+              @for (log of logs; track log) {
+                <div class="log-row">
+                  <span class="log-time">{{ log.time }}</span>
+                  <span class="log-type" [class.submit]="log.type === 'SUBMIT'" [class.action]="log.type === 'ACTION'">
+                    [{{ log.type }}]
+                  </span>
+                  <span class="log-detail">{{ log.detail }}</span>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -200,7 +239,8 @@ import {
         min-height: 700px;
       }
 
-      .editor-pane, .preview-pane {
+      .editor-pane,
+      .preview-pane {
         background: var(--gp-surface-card);
         border: 1px solid var(--gp-surface-border);
         border-radius: 14px;
@@ -345,7 +385,9 @@ import {
         font-size: 0.7rem;
       }
 
-      .btn-clear:hover { color: var(--gp-text-color); }
+      .btn-clear:hover {
+        color: var(--gp-text-color);
+      }
 
       .log-list {
         flex: 1;
@@ -358,22 +400,39 @@ import {
         gap: 0.25rem;
       }
 
-      .log-empty { color: var(--gp-text-color-muted); font-style: italic; }
+      .log-empty {
+        color: var(--gp-text-color-muted);
+        font-style: italic;
+      }
 
       .log-row {
         display: flex;
         gap: 0.5rem;
       }
 
-      .log-time { color: var(--gp-text-color-muted); }
-      .log-type { font-weight: 700; }
-      .log-type.submit { color: var(--gp-success, #10b981); }
-      .log-type.action { color: var(--gp-primary); }
-      .log-detail { color: var(--gp-text-color); }
+      .log-time {
+        color: var(--gp-text-color-muted);
+      }
+      .log-type {
+        font-weight: 700;
+      }
+      .log-type.submit {
+        color: var(--gp-success, #10b981);
+      }
+      .log-type.action {
+        color: var(--gp-primary);
+      }
+      .log-detail {
+        color: var(--gp-text-color);
+      }
 
       @media (max-width: 1024px) {
-        .playground-panes { grid-template-columns: 1fr; }
-        .editor-pane { height: 350px; }
+        .playground-panes {
+          grid-template-columns: 1fr;
+        }
+        .editor-pane {
+          height: 350px;
+        }
       }
     `
   ]
