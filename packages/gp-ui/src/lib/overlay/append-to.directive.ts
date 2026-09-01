@@ -144,6 +144,8 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.gpOverlayMatchWidth()) {
       overlay.style.width = `${triggerRect.width}px`;
+    } else {
+      overlay.style.minWidth = `${triggerRect.width}px`;
     }
 
     if (placement === 'bottom' || placement === 'auto') {

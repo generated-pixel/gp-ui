@@ -65,6 +65,7 @@ export class GpAutoCompleteComponent
   public appendTo = input<GpAppendToTarget>('body');
   public suggestions = input<any[]>([]);
   public field = input<string>('');
+  public subfield = input<string>('');
   public minLength = input<number>(1);
   public minCharacters = input<number | undefined>(undefined);
   public debounce = input<number>(250);
@@ -76,6 +77,8 @@ export class GpAutoCompleteComponent
   public unique = input<boolean>(true);
   public showClear = input<boolean>(false);
   public emptyMessage = input<string>('No results found');
+  /** Whether to automatically filter suggestions client-side against the query string (defaults to true) */
+  public autoFilter = input<boolean>(true);
 
   /** Advanced Search / Modal Dialog Support */
   public showAdvancedSearch = input<boolean>(false);
@@ -139,8 +142,37 @@ export class GpAutoCompleteComponent
   public isMinLengthMet = computed(() => (this.query() || '').length >= this.effectiveMinLength);
   public minLengthHit = computed(() => (this.query() || '').length >= this.effectiveMinLength);
 
+  /** Cleanly filtered suggestions visible in dropdown based on query string */
+  public visibleSuggestions = computed<any[]>(() => {
+    const raw = this.suggestions() || [];
+    const q = (this.query() || '').toLowerCase().trim();
+
+    if (!q || !this.autoFilter()) {
+      return raw;
+    }
+
+    return raw.filter((item) => {
+      if (item == null) {
+        return false;
+      }
+      const label = this.getItemLabel(item).toLowerCase();
+      if (label.includes(q)) {
+        return true;
+      }
+      const sub = (this.getItemSubtext(item) || '').toLowerCase();
+      if (sub && sub.includes(q)) {
+        return true;
+      }
+      const badge = (this.getItemBadge(item) || '').toLowerCase();
+      if (badge && badge.includes(q)) {
+        return true;
+      }
+      return false;
+    });
+  });
+
   public showAdvancedSearchRow = computed(
-    () => this.showAdvancedSearch() || this.hasMore() || (this.totalResults() ?? 0) > (this.suggestions()?.length || 0)
+    () => this.showAdvancedSearch() || this.hasMore() || (this.totalResults() ?? 0) > (this.visibleSuggestions()?.length || 0)
   );
 
   constructor(public hostElRef: ElementRef) {
@@ -288,6 +320,54 @@ export class GpAutoCompleteComponent
       }
     }
     return false;
+  }
+
+  public getHighlightedParts(text: string): { text: string; match: boolean }[] {
+    const q = (this.query() || '').trim();
+    if (!q || !text) {
+      return [{ text: text || '', match: false }];
+    }
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    const parts = String(text).split(regex);
+    return parts
+      .filter((p) => p.length > 0)
+      .map((part) => ({
+        text: part,
+        match: part.toLowerCase() === q.toLowerCase()
+      }));
+  }
+
+  public getItemSubtext(item: any): string | undefined {
+    if (!item || typeof item !== 'object') {
+      return undefined;
+    }
+    const subfieldKey = this.subfield();
+    if (subfieldKey && item[subfieldKey] !== undefined) {
+      return String(item[subfieldKey]);
+    }
+    return item.subtext || item.description || item.subtitle || item.email || item.category || undefined;
+  }
+
+  public getItemIcon(item: any): string | undefined {
+    if (!item || typeof item !== 'object') {
+      return undefined;
+    }
+    return item.icon || item.avatar || undefined;
+  }
+
+  public getItemBadge(item: any): string | undefined {
+    if (!item || typeof item !== 'object') {
+      return undefined;
+    }
+    return item.badge || item.tier || item.tag || undefined;
+  }
+
+  public isItemSelected(item: any): boolean {
+    if (this.multiple()) {
+      return this.selectedItems().some((s) => this.areItemsEqual(s, item));
+    }
+    return this.areItemsEqual(this.internalValue(), item);
   }
 
   private updateMinLengthState(isHit: boolean): void {
@@ -455,7 +535,7 @@ export class GpAutoCompleteComponent
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
-    const suggs = this.suggestions();
+    const suggs = this.visibleSuggestions();
 
     // Backspace in multiple mode with empty query removes last chip
     if (event.key === 'Backspace' && this.multiple() && !this.query() && this.selectedItems().length > 0) {

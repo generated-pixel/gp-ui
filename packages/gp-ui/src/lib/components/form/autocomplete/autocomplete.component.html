@@ -101,7 +101,7 @@
       (click)="$event.stopPropagation()"
       [gpAppendTo]="appendTo()"
       [gpConnectedTo]="hostElRef"
-      [gpOverlayMatchWidth]="true"
+      [gpOverlayMatchWidth]="false"
     >
       <!-- Header Slot -->
       @if (effectiveHeaderTemplate()) {
@@ -111,12 +111,13 @@
       }
 
       <!-- Items List -->
-      @if (suggestions() && suggestions().length > 0) {
-        <ul class="gp-select-items">
-          @for (item of suggestions(); track $index) {
+      @if (visibleSuggestions() && visibleSuggestions().length > 0) {
+        <ul class="gp-select-items gp-autocomplete-items">
+          @for (item of visibleSuggestions(); track $index) {
             <li
-              class="gp-select-item"
+              class="gp-select-item gp-autocomplete-item"
               [class.gp-select-item-selected]="$index === activeIndex()"
+              [class.gp-autocomplete-item-checked]="isItemSelected(item)"
               role="option"
               (click)="selectItem(item, $event)"
             >
@@ -125,7 +126,37 @@
                   *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item, index: $index }"
                 />
               } @else {
-                <span>{{ getItemLabel(item) }}</span>
+                <div class="gp-autocomplete-item-content">
+                  @if (getItemIcon(item)) {
+                    <gp-icon [name]="getItemIcon(item)!" class="gp-autocomplete-item-icon" />
+                  }
+
+                  <div class="gp-autocomplete-item-main">
+                    <span class="gp-autocomplete-item-label">
+                      @for (chunk of getHighlightedParts(getItemLabel(item)); track $index) {
+                        @if (chunk.match) {
+                          <mark class="gp-autocomplete-highlight">{{ chunk.text }}</mark>
+                        } @else {
+                          <span>{{ chunk.text }}</span>
+                        }
+                      }
+                    </span>
+
+                    @if (getItemSubtext(item)) {
+                      <span class="gp-autocomplete-item-subtext">
+                        {{ getItemSubtext(item) }}
+                      </span>
+                    }
+                  </div>
+
+                  @if (getItemBadge(item)) {
+                    <span class="gp-autocomplete-item-badge">{{ getItemBadge(item) }}</span>
+                  }
+
+                  @if (isItemSelected(item)) {
+                    <gp-icon name="check" size="0.85em" class="gp-autocomplete-item-check" />
+                  }
+                </div>
               }
             </li>
           }
@@ -136,8 +167,14 @@
             <ng-container *ngTemplateOutlet="effectiveEmptyTemplate()!" />
           </div>
         } @else {
-          <div class="gp-autocomplete-empty-message">
-            <span>{{ emptyMessage() }}</span>
+          <div class="gp-autocomplete-empty-state">
+            <div class="gp-autocomplete-empty-icon-wrap">
+              <gp-icon name="search" size="1.25em" />
+            </div>
+            <div class="gp-autocomplete-empty-title">{{ emptyMessage() }}</div>
+            @if (query()) {
+              <div class="gp-autocomplete-empty-desc">No suggestions found matching &ldquo;{{ query() }}&rdquo;</div>
+            }
           </div>
         }
       }
@@ -146,12 +183,20 @@
       @if (showAdvancedSearchRow()) {
         <div class="gp-autocomplete-advanced-search-row" (click)="triggerAdvancedSearch($event)">
           <div class="gp-autocomplete-advanced-search-left">
-            <gp-icon name="search" size="0.9em" class="gp-autocomplete-adv-icon" />
-            <span class="gp-autocomplete-adv-label">{{ advancedSearchLabel() }}</span>
+            <div class="gp-autocomplete-adv-icon-badge">
+              <gp-icon name="search" size="0.85em" class="gp-autocomplete-adv-icon" />
+            </div>
+            <div class="gp-autocomplete-adv-text-wrap">
+              <span class="gp-autocomplete-adv-label">{{ advancedSearchLabel() }}</span>
+              <span class="gp-autocomplete-adv-sub">Search entire catalog with advanced filters</span>
+            </div>
           </div>
-          @if (totalResults() !== undefined) {
-            <span class="gp-autocomplete-total-badge">{{ totalResults() }} results available</span>
-          }
+          <div class="gp-autocomplete-advanced-search-right">
+            @if (totalResults() !== undefined) {
+              <span class="gp-autocomplete-total-badge">{{ totalResults() }} available</span>
+            }
+            <gp-icon name="chevron-right" size="0.75em" class="gp-autocomplete-adv-arrow" />
+          </div>
         </div>
       }
 
