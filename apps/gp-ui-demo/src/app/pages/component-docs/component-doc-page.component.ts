@@ -386,7 +386,7 @@ import { getComponentDoc } from './component-docs.data';
           <gp-listbox [options]="demoOptions" />
         }
         @case ('autocomplete') {
-          <gp-autocomplete [suggestions]="demoOptions" placeholder="Search cities" />
+          <gp-autocomplete [suggestions]="demoCities" placeholder="Search cities (e.g. Rome, Paris, Tokyo...)" />
         }
         @case ('tree-select') {
           <gp-tree-select [options]="demoTreeNodes" placeholder="Select department" />
@@ -788,6 +788,16 @@ export class ComponentDocPageComponent implements OnInit {
     { label: 'Designer', value: 'designer' },
     { label: 'Developer', value: 'developer' },
     { label: 'Manager', value: 'manager' }
+  ];
+  demoCities = [
+    { label: 'Rome, Italy', value: 'rome', subtext: 'Capital of Italy', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Paris, France', value: 'paris', subtext: 'Capital of France', icon: 'map-pin', badge: 'Europe' },
+    { label: 'New York, USA', value: 'nyc', subtext: 'United States', icon: 'map-pin', badge: 'Americas' },
+    { label: 'London, UK', value: 'london', subtext: 'United Kingdom', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Tokyo, Japan', value: 'tokyo', subtext: 'Capital of Japan', icon: 'map-pin', badge: 'Asia' },
+    { label: 'Berlin, Germany', value: 'berlin', subtext: 'Capital of Germany', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Madrid, Spain', value: 'madrid', subtext: 'Capital of Spain', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Sydney, Australia', value: 'sydney', subtext: 'Australia', icon: 'map-pin', badge: 'Oceania' }
   ];
   demoRows = [
     { name: 'Alpha', status: 'Ready' },

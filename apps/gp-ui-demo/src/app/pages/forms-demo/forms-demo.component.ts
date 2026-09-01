@@ -326,10 +326,11 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
               <gp-autocomplete
                 formControlName="city"
                 [suggestions]="filteredCities"
+                field="label"
                 (completeMethod)="searchCities($event)"
                 [dropdown]="true"
                 [showClear]="true"
-                placeholder="Search city..."
+                placeholder="Search city (e.g. Rome, Paris, Tokyo...)"
               />
             </div>
 
@@ -785,8 +786,19 @@ export class MyFormComponent {
     { label: 'Accessibility (a11y)', value: 'A11y' }
   ];
 
-  cities = ['New York', 'San Francisco', 'London', 'Berlin', 'Tokyo', 'Sydney', 'Toronto', 'Paris'];
-  filteredCities: string[] = [];
+  cities = [
+    { label: 'Rome, Italy', value: 'Rome', subtext: 'Lazio • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Paris, France', value: 'Paris', subtext: 'Île-de-France • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'New York, USA', value: 'New York', subtext: 'New York State • Americas', icon: 'map-pin', badge: 'Metro' },
+    { label: 'London, UK', value: 'London', subtext: 'Greater London • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Tokyo, Japan', value: 'Tokyo', subtext: 'Kantō • Asia', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Berlin, Germany', value: 'Berlin', subtext: 'Berlin State • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Madrid, Spain', value: 'Madrid', subtext: 'Community of Madrid • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Sydney, Australia', value: 'Sydney', subtext: 'New South Wales • Oceania', icon: 'map-pin', badge: 'Metro' },
+    { label: 'Toronto, Canada', value: 'Toronto', subtext: 'Ontario • Americas', icon: 'map-pin', badge: 'Metro' },
+    { label: 'Singapore', value: 'Singapore', subtext: 'Southeast Asia', icon: 'map-pin', badge: 'City-State' }
+  ];
+  filteredCities: any[] = [];
 
   deptTree = [
     {
@@ -1019,7 +1031,9 @@ export class MyFormComponent {
 
   searchCities(event: any): void {
     const q = (event.query || '').toLowerCase();
-    this.filteredCities = this.cities.filter((c) => c.toLowerCase().includes(q));
+    this.filteredCities = this.cities.filter((c) =>
+      c.label.toLowerCase().includes(q) || c.subtext.toLowerCase().includes(q) || c.value.toLowerCase().includes(q)
+    );
   }
 
   // Technologies for Multi-Select Token Typeahead
@@ -1033,14 +1047,14 @@ export class MyFormComponent {
 
   // Enterprise Customers for Advanced Search Dialog & Subscription
   public allDatabaseCustomers = [
-    { id: 101, name: 'Acme Global Enterprises', tier: 'Enterprise', location: 'New York, USA' },
-    { id: 102, name: 'Apex Cyber Solutions', tier: 'Enterprise', location: 'London, UK' },
-    { id: 103, name: 'BlueStar Logistics', tier: 'Professional', location: 'Toronto, Canada' },
-    { id: 104, name: 'CloudScale Technologies', tier: 'Enterprise', location: 'San Francisco, USA' },
-    { id: 105, name: 'DataCore Analytics Ltd', tier: 'Professional', location: 'Berlin, Germany' },
-    { id: 106, name: 'EchoWave Interactive', tier: 'Standard', location: 'Sydney, Australia' },
-    { id: 107, name: 'FusionWorks Labs', tier: 'Enterprise', location: 'Tokyo, Japan' },
-    { id: 108, name: 'Global Horizon Corp', tier: 'Enterprise', location: 'Paris, France' }
+    { id: 101, name: 'Acme Global Enterprises', tier: 'Enterprise', location: 'New York, USA', subtext: 'New York, USA • HQ', icon: 'building', badge: 'Enterprise' },
+    { id: 102, name: 'Apex Cyber Solutions', tier: 'Enterprise', location: 'London, UK', subtext: 'London, UK • EMEA Hub', icon: 'shield', badge: 'Enterprise' },
+    { id: 103, name: 'BlueStar Logistics', tier: 'Professional', location: 'Toronto, Canada', subtext: 'Toronto, Canada • Supply Chain', icon: 'truck', badge: 'Pro' },
+    { id: 104, name: 'CloudScale Technologies', tier: 'Enterprise', location: 'San Francisco, USA', subtext: 'San Francisco, USA • Cloud Infra', icon: 'cloud', badge: 'Enterprise' },
+    { id: 105, name: 'DataCore Analytics Ltd', tier: 'Professional', location: 'Berlin, Germany', subtext: 'Berlin, Germany • AI & BI', icon: 'database', badge: 'Pro' },
+    { id: 106, name: 'EchoWave Interactive', tier: 'Standard', location: 'Sydney, Australia', subtext: 'Sydney, Australia • Digital Media', icon: 'globe', badge: 'Standard' },
+    { id: 107, name: 'FusionWorks Labs', tier: 'Enterprise', location: 'Tokyo, Japan', subtext: 'Tokyo, Japan • R&D Center', icon: 'cogs', badge: 'Enterprise' },
+    { id: 108, name: 'Global Horizon Corp', tier: 'Enterprise', location: 'Paris, France', subtext: 'Paris, France • Global Accounts', icon: 'globe', badge: 'Enterprise' }
   ];
   public filteredCustomers: any[] = [];
 
