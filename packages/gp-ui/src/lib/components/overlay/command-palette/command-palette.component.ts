@@ -121,9 +121,9 @@ export class GpCommandPaletteComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const sc = this.shortcut();
     if (sc) {
-      this.unregisterHotkey = this.hotkeyService.register(sc, () => {
-        this.toggle();
-      });
+      const combos = sc.split(',').map((c) => c.trim()).filter(Boolean);
+      const unregs = combos.map((combo) => this.hotkeyService.register(combo, () => this.toggle()));
+      this.unregisterHotkey = () => unregs.forEach((u) => u());
     }
   }
 
