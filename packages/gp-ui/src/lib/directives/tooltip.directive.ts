@@ -48,16 +48,19 @@ export class GpTooltipDirective implements OnDestroy {
     this.onMouseLeave();
   }
 
-  private resolveTarget(): HTMLElement {
+  private resolveTarget(): HTMLElement | null {
     const target = this.appendTo();
     if (target === 'body' || !target) {
-      return typeof document !== 'undefined' ? document.body : (null as any);
+      return typeof document !== 'undefined' ? document.body : null;
     }
     if (target === 'self') {
       return this.el.nativeElement;
     }
     if (typeof target === 'string') {
-      const el = document.querySelector(target) as HTMLElement;
+      if (typeof document === 'undefined') {
+        return null;
+      }
+      const el = document.querySelector(target) as HTMLElement | null;
       return el || document.body;
     }
     if (target instanceof ElementRef) {
