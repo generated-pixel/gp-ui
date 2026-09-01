@@ -83,17 +83,7 @@ export interface ComponentCatalogueItem {
             </a>
 
             <!-- Buy Me A Coffee Donation CTA (Prominently next to Generated Pixel Logo) -->
-            <a
-              href="https://buymeacoffee.com/generatedpixel"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bmc-donation-btn bmc-donation-btn--header"
-              title="Support Generated Pixel & gp-ui on Buy Me a Coffee"
-              aria-label="Buy Me a Coffee - Support Generated Pixel"
-            >
-              <span class="bmc-cup-icon" aria-hidden="true">☕</span>
-              <span class="bmc-btn-text">Buy me a coffee</span>
-            </a>
+<a href="https://www.buymeacoffee.com/generatedpixel" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 36px !important;width: 130px !important;" ></a>
           </div>
 
           <!-- Component Search Bar -->
