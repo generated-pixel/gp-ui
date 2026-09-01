@@ -3,59 +3,197 @@
   position: relative;
   width: 100%;
 }
-.gp-timepicker-input {
-  padding-right: 2.5rem;
+
+.gp-timepicker .gp-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.gp-timepicker .gp-inputtext {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color, #1e293b);
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  min-height: 2.5rem;
+  transition:
+    border-color var(--gp-transition-duration, 150ms) ease,
+    box-shadow var(--gp-transition-duration, 150ms) ease;
+  outline: none;
   cursor: pointer;
 }
-.gp-timepicker-panel {
-  width: auto;
-  min-width: 14rem;
+
+.gp-timepicker .gp-inputtext:hover:not(:disabled):not([readonly]) {
+  border-color: var(--gp-input-border-hover, var(--gp-primary, #6366f1));
 }
+
+.gp-timepicker .gp-inputtext:focus-visible {
+  border-color: var(--gp-input-border-focus, var(--gp-primary, #6366f1));
+  box-shadow: var(--gp-focus-ring);
+}
+
+.gp-timepicker.gp-input-disabled .gp-inputtext {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--gp-surface-ground, #f1f5f9);
+}
+
+.gp-timepicker.gp-input-invalid .gp-inputtext {
+  border-color: var(--gp-danger, #ef4444);
+}
+
+.gp-timepicker-trigger {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2.5rem;
+  background: transparent;
+  border: none;
+  color: var(--gp-timepicker-trigger-color, var(--gp-text-color-secondary, #64748b));
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 var(--gp-border-radius, 6px) var(--gp-border-radius, 6px) 0;
+  transition: color 150ms ease;
+}
+
+.gp-timepicker-trigger:hover {
+  color: var(--gp-primary, #6366f1);
+}
+
+.gp-timepicker-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  padding: 0.75rem;
+  background: var(--gp-timepicker-panel-background, var(--gp-surface-overlay, #ffffff));
+  border: 1px solid var(--gp-timepicker-panel-border-color, var(--gp-surface-border, #e2e8f0));
+  border-radius: var(--gp-border-radius-md, 8px);
+  box-shadow: var(--gp-timepicker-panel-shadow, var(--gp-shadow-lg));
+  z-index: 1050;
+  min-width: 15rem;
+  animation: gp-slide-down 0.15s ease-out;
+}
+
 .gp-timepicker-controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
+
 .gp-timepicker-column {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.15rem;
 }
+
 .gp-timepicker-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--gp-text-color-secondary);
-  padding: 0.25rem;
+  color: var(--gp-text-color-secondary, #64748b);
+  padding: 0.25rem 0.5rem;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--gp-border-radius-sm, 4px);
+  transition: background 150ms ease, color 150ms ease;
 }
+
 .gp-timepicker-btn:hover {
-  color: var(--gp-primary);
+  background: var(--gp-surface-hover, #f1f5f9);
+  color: var(--gp-primary, #6366f1);
 }
+
 .gp-timepicker-val {
-  font-size: 1.25rem;
-  font-weight: 600;
-  min-width: 2rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  min-width: 2.25rem;
   text-align: center;
+  color: var(--gp-text-color, #1e293b);
+  user-select: none;
 }
+
 .gp-timepicker-separator {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--gp-text-color-muted);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gp-text-color-muted, #94a3b8);
+  margin-bottom: 0.1rem;
 }
+
 .gp-timepicker-ampm-btn {
-  background: var(--gp-surface-hover);
-  border: 1px solid var(--gp-surface-border);
-  border-radius: var(--gp-border-radius-sm);
-  font-size: var(--gp-font-size-sm);
-  font-weight: 600;
+  background: var(--gp-surface-section, #f8fafc);
+  border: 1px solid var(--gp-surface-border, #e2e8f0);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  font-weight: 700;
   padding: 0.35rem 0.65rem;
   cursor: pointer;
-  color: var(--gp-text-color);
+  color: var(--gp-text-color, #1e293b);
+  transition: all 150ms ease;
 }
+
 .gp-timepicker-ampm-btn:hover {
-  background: var(--gp-primary-light);
-  color: var(--gp-primary);
+  background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
+  color: var(--gp-primary, #6366f1);
+  border-color: var(--gp-primary, #6366f1);
+}
+
+/* Minute Steps Selector Row */
+.gp-timepicker-steps-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--gp-surface-divider, var(--gp-surface-border, #e2e8f0));
+}
+
+.gp-timepicker-steps-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gp-text-color-secondary, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.gp-timepicker-steps-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.gp-timepicker-step-pill {
+  background: var(--gp-surface-section, #f1f5f9);
+  border: 1px solid var(--gp-surface-border, #e2e8f0);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  color: var(--gp-text-color-secondary, #64748b);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.gp-timepicker-step-pill:hover {
+  background: var(--gp-surface-hover, #e2e8f0);
+  color: var(--gp-text-color, #1e293b);
+}
+
+.gp-timepicker-step-pill--active {
+  background: var(--gp-primary, #6366f1) !important;
+  color: var(--gp-primary-text, #ffffff) !important;
+  border-color: var(--gp-primary, #6366f1) !important;
 }
