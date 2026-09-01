@@ -39,9 +39,10 @@ import {
         <!-- Presets Selector -->
         <div class="presets-toolbar">
           <span class="p-lbl">Presets:</span>
-          <gp-button label="User Profile Settings" size="sm" [variant]="selectedPreset === 'profile' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'profile' ? ' active' : '')" (onClickEvent)="loadPreset('profile')" />
-          <gp-button label="Ecommerce Checkout" size="sm" [variant]="selectedPreset === 'checkout' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'checkout' ? ' active' : '')" (onClickEvent)="loadPreset('checkout')" />
-          <gp-button label="SaaS KPI Dashboard" size="sm" [variant]="selectedPreset === 'kpi' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'kpi' ? ' active' : '')" (onClickEvent)="loadPreset('kpi')" />
+          <gp-button label="User Profile" size="sm" [variant]="selectedPreset === 'profile' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'profile' ? ' active' : '')" (onClickEvent)="loadPreset('profile')" />
+          <gp-button label="Enterprise KYC" size="sm" [variant]="selectedPreset === 'onboarding' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'onboarding' ? ' active' : '')" (onClickEvent)="loadPreset('onboarding')" />
+          <gp-button label="Checkout" size="sm" [variant]="selectedPreset === 'checkout' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'checkout' ? ' active' : '')" (onClickEvent)="loadPreset('checkout')" />
+          <gp-button label="SaaS KPI" size="sm" [variant]="selectedPreset === 'kpi' ? 'filled' : 'outlined'" [styleClass]="'p-btn' + (selectedPreset === 'kpi' ? ' active' : '')" (onClickEvent)="loadPreset('kpi')" />
         </div>
       </div>
 
@@ -378,7 +379,7 @@ import {
   ]
 })
 export class BlocksPlaygroundPageComponent {
-  selectedPreset: 'profile' | 'checkout' | 'kpi' = 'profile';
+  selectedPreset: 'profile' | 'onboarding' | 'checkout' | 'kpi' = 'profile';
   rawJson = '';
   parsedMetadata: GpBlockMetadata | null = null;
   jsonError: string | null = null;
@@ -389,12 +390,14 @@ export class BlocksPlaygroundPageComponent {
     this.loadPreset('profile');
   }
 
-  loadPreset(preset: 'profile' | 'checkout' | 'kpi') {
+  loadPreset(preset: 'profile' | 'onboarding' | 'checkout' | 'kpi') {
     this.selectedPreset = preset;
     let obj: GpBlockMetadata;
 
     if (preset === 'profile') {
       obj = GP_SCHEMA_PRESETS['userProfileSettings'];
+    } else if (preset === 'onboarding') {
+      obj = GP_SCHEMA_PRESETS['enterpriseOnboarding'];
     } else if (preset === 'checkout') {
       obj = GP_SCHEMA_PRESETS['ecommerceCheckout'];
     } else {
