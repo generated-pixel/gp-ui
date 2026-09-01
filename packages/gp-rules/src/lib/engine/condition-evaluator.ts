@@ -183,10 +183,15 @@ export class GpConditionEvaluator {
    */
   public static evaluateExpression(expr: string, context: GpRuleContext): boolean {
     try {
+      const blocked = /\b(?:window|document|globalThis|Function|constructor|__proto__|prototype|eval|import|require|process)\b/;
+      if (blocked.test(expr)) {
+        console.warn(`[GpConditionEvaluator] Blocked potentially unsafe expression "${expr}"`);
+        return false;
+      }
       const sanitized = expr.replace(/[^a-zA-Z0-9_\s\.\+\-\*\/\%\(\)\?\:\>\<\=\!\&\|\'\"\,]/g, '');
       const keys = Object.keys(context.state);
       const values = keys.map((k) => context.state[k]);
-      const fn = new Function(...keys, `return Boolean(${sanitized});`);
+      const fn = new Function(...keys, `"use strict"; return Boolean(${sanitized});`);
       return Boolean(fn(...values));
     } catch (err) {
       console.warn(`[GpConditionEvaluator] Failed to evaluate expression "${expr}":`, err);
