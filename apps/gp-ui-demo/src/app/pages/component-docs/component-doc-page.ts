@@ -434,9 +434,11 @@ import { getComponentDoc } from './component-docs.data';
           </div>
         }
         @case ('tree-table') {
-          <div class="w-full max-w-[480px]">
+          <div class="w-full max-w-[560px]">
             <gp-tree-table [value]="demoTreeNodes">
               <gp-column field="label" header="Department" />
+              <gp-column field="size" header="Size" />
+              <gp-column field="type" header="Type" />
             </gp-tree-table>
           </div>
         }
@@ -1061,8 +1063,26 @@ export class ComponentDocPage implements OnInit {
     { title: 'Zero Third-Party Dependencies', desc: 'Fast, clean, high-performance architecture.' }
   ];
   demoTreeNodes = [
-    { label: 'Engineering', children: [{ label: 'Frontend' }, { label: 'Platform' }] },
-    { label: 'Design', children: [{ label: 'Product' }, { label: 'Brand' }] }
+    {
+      label: 'Engineering',
+      icon: 'folder',
+      expanded: true,
+      data: { label: 'Engineering', size: '24 MB', type: 'Folder' },
+      children: [
+        { label: 'Frontend', icon: 'file-code', data: { label: 'Frontend', size: '12 MB', type: 'Source' } },
+        { label: 'Platform', icon: 'server', data: { label: 'Platform', size: '12 MB', type: 'Service' } }
+      ]
+    },
+    {
+      label: 'Design',
+      icon: 'folder',
+      expanded: true,
+      data: { label: 'Design', size: '8.4 MB', type: 'Folder' },
+      children: [
+        { label: 'Product', icon: 'layout', data: { label: 'Product', size: '5 MB', type: 'Figma' } },
+        { label: 'Brand', icon: 'palette', data: { label: 'Brand', size: '3.4 MB', type: 'Assets' } }
+      ]
+    }
   ];
   demoMeterItems = [
     { label: 'Design', value: 45, color: 'var(--gp-primary)' },

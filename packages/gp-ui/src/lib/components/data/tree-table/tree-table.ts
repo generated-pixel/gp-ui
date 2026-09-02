@@ -1,5 +1,13 @@
 import { GpBase } from '../../../base/gp-base';
-import { Component, input, contentChildren, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  contentChildren,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIcon } from '../../../icons/icon';
 import { GpColumn } from '../column/column';
@@ -15,11 +23,14 @@ import { GpTreeNode } from '../../tree/tree-node/tree-node.interface';
   styleUrl: './tree-table.scss'
 })
 export class GpTreeTable extends GpBase {
+  private cdr = inject(ChangeDetectorRef);
+
   public columns = contentChildren(GpColumn);
   public value = input<GpTreeNode[]>([]);
 
   public toggleNode(node: GpTreeNode, event: MouseEvent): void {
     event.stopPropagation();
     node.expanded = !node.expanded;
+    this.cdr.markForCheck();
   }
 }
