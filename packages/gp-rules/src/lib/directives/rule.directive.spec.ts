@@ -9,7 +9,7 @@ import { GpRuleEngineService } from '../engine/rule-engine.service';
   imports: [GpRuleDirective],
   template: ' <input type="text" [gpRule]="testRule" [gpRuleState]="state" (ruleExecuted)="onExecuted($event)" /> '
 })
-class TestHostComponent {
+class TestHost {
   public state: Record<string, any> = { value: 'VIP' };
   public lastResult: any = null;
 
@@ -25,16 +25,16 @@ class TestHostComponent {
 }
 
 describe('GpRuleDirective', () => {
-  let fixture: ComponentFixture<TestHostComponent>;
-  let host: TestHostComponent;
+  let fixture: ComponentFixture<TestHost>;
+  let host: TestHost;
   let engine: GpRuleEngineService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent]
+      imports: [TestHost]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(TestHost);
     host = fixture.componentInstance;
     engine = TestBed.inject(GpRuleEngineService);
   });

@@ -12,7 +12,7 @@ function checkFiles(dir) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       checkFiles(fullPath);
-    } else if (entry.name.endsWith('.component.ts')) {
+    } else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.spec.ts') && !entry.name.endsWith('.stories.ts')) {
       const content = fs.readFileSync(fullPath, 'utf8');
 
       // Skip base directive classes (which are abstract @Directive rather than @Component)

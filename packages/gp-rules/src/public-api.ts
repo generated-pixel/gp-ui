@@ -25,5 +25,5 @@ export * from './lib/presets/common-rules';
 export * from './lib/presets/dependent-dropdown-rules';
 
 // Visual Components
-export * from './lib/components/rule-inspector/rule-inspector.component';
-export * from './lib/components/rule-builder/rule-builder.component';
+export * from './lib/components/rule-inspector/rule-inspector';
+export * from './lib/components/rule-builder/rule-builder';

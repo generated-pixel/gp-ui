@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { GpDialogComponent } from '../components/overlay/dialog/dialog.component';
-import { GpDrawerComponent } from '../components/overlay/drawer/drawer.component';
-import { GpPanelComponent } from '../components/panel/panel/panel.component';
-import { GpFieldsetComponent } from '../components/panel/fieldset/fieldset.component';
+import { GpDialog } from '../components/overlay/dialog/dialog';
+import { GpDrawer } from '../components/overlay/drawer/drawer';
+import { GpPanel } from '../components/panel/panel/panel';
+import { GpFieldset } from '../components/panel/fieldset/fieldset';
 
 @Component({
   standalone: true,
-  imports: [GpDialogComponent, GpDrawerComponent, GpPanelComponent, GpFieldsetComponent],
+  imports: [GpDialog, GpDrawer, GpPanel, GpFieldset],
   template: `
     <gp-dialog
       #dialogComp
@@ -32,7 +32,7 @@ import { GpFieldsetComponent } from '../components/panel/fieldset/fieldset.compo
     </gp-fieldset>
   `
 })
-class OverlayPanelTestHostComponent {
+class OverlayPanelTestHost {
   dialogVisible = false;
   drawerVisible = false;
   dialogShowFired = false;
@@ -41,21 +41,21 @@ class OverlayPanelTestHostComponent {
 }
 
 describe('Overlay & Panel Base Classes Architecture', () => {
-  let fixture: ComponentFixture<OverlayPanelTestHostComponent>;
-  let host: OverlayPanelTestHostComponent;
+  let fixture: ComponentFixture<OverlayPanelTestHost>;
+  let host: OverlayPanelTestHost;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OverlayPanelTestHostComponent]
+      imports: [OverlayPanelTestHost]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OverlayPanelTestHostComponent);
+    fixture = TestBed.createComponent(OverlayPanelTestHost);
     host = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should handle show, close, and two-way visibility on GpOverlayBaseComponent', () => {
-    const dialog = fixture.debugElement.children[0].componentInstance as GpDialogComponent;
+  it('should handle show, close, and two-way visibility on GpOverlayBase', () => {
+    const dialog = fixture.debugElement.children[0].componentInstance as GpDialog;
 
     dialog.show();
     fixture.detectChanges();
@@ -70,8 +70,8 @@ describe('Overlay & Panel Base Classes Architecture', () => {
     expect(host.dialogHideFired).toBeTrue();
   });
 
-  it('should handle toggle, expand, collapse on GpPanelBaseComponent', () => {
-    const panel = fixture.debugElement.children[2].componentInstance as GpPanelComponent;
+  it('should handle toggle, expand, collapse on GpPanelBase', () => {
+    const panel = fixture.debugElement.children[2].componentInstance as GpPanel;
 
     expect(panel.collapsed()).toBeFalse();
     panel.toggle();

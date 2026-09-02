@@ -12,7 +12,7 @@ import { GP_DIALOG_DATA, GP_DIALOG_REF, GpDialogRef } from './dialog.interface';
     </div>
   `
 })
-class TestSearchModalComponent {
+class TestSearchModal {
   public data = inject(GP_DIALOG_DATA, { optional: true });
   public dialogRef = inject<GpDialogRef>(GP_DIALOG_REF, { optional: true });
 
@@ -36,7 +36,7 @@ describe('GpDialogService', () => {
   });
 
   it('should open dynamic dialog and receive emitted result on close', (done) => {
-    const dialogRef = service.open(TestSearchModalComponent, {
+    const dialogRef = service.open(TestSearchModal, {
       header: 'Search Dialog',
       data: { query: 'Acme' }
     });

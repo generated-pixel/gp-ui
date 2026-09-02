@@ -1,0 +1,102 @@
+.gp-treeselect {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  height: var(--gp-input-height, 2.5rem);
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: 0 var(--gp-input-padding-x, 0.75rem);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color var(--gp-transition-duration, 150ms),
+    box-shadow var(--gp-transition-duration, 150ms);
+}
+
+.gp-treeselect:hover:not(.gp-select-disabled) {
+  border-color: var(--gp-input-border-hover, var(--gp-primary, #6366f1));
+}
+
+.gp-treeselect:focus-visible,
+.gp-treeselect.gp-select-open {
+  border-color: var(--gp-primary, #6366f1);
+  box-shadow: var(--gp-focus-ring);
+}
+
+.gp-treeselect-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(90vw, 36rem);
+  margin-top: 4px;
+  background: var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-surface-border, #cbd5e1);
+  border-radius: var(--gp-border-radius, 6px);
+  box-shadow: var(--gp-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.15));
+  z-index: 1050;
+  padding: 0.5rem 0;
+  max-height: 18rem;
+  overflow-y: auto;
+  animation: gp-slide-down 0.15s ease-out;
+  box-sizing: border-box;
+}
+
+.gp-treeselect-tree,
+.gp-treeselect-sub-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gp-treeselect-node-content {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color, #1e293b);
+  transition: background var(--gp-transition-duration, 150ms);
+  border-radius: 4px;
+  margin: 1px 0.25rem;
+
+  &:hover {
+    background: var(--gp-surface-hover, rgba(0, 0, 0, 0.05));
+  }
+
+  &.gp-treeselect-node-selected {
+    background: var(--gp-primary-light, rgba(99, 102, 241, 0.1)) !important;
+    color: var(--gp-primary, #6366f1) !important;
+    font-weight: 600;
+  }
+}
+
+.gp-treeselect-toggler {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gp-text-color-muted, #94a3b8);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.gp-treeselect-toggler-spacer {
+  width: 1.25rem;
+}
+
+.gp-treeselect-icon {
+  color: var(--gp-primary, #6366f1);
+  display: inline-flex;
+  align-items: center;
+}

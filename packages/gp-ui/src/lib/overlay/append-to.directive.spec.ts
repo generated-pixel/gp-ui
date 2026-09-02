@@ -23,22 +23,22 @@ import { GpAppendToTarget } from './append-to.interface';
     <div id="custom-container" class="custom-portal"></div>
   `
 })
-class TestHostComponent {
+class TestHost {
   public target: GpAppendToTarget = 'body';
   public triggerRef = viewChild<ElementRef>('trigger');
   public overlayRef = viewChild<ElementRef>('overlay');
 }
 
 describe('GpAppendToDirective', () => {
-  let component: TestHostComponent;
-  let fixture: ComponentFixture<TestHostComponent>;
+  let component: TestHost;
+  let fixture: ComponentFixture<TestHost>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, GpAppendToDirective]
+      imports: [TestHost, GpAppendToDirective]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(TestHost);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

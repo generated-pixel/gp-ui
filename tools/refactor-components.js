@@ -44,7 +44,7 @@ for (const filePath of files) {
     fs.writeFileSync(htmlPath, templateContent + '\n', 'utf8');
 
     // Replace template in ts file
-    content = content.replace(/template:\s*`[\s\S]*?`/, `templateUrl: './${baseName}.component.html'`);
+    content = content.replace(/template:\s*`[\s\S]*?`/, `templateUrl: './${baseName}.html'`);
     hasChanges = true;
   }
 
@@ -55,13 +55,13 @@ for (const filePath of files) {
     fs.writeFileSync(scssPath, stylesContent + '\n', 'utf8');
 
     // Replace styles in ts file
-    content = content.replace(/styles:\s*\[`[\s\S]*?`\]/, `styleUrl: './${baseName}.component.scss'`);
+    content = content.replace(/styles:\s*\[`[\s\S]*?`\]/, `styleUrl: './${baseName}.scss'`);
     hasChanges = true;
   }
 
   // 3. Base class inheritance
   const isForm = content.includes('ControlValueAccessor') || dirName.includes('form');
-  const baseClass = isForm ? 'GpBaseControlValueAccessor' : 'GpBaseComponent';
+  const baseClass = isForm ? 'GpBaseControlValueAccessor' : 'GpBase';
   const baseImportFile = isForm ? 'gp-base-control-value-accessor' : 'gp-base.component';
 
   // Add import if not present

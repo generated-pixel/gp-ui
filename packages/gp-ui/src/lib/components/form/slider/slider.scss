@@ -1,0 +1,112 @@
+gp-slider {
+  display: block;
+  width: 100%;
+}
+
+.gp-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  width: 100%;
+  padding: 0.75rem 0;
+  box-sizing: border-box;
+
+  &.gp-slider-vertical {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    height: 12rem;
+    padding: 0 0.75rem;
+  }
+}
+
+.gp-slider-track {
+  position: relative;
+  width: 100%;
+  height: 0.375rem;
+  background: var(--gp-surface-border, #cbd5e1);
+  border-radius: var(--gp-border-radius-full, 9999px);
+  overflow: hidden;
+
+  .gp-slider-vertical & {
+    width: 0.375rem;
+    height: 100%;
+  }
+}
+
+.gp-slider-range {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  background: var(--gp-primary, #6366f1);
+  border-radius: var(--gp-border-radius-full, 9999px);
+  transition: background var(--gp-transition-duration, 150ms);
+
+  .gp-slider-vertical & {
+    width: 100%;
+    top: auto;
+  }
+}
+
+.gp-slider-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--gp-surface-card, #ffffff);
+  border: 2.5px solid var(--gp-primary, #6366f1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  outline: none;
+  cursor: grab;
+  z-index: 2;
+  transition:
+    box-shadow var(--gp-transition-duration, 150ms) ease,
+    transform var(--gp-transition-duration, 150ms) ease,
+    border-color var(--gp-transition-duration, 150ms) ease;
+
+  .gp-slider-vertical & {
+    left: 50%;
+    top: auto;
+    transform: translate(-50%, 50%);
+  }
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+    box-shadow: 0 0 0 4px var(--gp-primary-light, rgba(99, 102, 241, 0.15)), 0 3px 8px rgba(0, 0, 0, 0.2);
+
+    .gp-slider-vertical & {
+      transform: translate(-50%, 50%) scale(1.15);
+    }
+  }
+
+  &:focus-visible {
+    box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.35)), 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .gp-slider-dragging & {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 0 6px var(--gp-primary-light, rgba(99, 102, 241, 0.2)), 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    .gp-slider-vertical & {
+      transform: translate(-50%, 50%) scale(1.2);
+    }
+  }
+}
+
+.gp-slider-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+
+  .gp-slider-handle {
+    cursor: not-allowed;
+  }
+}

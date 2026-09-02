@@ -1,0 +1,92 @@
+.gp-cascade-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  height: var(--gp-input-height, 2.5rem);
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
+  border-radius: var(--gp-border-radius, 6px);
+  padding: 0 var(--gp-input-padding-x, 0.75rem);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color var(--gp-transition-duration, 150ms),
+    box-shadow var(--gp-transition-duration, 150ms);
+}
+
+.gp-cascade-select:hover:not(.gp-select-disabled) {
+  border-color: var(--gp-input-border-hover, var(--gp-primary, #6366f1));
+}
+
+.gp-cascade-select:focus-visible,
+.gp-cascade-select.gp-select-open {
+  border-color: var(--gp-primary, #6366f1);
+  box-shadow: var(--gp-focus-ring);
+}
+
+.gp-cascade-select-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  min-width: 14rem;
+  max-width: min(90vw, 42rem);
+  margin-top: 4px;
+  background: var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-surface-border, #cbd5e1);
+  border-radius: var(--gp-border-radius, 6px);
+  box-shadow: var(--gp-shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.15));
+  z-index: 1050;
+  max-height: 22rem;
+  display: flex;
+  flex-direction: column;
+  animation: gp-slide-down 0.15s ease-out;
+  box-sizing: border-box;
+}
+
+.gp-cascade-select-panels {
+  display: flex;
+  max-height: 20rem;
+  overflow: hidden;
+}
+
+.gp-cascade-panel {
+  min-width: 13rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--gp-surface-divider, rgba(0, 0, 0, 0.08));
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.gp-cascade-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color, #1e293b);
+  white-space: nowrap;
+  transition: background var(--gp-transition-duration, 150ms);
+
+  &:hover {
+    background: var(--gp-surface-hover, rgba(0, 0, 0, 0.05));
+    color: var(--gp-primary, #6366f1);
+  }
+
+  &.gp-select-item-selected {
+    background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
+    color: var(--gp-primary, #6366f1);
+    font-weight: 600;
+  }
+}

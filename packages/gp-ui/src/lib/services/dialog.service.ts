@@ -15,7 +15,7 @@ import {
   GP_DIALOG_DATA,
   GP_DIALOG_REF
 } from './dialog.interface';
-import { GpDynamicDialogComponent } from '../components/overlay/dialog/dynamic-dialog.component';
+import { GpDynamicDialog } from '../components/overlay/dialog/dynamic-dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class GpDialogService {
   ): GpDialogRef<TResult> {
     const dialogRef = new GpDialogRef<TResult>();
 
-    const componentRef = createComponent(GpDynamicDialogComponent, {
+    const componentRef = createComponent(GpDynamicDialog, {
       environmentInjector: this.injector
     });
 

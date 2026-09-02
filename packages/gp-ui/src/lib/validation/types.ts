@@ -1,4 +1,4 @@
-import { GpEditableBaseComponent } from '../base/gp-editable-base.component';
+import { GpEditableBase } from '../base/gp-editable-base';
 
 /**
  * Validation Error structure for gp-ui editable components.
@@ -14,7 +14,7 @@ export interface GpValidationError {
  */
 export type GpValidatorFn<T = any> = (
   value: T,
-  control: GpEditableBaseComponent<T>
+  control: GpEditableBase<T>
 ) => GpValidationError | null | Promise<GpValidationError | null>;
 
 /**
@@ -28,7 +28,7 @@ export type GpValidationTrigger = 'change' | 'blur' | 'submit' | 'manual';
 export type GpValueEffectFn<T = any> = (
   newValue: T,
   oldValue: T | null,
-  control: GpEditableBaseComponent<T>
+  control: GpEditableBase<T>
 ) => void | Promise<void>;
 
 /**
@@ -50,7 +50,7 @@ export interface GpValidationState<T = any> {
  */
 export interface GpFormSubmitEvent {
   values: Record<string, any>;
-  controls: Record<string, GpEditableBaseComponent>;
+  controls: Record<string, GpEditableBase>;
   originalEvent?: Event;
 }
 
@@ -59,7 +59,7 @@ export interface GpFormSubmitEvent {
  */
 export interface GpFormInvalidEvent {
   errors: Record<string, GpValidationError[]>;
-  firstInvalidControl: GpEditableBaseComponent | null;
+  firstInvalidControl: GpEditableBase | null;
   values: Record<string, any>;
   originalEvent?: Event;
 }

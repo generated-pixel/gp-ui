@@ -34,12 +34,12 @@ npm install @generatedpixel/gp-ui-icons
 
 ```typescript
 import { Component } from '@angular/core';
-import { GpIconComponent } from '@generatedpixel/gp-ui-icons';
+import { GpIcon } from '@generatedpixel/gp-ui-icons';
 
 @Component({
   selector: 'app-icon-demo',
   standalone: true,
-  imports: [GpIconComponent],
+  imports: [GpIcon],
   template: `
     <!-- Standard Icon -->
     <gp-icon name="check" />
@@ -94,15 +94,15 @@ Use `GpIconRegistry` to register your own SVG icons across the application:
 
 ```typescript
 import { Component, inject } from '@angular/core';
-import { GpIconRegistry, GpIconComponent } from '@generatedpixel/gp-ui-icons';
+import { GpIconRegistry, GpIcon } from '@generatedpixel/gp-ui-icons';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [GpIconComponent],
+  imports: [GpIcon],
   template: ` <gp-icon name="custom-rocket" size="24" /> `
 })
-export class AppComponent {
+export class App {
   private iconRegistry = inject(GpIconRegistry);
 
   constructor() {

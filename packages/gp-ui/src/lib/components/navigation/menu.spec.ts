@@ -1,25 +1,25 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { GpMenuComponent } from './menu/menu.component';
-import { GpMenubarComponent, GpMenubarItem } from './menubar/menubar.component';
-import { GpContextMenuComponent } from './context-menu/context-menu.component';
-import { GpTieredMenuComponent } from './tiered-menu/tiered-menu.component';
-import { GpPanelMenuComponent } from './panel-menu/panel-menu.component';
-import { GpMegaMenuComponent, GpMegaMenuItem } from './mega-menu/mega-menu.component';
-import { GpSplitButtonComponent, GpMenuItem } from '../button/split-button/split-button.component';
-import { GpSpeedDialComponent } from '../button/speed-dial/speed-dial.component';
+import { GpMenu } from './menu/menu';
+import { GpMenubar, GpMenubarItem } from './menubar/menubar';
+import { GpContextMenu } from './context-menu/context-menu';
+import { GpTieredMenu } from './tiered-menu/tiered-menu';
+import { GpPanelMenu } from './panel-menu/panel-menu';
+import { GpMegaMenu, GpMegaMenuItem } from './mega-menu/mega-menu';
+import { GpSplitButton, GpMenuItem } from '../button/split-button/split-button';
+import { GpSpeedDial } from '../button/speed-dial/speed-dial';
 
 @Component({
   standalone: true,
   imports: [
-    GpMenuComponent,
-    GpMenubarComponent,
-    GpContextMenuComponent,
-    GpTieredMenuComponent,
-    GpPanelMenuComponent,
-    GpMegaMenuComponent,
-    GpSplitButtonComponent,
-    GpSpeedDialComponent
+    GpMenu,
+    GpMenubar,
+    GpContextMenu,
+    GpTieredMenu,
+    GpPanelMenu,
+    GpMegaMenu,
+    GpSplitButton,
+    GpSpeedDial
   ],
   template: `
     <gp-menu #menu [model]="menuItems" [popup]="true" />
@@ -32,7 +32,7 @@ import { GpSpeedDialComponent } from '../button/speed-dial/speed-dial.component'
     <gp-speed-dial #speedDial [model]="menuItems" />
   `
 })
-class TestHostComponent {
+class TestHost {
   menuItems: GpMenuItem[] = [
     { label: 'Item 1', icon: 'file' },
     { label: 'Item 2', icon: 'edit', disabled: true },
@@ -69,15 +69,15 @@ class TestHostComponent {
 }
 
 describe('Navigation Menu Components', () => {
-  let fixture: ComponentFixture<TestHostComponent>;
-  let host: TestHostComponent;
+  let fixture: ComponentFixture<TestHost>;
+  let host: TestHost;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent]
+      imports: [TestHost]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
+    fixture = TestBed.createComponent(TestHost);
     host = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -88,7 +88,7 @@ describe('Navigation Menu Components', () => {
 
   it('should toggle popup menu visibility on toggle()', () => {
     const menuEl = fixture.nativeElement.querySelector('gp-menu');
-    const menuInstance = fixture.debugElement.children[0].componentInstance as GpMenuComponent;
+    const menuInstance = fixture.debugElement.children[0].componentInstance as GpMenu;
 
     expect(menuInstance.visible()).toBe(false);
     menuInstance.show(new MouseEvent('click'));
@@ -101,7 +101,7 @@ describe('Navigation Menu Components', () => {
   });
 
   it('should position context menu on show(event) with boundary detection', () => {
-    const contextInstance = fixture.debugElement.children[2].componentInstance as GpContextMenuComponent;
+    const contextInstance = fixture.debugElement.children[2].componentInstance as GpContextMenu;
 
     expect(contextInstance.visible()).toBe(false);
     const fakeEvent = new MouseEvent('contextmenu', { clientX: 100, clientY: 200 });
@@ -115,7 +115,7 @@ describe('Navigation Menu Components', () => {
   });
 
   it('should toggle panel menu expansion reactively', () => {
-    const panelInstance = fixture.debugElement.children[4].componentInstance as GpPanelMenuComponent;
+    const panelInstance = fixture.debugElement.children[4].componentInstance as GpPanelMenu;
     const firstItem = host.menubarItems[0];
 
     expect(panelInstance.isExpanded(firstItem)).toBe(false);
@@ -129,7 +129,7 @@ describe('Navigation Menu Components', () => {
   });
 
   it('should handle menubar root item interaction', () => {
-    const menubarInstance = fixture.debugElement.children[1].componentInstance as GpMenubarComponent;
+    const menubarInstance = fixture.debugElement.children[1].componentInstance as GpMenubar;
     const fileItem = host.menubarItems[0];
 
     menubarInstance.onRootItemClick(fileItem, new MouseEvent('click'));

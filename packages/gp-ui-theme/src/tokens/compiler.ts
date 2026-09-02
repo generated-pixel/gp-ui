@@ -692,7 +692,7 @@ import { ${varName} } from './custom-theme';
   standalone: true,
   template: '<router-outlet></router-outlet>'
 })
-export class AppComponent implements OnInit {
+export class App implements OnInit {
   ngOnInit() {
     // 1. Register custom theme definition
     GpThemeManager.registerTheme(${varName});

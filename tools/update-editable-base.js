@@ -51,21 +51,21 @@ for (const rel of valueHoldingComponents) {
   const relToBase = path.relative(dirName, path.join(__dirname, '../packages/gp-ui/src/lib/base')).replace(/\\/g, '/');
 
   // Replace import
-  content = content.replace(/import\s*\{\s*(GpBaseComponent|GpBaseControlValueAccessor)\s*\}\s*from\s*'[^']+';?/, '');
+  content = content.replace(/import\s*\{\s*(GpBase|GpBaseControlValueAccessor)\s*\}\s*from\s*'[^']+';?/, '');
   content =
-    `import { GpEditableBaseComponent } from '${relToBase}/gp-editable-base.component';\n` + content.trimStart();
+    `import { GpEditableBase } from '${relToBase}/gp-editable-base';\n` + content.trimStart();
 
   // Replace extends
   content = content.replace(
-    /extends\s+(GpBaseComponent|GpBaseControlValueAccessor)/g,
-    'extends GpEditableBaseComponent'
+    /extends\s+(GpBase|GpBaseControlValueAccessor)/g,
+    'extends GpEditableBase'
   );
 
   // Ensure override modifier on value if present
   content = content.replace(/@Input\(\)\s+(?!override\b)value\b/g, '@Input() override value');
 
   fs.writeFileSync(fullPath, content, 'utf8');
-  console.log(`Updated to GpEditableBaseComponent: ${rel}`);
+  console.log(`Updated to GpEditableBase: ${rel}`);
 }
 
 console.log('✅ Value components updated.');

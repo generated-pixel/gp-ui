@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { GpInputTextComponent } from '../components/form/input-text/input-text.component';
+import { GpInputText } from '../components/form/input-text/input-text';
 
-const meta: Meta<GpInputTextComponent> = {
+const meta: Meta<GpInputText> = {
   title: 'Forms/InputText',
-  component: GpInputTextComponent,
+  component: GpInputText,
   tags: ['autodocs']
 };
 
 export default meta;
-type Story = StoryObj<GpInputTextComponent>;
+type Story = StoryObj<GpInputText>;
 
 export const Default: Story = {
   args: {

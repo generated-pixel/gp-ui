@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { GpInputTextComponent } from '../components/form/input-text/input-text.component';
-import { GpSelectComponent, GpSelectItem } from '../components/form/select/select.component';
-import { GpCheckboxComponent } from '../components/form/checkbox/checkbox.component';
+import { GpInputText } from '../components/form/input-text/input-text';
+import { GpSelect, GpSelectItem } from '../components/form/select/select';
+import { GpCheckbox } from '../components/form/checkbox/checkbox';
 
 @Component({
   standalone: true,
-  imports: [GpInputTextComponent, GpSelectComponent, GpCheckboxComponent],
+  imports: [GpInputText, GpSelect, GpCheckbox],
   template: `
     <gp-input-text
       #inputText
@@ -29,7 +29,7 @@ import { GpCheckboxComponent } from '../components/form/checkbox/checkbox.compon
     <gp-checkbox #chkComp [label]="'Accept terms'" (onChange)="onCheckboxChange($event)" />
   `
 })
-class FormBaseTestHostComponent {
+class FormBaseTestHost {
   inputEventFired = false;
   focusEventFired = false;
   blurEventFired = false;
@@ -71,20 +71,20 @@ class FormBaseTestHostComponent {
 }
 
 describe('Form Base Classes Architecture', () => {
-  let fixture: ComponentFixture<FormBaseTestHostComponent>;
-  let host: FormBaseTestHostComponent;
+  let fixture: ComponentFixture<FormBaseTestHost>;
+  let host: FormBaseTestHost;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormBaseTestHostComponent]
+      imports: [FormBaseTestHost]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FormBaseTestHostComponent);
+    fixture = TestBed.createComponent(FormBaseTestHost);
     host = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should propagate input, focus, blur, and clear events on GpInputBaseComponent', () => {
+  it('should propagate input, focus, blur, and clear events on GpInputBase', () => {
     const inputEl = fixture.nativeElement.querySelector('input.gp-inputtext');
     expect(inputEl).toBeTruthy();
 
@@ -102,8 +102,8 @@ describe('Form Base Classes Architecture', () => {
     expect(host.blurEventFired).toBeTrue();
   });
 
-  it('should handle options normalization, open, close, and change on GpSelectBaseComponent', () => {
-    const select = fixture.debugElement.children[1].componentInstance as GpSelectComponent;
+  it('should handle options normalization, open, close, and change on GpSelectBase', () => {
+    const select = fixture.debugElement.children[1].componentInstance as GpSelect;
     expect(select.normalizedOptions().length).toBe(2);
 
     select.showOverlay();
@@ -117,8 +117,8 @@ describe('Form Base Classes Architecture', () => {
     expect(select.overlayVisible()).toBe(false);
   });
 
-  it('should handle checked state toggle on GpCheckableBaseComponent', () => {
-    const chk = fixture.debugElement.children[2].componentInstance as GpCheckboxComponent;
+  it('should handle checked state toggle on GpCheckableBase', () => {
+    const chk = fixture.debugElement.children[2].componentInstance as GpCheckbox;
     expect(chk.isChecked()).toBeFalse();
 
     chk.onClick(new MouseEvent('click'));
