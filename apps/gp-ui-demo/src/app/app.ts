@@ -1,5 +1,5 @@
 import { Component, signal, computed, inject } from '@angular/core';
-
+import { Title, Meta } from '@angular/platform-browser';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
@@ -921,6 +921,8 @@ export class App {
   public themeEditorService = inject(ThemeEditorService);
   private router = inject(Router);
   private directionService = inject(GpDirectionService);
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
 
   protected currentUrl = signal<string>('/');
   protected searchQuery = signal<string>('');
@@ -1069,6 +1071,53 @@ export class App {
       const url = e.urlAfterRedirects || e.url || '/';
       this.currentUrl.set(url);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const PAGE_SEO: Record<string, { title: string; desc: string }> = {
+        '/': {
+          title: 'gp-ui — Next-Generation Angular UI Component Library & Design System',
+          desc: 'Modern, enterprise-grade Angular 19+ UI component library with signals, 75+ accessible components, responsive blocks, and rich design tokens.'
+        },
+        '/getting-started': {
+          title: 'Getting Started — gp-ui Angular UI Documentation',
+          desc: 'Quick start guide, installation, npm packages, standalone component imports, and configuration for @generatedpixel/gp-ui.'
+        },
+        '/blocks': {
+          title: 'Pre-built Blocks & Page Templates — gp-ui',
+          desc: 'Production-ready dashboard layouts, multi-column workspace templates, headers, and full-page blocks built with gp-ui.'
+        },
+        '/blocks-playground': {
+          title: 'Interactive Blocks Playground — gp-ui',
+          desc: 'Customize, edit, and preview enterprise page templates and application layout blocks in real time.'
+        },
+        '/theming': {
+          title: 'Theme Studio & Design Tokens — gp-ui',
+          desc: 'Interactive color palette customization, typography scaling, border radiuses, dark mode presets, and CSS custom property export.'
+        },
+        '/gp-css': {
+          title: 'gp-css Atomic Utility Engine — gp-ui',
+          desc: 'Zero-dependency atomic CSS compiler generating scoped utility classes and design token integration for Angular.'
+        },
+        '/i18n': {
+          title: 'Internationalization & RTL Support — gp-ui',
+          desc: 'Runtime language translation dictionary, RTL layout flipping, and localized calendar formats for Angular applications.'
+        },
+        '/grid': {
+          title: 'Draggable Dashboard Grid & Widget Engine — gp-ui',
+          desc: 'Responsive drag-and-drop dashboard grid layout with collision resolution and compacting algorithms for Angular.'
+        },
+        '/rules': {
+          title: 'Reactive Business Rule Engine & Visual Builder — gp-ui',
+          desc: 'Dynamic JSON-based rule engine with condition inspectors, directive bindings, and visual expression builders for Angular.'
+        }
+      };
+
+      const matched = PAGE_SEO[url];
+      if (matched) {
+        this.titleService.setTitle(matched.title);
+        this.metaService.updateTag({ name: 'description', content: matched.desc });
+        this.metaService.updateTag({ property: 'og:title', content: matched.title });
+        this.metaService.updateTag({ property: 'og:description', content: matched.desc });
+      }
 
       if (typeof window.gtag === 'function') {
         window.gtag('config', 'G-E0GPEPPLFV', {

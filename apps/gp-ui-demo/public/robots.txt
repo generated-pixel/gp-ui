@@ -1,0 +1,6 @@
+# robots.txt for https://ui.generatedpixel.dev/
+User-agent: *
+Allow: /
+
+# Sitemap Index
+Sitemap: https://ui.generatedpixel.dev/sitemap.xml

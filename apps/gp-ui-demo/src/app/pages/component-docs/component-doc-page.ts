@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
 import {
   GpAccordion,
   GpAccordionTab,
@@ -1116,13 +1117,21 @@ export class ComponentDocPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private titleService: Title,
+    private metaService: Meta
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const slug = params.get('component');
       this.doc = slug ? getComponentDoc(slug) : undefined;
+      if (this.doc) {
+        this.titleService.setTitle(`${this.doc.name} — Angular Component & UI Docs — gp-ui`);
+        this.metaService.updateTag({ name: 'description', content: this.doc.description });
+        this.metaService.updateTag({ property: 'og:title', content: `${this.doc.name} — gp-ui Angular Component` });
+        this.metaService.updateTag({ property: 'og:description', content: this.doc.description });
+      }
       this.searchTerm = '';
       this.cdr.markForCheck();
     });
