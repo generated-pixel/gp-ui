@@ -312,6 +312,32 @@ export const baseTheme: GpThemeDefinition = {
         trendPositiveColor: '#16a34a',
         trendNegativeColor: '#ef4444',
         trendNeutralColor: '#64748b'
+      },
+      htmlEditor: {
+        background: '#ffffff',
+        borderColor: '#cbd5e1',
+        borderRadius: '8px',
+        toolbarBackground: '#f8fafc',
+        toolbarBorderColor: '#e2e8f0',
+        contentBackground: '#ffffff',
+        textColor: '#1e293b',
+        sourceBackground: '#0f172a',
+        sourceTextColor: '#38bdf8',
+        footerBackground: '#f8fafc'
+      },
+      mdEditor: {
+        background: '#ffffff',
+        borderColor: '#cbd5e1',
+        borderRadius: '8px',
+        toolbarBackground: '#f8fafc',
+        toolbarBorderColor: '#e2e8f0',
+        previewBackground: '#f8fafc',
+        previewTextColor: '#1e293b',
+        codeBlockBackground: '#0f172a',
+        codeBlockTextColor: '#38bdf8',
+        tableHeaderBackground: '#f1f5f9',
+        tableBorderColor: '#cbd5e1',
+        footerBackground: '#f8fafc'
       }
     }
   },
@@ -627,6 +653,32 @@ export const baseTheme: GpThemeDefinition = {
         trendPositiveColor: '#22c55e',
         trendNegativeColor: '#ef4444',
         trendNeutralColor: '#94a3b8'
+      },
+      htmlEditor: {
+        background: '#0f172a',
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        borderRadius: '8px',
+        toolbarBackground: 'rgba(255, 255, 255, 0.03)',
+        toolbarBorderColor: 'rgba(148, 163, 184, 0.15)',
+        contentBackground: '#0f172a',
+        textColor: '#f8fafc',
+        sourceBackground: '#0b0f19',
+        sourceTextColor: '#38bdf8',
+        footerBackground: 'rgba(255, 255, 255, 0.02)'
+      },
+      mdEditor: {
+        background: '#0f172a',
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        borderRadius: '8px',
+        toolbarBackground: 'rgba(255, 255, 255, 0.03)',
+        toolbarBorderColor: 'rgba(148, 163, 184, 0.15)',
+        previewBackground: 'rgba(255, 255, 255, 0.02)',
+        previewTextColor: '#f8fafc',
+        codeBlockBackground: '#0b0f19',
+        codeBlockTextColor: '#38bdf8',
+        tableHeaderBackground: 'rgba(255, 255, 255, 0.05)',
+        tableBorderColor: 'rgba(148, 163, 184, 0.2)',
+        footerBackground: 'rgba(255, 255, 255, 0.02)'
       }
     }
   }

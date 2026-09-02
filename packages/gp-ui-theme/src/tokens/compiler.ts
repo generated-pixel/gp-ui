@@ -89,6 +89,8 @@ const componentTokenNames = [
   'statCard',
   'announcementBar',
   'dateRangePicker',
+  'htmlEditor',
+  'mdEditor',
   'label',
   'floatLabel',
   'insetLabel'

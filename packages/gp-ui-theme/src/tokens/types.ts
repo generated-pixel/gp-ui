@@ -607,6 +607,32 @@ export interface GpAnnouncementBarComponentTokens extends GpComponentBaseTokens 
   actionButtonColor?: string;
 }
 
+export interface GpHtmlEditorComponentTokens extends GpComponentBaseTokens {
+  toolbarBackground?: string;
+  toolbarBorderColor?: string;
+  buttonColor?: string;
+  buttonHoverBackground?: string;
+  buttonActiveBackground?: string;
+  buttonActiveColor?: string;
+  contentBackground?: string;
+  textColor?: string;
+  sourceBackground?: string;
+  sourceTextColor?: string;
+  footerBackground?: string;
+}
+
+export interface GpMdEditorComponentTokens extends GpComponentBaseTokens {
+  toolbarBackground?: string;
+  toolbarBorderColor?: string;
+  previewBackground?: string;
+  previewTextColor?: string;
+  codeBlockBackground?: string;
+  codeBlockTextColor?: string;
+  tableHeaderBackground?: string;
+  tableBorderColor?: string;
+  footerBackground?: string;
+}
+
 export interface GpComponentTokens {
   button?: GpButtonComponentTokens;
   buttonGroup?: GpButtonGroupComponentTokens;
@@ -691,6 +717,8 @@ export interface GpComponentTokens {
   kpiCard?: GpKpiCardComponentTokens;
   statCard?: GpStatCardComponentTokens;
   announcementBar?: GpAnnouncementBarComponentTokens;
+  htmlEditor?: GpHtmlEditorComponentTokens;
+  mdEditor?: GpMdEditorComponentTokens;
   label?: GpGenericComponentTokens;
   floatLabel?: GpGenericComponentTokens;
   insetLabel?: GpGenericComponentTokens;
