@@ -129,5 +129,45 @@ describe('GpRuleEngineService & Rule Engine', () => {
       expect(context.get('discount')).toBe(20);
       expect(service.logs().length).toBe(1);
     });
+
+    it('isolates scoped debounced rules by target field and cleans them up after execution', async () => {
+      jasmine.clock().install();
+
+      try {
+        const rule: GpBusinessRule = {
+          id: 'shared-rule',
+          trigger: { event: 'input', debounce: 100 },
+          actions: []
+        };
+        const executionLog = {
+          ruleId: rule.id,
+          timestamp: new Date(),
+          triggerEvent: 'input',
+          conditionMet: true,
+          actionsExecuted: [],
+          durationMs: 0
+        };
+        const executeSpy = spyOn(service, 'executeRule').and.resolveTo(executionLog);
+        const sharedState = {};
+
+        const firstContext = GpRuleContextFactory.create({ state: sharedState, triggerEvent: 'input' });
+        const secondContext = GpRuleContextFactory.create({ state: sharedState, triggerEvent: 'input' });
+
+        await service.dispatchEvent('input', firstContext, 'fieldA', [rule]);
+        await service.dispatchEvent('input', secondContext, 'fieldB', [rule]);
+
+        expect((service as any).debouncers.size).toBe(2);
+
+        jasmine.clock().tick(100);
+        await Promise.resolve();
+        await Promise.resolve();
+
+        expect(executeSpy).toHaveBeenCalledTimes(2);
+        expect(executeSpy.calls.allArgs().map((args) => args[3]).sort()).toEqual(['fieldA', 'fieldB']);
+        expect((service as any).debouncers.size).toBe(0);
+      } finally {
+        jasmine.clock().uninstall();
+      }
+    });
   });
 });

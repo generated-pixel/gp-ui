@@ -31,12 +31,22 @@ export class GpRuleEngineService {
   /** Track active recursion depth to prevent infinite loops */
   private executionDepth = 0;
   private maxDepth = 10;
+  private nextDebounceScopeId = 0;
 
-  /** Internal RxJS debouncers keyed by `ruleId_event` */
+  /** Internal RxJS debouncers keyed by rule, event, target field, and context scope */
   private debouncers = new Map<
     string,
-    { subject: Subject<{ context: GpRuleContext; rule: GpBusinessRule }>; sub: Subscription }
+    {
+      subject: Subject<{
+        context: GpRuleContext;
+        rule: GpBusinessRule;
+        targetField?: string;
+        cleanupAfterRun: boolean;
+      }>;
+      sub: Subscription;
+    }
   >();
+  private debounceScopeIds = new WeakMap<object, string>();
 
   /**
    * Register a new business rule into the engine.
@@ -121,7 +131,7 @@ export class GpRuleEngineService {
       const debounceDelay = typeof trigger === 'object' ? trigger.debounce : undefined;
 
       if (debounceDelay && debounceDelay > 0) {
-        this.queueDebouncedRule(rule, eventType, debounceDelay, context);
+        this.queueDebouncedRule(rule, eventType, debounceDelay, context, targetField, Boolean(scopedRules));
       } else {
         const log = await this.executeRule(rule, eventType, context, targetField);
         executionResults.push(log);
@@ -231,19 +241,70 @@ export class GpRuleEngineService {
     return triggers.find((t) => (typeof t === 'string' ? t : t.event) === eventType);
   }
 
-  private queueDebouncedRule(rule: GpBusinessRule, eventType: string, delayMs: number, context: GpRuleContext): void {
-    const key = `${rule.id}_${eventType}`;
+  private queueDebouncedRule(
+    rule: GpBusinessRule,
+    eventType: string,
+    delayMs: number,
+    context: GpRuleContext,
+    targetField?: string,
+    cleanupAfterRun = false
+  ): void {
+    const key = this.getDebounceKey(rule.id, eventType, context, targetField);
     let debouncer = this.debouncers.get(key);
 
     if (!debouncer) {
-      const subject = new Subject<{ context: GpRuleContext; rule: GpBusinessRule }>();
-      const sub = subject.pipe(debounceTime(delayMs)).subscribe(({ context: ctx, rule: r }) => {
-        this.executeRule(r, eventType, ctx);
+      const subject = new Subject<{
+        context: GpRuleContext;
+        rule: GpBusinessRule;
+        targetField?: string;
+        cleanupAfterRun: boolean;
+      }>();
+      const sub = subject.pipe(debounceTime(delayMs)).subscribe(({ context: ctx, rule: r, targetField: field, cleanupAfterRun }) => {
+        this.executeRule(r, eventType, ctx, field).finally(() => {
+          if (cleanupAfterRun) {
+            sub.unsubscribe();
+            this.debouncers.delete(key);
+          }
+        });
       });
       debouncer = { subject, sub };
       this.debouncers.set(key, debouncer);
     }
 
-    debouncer.subject.next({ context, rule });
+    debouncer.subject.next({ context, rule, targetField, cleanupAfterRun });
+  }
+
+  private getDebounceKey(
+    ruleId: string,
+    eventType: string,
+    context: GpRuleContext,
+    targetField?: string
+  ): string {
+    return `${ruleId}_${eventType}_${targetField || 'global'}_${this.getDebounceScopeKey(context)}`;
+  }
+
+  private getDebounceScopeKey(context: GpRuleContext): string {
+    const scopeRefs = [context.form, context.state, context.globals];
+    const eventTarget = context.originalEvent?.target;
+
+    if (eventTarget && typeof eventTarget === 'object') {
+      scopeRefs.push(eventTarget as object);
+    }
+
+    const scopeIds = scopeRefs
+      .filter((scopeRef): scopeRef is object => Boolean(scopeRef) && typeof scopeRef === 'object')
+      .map((scopeRef) => this.getObjectScopeId(scopeRef));
+
+    return scopeIds.length > 0 ? scopeIds.join('_') : 'default';
+  }
+
+  private getObjectScopeId(scopeRef: object): string {
+    let scopeId = this.debounceScopeIds.get(scopeRef);
+    if (!scopeId) {
+      this.nextDebounceScopeId += 1;
+      scopeId = `scope${this.nextDebounceScopeId}`;
+      this.debounceScopeIds.set(scopeRef, scopeId);
+    }
+    return scopeId;
   }
 }
