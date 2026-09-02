@@ -7,7 +7,9 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
-  computed
+  computed,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIcon } from '../../../icons/icon';
@@ -27,6 +29,8 @@ export type GpTreeSelectionMode = 'single' | 'multiple' | 'checkbox' | null;
   styleUrl: './tree.scss'
 })
 export class GpTree extends GpBase {
+  private cdr = inject(ChangeDetectorRef);
+
   public value = input<GpTreeNode[]>([]);
   public selectionMode = input<GpTreeSelectionMode>(null);
   public selection = model<any>(null);
@@ -89,6 +93,7 @@ export class GpTree extends GpBase {
     } else {
       this.onNodeCollapse.emit({ node });
     }
+    this.cdr.markForCheck();
   }
 
   public onNodeClick(node: GpTreeNode, event: MouseEvent): void {
@@ -96,6 +101,7 @@ export class GpTree extends GpBase {
     if (mode === 'single') {
       this.selection.set(node);
       this.onNodeSelect.emit({ node });
+      this.cdr.markForCheck();
     } else if (mode === 'multiple') {
       this.toggleMultipleSelection(node);
     }
@@ -117,6 +123,7 @@ export class GpTree extends GpBase {
       this.selection.set(current);
       this.onNodeSelect.emit({ node });
     }
+    this.cdr.markForCheck();
   }
 
   protected onFilterInput(event: Event): void {

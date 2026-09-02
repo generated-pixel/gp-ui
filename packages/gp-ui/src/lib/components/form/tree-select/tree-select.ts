@@ -8,7 +8,9 @@ import {
   forwardRef,
   signal,
   ElementRef,
-  HostListener
+  HostListener,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -42,19 +44,29 @@ export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor
   protected selectedNode = signal<GpTreeNode | null>(null);
   protected overlayVisible = signal<boolean>(false);
 
+  private cdr = inject(ChangeDetectorRef);
+
   constructor(public el: ElementRef) {
     super();
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
+    const target = event.target as HTMLElement;
+    if (
+      this.overlayVisible() &&
+      this.el?.nativeElement &&
+      !this.el.nativeElement.contains(target) &&
+      !target.closest('.gp-treeselect-overlay')
+    ) {
       this.overlayVisible.set(false);
+      this.cdr.markForCheck();
     }
   }
 
   public override writeValue(value: any): void {
     this.selectedNode.set(value);
+    this.cdr.markForCheck();
   }
 
   public override registerOnChange(fn: any): void {
@@ -70,11 +82,13 @@ export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor
       return;
     }
     this.overlayVisible.update((v) => !v);
+    this.cdr.markForCheck();
   }
 
   public toggleNode(node: GpTreeNode, event: MouseEvent): void {
     event.stopPropagation();
     node.expanded = !node.expanded;
+    this.cdr.markForCheck();
   }
 
   public selectNode(node: GpTreeNode, event: MouseEvent): void {
@@ -83,5 +97,6 @@ export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor
     this.handleControlBlur();
     this.onNodeSelect.emit({ node });
     this.overlayVisible.set(false);
+    this.cdr.markForCheck();
   }
 }
