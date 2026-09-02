@@ -1,10 +1,10 @@
 <div
   [id]="inputId()"
   class="gp-select"
-  [class.gp-select-open]="overlayVisible()"
-  [class.gp-select-disabled]="isEffectivelyDisabled()"
+  [class.gp-select--open]="overlayVisible()" [class.gp-select-open]="overlayVisible()"
+  [class.gp-select--disabled]="isEffectivelyDisabled()" [class.gp-select-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
-  [class.gp-select-clearable]="showClear() && internalValue() !== null"
+  [class.gp-select--clearable]="showClear() && internalValue() !== null" [class.gp-select-clearable]="showClear() && internalValue() !== null"
   (click)="toggleOverlay($event)"
   [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
   role="combobox"
@@ -18,12 +18,12 @@
   [attr.aria-invalid]="isInvalid()"
   (keydown)="onKeyDown($event)"
 >
-  <div class="gp-select-label-container">
+  <div class="gp-select__label-container gp-select-label-container">
     @if (selectedItem(); as item) {
       @if (itemTemplate()) {
         <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
       } @else {
-        <span class="gp-select-label">
+        <span class="gp-select__label gp-select-label">
           @if (item.icon) {
             <gp-icon [name]="item.icon" class="gp-select-item-icon" />
           }
@@ -31,15 +31,15 @@
         </span>
       }
     } @else {
-      <span class="gp-select-label gp-select-placeholder">{{ placeholder() }}</span>
+      <span class="gp-select__label gp-select-label gp-select__placeholder gp-select-placeholder">{{ placeholder() }}</span>
     }
   </div>
 
-  <div class="gp-select-triggers">
+  <div class="gp-select__triggers gp-select-triggers">
     @if (showClear() && internalValue() !== null && !isEffectivelyDisabled()) {
       <button
         type="button"
-        class="gp-select-clear-btn"
+        class="gp-select__clear-btn gp-select-clear-btn"
         [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
         (click)="clear($event)"
       >
@@ -52,7 +52,7 @@
   @if (overlayVisible()) {
     <div
       [id]="listboxId()"
-      class="gp-select-overlay"
+      class="gp-select__overlay gp-select-overlay"
       role="listbox"
       [attr.aria-label]="ariaLabel() || placeholder() || 'Options'"
       (click)="$event.stopPropagation()"
@@ -61,7 +61,7 @@
       [gpOverlayMatchWidth]="true"
     >
       @if (filter()) {
-        <div class="gp-select-filter-container">
+        <div class="gp-select__filter-container gp-select-filter-container">
           <input
             type="text"
             class="gp-inputtext gp-select-filter-input"
@@ -78,7 +78,7 @@
       <ul class="gp-select-items">
         @for (opt of filteredOptions(); track $index) {
           <li
-            class="gp-select-item"
+            class="gp-select__item gp-select-item"
             [class.gp-select-item-selected]="isSelected(opt)"
             [class.gp-select-item-disabled]="opt.disabled"
             role="option"

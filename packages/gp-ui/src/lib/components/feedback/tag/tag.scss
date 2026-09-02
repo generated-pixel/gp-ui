@@ -11,31 +11,31 @@
 .gp-tag-rounded {
   border-radius: var(--gp-border-radius-full);
 }
-.gp-tag-primary {
+.gp-tag--primary, .gp-tag-primary {
   background: var(--gp-primary-light);
   color: var(--gp-primary);
 }
-.gp-tag-secondary {
+.gp-tag--secondary, .gp-tag-secondary {
   background: var(--gp-secondary-light);
   color: var(--gp-secondary);
 }
-.gp-tag-success {
+.gp-tag--success, .gp-tag-success {
   background: var(--gp-success-light);
   color: var(--gp-success);
 }
-.gp-tag-info {
+.gp-tag--info, .gp-tag-info {
   background: var(--gp-info-light);
   color: var(--gp-info);
 }
-.gp-tag-warning {
+.gp-tag--warning, .gp-tag-warning {
   background: var(--gp-warning-light);
   color: var(--gp-warning);
 }
-.gp-tag-danger {
+.gp-tag--danger, .gp-tag-danger {
   background: var(--gp-danger-light);
   color: var(--gp-danger);
 }
-.gp-tag-contrast {
+.gp-tag--contrast, .gp-tag-contrast {
   background: var(--gp-contrast);
   color: var(--gp-contrast-text);
 }

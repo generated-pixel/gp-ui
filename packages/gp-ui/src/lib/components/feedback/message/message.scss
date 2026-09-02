@@ -13,7 +13,7 @@
   transition: all var(--gp-transition-duration, 150ms) ease;
 }
 
-.gp-message-success {
+.gp-message--success, .gp-message-success {
   background:
     linear-gradient(
       0deg,
@@ -24,11 +24,11 @@
   border-color: var(--gp-success-border, var(--gp-success));
   border-left: 4px solid var(--gp-success);
 }
-.gp-message-success .gp-message-icon {
+.gp-message--success, .gp-message-success .gp-message__icon, .gp-message-icon {
   color: var(--gp-success);
 }
 
-.gp-message-info {
+.gp-message--info, .gp-message-info {
   background:
     linear-gradient(
       0deg,
@@ -39,11 +39,11 @@
   border-color: var(--gp-info-border, var(--gp-info));
   border-left: 4px solid var(--gp-info);
 }
-.gp-message-info .gp-message-icon {
+.gp-message--info, .gp-message-info .gp-message__icon, .gp-message-icon {
   color: var(--gp-info);
 }
 
-.gp-message-warning {
+.gp-message--warn, .gp-message-warning {
   background:
     linear-gradient(
       0deg,
@@ -54,11 +54,11 @@
   border-color: var(--gp-warning-border, var(--gp-warning));
   border-left: 4px solid var(--gp-warning);
 }
-.gp-message-warning .gp-message-icon {
+.gp-message--warn, .gp-message-warning .gp-message__icon, .gp-message-icon {
   color: var(--gp-warning);
 }
 
-.gp-message-error {
+.gp-message--error, .gp-message-error {
   background:
     linear-gradient(
       0deg,
@@ -69,11 +69,11 @@
   border-color: var(--gp-danger-border, var(--gp-danger));
   border-left: 4px solid var(--gp-danger);
 }
-.gp-message-error .gp-message-icon {
+.gp-message--error, .gp-message-error .gp-message__icon, .gp-message-icon {
   color: var(--gp-danger);
 }
 
-.gp-message-secondary {
+.gp-message--secondary, .gp-message-secondary {
   background:
     linear-gradient(
       0deg,
@@ -85,20 +85,20 @@
   border-left: 4px solid var(--gp-secondary);
 }
 
-.gp-message-contrast {
+.gp-message--contrast, .gp-message-contrast {
   background: var(--gp-contrast);
   border-color: var(--gp-contrast);
   border-left: 4px solid var(--gp-primary);
   color: var(--gp-contrast-text);
 }
 
-.gp-message-content {
+.gp-message__content, .gp-message-content {
   flex: 1;
   line-height: 1.5;
   color: var(--gp-text-color);
 }
 
-.gp-message-close {
+.gp-message__close, .gp-message-close {
   background: transparent;
   border: none;
   color: var(--gp-text-color-secondary);
@@ -112,7 +112,7 @@
   transition: all var(--gp-transition-duration, 150ms) ease;
 }
 
-.gp-message-close:hover {
+.gp-message__close, .gp-message-close:hover {
   opacity: 1;
   background: var(--gp-surface-hover, rgba(0, 0, 0, 0.06));
   color: var(--gp-text-color);

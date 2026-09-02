@@ -45,7 +45,7 @@
   }
 
   /* Vertical button group modifier */
-  &.gp-button-group-vertical {
+  &.gp-button-group--vertical, &.gp-button-group-vertical {
     flex-direction: column;
 
     > gp-button,

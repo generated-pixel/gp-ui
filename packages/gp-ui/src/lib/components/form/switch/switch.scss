@@ -6,7 +6,7 @@
   vertical-align: middle;
   gap: 0.5rem;
 }
-.gp-switch-slider {
+.gp-switch__slider, .gp-switch-slider {
   position: relative;
   width: 2.75rem;
   height: 1.5rem;
@@ -15,10 +15,10 @@
   transition: background var(--gp-transition-duration);
   outline: none;
 }
-.gp-switch-slider:focus-visible {
+.gp-switch__slider, .gp-switch-slider:focus-visible {
   box-shadow: var(--gp-focus-ring);
 }
-.gp-switch-handle {
+.gp-switch__handle, .gp-switch-handle {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -29,17 +29,17 @@
   box-shadow: var(--gp-shadow-sm);
   transition: transform var(--gp-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
 }
-.gp-switch-checked .gp-switch-slider {
+.gp-switch-checked .gp-switch__slider, .gp-switch-slider {
   background: var(--gp-primary);
 }
-.gp-switch-checked .gp-switch-handle {
+.gp-switch-checked .gp-switch__handle, .gp-switch-handle {
   transform: translateX(1.25rem);
 }
 .gp-switch-disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.gp-switch-label {
+.gp-switch__label, .gp-switch-label {
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color);
 }

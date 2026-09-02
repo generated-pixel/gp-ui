@@ -6,7 +6,7 @@
   width: 100%;
   height: 0.75rem;
 }
-.gp-progressbar-value {
+.gp-progressbar__value, .gp-progressbar-value {
   height: 100%;
   background: var(--gp-primary);
   border-radius: var(--gp-border-radius-full);
@@ -16,18 +16,18 @@
   justify-content: flex-end;
   padding-right: 0.4rem;
 }
-.gp-progressbar-label {
+.gp-progressbar__label, .gp-progressbar-label {
   color: #ffffff;
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1;
 }
-.gp-progressbar-indeterminate-container {
+.gp-progressbar__indeterminate-container, .gp-progressbar-indeterminate-container {
   position: relative;
   height: 100%;
   width: 100%;
 }
-.gp-progressbar-indeterminate-value {
+.gp-progressbar__indeterminate-value, .gp-progressbar-indeterminate-value {
   position: absolute;
   top: 0;
   left: 0;

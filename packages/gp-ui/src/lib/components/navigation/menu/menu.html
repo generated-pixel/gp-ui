@@ -1,7 +1,7 @@
 @if (!popup() || visible()) {
   <div
     class="gp-menu"
-    [class.gp-menu-popup]="popup()"
+    [class.gp-menu--popup]="popup()" [class.gp-menu-popup]="popup()"
     [style.top.px]="popup() ? position().top : null"
     [style.left.px]="popup() ? position().left : null"
     [gpAppendTo]="popup() ? appendTo() : 'self'"
@@ -9,14 +9,14 @@
     [attr.aria-label]="ariaLabel() || 'Menu'"
     (click)="$event.stopPropagation()"
   >
-    <ul class="gp-menu-list">
+    <ul class="gp-menu__list gp-menu-list">
       @for (item of model(); track $index) {
         @if (item.separator) {
-          <li class="gp-menu-separator" role="separator"></li>
+          <li class="gp-menu__separator gp-menu-separator" role="separator"></li>
         } @else {
           <li
-            class="gp-menu-item"
-            [class.gp-menu-item-disabled]="item.disabled"
+            class="gp-menu__item gp-menu-item"
+            [class.gp-menu__item--disabled]="item.disabled" [class.gp-menu-item-disabled]="item.disabled"
             role="none"
             (click)="onItemClick(item, $event)"
           >
@@ -26,14 +26,14 @@
               [attr.target]="item.target || null"
               role="menuitem"
               [attr.aria-disabled]="item.disabled || null"
-              class="gp-menu-item-link"
+              class="gp-menu__item-link gp-menu-item-link"
             >
               @if (item.icon) {
-                <gp-icon [name]="item.icon" class="gp-menu-item-icon" />
+                <gp-icon [name]="item.icon" class="gp-menu__item-icon gp-menu-item-icon" />
               }
-              <span class="gp-menu-item-text">{{ item.label }}</span>
+              <span class="gp-menu__item-text gp-menu-item-text">{{ item.label }}</span>
               @if (item.badge) {
-                <span class="gp-menu-item-badge">{{ item.badge }}</span>
+                <span class="gp-menu__item-badge gp-menu-item-badge">{{ item.badge }}</span>
               }
             </a>
           </li>

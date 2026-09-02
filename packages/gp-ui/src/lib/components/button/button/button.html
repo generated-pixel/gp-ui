@@ -20,24 +20,25 @@
   gpRipple
 >
   @if (loading()) {
-    <gp-icon [name]="loadingIcon()" [spin]="true" class="gp-button-loading-icon" />
+    <gp-icon [name]="loadingIcon()" [spin]="true" class="gp-button__loading-icon gp-button-loading-icon" />
   } @else if (icon() && (iconPos() === 'left' || iconPos() === 'top')) {
-    <gp-icon [name]="icon()" class="gp-button-icon" />
+    <gp-icon [name]="icon()" class="gp-button__icon gp-button-icon" />
   }
 
   @if (label()) {
-    <span class="gp-button-label">{{ label() }}</span>
+    <span class="gp-button__label gp-button-label">{{ label() }}</span>
   }
 
   <ng-content />
 
   @if (!loading() && icon() && (iconPos() === 'right' || iconPos() === 'bottom')) {
-    <gp-icon [name]="icon()" class="gp-button-icon" />
+    <gp-icon [name]="icon()" class="gp-button__icon gp-button-icon" />
   }
 
   @if (badge()) {
     <span
-      class="gp-button-badge"
+      class="gp-button__badge gp-button-badge"
+      [class.gp-button__badge--danger]="badgeSeverity() === 'danger'"
       [class.gp-button-badge-danger]="badgeSeverity() === 'danger'"
       [class]="'gp-badge-' + badgeSeverity()"
     >

@@ -1,11 +1,11 @@
-.gp-panelmenu {
+.gp-panel-menu, .gp-panelmenu {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   width: 100%;
 }
 
-.gp-panelmenu-panel {
+.gp-panel-menu__panel, .gp-panelmenu-panel {
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius);
   overflow: hidden;
@@ -13,11 +13,11 @@
   transition: border-color var(--gp-transition-duration);
 }
 
-.gp-panelmenu-panel-expanded {
+.gp-panel-menu__panel, .gp-panelmenu-panel-expanded {
   border-color: var(--gp-primary-light, var(--gp-surface-border));
 }
 
-.gp-panelmenu-header {
+.gp-panel-menu__header, .gp-panelmenu-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -33,17 +33,17 @@
     color var(--gp-transition-duration);
 }
 
-.gp-panelmenu-header:hover {
+.gp-panel-menu__header, .gp-panelmenu-header:hover {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
 
-.gp-panelmenu-header-active {
+.gp-panel-menu__header, .gp-panelmenu-header-active {
   color: var(--gp-primary);
   background: var(--gp-surface-hover);
 }
 
-.gp-panelmenu-header-disabled {
+.gp-panel-menu__header, .gp-panelmenu-header-disabled {
   opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
@@ -63,8 +63,8 @@
   align-items: center;
 }
 
-.gp-panelmenu-header:hover .gp-panelmenu-icon,
-.gp-panelmenu-header-active .gp-panelmenu-icon {
+.gp-panel-menu__header, .gp-panelmenu-header:hover .gp-panelmenu-icon,
+.gp-panel-menu__header, .gp-panelmenu-header-active .gp-panelmenu-icon {
   color: var(--gp-primary);
 }
 

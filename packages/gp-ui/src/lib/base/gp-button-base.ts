@@ -132,15 +132,18 @@ export abstract class GpButtonBase extends GpBase {
 
     return this.cx(
       'gp-button',
+      `gp-button--${variant}`,
       `gp-button-${variant}`,
+      `gp-button--${this.severity()}`,
       `gp-button-${this.severity()}`,
+      `gp-button--${this.size()}`,
       `gp-button-${this.size()}`,
-      this.rounded() && 'gp-button-rounded',
-      this.raised() && 'gp-button-raised',
-      this.plain() && 'gp-button-plain',
-      this.fluid() && 'gp-button-fluid',
-      isIconOnly && 'gp-button-icon-only',
-      this.loading() && 'gp-button-loading'
+      this.rounded() && 'gp-button--rounded gp-button-rounded',
+      this.raised() && 'gp-button--raised gp-button-raised',
+      this.plain() && 'gp-button--plain gp-button-plain',
+      this.fluid() && 'gp-button--fluid gp-button-fluid',
+      isIconOnly && 'gp-button--icon-only gp-button-icon-only',
+      this.loading() && 'gp-button--loading gp-button-loading'
     );
   });
 

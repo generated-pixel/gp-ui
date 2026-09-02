@@ -1,11 +1,11 @@
 <div
-  class="gp-dialog-mask gp-dialog-mask-visible"
+  class="gp-dialog__mask gp-dialog-mask gp-dialog__mask--visible gp-dialog-mask-visible"
   (click)="onMaskClick($event)"
   [attr.aria-hidden]="false"
 >
   <div
     class="gp-dialog"
-    [class.gp-dialog-maximized]="maximized()"
+    [class.gp-dialog--maximized]="maximized()" [class.gp-dialog-maximized]="maximized()"
     [ngClass]="config.styleClass || ''"
     [style.width]="maximized() ? '100vw' : config.width || '36rem'"
     [style.maxWidth]="maximized() ? '100vw' : config.maxWidth || '90vw'"
@@ -18,13 +18,13 @@
   >
     <!-- Header -->
     @if (config.showHeader !== false) {
-      <div class="gp-dialog-header">
-        <span class="gp-dialog-title">{{ config.header || '' }}</span>
-        <div class="gp-dialog-header-actions">
+      <div class="gp-dialog__header gp-dialog-header">
+        <span class="gp-dialog__title gp-dialog-title">{{ config.header || '' }}</span>
+        <div class="gp-dialog__header-actions gp-dialog-header-actions">
           @if (config.maximizable) {
             <button
               type="button"
-              class="gp-dialog-header-action"
+              class="gp-dialog__header-action gp-dialog-header-action"
               [attr.aria-label]="maximized() ? 'Restore Dialog' : 'Maximize Dialog'"
               (click)="toggleMaximize()"
             >
@@ -34,7 +34,7 @@
           @if (config.closable !== false) {
             <button
               type="button"
-              class="gp-dialog-header-action"
+              class="gp-dialog__header-action gp-dialog-header-action"
               [attr.aria-label]="translationService.get('close') || 'Close'"
               (click)="close()"
             >
@@ -46,7 +46,7 @@
     }
 
     <!-- Dynamic Component Host Content -->
-    <div class="gp-dialog-content" [ngStyle]="config.contentStyle || {}">
+    <div class="gp-dialog__content gp-dialog-content" [ngStyle]="config.contentStyle || {}">
       <ng-template #contentHost></ng-template>
     </div>
   </div>

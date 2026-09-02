@@ -1,17 +1,17 @@
-<div class="gp-tabview" [id]="id()" [class]="styleClass()" [style]="style()">
-  <div class="gp-tabview-nav-container">
-    <ul class="gp-tabview-nav" role="tablist" [attr.aria-label]="ariaLabel() || 'Tabs'">
+<div class="gp-tabs gp-tabview" [id]="id()" [class]="styleClass()" [style]="style()">
+  <div class="gp-tabs__nav-container gp-tabview-nav-container">
+    <ul class="gp-tabs__nav gp-tabview-nav" role="tablist" [attr.aria-label]="ariaLabel() || 'Tabs'">
       @for (tab of tabPanels(); track $index) {
         <li
-          class="gp-tabview-header"
-          [class.gp-tabview-header-active]="tab.selected()"
-          [class.gp-tabview-header-disabled]="tab.disabled()"
+          class="gp-tabs__header gp-tabview-header"
+          [class.gp-tabs__header--active]="tab.selected()" [class.gp-tabview-header-active]="tab.selected()"
+          [class.gp-tabs__header--disabled]="tab.disabled()" [class.gp-tabview-header-disabled]="tab.disabled()"
           role="presentation"
         >
           <button
             type="button"
             [id]="id() + '_tab_' + $index"
-            class="gp-tabview-nav-link"
+            class="gp-tabs__nav-link gp-tabview-nav-link"
             [disabled]="tab.disabled()"
             (click)="selectTab(tab)"
             (keydown)="onTabKeydown($event, $index)"
@@ -32,7 +32,7 @@
             @if (tab.closable()) {
               <button
                 type="button"
-                class="gp-tabview-close-btn"
+                class="gp-tabs__close-btn gp-tabview-close-btn"
                 (click)="closeTab(tab, $event)"
                 [attr.aria-label]="translationService.get('close') || 'Close tab'"
               >
@@ -46,7 +46,7 @@
   </div>
 
   @if (!hidePanels()) {
-    <div class="gp-tabview-panels">
+    <div class="gp-tabs__panels gp-tabview-panels">
       <ng-content />
     </div>
   }

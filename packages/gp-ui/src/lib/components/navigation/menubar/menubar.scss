@@ -9,12 +9,12 @@
   box-sizing: border-box;
 }
 
-.gp-menubar-start {
+.gp-menubar__start, .gp-menubar-start {
   display: flex;
   align-items: center;
 }
 
-.gp-menubar-root-list {
+.gp-menubar__root-list, .gp-menubar-root-list {
   display: flex;
   align-items: center;
   list-style: none;
@@ -24,11 +24,11 @@
   flex-wrap: wrap;
 }
 
-.gp-menubar-item {
+.gp-menubar__item, .gp-menubar-item {
   position: relative;
 }
 
-.gp-menubar-item-link {
+.gp-menubar__item-link, .gp-menubar-item-link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -43,8 +43,8 @@
     color var(--gp-transition-duration);
 }
 
-.gp-menubar-item-link:hover,
-.gp-menubar-item-active > .gp-menubar-item-link {
+.gp-menubar__item-link, .gp-menubar-item-link:hover,
+.gp-menubar-item-active > .gp-menubar__item-link, .gp-menubar-item-link {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
@@ -54,17 +54,17 @@
   font-size: 1em;
 }
 
-.gp-menubar-item-link:hover .gp-menubar-icon,
-.gp-menubar-item-active > .gp-menubar-item-link .gp-menubar-icon {
+.gp-menubar__item-link, .gp-menubar-item-link:hover .gp-menubar-icon,
+.gp-menubar-item-active > .gp-menubar__item-link, .gp-menubar-item-link .gp-menubar-icon {
   color: var(--gp-primary);
 }
 
-.gp-menubar-submenu-icon {
+.gp-menubar__sub, .gp-menubar-submenu-icon {
   color: var(--gp-text-color-muted);
   margin-left: 0.25rem;
 }
 
-.gp-menubar-submenu {
+.gp-menubar__sub, .gp-menubar-submenu {
   position: absolute;
   top: 100%;
   left: 0;
@@ -92,11 +92,11 @@
   }
 }
 
-.gp-menubar-subitem {
+.gp-menubar__sub, .gp-menubar-subitem {
   position: relative;
 }
 
-.gp-menubar-subitem-link {
+.gp-menubar__sub, .gp-menubar-subitem-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -112,13 +112,13 @@
     color var(--gp-transition-duration);
 }
 
-.gp-menubar-subitem-link:hover,
-.gp-menubar-subitem-active > .gp-menubar-subitem-link {
+.gp-menubar__sub, .gp-menubar-subitem-link:hover,
+.gp-menubar__sub, .gp-menubar-subitem-active > .gp-menubar__sub, .gp-menubar-subitem-link {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
 
-.gp-menubar-subitem-label {
+.gp-menubar__sub, .gp-menubar-subitem-label {
   flex: 1;
 }
 
@@ -134,7 +134,7 @@
   margin-left: 2px;
 }
 
-.gp-menubar-end {
+.gp-menubar__end, .gp-menubar-end {
   margin-left: auto;
   display: flex;
   align-items: center;

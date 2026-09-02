@@ -1,4 +1,4 @@
-.gp-megamenu {
+.gp-mega-menu, .gp-megamenu {
   display: flex;
   align-items: center;
   background: var(--gp-surface-card);
@@ -11,13 +11,13 @@
   width: 100%;
 }
 
-.gp-megamenu-start {
+.gp-mega-menu__start, .gp-megamenu-start {
   display: flex;
   align-items: center;
   margin-right: 0.75rem;
 }
 
-.gp-megamenu-root-list {
+.gp-mega-menu__root-list, .gp-megamenu-root-list {
   display: flex;
   align-items: center;
   list-style: none;
@@ -27,11 +27,11 @@
   flex-wrap: wrap;
 }
 
-.gp-megamenu-root-item {
+.gp-mega-menu__root-item, .gp-megamenu-root-item {
   position: relative;
 }
 
-.gp-megamenu-root-link {
+.gp-mega-menu__root-link, .gp-megamenu-root-link {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -63,7 +63,7 @@
   }
 }
 
-.gp-megamenu-root-item-active > .gp-megamenu-root-link {
+.gp-mega-menu__root-item, .gp-megamenu-root-item-active > .gp-mega-menu__root-link, .gp-megamenu-root-link {
   background: var(--gp-primary-light, rgba(59, 130, 246, 0.1));
   color: var(--gp-primary);
 
@@ -72,7 +72,7 @@
   }
 }
 
-.gp-megamenu-root-item-disabled {
+.gp-mega-menu__root-item, .gp-megamenu-root-item-disabled {
   opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
@@ -122,17 +122,17 @@
   width: auto;
   padding: 0.75rem;
 
-  .gp-megamenu-root-list {
+  .gp-mega-menu__root-list, .gp-megamenu-root-list {
     flex-direction: column;
     width: 100%;
     gap: 0.25rem;
   }
 
-  .gp-megamenu-root-item {
+  .gp-mega-menu__root-item, .gp-megamenu-root-item {
     width: 100%;
   }
 
-  .gp-megamenu-root-link {
+  .gp-mega-menu__root-link, .gp-megamenu-root-link {
     width: 100%;
     box-sizing: border-box;
     justify-content: flex-start;
@@ -147,7 +147,7 @@
     color: var(--gp-primary);
   }
 
-  .gp-megamenu-panel {
+  .gp-mega-menu__panel, .gp-megamenu-panel {
     top: 0;
     left: 100%;
     margin-top: 0;
@@ -156,7 +156,7 @@
 }
 
 /* MegaMenu Flyout Panel */
-.gp-megamenu-panel {
+.gp-mega-menu__panel, .gp-megamenu-panel {
   position: absolute;
   top: 100%;
   left: 0;
@@ -360,7 +360,7 @@
   line-height: 1.4;
 }
 
-.gp-megamenu-end {
+.gp-mega-menu__end, .gp-megamenu-end {
   margin-left: auto;
   display: flex;
   align-items: center;

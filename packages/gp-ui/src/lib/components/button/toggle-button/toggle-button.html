@@ -18,19 +18,19 @@
 >
   @if (iconPos() === 'left' || iconPos() === 'top') {
     @if (checked() && onIcon()) {
-      <gp-icon [name]="onIcon()" class="gp-button-icon" />
+      <gp-icon [name]="onIcon()" class="gp-button__icon gp-button-icon" />
     } @else if (!checked() && offIcon()) {
-      <gp-icon [name]="offIcon()" class="gp-button-icon" />
+      <gp-icon [name]="offIcon()" class="gp-button__icon gp-button-icon" />
     }
   }
 
-  <span class="gp-button-label">{{ checked() ? onLabel() : offLabel() }}</span>
+  <span class="gp-button__label gp-button-label">{{ checked() ? onLabel() : offLabel() }}</span>
 
   @if (iconPos() === 'right' || iconPos() === 'bottom') {
     @if (checked() && onIcon()) {
-      <gp-icon [name]="onIcon()" class="gp-button-icon" />
+      <gp-icon [name]="onIcon()" class="gp-button__icon gp-button-icon" />
     } @else if (!checked() && offIcon()) {
-      <gp-icon [name]="offIcon()" class="gp-button-icon" />
+      <gp-icon [name]="offIcon()" class="gp-button__icon gp-button-icon" />
     }
   }
 </button>

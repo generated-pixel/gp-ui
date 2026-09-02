@@ -1,6 +1,6 @@
-<div class="gp-orgchart" [class.gp-orgchart-selectable]="selectionMode()">
+<div class="gp-org-chart gp-orgchart" [class.gp-org-chart--selectable]="selectionMode()" [class.gp-orgchart-selectable]="selectionMode()">
   @if (value()) {
-    <table class="gp-orgchart-table" role="tree">
+    <table class="gp-org-chart__table gp-orgchart-table" role="tree">
       <tbody>
         <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: value(), isRoot: true }" />
       </tbody>
@@ -9,16 +9,16 @@
 </div>
 
 <ng-template #nodeTemplate let-node let-isRoot="isRoot">
-  <tr class="gp-orgchart-node-row">
+  <tr class="gp-org-chart__node-row gp-orgchart-node-row">
     <td
       [attr.colspan]="node.children && node.children.length && isExpanded(node) ? node.children.length * 2 : 2"
-      class="gp-orgchart-node-cell"
+      class="gp-org-chart__node-cell gp-orgchart-node-cell"
     >
       <div
-        class="gp-orgchart-node"
-        [class.gp-orgchart-node-selectable]="selectionMode() && node.selectable !== false"
-        [class.gp-orgchart-node-selected]="isSelected(node)"
-        [class.gp-orgchart-node-collapsed]="!isExpanded(node)"
+        class="gp-org-chart__node gp-orgchart-node"
+        [class.gp-org-chart__node--selectable]="selectionMode() && node.selectable !== false" [class.gp-orgchart-node-selectable]="selectionMode() && node.selectable !== false"
+        [class.gp-org-chart__node--selected]="isSelected(node)" [class.gp-orgchart-node-selected]="isSelected(node)"
+        [class.gp-org-chart__node--collapsed]="!isExpanded(node)" [class.gp-orgchart-node-collapsed]="!isExpanded(node)"
         [class]="node.styleClass || ''"
         (click)="onNodeClick(node, $event)"
         role="treeitem"

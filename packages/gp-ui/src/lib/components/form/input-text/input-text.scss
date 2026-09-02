@@ -5,7 +5,7 @@
   width: 100%;
 }
 
-.gp-inputtext {
+.gp-input-text, .gp-inputtext {
   display: block;
   width: 100%;
   font-family: inherit;
@@ -25,17 +25,17 @@
   box-sizing: border-box;
 }
 
-.gp-inputtext::placeholder {
+.gp-input-text, .gp-inputtext::placeholder {
   color: var(--gp-text-color-muted, #94a3b8);
   opacity: 1;
 }
 
-.gp-inputtext:hover:not(:disabled):not([readonly]) {
+.gp-input-text, .gp-inputtext:hover:not(:disabled):not([readonly]) {
   border-color: var(--gp-input-border-hover, var(--gp-primary-hover, #4f46e5));
 }
 
-.gp-inputtext:focus,
-.gp-inputtext:focus-visible {
+.gp-input-text, .gp-inputtext:focus,
+.gp-input-text, .gp-inputtext:focus-visible {
   border-color: var(--gp-input-border-focus, var(--gp-primary, #6366f1));
   box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.2));
 }
@@ -53,21 +53,21 @@
 }
 
 .gp-input-disabled,
-.gp-inputtext:disabled,
-.gp-inputtext[disabled] {
+.gp-input-text, .gp-inputtext:disabled,
+.gp-input-text, .gp-inputtext[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
   background: var(--gp-surface-ground, #f1f5f9);
 }
 
 .gp-input-invalid,
-.gp-inputtext.gp-input-invalid {
+.gp-input-text, .gp-inputtext.gp-input-invalid {
   border-color: var(--gp-danger, #ef4444);
 }
 
 .gp-input-invalid:focus,
-.gp-inputtext.gp-input-invalid:focus,
-.gp-inputtext.gp-input-invalid:focus-visible {
+.gp-input-text, .gp-inputtext.gp-input-invalid:focus,
+.gp-input-text, .gp-inputtext.gp-input-invalid:focus-visible {
   border-color: var(--gp-danger, #ef4444);
   box-shadow: var(--gp-focus-ring-danger, 0 0 0 3px rgba(239, 68, 68, 0.2));
 }
@@ -90,15 +90,15 @@
   right: 0.75rem;
 }
 
-.gp-input-with-prefix .gp-inputtext {
+.gp-input-with-prefix .gp-input-text, .gp-inputtext {
   padding-left: 2.25rem;
 }
 
-.gp-input-with-suffix .gp-inputtext {
+.gp-input-with-suffix .gp-input-text, .gp-inputtext {
   padding-right: 2.25rem;
 }
 
-.gp-input-clear-btn {
+.gp-input-wrapper__clear-btn, .gp-input-clear-btn {
   position: absolute;
   right: 0.75rem;
   background: transparent;
@@ -112,6 +112,6 @@
   border-radius: 50%;
 }
 
-.gp-input-clear-btn:hover {
+.gp-input-wrapper__clear-btn, .gp-input-clear-btn:hover {
   color: var(--gp-text-color, #1e293b);
 }

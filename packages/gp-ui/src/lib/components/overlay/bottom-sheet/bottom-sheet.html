@@ -1,6 +1,6 @@
 @if (visible()) {
   <div
-    class="gp-bottom-sheet-backdrop"
+    class="gp-bottom-sheet gp-bottom-sheet__backdrop gp-bottom-sheet-backdrop"
     [gpAppendTo]="appendTo()"
     (click)="onBackdropClick($event)"
     role="dialog"
@@ -9,7 +9,7 @@
   >
     <div
       #sheetContainer
-      class="gp-bottom-sheet-container"
+      class="gp-bottom-sheet__container gp-bottom-sheet-container"
       [style.max-height]="maxHeight()"
       [style.transform]="containerTransform()"
       [style.transition]="isDragging() ? 'none' : 'transform 0.25s cubic-bezier(0.25, 1, 0.5, 1)'"
@@ -17,24 +17,24 @@
     >
       <!-- Drag Handle Header -->
       <div
-        class="gp-bottom-sheet-header-area"
+        class="gp-bottom-sheet__header-area gp-bottom-sheet-header-area"
         (touchstart)="onTouchStart($event)"
         (touchmove)="onTouchMove($event)"
         (touchend)="onTouchEnd()"
       >
         @if (showDragHandle()) {
-          <div class="gp-bottom-sheet-drag-handle"></div>
+          <div class="gp-bottom-sheet__drag-handle gp-bottom-sheet-drag-handle"></div>
         }
 
         @if (title() || dismissable()) {
-          <div class="gp-bottom-sheet-header">
+          <div class="gp-bottom-sheet__header gp-bottom-sheet-header">
             @if (title()) {
-              <h3 class="gp-bottom-sheet-title">{{ title() }}</h3>
+              <h3 class="gp-bottom-sheet__title gp-bottom-sheet-title">{{ title() }}</h3>
             }
             @if (dismissable()) {
               <button
                 type="button"
-                class="gp-bottom-sheet-close-btn"
+                class="gp-bottom-sheet__close-btn gp-bottom-sheet-close-btn"
                 (click)="close()"
                 [attr.aria-label]="translationService.get('close') || 'Close'"
               >
@@ -46,7 +46,7 @@
       </div>
 
       <!-- Sheet Content -->
-      <div class="gp-bottom-sheet-content">
+      <div class="gp-bottom-sheet__content gp-bottom-sheet-content">
         <ng-content />
       </div>
     </div>

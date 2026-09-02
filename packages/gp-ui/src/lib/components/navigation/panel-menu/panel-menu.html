@@ -1,8 +1,8 @@
-<div class="gp-panelmenu" role="tree" [attr.aria-label]="ariaLabel() || 'Panel Menu'">
+<div class="gp-panel-menu gp-panelmenu" role="tree" [attr.aria-label]="ariaLabel() || 'Panel Menu'">
   @for (item of model(); track $index) {
-    <div class="gp-panelmenu-panel" [class.gp-panelmenu-panel-expanded]="isExpanded(item)">
+    <div class="gp-panel-menu__panel gp-panelmenu-panel" [class.gp-panelmenu-panel-expanded]="isExpanded(item)">
       <div
-        class="gp-panelmenu-header"
+        class="gp-panel-menu__header gp-panelmenu-header"
         [class.gp-panelmenu-header-active]="isExpanded(item)"
         [class.gp-panelmenu-header-disabled]="item.disabled"
         (click)="onItemClick(item, $event)"

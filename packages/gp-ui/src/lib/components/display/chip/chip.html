@@ -1,16 +1,16 @@
 @if (visible()) {
   <div class="gp-chip">
     @if (image()) {
-      <img [src]="image()" [alt]="label() || 'Chip image'" class="gp-chip-img" />
+      <img [src]="image()" [alt]="label() || 'Chip image'" class="gp-chip__img gp-chip-img" />
     } @else if (icon()) {
-      <gp-icon [name]="icon()" size="0.9em" class="gp-chip-icon" />
+      <gp-icon [name]="icon()" size="0.9em" class="gp-chip__icon gp-chip-icon" />
     }
-    <span class="gp-chip-label">{{ label() }}</span>
+    <span class="gp-chip__label gp-chip-label">{{ label() }}</span>
     <ng-content />
     @if (removable()) {
       <button
         type="button"
-        class="gp-chip-remove-btn"
+        class="gp-chip__remove-btn gp-chip-remove-btn"
         (click)="remove($event)"
         [attr.aria-label]="translationService.get('aria')?.remove || translationService.get('clear') || 'Remove'"
       >

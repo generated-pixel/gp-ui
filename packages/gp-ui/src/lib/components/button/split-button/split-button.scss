@@ -20,7 +20,7 @@
   }
 
   /* Right / Dropdown Button */
-  > gp-button.gp-split-button-dropdown {
+  > gp-button.gp-split-button__dropdown, .gp-split-button-dropdown {
     margin-left: -1px;
 
     .gp-button {
@@ -32,14 +32,14 @@
     }
   }
 
-  &.gp-split-button-expanded {
-    > gp-button.gp-split-button-dropdown {
+  &.gp-split-button--expanded, &.gp-split-button-expanded {
+    > gp-button.gp-split-button__dropdown, .gp-split-button-dropdown {
       z-index: 3;
     }
   }
 }
 
-.gp-menu-overlay.gp-split-button-menu {
+.gp-menu-overlay.gp-split-button__menu, .gp-split-button-menu {
   position: absolute;
   top: 100%;
   left: 0;

@@ -1,7 +1,7 @@
-<span class="gp-tag" [class]="'gp-tag-' + severity()" [class.gp-tag-rounded]="rounded()">
+<span class="gp-tag" [class]="'gp-tag--' + severity() + ' gp-tag-' + severity()" [class.gp-tag--rounded]="rounded()" [class.gp-tag-rounded]="rounded()">
   @if (icon()) {
-    <gp-icon [name]="icon()" size="0.85em" class="gp-tag-icon" />
+    <gp-icon [name]="icon()" size="0.85em" class="gp-tag__icon gp-tag-icon" />
   }
-  <span class="gp-tag-value">{{ value() }}</span>
+  <span class="gp-tag__value gp-tag-value">{{ value() }}</span>
   <ng-content />
 </span>

@@ -1,7 +1,7 @@
 @if (visible()) {
   <div
-    class="gp-drawer-mask"
-    [class.gp-drawer-mask-modal]="modal()"
+    class="gp-drawer__mask gp-drawer-mask"
+    [class.gp-drawer-mask--modal]="modal()" [class.gp-drawer-mask-modal]="modal()"
     [style.z-index]="zIndex()"
     [gpAppendTo]="appendTo()"
     [gpOverlayZIndex]="zIndex()"
@@ -9,13 +9,13 @@
   >
     <div
       class="gp-drawer"
-      [class]="'gp-drawer-' + position()"
+      [class]="'gp-drawer--' + position() + ' gp-drawer-' + position()"
       (click)="$event.stopPropagation()"
       role="dialog"
       [attr.aria-modal]="modal()"
     >
-      <div class="gp-drawer-header">
-        <span class="gp-drawer-title">{{ header() }}</span>
+      <div class="gp-drawer__header gp-drawer-header">
+        <span class="gp-drawer__title gp-drawer-title">{{ header() }}</span>
         <button
           type="button"
           class="gp-dialog-header-icon"
@@ -26,7 +26,7 @@
         </button>
       </div>
 
-      <div class="gp-drawer-content">
+      <div class="gp-drawer__content gp-drawer-content">
         <ng-content />
       </div>
     </div>

@@ -1,4 +1,4 @@
-.gp-multiselect {
+.gp-multi-select, .gp-multiselect {
   display: inline-flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -18,17 +18,17 @@
     box-shadow var(--gp-transition-duration, 150ms);
 }
 
-.gp-multiselect:hover:not(.gp-select-disabled) {
+.gp-multi-select, .gp-multiselect:hover:not(.gp-select-disabled) {
   border-color: var(--gp-input-border-hover, var(--gp-primary, #4f46e5));
 }
 
-.gp-multiselect:focus-visible,
+.gp-multi-select, .gp-multiselect:focus-visible,
 .gp-select-open {
   border-color: var(--gp-input-border-focus, var(--gp-primary, #4f46e5));
   box-shadow: var(--gp-focus-ring);
 }
 
-.gp-multiselect-label-container {
+.gp-multi-select__label-container, .gp-multiselect-label-container {
   flex: 1;
   overflow: hidden;
   display: flex;
@@ -114,8 +114,8 @@
 }
 
 /* Dropdown Overlay - generous width without awkward wrapping */
-.gp-multiselect-overlay,
-.gp-multiselect .gp-select-overlay {
+.gp-multi-select__overlay, .gp-multiselect-overlay,
+.gp-multi-select, .gp-multiselect .gp-select-overlay {
   position: absolute;
   top: 100%;
   left: 0;
@@ -209,14 +209,14 @@
 }
 
 .gp-multiselect-select-all-bar gp-checkbox,
-.gp-multiselect-item gp-checkbox {
+.gp-multi-select__item, .gp-multiselect-item gp-checkbox {
   pointer-events: none;
   flex-shrink: 0;
 }
 
 /* Items list - fits contents naturally without wrapping */
-.gp-multiselect-overlay .gp-select-items,
-.gp-multiselect .gp-select-items {
+.gp-multi-select__overlay, .gp-multiselect-overlay .gp-select-items,
+.gp-multi-select, .gp-multiselect .gp-select-items {
   list-style: none;
   margin: 0;
   padding: 0.35rem 0;
@@ -224,7 +224,7 @@
   overflow-y: auto;
 }
 
-.gp-multiselect-item {
+.gp-multi-select__item, .gp-multiselect-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -240,22 +240,22 @@
   }
 }
 
-.gp-multiselect-item:hover:not(.gp-select-item-disabled) {
+.gp-multi-select__item, .gp-multiselect-item:hover:not(.gp-select-item-disabled) {
   background: var(--gp-surface-hover, rgba(0, 0, 0, 0.05));
 }
 
-.gp-multiselect-item.gp-select-item-selected {
+.gp-multi-select__item, .gp-multiselect-item.gp-select-item-selected {
   background: var(--gp-primary-light, rgba(79, 70, 229, 0.08));
   color: var(--gp-primary, #4f46e5);
 }
 
-.gp-multiselect-item.gp-select-item-disabled {
+.gp-multi-select__item, .gp-multiselect-item.gp-select-item-disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.gp-multiselect-overlay .gp-select-empty-message,
-.gp-multiselect .gp-select-empty-message {
+.gp-multi-select__overlay, .gp-multiselect-overlay .gp-select-empty-message,
+.gp-multi-select, .gp-multiselect .gp-select-empty-message {
   padding: 0.75rem;
   font-size: var(--gp-font-size-sm, 0.875rem);
   color: var(--gp-text-color-muted, #94a3b8);

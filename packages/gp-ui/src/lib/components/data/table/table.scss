@@ -1,4 +1,4 @@
-.gp-datatable {
+.gp-table, .gp-datatable {
   position: relative;
   background: var(--gp-surface-card);
   border: 1px solid var(--gp-surface-border);
@@ -9,7 +9,7 @@
   width: 100%;
 }
 
-.gp-datatable-header {
+.gp-table__header, .gp-datatable-header {
   padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
@@ -20,28 +20,28 @@
   background: var(--gp-surface-card);
 }
 
-.gp-datatable-caption {
+.gp-table__caption, .gp-datatable-caption {
   flex: 1;
   min-width: 0;
 }
 
-.gp-datatable-global-filter {
+.gp-table__global-filter, .gp-datatable-global-filter {
   width: 16rem;
   max-width: 100%;
 }
 
-.gp-datatable-wrapper {
+.gp-table__wrapper, .gp-datatable-wrapper {
   overflow-x: auto;
   width: 100%;
 }
 
-.gp-datatable-table {
+.gp-table__table, .gp-datatable-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
-.gp-datatable-thead tr th {
+.gp-table__thead, .gp-table__th, .gp-datatable-thead tr th {
   background: var(--gp-surface-section);
   color: var(--gp-text-color);
   font-weight: 600;
@@ -64,7 +64,7 @@
   color: var(--gp-primary);
 }
 
-.gp-datatable-header-content {
+.gp-table__header, .gp-datatable-header-content {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -78,44 +78,44 @@
   color: var(--gp-primary);
 }
 
-.gp-datatable-tbody tr {
+.gp-table__tbody, .gp-datatable-tbody tr {
   background: var(--gp-surface-card);
   border-bottom: 1px solid var(--gp-surface-border);
   transition: background var(--gp-transition-duration);
 }
 
-.gp-datatable-tbody tr:hover {
+.gp-table__tbody, .gp-datatable-tbody tr:hover {
   background: var(--gp-surface-hover);
 }
 
-.gp-datatable-tbody td {
+.gp-table__tbody, .gp-datatable-tbody td {
   padding: 0.75rem 1rem;
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color);
 }
 
-.gp-datatable-striped .gp-datatable-tbody tr:nth-child(even) {
+.gp-datatable-striped .gp-table__tbody, .gp-datatable-tbody tr:nth-child(even) {
   background: var(--gp-surface-ground);
 }
 
-.gp-datatable-gridlines .gp-datatable-th,
-.gp-datatable-gridlines .gp-datatable-td {
+.gp-datatable-gridlines .gp-table__th, .gp-datatable-th,
+.gp-datatable-gridlines .gp-table__cell, .gp-datatable-td {
   border: 1px solid var(--gp-surface-border);
 }
 
-.gp-datatable-sm .gp-datatable-th,
-.gp-datatable-sm .gp-datatable-td {
+.gp-datatable-sm .gp-table__th, .gp-datatable-th,
+.gp-datatable-sm .gp-table__cell, .gp-datatable-td {
   padding: 0.4rem 0.6rem;
   font-size: var(--gp-font-size-xs);
 }
 
-.gp-datatable-lg .gp-datatable-th,
-.gp-datatable-lg .gp-datatable-td {
+.gp-datatable-lg .gp-table__th, .gp-datatable-th,
+.gp-datatable-lg .gp-table__cell, .gp-datatable-td {
   padding: 1.1rem 1.5rem;
   font-size: var(--gp-font-size-base);
 }
 
-.gp-datatable-row-selected {
+.gp-table__row--selected, .gp-table__row, .gp-datatable-row-selected {
   background: var(--gp-primary-light) !important;
   color: var(--gp-primary);
 }
@@ -129,7 +129,7 @@
   display: inline-flex;
 }
 
-.gp-datatable-empty-message {
+.gp-table__empty-message, .gp-datatable-empty-message {
   padding: 2rem 1rem;
   text-align: center;
   color: var(--gp-text-color-muted);

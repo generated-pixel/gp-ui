@@ -1,4 +1,4 @@
-<div class="gp-treetable gp-datatable">
+<div class="gp-tree-table gp-treetable gp-table gp-datatable">
   <div class="gp-datatable-wrapper">
     <table class="gp-datatable-table" role="treegrid">
       <thead class="gp-datatable-thead">
@@ -29,7 +29,7 @@
     @for (col of columns(); track col.field() || $index; let colIndex = $index) {
       <td class="gp-datatable-td" role="gridcell">
         @if (colIndex === 0) {
-          <div class="gp-treetable-toggler-container" [style.padding-left.rem]="level * 1.5">
+          <div class="gp-tree-table__toggler-container gp-treetable-toggler-container" [style.padding-left.rem]="level * 1.5">
             @if (node.children && node.children.length > 0) {
               <button
                 type="button"

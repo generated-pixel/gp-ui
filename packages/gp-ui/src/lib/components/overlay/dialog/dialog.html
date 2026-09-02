@@ -1,7 +1,7 @@
 @if (visible()) {
   <div
-    class="gp-dialog-mask"
-    [class.gp-dialog-mask-modal]="modal()"
+    class="gp-dialog-mask gp-dialog__mask"
+    [class.gp-dialog-mask--modal]="modal()" [class.gp-dialog-mask-modal]="modal()"
     [style.z-index]="zIndex()"
     [gpAppendTo]="appendTo()"
     [gpOverlayZIndex]="zIndex()"
@@ -9,7 +9,7 @@
   >
     <div
       class="gp-dialog"
-      [class.gp-dialog-maximized]="maximized()"
+      [class.gp-dialog--maximized]="maximized()" [class.gp-dialog-maximized]="maximized()"
       [style.width]="width()"
       [style.max-width]="maxWidth()"
       role="dialog"
@@ -18,13 +18,13 @@
       gpFocusTrap
       (click)="$event.stopPropagation()"
     >
-      <div class="gp-dialog-header">
-        <span [id]="headerId" class="gp-dialog-title">{{ header() }}</span>
-        <div class="gp-dialog-header-icons">
+      <div class="gp-dialog__header gp-dialog-header">
+        <span [id]="headerId" class="gp-dialog__title gp-dialog-title">{{ header() }}</span>
+        <div class="gp-dialog__header-icons gp-dialog-header-icons">
           @if (maximizable()) {
             <button
               type="button"
-              class="gp-dialog-header-icon"
+              class="gp-dialog__header-icon gp-dialog-header-icon"
               (click)="toggleMaximize()"
               [attr.aria-label]="maximized() ? 'Restore dialog' : 'Maximize dialog'"
             >
@@ -34,7 +34,7 @@
           @if (closable()) {
             <button
               type="button"
-              class="gp-dialog-header-icon"
+              class="gp-dialog__header-icon gp-dialog-header-icon"
               (click)="close()"
               [attr.aria-label]="translationService.get('close') || 'Close'"
             >
@@ -44,12 +44,12 @@
         </div>
       </div>
 
-      <div class="gp-dialog-content">
+      <div class="gp-dialog__content gp-dialog-content">
         <ng-content />
       </div>
 
       @if (showFooter()) {
-        <div class="gp-dialog-footer">
+        <div class="gp-dialog__footer gp-dialog-footer">
           <ng-content select="[footer]" />
         </div>
       }

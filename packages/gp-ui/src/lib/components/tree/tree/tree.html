@@ -4,7 +4,7 @@
   [attr.aria-multiselectable]="selectionMode() === 'multiple' || selectionMode() === 'checkbox'"
 >
   @if (filter()) {
-    <div class="gp-tree-filter-container">
+    <div class="gp-tree__filter-container gp-tree-filter-container">
       <gp-input-text
         iconLeft="search"
         [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
@@ -16,20 +16,20 @@
     </div>
   }
 
-  <ul class="gp-tree-container">
+  <ul class="gp-tree__container gp-tree-container">
     @for (node of filteredNodes(); track node.key || $index) {
       <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, level: 0 }" />
     } @empty {
-      <li class="gp-tree-empty-message">{{ emptyMessage() || translationService.get('emptyMessage') || 'No records found' }}</li>
+      <li class="gp-tree__empty-message gp-tree-empty-message">{{ emptyMessage() || translationService.get('emptyMessage') || 'No records found' }}</li>
     }
   </ul>
 </div>
 
 <ng-template #nodeTemplate let-node let-level="level">
-  <li class="gp-tree-node" role="treeitem" [attr.aria-expanded]="node.expanded" [style.padding-left.rem]="level * 1.25">
+  <li class="gp-tree__node gp-tree-node" role="treeitem" [attr.aria-expanded]="node.expanded" [style.padding-left.rem]="level * 1.25">
     <div
-      class="gp-tree-node-content"
-      [class.gp-tree-node-selected]="isNodeSelected(node)"
+      class="gp-tree__node-content gp-tree-node-content"
+      [class.gp-tree__node-content--selected]="isNodeSelected(node)" [class.gp-tree-node-selected]="isNodeSelected(node)"
       tabindex="0"
       [attr.aria-selected]="isNodeSelected(node)"
       (click)="onNodeClick(node, $event)"
@@ -60,10 +60,10 @@
       }
 
       @if (node.icon) {
-        <gp-icon [name]="node.icon" class="gp-tree-node-icon" />
+        <gp-icon [name]="node.icon" class="gp-tree__node-icon gp-tree-node-icon" />
       }
 
-      <span class="gp-tree-node-label">{{ node.label }}</span>
+      <span class="gp-tree__node-label gp-tree-node-label">{{ node.label }}</span>
     </div>
 
     @if (node.expanded && node.children && node.children.length > 0) {

@@ -1,8 +1,8 @@
 <div
   class="gp-split-button"
-  [class.gp-split-button-expanded]="overlayVisible()"
-  [class.gp-split-button-fluid]="fluid()"
-  [class.gp-split-button-rounded]="rounded()"
+  [class.gp-split-button--expanded]="overlayVisible()" [class.gp-split-button-expanded]="overlayVisible()"
+  [class.gp-split-button--fluid]="fluid()" [class.gp-split-button-fluid]="fluid()"
+  [class.gp-split-button--rounded]="rounded()" [class.gp-split-button-rounded]="rounded()"
   [class]="styleClass()"
   [style]="style()"
 >
@@ -46,12 +46,12 @@
     [attr.aria-haspopup]="'menu'"
     [attr.aria-expanded]="overlayVisible()"
     (onClickEvent)="toggleOverlay($event)"
-    class="gp-split-button-dropdown"
+    class="gp-split-button__dropdown gp-split-button-dropdown"
   />
 
   @if (overlayVisible()) {
     <div
-      class="gp-menu-overlay gp-split-button-menu"
+      class="gp-menu-overlay gp-split-button__menu gp-split-button-menu"
       role="menu"
       (click)="$event.stopPropagation()"
       [gpAppendTo]="appendTo()"

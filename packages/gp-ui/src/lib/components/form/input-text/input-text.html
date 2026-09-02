@@ -1,8 +1,8 @@
 <div
   class="gp-input-wrapper"
-  [class.gp-input-disabled]="isEffectivelyDisabled()"
-  [class.gp-input-filled]="!!internalValue()"
-  [class.gp-input-invalid]="isInvalid()"
+  [class.gp-input-wrapper--disabled]="isEffectivelyDisabled()" [class.gp-input-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-wrapper--filled]="!!internalValue()" [class.gp-input-filled]="!!internalValue()"
+  [class.gp-input-wrapper--invalid]="isInvalid()" [class.gp-input-invalid]="isInvalid()"
   [class.gp-input-with-prefix]="!!iconLeft()"
   [class.gp-input-with-suffix]="!!iconRight() || (clearable() && !!internalValue())"
   [class]="styleClass()"
@@ -34,11 +34,11 @@
     (blur)="handleBlur($event)"
     (keydown)="handleKeyDown($event)"
     (keyup)="handleKeyUp($event)"
-    class="gp-inputtext"
+    class="gp-input-text gp-inputtext"
   />
 
   @if (clearable() && !!internalValue() && !isEffectivelyDisabled() && !readonly()) {
-    <button type="button" class="gp-input-clear-btn" aria-label="Clear input" (click)="clearInput($event)">
+    <button type="button" class="gp-input-wrapper__clear-btn gp-input-clear-btn" aria-label="Clear input" (click)="clearInput($event)">
       <gp-icon name="times" size="0.9em" />
     </button>
   } @else if (iconRight()) {

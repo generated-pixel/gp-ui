@@ -4,13 +4,13 @@
   gap: 0.5rem;
   width: 100%;
 }
-.gp-accordion-tab {
+.gp-accordion__tab, .gp-accordion-tab {
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius);
   overflow: hidden;
   background: var(--gp-surface-card);
 }
-.gp-accordion-header {
+.gp-accordion__header, .gp-accordion-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -23,22 +23,22 @@
   user-select: none;
   transition: background var(--gp-transition-duration);
 }
-.gp-accordion-header:hover {
+.gp-accordion__header, .gp-accordion-header:hover {
   background: var(--gp-surface-hover);
 }
-.gp-accordion-tab-active .gp-accordion-header {
+.gp-accordion__tab--active, .gp-accordion__tab, .gp-accordion-tab-active .gp-accordion__header, .gp-accordion-header {
   color: var(--gp-primary);
   border-bottom: 1px solid var(--gp-surface-divider);
 }
-.gp-accordion-arrow {
+.gp-accordion__arrow, .gp-accordion-arrow {
   color: var(--gp-text-color-muted);
 }
-.gp-accordion-content {
+.gp-accordion__content, .gp-accordion-content {
   padding: 1.25rem;
   color: var(--gp-text-color);
   line-height: 1.5;
 }
-.gp-accordion-tab-disabled {
+.gp-accordion__tab--disabled, .gp-accordion__tab, .gp-accordion-tab-disabled {
   opacity: 0.6;
   pointer-events: none;
 }

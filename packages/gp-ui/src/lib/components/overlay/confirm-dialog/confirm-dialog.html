@@ -5,14 +5,14 @@
   [appendTo]="appendTo()"
   (visibleChange)="onVisibleChange($event)"
 >
-  <div class="gp-confirm-dialog-body">
+  <div class="gp-confirm-dialog__body gp-confirm-dialog-body">
     @if (confirmation()?.icon || icon()) {
-      <gp-icon [name]="confirmation()?.icon || icon()" size="2em" class="gp-confirm-dialog-icon" />
+      <gp-icon [name]="confirmation()?.icon || icon()" size="2em" class="gp-confirm-dialog__icon gp-confirm-dialog-icon" />
     }
-    <span class="gp-confirm-dialog-message">{{ confirmation()?.message || message() }}</span>
+    <span class="gp-confirm-dialog__message gp-confirm-dialog-message">{{ confirmation()?.message || message() }}</span>
   </div>
 
-  <div footer class="gp-confirm-dialog-footer">
+  <div footer class="gp-confirm-dialog__footer gp-confirm-dialog-footer">
     @if (confirmation()?.rejectVisible !== false) {
       <gp-button
         [label]="confirmation()?.rejectLabel || (rejectLabel() && rejectLabel() !== 'No' ? rejectLabel() : (translationService.get('reject') || 'No'))"

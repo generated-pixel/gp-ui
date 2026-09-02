@@ -5,14 +5,14 @@
   [attr.aria-label]="ariaLabel() || null"
   role="menubar"
 >
-  <div class="gp-menubar-start">
+  <div class="gp-menubar__start gp-menubar-start">
     <ng-content select="[start]" />
   </div>
 
-  <ul class="gp-menubar-root-list">
+  <ul class="gp-menubar__root-list gp-menubar-root-list">
     @for (item of model(); track $index) {
       <li
-        class="gp-menubar-item"
+        class="gp-menubar__item gp-menubar-item"
         [class.gp-menubar-item-active]="activeItem() === item || item.active"
         (mouseenter)="onItemMouseEnter(item)"
         role="none"
@@ -21,7 +21,7 @@
           [routerLink]="item.routerLink"
           [attr.href]="item.url || null"
           [attr.target]="item.target || null"
-          class="gp-menubar-item-link"
+          class="gp-menubar__item-link gp-menubar-item-link"
           (click)="onRootItemClick(item, $event)"
           role="menuitem"
           [attr.aria-haspopup]="item.items ? 'true' : null"
@@ -106,7 +106,7 @@
     }
   </ul>
 
-  <div class="gp-menubar-end">
+  <div class="gp-menubar__end gp-menubar-end">
     <ng-content select="[end]" />
   </div>
 </div>

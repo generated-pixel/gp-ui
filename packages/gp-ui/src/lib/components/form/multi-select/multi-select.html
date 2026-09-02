@@ -1,6 +1,6 @@
 <div
   [id]="inputId()"
-  class="gp-multiselect"
+  class="gp-multi-select gp-multiselect"
   [class.gp-select-open]="overlayVisible()"
   [class.gp-select-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
@@ -16,7 +16,7 @@
   [attr.aria-required]="required()"
   [attr.aria-invalid]="isInvalid()"
 >
-  <div class="gp-multiselect-label-container">
+  <div class="gp-multi-select__label-container gp-multiselect-label-container">
     @if (selectedOptions().length > 0) {
       @if (display() === 'chip') {
         <div class="gp-multiselect-chips">

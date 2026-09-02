@@ -1,12 +1,12 @@
-<div class="gp-panel" [class.gp-panel-collapsed]="collapsed()">
-  <div class="gp-panel-header">
-    <span class="gp-panel-title">{{ header() }}</span>
-    <div class="gp-panel-icons">
+<div class="gp-panel" [class.gp-panel--collapsed]="collapsed()" [class.gp-panel-collapsed]="collapsed()">
+  <div class="gp-panel__header gp-panel-header">
+    <span class="gp-panel__title gp-panel-title">{{ header() }}</span>
+    <div class="gp-panel__icons gp-panel-icons">
       <ng-content select="[icons]" />
       @if (toggleable()) {
         <button
           type="button"
-          class="gp-panel-toggle-btn"
+          class="gp-panel__toggle-btn gp-panel-toggle-btn"
           (click)="toggle()"
           [attr.aria-expanded]="!collapsed()"
           [attr.aria-label]="(!collapsed() ? 'Collapse ' : 'Expand ') + (header() || 'panel')"
@@ -18,13 +18,13 @@
   </div>
 
   @if (!collapsed()) {
-    <div class="gp-panel-content">
+    <div class="gp-panel__content gp-panel-content">
       <ng-content />
     </div>
   }
 
   @if (!collapsed() && showFooter()) {
-    <div class="gp-panel-footer">
+    <div class="gp-panel__footer gp-panel-footer">
       <ng-content select="[footer]" />
     </div>
   }

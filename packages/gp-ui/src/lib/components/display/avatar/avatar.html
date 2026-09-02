@@ -1,15 +1,15 @@
 <div
   class="gp-avatar"
-  [class]="'gp-avatar-' + size() + ' gp-avatar-' + shape()"
+  [class]="'gp-avatar--' + size() + ' gp-avatar-' + size() + ' gp-avatar--' + shape() + ' gp-avatar-' + shape()"
   [style.background-color]="bgColor() || null"
   [style.color]="textColor() || null"
 >
   @if (image()) {
-    <img [src]="image()" [alt]="label() || 'avatar'" class="gp-avatar-img" />
+    <img [src]="image()" [alt]="label() || 'avatar'" class="gp-avatar__img gp-avatar-img" />
   } @else if (icon()) {
-    <gp-icon [name]="icon()" [size]="iconSize()" class="gp-avatar-icon" />
+    <gp-icon [name]="icon()" [size]="iconSize()" class="gp-avatar__icon gp-avatar-icon" />
   } @else if (label()) {
-    <span class="gp-avatar-text">{{ label() }}</span>
+    <span class="gp-avatar__text gp-avatar-text">{{ label() }}</span>
   }
   <ng-content />
 </div>

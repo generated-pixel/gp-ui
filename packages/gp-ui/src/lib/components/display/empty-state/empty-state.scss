@@ -1,4 +1,4 @@
-.gp-emptystate {
+.gp-empty-state, .gp-emptystate {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,7 +11,7 @@
   width: 100%;
 }
 
-.gp-emptystate-icon-wrap {
+.gp-empty-state__icon-wrap, .gp-empty-state__icon, .gp-emptystate-icon-wrap {
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -22,25 +22,25 @@
   margin-bottom: 1rem;
 }
 
-.gp-emptystate-icon {
+.gp-empty-state__icon, .gp-emptystate-icon {
   color: var(--gp-text-color-muted);
 }
 
-.gp-emptystate-title {
+.gp-empty-state__title, .gp-emptystate-title {
   margin: 0 0 0.5rem 0;
   font-size: var(--gp-font-size-base);
   font-weight: 700;
   color: var(--gp-text-color);
 }
 
-.gp-emptystate-message {
+.gp-empty-state__message, .gp-emptystate-message {
   margin: 0 0 1.25rem 0;
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color-secondary);
   max-width: 24rem;
 }
 
-.gp-emptystate-actions {
+.gp-empty-state__actions, .gp-emptystate-actions {
   display: flex;
   gap: 0.5rem;
 }

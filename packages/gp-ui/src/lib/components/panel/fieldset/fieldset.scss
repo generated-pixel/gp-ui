@@ -6,7 +6,7 @@
   margin: 0;
   width: 100%;
 }
-.gp-fieldset-legend {
+.gp-fieldset__legend, .gp-fieldset-legend {
   padding: 0.4rem 0.75rem;
   border: 1px solid var(--gp-surface-border);
   background: var(--gp-surface-section);
@@ -26,10 +26,10 @@
 .gp-fieldset-toggleable:hover {
   background: var(--gp-surface-hover);
 }
-.gp-fieldset-toggler {
+.gp-fieldset__toggler, .gp-fieldset-toggler {
   color: var(--gp-text-color-muted);
 }
-.gp-fieldset-content {
+.gp-fieldset__content, .gp-fieldset-content {
   padding-top: 0.5rem;
   color: var(--gp-text-color);
   line-height: 1.5;

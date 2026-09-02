@@ -1,4 +1,4 @@
-.gp-dataview {
+.gp-data-view, .gp-dataview {
   background: var(--gp-surface-card);
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius);
@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-.gp-dataview-header {
+.gp-data-view__header, .gp-dataview-header {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--gp-surface-border);
   display: flex;
@@ -15,14 +15,14 @@
   justify-content: space-between;
 }
 
-.gp-dataview-layout-options {
+.gp-data-view__layout-options, .gp-dataview-layout-options {
   display: inline-flex;
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius);
   overflow: hidden;
 }
 
-.gp-dataview-layout-btn {
+.gp-data-view__layout-btn, .gp-dataview-layout-btn {
   background: var(--gp-surface-card);
   border: none;
   padding: 0.4rem 0.65rem;
@@ -34,26 +34,26 @@
   transition: all var(--gp-transition-duration);
 }
 
-.gp-dataview-layout-btn:hover {
+.gp-data-view__layout-btn, .gp-dataview-layout-btn:hover {
   background: var(--gp-surface-hover);
 }
 
-.gp-dataview-layout-btn-active {
+.gp-data-view__layout-btn, .gp-dataview-layout-btn-active {
   background: var(--gp-primary-light) !important;
   color: var(--gp-primary) !important;
 }
 
-.gp-dataview-content {
+.gp-data-view__content, .gp-dataview-content {
   padding: 1rem;
 }
 
-.gp-dataview-list-grid {
+.gp-data-view__list-grid, .gp-dataview-list-grid {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.gp-dataview-grid-grid {
+.gp-data-view__grid-grid, .gp-dataview-grid-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1rem;

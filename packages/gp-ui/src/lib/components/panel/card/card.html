@@ -1,27 +1,27 @@
-<div class="gp-card" [class.gp-card-hoverable]="hoverable()">
+<div class="gp-card" [class.gp-card--hoverable]="hoverable()" [class.gp-card-hoverable]="hoverable()">
   @if (headerImage()) {
-    <div class="gp-card-header-img">
+    <div class="gp-card__header-img gp-card-header-img">
       <img [src]="headerImage()" [alt]="header() || 'Card image'" />
     </div>
   }
 
-  <div class="gp-card-body">
+  <div class="gp-card__body gp-card-body">
     @if (header() || subheader()) {
-      <div class="gp-card-title-group">
+      <div class="gp-card__title-group gp-card-title-group">
         @if (header()) {
-          <h3 class="gp-card-title">{{ header() }}</h3>
+          <h3 class="gp-card__title gp-card-title">{{ header() }}</h3>
         }
         @if (subheader()) {
-          <div class="gp-card-subtitle">{{ subheader() }}</div>
+          <div class="gp-card__subtitle gp-card-subtitle">{{ subheader() }}</div>
         }
       </div>
     }
 
-    <div class="gp-card-content">
+    <div class="gp-card__content gp-card-content">
       <ng-content />
     </div>
 
-    <div class="gp-card-footer">
+    <div class="gp-card__footer gp-card-footer">
       <ng-content select="[footer]" />
     </div>
   </div>

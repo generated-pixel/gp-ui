@@ -1,17 +1,17 @@
 <div
-  class="gp-megamenu"
+  class="gp-mega-menu gp-megamenu"
   [class.gp-megamenu-vertical]="orientation() === 'vertical'"
   [class.gp-megamenu-horizontal]="orientation() === 'horizontal'"
   role="menubar"
 >
-  <div class="gp-megamenu-start">
+  <div class="gp-mega-menu__start gp-megamenu-start">
     <ng-content select="[start]" />
   </div>
 
-  <ul class="gp-megamenu-root-list" role="menubar">
+  <ul class="gp-mega-menu__root-list gp-megamenu-root-list" role="menubar">
     @for (item of model(); track $index) {
       <li
-        class="gp-megamenu-root-item"
+        class="gp-mega-menu__root-item gp-megamenu-root-item"
         [class.gp-megamenu-root-item-active]="activeItem() === item"
         [class.gp-megamenu-root-item-disabled]="item.disabled"
         (mouseenter)="onItemMouseEnter(item)"
@@ -21,7 +21,7 @@
           [routerLink]="item.routerLink"
           [attr.href]="item.url || null"
           [attr.target]="item.target || null"
-          class="gp-megamenu-root-link"
+          class="gp-mega-menu__root-link gp-megamenu-root-link"
           (click)="onRootItemClick(item, $event)"
           role="menuitem"
           [attr.aria-haspopup]="item.columns ? 'true' : null"
@@ -46,7 +46,7 @@
         </a>
 
         @if (item.columns && item.columns.length > 0 && activeItem() === item) {
-          <div class="gp-megamenu-panel" role="region" aria-label="Mega menu content">
+          <div class="gp-mega-menu__panel gp-megamenu-panel" role="region" aria-label="Mega menu content">
             <div class="gp-megamenu-grid">
               @for (col of item.columns; track $index) {
                 <div class="gp-megamenu-col">
@@ -132,7 +132,7 @@
     }
   </ul>
 
-  <div class="gp-megamenu-end">
+  <div class="gp-mega-menu__end gp-megamenu-end">
     <ng-content select="[end]" />
   </div>
 </div>

@@ -1,21 +1,21 @@
-<div class="gp-toast" [class]="'gp-toast-' + position()" [style.z-index]="zIndex()" role="region" aria-live="polite">
+<div class="gp-toast" [class]="'gp-toast--' + position() + ' gp-toast-' + position()" [style.z-index]="zIndex()" role="region" aria-live="polite">
   @for (msg of messages(); track msg.id) {
-    <div class="gp-toast-message" [class]="'gp-toast-message-' + (msg.severity || 'info')" role="alert">
-      <gp-icon [name]="getSeverityIcon(msg.severity)" size="1.25em" class="gp-toast-icon" />
+    <div class="gp-toast__message gp-toast-message" [class]="'gp-toast__message--' + (msg.severity || 'info') + ' gp-toast-message-' + (msg.severity || 'info')" role="alert">
+      <gp-icon [name]="getSeverityIcon(msg.severity)" size="1.25em" class="gp-toast__icon gp-toast-icon" />
 
-      <div class="gp-toast-message-text">
+      <div class="gp-toast__text gp-toast-message-text">
         @if (msg.summary) {
-          <div class="gp-toast-summary">{{ msg.summary }}</div>
+          <div class="gp-toast__summary gp-toast-summary">{{ msg.summary }}</div>
         }
         @if (msg.detail) {
-          <div class="gp-toast-detail">{{ msg.detail }}</div>
+          <div class="gp-toast__detail gp-toast-detail">{{ msg.detail }}</div>
         }
       </div>
 
       @if (msg.closable !== false) {
         <button
           type="button"
-          class="gp-toast-close-btn"
+          class="gp-toast__close-btn gp-toast-close-btn"
           (click)="removeMessage(msg)"
           [attr.aria-label]="translationService.get('close') || 'Close'"
         >

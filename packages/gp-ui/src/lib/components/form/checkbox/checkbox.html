@@ -1,12 +1,12 @@
 <div
   class="gp-checkbox"
-  [class.gp-checkbox-checked]="isChecked()"
-  [class.gp-checkbox-disabled]="isEffectivelyDisabled()"
+  [class.gp-checkbox--checked]="isChecked()" [class.gp-checkbox-checked]="isChecked()"
+  [class.gp-checkbox--disabled]="isEffectivelyDisabled()" [class.gp-checkbox-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
   (click)="onClick($event)"
 >
   <div
-    class="gp-checkbox-box"
+    class="gp-checkbox__box gp-checkbox-box"
     [attr.id]="inputId()"
     [attr.aria-checked]="isChecked()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
@@ -22,11 +22,11 @@
     gpRipple
   >
     @if (isChecked()) {
-      <gp-icon name="check" size="0.8em" class="gp-checkbox-icon" />
+      <gp-icon name="check" size="0.8em" class="gp-checkbox__icon gp-checkbox-icon" />
     }
   </div>
 
   @if (label()) {
-    <label [for]="inputId()" class="gp-checkbox-label">{{ label() }}</label>
+    <label [for]="inputId()" class="gp-checkbox__label gp-checkbox-label">{{ label() }}</label>
   }
 </div>

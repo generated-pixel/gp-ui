@@ -20,7 +20,7 @@
 
   @for (star of starsArray(); track $index) {
     <span
-      class="gp-rating-item"
+      class="gp-rating__item gp-rating-item"
       [class.gp-rating-item-active]="isStarActive($index)"
       (click)="rate($index + 1, $event)"
       (keydown.space)="$event.preventDefault(); rate($index + 1, $event)"

@@ -7,10 +7,10 @@
   role="navigation"
   [attr.aria-label]="ariaLabel() || 'Progress Stepper'"
 >
-  <div class="gp-stepper-header-container" role="tablist">
+  <div class="gp-stepper__header-container gp-stepper-header-container" role="tablist">
     @for (step of steps(); track $index; let idx = $index; let last = $last) {
       <div
-        class="gp-stepper-header"
+        class="gp-stepper__header gp-stepper-header"
         [class.gp-stepper-header-active]="step.active()"
         [class.gp-stepper-header-completed]="step.completed()"
         [class.gp-stepper-header-disabled]="step.disabled()"
@@ -24,7 +24,7 @@
         [attr.aria-label]="'Step ' + (idx + 1) + ': ' + step.label() + (step.completed() ? ', completed' : '')"
         tabindex="0"
       >
-        <div class="gp-stepper-number">
+        <div class="gp-stepper__number gp-stepper-number">
           @if (step.completed()) {
             <gp-icon name="check" size="0.85em" />
           } @else if (step.icon()) {
@@ -33,7 +33,7 @@
             {{ idx + 1 }}
           }
         </div>
-        <span class="gp-stepper-title">{{ step.label() }}</span>
+        <span class="gp-stepper__title gp-stepper-title">{{ step.label() }}</span>
       </div>
 
       @if (!last) {

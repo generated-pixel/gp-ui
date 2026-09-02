@@ -33,7 +33,7 @@
   font-size: var(--gp-font-size-2xl);
 }
 
-.gp-avatar-img {
+.gp-avatar__img, .gp-avatar-img {
   width: 100%;
   height: 100%;
   object-fit: cover;

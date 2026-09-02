@@ -14,7 +14,7 @@ gp-slider {
   padding: 0.75rem 0;
   box-sizing: border-box;
 
-  &.gp-slider-vertical {
+  &.gp-slider--vertical, &.gp-slider-vertical {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
@@ -38,7 +38,7 @@ gp-slider {
   }
 }
 
-.gp-slider-range {
+.gp-slider__range, .gp-slider-range {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -53,7 +53,7 @@ gp-slider {
   }
 }
 
-.gp-slider-handle {
+.gp-slider__handle, .gp-slider-handle {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -106,7 +106,7 @@ gp-slider {
   cursor: not-allowed;
   pointer-events: none;
 
-  .gp-slider-handle {
+  .gp-slider__handle, .gp-slider-handle {
     cursor: not-allowed;
   }
 }

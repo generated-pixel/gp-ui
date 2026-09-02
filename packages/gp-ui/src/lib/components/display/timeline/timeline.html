@@ -1,16 +1,16 @@
-<div class="gp-timeline" [class]="'gp-timeline-' + layout() + ' gp-timeline-align-' + align()">
+<div class="gp-timeline" [class]="'gp-timeline--' + layout() + ' gp-timeline-' + layout() + ' gp-timeline--align-' + align() + ' gp-timeline-align-' + align()">
   @for (event of value(); track $index; let last = $last) {
-    <div class="gp-timeline-event">
-      <div class="gp-timeline-event-opposite">
+    <div class="gp-timeline__event gp-timeline-event">
+      <div class="gp-timeline__event-opposite gp-timeline-event-opposite">
         @if (oppositeTemplate()) {
           <ng-container *ngTemplateOutlet="oppositeTemplate()!; context: { $implicit: event }" />
         } @else if (event.date) {
-          <span class="gp-timeline-date">{{ event.date }}</span>
+          <span class="gp-timeline__date gp-timeline-date">{{ event.date }}</span>
         }
       </div>
 
-      <div class="gp-timeline-event-separator">
-        <div class="gp-timeline-event-marker" [style.background-color]="event.color || null">
+      <div class="gp-timeline__event-separator gp-timeline-event-separator">
+        <div class="gp-timeline__event-marker gp-timeline-event-marker" [style.background-color]="event.color || null">
           @if (markerTemplate()) {
             <ng-container *ngTemplateOutlet="markerTemplate()!; context: { $implicit: event }" />
           } @else if (event.icon) {
@@ -18,15 +18,15 @@
           }
         </div>
         @if (!last) {
-          <div class="gp-timeline-event-connector"></div>
+          <div class="gp-timeline__event-connector gp-timeline-event-connector"></div>
         }
       </div>
 
-      <div class="gp-timeline-event-content">
+      <div class="gp-timeline__event-content gp-timeline-event-content">
         @if (contentTemplate()) {
           <ng-container *ngTemplateOutlet="contentTemplate()!; context: { $implicit: event }" />
         } @else {
-          <div class="gp-timeline-status">{{ event.status }}</div>
+          <div class="gp-timeline__status gp-timeline-status">{{ event.status }}</div>
         }
       </div>
     </div>
