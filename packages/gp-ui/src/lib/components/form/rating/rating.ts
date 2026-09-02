@@ -47,14 +47,6 @@ export class GpRating extends GpEditableBase implements ControlValueAccessor {
     this.internalValue.set(Number.isFinite(val) ? val : null);
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
   public isStarActive(index: number): boolean {
     const value = this.internalValue() ?? 0;
     return value >= index + 1;

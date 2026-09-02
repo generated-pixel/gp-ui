@@ -69,14 +69,6 @@ export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor
     this.cdr.markForCheck();
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
   public toggleOverlay(): void {
     if (this.isEffectivelyDisabled() || this.readonly()) {
       return;

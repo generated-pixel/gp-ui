@@ -124,14 +124,6 @@ export class GpTimePicker extends GpEditableBase implements ControlValueAccessor
     }
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
   public toggleOverlay(): void {
     if (this.isEffectivelyDisabled() || this.readonly()) {
       return;
