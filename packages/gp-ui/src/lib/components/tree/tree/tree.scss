@@ -1,0 +1,91 @@
+.gp-tree {
+  background: var(--gp-surface-card);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius);
+  padding: var(--gp-spacing-sm, 0.5rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gp-tree-filter-container {
+  margin-bottom: var(--gp-spacing-sm, 0.5rem);
+}
+
+.gp-tree-container,
+.gp-tree-sub-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gp-tree-node-content {
+  display: flex;
+  align-items: center;
+  gap: var(--gp-spacing-xs, 0.25rem);
+  padding: 0.35rem var(--gp-spacing-sm, 0.5rem);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  cursor: pointer;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color);
+  transition: background var(--gp-transition-duration, 150ms) ease;
+  user-select: none;
+}
+
+.gp-tree-node-content:hover {
+  background: var(--gp-surface-hover);
+}
+
+.gp-tree-node-selected {
+  background: var(--gp-primary-light, rgba(99, 102, 241, 0.1)) !important;
+  color: var(--gp-primary, #6366f1) !important;
+  font-weight: 600;
+}
+
+.gp-tree-node-icon {
+  color: var(--gp-primary, #6366f1);
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.gp-treeselect-toggler {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--gp-text-color-muted, #94a3b8);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--gp-spacing-lg, 1.25rem);
+  height: var(--gp-spacing-lg, 1.25rem);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  flex-shrink: 0;
+  transition:
+    background var(--gp-transition-duration, 150ms) ease,
+    color var(--gp-transition-duration, 150ms) ease;
+
+  &:hover {
+    background: var(--gp-surface-hover, rgba(0, 0, 0, 0.05));
+    color: var(--gp-text-color, #1e293b);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--gp-focus-ring, 0 0 0 2px rgba(99, 102, 241, 0.2));
+  }
+}
+
+.gp-treeselect-toggler-spacer {
+  display: inline-block;
+  width: var(--gp-spacing-lg, 1.25rem);
+  height: var(--gp-spacing-lg, 1.25rem);
+  flex-shrink: 0;
+}
+
+.gp-tree-empty-message {
+  padding: var(--gp-spacing-md, 1rem);
+  text-align: center;
+  color: var(--gp-text-color-muted);
+  font-size: var(--gp-font-size-sm);
+}

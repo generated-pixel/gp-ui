@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { GpButtonComponent } from '../components/button/button/button.component';
+import { GpButton } from '../components/button/button/button';
 
-const meta: Meta<GpButtonComponent> = {
+const meta: Meta<GpButton> = {
   title: 'Buttons/Button',
-  component: GpButtonComponent,
+  component: GpButton,
   tags: ['autodocs'],
   argTypes: {
     severity: {
@@ -22,7 +22,7 @@ const meta: Meta<GpButtonComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<GpButtonComponent>;
+type Story = StoryObj<GpButton>;
 
 export const Primary: Story = {
   args: {

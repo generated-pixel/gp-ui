@@ -1,10 +1,10 @@
 import { GpValidators } from './validators';
 import { GpFormDirective } from './form.directive';
-import { GpEditableBaseComponent } from '../base/gp-editable-base.component';
+import { GpEditableBase } from '../base/gp-editable-base';
 import { Component, ViewChild } from '@angular/core';
 
-// Test mock implementation of GpEditableBaseComponent
-class TestInputControl extends GpEditableBaseComponent<string> {
+// Test mock implementation of GpEditableBase
+class TestInputControl extends GpEditableBase<string> {
   // Concrete implementation
 }
 
@@ -140,7 +140,7 @@ describe('Validation & Side Effects Architecture', () => {
     });
   });
 
-  describe('GpEditableBaseComponent Validation & Side Effects', () => {
+  describe('GpEditableBase Validation & Side Effects', () => {
     let ctrl: TestInputControl;
 
     beforeEach(() => {

@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.0.1] - 2026-09-02
+
+- **`@generatedpixel/gp-rules` Next-Generation Business Rules Engine**:
+  - **Dynamic Field-to-Field Comparison**: Added `compareToField` support to evaluate conditions against other dynamic form fields/context values without hardcoding static values.
+  - **Extended Operator Matrix**: Added range (`between`, `notBetween`), chronological (`isBefore`, `isAfter`, `isSameDay`, `isBetweenDates`, `isFuture`, `isPast`), collection (`allIn`, `anyIn`, `noneIn`), and length (`hasLength`, `lengthGt`, `lengthLt`) operators.
+  - **Asynchronous Remote Validation**: Added `GpConditionEvaluator.evaluateAsync` for asynchronous asyncPredicate validation pipelines.
+  - **Value Transformations & Advanced Actions**: Added `transformValue` (`slugify`, `uppercase`, `lowercase`, `titlecase`, `capitalize`, `trim`, `currency`, `phone`), `copyValue`, `setValidationError`, `clearValidationError`, `setClass`, `setStyle`, `setFocus`, and `apiCall`.
+  - **Math & Logical Formula Functions**: Extended formula evaluation with built-in functions: `SUM`, `AVG`, `MIN`, `MAX`, `ROUND`, `ABS`, `CEIL`, `FLOOR`, `IF`, `CONCAT`, `UPPER`, `LOWER`, `TRIM`, and `DATE_DIFF`.
+  - **Dry-Run Rule Simulator**: Introduced `GpRuleSimulator.simulate(...)` to execute dry-run rule scenarios on mock input data with granular state diff calculations (`changed`, `added`, `removed`).
+  - **Static Rule Linter & Validator**: Introduced `GpRuleValidator.validate(...)` for syntax verification, missing trigger detection, and cyclic dependency graph analysis.
+  - **Visual Audit Inspector**: Upgraded `<gp-rule-inspector>` with real-time metrics (Total Runs, Match Rate %, Avg Duration ms, Active Rules), search filtering, match status filtering chips, and JSON log export.
+  - **Enterprise Rule Presets**: Added presets for password matching, password complexity scoring, credit card brand detection, date range validation, and live title slugification.
+  - **Developer Guide**: Added comprehensive `API_GUIDE.md` for `@generatedpixel/gp-rules`.
+
+- **Base Class Architecture & Deduplication**:
+  - Added `GpDateBase` unifying calendar date arithmetic, localization, and overlay popups across `GpDatePicker` and `GpDateRangePicker`.
+  - Added `GpFeedbackBase` standardizing severity, sizing, dismissal lifecycle, and automatic icon resolution across `GpBadge`, `GpTag`, `GpChip`, and `GpMessage`.
+  - Added `GpBlockBase` standardizing JSON schema binding and action dispatching across `GpDynamicForm`, `GpDynamicHeader`, and `GpDynamicStats`.
+  - Added `cx(...)` helper in `GpBase` for clean CSS class composition.
+  - Removed redundant ControlValueAccessor method overrides across form controls.
+
+- **Quality & Monorepo Verification**:
+  - Verified 111 unit test suites across all packages.
+  - Synchronized all packages to version `1.0.1`.
+
 ## [1.0.0] - 2026-09-01
 
 - **Official v1.0.0 Production Release of the `@generatedpixel` UI Framework Suite**
@@ -74,7 +99,7 @@
 ## [0.2.1] - 2026-08-28
 
 - Release of @generatedpixel gp-ui suite v0.2.1
-- Modular base class architecture (`GpButtonBaseComponent`, `GpInputBaseComponent`, `GpSelectBaseComponent`, `GpCheckableBaseComponent`, `GpMenuBaseComponent`, `GpOverlayBaseComponent`, `GpPanelBaseComponent`)
+- Modular base class architecture (`GpButtonBase`, `GpInputBase`, `GpSelectBase`, `GpCheckableBase`, `GpMenuBase`, `GpOverlayBase`, `GpPanelBase`)
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
 
 ## [0.4.0] - 2026-08-29
@@ -105,4 +130,8 @@
 ## [0.6.0] - 2026-09-01
 
 - Release of @generatedpixel gp-ui suite v0.6.0
+- Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
+
+## [1.0.0] - 2026-09-01
+- Release of @generatedpixel gp-ui suite v1.0.0
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css

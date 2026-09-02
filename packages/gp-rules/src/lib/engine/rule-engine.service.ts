@@ -1,16 +1,23 @@
 /**
  * @file rule-engine.service.ts
- * Injectable Business Rule Engine Service.
+ * Injectable Business Rule Engine Service with analytics, validation, and simulation support.
  */
 
 import { Injectable, signal, computed } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { GpBusinessRule } from '../types/rule.types';
+import {
+  GpBusinessRule,
+  GpRuleSimulationOptions,
+  GpRuleSimulationResult,
+  GpRuleValidationResult
+} from '../types/rule.types';
 import { GpRuleTrigger, GpRuleEventType } from '../types/trigger.types';
 import { GpRuleContext, GpRuleExecutionLog } from '../types/context.types';
 import { GpConditionEvaluator } from './condition-evaluator';
 import { GpActionExecutor } from './action-executor';
+import { GpRuleValidator } from './rule-validator';
+import { GpRuleSimulator } from './rule-simulator';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +30,29 @@ export class GpRuleEngineService {
   public logs = signal<GpRuleExecutionLog[]>([]);
 
   /** Max logs to retain in memory */
-  public maxLogs = 50;
+  public maxLogs = 100;
 
   /** Flag indicating active rule evaluation */
   public isExecuting = signal<boolean>(false);
+
+  /** Computed Analytics & Metrics */
+  public totalExecutions = computed(() => this.logs().length);
+
+  public matchedExecutions = computed(() => this.logs().filter((l) => l.conditionMet).length);
+
+  public successRate = computed(() => {
+    const total = this.logs().length;
+    return total === 0 ? 0 : Math.round((this.matchedExecutions() / total) * 100);
+  });
+
+  public averageDurationMs = computed(() => {
+    const allLogs = this.logs();
+    if (allLogs.length === 0) return 0;
+    const sum = allLogs.reduce((acc, curr) => acc + curr.durationMs, 0);
+    return Math.round((sum / allLogs.length) * 100) / 100;
+  });
+
+  public activeRuleCount = computed(() => this.rules().filter((r) => r.enabled !== false).length);
 
   /** Track active recursion depth to prevent infinite loops */
   private executionDepth = 0;
@@ -101,6 +127,69 @@ export class GpRuleEngineService {
   }
 
   /**
+   * Run static analysis and validation on registered rules or provided rule set.
+   */
+  public validate(rules?: GpBusinessRule[]): GpRuleValidationResult {
+    return GpRuleValidator.validate(rules || this.rules());
+  }
+
+  /**
+   * Run dry-run simulation on a rule set against mock data.
+   */
+  public async simulate(options: GpRuleSimulationOptions): Promise<GpRuleSimulationResult> {
+    return GpRuleSimulator.simulate(options);
+  }
+
+  /**
+   * Query registered rules by category.
+   */
+  public getRulesByCategory(category: string): GpBusinessRule[] {
+    return this.rules().filter((r) => r.category === category);
+  }
+
+  /**
+   * Query registered rules by tag.
+   */
+  public getRulesByTag(tag: string): GpBusinessRule[] {
+    return this.rules().filter((r) => r.tags && r.tags.includes(tag));
+  }
+
+  /**
+   * Export registered rules as formatted JSON.
+   */
+  public exportRulesAsJson(): string {
+    return JSON.stringify(this.rules(), null, 2);
+  }
+
+  /**
+   * Import rules from JSON string.
+   */
+  public importRulesFromJson(json: string): GpRuleValidationResult {
+    try {
+      const parsed = JSON.parse(json);
+      const list = Array.isArray(parsed) ? parsed : [parsed];
+      const validation = GpRuleValidator.validate(list);
+      if (validation.valid) {
+        this.registerRules(list);
+      }
+      return validation;
+    } catch (err: any) {
+      return {
+        valid: false,
+        errors: [
+          {
+            ruleId: 'json-parser',
+            message: `Invalid JSON syntax: ${err?.message || err}`,
+            severity: 'error',
+            code: 'JSON_PARSE_ERROR'
+          }
+        ],
+        warnings: []
+      };
+    }
+  }
+
+  /**
    * Dispatch an event through the business rules engine.
    * Finds matching active rules, respects debounce/throttle, evaluates conditions, and executes actions.
    */
@@ -162,8 +251,8 @@ export class GpRuleEngineService {
     let errorStr: string | undefined;
 
     try {
-      // 1. Evaluate Condition
-      conditionMet = GpConditionEvaluator.evaluate(rule.condition, context);
+      // 1. Evaluate Condition (supporting async predicates)
+      conditionMet = await GpConditionEvaluator.evaluateAsync(rule.condition, context);
 
       // 2. Execute Primary or Else Actions
       if (conditionMet) {
@@ -193,7 +282,8 @@ export class GpRuleEngineService {
       conditionMet,
       actionsExecuted,
       durationMs,
-      error: errorStr
+      error: errorStr,
+      status: errorStr ? 'error' : conditionMet ? 'success' : 'warning'
     };
 
     this.logs.update((existing) => [log, ...existing].slice(0, this.maxLogs));
@@ -259,14 +349,16 @@ export class GpRuleEngineService {
         targetField?: string;
         cleanupAfterRun: boolean;
       }>();
-      const sub = subject.pipe(debounceTime(delayMs)).subscribe(({ context: ctx, rule: r, targetField: field, cleanupAfterRun }) => {
-        this.executeRule(r, eventType, ctx, field).finally(() => {
-          if (cleanupAfterRun) {
-            sub.unsubscribe();
-            this.debouncers.delete(key);
-          }
+      const sub = subject
+        .pipe(debounceTime(delayMs))
+        .subscribe(({ context: ctx, rule: r, targetField: field, cleanupAfterRun }) => {
+          this.executeRule(r, eventType, ctx, field).finally(() => {
+            if (cleanupAfterRun) {
+              sub.unsubscribe();
+              this.debouncers.delete(key);
+            }
+          });
         });
-      });
       debouncer = { subject, sub };
       this.debouncers.set(key, debouncer);
     }

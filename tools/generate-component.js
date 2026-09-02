@@ -18,7 +18,7 @@ const pascalName = kebabName
   .split('-')
   .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
   .join('');
-const componentClass = `Gp${pascalName}Component`;
+const componentClass = `Gp${pascalName}`;
 const selector = `gp-${kebabName}`;
 
 console.log(`🚀 Generating gp-ui component: <${selector}> (${componentClass})...`);
@@ -32,9 +32,10 @@ if (fs.existsSync(compDir)) {
 fs.mkdirSync(compDir, { recursive: true });
 
 // 1. Component file
-const compFile = path.join(compDir, `${kebabName}.component.ts`);
+const compFile = path.join(compDir, `${kebabName}.ts`);
 const compContent = `import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GpBase } from '../../base/gp-base';
 
 @Component({
   selector: '${selector}',
@@ -42,29 +43,19 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: \`
-    <div class="${selector}">
-      <ng-content />
-    </div>
-  \`,
-  styles: [\`
-    .${selector} {
-      display: inline-block;
-      font-family: var(--gp-font-family);
-    }
-  \`]
+  templateUrl: './${kebabName}.html',
+  styleUrl: './${kebabName}.scss'
 })
-export class ${componentClass} {
-  @Input() disabled = false;
+export class ${componentClass} extends GpBase {
   @Output() onClick = new EventEmitter<MouseEvent>();
 }
 `;
 fs.writeFileSync(compFile, compContent);
 
 // 2. Spec file
-const specFile = path.join(compDir, `${kebabName}.component.spec.ts`);
+const specFile = path.join(compDir, `${kebabName}.spec.ts`);
 const specContent = `import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ${componentClass} } from './${kebabName}.component';
+import { ${componentClass} } from './${kebabName}';
 
 describe('${componentClass}', () => {
   let component: ${componentClass};
@@ -90,7 +81,7 @@ fs.writeFileSync(specFile, specContent);
 // 3. Story file
 const storyFile = path.join(compDir, `${kebabName}.stories.ts`);
 const storyContent = `import { Meta, StoryObj } from '@storybook/angular';
-import { ${componentClass} } from './${kebabName}.component';
+import { ${componentClass} } from './${kebabName}';
 
 const meta: Meta<${componentClass}> = {
   title: 'Components/${pascalName}',

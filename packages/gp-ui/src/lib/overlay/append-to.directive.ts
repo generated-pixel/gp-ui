@@ -41,6 +41,7 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
   private isAppended = false;
   private scrollListener: (() => void) | null = null;
   private resizeListener: (() => void) | null = null;
+  private rafId: number | null = null;
 
   constructor() {
     effect(() => {
@@ -95,8 +96,12 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
       this.isAppended = true;
       elem.style.position = 'absolute';
       elem.style.margin = '0';
+      elem.style.boxSizing = 'border-box';
 
       this.reposition();
+      this.rafId = requestAnimationFrame(() => {
+        this.reposition();
+      });
 
       // Bind window listeners for positioning sync
       this.scrollListener = () => this.reposition();
@@ -143,29 +148,52 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
       targetOffsetY = targetRect.top + (win.pageYOffset || docEl.scrollTop);
     }
 
-    let top = 0;
-    let left = 0;
     const offset = this.gpOverlayOffset();
     const placement = this.gpOverlayPlacement();
+    const viewportWidth = win.innerWidth || docEl.clientWidth;
+    const viewportHeight = win.innerHeight || docEl.clientHeight;
 
     if (this.gpOverlayMatchWidth()) {
-      overlay.style.width = `${triggerRect.width}px`;
+      overlay.style.width = `${Math.round(triggerRect.width)}px`;
+      overlay.style.minWidth = `${Math.round(triggerRect.width)}px`;
     } else {
-      overlay.style.minWidth = `${triggerRect.width}px`;
+      overlay.style.width = 'max-content';
+      overlay.style.maxWidth = 'min(calc(100vw - 24px), 36rem)';
     }
 
+    let top = 0;
+    let left = 0;
+    const overlayWidth = overlayRect.width || (this.gpOverlayMatchWidth() ? triggerRect.width : 200);
+    const overlayHeight = overlayRect.height || 100;
+
     if (placement === 'bottom' || placement === 'auto') {
-      top = triggerRect.bottom + scrollY + offset - targetOffsetY;
+      // Flip up if bottom overflows and top has room
+      if (
+        triggerRect.bottom + overlayHeight + offset > viewportHeight &&
+        triggerRect.top - overlayHeight - offset > 0
+      ) {
+        top = triggerRect.top + scrollY - overlayHeight - offset - targetOffsetY;
+      } else {
+        top = triggerRect.bottom + scrollY + offset - targetOffsetY;
+      }
       left = triggerRect.left + scrollX - targetOffsetX;
     } else if (placement === 'top') {
-      top = triggerRect.top + scrollY - overlayRect.height - offset - targetOffsetY;
+      top = triggerRect.top + scrollY - overlayHeight - offset - targetOffsetY;
       left = triggerRect.left + scrollX - targetOffsetX;
     } else if (placement === 'left') {
       top = triggerRect.top + scrollY - targetOffsetY;
-      left = triggerRect.left + scrollX - overlayRect.width - offset - targetOffsetX;
+      left = triggerRect.left + scrollX - overlayWidth - offset - targetOffsetX;
     } else if (placement === 'right') {
       top = triggerRect.top + scrollY - targetOffsetY;
       left = triggerRect.right + scrollX + offset - targetOffsetX;
+    }
+
+    // Viewport horizontal boundary containment
+    if (left + overlayWidth > scrollX + viewportWidth - 12) {
+      left = Math.max(scrollX + 12, triggerRect.right + scrollX - overlayWidth - targetOffsetX);
+    }
+    if (left < scrollX + 12) {
+      left = scrollX + 12;
     }
 
     overlay.style.top = `${Math.round(top)}px`;
@@ -173,6 +201,10 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private unmountOverlay(): void {
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
     if (this.scrollListener) {
       window.removeEventListener('scroll', this.scrollListener, true);
       this.scrollListener = null;

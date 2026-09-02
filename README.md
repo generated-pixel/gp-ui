@@ -91,12 +91,12 @@ GpThemeManager.setMode('dark');
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
-  GpButtonComponent,
-  GpInputTextComponent,
-  GpSelectComponent,
-  GpTableComponent,
-  GpColumnComponent,
-  GpToastComponent,
+  GpButton,
+  GpInputText,
+  GpSelect,
+  GpTable,
+  GpColumn,
+  GpToast,
   GpToastService
 } from '@generatedpixel/gp-ui';
 
@@ -105,12 +105,12 @@ import {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    GpButtonComponent,
-    GpInputTextComponent,
-    GpSelectComponent,
-    GpTableComponent,
-    GpColumnComponent,
-    GpToastComponent
+    GpButton,
+    GpInputText,
+    GpSelect,
+    GpTable,
+    GpColumn,
+    GpToast
   ],
   template: `
     <gp-toast />
@@ -127,7 +127,7 @@ import {
     </gp-table>
   `
 })
-export class MyViewComponent {
+export class MyView {
   searchControl = new FormControl('');
   customers = [
     { id: 1, name: 'Alice Cooper', email: 'alice@example.com', status: 'Active' },

@@ -1,0 +1,150 @@
+<div class="gp-rule-inspector-card">
+  <!-- Header -->
+  <div class="inspector-header">
+    <div class="inspector-title-wrap">
+      <gp-icon name="sparkles" size="1.1em" class="inspector-icon" />
+      <h4 class="inspector-title">{{ title() }}</h4>
+      <gp-badge [value]="engine.logs().length + ' Events'" severity="info" />
+    </div>
+    <div class="inspector-actions">
+      <gp-button
+        variant="text"
+        severity="secondary"
+        size="sm"
+        [disabled]="engine.logs().length === 0"
+        (onClickEvent)="onExportJson()"
+      >
+        <gp-icon name="arrow-down" size="0.85em" />
+        <span>Export</span>
+      </gp-button>
+      <gp-button
+        variant="text"
+        severity="secondary"
+        size="sm"
+        [disabled]="engine.logs().length === 0"
+        (onClickEvent)="onClear()"
+      >
+        Clear
+      </gp-button>
+    </div>
+  </div>
+
+  <!-- Real-Time Metrics & Analytics Bar -->
+  @if (showStats() && engine.logs().length > 0) {
+    <div class="inspector-stats-bar">
+      <div class="stat-box">
+        <span class="stat-num">{{ engine.totalExecutions() }}</span>
+        <span class="stat-lbl">Runs</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num" [class.text-success]="engine.successRate() > 50">{{ engine.successRate() }}%</span>
+        <span class="stat-lbl">Match Rate</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">{{ engine.averageDurationMs() }}ms</span>
+        <span class="stat-lbl">Avg Duration</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-num">{{ engine.activeRuleCount() }}</span>
+        <span class="stat-lbl">Active Rules</span>
+      </div>
+    </div>
+  }
+
+  <!-- Filter & Search Controls -->
+  @if (engine.logs().length > 0) {
+    <div class="inspector-filters">
+      <input
+        type="text"
+        class="inspector-search-input"
+        placeholder="Filter logs by rule, event, or action..."
+        [ngModel]="filterQuery()"
+        (ngModelChange)="filterQuery.set($event)"
+      />
+      <div class="status-toggle-group">
+        <button
+          type="button"
+          class="status-filter-btn"
+          [class.active]="statusFilter() === 'all'"
+          (click)="statusFilter.set('all')"
+        >
+          All ({{ engine.logs().length }})
+        </button>
+        <button
+          type="button"
+          class="status-filter-btn"
+          [class.active]="statusFilter() === 'matched'"
+          (click)="statusFilter.set('matched')"
+        >
+          Matched ({{ engine.matchedExecutions() }})
+        </button>
+        <button
+          type="button"
+          class="status-filter-btn"
+          [class.active]="statusFilter() === 'unmatched'"
+          (click)="statusFilter.set('unmatched')"
+        >
+          Unmatched ({{ engine.logs().length - engine.matchedExecutions() }})
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Logs Stream -->
+  <div class="inspector-body">
+    @if (engine.logs().length === 0) {
+      <div class="inspector-empty">
+        <gp-icon name="info-circle" size="1.4em" />
+        <p>No business rules executed yet. Interact with inputs, buttons, or controls to see live rule evaluations.</p>
+      </div>
+    } @else if (filteredLogs().length === 0) {
+      <div class="inspector-empty">
+        <gp-icon name="filter" size="1.4em" />
+        <p>No log events match your filter criteria.</p>
+      </div>
+    } @else {
+      <div class="logs-stream">
+        @for (log of filteredLogs(); track log.timestamp.getTime() + log.ruleId) {
+          <div class="log-item" [class.matched]="log.conditionMet" [class.unmatched]="!log.conditionMet">
+            <div class="log-head-row">
+              <div class="log-rule-meta">
+                <gp-badge
+                  [value]="log.conditionMet ? 'MATCH' : 'NO MATCH'"
+                  [severity]="log.conditionMet ? 'success' : 'secondary'"
+                />
+                <span class="log-rule-name">{{ log.ruleName || log.ruleId }}</span>
+                <span class="log-event-tag">[{{ log.triggerEvent }}]</span>
+              </div>
+              <div class="log-timing">
+                <span class="log-duration">{{ log.durationMs }}ms</span>
+                <span class="log-time">{{ log.timestamp | date: 'HH:mm:ss.SSS' }}</span>
+              </div>
+            </div>
+
+            @if (log.triggerValue !== undefined) {
+              <div class="log-trigger-val">
+                <span class="val-label">Trigger Value:</span>
+                <code>{{ log.triggerValue | json }}</code>
+              </div>
+            }
+
+            @if (log.actionsExecuted.length > 0) {
+              <div class="log-actions-list">
+                <span class="val-label">Actions Executed:</span>
+                <ul>
+                  @for (action of log.actionsExecuted; track action) {
+                    <li>{{ action }}</li>
+                  }
+                </ul>
+              </div>
+            }
+
+            @if (log.error) {
+              <div class="log-error-text">Error: {{ log.error }}</div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

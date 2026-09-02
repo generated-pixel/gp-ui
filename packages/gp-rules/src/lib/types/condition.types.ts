@@ -18,6 +18,8 @@ export type GpRuleOperator =
   | 'lessThan'
   | 'lte'
   | 'lessThanOrEqual'
+  | 'between'
+  | 'notBetween'
   | 'contains'
   | 'notContains'
   | 'startsWith'
@@ -25,10 +27,22 @@ export type GpRuleOperator =
   | 'matches'
   | 'in'
   | 'notIn'
+  | 'allIn'
+  | 'anyIn'
+  | 'noneIn'
   | 'empty'
   | 'notEmpty'
   | 'truthy'
   | 'falsy'
+  | 'hasLength'
+  | 'lengthGt'
+  | 'lengthLt'
+  | 'isBefore'
+  | 'isAfter'
+  | 'isSameDay'
+  | 'isBetweenDates'
+  | 'isFuture'
+  | 'isPast'
   | 'custom'
   | 'expression';
 
@@ -39,14 +53,23 @@ export interface GpRuleCondition {
   /** The comparison operator */
   operator?: GpRuleOperator;
 
-  /** The expected value to compare against */
+  /** The expected value or [min, max] range to compare against */
   value?: any;
+
+  /**
+   * Optional field name to compare against dynamically (e.g. compare 'confirmPassword' with 'password').
+   * If provided, the value of this field from context will be used as the comparison target.
+   */
+  compareToField?: string;
 
   /** JavaScript / mathematical expression string to evaluate (e.g. 'totalAmount > 1000 && country === "US"') */
   expression?: string;
 
-  /** Custom programmatic predicate */
+  /** Custom synchronous programmatic predicate */
   customPredicate?: (context: GpRuleContext) => boolean;
+
+  /** Custom asynchronous programmatic predicate */
+  asyncPredicate?: (context: GpRuleContext) => Promise<boolean>;
 
   /** Logical AND: all nested conditions must pass */
   all?: GpRuleCondition[];

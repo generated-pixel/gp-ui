@@ -18,10 +18,10 @@ export * from './lib/base/gp-grid-widget.base';
 export * from './lib/services/widget-data-resolver';
 
 // Components
-export * from './lib/components/gp-grid-widget/grid-widget.component';
-export * from './lib/components/gp-grid-kpi-widget/grid-kpi-widget.component';
-export * from './lib/components/gp-grid-chart-widget/grid-chart-widget.component';
-export * from './lib/components/gp-grid-table-widget/grid-table-widget.component';
-export * from './lib/components/gp-grid-list-widget/grid-list-widget.component';
-export * from './lib/components/gp-grid-progress-widget/grid-progress-widget.component';
-export * from './lib/components/gp-grid/grid.component';
+export * from './lib/components/gp-grid-widget/grid-widget';
+export * from './lib/components/gp-grid-kpi-widget/grid-kpi-widget';
+export * from './lib/components/gp-grid-chart-widget/grid-chart-widget';
+export * from './lib/components/gp-grid-table-widget/grid-table-widget';
+export * from './lib/components/gp-grid-list-widget/grid-list-widget';
+export * from './lib/components/gp-grid-progress-widget/grid-progress-widget';
+export * from './lib/components/gp-grid/grid';

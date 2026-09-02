@@ -1,0 +1,110 @@
+import { GpEditableBase } from '../../../base/gp-editable-base';
+import {
+  Component,
+  input,
+  output,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  forwardRef,
+  computed
+} from '@angular/core';
+
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { GpIcon } from '../../../icons/icon';
+
+@Component({
+  selector: 'gp-rating',
+  standalone: true,
+  imports: [GpIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => GpRating),
+      multi: true
+    }
+  ],
+  templateUrl: './rating.html',
+  styleUrl: './rating.scss'
+})
+export class GpRating extends GpEditableBase implements ControlValueAccessor {
+  public stars = input<number>(5);
+  public max = input<number | undefined>(undefined);
+  public allowHalfStars = input<boolean>(false);
+  public cancel = input<boolean>(true);
+  public onIcon = input<string>('star-fill');
+  public offIcon = input<string>('star');
+
+  public onRate = output<{ value: number }>();
+  public onCancel = output<void>();
+
+  protected effectiveStars = computed(() => this.max() ?? this.stars());
+  protected starsArray = computed(() => Array.from({ length: this.effectiveStars() }));
+
+  public override writeValue(value: any): void {
+    const val = value != null ? Number(value) : null;
+    this.internalValue.set(Number.isFinite(val) ? val : null);
+  }
+
+  public isStarActive(index: number): boolean {
+    const value = this.internalValue() ?? 0;
+    return value >= index + 1;
+  }
+
+  public isStarHalf(index: number): boolean {
+    if (!this.allowHalfStars()) {
+      return false;
+    }
+    const value = this.internalValue() ?? 0;
+    return value > index && value < index + 1;
+  }
+
+  public getStarFillWidth(index: number): number {
+    const value = this.internalValue() ?? 0;
+    if (value >= index + 1) {
+      return 100;
+    }
+    if (this.allowHalfStars() && value > index && value < index + 1) {
+      return 50;
+    }
+    return 0;
+  }
+
+  public rate(star: number, event?: MouseEvent | Event): void {
+    if (this.readonly() || this.isEffectivelyDisabled()) {
+      return;
+    }
+
+    const nextValue =
+      this.allowHalfStars() && event instanceof MouseEvent && event.currentTarget
+        ? this.resolveHalfValue(star, event)
+        : star;
+
+    this.updateValue(nextValue);
+    this.handleControlBlur();
+    this.onRate.emit({ value: nextValue });
+  }
+
+  public clear(): void {
+    if (this.readonly() || this.isEffectivelyDisabled()) {
+      return;
+    }
+    this.updateValue(null);
+    this.handleControlBlur();
+    this.onCancel.emit();
+  }
+
+  private resolveHalfValue(star: number, event: MouseEvent): number {
+    const target = event.currentTarget as HTMLElement | null;
+    if (!target) {
+      return star;
+    }
+
+    const rect = target.getBoundingClientRect();
+    const relativeX = event.clientX - rect.left;
+    const ratio = rect.width === 0 ? 0 : relativeX / rect.width;
+
+    return ratio < 0.5 ? star - 0.5 : star;
+  }
+}

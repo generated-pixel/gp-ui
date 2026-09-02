@@ -26,7 +26,7 @@ const cvaMethods = ['writeValue', 'registerOnChange', 'registerOnTouched', 'setD
 for (const filePath of files) {
   let content = fs.readFileSync(filePath, 'utf8');
   const isForm = content.includes('extends GpBaseControlValueAccessor');
-  const isBase = content.includes('extends GpBaseComponent') || isForm;
+  const isBase = content.includes('extends GpBase') || isForm;
 
   if (!isBase) {
     continue;

@@ -1,1 +1,1 @@
-export * from './gp-editable-base.component';
+export * from './gp-editable-base';

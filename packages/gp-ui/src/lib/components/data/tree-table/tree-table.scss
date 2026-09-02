@@ -1,0 +1,47 @@
+.gp-treetable-toggler-container {
+  display: flex;
+  align-items: center;
+  gap: var(--gp-spacing-sm, 0.5rem);
+}
+
+.gp-treetable-icon {
+  color: var(--gp-tree-table-icon-color, var(--gp-primary, #6366f1));
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.gp-treeselect-toggler {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--gp-tree-table-toggler-color, var(--gp-text-color-muted, #94a3b8));
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--gp-tree-table-toggler-size, 1.25rem);
+  height: var(--gp-tree-table-toggler-size, 1.25rem);
+  border-radius: var(--gp-border-radius-sm, 4px);
+  flex-shrink: 0;
+  transition:
+    background var(--gp-transition-duration, 150ms) ease,
+    color var(--gp-transition-duration, 150ms) ease;
+
+  &:hover {
+    background: var(--gp-tree-table-toggler-hover-bg, var(--gp-surface-hover, rgba(0, 0, 0, 0.05)));
+    color: var(--gp-tree-table-toggler-hover-color, var(--gp-text-color, #1e293b));
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--gp-focus-ring, 0 0 0 2px rgba(99, 102, 241, 0.2));
+  }
+}
+
+.gp-treeselect-toggler-spacer {
+  display: inline-block;
+  width: var(--gp-tree-table-toggler-size, 1.25rem);
+  height: var(--gp-tree-table-toggler-size, 1.25rem);
+  flex-shrink: 0;
+}

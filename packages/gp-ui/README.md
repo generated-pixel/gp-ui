@@ -76,7 +76,7 @@ GpThemeManager.initSystemTheme('default', 'dark');
 
 ```typescript
 import { Component } from '@angular/core';
-import { GpTableComponent, GpColumnComponent, GpButtonComponent, GpTagComponent } from '@generatedpixel/gp-ui';
+import { GpTable, GpColumn, GpButton, GpTag } from '@generatedpixel/gp-ui';
 
 interface Product {
   id: string;
@@ -89,7 +89,7 @@ interface Product {
 @Component({
   selector: 'app-product-table',
   standalone: true,
-  imports: [GpTableComponent, GpColumnComponent, GpButtonComponent, GpTagComponent],
+  imports: [GpTable, GpColumn, GpButton, GpTag],
   template: `
     <gp-table
       [value]="products"
@@ -138,11 +138,11 @@ export class ProductTableComponent {
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
-  GpInputTextComponent,
-  GpSelectComponent,
+  GpInputText,
+  GpSelect,
   GpToggleSwitchComponent,
-  GpButtonComponent,
-  GpToastComponent,
+  GpButton,
+  GpToast,
   GpToastService
 } from '@generatedpixel/gp-ui';
 
@@ -151,11 +151,11 @@ import {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    GpInputTextComponent,
-    GpSelectComponent,
+    GpInputText,
+    GpSelect,
     GpToggleSwitchComponent,
-    GpButtonComponent,
-    GpToastComponent
+    GpButton,
+    GpToast
   ],
   template: `
     <gp-toast />
@@ -216,12 +216,12 @@ export class UserFormComponent {
 
 ```typescript
 import { Component } from '@angular/core';
-import { GpDialogComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpDialog, GpButton } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'app-modal-demo',
   standalone: true,
-  imports: [GpDialogComponent, GpButtonComponent],
+  imports: [GpDialog, GpButton],
   template: `
     <gp-button label="Open Settings Dialog" (onClickEvent)="displayModal = true" />
 

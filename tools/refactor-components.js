@@ -61,7 +61,7 @@ for (const filePath of files) {
 
   // 3. Base class inheritance
   const isForm = content.includes('ControlValueAccessor') || dirName.includes('form');
-  const baseClass = isForm ? 'GpBaseControlValueAccessor' : 'GpBaseComponent';
+  const baseClass = isForm ? 'GpBaseControlValueAccessor' : 'GpBase';
   const baseImportFile = isForm ? 'gp-base-control-value-accessor' : 'gp-base.component';
 
   // Add import if not present

@@ -13,9 +13,9 @@
 
 - **50+ Pre-built Reusable Blocks** across 10 categories:
   - **Application Layouts (24)**:
-    - Multi-Column: `GpLayoutThreeColumnFluidComponent`, `GpLayoutTwoColumnSplitComponent`, `GpLayoutThreeColumnWorkspaceComponent`, `GpLayoutFourColumnGridComponent`.
-    - Sidebars: `GpLayoutSidebarDarkComponent`, `GpLayoutSidebarLightComponent`, `GpLayoutSidebarMiniComponent`, `GpLayoutSidebarDualComponent`, `GpLayoutSidebarFloatingComponent`, `GpLayoutSidebarGradientComponent`, `GpLayoutSidebarHeaderOverComponent`, `GpLayoutSidebarWorkspaceComponent`, `GpLayoutSidebarSearchTreeComponent`, `GpLayoutSidebarPinnedStatusComponent`, `GpLayoutSidebarOffcanvasComponent`, `GpLayoutSidebarMinimalComponent`, `GpLayoutSidebarStepperComponent`, `GpLayoutSidebarAccordionComponent`.
-    - Stacked: `GpLayoutStackedClassicComponent`, `GpLayoutStackedSubnavTabsComponent`, `GpLayoutStackedHeroBannerComponent`, `GpLayoutStackedFloatingCardComponent`, `GpLayoutStackedStickyActionBarComponent`, `GpLayoutStackedBottomDockComponent`.
+    - Multi-Column: `GpLayoutThreeColumnFluid`, `GpLayoutTwoColumnSplit`, `GpLayoutThreeColumnWorkspace`, `GpLayoutFourColumnGrid`.
+    - Sidebars: `GpLayoutSidebarDark`, `GpLayoutSidebarLight`, `GpLayoutSidebarMini`, `GpLayoutSidebarDual`, `GpLayoutSidebarFloating`, `GpLayoutSidebarGradient`, `GpLayoutSidebarHeaderOver`, `GpLayoutSidebarWorkspace`, `GpLayoutSidebarSearchTree`, `GpLayoutSidebarPinnedStatus`, `GpLayoutSidebarOffcanvas`, `GpLayoutSidebarMinimal`, `GpLayoutSidebarStepper`, `GpLayoutSidebarAccordion`.
+    - Stacked: `GpLayoutStackedClassic`, `GpLayoutStackedSubnavTabs`, `GpLayoutStackedHeroBanner`, `GpLayoutStackedFloatingCard`, `GpLayoutStackedStickyActionBar`, `GpLayoutStackedBottomDock`.
   - **Dashboards (6)**: SaaS Overview, Ecommerce, Analytics, Finance, Project Management, Operations.
   - **Settings & Details (9)**: User Profile, Security/2FA, Billing & Subscriptions, Notifications, Team Roles, API Keys, Danger Zone, Customer Overview, Order Summary.
   - **Headings & Page Headers (6)**: Page headers with action bars, Search & filter headers, Tabbed section headers, KPI stat headers, Profile banners, Compact breadcrumb headers.
@@ -48,12 +48,12 @@ npm install @generatedpixel/gp-blocks @generatedpixel/gp-ui @generatedpixel/gp-u
 
 ```typescript
 import { Component } from '@angular/core';
-import { GpLayoutSidebarDarkComponent, GpDashboardSaasOverviewComponent } from '@generatedpixel/gp-blocks';
+import { GpLayoutSidebarDark, GpDashboardSaasOverview } from '@generatedpixel/gp-blocks';
 
 @Component({
   selector: 'app-admin-page',
   standalone: true,
-  imports: [GpLayoutSidebarDarkComponent, GpDashboardSaasOverviewComponent],
+  imports: [GpLayoutSidebarDark, GpDashboardSaasOverview],
   template: `
     <gp-layout-sidebar-dark>
       <gp-dashboard-saas-overview />
@@ -69,12 +69,12 @@ export class AdminPageComponent {}
 
 ```typescript
 import { Component } from '@angular/core';
-import { GpDynamicFormComponent, GpFormSchema } from '@generatedpixel/gp-blocks';
+import { GpDynamicForm, GpFormSchema } from '@generatedpixel/gp-blocks';
 
 @Component({
   selector: 'app-dynamic-registration',
   standalone: true,
-  imports: [GpDynamicFormComponent],
+  imports: [GpDynamicForm],
   template: `
     <div class="max-w-2xl mx-auto p-6">
       <gp-dynamic-form [schema]="registrationSchema" (formSubmit)="handleFormSubmit($event)" />
@@ -116,12 +116,12 @@ export class DynamicRegistrationComponent {
 
 ```typescript
 import { Component } from '@angular/core';
-import { GpDynamicBlockRendererComponent, GpBlockSchema } from '@generatedpixel/gp-blocks';
+import { GpDynamicBlockRenderer, GpBlockSchema } from '@generatedpixel/gp-blocks';
 
 @Component({
   selector: 'app-dynamic-view',
   standalone: true,
-  imports: [GpDynamicBlockRendererComponent],
+  imports: [GpDynamicBlockRenderer],
   template: ` <gp-dynamic-block-renderer [schema]="pageBlockSchema" /> `
 })
 export class DynamicViewComponent {

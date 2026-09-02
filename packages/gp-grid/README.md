@@ -37,13 +37,13 @@ npm install @generatedpixel/gp-grid @generatedpixel/gp-ui @generatedpixel/gp-ui-
 
 ```typescript
 import { Component, signal } from '@angular/core';
-import { GpGridComponent, GpGridItem } from '@generatedpixel/gp-grid';
-import { GpButtonComponent } from '@generatedpixel/gp-ui';
+import { GpGrid, GpGridItem } from '@generatedpixel/gp-grid';
+import { GpButton } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'app-dashboard-view',
   standalone: true,
-  imports: [GpGridComponent, GpButtonComponent],
+  imports: [GpGrid, GpButton],
   template: `
     <div class="p-6">
       <div class="flex items-center justify-between mb-4">

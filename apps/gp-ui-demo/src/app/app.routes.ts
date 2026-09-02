@@ -6,45 +6,45 @@ export const routes: Routes = [
   {
     path: 'getting-started',
     loadComponent: () =>
-      import('./pages/getting-started/getting-started.component').then((m) => m.GettingStartedComponent)
+      import('./pages/getting-started/getting-started').then((m) => m.GettingStarted)
   },
   {
     path: 'rules',
-    loadComponent: () => import('./pages/rules-demo/rules-demo.component').then((m) => m.RulesDemoComponent)
+    loadComponent: () => import('./pages/rules-demo/rules-demo').then((m) => m.RulesDemo)
   },
   {
     path: 'blocks',
-    loadComponent: () => import('./pages/blocks/blocks.component').then((m) => m.BlocksPageComponent)
+    loadComponent: () => import('./pages/blocks/blocks').then((m) => m.BlocksPage)
   },
   {
     path: 'blocks-playground',
     loadComponent: () =>
-      import('./pages/blocks/blocks-playground.component').then((m) => m.BlocksPlaygroundPageComponent)
+      import('./pages/blocks/blocks-playground').then((m) => m.BlocksPlaygroundPage)
   },
   {
     path: 'theming',
-    loadComponent: () => import('./pages/theming/theming.component').then((m) => m.ThemingPageComponent)
+    loadComponent: () => import('./pages/theming/theming').then((m) => m.ThemingPage)
   },
   {
     path: 'gp-css',
-    loadComponent: () => import('./pages/gp-css/gp-css.component').then((m) => m.GpCssPageComponent)
+    loadComponent: () => import('./pages/gp-css/gp-css').then((m) => m.GpCssPage)
   },
   {
     path: 'i18n',
-    loadComponent: () => import('./pages/i18n/i18n.component').then((m) => m.I18nPageComponent)
+    loadComponent: () => import('./pages/i18n/i18n').then((m) => m.I18nPage)
   },
   {
     path: 'grid',
-    loadComponent: () => import('./pages/grid/grid-demo.component').then((m) => m.GridDemoComponent)
+    loadComponent: () => import('./pages/grid/grid-demo').then((m) => m.GridDemo)
   },
   {
     path: 'component/grid',
-    loadComponent: () => import('./pages/grid/grid-demo.component').then((m) => m.GridDemoComponent)
+    loadComponent: () => import('./pages/grid/grid-demo').then((m) => m.GridDemo)
   },
   {
     path: 'component/:component',
     loadComponent: () =>
-      import('./pages/component-docs/component-doc-page.component').then((m) => m.ComponentDocPageComponent)
+      import('./pages/component-docs/component-doc-page').then((m) => m.ComponentDocPage)
   },
   { path: '**', redirectTo: 'getting-started' }
 ];

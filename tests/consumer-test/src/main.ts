@@ -1,4 +1,4 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { ConsumerAppComponent } from './app.component';
+import { ConsumerApp } from './app';
 
-bootstrapApplication(ConsumerAppComponent).catch((err) => console.error(err));
+bootstrapApplication(ConsumerApp).catch((err) => console.error(err));

@@ -28,4 +28,20 @@ export class GpIconRegistry {
   public has(name: string): boolean {
     return this.icons.has(name);
   }
+
+  public registerIcon(name: string, svgContent: string): void {
+    this.register(name, svgContent);
+  }
+
+  public registerIcons(icons: Record<string, string>): void {
+    this.registerMany(icons);
+  }
+
+  public getIcon(name: string): string | undefined {
+    return this.get(name);
+  }
+
+  public hasIcon(name: string): boolean {
+    return this.has(name);
+  }
 }

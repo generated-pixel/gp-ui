@@ -16,6 +16,11 @@ export interface GpRuleExecutionLog {
   actionsExecuted: string[];
   durationMs: number;
   error?: string;
+  status?: 'success' | 'warning' | 'error';
+  stateDiff?: {
+    before: Record<string, any>;
+    after: Record<string, any>;
+  };
 }
 
 export interface GpRuleContext {
@@ -60,4 +65,19 @@ export interface GpRuleContext {
 
   /** Function to emit custom event */
   emit: (eventName: string, payload?: any) => void;
+
+  /** Function to set validation error on form control / state */
+  setValidationError?: (fieldName: string, errorKey: string, errorMessage?: string) => void;
+
+  /** Function to clear validation error on form control / state */
+  clearValidationError?: (fieldName: string, errorKey?: string) => void;
+
+  /** Function to toggle/add/remove CSS classes on an element or target */
+  setClass?: (target: string, className: string, remove?: boolean) => void;
+
+  /** Function to apply inline styles on a target */
+  setStyle?: (target: string, styles: Record<string, string>) => void;
+
+  /** Function to trigger focus on a target DOM element */
+  setFocus?: (target: string) => void;
 }

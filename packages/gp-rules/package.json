@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-rules",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dynamic, reactive Business Rules Engine and event automation for Angular and gp-ui components.",
   "keywords": [
     "angular",

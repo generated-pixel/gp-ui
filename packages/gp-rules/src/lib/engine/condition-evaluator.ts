@@ -8,7 +8,7 @@ import { GpRuleContext } from '../types/context.types';
 
 export class GpConditionEvaluator {
   /**
-   * Evaluate a condition or nested composite condition against the execution context.
+   * Evaluate a condition or nested composite condition synchronously against the execution context.
    */
   public static evaluate(condition: GpRuleCondition | undefined, context: GpRuleContext): boolean {
     if (!condition) {
@@ -59,13 +59,79 @@ export class GpConditionEvaluator {
       return this.evaluateExpression(condition.expression, context);
     }
 
-    // 7. Atomic Operator Evaluation on field
+    // 7. Atomic Operator Evaluation on field or field-to-field comparison
     if (condition.field) {
       const actualValue = context.get(condition.field);
-      return this.evaluateOperator(condition.operator || 'eq', actualValue, condition.value, context);
+      const expectedValue =
+        condition.compareToField !== undefined ? context.get(condition.compareToField) : condition.value;
+      return this.evaluateOperator(condition.operator || 'eq', actualValue, expectedValue, context);
     }
 
     return true;
+  }
+
+  /**
+   * Evaluate a condition or nested composite condition asynchronously against the execution context.
+   */
+  public static async evaluateAsync(condition: GpRuleCondition | undefined, context: GpRuleContext): Promise<boolean> {
+    if (!condition) {
+      return true;
+    }
+
+    // 1. Composite: NOT
+    if (condition.not) {
+      const res = await this.evaluateAsync(condition.not, context);
+      return !res;
+    }
+
+    // 2. Composite: ALL (AND)
+    if (condition.all && Array.isArray(condition.all)) {
+      if (condition.all.length === 0) {
+        return true;
+      }
+      for (const sub of condition.all) {
+        const res = await this.evaluateAsync(sub, context);
+        if (!res) return false;
+      }
+      return true;
+    }
+
+    // 3. Composite: ANY (OR)
+    if (condition.any && Array.isArray(condition.any)) {
+      if (condition.any.length === 0) {
+        return true;
+      }
+      for (const sub of condition.any) {
+        const res = await this.evaluateAsync(sub, context);
+        if (res) return true;
+      }
+      return false;
+    }
+
+    // 4. Composite: NONE (NOR)
+    if (condition.none && Array.isArray(condition.none)) {
+      if (condition.none.length === 0) {
+        return true;
+      }
+      for (const sub of condition.none) {
+        const res = await this.evaluateAsync(sub, context);
+        if (res) return false;
+      }
+      return true;
+    }
+
+    // 5. Async Predicate
+    if (condition.asyncPredicate && typeof condition.asyncPredicate === 'function') {
+      try {
+        return !!(await condition.asyncPredicate(context));
+      } catch (err) {
+        console.warn('[GpConditionEvaluator] Error in asyncPredicate:', err);
+        return false;
+      }
+    }
+
+    // Fallback to standard synchronous evaluator for non-async parts
+    return this.evaluate(condition, context);
   }
 
   /**
@@ -101,6 +167,20 @@ export class GpConditionEvaluator {
       case 'lte':
       case 'lessThanOrEqual':
         return Number(actual) <= Number(expected);
+
+      case 'between':
+        if (Array.isArray(expected) && expected.length === 2) {
+          const num = Number(actual);
+          return num >= Number(expected[0]) && num <= Number(expected[1]);
+        }
+        return false;
+
+      case 'notBetween':
+        if (Array.isArray(expected) && expected.length === 2) {
+          const num = Number(actual);
+          return num < Number(expected[0]) || num > Number(expected[1]);
+        }
+        return true;
 
       case 'contains':
         if (typeof actual === 'string') {
@@ -149,6 +229,86 @@ export class GpConditionEvaluator {
         }
         return true;
 
+      case 'allIn':
+        if (Array.isArray(actual) && Array.isArray(expected)) {
+          return expected.every((exp) => actual.includes(exp));
+        }
+        return false;
+
+      case 'anyIn':
+        if (Array.isArray(actual) && Array.isArray(expected)) {
+          return expected.some((exp) => actual.includes(exp));
+        }
+        return false;
+
+      case 'noneIn':
+        if (Array.isArray(actual) && Array.isArray(expected)) {
+          return !expected.some((exp) => actual.includes(exp));
+        }
+        return true;
+
+      case 'hasLength':
+        if (typeof actual === 'string' || Array.isArray(actual)) {
+          return actual.length === Number(expected);
+        }
+        return false;
+
+      case 'lengthGt':
+        if (typeof actual === 'string' || Array.isArray(actual)) {
+          return actual.length > Number(expected);
+        }
+        return false;
+
+      case 'lengthLt':
+        if (typeof actual === 'string' || Array.isArray(actual)) {
+          return actual.length < Number(expected);
+        }
+        return false;
+
+      case 'isBefore': {
+        const t1 = this.toTimestamp(actual);
+        const t2 = this.toTimestamp(expected);
+        return t1 !== null && t2 !== null && t1 < t2;
+      }
+
+      case 'isAfter': {
+        const t1 = this.toTimestamp(actual);
+        const t2 = this.toTimestamp(expected);
+        return t1 !== null && t2 !== null && t1 > t2;
+      }
+
+      case 'isSameDay': {
+        const d1 = this.toDate(actual);
+        const d2 = this.toDate(expected);
+        return (
+          d1 !== null &&
+          d2 !== null &&
+          d1.getFullYear() === d2.getFullYear() &&
+          d1.getMonth() === d2.getMonth() &&
+          d1.getDate() === d2.getDate()
+        );
+      }
+
+      case 'isBetweenDates': {
+        if (Array.isArray(expected) && expected.length === 2) {
+          const t = this.toTimestamp(actual);
+          const tStart = this.toTimestamp(expected[0]);
+          const tEnd = this.toTimestamp(expected[1]);
+          return t !== null && tStart !== null && tEnd !== null && t >= tStart && t <= tEnd;
+        }
+        return false;
+      }
+
+      case 'isFuture': {
+        const t = this.toTimestamp(actual);
+        return t !== null && t > Date.now();
+      }
+
+      case 'isPast': {
+        const t = this.toTimestamp(actual);
+        return t !== null && t < Date.now();
+      }
+
       case 'empty':
         return (
           actual === null ||
@@ -179,11 +339,33 @@ export class GpConditionEvaluator {
   }
 
   /**
+   * Helper to parse timestamps safely.
+   */
+  private static toTimestamp(val: any): number | null {
+    if (!val) return null;
+    if (val instanceof Date) return val.getTime();
+    const parsed = new Date(val);
+    const time = parsed.getTime();
+    return isNaN(time) ? null : time;
+  }
+
+  /**
+   * Helper to parse Date object safely.
+   */
+  private static toDate(val: any): Date | null {
+    if (!val) return null;
+    if (val instanceof Date) return val;
+    const parsed = new Date(val);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  /**
    * Evaluates a safe expression in the context of state variables.
    */
   public static evaluateExpression(expr: string, context: GpRuleContext): boolean {
     try {
-      const blocked = /\b(?:window|document|globalThis|Function|constructor|__proto__|prototype|eval|import|require|process)\b/;
+      const blocked =
+        /\b(?:window|document|globalThis|Function|constructor|__proto__|prototype|eval|import|require|process)\b/;
       if (blocked.test(expr)) {
         console.warn(`[GpConditionEvaluator] Blocked potentially unsafe expression "${expr}"`);
         return false;
