@@ -96,6 +96,10 @@ export * from './lib/components/form/label/label.interface';
 export * from './lib/components/form/label/label';
 export * from './lib/components/form/float-label/float-label.interface';
 export * from './lib/components/form/float-label/float-label';
+export * from './lib/components/form/html-editor/html-editor.interface';
+export * from './lib/components/form/html-editor/html-editor';
+export * from './lib/components/form/md-editor/md-editor.interface';
+export * from './lib/components/form/md-editor/md-editor';
 export * from './lib/components/form/inset-label/inset-label.interface';
 export * from './lib/components/form/inset-label/inset-label';
 
