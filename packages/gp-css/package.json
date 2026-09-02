@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-css",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility-first CSS engine designed for Generated Pixel design system with native gp-ui and gp-theme integration",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
