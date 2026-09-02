@@ -20,6 +20,8 @@ import {
   GpDateRangePicker,
   GpTimePicker,
   GpFileUpload,
+  GpHtmlEditor,
+  GpMdEditor,
   GpButton,
   GpCard,
   GpDialog,
@@ -69,6 +71,8 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
     GpDateRangePicker,
     GpTimePicker,
     GpFileUpload,
+    GpHtmlEditor,
+    GpMdEditor,
     GpButton,
     GpFormDirective,
     GpFormError,
@@ -496,6 +500,28 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
           </div>
         </div>
 
+        <!-- Rich HTML Editor -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">Rich WYSIWYG HTML Editor (GpHtmlEditor)</h2>
+          <p class="doc-section-desc">
+            Complete formatting toolbar with text formatting, headings, alignment, lists, color pickers, links, images, and raw HTML source code view.
+          </p>
+          <div style="margin-top: 1rem;">
+            <gp-html-editor formControlName="bioHtml" height="220px" placeholder="Write your professional bio..." />
+          </div>
+        </div>
+
+        <!-- Markdown Editor -->
+        <div class="doc-section">
+          <h2 class="doc-section-title">Markdown Editor (GpMdEditor)</h2>
+          <p class="doc-section-desc">
+            Split-pane Markdown editor with live preview, GitHub Flavored Markdown (GFM) tables, task lists, code blocks, and formatting shortcuts.
+          </p>
+          <div style="margin-top: 1rem;">
+            <gp-md-editor formControlName="readmeMd" height="280px" placeholder="Write markdown content..." />
+          </div>
+        </div>
+
         <!-- File Upload -->
         <div class="doc-section">
           <h2 class="doc-section-title">File Upload</h2>
@@ -745,7 +771,9 @@ export class MyForm {
     accountType: new FormControl('business'),
     notifications: new FormControl(true),
     satisfaction: new FormControl(5),
-    volume: new FormControl(80)
+    volume: new FormControl(80),
+    bioHtml: new FormControl('<h2>Executive Summary</h2><p>Senior <strong>Frontend Architect</strong> building high-performance design systems.</p>'),
+    readmeMd: new FormControl('# Project Documentation\n\nWelcome to **gp-ui** design system.\n\n- [x] Modern Angular 19+\n- [x] Zero external dependencies\n- [ ] Deploy to production\n\n| Feature | Status |\n|---|---|\n| HTML Editor | Ready |\n| MD Editor | Ready |')
   });
 
   floatUsername = '';

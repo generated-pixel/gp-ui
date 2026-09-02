@@ -1731,6 +1731,43 @@ export const componentDocs: ComponentDocDefinition[] = [
         description: 'Emitted when a complete date range is selected or cleared.'
       }
     ]
+  },
+  {
+    slug: 'html-editor',
+    name: 'HTML Editor',
+    category: 'Form Controls',
+    icon: 'edit',
+    description:
+      'WYSIWYG rich text editor with customizable formatting toolbar, headings, lists, links, image inserters, color swatches, and HTML source mode.',
+    importStatement: "import { GpHtmlEditor } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-html-editor [(ngModel)]="content" height="250px" placeholder="Write rich text..." />',
+    properties: [
+      { name: 'height', type: 'input<string>', default: "'240px'", description: 'Height of the editable area.' },
+      { name: 'controls', type: 'input<GpHtmlEditorControl[]>', default: 'DEFAULT_CONTROLS', description: 'Array of enabled toolbar action controls.' },
+      { name: 'showStatusBar', type: 'input<boolean>', default: 'true', description: 'Whether to show the word and character count status bar.' }
+    ],
+    events: [
+      { name: 'onHtmlChange', type: 'output<string>', default: '-', description: 'Emitted whenever the HTML content changes.' }
+    ]
+  },
+  {
+    slug: 'md-editor',
+    name: 'Markdown Editor',
+    category: 'Form Controls',
+    icon: 'file-text',
+    description:
+      'Split-pane Markdown editor with live preview, GitHub Flavored Markdown (GFM) table and task list support, formatting shortcuts, and view mode switching.',
+    importStatement: "import { GpMdEditor } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-md-editor [(ngModel)]="markdown" height="300px" placeholder="Write markdown..." />',
+    properties: [
+      { name: 'height', type: 'input<string>', default: "'320px'", description: 'Height of the editor and preview pane.' },
+      { name: 'viewMode', type: "signal<'split' | 'edit' | 'preview'>", default: "'split'", description: 'Current view display mode.' },
+      { name: 'showStatusBar', type: 'input<boolean>', default: 'true', description: 'Whether to display lines, words, and character counts.' }
+    ],
+    events: [
+      { name: 'onMarkdownChange', type: 'output<string>', default: '-', description: 'Emitted whenever markdown text changes.' },
+      { name: 'onViewModeChange', type: "output<'split' | 'edit' | 'preview'>", default: '-', description: 'Emitted when view mode switches.' }
+    ]
   }
 ];
 

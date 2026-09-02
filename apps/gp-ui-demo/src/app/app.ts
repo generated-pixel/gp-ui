@@ -1006,6 +1006,8 @@ export class App {
     },
     { name: 'Time Picker', route: '/component/time-picker', category: 'Form Controls', icon: 'clock' },
     { name: 'File Upload', route: '/component/file-upload', category: 'Form Controls', icon: 'upload' },
+    { name: 'HTML Editor', route: '/component/html-editor', category: 'Form Controls', icon: 'edit', badge: 'New' },
+    { name: 'Markdown Editor', route: '/component/md-editor', category: 'Form Controls', icon: 'file-text', badge: 'New' },
     { name: 'Paginator', route: '/component/paginator', category: 'Data Presentation', icon: 'bars' },
     { name: 'Column', route: '/component/column', category: 'Data Presentation', icon: 'table' },
     { name: 'Table', route: '/component/table', category: 'Data Presentation', icon: 'bars' },

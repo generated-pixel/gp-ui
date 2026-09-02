@@ -83,6 +83,8 @@ import {
   GpInsetLabel,
   GpFormField,
   GpDateRangePicker,
+  GpHtmlEditor,
+  GpMdEditor,
   GpInputTextDirective
 } from 'gp-ui';
 import { GpIcon, GP_DEFAULT_ICONS } from 'gp-ui-icons';
@@ -167,6 +169,8 @@ import { getComponentDoc } from './component-docs.data';
     GpTreeSelect,
     GpTreeTable,
     GpVirtualScroller,
+    GpHtmlEditor,
+    GpMdEditor,
     GpLabel,
     GpFloatLabel,
     GpInsetLabel,
@@ -340,6 +344,16 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('textarea') {
           <gp-textarea label="Notes" placeholder="Write a short note" [rows]="3" />
+        }
+        @case ('html-editor') {
+          <div class="w-full">
+            <gp-html-editor height="200px" [value]="'<h3>Rich Text Editor</h3><p>Edit formatted content with rich styling, headings, and color swatches.</p>'" />
+          </div>
+        }
+        @case ('md-editor') {
+          <div class="w-full">
+            <gp-md-editor height="250px" [value]="'# Markdown Editor\n\nLive **markdown** rendering with tables, task lists, and code blocks.'" />
+          </div>
         }
         @case ('password') {
           <gp-password label="Password" placeholder="Choose a password" />
