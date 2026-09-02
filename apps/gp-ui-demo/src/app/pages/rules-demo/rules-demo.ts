@@ -9,6 +9,7 @@ import {
   GpIcon,
   GpToast,
   GpToastService,
+  GpButton,
   GP_UI_VERSION
 } from 'gp-ui';
 import {
@@ -16,11 +17,18 @@ import {
   GpRuleInspector,
   GpRuleBuilder,
   GpRuleEngineService,
+  GpRuleSimulator,
+  GpRuleValidator,
   GpBusinessRule,
+  GpRuleSimulationResult,
   GP_COUPON_RULE,
   GP_ORDER_CALCULATOR_RULES,
   GP_SHIPPING_VISIBILITY_RULE,
   GP_DEPENDENT_COUNTRY_RULE,
+  GP_CONFIRM_FIELD_RULE,
+  GP_PASSWORD_STRENGTH_RULE,
+  GP_CREDIT_CARD_TYPE_RULE,
+  GP_SLUGIFY_RULE,
   STATES_BY_COUNTRY
 } from 'gp-rules';
 import { DocCode } from '../../shared/doc-code';
@@ -37,6 +45,7 @@ import { DocCode } from '../../shared/doc-code';
     GpBadge,
     GpIcon,
     GpToast,
+    GpButton,
     GpRuleDirective,
     GpRuleInspector,
     GpRuleBuilder,
@@ -57,8 +66,9 @@ import { DocCode } from '../../shared/doc-code';
         </div>
         <h1 class="page-title">Dynamic Business Rules Engine</h1>
         <p class="page-desc">
-          Super-flexible reactive rules engine for Angular and gp-ui. Execute declarative actions triggered by keypress
-          (with configurable debounce), blur / focus-out, value changes, button clicks, and custom events.
+          Enterprise declarative rules engine for Angular. Execute reactive UI actions triggered by keypress
+          (with configurable debounce), blur / focusout, value changes, button clicks, and custom events. Features
+          rich formula computation, field-to-field comparisons, transformations, dry-run simulator, and visual inspector.
         </p>
       </div>
 
@@ -72,6 +82,15 @@ import { DocCode } from '../../shared/doc-code';
         >
           <gp-icon name="sparkles" size="0.9em" />
           <span>Interactive Playground</span>
+        </button>
+        <button
+          type="button"
+          class="rules-tab-btn"
+          [class.active]="activeTab() === 'simulator'"
+          (click)="activeTab.set('simulator')"
+        >
+          <gp-icon name="play" size="0.9em" />
+          <span>Dry-Run Simulator</span>
         </button>
         <button
           type="button"
@@ -115,7 +134,7 @@ import { DocCode } from '../../shared/doc-code';
               <div class="demo-card-head">
                 <div class="card-icon-title">
                   <gp-icon name="tag" size="1.1em" class="icon-accent" />
-                  <h3>1. Keypress with Debounce (Coupon & Pricing Formula)</h3>
+                  <h3>1. Debounced Keypress Coupon & Formula Pricing</h3>
                 </div>
                 <gp-badge value="Debounce: 300ms" severity="warning" />
               </div>
@@ -180,19 +199,156 @@ import { DocCode } from '../../shared/doc-code';
               </div>
             </div>
 
-            <!-- Scenario 2: Dependent Cascading Select (Country -> State) -->
+            <!-- Scenario 2: Password Complexity & Confirm Password Field Matching -->
+            <div class="demo-card">
+              <div class="demo-card-head">
+                <div class="card-icon-title">
+                  <gp-icon name="lock" size="1.1em" class="icon-accent" />
+                  <h3>2. Password Strength & Field Matching (compareToField)</h3>
+                </div>
+                <gp-badge value="Compare with Field" severity="primary" />
+              </div>
+              <div class="demo-card-body">
+                <p class="section-hint">
+                  Type a password to see strength scored live. Then type in <strong>Confirm Password</strong> to trigger the
+                  <code>compareToField</code> equality check rule in real time.
+                </p>
+
+                <div class="form-grid-2">
+                  <div class="form-field-item">
+                    <label>New Password</label>
+                    <gp-input-text
+                      [ngModel]="userSecurityState().password"
+                      (ngModelChange)="updateSecurityField('password', $event)"
+                      placeholder="Enter password..."
+                      [gpRule]="passwordStrengthRule"
+                      [gpRuleState]="userSecurityState()"
+                    />
+                    <!-- Strength meter -->
+                    <div class="strength-meter-wrap">
+                      <div
+                        class="strength-meter-bar"
+                        [style.width.%]="userSecurityState().passwordScore"
+                        [class.str-weak]="userSecurityState().passwordStrength === 'weak'"
+                        [class.str-med]="userSecurityState().passwordStrength === 'medium'"
+                        [class.str-strong]="userSecurityState().passwordStrength === 'strong'"
+                      ></div>
+                    </div>
+                    <span class="strength-badge-text">
+                      Strength: <strong>{{ userSecurityState().passwordStrength | uppercase }}</strong>
+                      ({{ userSecurityState().passwordScore }}%)
+                    </span>
+                  </div>
+
+                  <div class="form-field-item">
+                    <label>Confirm Password</label>
+                    <gp-input-text
+                      [ngModel]="userSecurityState().confirmPassword"
+                      (ngModelChange)="updateSecurityField('confirmPassword', $event)"
+                      placeholder="Confirm password..."
+                      [gpRule]="confirmPasswordRule"
+                      [gpRuleState]="userSecurityState()"
+                    />
+                    @if (userSecurityState().confirmPassword && userSecurityState().confirmPassword !== userSecurityState().password) {
+                      <span class="field-error-msg">⚠️ Passwords do not match</span>
+                    } @else if (userSecurityState().confirmPassword && userSecurityState().confirmPassword === userSecurityState().password) {
+                      <span class="field-match-msg">✓ Passwords match perfectly</span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scenario 3: Auto Credit Card Brand Detection -->
+            <div class="demo-card">
+              <div class="demo-card-head">
+                <div class="card-icon-title">
+                  <gp-icon name="credit-card" size="1.1em" class="icon-accent" />
+                  <h3>3. Auto Credit Card Type & Brand Detection</h3>
+                </div>
+                <gp-badge value="Live Format Rule" severity="success" />
+              </div>
+              <div class="demo-card-body">
+                <p class="section-hint">
+                  Enter test card prefixes (e.g. <code>4</code> for Visa, <code>55</code> for Mastercard, <code>37</code> for Amex, <code>6011</code> for Discover).
+                </p>
+
+                <div class="form-grid-2">
+                  <div class="form-field-item">
+                    <label>Card Number</label>
+                    <gp-input-text
+                      [ngModel]="paymentState().cardNumber"
+                      (ngModelChange)="updatePaymentField('cardNumber', $event)"
+                      placeholder="e.g. 4111 2222 3333 4444"
+                      [gpRule]="creditCardRule"
+                      [gpRuleState]="paymentState()"
+                    />
+                  </div>
+
+                  <div class="form-field-item">
+                    <label>Detected Card Brand</label>
+                    <div class="card-brand-display">
+                      <gp-badge
+                        [value]="paymentState().cardBrand | uppercase"
+                        [severity]="paymentState().cardBrand !== 'generic' ? 'success' : 'secondary'"
+                      />
+                      <span class="cvv-hint">Expected CVV: {{ paymentState().expectedCvvLength }} digits</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scenario 4: Title-to-Slug Transformation -->
+            <div class="demo-card">
+              <div class="demo-card-head">
+                <div class="card-icon-title">
+                  <gp-icon name="edit" size="1.1em" class="icon-accent" />
+                  <h3>4. Automatic String Transformation (transformValue: slugify)</h3>
+                </div>
+                <gp-badge value="Transform Action" severity="info" />
+              </div>
+              <div class="demo-card-body">
+                <p class="section-hint">
+                  Type any blog post or article title. The business rule automatically transforms and formats it into an SEO-friendly URL slug.
+                </p>
+
+                <div class="form-grid-2">
+                  <div class="form-field-item">
+                    <label>Article Title</label>
+                    <gp-input-text
+                      [ngModel]="contentState().title"
+                      (ngModelChange)="updateContentField('title', $event)"
+                      placeholder="e.g. 10 Best Practices for Angular 19"
+                      [gpRule]="slugifyRule"
+                      [gpRuleState]="contentState()"
+                    />
+                  </div>
+
+                  <div class="form-field-item">
+                    <label>Generated URL Slug</label>
+                    <gp-input-text
+                      [ngModel]="contentState().slug"
+                      [disabled]="true"
+                      placeholder="auto-generated-slug"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scenario 5: Dependent Cascading Select (Country -> State) -->
             <div class="demo-card">
               <div class="demo-card-head">
                 <div class="card-icon-title">
                   <gp-icon name="globe" size="1.1em" class="icon-accent" />
-                  <h3>2. Dependent Dropdown Cascader (Value Change)</h3>
+                  <h3>5. Dependent Dropdown Cascader (Value Change)</h3>
                 </div>
                 <gp-badge value="Trigger: change" severity="info" />
               </div>
               <div class="demo-card-body">
                 <p class="section-hint">
-                  Select a country. The business rule dynamically loads and selects matching states/provinces and
-                  disables the select when none exist.
+                  Select a country. The business rule dynamically loads and selects matching states/provinces.
                 </p>
 
                 <div class="form-grid-2">
@@ -220,33 +376,7 @@ import { DocCode } from '../../shared/doc-code';
               </div>
             </div>
 
-            <!-- Scenario 3: Blur / Lose Focus Validation -->
-            <div class="demo-card">
-              <div class="demo-card-head">
-                <div class="card-icon-title">
-                  <gp-icon name="check-circle" size="1.1em" class="icon-accent" />
-                  <h3>3. Blur / Lose Focus Event Triggers</h3>
-                </div>
-                <gp-badge value="Trigger: blur" severity="primary" />
-              </div>
-              <div class="demo-card-body">
-                <p class="section-hint">
-                  Type an enterprise Tax ID (e.g. <code>US-998877</code>) and tab or click away to fire the blur rule.
-                </p>
-
-                <div class="form-field-item">
-                  <label>Corporate Tax ID (blur to validate)</label>
-                  <gp-input-text
-                    [ngModel]="taxId()"
-                    (ngModelChange)="taxId.set($event)"
-                    placeholder="e.g. US-998877"
-                    [gpRule]="blurTaxRule"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <!-- Scenario 4: Interactive Rule Builder -->
+            <!-- Interactive Rule Builder -->
             <gp-rule-builder (ruleCreated)="onCustomRuleCreated($event)" />
           </div>
 
@@ -257,7 +387,71 @@ import { DocCode } from '../../shared/doc-code';
         </div>
       }
 
-      <!-- TAB 2: API & Operator Reference -->
+      <!-- TAB 2: Dry-Run Rule Simulator -->
+      @if (activeTab() === 'simulator') {
+        <div class="simulator-container">
+          <div class="doc-card">
+            <div class="doc-card-header">
+              <gp-icon name="play" size="1em" />
+              <span>Dry-Run Business Rule Simulator</span>
+            </div>
+            <div class="doc-card-body">
+              <p class="section-hint">
+                The <code>GpRuleSimulator</code> allows backend services, form wizards, and QA teams to simulate rule chains on mock data
+                and inspect complete execution diffs without modifying real component state.
+              </p>
+
+              <div class="simulator-layout">
+                <div class="sim-input-col">
+                  <label class="sim-lbl">Initial Mock State (JSON):</label>
+                  <textarea
+                    class="sim-textarea"
+                    rows="8"
+                    [ngModel]="simStateJson()"
+                    (ngModelChange)="simStateJson.set($event)"
+                  ></textarea>
+
+                  <div class="sim-btn-row">
+                    <gp-button severity="primary" (onClickEvent)="runSimulation()">
+                      <gp-icon name="play" size="0.9em" style="margin-right: 0.35rem" />
+                      Run Simulation
+                    </gp-button>
+                  </div>
+                </div>
+
+                <div class="sim-output-col">
+                  <label class="sim-lbl">Simulation Output & Diff:</label>
+                  @if (simulationResult(); as res) {
+                    <div class="sim-result-box">
+                      <div class="sim-meta-row">
+                        <span>Matched Rules: <strong>{{ res.matchedRules.length }}</strong></span>
+                        <span>Executed Actions: <strong>{{ res.executedActions.length }}</strong></span>
+                        <span>Duration: <strong>{{ res.durationMs }}ms</strong></span>
+                      </div>
+
+                      <div class="sim-diff-block">
+                        <label>State Changes:</label>
+                        <pre><code>{{ res.stateDiff | json }}</code></pre>
+                      </div>
+
+                      <div class="sim-final-block">
+                        <label>Final Computed State:</label>
+                        <pre><code>{{ res.finalState | json }}</code></pre>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="sim-placeholder">
+                      Click "Run Simulation" to execute registered rules on the mock input state.
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- TAB 3: API & Operator Reference -->
       @if (activeTab() === 'api') {
         <div class="api-docs-container">
           <!-- Triggers Section -->
@@ -329,9 +523,9 @@ import { DocCode } from '../../shared/doc-code';
                 <tbody>
                   <tr>
                     <td><code>eq</code> / <code>equals</code></td>
-                    <td>Strict or loose equality</td>
+                    <td>Strict or loose equality, supports <code>compareToField</code></td>
                     <td>
-                      <code>{{ '{' }} field: 'role', operator: 'eq', value: 'admin' {{ '}' }}</code>
+                      <code>{{ '{' }} field: 'confirmPassword', operator: 'eq', compareToField: 'password' {{ '}' }}</code>
                     </td>
                   </tr>
                   <tr>
@@ -356,6 +550,27 @@ import { DocCode } from '../../shared/doc-code';
                     </td>
                   </tr>
                   <tr>
+                    <td><code>between</code> / <code>notBetween</code></td>
+                    <td>Value falls within inclusive <code>[min, max]</code> range</td>
+                    <td>
+                      <code>{{ '{' }} field: 'score', operator: 'between', value: [80, 100] {{ '}' }}</code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>isBefore</code> / <code>isAfter</code></td>
+                    <td>Chronological date comparison</td>
+                    <td>
+                      <code>{{ '{' }} field: 'endDate', operator: 'isAfter', compareToField: 'startDate' {{ '}' }}</code>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><code>lengthGt</code> / <code>hasLength</code></td>
+                    <td>String or array length comparison</td>
+                    <td>
+                      <code>{{ '{' }} field: 'password', operator: 'lengthGt', value: 8 {{ '}' }}</code>
+                    </td>
+                  </tr>
+                  <tr>
                     <td><code>contains</code></td>
                     <td>String substring or Array inclusion</td>
                     <td>
@@ -373,17 +588,7 @@ import { DocCode } from '../../shared/doc-code';
                     <td><code>matches</code></td>
                     <td>Regular expression evaluation</td>
                     <td>
-                      <code
-                        >{{ '{' }} field: 'email', operator: 'matches', value: '^[\\\\w.-]+@[\\\\w.-]+\\\\.\\\\w+$'
-                        {{ '}' }}</code
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><code>empty</code> / <code>notEmpty</code></td>
-                    <td>Null, undefined, or empty string/array check</td>
-                    <td>
-                      <code>{{ '{' }} field: 'phone', operator: 'notEmpty' {{ '}' }}</code>
+                      <code>{{ '{' }} field: 'email', operator: 'matches', value: '^[\\w.-]+@[\\w.-]+\\.\\w+$' {{ '}' }}</code>
                     </td>
                   </tr>
                 </tbody>
@@ -413,9 +618,29 @@ import { DocCode } from '../../shared/doc-code';
                     <td>Updates the target form control or state variable.</td>
                   </tr>
                   <tr>
+                    <td><code>copyValue</code></td>
+                    <td><code>fromField: string</code>, <code>target: string</code></td>
+                    <td>Copies value directly from another field.</td>
+                  </tr>
+                  <tr>
+                    <td><code>transformValue</code></td>
+                    <td><code>fromField</code>, <code>target</code>, <code>transformType</code></td>
+                    <td>Transforms string formatting (slugify, uppercase, currency, phone).</td>
+                  </tr>
+                  <tr>
+                    <td><code>setValidationError</code></td>
+                    <td><code>target: string</code>, <code>errorKey: string</code></td>
+                    <td>Sets custom validation error directly on Reactive Form control.</td>
+                  </tr>
+                  <tr>
+                    <td><code>clearValidationError</code></td>
+                    <td><code>target: string</code>, <code>errorKey?: string</code></td>
+                    <td>Clears validation error from Reactive Form control.</td>
+                  </tr>
+                  <tr>
                     <td><code>compute</code> / <code>calculate</code></td>
                     <td><code>target: string</code>, <code>formula: string</code></td>
-                    <td>Evaluates mathematical formula referencing state variables.</td>
+                    <td>Evaluates mathematical/logical formula with SUM, AVG, ROUND, IF, DATE_DIFF.</td>
                   </tr>
                   <tr>
                     <td><code>setOptions</code></td>
@@ -444,13 +669,13 @@ import { DocCode } from '../../shared/doc-code';
         </div>
       }
 
-      <!-- TAB 3: TypeScript Recipes -->
+      <!-- TAB 4: TypeScript Recipes -->
       @if (activeTab() === 'recipes') {
         <div class="recipes-container">
           <div class="doc-card">
             <div class="doc-card-header">
               <gp-icon name="code" size="1em" />
-              <span>Recipe 1: Live Keypress Debounce Promo Code Evaluator</span>
+              <span>Recipe 1: Field-to-Field Comparison (Password Match)</span>
             </div>
             <div class="doc-card-body">
               <doc-code [code]="recipe1Code" language="typescript" />
@@ -460,7 +685,7 @@ import { DocCode } from '../../shared/doc-code';
           <div class="doc-card">
             <div class="doc-card-header">
               <gp-icon name="code" size="1em" />
-              <span>Recipe 2: Dynamic Cascading Country-to-State Selector</span>
+              <span>Recipe 2: Dry-Run Rule Simulation & Testing</span>
             </div>
             <div class="doc-card-body">
               <doc-code [code]="recipe2Code" language="typescript" />
@@ -470,7 +695,7 @@ import { DocCode } from '../../shared/doc-code';
           <div class="doc-card">
             <div class="doc-card-header">
               <gp-icon name="code" size="1em" />
-              <span>Recipe 3: Real-Time Pricing & Tax Calculator Formula</span>
+              <span>Recipe 3: Advanced Pricing Formulas with Math Helpers</span>
             </div>
             <div class="doc-card-body">
               <doc-code [code]="recipe3Code" language="typescript" />
@@ -675,6 +900,60 @@ import { DocCode } from '../../shared/doc-code';
         color: var(--gp-text-color, #334155);
       }
 
+      .strength-meter-wrap {
+        height: 6px;
+        background: var(--gp-surface-ground, #f1f5f9);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-top: 0.25rem;
+      }
+
+      .strength-meter-bar {
+        height: 100%;
+        transition: all 250ms ease;
+      }
+
+      .str-weak {
+        background: var(--gp-danger, #ef4444);
+      }
+
+      .str-med {
+        background: var(--gp-warning, #f59e0b);
+      }
+
+      .str-strong {
+        background: var(--gp-success, #10b981);
+      }
+
+      .strength-badge-text {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary, #64748b);
+      }
+
+      .field-error-msg {
+        font-size: 0.75rem;
+        color: var(--gp-danger, #ef4444);
+        font-weight: 600;
+      }
+
+      .field-match-msg {
+        font-size: 0.75rem;
+        color: var(--gp-success, #10b981);
+        font-weight: 600;
+      }
+
+      .card-brand-display {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0;
+      }
+
+      .cvv-hint {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary, #64748b);
+      }
+
       .calc-summary-box {
         display: flex;
         flex-direction: column;
@@ -722,6 +1001,81 @@ import { DocCode } from '../../shared/doc-code';
         font-size: 1.15rem;
       }
 
+      .simulator-layout {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      @media (max-width: 800px) {
+        .simulator-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .sim-lbl {
+        display: block;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        color: var(--gp-text-color, #334155);
+        margin-bottom: 0.4rem;
+      }
+
+      .sim-textarea {
+        width: 100%;
+        padding: 0.75rem;
+        font-family: monospace;
+        font-size: 0.8125rem;
+        border-radius: var(--gp-border-radius, 8px);
+        border: 1px solid var(--gp-surface-border, #cbd5e1);
+        box-sizing: border-box;
+      }
+
+      .sim-btn-row {
+        margin-top: 0.75rem;
+      }
+
+      .sim-result-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        background: var(--gp-surface-ground, #f8fafc);
+        border: 1px solid var(--gp-surface-border, #e2e8f0);
+        border-radius: var(--gp-border-radius, 8px);
+        padding: 1rem;
+      }
+
+      .sim-meta-row {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.8125rem;
+        color: var(--gp-text-color-secondary, #64748b);
+        border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+        padding-bottom: 0.5rem;
+      }
+
+      .sim-diff-block pre,
+      .sim-final-block pre {
+        margin: 0.25rem 0 0 0;
+        background: var(--gp-surface-card, #ffffff);
+        padding: 0.5rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        border: 1px solid var(--gp-surface-border, #e2e8f0);
+        overflow-x: auto;
+      }
+
+      .sim-placeholder {
+        padding: 2rem 1rem;
+        text-align: center;
+        color: var(--gp-text-color-secondary, #64748b);
+        font-size: 0.875rem;
+        background: var(--gp-surface-ground, #f8fafc);
+        border-radius: var(--gp-border-radius, 8px);
+        border: 1px dashed var(--gp-surface-border, #cbd5e1);
+      }
+
       .api-docs-container,
       .recipes-container {
         display: flex;
@@ -767,8 +1121,9 @@ export class RulesDemo implements OnInit {
   private engine = inject(GpRuleEngineService);
 
   public readonly version = GP_UI_VERSION;
-  public activeTab = signal<'demo' | 'api' | 'recipes'>('demo');
+  public activeTab = signal<'demo' | 'simulator' | 'api' | 'recipes'>('demo');
 
+  // Scenario 1 State
   public orderState = signal<{
     quantity: number;
     unitPrice: number;
@@ -785,12 +1140,44 @@ export class RulesDemo implements OnInit {
     total: 100
   });
 
+  // Scenario 2 State
+  public userSecurityState = signal<{
+    password: string;
+    confirmPassword: string;
+    passwordScore: number;
+    passwordStrength: string;
+  }>({
+    password: '',
+    confirmPassword: '',
+    passwordScore: 0,
+    passwordStrength: 'weak'
+  });
+
+  // Scenario 3 State
+  public paymentState = signal<{
+    cardNumber: string;
+    cardBrand: string;
+    expectedCvvLength: number;
+  }>({
+    cardNumber: '',
+    cardBrand: 'generic',
+    expectedCvvLength: 3
+  });
+
+  // Scenario 4 State
+  public contentState = signal<{
+    title: string;
+    slug: string;
+  }>({
+    title: '',
+    slug: ''
+  });
+
+  // Scenario 5 State
   public countryState = signal<{ country: string; state: string | null }>({
     country: 'US',
     state: 'CA'
   });
-
-  public taxId = signal<string>('');
 
   public countryOptions = [
     { label: 'United States', value: 'US' },
@@ -801,34 +1188,31 @@ export class RulesDemo implements OnInit {
 
   public stateOptions = signal<Array<{ label: string; value: string }>>(STATES_BY_COUNTRY['US'] || []);
 
+  // Simulator tab state
+  public simStateJson = signal<string>(
+    JSON.stringify(
+      {
+        quantity: 5,
+        unitPrice: 40,
+        couponCode: 'SAVE20',
+        discountPercent: 0,
+        subtotal: 0,
+        total: 0
+      },
+      null,
+      2
+    )
+  );
+  public simulationResult = signal<GpRuleSimulationResult | null>(null);
+
+  // Preset Rules
   public couponRule = GP_COUPON_RULE;
   public orderRules = GP_ORDER_CALCULATOR_RULES;
+  public passwordStrengthRule = GP_PASSWORD_STRENGTH_RULE;
+  public confirmPasswordRule = GP_CONFIRM_FIELD_RULE;
+  public creditCardRule = GP_CREDIT_CARD_TYPE_RULE;
+  public slugifyRule = GP_SLUGIFY_RULE;
   public countryRule = GP_DEPENDENT_COUNTRY_RULE;
-
-  public blurTaxRule: GpBusinessRule = {
-    id: 'tax-id-blur-checker',
-    name: 'Tax ID Format Validator',
-    trigger: 'blur',
-    condition: {
-      field: 'taxId',
-      operator: 'startsWith',
-      value: 'US-'
-    },
-    actions: [
-      {
-        type: 'toast',
-        message: 'Valid US Corporate Tax Identification Verified!',
-        severity: 'success'
-      }
-    ],
-    elseActions: [
-      {
-        type: 'toast',
-        message: 'Non-standard Tax ID format entered (Expected US- prefix)',
-        severity: 'warning'
-      }
-    ]
-  };
 
   public exampleUsageCode = `<!-- Attach Business Rules to any component or input -->
 <gp-input-text
@@ -838,85 +1222,66 @@ export class RulesDemo implements OnInit {
   [gpRuleState]="orderState"
 />
 
-<!-- Live Audit Trail -->
+<!-- Live Audit Trail with Metrics & Search -->
 <gp-rule-inspector />`;
 
   public recipe1Code = `import { GpBusinessRule } from '@generatedpixel/gp-rules';
 
-export const promoCodeRule: GpBusinessRule = {
-  id: 'promo-code-validator',
-  name: 'Debounced Promo Code Evaluator',
-  priority: 10,
-  trigger: {
-    event: 'keypress',
-    debounce: 300,
-    targetField: 'couponCode'
-  },
+export const confirmPasswordRule: GpBusinessRule = {
+  id: 'confirm-password-match',
+  name: 'Password & Confirmation Matcher',
+  trigger: [{ event: 'keypress', debounce: 250, targetField: 'confirmPassword' }],
   condition: {
-    field: 'couponCode',
+    field: 'confirmPassword',
     operator: 'eq',
-    value: 'SAVE20'
+    compareToField: 'password'
   },
   actions: [
-    { type: 'setValue', target: 'discountPercent', value: 20 },
-    { type: 'toast', message: 'Promo code SAVE20 applied! (20% OFF)', severity: 'success' }
+    { type: 'clearValidationError', target: 'confirmPassword', errorKey: 'mismatch' },
+    { type: 'setClass', target: 'confirmPassword', className: 'field-valid' }
   ],
   elseActions: [
-    { type: 'setValue', target: 'discountPercent', value: 0 }
+    { type: 'setValidationError', target: 'confirmPassword', errorKey: 'mismatch', errorMessage: 'Passwords do not match.' },
+    { type: 'setClass', target: 'confirmPassword', className: 'field-invalid' }
   ]
 };`;
 
-  public recipe2Code = `import { GpBusinessRule } from '@generatedpixel/gp-rules';
+  public recipe2Code = `import { GpRuleSimulator } from '@generatedpixel/gp-rules';
 
-export const countryStateCascadeRule: GpBusinessRule = {
-  id: 'country-state-cascade',
-  name: 'Country to State Cascader',
-  trigger: ['change', 'valueChange', 'select'],
+const result = await GpRuleSimulator.simulate({
+  rules: [couponRule, ...pricingRules],
+  initialState: { quantity: 4, unitPrice: 25, couponCode: 'SAVE20' },
+  triggerEvent: 'change'
+});
+
+console.log('Final Calculated Total:', result.finalState.total);
+console.log('State Diffs:', result.stateDiff);`;
+
+  public recipe3Code = `import { GpBusinessRule } from '@generatedpixel/gp-rules';
+
+export const advancedPricingRule: GpBusinessRule = {
+  id: 'advanced-pricing-calc',
+  name: 'Tiered Pricing Formula',
+  trigger: ['change', 'valueChange'],
   actions: [
     {
-      type: 'custom',
-      execute: (context) => {
-        const country = context.get('country');
-        const states = STATES_BY_COUNTRY[country] || [];
-        context.setOptions('state', states);
-        context.set('state', states.length > 0 ? states[0].value : null);
-        context.setDisabled('state', states.length === 0);
-      }
+      type: 'compute',
+      target: 'total',
+      formula: 'ROUND(IF(quantity > 10, quantity * unitPrice * 0.85, quantity * unitPrice) + tax, 2)'
     }
   ]
 };`;
 
-  public recipe3Code = `import { GpBusinessRule } from '@generatedpixel/gp-rules';
-
-export const pricingFormulaRules: GpBusinessRule[] = [
-  {
-    id: 'compute-subtotal',
-    name: 'Calculate Subtotal',
-    trigger: ['change', 'valueChange', 'keypress', 'blur'],
-    actions: [
-      {
-        type: 'compute',
-        target: 'subtotal',
-        formula: 'quantity * unitPrice'
-      }
-    ]
-  },
-  {
-    id: 'compute-order-total',
-    name: 'Calculate Final Total',
-    trigger: ['change', 'valueChange', 'keypress', 'blur'],
-    actions: [
-      {
-        type: 'compute',
-        target: 'total',
-        formula: '(quantity * unitPrice) * (1 - (discountPercent || 0) / 100) + (tax || 0)'
-      }
-    ]
-  }
-];`;
-
   ngOnInit(): void {
-    this.engine.registerRules([this.couponRule, ...this.orderRules, this.countryRule, this.blurTaxRule]);
+    this.engine.registerRules([
+      this.couponRule,
+      ...this.orderRules,
+      this.passwordStrengthRule,
+      this.confirmPasswordRule,
+      this.creditCardRule,
+      this.slugifyRule,
+      this.countryRule
+    ]);
   }
 
   public updateOrderField(field: string, val: any): void {
@@ -933,6 +1298,66 @@ export const pricingFormulaRules: GpBusinessRule[] = [
     });
   }
 
+  public updateSecurityField(field: string, val: any): void {
+    this.userSecurityState.update((curr) => {
+      const updated = { ...curr, [field]: val };
+      if (field === 'password') {
+        const pwd = String(val || '');
+        let score = 0;
+        if (pwd.length >= 8) score += 25;
+        if (pwd.length >= 12) score += 15;
+        if (/[A-Z]/.test(pwd)) score += 20;
+        if (/[a-z]/.test(pwd)) score += 10;
+        if (/[0-9]/.test(pwd)) score += 15;
+        if (/[^A-Za-z0-9]/.test(pwd)) score += 15;
+        score = Math.min(100, score);
+        let level = 'weak';
+        if (score >= 80) level = 'strong';
+        else if (score >= 50) level = 'medium';
+        updated.passwordScore = score;
+        updated.passwordStrength = level;
+      }
+      return updated;
+    });
+  }
+
+  public updatePaymentField(field: string, val: any): void {
+    this.paymentState.update((curr) => {
+      const updated = { ...curr, [field]: val };
+      const raw = String(val || '').replace(/\D/g, '');
+      let brand = 'generic';
+      let cvvLen = 3;
+      if (/^4/.test(raw)) {
+        brand = 'visa';
+      } else if (/^(5[1-5]|2[2-7])/.test(raw)) {
+        brand = 'mastercard';
+      } else if (/^3[47]/.test(raw)) {
+        brand = 'amex';
+        cvvLen = 4;
+      } else if (/^6(?:011|5)/.test(raw)) {
+        brand = 'discover';
+      }
+      updated.cardBrand = brand;
+      updated.expectedCvvLength = cvvLen;
+      return updated;
+    });
+  }
+
+  public updateContentField(field: string, val: any): void {
+    this.contentState.update((curr) => {
+      const updated = { ...curr, [field]: val };
+      if (field === 'title') {
+        updated.slug = String(val || '')
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/[\s_-]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+      return updated;
+    });
+  }
+
   public onCountryChange(countryVal: string): void {
     const states = STATES_BY_COUNTRY[countryVal] || [];
     this.stateOptions.set(states);
@@ -945,5 +1370,20 @@ export const pricingFormulaRules: GpBusinessRule[] = [
   public onCustomRuleCreated(rule: GpBusinessRule): void {
     this.engine.registerRule(rule);
     this.toastService.success('Rule Registered', `Successfully registered rule "${rule.name || rule.id}"`);
+  }
+
+  public async runSimulation(): Promise<void> {
+    try {
+      const mockState = JSON.parse(this.simStateJson());
+      const result = await GpRuleSimulator.simulate({
+        rules: this.engine.rules(),
+        initialState: mockState,
+        triggerEvent: 'change'
+      });
+      this.simulationResult.set(result);
+      this.toastService.info('Simulation Finished', `Executed ${result.matchedRules.length} matching rules in ${result.durationMs}ms`);
+    } catch (err: any) {
+      this.toastService.error('Simulation Error', `Invalid JSON or execution error: ${err?.message || err}`);
+    }
   }
 }

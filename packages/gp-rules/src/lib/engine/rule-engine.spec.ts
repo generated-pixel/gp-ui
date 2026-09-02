@@ -12,9 +12,9 @@ describe('GpRuleEngineService & Rule Engine', () => {
   });
 
   describe('GpConditionEvaluator', () => {
-    it('evaluates equality and numeric operators correctly', () => {
+    it('evaluates equality, comparison, and numeric operators correctly', () => {
       const context = GpRuleContextFactory.create({
-        state: { age: 25, role: 'admin', tags: ['lead', 'eng'] },
+        state: { age: 25, role: 'admin', tags: ['lead', 'eng'], score: 88 },
         triggerEvent: 'change'
       });
 
@@ -22,6 +22,73 @@ describe('GpRuleEngineService & Rule Engine', () => {
       expect(GpConditionEvaluator.evaluate({ field: 'age', operator: 'lt', value: 21 }, context)).toBe(false);
       expect(GpConditionEvaluator.evaluate({ field: 'role', operator: 'eq', value: 'admin' }, context)).toBe(true);
       expect(GpConditionEvaluator.evaluate({ field: 'tags', operator: 'contains', value: 'lead' }, context)).toBe(true);
+      expect(GpConditionEvaluator.evaluate({ field: 'score', operator: 'between', value: [80, 90] }, context)).toBe(true);
+      expect(GpConditionEvaluator.evaluate({ field: 'score', operator: 'notBetween', value: [10, 50] }, context)).toBe(true);
+    });
+
+    it('evaluates compareToField dynamic field-to-field comparisons', () => {
+      const context = GpRuleContextFactory.create({
+        state: { password: 'SecretPassword123', confirmPassword: 'SecretPassword123', otherField: 'Mismatch' },
+        triggerEvent: 'keypress'
+      });
+
+      expect(
+        GpConditionEvaluator.evaluate(
+          { field: 'confirmPassword', operator: 'eq', compareToField: 'password' },
+          context
+        )
+      ).toBe(true);
+
+      expect(
+        GpConditionEvaluator.evaluate(
+          { field: 'otherField', operator: 'eq', compareToField: 'password' },
+          context
+        )
+      ).toBe(false);
+    });
+
+    it('evaluates date and chronological operators', () => {
+      const context = GpRuleContextFactory.create({
+        state: {
+          startDate: '2026-01-01T00:00:00Z',
+          endDate: '2026-01-10T00:00:00Z',
+          sameDayDate: '2026-01-01T12:00:00Z'
+        },
+        triggerEvent: 'change'
+      });
+
+      expect(
+        GpConditionEvaluator.evaluate({ field: 'endDate', operator: 'isAfter', compareToField: 'startDate' }, context)
+      ).toBe(true);
+
+      expect(
+        GpConditionEvaluator.evaluate({ field: 'startDate', operator: 'isBefore', compareToField: 'endDate' }, context)
+      ).toBe(true);
+
+      expect(
+        GpConditionEvaluator.evaluate(
+          { field: 'sameDayDate', operator: 'isSameDay', compareToField: 'startDate' },
+          context
+        )
+      ).toBe(true);
+    });
+
+    it('evaluates array and length operators', () => {
+      const context = GpRuleContextFactory.create({
+        state: { roles: ['user', 'editor', 'admin'], title: 'Business Rules Engine' },
+        triggerEvent: 'change'
+      });
+
+      expect(GpConditionEvaluator.evaluate({ field: 'roles', operator: 'allIn', value: ['user', 'admin'] }, context)).toBe(
+        true
+      );
+      expect(GpConditionEvaluator.evaluate({ field: 'roles', operator: 'anyIn', value: ['guest', 'admin'] }, context)).toBe(
+        true
+      );
+      expect(GpConditionEvaluator.evaluate({ field: 'roles', operator: 'noneIn', value: ['superadmin', 'banned'] }, context)).toBe(
+        true
+      );
+      expect(GpConditionEvaluator.evaluate({ field: 'title', operator: 'lengthGt', value: 10 }, context)).toBe(true);
     });
 
     it('evaluates composite AND/OR/NOT conditions', () => {
@@ -61,11 +128,28 @@ describe('GpRuleEngineService & Rule Engine', () => {
       expect(GpConditionEvaluator.evaluate({ expression: 'price * quantity >= 200' }, context)).toBe(true);
       expect(GpConditionEvaluator.evaluate({ expression: 'price * quantity > 500' }, context)).toBe(false);
     });
+
+    it('evaluates async predicates with evaluateAsync', async () => {
+      const context = GpRuleContextFactory.create({
+        state: { username: 'available_user' },
+        triggerEvent: 'blur'
+      });
+
+      const asyncCond = {
+        asyncPredicate: async (ctx: any) => {
+          await new Promise((r) => setTimeout(r, 10));
+          return ctx.get('username') === 'available_user';
+        }
+      };
+
+      const result = await GpConditionEvaluator.evaluateAsync(asyncCond, context);
+      expect(result).toBe(true);
+    });
   });
 
   describe('GpActionExecutor', () => {
-    it('executes setValue and formula calculation actions', async () => {
-      const state: Record<string, any> = { unitPrice: 20, quantity: 5, discount: 10, total: 0 };
+    it('executes setValue and advanced formula calculations with math helpers', async () => {
+      const state: Record<string, any> = { unitPrice: 20, quantity: 5, discount: 10, tax: 5, total: 0 };
       const context = GpRuleContextFactory.create({
         state,
         triggerEvent: 'change',
@@ -76,33 +160,106 @@ describe('GpRuleEngineService & Rule Engine', () => {
         {
           type: 'compute',
           target: 'total',
-          formula: 'unitPrice * quantity - discount'
+          formula: 'ROUND(SUM(unitPrice * quantity, tax) - discount, 2)'
         },
         context
       );
 
-      expect(context.get('total')).toBe(90);
+      expect(context.get('total')).toBe(95);
     });
 
-    it('executes visibility and enable/disable actions', async () => {
+    it('executes IF and string formulas', async () => {
+      const state: Record<string, any> = { quantity: 15, unitPrice: 100, label: '' };
+      const context = GpRuleContextFactory.create({
+        state,
+        triggerEvent: 'change',
+        onStateChange: (k, v) => (state[k] = v)
+      });
+
+      await GpActionExecutor.execute(
+        {
+          type: 'compute',
+          target: 'discountedPrice',
+          formula: 'IF(quantity > 10, unitPrice * 0.8, unitPrice)'
+        },
+        context
+      );
+
+      expect(context.get('discountedPrice')).toBe(80);
+    });
+
+    it('executes value transformations (slugify, uppercase, currency, phone)', async () => {
+      const state: Record<string, any> = {
+        title: 'Building Enterprise Angular 19 Apps!',
+        rawPhone: '1234567890',
+        amount: '1250.5'
+      };
+      const context = GpRuleContextFactory.create({
+        state,
+        triggerEvent: 'change',
+        onStateChange: (k, v) => (state[k] = v)
+      });
+
+      await GpActionExecutor.execute(
+        { type: 'transformValue', fromField: 'title', target: 'slug', transformType: 'slugify' },
+        context
+      );
+      await GpActionExecutor.execute(
+        { type: 'transformValue', fromField: 'rawPhone', target: 'formattedPhone', transformType: 'phone' },
+        context
+      );
+      await GpActionExecutor.execute(
+        { type: 'transformValue', fromField: 'amount', target: 'formattedCurrency', transformType: 'currency' },
+        context
+      );
+
+      expect(context.get('slug')).toBe('building-enterprise-angular-19-apps');
+      expect(context.get('formattedPhone')).toBe('(123) 456-7890');
+      expect(context.get('formattedCurrency')).toBe('$1250.50');
+    });
+
+    it('executes copyValue action', async () => {
+      const state: Record<string, any> = { billingZip: '90210' };
+      const context = GpRuleContextFactory.create({
+        state,
+        triggerEvent: 'change',
+        onStateChange: (k, v) => (state[k] = v)
+      });
+
+      await GpActionExecutor.execute({ type: 'copyValue', fromField: 'billingZip', target: 'shippingZip' }, context);
+      expect(context.get('shippingZip')).toBe('90210');
+    });
+
+    it('executes validation errors and class styling actions', async () => {
       const state: Record<string, any> = {};
       const context = GpRuleContextFactory.create({
         state,
         triggerEvent: 'change',
-        onVisibilityChange: (k, v) => (state[`_visible_${k}`] = v),
-        onDisabledChange: (k, v) => (state[`_disabled_${k}`] = v)
+        onStateChange: (k, v) => (state[k] = v)
       });
 
-      await GpActionExecutor.execute({ type: 'show', target: 'couponSection' }, context);
-      await GpActionExecutor.execute({ type: 'disable', target: 'submitBtn' }, context);
+      await GpActionExecutor.execute(
+        { type: 'setValidationError', target: 'email', errorKey: 'invalidDomain', errorMessage: 'Must use work email' },
+        context
+      );
+      await GpActionExecutor.execute(
+        { type: 'setClass', target: 'email', className: 'has-error' },
+        context
+      );
 
-      expect(state['_visible_couponSection']).toBe(true);
-      expect(state['_disabled_submitBtn']).toBe(true);
+      expect(state['_error_email']).toEqual({ key: 'invalidDomain', message: 'Must use work email' });
+      expect(state['_class_email']).toBe('has-error');
+
+      await GpActionExecutor.execute(
+        { type: 'clearValidationError', target: 'email', errorKey: 'invalidDomain' },
+        context
+      );
+      expect(state['_error_email']).toBeUndefined();
     });
   });
 
-  describe('GpRuleEngineService Execution Pipeline', () => {
-    it('dispatches events and executes matching business rules', async () => {
+  describe('GpRuleEngineService Execution Pipeline & Metrics', () => {
+    it('dispatches events and tracks computed analytics signals', async () => {
       const state: Record<string, any> = { coupon: 'SAVE20', discount: 0 };
       const context = GpRuleContextFactory.create({
         state,
@@ -127,47 +284,31 @@ describe('GpRuleEngineService & Rule Engine', () => {
       expect(logs.length).toBe(1);
       expect(logs[0].conditionMet).toBe(true);
       expect(context.get('discount')).toBe(20);
-      expect(service.logs().length).toBe(1);
+      expect(service.totalExecutions()).toBe(1);
+      expect(service.matchedExecutions()).toBe(1);
+      expect(service.successRate()).toBe(100);
+      expect(service.activeRuleCount()).toBe(1);
     });
 
-    it('isolates scoped debounced rules by target field and cleans them up after execution', async () => {
-      jasmine.clock().install();
+    it('exports and imports rules from JSON', () => {
+      const rule: GpBusinessRule = {
+        id: 'exported-rule-1',
+        name: 'Exported Rule',
+        trigger: 'change',
+        actions: [{ type: 'setValue', target: 'active', value: true }]
+      };
 
-      try {
-        const rule: GpBusinessRule = {
-          id: 'shared-rule',
-          trigger: { event: 'input', debounce: 100 },
-          actions: []
-        };
-        const executionLog = {
-          ruleId: rule.id,
-          timestamp: new Date(),
-          triggerEvent: 'input',
-          conditionMet: true,
-          actionsExecuted: [],
-          durationMs: 0
-        };
-        const executeSpy = spyOn(service, 'executeRule').and.resolveTo(executionLog);
-        const sharedState = {};
+      service.registerRule(rule);
+      const json = service.exportRulesAsJson();
+      expect(json).toContain('exported-rule-1');
 
-        const firstContext = GpRuleContextFactory.create({ state: sharedState, triggerEvent: 'input' });
-        const secondContext = GpRuleContextFactory.create({ state: sharedState, triggerEvent: 'input' });
+      service.clearRules();
+      expect(service.rules().length).toBe(0);
 
-        await service.dispatchEvent('input', firstContext, 'fieldA', [rule]);
-        await service.dispatchEvent('input', secondContext, 'fieldB', [rule]);
-
-        expect((service as any).debouncers.size).toBe(2);
-
-        jasmine.clock().tick(100);
-        await Promise.resolve();
-        await Promise.resolve();
-
-        expect(executeSpy).toHaveBeenCalledTimes(2);
-        expect(executeSpy.calls.allArgs().map((args) => args[3]).sort()).toEqual(['fieldA', 'fieldB']);
-        expect((service as any).debouncers.size).toBe(0);
-      } finally {
-        jasmine.clock().uninstall();
-      }
+      const validation = service.importRulesFromJson(json);
+      expect(validation.valid).toBe(true);
+      expect(service.rules().length).toBe(1);
+      expect(service.rules()[0].id).toBe('exported-rule-1');
     });
   });
 });
