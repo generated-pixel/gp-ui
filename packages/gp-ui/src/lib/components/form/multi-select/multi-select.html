@@ -1,13 +1,20 @@
 <div
+  [id]="inputId()"
   class="gp-multiselect"
   [class.gp-select-open]="overlayVisible()"
   [class.gp-select-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
   (click)="toggleOverlay($event)"
-  tabindex="0"
+  [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
   role="combobox"
   [attr.aria-expanded]="overlayVisible()"
+  [attr.aria-haspopup]="'listbox'"
+  [attr.aria-controls]="overlayVisible() ? listboxId() : null"
   [attr.aria-label]="ariaLabel() || placeholder() || 'Multi-Select'"
+  [attr.aria-labelledby]="ariaLabelledBy() || null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
+  [attr.aria-required]="required()"
+  [attr.aria-invalid]="isInvalid()"
 >
   <div class="gp-multiselect-label-container">
     @if (selectedOptions().length > 0) {
@@ -19,7 +26,7 @@
               <button
                 type="button"
                 class="gp-multiselect-chip-remove"
-                aria-label="Remove item"
+                [attr.aria-label]="'Remove ' + (item.label || 'item')"
                 (click)="removeItem(item, $event)"
               >
                 <gp-icon name="times" size="0.65em" />
@@ -43,7 +50,12 @@
 
   <div class="gp-select-triggers">
     @if (showClear() && selectedOptions().length > 0 && !isEffectivelyDisabled()) {
-      <button type="button" class="gp-select-clear-btn" aria-label="Clear selection" (click)="clear($event)">
+      <button
+        type="button"
+        class="gp-select-clear-btn"
+        [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
+        (click)="clear($event)"
+      >
         <gp-icon name="times" size="0.8em" />
       </button>
     }
@@ -52,8 +64,11 @@
 
   @if (overlayVisible()) {
     <div
+      [id]="listboxId()"
       class="gp-select-overlay gp-multiselect-overlay"
       role="listbox"
+      aria-multiselectable="true"
+      [attr.aria-label]="ariaLabel() || placeholder() || 'Options'"
       (click)="$event.stopPropagation()"
       [gpAppendTo]="appendTo()"
       [gpConnectedTo]="selectHostEl"
@@ -66,10 +81,10 @@
             <input
               type="text"
               class="gp-inputtext gp-select-filter-input"
-              [placeholder]="filterPlaceholder()"
+              [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
               [value]="filterText()"
               (input)="onFilterInput($event)"
-              aria-label="Filter items"
+              [attr.aria-label]="translationService.get('aria')?.filter || translationService.get('search') || 'Filter items'"
             />
             <gp-icon name="search" size="0.85em" class="gp-select-filter-icon" />
           </div>
@@ -78,9 +93,22 @@
 
       <!-- SELECT ALL -->
       @if (showSelectAll() && filteredOptions().length > 0) {
-        <div class="gp-multiselect-select-all-bar" (click)="toggleSelectAll($event)">
-          <gp-checkbox [binary]="true" [checked]="isAllSelected()" [value]="isAllSelected()" />
-          <span class="gp-multiselect-select-all-label">Select All</span>
+        <div
+          class="gp-multiselect-select-all-bar"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="translationService.get('aria')?.selectAll || 'Select all options'"
+          (click)="toggleSelectAll($event)"
+          (keydown.enter)="toggleSelectAll($event)"
+          (keydown.space)="$event.preventDefault(); toggleSelectAll($event)"
+        >
+          <gp-checkbox
+            [binary]="true"
+            [checked]="isAllSelected()"
+            [value]="isAllSelected()"
+            [ariaLabel]="translationService.get('aria')?.selectAll || 'Select All'"
+          />
+          <span class="gp-multiselect-select-all-label">{{ translationService.get('aria')?.selectAll || 'Select All' }}</span>
         </div>
       }
 
@@ -99,7 +127,9 @@
             <span>{{ opt.label }}</span>
           </li>
         } @empty {
-          <li class="gp-select-empty-message">{{ emptyFilterMessage() }}</li>
+          <li class="gp-select-empty-message">
+            {{ emptyFilterMessage() || translationService.get('emptyFilterMessage') || translationService.get('emptyMessage') }}
+          </li>
         }
       </ul>
     </div>

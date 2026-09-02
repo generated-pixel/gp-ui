@@ -1,4 +1,4 @@
-<nav class="gp-breadcrumb" aria-label="Breadcrumb">
+<nav class="gp-breadcrumb" [attr.aria-label]="ariaLabel() || 'Breadcrumb'" [attr.aria-labelledby]="ariaLabelledBy() || null">
   <ol class="gp-breadcrumb-list">
     @if (home(); as homeItem) {
       <li class="gp-breadcrumb-item">

@@ -18,6 +18,8 @@
     [attr.autofocus]="autofocus() ? '' : null"
     [attr.tabindex]="tabindex() !== undefined ? tabindex() : isEffectivelyDisabled() ? -1 : 0"
     [attr.aria-label]="ariaLabel() || placeholder() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
     [attr.aria-invalid]="isInvalid()"
     [attr.aria-required]="required()"
     [class.gp-textarea-auto-resize]="autoResize()"

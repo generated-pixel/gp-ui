@@ -7,7 +7,7 @@
     <div class="gp-tree-filter-container">
       <gp-input-text
         iconLeft="search"
-        [placeholder]="filterPlaceholder()"
+        [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
         [value]="filterText()"
         [clearable]="true"
         (onInputEvent)="onFilterInput($event)"
@@ -20,7 +20,7 @@
     @for (node of filteredNodes(); track node.key || $index) {
       <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, level: 0 }" />
     } @empty {
-      <li class="gp-tree-empty-message">{{ emptyMessage() }}</li>
+      <li class="gp-tree-empty-message">{{ emptyMessage() || translationService.get('emptyMessage') || 'No records found' }}</li>
     }
   </ul>
 </div>
@@ -30,10 +30,20 @@
     <div
       class="gp-tree-node-content"
       [class.gp-tree-node-selected]="isNodeSelected(node)"
+      tabindex="0"
+      [attr.aria-selected]="isNodeSelected(node)"
       (click)="onNodeClick(node, $event)"
+      (keydown.enter)="onNodeClick(node, $event)"
+      (keydown.space)="$event.preventDefault(); onNodeClick(node, $event)"
     >
       @if (node.children && node.children.length > 0) {
-        <button type="button" class="gp-treeselect-toggler" (click)="toggleNode(node, $event)" aria-label="Toggle node">
+        <button
+          type="button"
+          class="gp-treeselect-toggler"
+          (click)="toggleNode(node, $event)"
+          [attr.aria-label]="(node.expanded ? 'Collapse ' : 'Expand ') + (node.label || 'node')"
+          [attr.aria-expanded]="node.expanded"
+        >
           <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
         </button>
       } @else {
@@ -41,7 +51,12 @@
       }
 
       @if (selectionMode() === 'checkbox') {
-        <gp-checkbox [binary]="true" [value]="isNodeSelected(node)" (onChange)="toggleCheckboxSelection(node)" />
+        <gp-checkbox
+          [binary]="true"
+          [value]="isNodeSelected(node)"
+          [ariaLabel]="'Select ' + (node.label || 'node')"
+          (onChange)="toggleCheckboxSelection(node)"
+        />
       }
 
       @if (node.icon) {

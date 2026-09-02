@@ -9,8 +9,6 @@ import { GpAppendToTarget } from '../overlay/append-to.interface';
  */
 @Directive()
 export abstract class GpDateBase<T = any> extends GpEditableBase<T> {
-  protected translationService = inject(GpTranslationService);
-
   /** Target DOM element where picker overlay is appended */
   public appendTo = input<GpAppendToTarget>('body');
 

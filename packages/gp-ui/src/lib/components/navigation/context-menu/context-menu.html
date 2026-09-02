@@ -5,6 +5,7 @@
     [style.left.px]="position().left"
     [gpAppendTo]="appendTo()"
     role="menu"
+    [attr.aria-label]="ariaLabel() || 'Context Menu'"
     (click)="$event.stopPropagation()"
   >
     <ul class="gp-menu-list">

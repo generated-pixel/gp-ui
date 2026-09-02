@@ -2,7 +2,12 @@
   <legend
     class="gp-fieldset-legend"
     (click)="toggleable() ? toggle() : null"
+    (keydown.enter)="toggleable() ? toggle() : null"
+    (keydown.space)="$event.preventDefault(); toggleable() ? toggle() : null"
     [class.gp-fieldset-toggleable]="toggleable()"
+    [attr.role]="toggleable() ? 'button' : null"
+    [attr.tabindex]="toggleable() ? 0 : null"
+    [attr.aria-expanded]="toggleable() ? !collapsed() : null"
   >
     @if (toggleable()) {
       <gp-icon [name]="collapsed() ? 'chevron-down' : 'chevron-up'" size="0.75em" class="gp-fieldset-toggler" />

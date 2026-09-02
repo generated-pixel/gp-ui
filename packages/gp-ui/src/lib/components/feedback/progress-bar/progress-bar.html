@@ -3,6 +3,7 @@
   [class.gp-progressbar-indeterminate]="mode() === 'indeterminate'"
   [style.height]="height()"
   role="progressbar"
+  [attr.aria-label]="ariaLabel() || 'Progress'"
   [attr.aria-valuenow]="mode() === 'determinate' ? value() : null"
   [attr.aria-valuemin]="0"
   [attr.aria-valuemax]="100"

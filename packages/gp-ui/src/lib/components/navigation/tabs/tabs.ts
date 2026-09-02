@@ -19,7 +19,14 @@ import { GpBadge, GpBadgeSeverity } from '../../feedback/badge/badge';
   standalone: true,
   imports: [],
   templateUrl: './tab-panel.html',
-  styleUrl: './tab-panel.scss'
+  styleUrl: './tab-panel.scss',
+  host: {
+    'role': 'tabpanel',
+    '[attr.hidden]': '!selected() ? true : null',
+    '[class.gp-tabview-panel]': 'true',
+    '[class.gp-tabview-panel-active]': 'selected()',
+    'tabindex': '0'
+  }
 })
 export class GpTabPanel extends GpBase {
   public header = input<string>('');

@@ -23,7 +23,7 @@ export class GpPanelMenu extends GpMenuBase<GpMenubarItem> {
     return this.expandedItems().has(item);
   }
 
-  public override toggle(itemOrEvent: any, event?: MouseEvent): void {
+  public override toggle(itemOrEvent: any, event?: Event): void {
     if (itemOrEvent && typeof itemOrEvent === 'object' && ('label' in itemOrEvent || 'items' in itemOrEvent)) {
       this.toggleItem(itemOrEvent as GpMenubarItem, event);
     } else {
@@ -31,7 +31,7 @@ export class GpPanelMenu extends GpMenuBase<GpMenubarItem> {
     }
   }
 
-  public toggleItem(item: GpMenubarItem, event?: MouseEvent): void {
+  public toggleItem(item: GpMenubarItem, event?: Event): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -54,14 +54,14 @@ export class GpPanelMenu extends GpMenuBase<GpMenubarItem> {
     });
   }
 
-  public onItemClick(item: GpMenubarItem, event: MouseEvent): void {
+  public onItemClick(item: GpMenubarItem, event?: Event): void {
     if (item.disabled) {
       return;
     }
     if (item.items && item.items.length > 0) {
       this.toggleItem(item, event);
-      return;
+    } else if (item.command) {
+      item.command({ originalEvent: event, item });
     }
-    this.handleMenuItemClick(item, event);
   }
 }

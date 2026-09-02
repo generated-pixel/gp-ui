@@ -4,9 +4,16 @@
   [class.gp-rating-disabled]="isEffectivelyDisabled()"
   role="radiogroup"
   [attr.aria-label]="ariaLabel() || 'Rating'"
+  [attr.aria-labelledby]="ariaLabelledBy() || null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
 >
   @if (cancel() && !readonly() && !isEffectivelyDisabled()) {
-    <button type="button" class="gp-rating-cancel" (click)="clear()" aria-label="Clear rating">
+    <button
+      type="button"
+      class="gp-rating-cancel"
+      (click)="clear()"
+      [attr.aria-label]="translationService.get('clear') || 'Clear rating'"
+    >
       <gp-icon name="times-circle" size="1.1em" />
     </button>
   }
@@ -17,13 +24,14 @@
       [class.gp-rating-item-active]="isStarActive($index)"
       (click)="rate($index + 1, $event)"
       (keydown.space)="$event.preventDefault(); rate($index + 1, $event)"
-      tabindex="0"
+      (keydown.enter)="$event.preventDefault(); rate($index + 1, $event)"
+      [attr.tabindex]="isEffectivelyDisabled() || readonly() ? -1 : 0"
       role="radio"
       [attr.aria-checked]="
         internalValue() === $index + 1 ||
         (allowHalfStars() && internalValue()! > $index && internalValue()! < $index + 1)
       "
-      [attr.aria-label]="$index + 1 + ' stars'"
+      [attr.aria-label]="($index + 1) + ' of ' + starsArray().length + ' stars'"
     >
       @if (allowHalfStars() && isStarHalf($index)) {
         <span class="gp-rating-half-wrapper">

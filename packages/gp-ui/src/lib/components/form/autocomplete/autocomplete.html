@@ -21,7 +21,7 @@
                 <button
                   type="button"
                   class="gp-autocomplete-token-remove"
-                  aria-label="Remove item"
+                  [attr.aria-label]="'Remove ' + getItemLabel(item)"
                   (click)="removeMultipleItem(item, $event)"
                 >
                   <gp-icon name="times" size="0.65em" />
@@ -37,14 +37,21 @@
       #nativeInput
       [id]="inputId()"
       type="text"
+      role="combobox"
       [value]="inputDisplayValue()"
       [placeholder]="multiple() && selectedItems().length > 0 ? '' : placeholder()"
       [disabled]="isEffectivelyDisabled()"
       [readonly]="readonly()"
       [attr.aria-label]="ariaLabel() || placeholder() || 'Auto Complete'"
+      [attr.aria-labelledby]="ariaLabelledBy() || null"
+      [attr.aria-describedby]="ariaDescribedBy() || null"
       [attr.aria-autocomplete]="'list'"
       [attr.aria-expanded]="overlayVisible()"
+      [attr.aria-haspopup]="'listbox'"
+      [attr.aria-controls]="overlayVisible() ? listboxId() : null"
+      [attr.aria-activedescendant]="activeIndex() >= 0 ? inputId() + '_opt_' + activeIndex() : null"
       [attr.aria-invalid]="isInvalid()"
+      [attr.aria-required]="required()"
       (input)="onInput($event)"
       (focus)="onFocus($event)"
       (blur)="onBlur()"
@@ -59,7 +66,7 @@
         <button
           type="button"
           class="gp-autocomplete-action-btn gp-autocomplete-clear-btn"
-          aria-label="Clear selection"
+          [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
           (click)="clear($event)"
         >
           <gp-icon name="times" size="0.8em" />
@@ -85,6 +92,8 @@
           type="button"
           class="gp-autocomplete-dropdown-btn"
           aria-label="Open suggestions"
+          [attr.aria-haspopup]="'listbox'"
+          [attr.aria-expanded]="overlayVisible()"
           (click)="toggleDropdown($event)"
         >
           <gp-icon name="chevron-down" size="0.85em" />
@@ -96,8 +105,10 @@
   <!-- Suggestions Overlay -->
   @if (overlayVisible()) {
     <div
+      [id]="listboxId()"
       class="gp-select-overlay gp-autocomplete-overlay"
       role="listbox"
+      [attr.aria-label]="ariaLabel() || placeholder() || 'Suggestions'"
       (click)="$event.stopPropagation()"
       [gpAppendTo]="appendTo()"
       [gpConnectedTo]="hostElRef"
@@ -115,10 +126,12 @@
         <ul class="gp-select-items gp-autocomplete-items">
           @for (item of visibleSuggestions(); track $index) {
             <li
+              [id]="inputId() + '_opt_' + $index"
               class="gp-select-item gp-autocomplete-item"
               [class.gp-select-item-selected]="$index === activeIndex()"
               [class.gp-autocomplete-item-checked]="isItemSelected(item)"
               role="option"
+              [attr.aria-selected]="$index === activeIndex() || isItemSelected(item)"
               (click)="selectItem(item, $event)"
             >
               @if (effectiveItemTemplate()) {
@@ -171,9 +184,9 @@
             <div class="gp-autocomplete-empty-icon-wrap">
               <gp-icon name="search" size="1.25em" />
             </div>
-            <div class="gp-autocomplete-empty-title">{{ emptyMessage() }}</div>
+            <div class="gp-autocomplete-empty-title">{{ emptyMessage() || translationService.get('emptyMessage') || 'No results found' }}</div>
             @if (query()) {
-              <div class="gp-autocomplete-empty-desc">No suggestions found matching &ldquo;{{ query() }}&rdquo;</div>
+              <div class="gp-autocomplete-empty-desc">{{ translationService.get('emptyFilterMessage') || ('No suggestions found matching “' + query() + '”') }}</div>
             }
           </div>
         }
@@ -181,7 +194,15 @@
 
       <!-- Advanced Search Prompt Row (Too many results / search more) -->
       @if (showAdvancedSearchRow()) {
-        <div class="gp-autocomplete-advanced-search-row" (click)="triggerAdvancedSearch($event)">
+        <div
+          class="gp-autocomplete-advanced-search-row"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="advancedSearchLabel()"
+          (click)="triggerAdvancedSearch($event)"
+          (keydown.enter)="triggerAdvancedSearch($event)"
+          (keydown.space)="$event.preventDefault(); triggerAdvancedSearch($event)"
+        >
           <div class="gp-autocomplete-advanced-search-left">
             <div class="gp-autocomplete-adv-icon-badge">
               <gp-icon name="search" size="0.85em" class="gp-autocomplete-adv-icon" />

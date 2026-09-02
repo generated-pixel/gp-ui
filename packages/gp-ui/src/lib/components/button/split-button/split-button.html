@@ -43,6 +43,8 @@
     [disabled]="disabled() || loading()"
     [iconOnly]="true"
     [ariaLabel]="'Toggle menu options'"
+    [attr.aria-haspopup]="'menu'"
+    [attr.aria-expanded]="overlayVisible()"
     (onClickEvent)="toggleOverlay($event)"
     class="gp-split-button-dropdown"
   />

@@ -1,11 +1,11 @@
-<div class="gp-carousel" role="region" aria-roledescription="carousel">
+<div class="gp-carousel" role="region" aria-roledescription="carousel" [attr.aria-label]="ariaLabel() || 'Carousel'">
   <div class="gp-carousel-content">
     <button
       type="button"
       class="gp-carousel-nav-btn gp-carousel-prev"
       (click)="prev()"
       [disabled]="circular() ? false : activeIndex() === 0"
-      aria-label="Previous slide"
+      [attr.aria-label]="translationService.get('aria')?.previous || translationService.get('pagination')?.prevPage || 'Previous slide'"
     >
       <gp-icon name="chevron-left" size="1.2em" />
     </button>
@@ -27,7 +27,7 @@
       class="gp-carousel-nav-btn gp-carousel-next"
       (click)="next()"
       [disabled]="circular() ? false : activeIndex() >= value().length - 1"
-      aria-label="Next slide"
+      [attr.aria-label]="translationService.get('aria')?.next || translationService.get('pagination')?.nextPage || 'Next slide'"
     >
       <gp-icon name="chevron-right" size="1.2em" />
     </button>
@@ -41,7 +41,8 @@
           class="gp-carousel-indicator"
           [class.gp-carousel-indicator-active]="activeIndex() === $index"
           (click)="selectSlide($index)"
-          [attr.aria-label]="'Go to slide ' + ($index + 1)"
+          [attr.aria-current]="activeIndex() === $index ? 'true' : null"
+          [attr.aria-label]="'Slide ' + ($index + 1)"
         ></button>
       }
     </div>

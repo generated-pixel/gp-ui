@@ -37,7 +37,6 @@ import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 })
 export class GpTimePicker extends GpEditableBase implements ControlValueAccessor, OnInit {
   public appendTo = input<GpAppendToTarget>('body');
-  public inputId = input<string>(UniqueId.generate('tp_'));
   public icon = input<string>('clock');
   public hourFormat = input<'12' | '24'>('12');
   public showSeconds = input<boolean>(false);

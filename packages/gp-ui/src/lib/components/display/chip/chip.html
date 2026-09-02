@@ -8,7 +8,12 @@
     <span class="gp-chip-label">{{ label() }}</span>
     <ng-content />
     @if (removable()) {
-      <button type="button" class="gp-chip-remove-btn" (click)="remove($event)" aria-label="Remove chip">
+      <button
+        type="button"
+        class="gp-chip-remove-btn"
+        (click)="remove($event)"
+        [attr.aria-label]="translationService.get('aria')?.remove || translationService.get('clear') || 'Remove'"
+      >
         <gp-icon name="times" size="0.75em" />
       </button>
     }

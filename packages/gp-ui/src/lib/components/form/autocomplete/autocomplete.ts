@@ -61,7 +61,7 @@ export class GpAutoComplete
   extends GpEditableBase
   implements ControlValueAccessor, OnInit, OnDestroy
 {
-  public inputId = input<string>(UniqueId.generate('ac_'));
+  public listboxId = computed<string>(() => this.inputId() + '_listbox');
   public appendTo = input<GpAppendToTarget>('body');
   public suggestions = input<any[]>([]);
   public field = input<string>('');

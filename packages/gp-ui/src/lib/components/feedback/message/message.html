@@ -10,7 +10,12 @@
     </div>
 
     @if (closable()) {
-      <button type="button" class="gp-message-close" (click)="close()" aria-label="Close message">
+      <button
+        type="button"
+        class="gp-message-close"
+        (click)="close()"
+        [attr.aria-label]="translationService.get('close') || 'Close'"
+      >
         <gp-icon name="times" size="0.85em" />
       </button>
     }

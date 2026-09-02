@@ -15,7 +15,7 @@
   <div footer class="gp-confirm-dialog-footer">
     @if (confirmation()?.rejectVisible !== false) {
       <gp-button
-        [label]="confirmation()?.rejectLabel || rejectLabel()"
+        [label]="confirmation()?.rejectLabel || (rejectLabel() && rejectLabel() !== 'No' ? rejectLabel() : (translationService.get('reject') || 'No'))"
         [icon]="confirmation()?.rejectIcon || 'times'"
         variant="outlined"
         severity="secondary"
@@ -24,7 +24,7 @@
     }
     @if (confirmation()?.acceptVisible !== false) {
       <gp-button
-        [label]="confirmation()?.acceptLabel || acceptLabel()"
+        [label]="confirmation()?.acceptLabel || (acceptLabel() && acceptLabel() !== 'Yes' ? acceptLabel() : (translationService.get('accept') || 'Yes'))"
         [icon]="confirmation()?.acceptIcon || 'check'"
         severity="primary"
         (onClickEvent)="accept()"

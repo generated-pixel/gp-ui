@@ -1,17 +1,25 @@
 <div class="gp-color-picker" [class.gp-color-picker-disabled]="isEffectivelyDisabled()">
   <div
     class="gp-color-picker-preview"
+    [attr.id]="inputId()"
     [style.background-color]="internalValue()"
     (click)="toggleOverlay()"
-    tabindex="0"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : 0"
     role="button"
-    aria-label="Choose color"
+    [attr.aria-haspopup]="'dialog'"
+    [attr.aria-expanded]="overlayVisible()"
+    [attr.aria-label]="ariaLabel() || ('Choose color: ' + (internalValue() || 'none'))"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
     (keydown.space)="$event.preventDefault(); toggleOverlay()"
+    (keydown.enter)="$event.preventDefault(); toggleOverlay()"
   ></div>
 
   @if (overlayVisible()) {
     <div
       class="gp-color-picker-overlay"
+      role="dialog"
+      aria-label="Color Palette"
       [gpAppendTo]="appendTo()"
       [gpConnectedTo]="hostElementRef"
     >
@@ -21,7 +29,12 @@
             class="gp-color-picker-swatch"
             [style.background-color]="c"
             [class.gp-color-picker-swatch-selected]="internalValue() === c"
+            role="button"
+            tabindex="0"
+            [attr.aria-label]="'Select color ' + c"
             (click)="selectColor(c)"
+            (keydown.enter)="selectColor(c)"
+            (keydown.space)="$event.preventDefault(); selectColor(c)"
           ></div>
         }
       </div>
@@ -30,6 +43,7 @@
           type="color"
           [value]="internalValue()"
           (input)="onNativeColorInput($event)"
+          aria-label="Custom color picker"
           class="gp-color-picker-native"
         />
         <span class="gp-color-picker-hex">{{ internalValue() }}</span>

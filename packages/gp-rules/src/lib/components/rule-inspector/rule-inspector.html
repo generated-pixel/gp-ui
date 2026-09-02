@@ -58,14 +58,17 @@
         type="text"
         class="inspector-search-input"
         placeholder="Filter logs by rule, event, or action..."
+        aria-label="Filter logs by rule, event, or action"
         [ngModel]="filterQuery()"
         (ngModelChange)="filterQuery.set($event)"
       />
-      <div class="status-toggle-group">
+      <div class="status-toggle-group" role="group" aria-label="Filter logs by execution status">
         <button
           type="button"
           class="status-filter-btn"
           [class.active]="statusFilter() === 'all'"
+          [attr.aria-pressed]="statusFilter() === 'all'"
+          aria-label="Show all logs"
           (click)="statusFilter.set('all')"
         >
           All ({{ engine.logs().length }})
@@ -74,6 +77,8 @@
           type="button"
           class="status-filter-btn"
           [class.active]="statusFilter() === 'matched'"
+          [attr.aria-pressed]="statusFilter() === 'matched'"
+          aria-label="Show matched logs"
           (click)="statusFilter.set('matched')"
         >
           Matched ({{ engine.matchedExecutions() }})
@@ -82,6 +87,8 @@
           type="button"
           class="status-filter-btn"
           [class.active]="statusFilter() === 'unmatched'"
+          [attr.aria-pressed]="statusFilter() === 'unmatched'"
+          aria-label="Show unmatched logs"
           (click)="statusFilter.set('unmatched')"
         >
           Unmatched ({{ engine.logs().length - engine.matchedExecutions() }})

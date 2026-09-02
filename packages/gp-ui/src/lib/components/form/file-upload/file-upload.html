@@ -6,16 +6,20 @@
     (dragleave)="dragOver.set(false)"
     (drop)="onDrop($event)"
     (click)="fileInput.click()"
-    tabindex="0"
+    (keydown.enter)="fileInput.click()"
+    (keydown.space)="$event.preventDefault(); fileInput.click()"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : 0"
     role="button"
-    aria-label="Upload files area"
+    [attr.aria-label]="ariaLabel() || (chooseLabel() + ' - ' + dragDropLabel())"
   >
     <input
       #fileInput
+      [id]="inputId()"
       type="file"
       [accept]="accept()"
       [multiple]="multiple()"
       [disabled]="isEffectivelyDisabled()"
+      [attr.aria-label]="chooseLabel()"
       (change)="onFileSelect($event)"
       class="gp-sr-only"
     />
@@ -26,9 +30,9 @@
   </div>
 
   @if (files().length > 0) {
-    <div class="gp-fileupload-files">
+    <div class="gp-fileupload-files" role="list" aria-label="Selected files">
       @for (f of files(); track f.name + f.size) {
-        <div class="gp-fileupload-file-card">
+        <div class="gp-fileupload-file-card" role="listitem">
           <gp-icon name="file" size="1.5em" class="gp-fileupload-file-icon" />
           <div class="gp-fileupload-file-info">
             <span class="gp-fileupload-file-name">{{ f.name }}</span>
@@ -38,7 +42,7 @@
             type="button"
             class="gp-fileupload-file-remove"
             (click)="removeFile(f, $event)"
-            aria-label="Remove file"
+            [attr.aria-label]="'Remove file ' + f.name"
           >
             <gp-icon name="times" size="0.85em" />
           </button>
@@ -47,14 +51,14 @@
 
       <div class="gp-fileupload-actions">
         <gp-button
-          [label]="uploadLabel()"
+          [label]="uploadLabel() || translationService.get('upload') || 'Upload'"
           icon="upload"
           severity="primary"
           [disabled]="isEffectivelyDisabled()"
           (onClickEvent)="upload()"
         />
         <gp-button
-          [label]="cancelLabel()"
+          [label]="cancelLabel() || translationService.get('clear') || 'Clear'"
           icon="times"
           variant="outlined"
           severity="secondary"

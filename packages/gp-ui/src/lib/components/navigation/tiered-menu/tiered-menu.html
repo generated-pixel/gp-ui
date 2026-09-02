@@ -6,6 +6,7 @@
     [style.left.px]="popup() ? position().left : null"
     [gpAppendTo]="popup() ? appendTo() : 'self'"
     role="menu"
+    [attr.aria-label]="ariaLabel() || 'Tiered Menu'"
     (click)="$event.stopPropagation()"
   >
     <ul class="gp-menu-list">

@@ -85,8 +85,10 @@ export class GpTree extends GpBase {
     return false;
   }
 
-  public toggleNode(node: GpTreeNode, event: MouseEvent): void {
-    event.stopPropagation();
+  public toggleNode(node: GpTreeNode, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     node.expanded = !node.expanded;
     if (node.expanded) {
       this.onNodeExpand.emit({ node });
@@ -96,22 +98,22 @@ export class GpTree extends GpBase {
     this.cdr.markForCheck();
   }
 
-  public onNodeClick(node: GpTreeNode, event: MouseEvent): void {
+  public onNodeClick(node: GpTreeNode, event?: Event): void {
     const mode = this.selectionMode();
     if (mode === 'single') {
       this.selection.set(node);
       this.onNodeSelect.emit({ node });
       this.cdr.markForCheck();
     } else if (mode === 'multiple') {
-      this.toggleMultipleSelection(node);
+      this.toggleMultipleSelection(node, event);
     }
   }
 
-  public toggleCheckboxSelection(node: GpTreeNode): void {
-    this.toggleMultipleSelection(node);
+  public toggleCheckboxSelection(node: GpTreeNode, event?: Event): void {
+    this.toggleMultipleSelection(node, event);
   }
 
-  private toggleMultipleSelection(node: GpTreeNode): void {
+  private toggleMultipleSelection(node: GpTreeNode, event?: Event): void {
     const sel = this.selection();
     const current = Array.isArray(sel) ? [...sel] : [];
     if (current.includes(node)) {

@@ -6,6 +6,7 @@
     [style.left.px]="popup() ? position().left : null"
     [gpAppendTo]="popup() ? appendTo() : 'self'"
     role="menu"
+    [attr.aria-label]="ariaLabel() || 'Menu'"
     (click)="$event.stopPropagation()"
   >
     <ul class="gp-menu-list">
@@ -16,13 +17,15 @@
           <li
             class="gp-menu-item"
             [class.gp-menu-item-disabled]="item.disabled"
-            role="menuitem"
+            role="none"
             (click)="onItemClick(item, $event)"
           >
             <a
               [routerLink]="item.routerLink"
               [attr.href]="item.url || null"
               [attr.target]="item.target || null"
+              role="menuitem"
+              [attr.aria-disabled]="item.disabled || null"
               class="gp-menu-item-link"
             >
               @if (item.icon) {

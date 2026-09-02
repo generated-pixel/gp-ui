@@ -16,7 +16,12 @@
     >
       <div class="gp-drawer-header">
         <span class="gp-drawer-title">{{ header() }}</span>
-        <button type="button" class="gp-dialog-header-icon" (click)="close()" aria-label="Close drawer">
+        <button
+          type="button"
+          class="gp-dialog-header-icon"
+          (click)="close()"
+          [attr.aria-label]="translationService.get('close') || 'Close'"
+        >
           <gp-icon name="times" size="0.85em" />
         </button>
       </div>

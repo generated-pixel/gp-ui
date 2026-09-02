@@ -30,6 +30,7 @@
         class="gp-paginator-page"
         [class.gp-paginator-page-active]="p === page()"
         (click)="changePage(p)"
+        [attr.aria-label]="'Page ' + (p + 1)"
         [attr.aria-current]="p === page() ? 'page' : null"
       >
         {{ p + 1 }}

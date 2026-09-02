@@ -15,7 +15,18 @@
     </div>
   }
 
-  <ul class="gp-listbox-list" role="listbox" [attr.aria-multiselectable]="multiple()">
+  <ul
+    [id]="inputId()"
+    class="gp-listbox-list"
+    role="listbox"
+    [attr.aria-label]="ariaLabel() || 'Options'"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.aria-multiselectable]="multiple()"
+    [attr.aria-disabled]="isEffectivelyDisabled()"
+    [attr.aria-required]="required()"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
+  >
     @for (opt of filteredOptions(); track $index) {
       <li
         class="gp-listbox-item"
@@ -23,7 +34,11 @@
         [class.gp-listbox-item-disabled]="opt.disabled"
         role="option"
         [attr.aria-selected]="isSelected(opt)"
+        [attr.aria-disabled]="opt.disabled || null"
+        tabindex="0"
         (click)="onOptionClick(opt, $event)"
+        (keydown.enter)="onOptionClick(opt, $event)"
+        (keydown.space)="$event.preventDefault(); onOptionClick(opt, $event)"
       >
         @if (opt.icon) {
           <gp-icon [name]="opt.icon" class="gp-listbox-icon" />

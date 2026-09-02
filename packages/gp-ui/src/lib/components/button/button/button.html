@@ -3,6 +3,8 @@
   [disabled]="disabled() || loading()"
   [class]="baseButtonClasses()"
   [attr.aria-label]="ariaLabel() || label() || null"
+  [attr.aria-labelledby]="ariaLabelledBy() || null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
   [attr.aria-disabled]="disabled() || loading()"
   [attr.aria-busy]="loading()"
   [attr.autofocus]="autofocus() ? '' : null"

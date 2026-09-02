@@ -7,11 +7,18 @@
 >
   <div
     class="gp-radiobutton-box"
+    [attr.id]="inputId()"
     [attr.aria-checked]="isChecked()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
+    [attr.aria-required]="required()"
+    [attr.aria-invalid]="isInvalid()"
+    [attr.aria-label]="ariaLabel() || label() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
     role="radio"
-    tabindex="0"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
     (keydown.space)="$event.preventDefault(); onClick($event)"
+    (keydown.enter)="$event.preventDefault(); onClick($event)"
     gpRipple
   >
     <div class="gp-radiobutton-icon"></div>

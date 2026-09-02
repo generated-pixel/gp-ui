@@ -31,8 +31,6 @@ export interface GpPageState {
   styleUrl: './paginator.scss'
 })
 export class GpPaginator extends GpBase {
-  protected translationService = inject(GpTranslationService);
-
   public totalRecords = input<number>(0);
   public rows = input<number>(10);
   public first = input<number>(0);

@@ -48,6 +48,34 @@ export interface GpTranslation {
     pageReport?: string;
     rowsPerPage?: string;
   };
+  aria?: {
+    close?: string;
+    previous?: string;
+    next?: string;
+    navigation?: string;
+    expand?: string;
+    collapse?: string;
+    selectAll?: string;
+    unselectAll?: string;
+    remove?: string;
+    search?: string;
+    filter?: string;
+    open?: string;
+    preview?: string;
+    zoomIn?: string;
+    zoomOut?: string;
+    rotate?: string;
+    firstPage?: string;
+    prevPage?: string;
+    nextPage?: string;
+    lastPage?: string;
+    pageReport?: string;
+    rowsPerPage?: string;
+    today?: string;
+    clear?: string;
+    showPassword?: string;
+    hidePassword?: string;
+  };
   grid?: {
     emptyTitle?: string;
     emptyMessage?: string;
@@ -122,6 +150,34 @@ export const GP_DEFAULT_TRANSLATION: GpTranslation = {
     lastPage: 'Last Page',
     pageReport: 'Showing {first} to {last} of {totalRecords} entries',
     rowsPerPage: 'Rows per page'
+  },
+  aria: {
+    close: 'Close',
+    previous: 'Previous',
+    next: 'Next',
+    navigation: 'Navigation',
+    expand: 'Expand',
+    collapse: 'Collapse',
+    selectAll: 'Select all',
+    unselectAll: 'Unselect all',
+    remove: 'Remove',
+    search: 'Search',
+    filter: 'Filter',
+    open: 'Open',
+    preview: 'Preview',
+    zoomIn: 'Zoom in',
+    zoomOut: 'Zoom out',
+    rotate: 'Rotate',
+    firstPage: 'First Page',
+    prevPage: 'Previous Page',
+    nextPage: 'Next Page',
+    lastPage: 'Last Page',
+    pageReport: 'Showing {first} to {last} of {totalRecords} entries',
+    rowsPerPage: 'Rows per page',
+    today: 'Today',
+    clear: 'Clear',
+    showPassword: 'Show password',
+    hidePassword: 'Hide password'
   },
   grid: {
     emptyTitle: 'Grid Canvas is Empty',

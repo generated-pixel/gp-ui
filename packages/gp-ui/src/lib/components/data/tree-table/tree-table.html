@@ -1,10 +1,10 @@
 <div class="gp-treetable gp-datatable">
   <div class="gp-datatable-wrapper">
-    <table class="gp-datatable-table" role="table">
+    <table class="gp-datatable-table" role="treegrid">
       <thead class="gp-datatable-thead">
         <tr role="row">
           @for (col of columns(); track col.field() || $index) {
-            <th class="gp-datatable-th" [style.width]="col.width() || null" scope="col">
+            <th class="gp-datatable-th" role="columnheader" [style.width]="col.width() || null" scope="col">
               {{ col.header() }}
             </th>
           }
@@ -20,9 +20,14 @@
 </div>
 
 <ng-template #treeRowTpl let-node let-level="level">
-  <tr class="gp-datatable-row">
+  <tr
+    class="gp-datatable-row"
+    role="row"
+    [attr.aria-level]="level + 1"
+    [attr.aria-expanded]="node.children && node.children.length > 0 ? (node.expanded ? 'true' : 'false') : null"
+  >
     @for (col of columns(); track col.field() || $index; let colIndex = $index) {
-      <td class="gp-datatable-td">
+      <td class="gp-datatable-td" role="gridcell">
         @if (colIndex === 0) {
           <div class="gp-treetable-toggler-container" [style.padding-left.rem]="level * 1.5">
             @if (node.children && node.children.length > 0) {
@@ -30,7 +35,8 @@
                 type="button"
                 class="gp-treeselect-toggler"
                 (click)="toggleNode(node, $event)"
-                aria-label="Toggle node"
+                [attr.aria-label]="(node.expanded ? 'Collapse ' : 'Expand ') + (node.label || 'node')"
+                [attr.aria-expanded]="node.expanded"
               >
                 <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
               </button>

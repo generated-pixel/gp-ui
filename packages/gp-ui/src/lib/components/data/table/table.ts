@@ -42,8 +42,6 @@ export type GpSelectionMode = 'single' | 'multiple' | null;
   styleUrl: './table.scss'
 })
 export class GpTable extends GpBase {
-  protected translationService = inject(GpTranslationService);
-
   public columns = contentChildren(GpColumn);
 
   public value = input<any[]>([]);

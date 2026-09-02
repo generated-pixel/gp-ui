@@ -35,7 +35,7 @@
           }
           @if (selectionMode() === 'multiple') {
             <th class="gp-datatable-selection-header" scope="col">
-              <gp-checkbox [binary]="true" [value]="isAllSelected()" (onChange)="toggleSelectAll()" />
+              <gp-checkbox [binary]="true" [value]="isAllSelected()" ariaLabel="Select all rows" (onChange)="toggleSelectAll()" />
             </th>
           } @else if (selectionMode() === 'single') {
             <th class="gp-datatable-selection-header" scope="col"></th>
@@ -48,7 +48,11 @@
               [class.gp-datatable-sorted]="sortField() === col.field()"
               [style.width]="col.width() || null"
               [style.text-align]="col.align()"
+              [attr.aria-sort]="col.sortable() ? (sortField() === col.field() ? (sortOrder() === 1 ? 'ascending' : 'descending') : 'none') : null"
+              [attr.tabindex]="col.sortable() ? 0 : null"
               (click)="col.sortable() ? sort(col.field()) : null"
+              (keydown.enter)="col.sortable() ? sort(col.field()) : null"
+              (keydown.space)="$event.preventDefault(); col.sortable() ? sort(col.field()) : null"
               scope="col"
             >
               <div class="gp-datatable-header-content">
@@ -80,6 +84,7 @@
             [class.gp-datatable-row-selected]="isRowSelected(row)"
             (click)="onRowClick(row, $event)"
             role="row"
+            [attr.aria-selected]="isRowSelected(row)"
           >
             @if (rowExpansion()) {
               <td class="gp-datatable-expander-cell">
@@ -87,7 +92,8 @@
                   type="button"
                   class="gp-datatable-expander-btn"
                   (click)="toggleRowExpansion(row, $event)"
-                  aria-label="Expand row"
+                  [attr.aria-expanded]="isRowExpanded(row)"
+                  [attr.aria-label]="(isRowExpanded(row) ? 'Collapse row ' : 'Expand row ') + ($index + 1)"
                 >
                   <gp-icon [name]="isRowExpanded(row) ? 'chevron-down' : 'chevron-right'" size="0.75em" />
                 </button>
@@ -95,11 +101,21 @@
             }
             @if (selectionMode() === 'multiple') {
               <td class="gp-datatable-selection-cell" (click)="$event.stopPropagation()">
-                <gp-checkbox [binary]="true" [value]="isRowSelected(row)" (onChange)="toggleRowSelection(row)" />
+                <gp-checkbox
+                  [binary]="true"
+                  [value]="isRowSelected(row)"
+                  [ariaLabel]="'Select row ' + ($index + 1)"
+                  (onChange)="toggleRowSelection(row)"
+                />
               </td>
             } @else if (selectionMode() === 'single') {
               <td class="gp-datatable-selection-cell" (click)="$event.stopPropagation()">
-                <gp-radio-button [value]="row" [name]="'gp-table-rb'" (onClickEvent)="selectSingleRow(row)" />
+                <gp-radio-button
+                  [value]="row"
+                  [name]="'gp-table-rb'"
+                  [ariaLabel]="'Select row ' + ($index + 1)"
+                  (onClickEvent)="selectSingleRow(row)"
+                />
               </td>
             }
 

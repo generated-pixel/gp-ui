@@ -42,7 +42,12 @@
 
       <!-- Dismiss Close Button -->
       @if (dismissible()) {
-        <button type="button" class="gp-announcement-bar__close-btn" aria-label="Dismiss banner" (click)="dismiss()">
+        <button
+          type="button"
+          class="gp-announcement-bar__close-btn"
+          [attr.aria-label]="translationService.get('close') || 'Dismiss'"
+          (click)="dismiss()"
+        >
           <gp-icon name="times" size="0.85em" />
         </button>
       }

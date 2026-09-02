@@ -1,10 +1,20 @@
 <div class="gp-date-range" [class.gp-date-range--open]="isOpen()" [class.gp-date-range--disabled]="disabled()">
   <!-- Input Trigger Display -->
-  <div class="gp-date-range__input-wrap" (click)="toggleOpen()">
+  <div
+    class="gp-date-range__input-wrap"
+    role="button"
+    tabindex="0"
+    [attr.aria-haspopup]="'dialog'"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-label]="ariaLabel() || formattedRange() || placeholder() || 'Choose date range'"
+    (click)="toggleOpen()"
+    (keydown.enter)="toggleOpen()"
+    (keydown.space)="$event.preventDefault(); toggleOpen()"
+  >
     <gp-icon name="calendar" class="gp-date-range__icon" />
     <span class="gp-date-range__display-text">{{ formattedRange() || placeholder() }}</span>
     @if (value()?.start && !disabled()) {
-      <button type="button" class="gp-date-range__clear-btn" (click)="clear($event)" title="Clear range">
+      <button type="button" class="gp-date-range__clear-btn" (click)="clear($event)" aria-label="Clear date range">
         <gp-icon name="times" size="0.8em" />
       </button>
     }
@@ -15,6 +25,8 @@
   @if (isOpen()) {
     <div
       class="gp-date-range__overlay"
+      role="dialog"
+      aria-label="Date Range Picker"
       [gpAppendTo]="appendTo()"
       [gpConnectedTo]="hostElRef"
     >
@@ -22,7 +34,7 @@
       @if (presets() && presets().length > 0) {
         <div class="gp-date-range__presets">
           @for (p of presets(); track p.label) {
-            <button type="button" class="gp-date-range__preset-btn" (click)="selectPreset(p)">
+            <button type="button" class="gp-date-range__preset-btn" (click)="selectPreset(p)" [attr.aria-label]="p.label">
               {{ p.label }}
             </button>
           }
@@ -33,11 +45,11 @@
       <div class="gp-date-range__calendar-section">
         <!-- Calendar Month Navigation Header -->
         <div class="gp-date-range__cal-header">
-          <button type="button" class="gp-date-range__nav-btn" (click)="prevMonth()">
+          <button type="button" class="gp-date-range__nav-btn" (click)="prevMonth()" aria-label="Previous Month">
             <gp-icon name="chevron-left" size="0.85em" />
           </button>
           <span class="gp-date-range__month-title">{{ currentMonthName() }} {{ currentYear() }}</span>
-          <button type="button" class="gp-date-range__nav-btn" (click)="nextMonth()">
+          <button type="button" class="gp-date-range__nav-btn" (click)="nextMonth()" aria-label="Next Month">
             <gp-icon name="chevron-right" size="0.85em" />
           </button>
         </div>
@@ -50,7 +62,7 @@
         </div>
 
         <!-- Days Grid -->
-        <div class="gp-date-range__days-grid">
+        <div class="gp-date-range__days-grid" role="grid" [attr.aria-label]="currentMonthName() + ' ' + currentYear()">
           @for (cell of calendarCells(); track cell.date.getTime()) {
             <button
               type="button"
@@ -60,6 +72,8 @@
               [class.gp-date-range__day-cell--end]="isEndDate(cell.date)"
               [class.gp-date-range__day-cell--in-range]="isInRange(cell.date)"
               [class.gp-date-range__day-cell--hover-range]="isHoverRange(cell.date)"
+              [attr.aria-label]="cell.date.toDateString()"
+              [attr.aria-selected]="isStartDate(cell.date) || isEndDate(cell.date) || isInRange(cell.date)"
               (mouseenter)="onDateHover(cell.date)"
               (click)="onDateClick(cell.date)"
             >

@@ -12,13 +12,26 @@
       [placeholder]="placeholder() || dateFormat()"
       [disabled]="isEffectivelyDisabled()"
       [readonly]="readonly() || !inline()"
+      [attr.aria-haspopup]="'dialog'"
+      [attr.aria-expanded]="overlayVisible()"
       [attr.aria-label]="ariaLabel() || placeholder() || 'Date Picker'"
+      [attr.aria-labelledby]="ariaLabelledBy() || null"
+      [attr.aria-describedby]="ariaDescribedBy() || null"
+      [attr.aria-required]="required()"
+      [attr.aria-invalid]="isInvalid()"
       (click)="inline() ? null : toggleOverlay()"
       class="gp-inputtext gp-datepicker-input"
     />
 
     @if (!inline()) {
-      <button type="button" class="gp-datepicker-trigger" (click)="toggleOverlay()" aria-label="Open Calendar">
+      <button
+        type="button"
+        class="gp-datepicker-trigger"
+        (click)="toggleOverlay()"
+        aria-label="Open Calendar"
+        [attr.aria-haspopup]="'dialog'"
+        [attr.aria-expanded]="overlayVisible()"
+      >
         <gp-icon [name]="icon()" size="0.9em" />
       </button>
     }
@@ -27,6 +40,8 @@
   @if (inline() || overlayVisible()) {
     <div
       class="gp-datepicker-panel"
+      role="dialog"
+      aria-label="Calendar"
       [class.gp-datepicker-inline]="inline()"
       (click)="$event.stopPropagation()"
       [gpAppendTo]="inline() ? 'self' : appendTo()"
@@ -47,7 +62,7 @@
         </button>
       </div>
 
-      <table class="gp-datepicker-calendar" role="grid">
+      <table class="gp-datepicker-calendar" role="grid" [attr.aria-label]="currentMonthName() + ' ' + currentYear()">
         <thead>
           <tr>
             @for (dayName of weekDayNames(); track $index) {
@@ -65,9 +80,13 @@
                   [class.gp-datepicker-today]="d.isToday"
                   [class.gp-datepicker-selected]="d.isSelected"
                   (click)="selectDate(d.date)"
+                  (keydown.enter)="selectDate(d.date)"
+                  (keydown.space)="$event.preventDefault(); selectDate(d.date)"
                   tabindex="0"
                   role="gridcell"
                   [attr.aria-selected]="d.isSelected"
+                  [attr.aria-current]="d.isToday ? 'date' : null"
+                  [attr.aria-label]="d.date.toDateString()"
                 >
                   <span class="gp-datepicker-day-number">{{ d.dayNumber }}</span>
                 </td>
@@ -79,10 +98,10 @@
 
       @if (showButtonBar()) {
         <div class="gp-datepicker-buttonbar">
-          <button type="button" class="gp-datepicker-bar-btn" (click)="selectToday()">
+          <button type="button" class="gp-datepicker-bar-btn" (click)="selectToday()" aria-label="Select today">
             {{ translationService.get('today') }}
           </button>
-          <button type="button" class="gp-datepicker-bar-btn" (click)="clear()">
+          <button type="button" class="gp-datepicker-bar-btn" (click)="clear()" aria-label="Clear date">
             {{ translationService.get('clear') }}
           </button>
         </div>

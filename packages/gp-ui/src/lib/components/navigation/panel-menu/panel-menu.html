@@ -1,4 +1,4 @@
-<div class="gp-panelmenu">
+<div class="gp-panelmenu" role="tree" [attr.aria-label]="ariaLabel() || 'Panel Menu'">
   @for (item of model(); track $index) {
     <div class="gp-panelmenu-panel" [class.gp-panelmenu-panel-expanded]="isExpanded(item)">
       <div
@@ -6,8 +6,12 @@
         [class.gp-panelmenu-header-active]="isExpanded(item)"
         [class.gp-panelmenu-header-disabled]="item.disabled"
         (click)="onItemClick(item, $event)"
-        role="button"
-        [attr.aria-expanded]="isExpanded(item)"
+        (keydown.enter)="onItemClick(item, $event)"
+        (keydown.space)="$event.preventDefault(); onItemClick(item, $event)"
+        tabindex="0"
+        role="treeitem"
+        [attr.aria-expanded]="item.items && item.items.length > 0 ? isExpanded(item) : null"
+        [attr.aria-disabled]="item.disabled || null"
       >
         @if (item.icon) {
           <gp-icon [name]="item.icon" class="gp-panelmenu-icon" />

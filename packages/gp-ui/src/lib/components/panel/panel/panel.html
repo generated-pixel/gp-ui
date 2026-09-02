@@ -4,7 +4,13 @@
     <div class="gp-panel-icons">
       <ng-content select="[icons]" />
       @if (toggleable()) {
-        <button type="button" class="gp-panel-toggle-btn" (click)="toggle()" aria-label="Toggle panel">
+        <button
+          type="button"
+          class="gp-panel-toggle-btn"
+          (click)="toggle()"
+          [attr.aria-expanded]="!collapsed()"
+          [attr.aria-label]="(!collapsed() ? 'Collapse ' : 'Expand ') + (header() || 'panel')"
+        >
           <gp-icon [name]="collapsed() ? 'chevron-down' : 'chevron-up'" size="0.85em" />
         </button>
       }

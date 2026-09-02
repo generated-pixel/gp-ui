@@ -1,12 +1,20 @@
 <div
+  [id]="inputId()"
   class="gp-select gp-cascade-select"
   [class.gp-select-open]="overlayVisible()"
   [class.gp-select-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-invalid]="isInvalid()"
   (click)="toggleOverlay()"
-  tabindex="0"
+  [attr.tabindex]="isEffectivelyDisabled() ? -1 : 0"
   role="combobox"
   [attr.aria-expanded]="overlayVisible()"
+  [attr.aria-haspopup]="'tree'"
+  [attr.aria-controls]="overlayVisible() ? listboxId() : null"
   [attr.aria-label]="ariaLabel() || placeholder() || 'Cascade Select'"
+  [attr.aria-labelledby]="ariaLabelledBy() || null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
+  [attr.aria-required]="required()"
+  [attr.aria-invalid]="isInvalid()"
 >
   <div class="gp-select-label-container">
     <span class="gp-select-label" [class.gp-select-placeholder]="!selectedLabel()">
@@ -20,19 +28,28 @@
 
   @if (overlayVisible()) {
     <div
+      [id]="listboxId()"
       class="gp-select-overlay gp-cascade-select-overlay"
+      role="tree"
+      [attr.aria-label]="ariaLabel() || placeholder() || 'Hierarchy'"
       (click)="$event.stopPropagation()"
       [gpAppendTo]="appendTo()"
       [gpConnectedTo]="hostElRef"
     >
       <div class="gp-cascade-select-panels">
-        <ul class="gp-select-items gp-cascade-panel">
+        <ul class="gp-select-items gp-cascade-panel" role="group">
           @for (item of options(); track $index) {
             <li
               class="gp-select-item gp-cascade-item"
               [class.gp-select-item-selected]="item === activeItemLevel1()"
+              role="treeitem"
+              [attr.aria-expanded]="item[optionGroupChildren()] && item[optionGroupChildren()].length > 0 ? (item === activeItemLevel1()) : null"
+              [attr.aria-selected]="item === activeItemLevel1()"
+              tabindex="0"
               (mouseenter)="onLevel1Hover(item)"
               (click)="onItemClick(item, 1)"
+              (keydown.enter)="onItemClick(item, 1)"
+              (keydown.space)="$event.preventDefault(); onItemClick(item, 1)"
             >
               <span>{{ item[optionLabel()] }}</span>
               @if (item[optionGroupChildren()] && item[optionGroupChildren()].length > 0) {
@@ -43,13 +60,19 @@
         </ul>
 
         @if (activeItemLevel1() && activeItemLevel1()?.[optionGroupChildren()]?.length) {
-          <ul class="gp-select-items gp-cascade-panel">
+          <ul class="gp-select-items gp-cascade-panel" role="group">
             @for (sub of activeItemLevel1()![optionGroupChildren()]; track $index) {
               <li
                 class="gp-select-item gp-cascade-item"
                 [class.gp-select-item-selected]="sub === activeItemLevel2()"
+                role="treeitem"
+                [attr.aria-expanded]="sub[optionGroupChildren()] && sub[optionGroupChildren()].length > 0 ? (sub === activeItemLevel2()) : null"
+                [attr.aria-selected]="sub === activeItemLevel2()"
+                tabindex="0"
                 (mouseenter)="onLevel2Hover(sub)"
                 (click)="onItemClick(sub, 2)"
+                (keydown.enter)="onItemClick(sub, 2)"
+                (keydown.space)="$event.preventDefault(); onItemClick(sub, 2)"
               >
                 <span>{{ sub[optionLabel()] }}</span>
                 @if (sub[optionGroupChildren()] && sub[optionGroupChildren()].length > 0) {
@@ -61,9 +84,16 @@
         }
 
         @if (activeItemLevel2() && activeItemLevel2()?.[optionGroupChildren()]?.length) {
-          <ul class="gp-select-items gp-cascade-panel">
+          <ul class="gp-select-items gp-cascade-panel" role="group">
             @for (sub2 of activeItemLevel2()![optionGroupChildren()]; track $index) {
-              <li class="gp-select-item gp-cascade-item" (click)="onItemClick(sub2, 3)">
+              <li
+                class="gp-select-item gp-cascade-item"
+                role="treeitem"
+                tabindex="0"
+                (click)="onItemClick(sub2, 3)"
+                (keydown.enter)="onItemClick(sub2, 3)"
+                (keydown.space)="$event.preventDefault(); onItemClick(sub2, 3)"
+              >
                 <span>{{ sub2[optionLabel()] }}</span>
               </li>
             }

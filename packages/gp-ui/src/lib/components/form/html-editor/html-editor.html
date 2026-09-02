@@ -383,11 +383,18 @@
   <!-- Link Modal Dialog -->
   @if (showLinkModal()) {
     <div class="gp-html-editor__dialog-backdrop" (click)="showLinkModal.set(false)">
-      <div class="gp-html-editor__dialog" (click)="$event.stopPropagation()">
-        <h4 class="gp-html-editor__dialog-title">Insert Link</h4>
+      <div
+        class="gp-html-editor__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="gp-html-editor-link-title"
+        (click)="$event.stopPropagation()"
+      >
+        <h4 id="gp-html-editor-link-title" class="gp-html-editor__dialog-title">Insert Link</h4>
         <div class="gp-html-editor__dialog-field">
-          <label>URL Address</label>
+          <label for="gp-html-editor-link-input">URL Address</label>
           <input
+            id="gp-html-editor-link-input"
             type="url"
             class="gp-inputtext"
             [ngModel]="linkUrl()"
@@ -406,11 +413,18 @@
   <!-- Image Modal Dialog -->
   @if (showImageModal()) {
     <div class="gp-html-editor__dialog-backdrop" (click)="showImageModal.set(false)">
-      <div class="gp-html-editor__dialog" (click)="$event.stopPropagation()">
-        <h4 class="gp-html-editor__dialog-title">Insert Image</h4>
+      <div
+        class="gp-html-editor__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="gp-html-editor-img-title"
+        (click)="$event.stopPropagation()"
+      >
+        <h4 id="gp-html-editor-img-title" class="gp-html-editor__dialog-title">Insert Image</h4>
         <div class="gp-html-editor__dialog-field">
-          <label>Image URL</label>
+          <label for="gp-html-editor-img-input">Image URL</label>
           <input
+            id="gp-html-editor-img-input"
             type="url"
             class="gp-inputtext"
             [ngModel]="imageUrl()"

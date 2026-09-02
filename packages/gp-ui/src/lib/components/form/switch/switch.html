@@ -8,10 +8,15 @@
   <div
     class="gp-switch-slider"
     role="switch"
+    [attr.id]="inputId()"
     [attr.aria-checked]="checked()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
-    [attr.aria-label]="ariaLabel() || placeholder() || null"
-    tabindex="0"
+    [attr.aria-required]="required()"
+    [attr.aria-invalid]="isInvalid()"
+    [attr.aria-label]="ariaLabel() || label() || placeholder() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
     (keydown.enter)="$event.preventDefault(); toggle($event)"
     (keydown.space)="$event.preventDefault(); toggle($event)"
   >

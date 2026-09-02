@@ -23,7 +23,6 @@ import { GpCheckableBase } from '../../../base/gp-checkable-base';
   styleUrl: './checkbox.scss'
 })
 export class GpCheckbox extends GpCheckableBase implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('chk_'));
   public label = input<string>('');
   public checkedInput = input<boolean | undefined>(undefined, { alias: 'checked' });
 

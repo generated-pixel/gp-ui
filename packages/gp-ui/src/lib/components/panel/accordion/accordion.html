@@ -8,8 +8,12 @@
       <div
         class="gp-accordion-header"
         (click)="toggleTab(tab)"
+        (keydown.enter)="toggleTab(tab)"
+        (keydown.space)="$event.preventDefault(); toggleTab(tab)"
         role="button"
         [attr.aria-expanded]="tab.selected()"
+        [attr.aria-disabled]="tab.disabled()"
+        [attr.aria-label]="tab.header()"
         tabindex="0"
       >
         <gp-icon [name]="tab.selected() ? 'chevron-down' : 'chevron-right'" size="0.8em" class="gp-accordion-arrow" />
@@ -17,7 +21,7 @@
       </div>
 
       @if (tab.selected()) {
-        <div class="gp-accordion-body">
+        <div class="gp-accordion-body" role="region" [attr.aria-label]="tab.header()">
           <ng-container *ngTemplateOutlet="tabContentTpl; context: { $implicit: tab }" />
         </div>
       }

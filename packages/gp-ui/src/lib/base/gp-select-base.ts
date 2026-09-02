@@ -1,6 +1,7 @@
 import { Directive, input, output, signal, computed, ElementRef, HostListener, inject } from '@angular/core';
 import { GpEditableBase } from './gp-editable-base';
 import { GpAppendToTarget } from '../overlay/append-to.interface';
+import { UniqueId } from '../utils/unique-id';
 
 export interface GpSelectItem<T = any> {
   label?: string;
@@ -20,6 +21,9 @@ export type GpSelectVariant = 'outlined' | 'filled';
 @Directive()
 export abstract class GpSelectBase<T = any> extends GpEditableBase<T> {
   public selectHostEl = inject(ElementRef);
+
+  /** Unique ID for the popup listbox */
+  public listboxId = computed<string>(() => this.inputId() + '_listbox');
 
   /** Target DOM element where dropdown overlay should be appended ('body', 'self', selector or element) */
   public appendTo = input<GpAppendToTarget>('body');
@@ -68,7 +72,7 @@ export abstract class GpSelectBase<T = any> extends GpEditableBase<T> {
   // ==========================================
 
   /** Emitted when value selection changes */
-  public onChange = output<{ value: any; originalEvent: Event }>();
+  public onChange = output<{ value: any; originalEvent?: Event }>();
 
   /** Emitted when filter search query changes */
   public onFilter = output<{ query: string }>();

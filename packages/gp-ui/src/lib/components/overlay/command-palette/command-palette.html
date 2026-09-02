@@ -15,6 +15,12 @@
           #searchInput
           type="text"
           class="gp-command-palette-input"
+          role="combobox"
+          aria-expanded="true"
+          aria-autocomplete="list"
+          aria-controls="gp-command-palette-list"
+          [attr.aria-activedescendant]="activeItemId() ? 'cmd_item_' + activeItemId() : null"
+          aria-label="Command search"
           [placeholder]="placeholder()"
           [ngModel]="searchQuery()"
           (ngModelChange)="onSearchChange($event)"
@@ -28,7 +34,7 @@
       <!-- Breadcrumb navigation if inside a sub-command group -->
       @if (activeParent()) {
         <div class="gp-command-palette-breadcrumbs">
-          <button type="button" class="gp-command-breadcrumb-btn" (click)="navigateBack()">
+          <button type="button" class="gp-command-breadcrumb-btn" (click)="navigateBack()" aria-label="Navigate back">
             <gp-icon name="chevron-left" />
             <span>{{ activeParent()?.title }}</span>
           </button>
@@ -36,7 +42,7 @@
       }
 
       <!-- Results List -->
-      <div class="gp-command-palette-body">
+      <div id="gp-command-palette-list" class="gp-command-palette-body" role="listbox" aria-label="Commands">
         @if (groupedItems().length === 0) {
           <div class="gp-command-palette-empty">
             <gp-icon name="search" class="gp-command-empty-icon" />
@@ -45,10 +51,11 @@
         }
 
         @for (group of groupedItems(); track group.name) {
-          <div class="gp-command-group">
+          <div class="gp-command-group" role="group" [attr.aria-label]="group.name">
             <div class="gp-command-group-title">{{ group.name }}</div>
             @for (item of group.items; track item.id) {
               <div
+                [id]="'cmd_item_' + item.id"
                 class="gp-command-item"
                 [class.gp-command-item-active]="item.id === activeItemId()"
                 [class.gp-command-item-disabled]="item.disabled"
@@ -56,6 +63,7 @@
                 (mouseenter)="setActiveItem(item.id)"
                 role="option"
                 [attr.aria-selected]="item.id === activeItemId()"
+                [attr.aria-disabled]="item.disabled || null"
               >
                 <div class="gp-command-item-left">
                   @if (item.icon) {

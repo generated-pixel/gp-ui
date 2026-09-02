@@ -6,6 +6,7 @@
           [routerLink]="item.routerLink"
           [attr.href]="item.url || null"
           class="gp-dock-link"
+          [attr.aria-label]="item.label || 'Dock item ' + ($index + 1)"
           [gpTooltip]="item.label || ''"
           [tooltipPosition]="dockPosition() === 'bottom' ? 'top' : 'bottom'"
           (click)="onItemClick(item, $event)"

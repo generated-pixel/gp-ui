@@ -22,7 +22,6 @@ import { GpCheckableBase } from '../../../base/gp-checkable-base';
   styleUrl: './radio-button.scss'
 })
 export class GpRadioButton extends GpCheckableBase implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('rb_'));
   public label = input<string>('');
 
   public isChecked(): boolean {

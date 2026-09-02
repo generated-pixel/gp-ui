@@ -35,7 +35,7 @@
             <button
               type="button"
               class="gp-dialog-header-action"
-              aria-label="Close Dialog"
+              [attr.aria-label]="translationService.get('close') || 'Close'"
               (click)="close()"
             >
               <gp-icon name="times" size="0.85em" />
