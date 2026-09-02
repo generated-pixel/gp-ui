@@ -416,21 +416,37 @@ import { getComponentDoc } from './component-docs.data';
           <gp-file-upload [multiple]="true" accept="image/*" />
         }
         @case ('column') {
-          <div class="w-full max-w-[480px]">
-            <gp-table [value]="demoRows">
-              <gp-column field="name" header="Project Name" [sortable]="true" />
-              <gp-column field="status" header="Status" />
+          <div class="w-full max-w-[620px]">
+            <gp-table [value]="demoTableData">
+              <gp-column field="id" header="ID" [sortable]="true" width="100px" />
+              <gp-column field="name" header="Project" [sortable]="true" />
+              <gp-column field="category" header="Category" />
+              <gp-column field="budget" header="Budget" align="right" />
             </gp-table>
           </div>
         }
         @case ('table') {
-          <div class="flex flex-col gap-2 min-w-[260px]">
-            <div class="flex justify-between py-2 px-3 border border-surface rounded-md">
-              <span>Name</span><span>Status</span>
-            </div>
-            <div class="flex justify-between py-2 px-3 border border-surface rounded-md">
-              <span>Alpha</span><span>Ready</span>
-            </div>
+          <div class="w-full max-w-[640px] flex flex-col gap-3">
+            <gp-table
+              [value]="demoTableData"
+              [paginator]="true"
+              [rows]="4"
+              [stripedRows]="true"
+              [showGridlines]="true"
+              selectionMode="multiple"
+            >
+              <gp-column field="name" header="Project" [sortable]="true" />
+              <gp-column field="category" header="Category" [sortable]="true" />
+              <gp-column field="status" header="Status" [sortable]="true">
+                <ng-template #body let-row>
+                  <gp-badge
+                    [value]="row.status"
+                    [severity]="row.status === 'Active' ? 'success' : row.status === 'Completed' ? 'info' : 'warning'"
+                  />
+                </ng-template>
+              </gp-column>
+              <gp-column field="budget" header="Budget" [sortable]="true" align="right" />
+            </gp-table>
           </div>
         }
         @case ('tree-table') {
@@ -446,7 +462,9 @@ import { getComponentDoc } from './component-docs.data';
           <gp-paginator [totalRecords]="200" [rows]="10" />
         }
         @case ('data-view') {
-          <gp-data-view [value]="demoRows" layout="grid" />
+          <div class="w-full max-w-[580px]">
+            <gp-data-view [value]="demoTableData" layout="grid" />
+          </div>
         }
         @case ('virtual-scroller') {
           <div class="w-full max-w-[560px] flex flex-col gap-2">
@@ -1085,6 +1103,15 @@ export class ComponentDocPage implements OnInit {
     { title: 'Modern UI Components', desc: 'Over 75 accessible, customizable Angular components.' },
     { title: 'Built-in Multi-Theming', desc: 'Seamless Light & Dark mode switching.' },
     { title: 'Zero Third-Party Dependencies', desc: 'Fast, clean, high-performance architecture.' }
+  ];
+  demoTableData = [
+    { id: 'PRJ-101', name: 'Quantum UI Engine', category: 'Core Platform', status: 'Active', budget: '$48,000' },
+    { id: 'PRJ-102', name: 'Nexus Cloud Sync', category: 'Infrastructure', status: 'In Review', budget: '$32,500' },
+    { id: 'PRJ-103', name: 'Aegis Security Gateway', category: 'Security', status: 'Completed', budget: '$94,000' },
+    { id: 'PRJ-104', name: 'Hyperion Analytics', category: 'Data Science', status: 'Active', budget: '$61,200' },
+    { id: 'PRJ-105', name: 'Vanguard Design System', category: 'Frontend', status: 'In Review', budget: '$28,000' },
+    { id: 'PRJ-106', name: 'Pulse Notification Service', category: 'Messaging', status: 'Active', budget: '$19,500' },
+    { id: 'PRJ-107', name: 'Titan Database Cluster', category: 'Infrastructure', status: 'Completed', budget: '$112,000' }
   ];
   demoTreeNodes = [
     {
