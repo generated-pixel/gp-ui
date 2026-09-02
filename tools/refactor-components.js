@@ -44,7 +44,7 @@ for (const filePath of files) {
     fs.writeFileSync(htmlPath, templateContent + '\n', 'utf8');
 
     // Replace template in ts file
-    content = content.replace(/template:\s*`[\s\S]*?`/, `templateUrl: './${baseName}.html'`);
+    content = content.replace(/template:\s*`[\s\S]*?`/, `templateUrl: './${baseName}.component.html'`);
     hasChanges = true;
   }
 
@@ -55,7 +55,7 @@ for (const filePath of files) {
     fs.writeFileSync(scssPath, stylesContent + '\n', 'utf8');
 
     // Replace styles in ts file
-    content = content.replace(/styles:\s*\[`[\s\S]*?`\]/, `styleUrl: './${baseName}.scss'`);
+    content = content.replace(/styles:\s*\[`[\s\S]*?`\]/, `styleUrl: './${baseName}.component.scss'`);
     hasChanges = true;
   }
 
