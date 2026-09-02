@@ -4,6 +4,7 @@
  */
 
 // 1. JSON Schema Engine & Dynamic Renderers
+export * from './lib/base/gp-block-base';
 export * from './lib/schema/schema.types';
 export * from './lib/schema/schema.presets';
 export * from './lib/schema/dynamic-form/dynamic-form';

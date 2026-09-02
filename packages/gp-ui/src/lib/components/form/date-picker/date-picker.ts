@@ -1,4 +1,4 @@
-import { GpEditableBase } from '../../../base/gp-editable-base';
+import { GpDateBase } from '../../../base/gp-date-base';
 import {
   Component,
   input,
@@ -6,19 +6,15 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
   forwardRef,
-  signal,
   computed,
   ElementRef,
-  HostListener,
-  inject
+  HostListener
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
-import { GpTranslationService } from '../../../config/gp-config.service';
 import { UniqueId } from '../../../utils/unique-id';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
-import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 export interface CalendarDay {
   date: Date;
@@ -44,21 +40,12 @@ export interface CalendarDay {
   templateUrl: './date-picker.html',
   styleUrl: './date-picker.scss'
 })
-export class GpDatePicker extends GpEditableBase implements ControlValueAccessor {
-  protected translationService = inject(GpTranslationService);
-
-  public appendTo = input<GpAppendToTarget>('body');
+export class GpDatePicker extends GpDateBase implements ControlValueAccessor {
   public inputId = input<string>(UniqueId.generate('dp_'));
-  public dateFormat = input<string>('mm/dd/yy');
-  public icon = input<string>('calendar');
-  public inline = input<boolean>(false);
   public showButtonBar = input<boolean>(true);
 
   public onSelect = output<Date>();
   public onChange = output<{ value: Date | null }>();
-
-  protected viewDate = signal<Date>(new Date());
-  protected overlayVisible = signal<boolean>(false);
 
   constructor(public hostElRef: ElementRef) {
     super();
@@ -67,21 +54,9 @@ export class GpDatePicker extends GpEditableBase implements ControlValueAccessor
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.inline() && !this.hostElRef.nativeElement.contains(event.target)) {
-      this.overlayVisible.set(false);
+      this.closeOverlay();
     }
   }
-
-  protected currentYear = computed(() => this.viewDate().getFullYear());
-  protected currentMonth = computed(() => this.viewDate().getMonth());
-
-  protected currentMonthName = computed(() => {
-    const months = this.translationService.translation().monthNames || [];
-    return months[this.currentMonth()] || '';
-  });
-
-  protected weekDayNames = computed(() => {
-    return this.translationService.translation().dayNamesMin || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  });
 
   protected formattedValue = computed(() => {
     const d = this.internalValue() as Date;
@@ -151,10 +126,6 @@ export class GpDatePicker extends GpEditableBase implements ControlValueAccessor
     return weeks;
   });
 
-  private isSameDay(d1: Date, d2: Date): boolean {
-    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
-  }
-
   public override writeValue(value: any): void {
     const d = value instanceof Date ? value : value ? new Date(value) : null;
     this.internalValue.set(d);
@@ -163,39 +134,12 @@ export class GpDatePicker extends GpEditableBase implements ControlValueAccessor
     }
   }
 
-  public override registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
-  }
-
-  public override registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public toggleOverlay(): void {
-    if (this.isEffectivelyDisabled() || this.readonly()) {
-      return;
-    }
-    this.overlayVisible.update((v) => !v);
-  }
-
-  public prevMonth(): void {
-    const v = this.viewDate();
-    this.viewDate.set(new Date(v.getFullYear(), v.getMonth() - 1, 1));
-  }
-
-  public nextMonth(): void {
-    const v = this.viewDate();
-    this.viewDate.set(new Date(v.getFullYear(), v.getMonth() + 1, 1));
-  }
-
   public selectDate(date: Date): void {
     this.updateValue(date);
     this.handleControlBlur();
     this.onSelect.emit(date);
     this.onChange.emit({ value: date });
-    if (!this.inline()) {
-      this.overlayVisible.set(false);
-    }
+    this.closeOverlay();
   }
 
   public selectToday(): void {
@@ -206,8 +150,6 @@ export class GpDatePicker extends GpEditableBase implements ControlValueAccessor
     this.updateValue(null);
     this.handleControlBlur();
     this.onChange.emit({ value: null });
-    if (!this.inline()) {
-      this.overlayVisible.set(false);
-    }
+    this.closeOverlay();
   }
 }

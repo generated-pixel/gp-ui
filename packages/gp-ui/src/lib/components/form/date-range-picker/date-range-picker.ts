@@ -8,17 +8,15 @@ import {
   inject,
   input,
   output,
-  effect,
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { GpDateBase } from '../../../base/gp-date-base';
 import { GpIcon } from '../../../icons/icon';
 import { GpButton } from '../../button/button/button';
 import { GpDateRange, GpDateRangePreset } from './date-range-picker.interface';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
-import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-date-range-picker',
@@ -36,11 +34,10 @@ import { GpAppendToTarget } from '../../../overlay/append-to.interface';
   templateUrl: './date-range-picker.html',
   styleUrl: './date-range-picker.scss'
 })
-export class GpDateRangePicker implements ControlValueAccessor {
+export class GpDateRangePicker extends GpDateBase<GpDateRange> implements ControlValueAccessor {
   public hostElRef = inject(ElementRef);
-  public appendTo = input<GpAppendToTarget>('body');
-  public placeholder = input<string>('Select date range (e.g. Jan 1 - Jan 15)');
-  public disabledInput = input<boolean>(false, { alias: 'disabled' });
+  public override placeholder = input<string>('Select date range (e.g. Jan 1 - Jan 15)');
+
   public presets = input<GpDateRangePreset[]>([
     {
       label: 'Today',
@@ -88,76 +85,55 @@ export class GpDateRangePicker implements ControlValueAccessor {
 
   public onRangeChange = output<GpDateRange>();
 
-  public disabled = signal<boolean>(false);
-  protected isOpen = signal<boolean>(false);
-  protected value = signal<GpDateRange | null>(null);
   protected hoverDate = signal<Date | null>(null);
-  protected viewingDate = signal<Date>(new Date());
 
-  private el = inject(ElementRef);
-  private onChange: (val: GpDateRange | null) => void = () => {};
-  private onTouched: () => void = () => {};
+  get isOpen(): ReturnType<typeof signal<boolean>> {
+    return this.overlayVisible;
+  }
 
-  constructor() {
-    effect(() => {
-      this.disabled.set(this.disabledInput());
-    });
+  get viewingDate(): ReturnType<typeof signal<Date>> {
+    return this.viewDate;
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.isOpen.set(false);
+    if (!this.inline() && !this.hostElRef.nativeElement.contains(event.target)) {
+      this.closeOverlay();
     }
   }
 
-  // ControlValueAccessor
-  writeValue(obj: GpDateRange | null): void {
-    this.value.set(obj);
+  public override writeValue(obj: GpDateRange | null): void {
+    this.internalValue.set(obj);
     if (obj?.start) {
-      this.viewingDate.set(new Date(obj.start));
+      this.viewDate.set(new Date(obj.start));
     }
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.disabled.set(isDisabled);
   }
 
   public toggleOpen(): void {
-    if (!this.disabled()) {
-      this.isOpen.update((v) => !v);
-    }
+    this.toggleOverlay();
   }
 
   public clear(event: MouseEvent): void {
     event.stopPropagation();
-    this.value.set(null);
-    this.onChange(null);
+    this.updateValue({ start: null as any, end: null as any });
+    this.handleControlBlur();
     this.onRangeChange.emit({ start: null, end: null });
   }
 
   public selectPreset(preset: GpDateRangePreset): void {
     const range = preset.range();
-    this.value.set(range);
-    this.onChange(range);
+    this.updateValue(range);
+    this.handleControlBlur();
     this.onRangeChange.emit(range);
-    this.isOpen.set(false);
+    this.closeOverlay();
   }
 
   public onDateClick(date: Date): void {
-    const current = this.value();
+    const current = this.internalValue();
     if (!current || !current.start || (current.start && current.end)) {
       // Pick start date
-      const nextRange = { start: date, end: null };
-      this.value.set(nextRange);
+      const nextRange: GpDateRange = { start: date, end: null as any };
+      this.internalValue.set(nextRange);
     } else {
       // Pick end date
       let start = current.start;
@@ -167,9 +143,9 @@ export class GpDateRangePicker implements ControlValueAccessor {
         start = end;
         end = tmp;
       }
-      const completeRange = { start, end };
-      this.value.set(completeRange);
-      this.onChange(completeRange);
+      const completeRange: GpDateRange = { start, end };
+      this.updateValue(completeRange);
+      this.handleControlBlur();
       this.onRangeChange.emit(completeRange);
     }
   }
@@ -178,28 +154,8 @@ export class GpDateRangePicker implements ControlValueAccessor {
     this.hoverDate.set(date);
   }
 
-  public prevMonth(): void {
-    const d = new Date(this.viewingDate());
-    d.setMonth(d.getMonth() - 1);
-    this.viewingDate.set(d);
-  }
-
-  public nextMonth(): void {
-    const d = new Date(this.viewingDate());
-    d.setMonth(d.getMonth() + 1);
-    this.viewingDate.set(d);
-  }
-
-  get currentMonthName(): string {
-    return this.viewingDate().toLocaleString('default', { month: 'long' });
-  }
-
-  get currentYear(): number {
-    return this.viewingDate().getFullYear();
-  }
-
   protected calendarCells = computed(() => {
-    const view = this.viewingDate();
+    const view = this.viewDate();
     const year = view.getFullYear();
     const month = view.getMonth();
 
@@ -241,17 +197,17 @@ export class GpDateRangePicker implements ControlValueAccessor {
   });
 
   protected isStartDate(date: Date): boolean {
-    const v = this.value();
+    const v = this.internalValue();
     return !!(v?.start && this.isSameDay(v.start, date));
   }
 
   protected isEndDate(date: Date): boolean {
-    const v = this.value();
+    const v = this.internalValue();
     return !!(v?.end && this.isSameDay(v.end, date));
   }
 
   protected isInRange(date: Date): boolean {
-    const v = this.value();
+    const v = this.internalValue();
     if (!v?.start || !v?.end) {
       return false;
     }
@@ -259,17 +215,13 @@ export class GpDateRangePicker implements ControlValueAccessor {
   }
 
   protected isHoverRange(date: Date): boolean {
-    const v = this.value();
+    const v = this.internalValue();
     const h = this.hoverDate();
     if (!v?.start || v.end || !h) {
       return false;
     }
     const start = v.start;
     return (date > start && date <= h) || (date < start && date >= h);
-  }
-
-  private isSameDay(d1: Date, d2: Date): boolean {
-    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
   }
 
   public formatDate(d: Date | null): string {
@@ -280,7 +232,7 @@ export class GpDateRangePicker implements ControlValueAccessor {
   }
 
   protected formattedRange = computed(() => {
-    const v = this.value();
+    const v = this.internalValue();
     if (!v?.start) {
       return '';
     }

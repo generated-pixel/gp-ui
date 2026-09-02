@@ -17,6 +17,8 @@ export * from './lib/base/gp-editable-base';
 export * from './lib/base/gp-input-base';
 export * from './lib/base/gp-select-base';
 export * from './lib/base/gp-checkable-base';
+export * from './lib/base/gp-date-base';
+export * from './lib/base/gp-feedback-base';
 export * from './lib/base/gp-menu-base';
 export * from './lib/base/gp-overlay-base';
 export * from './lib/base/gp-panel-base';

@@ -1,20 +1,17 @@
 import {
   Component,
-  HostListener,
   ElementRef,
   viewChild,
   signal,
   computed,
   input,
-  model,
   output,
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-
+import { GpOverlayBase } from '../../../base/gp-overlay-base';
 import { GpIcon } from '../../../icons/icon';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
-import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-bottom-sheet',
@@ -25,13 +22,10 @@ import { GpAppendToTarget } from '../../../overlay/append-to.interface';
   templateUrl: './bottom-sheet.html',
   styleUrl: './bottom-sheet.scss'
 })
-export class GpBottomSheet {
-  public appendTo = input<GpAppendToTarget>('body');
-  public visible = model<boolean>(false);
+export class GpBottomSheet extends GpOverlayBase {
   public title = input<string | undefined>(undefined);
   public showDragHandle = input<boolean>(true);
   public dismissable = input<boolean>(true);
-  public closeOnEscape = input<boolean>(true);
   public maxHeight = input<string>('80vh');
 
   public onDismiss = output<void>();
@@ -47,20 +41,13 @@ export class GpBottomSheet {
     return offset > 0 ? `translateY(${offset}px)` : 'translateY(0)';
   });
 
-  @HostListener('window:keydown.escape')
-  public handleEscape(): void {
-    if (this.visible() && this.closeOnEscape()) {
-      this.close();
-    }
-  }
-
-  public close(): void {
-    this.visible.set(false);
+  public override close(): void {
+    super.close();
     this.dragOffsetY.set(0);
     this.onDismiss.emit();
   }
 
-  public onBackdropClick(event: MouseEvent): void {
+  public onBackdropClick(event?: MouseEvent): void {
     if (this.dismissable()) {
       this.close();
     }

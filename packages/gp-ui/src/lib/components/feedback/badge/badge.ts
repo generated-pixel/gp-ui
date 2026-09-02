@@ -1,8 +1,8 @@
-import { GpBase } from '../../../base/gp-base';
+import { GpFeedbackBase, GpFeedbackSeverity, GpFeedbackSize } from '../../../base/gp-feedback-base';
 import { Component, input, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
-export type GpBadgeSeverity = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast';
-export type GpBadgeSize = 'sm' | 'md' | 'lg';
+export type GpBadgeSeverity = GpFeedbackSeverity;
+export type GpBadgeSize = GpFeedbackSize;
 
 @Component({
   selector: 'gp-badge',
@@ -13,10 +13,8 @@ export type GpBadgeSize = 'sm' | 'md' | 'lg';
   templateUrl: './badge.html',
   styleUrl: './badge.scss'
 })
-export class GpBadge extends GpBase {
-  public value = input<string | number | undefined>(undefined);
-  public severity = input<GpBadgeSeverity>('primary');
-  public size = input<GpBadgeSize>('md');
+export class GpBadge extends GpFeedbackBase {
+  public override severity = input<GpBadgeSeverity>('primary');
   public tooltip = input<string | undefined>(undefined);
 
   public displayTitle = computed(() => {

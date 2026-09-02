@@ -43,6 +43,7 @@ import {
   GpDivider,
   GpIcon
 } from '@generatedpixel/gp-ui';
+import { GpBlockBase } from '../../base/gp-block-base';
 import { GpFormSchema, GpFieldSchema, GpFormAction } from '../schema.types';
 
 @Component({
@@ -86,14 +87,12 @@ import { GpFormSchema, GpFieldSchema, GpFormAction } from '../schema.types';
   templateUrl: './dynamic-form.html',
   styleUrl: './dynamic-form.scss'
 })
-export class GpDynamicForm extends GpBase {
-  public schema = input<GpFormSchema | undefined>(undefined);
+export class GpDynamicForm extends GpBlockBase<GpFormSchema> {
   public initialValues = input<Record<string, any> | undefined>(undefined);
 
   public formSubmit = output<Record<string, any>>();
   public formChange = output<Record<string, any>>();
   public formReset = output<void>();
-  public actionClick = output<GpFormAction>();
 
   public form: FormGroup = new FormGroup({});
   public formSubmitted = signal<boolean>(false);
@@ -251,9 +250,5 @@ export class GpDynamicForm extends GpBase {
     this.formSubmitted.set(false);
     this.form.reset();
     this.formReset.emit();
-  }
-
-  public onActionClick(action: GpFormAction): void {
-    this.actionClick.emit(action);
   }
 }

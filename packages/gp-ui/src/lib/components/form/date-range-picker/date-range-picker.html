@@ -36,7 +36,7 @@
           <button type="button" class="gp-date-range__nav-btn" (click)="prevMonth()">
             <gp-icon name="chevron-left" size="0.85em" />
           </button>
-          <span class="gp-date-range__month-title">{{ currentMonthName }} {{ currentYear }}</span>
+          <span class="gp-date-range__month-title">{{ currentMonthName() }} {{ currentYear() }}</span>
           <button type="button" class="gp-date-range__nav-btn" (click)="nextMonth()">
             <gp-icon name="chevron-right" size="0.85em" />
           </button>

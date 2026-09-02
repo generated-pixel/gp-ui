@@ -1,8 +1,6 @@
-import { GpBase } from '../../../base/gp-base';
+import { GpFeedbackBase, GpFeedbackSeverity } from '../../../base/gp-feedback-base';
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-
 import { GpIcon } from '../../../icons/icon';
-import { GpBadgeSeverity } from '../badge/badge';
 
 @Component({
   selector: 'gp-tag',
@@ -13,9 +11,7 @@ import { GpBadgeSeverity } from '../badge/badge';
   templateUrl: './tag.html',
   styleUrl: './tag.scss'
 })
-export class GpTag extends GpBase {
-  public value = input<string>('');
-  public severity = input<GpBadgeSeverity>('primary');
-  public icon = input<string>('');
+export class GpTag extends GpFeedbackBase {
+  public override severity = input<GpFeedbackSeverity>('primary');
   public rounded = input<boolean>(false);
 }

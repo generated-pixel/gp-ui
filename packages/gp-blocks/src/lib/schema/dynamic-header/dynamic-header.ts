@@ -1,5 +1,4 @@
-import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-
+import { Component, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import {
   GpButton,
   GpBadge,
@@ -7,7 +6,8 @@ import {
   GpBreadcrumb,
   GpIcon
 } from '@generatedpixel/gp-ui';
-import { GpHeaderSchema, GpFormAction } from '../schema.types';
+import { GpBlockBase } from '../../base/gp-block-base';
+import { GpHeaderSchema } from '../schema.types';
 
 @Component({
   selector: 'gp-dynamic-header',
@@ -18,8 +18,6 @@ import { GpHeaderSchema, GpFormAction } from '../schema.types';
   templateUrl: './dynamic-header.html',
   styleUrl: './dynamic-header.scss'
 })
-export class GpDynamicHeader {
-  public schema = input<GpHeaderSchema | undefined>(undefined);
-  public actionClick = output<GpFormAction>();
+export class GpDynamicHeader extends GpBlockBase<GpHeaderSchema> {
   public backClick = output<void>();
 }

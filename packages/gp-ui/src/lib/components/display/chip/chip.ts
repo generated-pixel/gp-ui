@@ -1,6 +1,5 @@
-import { GpBase } from '../../../base/gp-base';
-import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
-
+import { GpFeedbackBase } from '../../../base/gp-feedback-base';
+import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { GpIcon } from '../../../icons/icon';
 
 @Component({
@@ -12,19 +11,16 @@ import { GpIcon } from '../../../icons/icon';
   templateUrl: './chip.html',
   styleUrl: './chip.scss'
 })
-export class GpChip extends GpBase {
+export class GpChip extends GpFeedbackBase {
   public label = input<string>('');
-  public icon = input<string>('');
   public image = input<string>('');
   public removable = input<boolean>(false);
 
   public onRemove = output<{ originalEvent: MouseEvent }>();
 
-  protected visible = signal<boolean>(true);
-
   public remove(event: MouseEvent): void {
     event.stopPropagation();
-    this.visible.set(false);
+    this.close();
     this.onRemove.emit({ originalEvent: event });
   }
 }
