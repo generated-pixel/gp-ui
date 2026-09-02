@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent, GpButtonComponent } from '@generatedpixel/gp-ui';
 
@@ -16,6 +25,8 @@ export interface GpDualTier2Item {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-sidebar-dual',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent, GpButtonComponent],
@@ -35,31 +46,27 @@ export class GpLayoutSidebarDualComponent {
   public tier1Click = output<GpDualTier1Item>();
   public tier2Click = output<GpDualTier2Item>();
 
-  @Input() public tier1Template?: TemplateRef<any>;
-  @Input() public tier2Template?: TemplateRef<any>;
-  @Input() public topActionsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public tier1Template = input<TemplateRef<any> | undefined>(undefined);
+  public tier2Template = input<TemplateRef<any> | undefined>(undefined);
+  public topActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('tier1') public contentTier1?: TemplateRef<any>;
-  @ContentChild('tier2') public contentTier2?: TemplateRef<any>;
-  @ContentChild('topActions') public contentTopActions?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
-  @ContentChild('main') public contentMain?: TemplateRef<any>;
+  public contentTier1 = contentChild<TemplateRef<any>>('tier1');
+  public contentTier2 = contentChild<TemplateRef<any>>('tier2');
+  public contentTopActions = contentChild<TemplateRef<any>>('topActions');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
+  public contentArea = contentChild<TemplateRef<any>>('content');
+  public contentMain = contentChild<TemplateRef<any>>('main');
 
-  public get effectiveTier1(): TemplateRef<any> | undefined {
-    return this.tier1Template || this.contentTier1;
-  }
+  public effectiveTier1 = computed(() => this.tier1Template() || this.contentTier1());
 
-  public get effectiveTier2(): TemplateRef<any> | undefined {
-    return this.tier2Template || this.contentTier2;
-  }
+  public effectiveTier2 = computed(() => this.tier2Template() || this.contentTier2());
 
-  public get effectiveTopActions(): TemplateRef<any> | undefined {
-    return this.topActionsTemplate || this.contentTopActions || this.contentActions;
-  }
+  public effectiveTopActions = computed<TemplateRef<any> | undefined>(
+    () => this.topActionsTemplate() || this.contentTopActions() || this.contentActions()
+  );
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea || this.contentMain;
-  }
+  public effectiveContent = computed<TemplateRef<any> | undefined>(
+    () => this.contentTemplate() || this.contentArea() || this.contentMain()
+  );
 }

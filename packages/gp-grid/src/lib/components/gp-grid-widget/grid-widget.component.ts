@@ -1,12 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  input,
-  output,
-  computed,
-  inject
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { GpIconComponent, GpBadgeComponent, GpTranslationService, GpBadgeSeverity } from '@generatedpixel/gp-ui';
@@ -191,13 +183,19 @@ export class GpGridWidgetComponent {
   });
 
   public effectiveActions = computed<GpWidgetAction[]>(() => {
-    if (this.actions() && this.actions()!.length > 0) return this.actions()!;
-    if (this.item()?.actions && this.item()!.actions!.length > 0) return this.item()!.actions!;
+    if (this.actions() && this.actions()!.length > 0) {
+      return this.actions()!;
+    }
+    if (this.item()?.actions && this.item()!.actions!.length > 0) {
+      return this.item()!.actions!;
+    }
     return [];
   });
 
   public effectiveDragHandleTitle = computed(() => {
-    return this.dragHandleTitle() || this.translationService?.translation().grid?.dragHandle || 'Drag to reposition widget';
+    return (
+      this.dragHandleTitle() || this.translationService?.translation().grid?.dragHandle || 'Drag to reposition widget'
+    );
   });
 
   public effectiveDragHandleAriaLabel = computed(() => {
@@ -205,7 +203,9 @@ export class GpGridWidgetComponent {
   });
 
   public effectiveLockedBadgeTitle = computed(() => {
-    return this.lockedBadgeTitle() || this.translationService?.translation().grid?.lockedBadge || 'Widget is locked in place';
+    return (
+      this.lockedBadgeTitle() || this.translationService?.translation().grid?.lockedBadge || 'Widget is locked in place'
+    );
   });
 
   public effectiveLockedBadgeAriaLabel = computed(() => {
@@ -237,30 +237,46 @@ export class GpGridWidgetComponent {
   });
 
   public isDraggable = computed(() => {
-    if (this.isFixed() || this.isLocked()) return false;
-    if (this.draggable() !== undefined) return this.draggable()!;
+    if (this.isFixed() || this.isLocked()) {
+      return false;
+    }
+    if (this.draggable() !== undefined) {
+      return this.draggable()!;
+    }
     return this.item()?.draggable ?? true;
   });
 
   public isResizable = computed(() => {
-    if (this.isFixed() || this.isLocked()) return false;
-    if (this.resizable() !== undefined) return this.resizable()!;
+    if (this.isFixed() || this.isLocked()) {
+      return false;
+    }
+    if (this.resizable() !== undefined) {
+      return this.resizable()!;
+    }
     return this.item()?.resizable ?? true;
   });
 
   public isCloseable = computed(() => {
-    if (this.closeable() !== undefined) return this.closeable()!;
-    if (this.closable() !== undefined) return this.closable()!;
+    if (this.closeable() !== undefined) {
+      return this.closeable()!;
+    }
+    if (this.closable() !== undefined) {
+      return this.closable()!;
+    }
     return this.item()?.closeable ?? true;
   });
 
   public isFixed = computed(() => {
-    if (this.fixed() !== undefined) return this.fixed()!;
+    if (this.fixed() !== undefined) {
+      return this.fixed()!;
+    }
     return this.item()?.fixed ?? false;
   });
 
   public isLocked = computed(() => {
-    if (this.locked() !== undefined) return this.locked()!;
+    if (this.locked() !== undefined) {
+      return this.locked()!;
+    }
     return this.item()?.locked ?? false;
   });
 

@@ -204,7 +204,9 @@ import { getComponentDoc } from './component-docs.data';
         <div class="doc-section">
           <h2 class="doc-section-title">API Reference</h2>
           <p class="doc-section-desc text-secondary mb-4">
-            This component utilizes modern Angular <strong>Signal Inputs</strong> (<code>input()</code>), <strong>Two-Way Models</strong> (<code>model()</code>), and <strong>Output Signals</strong> (<code>output()</code>).
+            This component utilizes modern Angular <strong>Signal Inputs</strong> (<code>input()</code>),
+            <strong>Two-Way Models</strong> (<code>model()</code>), and
+            <strong>Output Signals</strong> (<code>output()</code>).
           </p>
           <doc-api-table title="Properties &amp; Signal Inputs" [properties]="doc.properties" />
           @if (doc.events?.length) {
@@ -268,7 +270,12 @@ import { getComponentDoc } from './component-docs.data';
         @case ('label') {
           <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 380px; width: 100%;">
             <div>
-              <gp-label for="doc-label-demo" text="Username" [required]="true" helpText="Your unique handle identifier" />
+              <gp-label
+                for="doc-label-demo"
+                text="Username"
+                [required]="true"
+                helpText="Your unique handle identifier"
+              />
               <input id="doc-label-demo" gpInputText placeholder="johndoe" />
             </div>
             <div>
@@ -303,10 +310,19 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('form-field') {
           <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 420px; width: 100%;">
-            <gp-form-field label="Corporate Email" appearance="outlined" [required]="true" helpText="Used for two-factor authentication">
+            <gp-form-field
+              label="Corporate Email"
+              appearance="outlined"
+              [required]="true"
+              helpText="Used for two-factor authentication"
+            >
               <input gpInputText placeholder="name@company.com" />
             </gp-form-field>
-            <gp-form-field label="Fixed Top Label Mode" floatLabel="never" hint="Always rendered in top standard position">
+            <gp-form-field
+              label="Fixed Top Label Mode"
+              floatLabel="never"
+              hint="Always rendered in top standard position"
+            >
               <input gpInputText placeholder="Enter details..." />
             </gp-form-field>
           </div>
@@ -370,7 +386,7 @@ import { getComponentDoc } from './component-docs.data';
           <gp-listbox [options]="demoOptions" />
         }
         @case ('autocomplete') {
-          <gp-autocomplete [suggestions]="demoOptions" placeholder="Search cities" />
+          <gp-autocomplete [suggestions]="demoCities" placeholder="Search cities (e.g. Rome, Paris, Tokyo...)" />
         }
         @case ('tree-select') {
           <gp-tree-select [options]="demoTreeNodes" placeholder="Select department" />
@@ -394,14 +410,10 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('table') {
           <div class="flex flex-col gap-2 min-w-[260px]">
-            <div
-              class="flex justify-between py-2 px-3 border border-surface rounded-md"
-            >
+            <div class="flex justify-between py-2 px-3 border border-surface rounded-md">
               <span>Name</span><span>Status</span>
             </div>
-            <div
-              class="flex justify-between py-2 px-3 border border-surface rounded-md"
-            >
+            <div class="flex justify-between py-2 px-3 border border-surface rounded-md">
               <span>Alpha</span><span>Ready</span>
             </div>
           </div>
@@ -524,7 +536,12 @@ import { getComponentDoc } from './component-docs.data';
                 Make changes to your profile details here. Click save when you're done.
               </p>
               <div footer class="flex justify-end gap-2">
-                <gp-button label="Cancel" severity="secondary" variant="outlined" (onClickEvent)="demoDialogVisible = false" />
+                <gp-button
+                  label="Cancel"
+                  severity="secondary"
+                  variant="outlined"
+                  (onClickEvent)="demoDialogVisible = false"
+                />
                 <gp-button label="Save" severity="primary" (onClickEvent)="demoDialogVisible = false" />
               </div>
             </gp-dialog>
@@ -533,13 +550,28 @@ import { getComponentDoc } from './component-docs.data';
         @case ('confirm-dialog') {
           <div>
             <gp-confirm-dialog />
-            <gp-button label="Trigger Confirm Dialog" icon="exclamation-triangle" severity="warning" (onClickEvent)="triggerConfirm()" />
+            <gp-button
+              label="Trigger Confirm Dialog"
+              icon="exclamation-triangle"
+              severity="warning"
+              (onClickEvent)="triggerConfirm()"
+            />
           </div>
         }
         @case ('drawer') {
           <div>
-            <gp-button label="Open Right Drawer" icon="bars" severity="primary" (onClickEvent)="demoDrawerVisible = true" />
-            <gp-drawer header="Settings &amp; Configuration" position="right" [visibleProp]="demoDrawerVisible" (visibleChange)="demoDrawerVisible = $event">
+            <gp-button
+              label="Open Right Drawer"
+              icon="bars"
+              severity="primary"
+              (onClickEvent)="demoDrawerVisible = true"
+            />
+            <gp-drawer
+              header="Settings &amp; Configuration"
+              position="right"
+              [visibleProp]="demoDrawerVisible"
+              (visibleChange)="demoDrawerVisible = $event"
+            >
               <div class="p-5">
                 <p class="mt-0">Drawer content panel overlaying page context.</p>
                 <gp-button label="Close Drawer" severity="secondary" (onClickEvent)="demoDrawerVisible = false" />
@@ -549,13 +581,16 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('popover') {
           <div class="flex gap-4 items-center">
-            <gp-button label="Toggle Popover" icon="info-circle" severity="info" (onClickEvent)="demoPopover.toggle($event)" />
+            <gp-button
+              label="Toggle Popover"
+              icon="info-circle"
+              severity="info"
+              (onClickEvent)="demoPopover.toggle($event)"
+            />
             <gp-popover #demoPopover>
               <div class="py-3 px-4 w-[220px]">
                 <h4 class="m-0 mb-2 text-sm">Quick Info</h4>
-                <p class="m-0 text-xs text-secondary">
-                  Contextual popover overlay triggered interactively.
-                </p>
+                <p class="m-0 text-xs text-secondary">Contextual popover overlay triggered interactively.</p>
               </div>
             </gp-popover>
           </div>
@@ -753,6 +788,16 @@ export class ComponentDocPageComponent implements OnInit {
     { label: 'Designer', value: 'designer' },
     { label: 'Developer', value: 'developer' },
     { label: 'Manager', value: 'manager' }
+  ];
+  demoCities = [
+    { label: 'Rome, Italy', value: 'rome', subtext: 'Capital of Italy', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Paris, France', value: 'paris', subtext: 'Capital of France', icon: 'map-pin', badge: 'Europe' },
+    { label: 'New York, USA', value: 'nyc', subtext: 'United States', icon: 'map-pin', badge: 'Americas' },
+    { label: 'London, UK', value: 'london', subtext: 'United Kingdom', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Tokyo, Japan', value: 'tokyo', subtext: 'Capital of Japan', icon: 'map-pin', badge: 'Asia' },
+    { label: 'Berlin, Germany', value: 'berlin', subtext: 'Capital of Germany', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Madrid, Spain', value: 'madrid', subtext: 'Capital of Spain', icon: 'map-pin', badge: 'Europe' },
+    { label: 'Sydney, Australia', value: 'sydney', subtext: 'Australia', icon: 'map-pin', badge: 'Oceania' }
   ];
   demoRows = [
     { name: 'Alpha', status: 'Ready' },
@@ -983,7 +1028,9 @@ export class ComponentDocPageComponent implements OnInit {
         icon: 'user',
         data: { title: 'Chief Financial Officer', department: 'Finance' },
         expanded: true,
-        children: [{ label: 'Katherine Brewster', icon: 'user', data: { title: 'Finance Director', department: 'Accounting' } }]
+        children: [
+          { label: 'Katherine Brewster', icon: 'user', data: { title: 'Finance Director', department: 'Accounting' } }
+        ]
       }
     ]
   };

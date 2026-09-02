@@ -1,11 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  HostListener,
-  signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, HostListener, signal } from '@angular/core';
+
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
@@ -19,7 +13,7 @@ export interface GpMenubarItem extends GpMenuItem {
 @Component({
   selector: 'gp-menubar',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpIconComponent],
+  imports: [RouterModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './menubar.component.html',

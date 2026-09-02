@@ -6,7 +6,7 @@ export type GpInputTextSize = 'sm' | 'md' | 'lg' | 'small' | 'large';
   selector: '[gpInputText], input[gpInput], textarea[gpInput]',
   standalone: true,
   host: {
-    'class': 'gp-inputtext',
+    class: 'gp-inputtext',
     '[class.gp-inputtext-sm]': "size() === 'sm' || size() === 'small'",
     '[class.gp-inputtext-lg]': "size() === 'lg' || size() === 'large'",
     '[class.gp-input-invalid]': 'invalid()',

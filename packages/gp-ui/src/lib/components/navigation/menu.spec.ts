@@ -88,7 +88,7 @@ describe('Navigation Menu Components', () => {
 
   it('should toggle popup menu visibility on toggle()', () => {
     const menuEl = fixture.nativeElement.querySelector('gp-menu');
-    const menuInstance = (fixture.debugElement.children[0].componentInstance) as GpMenuComponent;
+    const menuInstance = fixture.debugElement.children[0].componentInstance as GpMenuComponent;
 
     expect(menuInstance.visible()).toBe(false);
     menuInstance.show(new MouseEvent('click'));
@@ -101,7 +101,7 @@ describe('Navigation Menu Components', () => {
   });
 
   it('should position context menu on show(event) with boundary detection', () => {
-    const contextInstance = (fixture.debugElement.children[2].componentInstance) as GpContextMenuComponent;
+    const contextInstance = fixture.debugElement.children[2].componentInstance as GpContextMenuComponent;
 
     expect(contextInstance.visible()).toBe(false);
     const fakeEvent = new MouseEvent('contextmenu', { clientX: 100, clientY: 200 });
@@ -115,7 +115,7 @@ describe('Navigation Menu Components', () => {
   });
 
   it('should toggle panel menu expansion reactively', () => {
-    const panelInstance = (fixture.debugElement.children[4].componentInstance) as GpPanelMenuComponent;
+    const panelInstance = fixture.debugElement.children[4].componentInstance as GpPanelMenuComponent;
     const firstItem = host.menubarItems[0];
 
     expect(panelInstance.isExpanded(firstItem)).toBe(false);
@@ -129,7 +129,7 @@ describe('Navigation Menu Components', () => {
   });
 
   it('should handle menubar root item interaction', () => {
-    const menubarInstance = (fixture.debugElement.children[1].componentInstance) as GpMenubarComponent;
+    const menubarInstance = fixture.debugElement.children[1].componentInstance as GpMenubarComponent;
     const fileItem = host.menubarItems[0];
 
     menubarInstance.onRootItemClick(fileItem, new MouseEvent('click'));

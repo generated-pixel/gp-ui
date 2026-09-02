@@ -1,37 +1,32 @@
 <div class="gp-header-stats-wrapper">
   <div class="header-content-col">
-    <ng-container *ngIf="effectiveTitle; else defaultTitle">
-      <ng-container *ngTemplateOutlet="effectiveTitle" />
-    </ng-container>
-    <ng-template #defaultTitle>
+    @if (effectiveTitle()) {
+      <ng-container *ngTemplateOutlet="effectiveTitle()!" />
+    } @else {
       <ng-content select="[title], [slot=title]" />
-
-        <h2 class="header-title">{{ title() }}</h2>
-        <p class="header-desc" *ngIf="description()">{{ description() }}</p>
-      
-    </ng-template>
+      <h2 class="header-title">{{ title() }}</h2>
+      @if (description()) {
+        <p class="header-desc">{{ description() }}</p>
+      }
+    }
   </div>
 
   <div class="header-stats-col">
-    <ng-container *ngIf="effectiveStats; else defaultStats">
-      <ng-container *ngTemplateOutlet="effectiveStats" />
-    </ng-container>
-    <ng-template #defaultStats>
+    @if (effectiveStats()) {
+      <ng-container *ngTemplateOutlet="effectiveStats()!" />
+    } @else {
       <ng-content select="[stats], [slot=stats]" />
-
-        <div class="stats-row" *ngIf="stats() && stats().length > 0">
-          <div
-            class="stat-box"
-            *ngFor="let s of stats()"
-            (click)="statClick.emit(s)"
-            style="cursor: pointer;"
-          >
-            <span class="stat-label">{{ s.label }}</span>
-            <span class="stat-value">{{ s.value }}</span>
-          </div>
+      @if (stats() && stats().length > 0) {
+        <div class="stats-row">
+          @for (s of stats(); track s) {
+            <div class="stat-box" (click)="statClick.emit(s)" style="cursor: pointer">
+              <span class="stat-label">{{ s.label }}</span>
+              <span class="stat-value">{{ s.value }}</span>
+            </div>
+          }
         </div>
-      
-    </ng-template>
+      }
+    }
   </div>
   <ng-content />
 </div>

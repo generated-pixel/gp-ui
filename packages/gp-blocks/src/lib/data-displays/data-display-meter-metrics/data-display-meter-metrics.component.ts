@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpProgressBarComponent } from '@generatedpixel/gp-ui';
 
@@ -11,6 +20,8 @@ export interface GpMeterMetricItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-data-display-meter-metrics',
   standalone: true,
   imports: [CommonModule, GpProgressBarComponent],
@@ -24,23 +35,17 @@ export class GpDataDisplayMeterMetricsComponent {
 
   public meterClick = output<GpMeterMetricItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public meterTemplate?: TemplateRef<{ $implicit: GpMeterMetricItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public meterTemplate = input<TemplateRef<{ $implicit: GpMeterMetricItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('meterTemplate') public contentMeterTemplate?: TemplateRef<{ $implicit: GpMeterMetricItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentMeterTemplate = contentChild<TemplateRef<{ $implicit: GpMeterMetricItem }>>('meterTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveMeterTemplate(): TemplateRef<{ $implicit: GpMeterMetricItem }> | undefined {
-    return this.meterTemplate || this.contentMeterTemplate;
-  }
+  public effectiveMeterTemplate = computed(() => this.meterTemplate() || this.contentMeterTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

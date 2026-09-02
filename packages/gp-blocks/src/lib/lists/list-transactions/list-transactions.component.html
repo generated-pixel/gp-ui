@@ -1,36 +1,31 @@
 <div class="gp-transactions-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="card-head" *ngIf="title()">
+    @if (title()) {
+      <div class="card-head">
         <h3 class="head-title">{{ title() }}</h3>
-        <gp-badge *ngIf="badgeText()" [value]="badgeText()" [severity]="badgeSeverity()" />
+        @if (badgeText()) {
+          <gp-badge [value]="badgeText()" [severity]="badgeSeverity()" />
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Transactions List Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[transactions], [slot=transactions], [items], [slot=items]" />
-
-      <div class="trans-list" *ngIf="transactions() && transactions().length > 0">
-        <ng-container *ngFor="let t of transactions()">
-          <ng-container *ngIf="effectiveTransactionTemplate; else defaultTrans">
-            <ng-container *ngTemplateOutlet="effectiveTransactionTemplate; context: { $implicit: t }" />
-          </ng-container>
-          <ng-template #defaultTrans>
-            <div
-              class="trans-row"
-              (click)="transactionClick.emit(t)"
-              style="cursor: pointer;"
-            >
+    @if (transactions() && transactions().length > 0) {
+      <div class="trans-list">
+        @for (t of transactions(); track t) {
+          @if (effectiveTransactionTemplate()) {
+            <ng-container *ngTemplateOutlet="effectiveTransactionTemplate()!; context: { $implicit: t }" />
+          } @else {
+            <div class="trans-row" (click)="transactionClick.emit(t)" style="cursor: pointer">
               <div class="trans-left">
                 <div class="trans-icon" [class.in]="t.type === 'in'" [class.out]="t.type === 'out'">
                   <gp-icon [name]="t.type === 'in' ? 'arrow-down-left' : 'arrow-up-right'" size="1em" />
@@ -40,21 +35,20 @@
                   <span class="trans-sub">{{ t.category }} &bull; {{ t.date }}</span>
                 </div>
               </div>
-
               <div class="trans-right">
                 <span class="trans-amt" [class.in]="t.type === 'in'" [class.out]="t.type === 'out'">
                   {{ t.type === 'in' ? '+' : '-' }}{{ t.amount }}
                 </span>
                 <gp-badge
                   [value]="t.status"
-                  [severity]="t.status === 'Completed' ? 'success' : (t.status === 'Pending' ? 'warning' : 'danger')"
+                  [severity]="t.status === 'Completed' ? 'success' : t.status === 'Pending' ? 'warning' : 'danger'"
                 />
               </div>
             </div>
-          </ng-template>
-        </ng-container>
+          }
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

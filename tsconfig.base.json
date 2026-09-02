@@ -34,7 +34,11 @@
       "gp-grid": ["packages/gp-grid/src/public-api.ts"],
       "gp-grid/*": ["packages/gp-grid/src/*"],
       "@generatedpixel/gp-grid": ["packages/gp-grid/src/public-api.ts"],
-      "@generatedpixel/gp-grid/*": ["packages/gp-grid/src/*"]
+      "@generatedpixel/gp-grid/*": ["packages/gp-grid/src/*"],
+      "gp-rules": ["packages/gp-rules/src/public-api.ts"],
+      "gp-rules/*": ["packages/gp-rules/src/*"],
+      "@generatedpixel/gp-rules": ["packages/gp-rules/src/public-api.ts"],
+      "@generatedpixel/gp-rules/*": ["packages/gp-rules/src/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

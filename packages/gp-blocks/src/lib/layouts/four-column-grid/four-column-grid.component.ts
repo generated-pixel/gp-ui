@@ -1,8 +1,18 @@
-import { Component, input, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent } from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-four-column-grid',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent],
@@ -19,33 +29,33 @@ export class GpLayoutFourColumnGridComponent {
   public col4Title = input<string>('Column 4');
   public col4Badge = input<string>('');
 
-  @Input() public col1Template?: TemplateRef<any>;
-  @Input() public col2Template?: TemplateRef<any>;
-  @Input() public col3Template?: TemplateRef<any>;
-  @Input() public col4Template?: TemplateRef<any>;
+  public col1Template = input<TemplateRef<any> | undefined>(undefined);
+  public col2Template = input<TemplateRef<any> | undefined>(undefined);
+  public col3Template = input<TemplateRef<any> | undefined>(undefined);
+  public col4Template = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('col1') public contentCol1?: TemplateRef<any>;
-  @ContentChild('col1Template') public contentCol1Tpl?: TemplateRef<any>;
-  @ContentChild('col2') public contentCol2?: TemplateRef<any>;
-  @ContentChild('col2Template') public contentCol2Tpl?: TemplateRef<any>;
-  @ContentChild('col3') public contentCol3?: TemplateRef<any>;
-  @ContentChild('col3Template') public contentCol3Tpl?: TemplateRef<any>;
-  @ContentChild('col4') public contentCol4?: TemplateRef<any>;
-  @ContentChild('col4Template') public contentCol4Tpl?: TemplateRef<any>;
+  public contentCol1 = contentChild<TemplateRef<any>>('col1');
+  public contentCol1Tpl = contentChild<TemplateRef<any>>('col1Template');
+  public contentCol2 = contentChild<TemplateRef<any>>('col2');
+  public contentCol2Tpl = contentChild<TemplateRef<any>>('col2Template');
+  public contentCol3 = contentChild<TemplateRef<any>>('col3');
+  public contentCol3Tpl = contentChild<TemplateRef<any>>('col3Template');
+  public contentCol4 = contentChild<TemplateRef<any>>('col4');
+  public contentCol4Tpl = contentChild<TemplateRef<any>>('col4Template');
 
-  public get effectiveCol1(): TemplateRef<any> | undefined {
-    return this.col1Template || this.contentCol1 || this.contentCol1Tpl;
-  }
+  public effectiveCol1 = computed<TemplateRef<any> | undefined>(
+    () => this.col1Template() || this.contentCol1() || this.contentCol1Tpl()
+  );
 
-  public get effectiveCol2(): TemplateRef<any> | undefined {
-    return this.col2Template || this.contentCol2 || this.contentCol2Tpl;
-  }
+  public effectiveCol2 = computed<TemplateRef<any> | undefined>(
+    () => this.col2Template() || this.contentCol2() || this.contentCol2Tpl()
+  );
 
-  public get effectiveCol3(): TemplateRef<any> | undefined {
-    return this.col3Template || this.contentCol3 || this.contentCol3Tpl;
-  }
+  public effectiveCol3 = computed<TemplateRef<any> | undefined>(
+    () => this.col3Template() || this.contentCol3() || this.contentCol3Tpl()
+  );
 
-  public get effectiveCol4(): TemplateRef<any> | undefined {
-    return this.col4Template || this.contentCol4 || this.contentCol4Tpl;
-  }
+  public effectiveCol4 = computed<TemplateRef<any> | undefined>(
+    () => this.col4Template() || this.contentCol4() || this.contentCol4Tpl()
+  );
 }

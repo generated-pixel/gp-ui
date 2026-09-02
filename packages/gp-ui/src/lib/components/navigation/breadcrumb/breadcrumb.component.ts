@@ -1,5 +1,5 @@
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpMenuItem } from '../../button/split-button/split-button.component';
@@ -8,7 +8,7 @@ import { GpMenuBaseComponent } from '../../../base/gp-menu-base.component';
 @Component({
   selector: 'gp-breadcrumb',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpIconComponent],
+  imports: [RouterModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './breadcrumb.component.html',

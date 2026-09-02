@@ -1,12 +1,4 @@
-import {
-  Directive,
-  input,
-  output,
-  signal,
-  ElementRef,
-  HostListener,
-  inject
-} from '@angular/core';
+import { Directive, input, output, signal, ElementRef, HostListener, inject } from '@angular/core';
 import { GpBaseComponent } from './gp-base.component';
 import { GpMenuItem } from '../components/button/split-button/split-button.component';
 
@@ -58,7 +50,12 @@ export abstract class GpMenuBaseComponent<T extends GpMenuItem = GpMenuItem> ext
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (this.popup() && this.visible() && this.menuHostEl?.nativeElement && !this.menuHostEl.nativeElement.contains(event.target)) {
+    if (
+      this.popup() &&
+      this.visible() &&
+      this.menuHostEl?.nativeElement &&
+      !this.menuHostEl.nativeElement.contains(event.target)
+    ) {
       this.hide();
     }
   }

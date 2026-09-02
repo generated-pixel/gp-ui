@@ -1,4 +1,14 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -12,6 +22,8 @@ export interface GpDataGridRowItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-list-data-grid',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent],
@@ -33,31 +45,23 @@ export class GpListDataGridComponent {
   public rowActionClick = output<GpDataGridRowItem>();
   public searchChange = output<string>();
 
-  @Input() public toolbarTemplate?: TemplateRef<any>;
-  @Input() public rowTemplate?: TemplateRef<{ $implicit: GpDataGridRowItem }>;
-  @Input() public footerTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public toolbarTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public rowTemplate = input<TemplateRef<{ $implicit: GpDataGridRowItem }> | undefined>(undefined);
+  public footerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('toolbar') public contentToolbar?: TemplateRef<any>;
-  @ContentChild('rowTemplate') public contentRowTemplate?: TemplateRef<{ $implicit: GpDataGridRowItem }>;
-  @ContentChild('footer') public contentFooter?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentToolbar = contentChild<TemplateRef<any>>('toolbar');
+  public contentRowTemplate = contentChild<TemplateRef<{ $implicit: GpDataGridRowItem }>>('rowTemplate');
+  public contentFooter = contentChild<TemplateRef<any>>('footer');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveToolbar(): TemplateRef<any> | undefined {
-    return this.toolbarTemplate || this.contentToolbar;
-  }
+  public effectiveToolbar = computed(() => this.toolbarTemplate() || this.contentToolbar());
 
-  public get effectiveRowTemplate(): TemplateRef<{ $implicit: GpDataGridRowItem }> | undefined {
-    return this.rowTemplate || this.contentRowTemplate;
-  }
+  public effectiveRowTemplate = computed(() => this.rowTemplate() || this.contentRowTemplate());
 
-  public get effectiveFooter(): TemplateRef<any> | undefined {
-    return this.footerTemplate || this.contentFooter;
-  }
+  public effectiveFooter = computed(() => this.footerTemplate() || this.contentFooter());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onSearchInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;

@@ -5,21 +5,41 @@
 
 export type GpFieldType =
   | 'text'
+  | 'input'
   | 'textarea'
   | 'password'
   | 'number'
+  | 'input-number'
+  | 'mask'
+  | 'input-mask'
   | 'select'
+  | 'dropdown'
   | 'multi-select'
+  | 'autocomplete'
+  | 'cascade-select'
+  | 'tree-select'
+  | 'listbox'
   | 'checkbox'
   | 'radio'
+  | 'radio-button'
   | 'switch'
+  | 'toggle-button'
   | 'slider'
   | 'rating'
   | 'color'
+  | 'color-picker'
   | 'date'
+  | 'date-picker'
+  | 'date-range'
+  | 'date-range-picker'
   | 'time'
+  | 'time-picker'
   | 'file-upload'
-  | 'autocomplete'
+  | 'file'
+  | 'form-field'
+  | 'label'
+  | 'float-label'
+  | 'inset-label'
   | 'divider'
   | 'heading'
   | 'custom';
@@ -54,6 +74,7 @@ export interface GpFieldSchema {
   colSpanMd?: number;
   colSpanLg?: number;
   required?: boolean;
+  optional?: boolean;
   disabled?: boolean;
   readonly?: boolean;
   icon?: string;
@@ -66,6 +87,24 @@ export interface GpFieldSchema {
   validation?: GpFieldValidation;
   hiddenWhen?: { field: string; equals: any };
   customClass?: string;
+
+  // Specific component properties
+  mask?: string;
+  maskSlotChar?: string;
+  suggestions?: string[] | GpFieldOption[];
+  cascadeOptions?: any[];
+  treeNodes?: any[];
+  stars?: number;
+  stepMinute?: number;
+  minuteSteps?: number[];
+  hourFormat?: '12' | '24';
+  accept?: string;
+  multiple?: boolean;
+  floatLabelVariant?: 'on' | 'in' | 'over';
+  insetLabelSize?: 'sm' | 'md' | 'lg';
+  appearance?: 'outlined' | 'filled' | 'inset';
+  helpText?: string;
+  severity?: 'default' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
 }
 
 export interface GpFormAction {

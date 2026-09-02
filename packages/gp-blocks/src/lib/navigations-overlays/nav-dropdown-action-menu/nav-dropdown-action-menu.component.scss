@@ -10,44 +10,44 @@
   background: var(--gp-surface-section);
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius-lg, 0.75rem);
-}
 
-.gp-popover.gp-dropdown-action-menu__popover {
-  width: min(17rem, calc(100vw - 1rem));
-  padding: var(--gp-spacing-2, 0.5rem);
-}
+  .gp-popover.gp-dropdown-action-menu__popover {
+    width: min(17rem, calc(100vw - 1rem));
+    padding: var(--gp-spacing-2, 0.5rem);
+  }
 
-.gp-dropdown-action-menu__content,
-.gp-dropdown-action-menu__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gp-spacing-1, 0.25rem);
-}
+  .gp-dropdown-action-menu__content,
+  .gp-dropdown-action-menu__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gp-spacing-1, 0.25rem);
+  }
 
-.gp-dropdown-action-menu__user {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gp-spacing-1, 0.25rem);
-  min-width: 0;
-  padding: var(--gp-spacing-2, 0.5rem);
-  font-size: var(--gp-font-size-sm, 0.875rem);
-}
+  .gp-dropdown-action-menu__user {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gp-spacing-1, 0.25rem);
+    min-width: 0;
+    padding: var(--gp-spacing-2, 0.5rem);
+    font-size: var(--gp-font-size-sm, 0.875rem);
+  }
 
-.gp-dropdown-action-menu__user span {
-  color: var(--gp-text-color-secondary);
-  font-size: var(--gp-font-size-xs, 0.75rem);
-}
+  .gp-dropdown-action-menu__user span {
+    color: var(--gp-text-color-secondary);
+    font-size: var(--gp-font-size-xs, 0.75rem);
+  }
 
-.gp-dropdown-action-menu__user strong {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+  .gp-dropdown-action-menu__user strong {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
-.gp-dropdown-action-menu__content .gp-divider {
-  margin: var(--gp-spacing-1, 0.25rem) 0;
-}
+  .gp-dropdown-action-menu__content .gp-divider {
+    margin: var(--gp-spacing-1, 0.25rem) 0;
+  }
 
-.gp-button.gp-dropdown-action-menu__item {
-  justify-content: flex-start;
+  .gp-button.gp-dropdown-action-menu__item {
+    justify-content: flex-start;
+  }
 }

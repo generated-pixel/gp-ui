@@ -1,0 +1,27 @@
+{
+  "name": "@generatedpixel/gp-rules",
+  "version": "1.0.0",
+  "description": "Dynamic, reactive Business Rules Engine and event automation for Angular and gp-ui components.",
+  "keywords": [
+    "angular",
+    "business-rules",
+    "rules-engine",
+    "signals",
+    "gp-ui",
+    "debounce",
+    "events",
+    "reactive"
+  ],
+  "author": "Generated Pixel",
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0",
+    "@angular/forms": "^19.0.0",
+    "@generatedpixel/gp-ui": "^1.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

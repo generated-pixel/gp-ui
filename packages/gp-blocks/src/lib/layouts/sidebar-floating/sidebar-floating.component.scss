@@ -14,101 +14,101 @@
   border-radius: var(--gp-border-radius-lg, 16px);
   border: 1px solid var(--gp-surface-border);
   box-sizing: border-box;
-}
 
-.floating-sidebar-card {
-  width: 240px;
-  background: var(--gp-surface-card);
-  border: 1px solid var(--gp-surface-border);
-  border-radius: var(--gp-border-radius-lg, 14px);
-  padding: 1.25rem 1rem;
-  box-shadow: var(--gp-shadow-sm, 0 4px 6px -1px rgba(0, 0, 0, 0.05));
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
+  .floating-sidebar-card {
+    width: 240px;
+    background: var(--gp-surface-card);
+    border: 1px solid var(--gp-surface-border);
+    border-radius: var(--gp-border-radius-lg, 14px);
+    padding: 1.25rem 1rem;
+    box-shadow: var(--gp-shadow-sm, 0 4px 6px -1px rgba(0, 0, 0, 0.05));
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
 
-.floating-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0 0.5rem 1.25rem 0.5rem;
-  border-bottom: 1px solid var(--gp-surface-border);
-}
+  .floating-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 0.5rem 1.25rem 0.5rem;
+    border-bottom: 1px solid var(--gp-surface-border);
+  }
 
-.brand-orb {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--gp-primary);
-}
+  .brand-orb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gp-primary);
+  }
 
-.brand-text {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--gp-text-color);
-}
+  .brand-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gp-text-color);
+  }
 
-.floating-nav {
-  padding-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
+  .floating-nav {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
 
-.floating-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.75rem;
-  border-radius: var(--gp-border-radius-sm, 8px);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--gp-text-color-secondary);
-  text-decoration: none;
-  transition: all var(--gp-transition-duration, 150ms) ease;
-}
+  .floating-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--gp-border-radius-sm, 8px);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gp-text-color-secondary);
+    text-decoration: none;
+    transition: all var(--gp-transition-duration, 150ms) ease;
+  }
 
-.floating-link:hover {
-  background: var(--gp-surface-hover);
-  color: var(--gp-text-color);
-}
+  .floating-link:hover {
+    background: var(--gp-surface-hover);
+    color: var(--gp-text-color);
+  }
 
-.floating-link.active {
-  background: var(--gp-primary);
-  color: var(--gp-primary-text, #fff);
-  font-weight: 600;
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
-}
+  .floating-link.active {
+    background: var(--gp-primary);
+    color: var(--gp-primary-text, #fff);
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+  }
 
-.floating-main-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-width: 0;
-}
+  .floating-main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
 
-.floating-topbar {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  .floating-topbar {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.floating-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--gp-text-color);
-}
+  .floating-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
 
-.floating-content-card {
-  flex: 1;
-  background: var(--gp-surface-card);
-  border: 1px solid var(--gp-surface-border);
-  border-radius: var(--gp-border-radius-lg, 14px);
-  padding: 1.5rem;
-  box-shadow: var(--gp-shadow-sm, 0 4px 6px -1px rgba(0, 0, 0, 0.05));
-  overflow-y: auto;
+  .floating-content-card {
+    flex: 1;
+    background: var(--gp-surface-card);
+    border: 1px solid var(--gp-surface-border);
+    border-radius: var(--gp-border-radius-lg, 14px);
+    padding: 1.5rem;
+    box-shadow: var(--gp-shadow-sm, 0 4px 6px -1px rgba(0, 0, 0, 0.05));
+    overflow-y: auto;
+  }
 }

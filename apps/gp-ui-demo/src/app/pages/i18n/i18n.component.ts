@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpButtonComponent,
   GpDatePickerComponent,
@@ -17,7 +17,7 @@ import {
 @Component({
   selector: 'app-i18n-page',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpDatePickerComponent, GpPaginatorComponent, GpConfirmDialogComponent],
+  imports: [GpButtonComponent, GpDatePickerComponent, GpPaginatorComponent, GpConfirmDialogComponent],
   template: `
     <div class="page-container">
       <gp-confirm-dialog />

@@ -1,12 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import {
-  Component,
-  input,
-  contentChild,
-  TemplateRef,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, input, contentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 

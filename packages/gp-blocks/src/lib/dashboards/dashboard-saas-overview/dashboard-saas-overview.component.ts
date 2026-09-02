@@ -1,4 +1,14 @@
-import { Component, input, output, model, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  model,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   GpAvatarComponent,
@@ -43,6 +53,8 @@ export interface GpSaasSignupRow {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-dashboard-saas-overview',
   standalone: true,
   imports: [
@@ -128,19 +140,17 @@ export class GpDashboardSaasOverviewComponent {
   public exportClick = output<void>();
   public layoutChange = output<GpGridItem[]>();
 
-  @Input() public widgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
-  @Input() public headerActionsTemplate?: TemplateRef<any>;
+  public widgetTemplate = input<TemplateRef<{ $implicit: GpGridItem }> | undefined>(undefined);
+  public headerActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('widgetTemplate') public contentWidgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
-  @ContentChild('kpis') public contentKpis?: TemplateRef<any>;
-  @ContentChild('chart') public contentChart?: TemplateRef<any>;
-  @ContentChild('quotas') public contentQuotas?: TemplateRef<any>;
-  @ContentChild('table') public contentTable?: TemplateRef<any>;
-  @ContentChild('headerActions') public contentHeaderActions?: TemplateRef<any>;
+  public contentWidgetTemplate = contentChild<TemplateRef<{ $implicit: GpGridItem }>>('widgetTemplate');
+  public contentKpis = contentChild<TemplateRef<any>>('kpis');
+  public contentChart = contentChild<TemplateRef<any>>('chart');
+  public contentQuotas = contentChild<TemplateRef<any>>('quotas');
+  public contentTable = contentChild<TemplateRef<any>>('table');
+  public contentHeaderActions = contentChild<TemplateRef<any>>('headerActions');
 
-  public get effectiveWidgetTemplate(): TemplateRef<{ $implicit: GpGridItem }> | undefined {
-    return this.widgetTemplate || this.contentWidgetTemplate;
-  }
+  public effectiveWidgetTemplate = computed(() => this.widgetTemplate() || this.contentWidgetTemplate());
 
   public onLayoutChanged(newLayout: GpGridItem[]): void {
     this.widgets.set(newLayout);

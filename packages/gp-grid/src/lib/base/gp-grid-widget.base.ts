@@ -1,12 +1,4 @@
-import {
-  Directive,
-  DestroyRef,
-  inject,
-  input,
-  output,
-  computed,
-  Signal
-} from '@angular/core';
+import { Directive, DestroyRef, inject, input, output, computed, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { GpGridItem } from '../models/grid-item.model';
 import { GpWidgetDataSource, GpWidgetNavigationConfig } from '../models/grid-widget.model';

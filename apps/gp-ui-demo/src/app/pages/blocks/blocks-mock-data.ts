@@ -18,7 +18,16 @@ export const BLOCKS_DEMO_DATA = {
       mainSubtitle: 'Explore responsive multi-column containers and dashboard panels.',
       rightTitle: 'Activity & Telemetry'
     },
-    fourCol: { col1Title: 'Incoming Tasks', col1Badge: '5 New', col2Title: 'In Progress', col2Badge: '3 Active', col3Title: 'Review & QA', col3Badge: '2 Pending', col4Title: 'Completed', col4Badge: '18 Done' },
+    fourCol: {
+      col1Title: 'Incoming Tasks',
+      col1Badge: '5 New',
+      col2Title: 'In Progress',
+      col2Badge: '3 Active',
+      col3Title: 'Review & QA',
+      col3Badge: '2 Pending',
+      col4Title: 'Completed',
+      col4Badge: '18 Done'
+    },
     sbDark: {
       brandName: 'Apex Control',
       title: 'Dark Themed System Console',
@@ -294,10 +303,42 @@ export const BLOCKS_DEMO_DATA = {
   dashboards: {
     saas: {
       kpis: [
-        { label: 'Monthly Recurring Revenue', value: '$84,250', icon: 'layer-group', iconBg: 'rgba(99, 102, 241, 0.12)', iconColor: 'var(--gp-primary)', trendText: '+18.4% from last month', trendType: 'positive' as const },
-        { label: 'Active Subscribers', value: '1,429', icon: 'users', iconBg: 'rgba(16, 185, 129, 0.12)', iconColor: 'var(--gp-success)', trendText: '+92 this month', trendType: 'positive' as const },
-        { label: 'Average Revenue Per User', value: '$58.95', icon: 'star', iconBg: 'rgba(59, 130, 246, 0.12)', iconColor: 'var(--gp-info)', trendText: '+4.2% vs target', trendType: 'positive' as const },
-        { label: 'Net Revenue Churn', value: '0.8%', icon: 'sliders', iconBg: 'rgba(245, 158, 11, 0.12)', iconColor: 'var(--gp-warning)', trendText: '-0.3% churn reduction', trendType: 'positive' as const }
+        {
+          label: 'Monthly Recurring Revenue',
+          value: '$84,250',
+          icon: 'layer-group',
+          iconBg: 'rgba(99, 102, 241, 0.12)',
+          iconColor: 'var(--gp-primary)',
+          trendText: '+18.4% from last month',
+          trendType: 'positive' as const
+        },
+        {
+          label: 'Active Subscribers',
+          value: '1,429',
+          icon: 'users',
+          iconBg: 'rgba(16, 185, 129, 0.12)',
+          iconColor: 'var(--gp-success)',
+          trendText: '+92 this month',
+          trendType: 'positive' as const
+        },
+        {
+          label: 'Average Revenue Per User',
+          value: '$58.95',
+          icon: 'star',
+          iconBg: 'rgba(59, 130, 246, 0.12)',
+          iconColor: 'var(--gp-info)',
+          trendText: '+4.2% vs target',
+          trendType: 'positive' as const
+        },
+        {
+          label: 'Net Revenue Churn',
+          value: '0.8%',
+          icon: 'sliders',
+          iconBg: 'rgba(245, 158, 11, 0.12)',
+          iconColor: 'var(--gp-warning)',
+          trendText: '-0.3% churn reduction',
+          trendType: 'positive' as const
+        }
       ],
       chartTitle: 'Monthly Recurring Revenue (MRR)',
       chartBadge: '+24.8% YoY Growth',
@@ -318,9 +359,30 @@ export const BLOCKS_DEMO_DATA = {
       ],
       tableTitle: 'Recent Organization Subscriptions',
       recentSignups: [
-        { name: 'Acme Technologies Ltd', domain: 'acme-tech.com', plan: 'Enterprise Annual', cycle: 'Annually', mrr: '$12,000.00', status: 'Active' },
-        { name: 'Starlight Media Studios', domain: 'starlight.media', plan: 'Team Pro Monthly', cycle: 'Monthly', mrr: '$299.00', status: 'Active' },
-        { name: 'DevFlow Systems', domain: 'devflow.io', plan: 'Starter Monthly', cycle: 'Monthly', mrr: '$49.00', status: 'Active' }
+        {
+          name: 'Acme Technologies Ltd',
+          domain: 'acme-tech.com',
+          plan: 'Enterprise Annual',
+          cycle: 'Annually',
+          mrr: '$12,000.00',
+          status: 'Active'
+        },
+        {
+          name: 'Starlight Media Studios',
+          domain: 'starlight.media',
+          plan: 'Team Pro Monthly',
+          cycle: 'Monthly',
+          mrr: '$299.00',
+          status: 'Active'
+        },
+        {
+          name: 'DevFlow Systems',
+          domain: 'devflow.io',
+          plan: 'Starter Monthly',
+          cycle: 'Monthly',
+          mrr: '$49.00',
+          status: 'Active'
+        }
       ]
     },
     ecommerce: {
@@ -369,9 +431,27 @@ export const BLOCKS_DEMO_DATA = {
       ledgerTitle: 'Recent Banking Ledger',
       ledgerBadge: 'Live Feed',
       ledger: [
-        { id: '1', desc: 'Stripe SaaS Inflow Batch', date: 'Today at 3:15 PM', amount: '$42,500.00', type: 'in' as const },
-        { id: '2', desc: 'Google Cloud Platform (GCP)', date: 'Yesterday at 11:20 AM', amount: '$8,450.20', type: 'out' as const },
-        { id: '3', desc: 'Enterprise Wire - Apex Systems', date: 'Aug 26, 2026', amount: '$125,000.00', type: 'in' as const },
+        {
+          id: '1',
+          desc: 'Stripe SaaS Inflow Batch',
+          date: 'Today at 3:15 PM',
+          amount: '$42,500.00',
+          type: 'in' as const
+        },
+        {
+          id: '2',
+          desc: 'Google Cloud Platform (GCP)',
+          date: 'Yesterday at 11:20 AM',
+          amount: '$8,450.20',
+          type: 'out' as const
+        },
+        {
+          id: '3',
+          desc: 'Enterprise Wire - Apex Systems',
+          date: 'Aug 26, 2026',
+          amount: '$125,000.00',
+          type: 'in' as const
+        },
         { id: '4', desc: 'Deel Global Payroll Run', date: 'Aug 25, 2026', amount: '$68,400.00', type: 'out' as const }
       ],
       invoicesTitle: 'Pending Client Invoices',
@@ -393,8 +473,20 @@ export const BLOCKS_DEMO_DATA = {
           count: 2,
           badgeSeverity: 'primary' as const,
           tasks: [
-            { tag: 'Feature', tagType: 'feat', title: 'Implement Webhook Signature Verification', assigneeLabel: 'J', points: '5 pts' },
-            { tag: 'Bugfix', tagType: 'bug', title: 'Fix Safari SVG gradient clipping', assigneeLabel: 'S', points: '3 pts' }
+            {
+              tag: 'Feature',
+              tagType: 'feat',
+              title: 'Implement Webhook Signature Verification',
+              assigneeLabel: 'J',
+              points: '5 pts'
+            },
+            {
+              tag: 'Bugfix',
+              tagType: 'bug',
+              title: 'Fix Safari SVG gradient clipping',
+              assigneeLabel: 'S',
+              points: '3 pts'
+            }
           ]
         },
         {
@@ -402,7 +494,13 @@ export const BLOCKS_DEMO_DATA = {
           count: 1,
           badgeSeverity: 'warning' as const,
           tasks: [
-            { tag: 'Feature', tagType: 'feat', title: 'Add 2FA SMS Authentication Fallback', assigneeLabel: 'A', points: '8 pts' }
+            {
+              tag: 'Feature',
+              tagType: 'feat',
+              title: 'Add 2FA SMS Authentication Fallback',
+              assigneeLabel: 'A',
+              points: '8 pts'
+            }
           ]
         },
         {
@@ -410,7 +508,13 @@ export const BLOCKS_DEMO_DATA = {
           count: 1,
           badgeSeverity: 'success' as const,
           tasks: [
-            { tag: 'Feature', tagType: 'feat', title: 'Export PDF Invoices with QR Code', assigneeLabel: 'M', points: '5 pts' }
+            {
+              tag: 'Feature',
+              tagType: 'feat',
+              title: 'Export PDF Invoices with QR Code',
+              assigneeLabel: 'M',
+              points: '5 pts'
+            }
           ]
         }
       ]
@@ -439,9 +543,27 @@ export const BLOCKS_DEMO_DATA = {
       subtitle: 'Manage your password, two-factor authentication, and active browser sessions.',
       twoFaEnabled: true,
       sessions: [
-        { device: 'MacBook Pro 16" (Sonoma 14.5)', location: 'San Francisco, CA', ip: '192.0.2.1', lastActive: 'Active now', isCurrent: true },
-        { device: 'iPhone 15 Pro (iOS 18.0)', location: 'San Francisco, CA', ip: '192.0.2.45', lastActive: '2 hours ago', isCurrent: false },
-        { device: 'Chrome on Windows 11', location: 'London, UK', ip: '198.51.100.24', lastActive: '3 days ago', isCurrent: false }
+        {
+          device: 'MacBook Pro 16" (Sonoma 14.5)',
+          location: 'San Francisco, CA',
+          ip: '192.0.2.1',
+          lastActive: 'Active now',
+          isCurrent: true
+        },
+        {
+          device: 'iPhone 15 Pro (iOS 18.0)',
+          location: 'San Francisco, CA',
+          ip: '192.0.2.45',
+          lastActive: '2 hours ago',
+          isCurrent: false
+        },
+        {
+          device: 'Chrome on Windows 11',
+          location: 'London, UK',
+          ip: '198.51.100.24',
+          lastActive: '3 days ago',
+          isCurrent: false
+        }
       ]
     },
     billing: {
@@ -460,10 +582,30 @@ export const BLOCKS_DEMO_DATA = {
       title: 'Notification Preferences',
       subtitle: 'Choose which email and push events you would like to receive.',
       preferences: [
-        { id: 'security', title: 'Security & Login Alerts', desc: 'Get notified immediately whenever a new device signs into your account.', enabled: true },
-        { id: 'deployments', title: 'Deployment & Build Triggers', desc: 'Receive real-time notifications for automated CI/CD pipeline completions and failures.', enabled: true },
-        { id: 'billing', title: 'Invoice & Payment Receipts', desc: 'Monthly summary invoices and subscription renewal receipts.', enabled: true },
-        { id: 'marketing', title: 'Product News & Feature Announcements', desc: 'Occasional updates on new component releases and performance enhancements.', enabled: false }
+        {
+          id: 'security',
+          title: 'Security & Login Alerts',
+          desc: 'Get notified immediately whenever a new device signs into your account.',
+          enabled: true
+        },
+        {
+          id: 'deployments',
+          title: 'Deployment & Build Triggers',
+          desc: 'Receive real-time notifications for automated CI/CD pipeline completions and failures.',
+          enabled: true
+        },
+        {
+          id: 'billing',
+          title: 'Invoice & Payment Receipts',
+          desc: 'Monthly summary invoices and subscription renewal receipts.',
+          enabled: true
+        },
+        {
+          id: 'marketing',
+          title: 'Product News & Feature Announcements',
+          desc: 'Occasional updates on new component releases and performance enhancements.',
+          enabled: false
+        }
       ]
     },
     team: {
@@ -480,15 +622,45 @@ export const BLOCKS_DEMO_DATA = {
       title: 'API Authentication Tokens',
       subtitle: 'Create and manage secret API keys for programmatic access.',
       apiKeys: [
-        { name: 'Production Telemetry Ingest', scope: 'Read/Write', token: 'gp_live_8942019482103984', created: 'Jul 12, 2026', lastUsed: '2 mins ago' },
-        { name: 'Staging CI/CD Pipeline Worker', scope: 'Read Only', token: 'gp_test_3184918239018402', created: 'Aug 04, 2026', lastUsed: '4 hours ago' },
-        { name: 'Legacy Data Exporter', scope: 'Admin', token: 'gp_live_0194829104820194', created: 'Jan 15, 2026', lastUsed: '24 days ago' }
+        {
+          name: 'Production Telemetry Ingest',
+          scope: 'Read/Write',
+          token: 'gp_live_8942019482103984',
+          created: 'Jul 12, 2026',
+          lastUsed: '2 mins ago'
+        },
+        {
+          name: 'Staging CI/CD Pipeline Worker',
+          scope: 'Read Only',
+          token: 'gp_test_3184918239018402',
+          created: 'Aug 04, 2026',
+          lastUsed: '4 hours ago'
+        },
+        {
+          name: 'Legacy Data Exporter',
+          scope: 'Admin',
+          token: 'gp_live_0194829104820194',
+          created: 'Jan 15, 2026',
+          lastUsed: '24 days ago'
+        }
       ]
     },
     dangerZone: {
       actions: [
-        { id: 'transfer', title: 'Transfer Account Ownership', desc: 'Transfer ownership of this organization, billing subscriptions, and repositories to another admin.', buttonLabel: 'Transfer', buttonVariant: 'outlined' as const },
-        { id: 'delete', title: 'Delete Entire Workspace & Data', desc: 'Permanently remove this organization and all associated database records. This action cannot be undone.', buttonLabel: 'Delete Account', buttonVariant: 'filled' as const }
+        {
+          id: 'transfer',
+          title: 'Transfer Account Ownership',
+          desc: 'Transfer ownership of this organization, billing subscriptions, and repositories to another admin.',
+          buttonLabel: 'Transfer',
+          buttonVariant: 'outlined' as const
+        },
+        {
+          id: 'delete',
+          title: 'Delete Entire Workspace & Data',
+          desc: 'Permanently remove this organization and all associated database records. This action cannot be undone.',
+          buttonLabel: 'Delete Account',
+          buttonVariant: 'filled' as const
+        }
       ]
     },
     customer: {
@@ -498,13 +670,23 @@ export const BLOCKS_DEMO_DATA = {
       location: 'San Francisco, CA',
       tags: ['Enterprise Tier', 'VIP Account', 'High Volume'],
       metaFields: [
-        { label: 'Work Email', value: 'robert.d@downey-tech.com', isLink: true, href: 'mailto:robert.d@downey-tech.com' },
+        {
+          label: 'Work Email',
+          value: 'robert.d@downey-tech.com',
+          isLink: true,
+          href: 'mailto:robert.d@downey-tech.com'
+        },
         { label: 'Direct Phone', value: '+1 (555) 234-8900', isLink: true, href: 'tel:+15552348900' },
         { label: 'Billing Address', value: '100 Innovation Way, Suite 400, San Francisco, CA' },
         { label: 'Assigned Executive', value: 'Elena Rostova (VP Customer Success)' }
       ],
       timelineEvents: [
-        { id: '1', title: 'Contract Renewal Signed (Annual Enterprise Pro)', date: 'Today at 10:30 AM', bulletClass: 'bg-green' },
+        {
+          id: '1',
+          title: 'Contract Renewal Signed (Annual Enterprise Pro)',
+          date: 'Today at 10:30 AM',
+          bulletClass: 'bg-green'
+        },
         { id: '2', title: 'Security Audit Check Completed', date: 'Yesterday at 3:15 PM', bulletClass: 'bg-blue' },
         { id: '3', title: '10 Additional Developer Seats Provisioned', date: 'Aug 24, 2026', bulletClass: 'bg-purple' }
       ]
@@ -520,7 +702,13 @@ export const BLOCKS_DEMO_DATA = {
       grandTotal: '$770.58',
       items: [
         { name: 'Ultra-Wide Curved Studio Monitor 34"', sku: 'MON-34-UW', qty: 1, price: '$549.00', total: '$549.00' },
-        { name: 'Ergonomic Mechanical Keyboard (Linear Red)', sku: 'KB-MECH-RED', qty: 1, price: '$149.00', total: '$149.00' }
+        {
+          name: 'Ergonomic Mechanical Keyboard (Linear Red)',
+          sku: 'KB-MECH-RED',
+          qty: 1,
+          price: '$149.00',
+          total: '$149.00'
+        }
       ]
     }
   },
@@ -536,8 +724,20 @@ export const BLOCKS_DEMO_DATA = {
         { label: 'Production Clusters' }
       ],
       actions: [
-        { id: 'scale', label: 'Scale Nodes', icon: 'sliders', variant: 'outlined' as const, severity: 'secondary' as const },
-        { id: 'deploy', label: 'New Deployment', icon: 'plus', variant: 'filled' as const, severity: 'primary' as const }
+        {
+          id: 'scale',
+          label: 'Scale Nodes',
+          icon: 'sliders',
+          variant: 'outlined' as const,
+          severity: 'secondary' as const
+        },
+        {
+          id: 'deploy',
+          label: 'New Deployment',
+          icon: 'plus',
+          variant: 'filled' as const,
+          severity: 'primary' as const
+        }
       ]
     },
     filters: {
@@ -599,10 +799,46 @@ export const BLOCKS_DEMO_DATA = {
   dataDisplays: {
     kpi: {
       kpis: [
-        { label: 'Total Revenue', value: '$128,430', change: '+14.2%', isUp: true, caption: 'vs last month', icon: 'layer-group', iconBg: 'rgba(99, 102, 241, 0.12)', iconColor: 'var(--gp-primary)' },
-        { label: 'Active Customers', value: '3,842', change: '+124', isUp: true, caption: 'this week', icon: 'users', iconBg: 'rgba(16, 185, 129, 0.12)', iconColor: 'var(--gp-success)' },
-        { label: 'Support Tickets', value: '18', change: '-6', isUp: false, caption: 'open issues', icon: 'sliders', iconBg: 'rgba(245, 158, 11, 0.12)', iconColor: 'var(--gp-warning)' },
-        { label: 'Average Response Time', value: '1m 45s', change: '-15s', isUp: true, caption: 'SLA improvement', icon: 'star', iconBg: 'rgba(59, 130, 246, 0.12)', iconColor: 'var(--gp-info)' }
+        {
+          label: 'Total Revenue',
+          value: '$128,430',
+          change: '+14.2%',
+          isUp: true,
+          caption: 'vs last month',
+          icon: 'layer-group',
+          iconBg: 'rgba(99, 102, 241, 0.12)',
+          iconColor: 'var(--gp-primary)'
+        },
+        {
+          label: 'Active Customers',
+          value: '3,842',
+          change: '+124',
+          isUp: true,
+          caption: 'this week',
+          icon: 'users',
+          iconBg: 'rgba(16, 185, 129, 0.12)',
+          iconColor: 'var(--gp-success)'
+        },
+        {
+          label: 'Support Tickets',
+          value: '18',
+          change: '-6',
+          isUp: false,
+          caption: 'open issues',
+          icon: 'sliders',
+          iconBg: 'rgba(245, 158, 11, 0.12)',
+          iconColor: 'var(--gp-warning)'
+        },
+        {
+          label: 'Average Response Time',
+          value: '1m 45s',
+          change: '-15s',
+          isUp: true,
+          caption: 'SLA improvement',
+          icon: 'star',
+          iconBg: 'rgba(59, 130, 246, 0.12)',
+          iconColor: 'var(--gp-info)'
+        }
       ]
     },
     descList: {
@@ -620,9 +856,30 @@ export const BLOCKS_DEMO_DATA = {
     timeline: {
       title: 'Infrastructure Deployment Stream',
       events: [
-        { title: 'Production Release v2.4.0 deployed', time: 'Today at 14:20 UTC', desc: 'Deployed by automated GitHub Action runner. 42 microservices upgraded with zero downtime.', author: 'Graeme G.', icon: 'check', color: 'var(--gp-success)' },
-        { title: 'Database Index Optimization completed', time: 'Yesterday at 22:15 UTC', desc: 'PostgreSQL automated vacuum and re-indexing executed across 18 partition tables.', author: 'Alex R.', icon: 'sliders', color: 'var(--gp-primary)' },
-        { title: 'TLS Wildcard Certificate renewed', time: 'Aug 24, 2026', desc: 'Let\'s Encrypt 90-day automated DNS challenge certificate renewal succeeded.', author: 'Cert Bot', icon: 'star', color: 'var(--gp-info)' }
+        {
+          title: 'Production Release v2.4.0 deployed',
+          time: 'Today at 14:20 UTC',
+          desc: 'Deployed by automated GitHub Action runner. 42 microservices upgraded with zero downtime.',
+          author: 'Graeme G.',
+          icon: 'check',
+          color: 'var(--gp-success)'
+        },
+        {
+          title: 'Database Index Optimization completed',
+          time: 'Yesterday at 22:15 UTC',
+          desc: 'PostgreSQL automated vacuum and re-indexing executed across 18 partition tables.',
+          author: 'Alex R.',
+          icon: 'sliders',
+          color: 'var(--gp-primary)'
+        },
+        {
+          title: 'TLS Wildcard Certificate renewed',
+          time: 'Aug 24, 2026',
+          desc: "Let's Encrypt 90-day automated DNS challenge certificate renewal succeeded.",
+          author: 'Cert Bot',
+          icon: 'star',
+          color: 'var(--gp-info)'
+        }
       ]
     },
     meter: {
@@ -673,18 +930,58 @@ export const BLOCKS_DEMO_DATA = {
     grid: {
       searchPlaceholder: 'Filter orders by ID or customer...',
       rows: [
-        { id: '1042', customer: 'Graeme Gorman', date: 'Aug 28, 2026', amount: '$1,420.00', payment: 'Paid', fulfillment: 'Delivered' },
-        { id: '1043', customer: 'Sarah Connor', date: 'Aug 27, 2026', amount: '$845.00', payment: 'Paid', fulfillment: 'Shipped' },
-        { id: '1044', customer: 'Alex Murphy', date: 'Aug 27, 2026', amount: '$2,100.00', payment: 'Pending', fulfillment: 'Processing' },
-        { id: '1045', customer: 'Ellen Ripley', date: 'Aug 26, 2026', amount: '$4,800.00', payment: 'Paid', fulfillment: 'Delivered' }
+        {
+          id: '1042',
+          customer: 'Graeme Gorman',
+          date: 'Aug 28, 2026',
+          amount: '$1,420.00',
+          payment: 'Paid',
+          fulfillment: 'Delivered'
+        },
+        {
+          id: '1043',
+          customer: 'Sarah Connor',
+          date: 'Aug 27, 2026',
+          amount: '$845.00',
+          payment: 'Paid',
+          fulfillment: 'Shipped'
+        },
+        {
+          id: '1044',
+          customer: 'Alex Murphy',
+          date: 'Aug 27, 2026',
+          amount: '$2,100.00',
+          payment: 'Pending',
+          fulfillment: 'Processing'
+        },
+        {
+          id: '1045',
+          customer: 'Ellen Ripley',
+          date: 'Aug 26, 2026',
+          amount: '$4,800.00',
+          payment: 'Paid',
+          fulfillment: 'Delivered'
+        }
       ]
     },
     feed: {
       title: 'Team Collaboration Feed',
       badgeText: 'Real-time',
       feedItems: [
-        { author: 'Marcus Vance', action: 'opened pull request', target: '#402: Add Dark Mode Theme Presets', message: 'Ready for review. All unit tests and visual diffs passing.', time: '14 minutes ago' },
-        { author: 'Elena Rostova', action: 'commented on issue', target: '#389: Performance optimization', message: 'Reduced initial bundle size by 34% by code-splitting heavy icon assets.', time: '1 hour ago' },
+        {
+          author: 'Marcus Vance',
+          action: 'opened pull request',
+          target: '#402: Add Dark Mode Theme Presets',
+          message: 'Ready for review. All unit tests and visual diffs passing.',
+          time: '14 minutes ago'
+        },
+        {
+          author: 'Elena Rostova',
+          action: 'commented on issue',
+          target: '#389: Performance optimization',
+          message: 'Reduced initial bundle size by 34% by code-splitting heavy icon assets.',
+          time: '1 hour ago'
+        },
         { author: 'Graeme Gorman', action: 'deployed release tag', target: 'v0.2.1-production', time: '3 hours ago' }
       ]
     },
@@ -692,18 +989,57 @@ export const BLOCKS_DEMO_DATA = {
       title: 'Microservice Repositories',
       subtitle: 'Active backend services, microfrontends, and serverless jobs in this organization cluster.',
       cards: [
-        { icon: 'box', title: 'auth-gateway-service', status: 'Active', desc: 'OAuth2/OIDC JWT authentication and session token validation proxy service.', meta: 'TypeScript • Updated 2h ago' },
-        { icon: 'layer-group', title: 'billing-stripe-worker', status: 'Active', desc: 'Asynchronous event handler for webhooks, invoices, and automated subscription reconciliation.', meta: 'Go • Updated 1d ago' },
-        { icon: 'sliders', title: 'telemetry-metrics-pipeline', status: 'Active', desc: 'High-throughput Prometheus and OpenTelemetry distributed log aggregation engine.', meta: 'Rust • Updated 3d ago' }
+        {
+          icon: 'box',
+          title: 'auth-gateway-service',
+          status: 'Active',
+          desc: 'OAuth2/OIDC JWT authentication and session token validation proxy service.',
+          meta: 'TypeScript • Updated 2h ago'
+        },
+        {
+          icon: 'layer-group',
+          title: 'billing-stripe-worker',
+          status: 'Active',
+          desc: 'Asynchronous event handler for webhooks, invoices, and automated subscription reconciliation.',
+          meta: 'Go • Updated 1d ago'
+        },
+        {
+          icon: 'sliders',
+          title: 'telemetry-metrics-pipeline',
+          status: 'Active',
+          desc: 'High-throughput Prometheus and OpenTelemetry distributed log aggregation engine.',
+          meta: 'Rust • Updated 3d ago'
+        }
       ]
     },
     tx: {
       title: 'Recent Banking Transactions',
       badgeText: 'Live Sync',
       transactions: [
-        { title: 'Stripe SaaS Subscription Batch', category: 'Customer Inflow', date: 'Today at 3:15 PM', amount: '$12,480.00', type: 'in' as const, status: 'Completed' },
-        { title: 'Google Cloud Platform Hosting', category: 'Cloud Operations', date: 'Yesterday at 11:20 AM', amount: '$3,890.50', type: 'out' as const, status: 'Completed' },
-        { title: 'Enterprise Contract (Apex Corp)', category: 'Direct Wire', date: 'Aug 24, 2026', amount: '$48,000.00', type: 'in' as const, status: 'Completed' }
+        {
+          title: 'Stripe SaaS Subscription Batch',
+          category: 'Customer Inflow',
+          date: 'Today at 3:15 PM',
+          amount: '$12,480.00',
+          type: 'in' as const,
+          status: 'Completed'
+        },
+        {
+          title: 'Google Cloud Platform Hosting',
+          category: 'Cloud Operations',
+          date: 'Yesterday at 11:20 AM',
+          amount: '$3,890.50',
+          type: 'out' as const,
+          status: 'Completed'
+        },
+        {
+          title: 'Enterprise Contract (Apex Corp)',
+          category: 'Direct Wire',
+          date: 'Aug 24, 2026',
+          amount: '$48,000.00',
+          type: 'in' as const,
+          status: 'Completed'
+        }
       ]
     },
     users: {
@@ -735,7 +1071,8 @@ export const BLOCKS_DEMO_DATA = {
     auth: {
       brandName: 'Generated Pixel',
       heroTitle: 'Welcome to Generated Pixel Blocks',
-      heroDesc: 'The most comprehensive, beautifully crafted UI component and application block library for Angular 19.',
+      heroDesc:
+        'The most comprehensive, beautifully crafted UI component and application block library for Angular 19.',
       formTitle: 'Welcome Back',
       formSubtitle: 'Enter your enterprise credentials to access your console.'
     },
@@ -750,7 +1087,7 @@ export const BLOCKS_DEMO_DATA = {
     },
     contact: {
       title: 'Send Us Your Feedback',
-      subtitle: 'Have a question, feature idea, or component request? We\'d love to hear from you.'
+      subtitle: "Have a question, feature idea, or component request? We'd love to hear from you."
     },
     filter: {
       title: 'Dynamic Query & Filter Builder'
@@ -759,9 +1096,24 @@ export const BLOCKS_DEMO_DATA = {
   feedbacks: {
     alerts: {
       alerts: [
-        { id: '1', severity: 'info' as const, title: 'Maintenance Window Scheduled', message: 'Database optimization is scheduled for Sunday at 02:00 UTC with expected downtime under 2 minutes.' },
-        { id: '2', severity: 'success' as const, title: 'Cluster Scaled Successfully', message: 'Autoscaler provisioned 6 new edge replicas to accommodate current query throughput.' },
-        { id: '3', severity: 'warning' as const, title: 'API Deprecation Warning', message: 'Legacy v1 REST endpoints will be sunset on December 31, 2026. Please upgrade to v2.' }
+        {
+          id: '1',
+          severity: 'info' as const,
+          title: 'Maintenance Window Scheduled',
+          message: 'Database optimization is scheduled for Sunday at 02:00 UTC with expected downtime under 2 minutes.'
+        },
+        {
+          id: '2',
+          severity: 'success' as const,
+          title: 'Cluster Scaled Successfully',
+          message: 'Autoscaler provisioned 6 new edge replicas to accommodate current query throughput.'
+        },
+        {
+          id: '3',
+          severity: 'warning' as const,
+          title: 'API Deprecation Warning',
+          message: 'Legacy v1 REST endpoints will be sunset on December 31, 2026. Please upgrade to v2.'
+        }
       ]
     },
     empty: {
@@ -772,15 +1124,31 @@ export const BLOCKS_DEMO_DATA = {
     },
     confirm: {
       title: 'Delete Production Database?',
-      message: 'Are you sure you want to permanently delete this production database cluster? All 12 tables and backups will be immediately erased. This action cannot be reversed.',
+      message:
+        'Are you sure you want to permanently delete this production database cluster? All 12 tables and backups will be immediately erased. This action cannot be reversed.',
       confirmBtnLabel: 'Permanently Delete',
       cancelBtnLabel: 'Cancel'
     },
     toast: {
       toasts: [
-        { id: '1', title: 'Deployment Succeeded', desc: 'Version 2.4.0 is now live across all 8 edge regions.', severity: 'success' as const },
-        { id: '2', title: 'High CPU Utilization', desc: 'Worker node worker-03 reached 94% CPU quota threshold.', severity: 'warning' as const },
-        { id: '3', title: 'New Team Invitation', desc: 'Sarah Chen accepted your organization invitation.', severity: 'info' as const }
+        {
+          id: '1',
+          title: 'Deployment Succeeded',
+          desc: 'Version 2.4.0 is now live across all 8 edge regions.',
+          severity: 'success' as const
+        },
+        {
+          id: '2',
+          title: 'High CPU Utilization',
+          desc: 'Worker node worker-03 reached 94% CPU quota threshold.',
+          severity: 'warning' as const
+        },
+        {
+          id: '3',
+          title: 'New Team Invitation',
+          desc: 'Sarah Chen accepted your organization invitation.',
+          severity: 'info' as const
+        }
       ]
     },
     rating: {
@@ -805,8 +1173,20 @@ export const BLOCKS_DEMO_DATA = {
       groupLabel: 'Suggested Commands',
       commands: [
         { id: '1', icon: 'search', label: 'Search All Blocks', subLabel: 'Jump to block gallery', shortcut: '⌘K' },
-        { id: '2', icon: 'sliders', label: 'Theme Customizer', subLabel: 'Switch light/dark accent presets', shortcut: '⌘T' },
-        { id: '3', icon: 'layer-group', label: 'Schema Form Generator', subLabel: 'Open dynamic JSON renderer', shortcut: '⌘F' },
+        {
+          id: '2',
+          icon: 'sliders',
+          label: 'Theme Customizer',
+          subLabel: 'Switch light/dark accent presets',
+          shortcut: '⌘T'
+        },
+        {
+          id: '3',
+          icon: 'layer-group',
+          label: 'Schema Form Generator',
+          subLabel: 'Open dynamic JSON renderer',
+          shortcut: '⌘F'
+        },
         { id: '4', icon: 'users', label: 'Manage Team Access', subLabel: 'Organization settings', shortcut: '⌘M' }
       ]
     },
@@ -822,9 +1202,7 @@ export const BLOCKS_DEMO_DATA = {
         { id: 'billing', icon: 'layer-group', label: 'Billing & Plans' },
         { id: 'security', icon: 'sliders', label: 'Security & 2FA' }
       ],
-      dangerItems: [
-        { id: 'logout', icon: 'close', label: 'Sign Out' }
-      ]
+      dangerItems: [{ id: 'logout', icon: 'close', label: 'Sign Out' }]
     },
     mega: {
       sections: [
@@ -840,7 +1218,11 @@ export const BLOCKS_DEMO_DATA = {
           title: 'Developer Resources',
           links: [
             { title: 'Documentation', desc: 'Getting started guides and API references', url: '/docs' },
-            { title: 'Interactive Playground', desc: 'JSON schema sandbox and theme editor', url: '/blocks-playground' },
+            {
+              title: 'Interactive Playground',
+              desc: 'JSON schema sandbox and theme editor',
+              url: '/blocks-playground'
+            },
             { title: 'Community Discord', desc: 'Connect with fellow Angular engineers', url: '/community' }
           ]
         }
@@ -873,21 +1255,23 @@ export const BLOCKS_DEMO_DATA = {
     p404: {
       code: '404',
       title: 'Page Not Found',
-      description: 'Sorry, the page you are looking for doesn\'t exist or has been relocated to another URL.',
+      description: "Sorry, the page you are looking for doesn't exist or has been relocated to another URL.",
       goBackBtnLabel: 'Go Back',
       returnHomeBtnLabel: 'Back to Home'
     },
     p500: {
       code: '500',
       title: 'Internal Server Error',
-      description: 'An unexpected error occurred while processing your request. Our automated SRE alerting system has been notified.',
+      description:
+        'An unexpected error occurred while processing your request. Our automated SRE alerting system has been notified.',
       supportBtnLabel: 'Contact Support',
       retryBtnLabel: 'Try Again'
     },
     p403: {
       code: '403',
       title: 'Access Restricted',
-      description: 'You do not have permission to access this resource. Please contact your organization administrator for elevated role privileges.',
+      description:
+        'You do not have permission to access this resource. Please contact your organization administrator for elevated role privileges.',
       returnHomeBtnLabel: 'Return to Dashboard',
       requestAccessBtnLabel: 'Request Access'
     },
@@ -895,13 +1279,15 @@ export const BLOCKS_DEMO_DATA = {
       badgeText: 'Scheduled Upgrade in Progress',
       badgeSeverity: 'warning' as const,
       title: 'We’ll be right back!',
-      description: 'We are currently upgrading database nodes and index clusters to improve overall system throughput and query speed.',
+      description:
+        'We are currently upgrading database nodes and index clusters to improve overall system throughput and query speed.',
       estimatedUptime: 'Today at 03:30 UTC (~25 mins remaining)'
     },
     pComing: {
       badgeText: 'SOMETHING BIG IS COMING',
       title: 'Next-Gen Workflow Engine',
-      description: 'We are putting the final touches on our real-time collaborative flow orchestrator. Join our priority access waitlist today.',
+      description:
+        'We are putting the final touches on our real-time collaborative flow orchestrator. Join our priority access waitlist today.',
       countdown: [
         { label: 'Days', value: '14' },
         { label: 'Hours', value: '08' },

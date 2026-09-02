@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -17,6 +26,8 @@ export interface GpCustomerTimelineEvent {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-details-customer-overview',
   standalone: true,
   imports: [CommonModule, GpAvatarComponent, GpBadgeComponent, GpButtonComponent],
@@ -39,29 +50,21 @@ export class GpDetailsCustomerOverviewComponent {
   public newDeal = output<void>();
   public eventClick = output<GpCustomerTimelineEvent>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public metaTemplate?: TemplateRef<any>;
-  @Input() public timelineTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public metaTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public timelineTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('meta') public contentMeta?: TemplateRef<any>;
-  @ContentChild('timeline') public contentTimeline?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentMeta = contentChild<TemplateRef<any>>('meta');
+  public contentTimeline = contentChild<TemplateRef<any>>('timeline');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveMeta(): TemplateRef<any> | undefined {
-    return this.metaTemplate || this.contentMeta;
-  }
+  public effectiveMeta = computed(() => this.metaTemplate() || this.contentMeta());
 
-  public get effectiveTimeline(): TemplateRef<any> | undefined {
-    return this.timelineTemplate || this.contentTimeline;
-  }
+  public effectiveTimeline = computed(() => this.timelineTemplate() || this.contentTimeline());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

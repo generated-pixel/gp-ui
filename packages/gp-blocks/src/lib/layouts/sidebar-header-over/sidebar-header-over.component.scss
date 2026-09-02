@@ -9,105 +9,105 @@
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
-        min-height: 520px;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: var(--gp-border-radius-lg, 12px);
-        overflow: hidden;
-      }
+  min-height: 520px;
+  background: var(--gp-surface-ground);
+  border: 1px solid var(--gp-surface-border);
+  border-radius: var(--gp-border-radius-lg, 12px);
+  overflow: hidden;
 
-      .spanning-header {
-        height: 60px;
-        background: var(--gp-surface-card);
-        border-bottom: 1px solid var(--gp-surface-border);
-        padding: 0 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        z-index: 10;
-      }
+  .spanning-header {
+    height: 60px;
+    background: var(--gp-surface-card);
+    border-bottom: 1px solid var(--gp-surface-border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+  }
 
-      .header-brand {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
 
-      .brand-sq {
-        width: 30px;
-        height: 30px;
-        border-radius: 6px;
-        background: var(--gp-primary);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+  .brand-sq {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    background: var(--gp-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-      .brand-name {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: var(--gp-text-color);
-      }
+  .brand-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gp-text-color);
+  }
 
-      .header-user-badge {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-      }
+  .header-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
 
-      .user-name {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--gp-text-color);
-      }
+  .user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gp-text-color);
+  }
 
-      .spanning-body {
-        display: flex;
-        flex: 1;
-        min-height: 0;
-      }
+  .spanning-body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
 
-      .nested-sidebar {
-        width: 240px;
-        background: var(--gp-surface-card);
-        border-right: 1px solid var(--gp-surface-border);
-        padding: 1.25rem 0.85rem;
-        flex-shrink: 0;
-      }
+  .nested-sidebar {
+    width: 240px;
+    background: var(--gp-surface-card);
+    border-right: 1px solid var(--gp-surface-border);
+    padding: 1.25rem 0.85rem;
+    flex-shrink: 0;
+  }
 
-      .nested-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
+  .nested-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-      .nav-link {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.55rem 0.75rem;
-        border-radius: 6px;
-        color: var(--gp-text-color-secondary);
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.15s ease;
-      }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 6px;
+    color: var(--gp-text-color-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
 
-      .nav-link:hover {
-        background: var(--gp-surface-hover);
-        color: var(--gp-text-color);
-      }
+  .nav-link:hover {
+    background: var(--gp-surface-hover);
+    color: var(--gp-text-color);
+  }
 
-      .nav-link.active {
-        background: rgba(59, 130, 246, 0.08);
-        color: var(--gp-primary);
-        font-weight: 600;
-      }
+  .nav-link.active {
+    background: rgba(59, 130, 246, 0.08);
+    color: var(--gp-primary);
+    font-weight: 600;
+  }
 
-      .spanning-main {
-        flex: 1;
-        padding: 1.75rem;
-        overflow-y: auto;
-      }
+  .spanning-main {
+    flex: 1;
+    padding: 1.75rem;
+    overflow-y: auto;
+  }
+}

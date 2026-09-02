@@ -12,15 +12,17 @@ import {
   HostListener,
   OnInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { UniqueId } from '../../../utils/unique-id';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-time-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [FormsModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -34,6 +36,7 @@ import { UniqueId } from '../../../utils/unique-id';
   styleUrl: './time-picker.component.scss'
 })
 export class GpTimePickerComponent extends GpEditableBaseComponent implements ControlValueAccessor, OnInit {
+  public appendTo = input<GpAppendToTarget>('body');
   public inputId = input<string>(UniqueId.generate('tp_'));
   public icon = input<string>('clock');
   public hourFormat = input<'12' | '24'>('12');
@@ -53,7 +56,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   protected overlayVisible = signal<boolean>(false);
   public activeStepMinute = signal<number>(1);
 
-  constructor(private el: ElementRef) {
+  constructor(public el: ElementRef) {
     super();
   }
 
@@ -64,7 +67,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   }
 
   private sanitizeStep(val: number): number {
-    if (!val || isNaN(val) || val <= 0) return 1;
+    if (!val || isNaN(val) || val <= 0) {
+      return 1;
+    }
     return Math.max(1, Math.min(59, Math.round(val)));
   }
 
@@ -80,7 +85,9 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
     if (this.hourFormat() === '12') {
       if (h === 0) {
         h = 12;
-      } else if (h > 12) h -= 12;
+      } else if (h > 12) {
+        h -= 12;
+      }
     }
     return String(h).padStart(2, '0');
   });
@@ -140,7 +147,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
   public spinHour(delta: number): void {
     const step = this.stepHour() || 1;
     let max = this.hourFormat() === '24' ? 24 : 12;
-    let h = (this.hours() + (delta * step)) % max;
+    let h = (this.hours() + delta * step) % max;
     if (h < 0) {
       h += max;
     }
@@ -150,7 +157,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
 
   public spinMinute(direction: number): void {
     const step = this.activeStepMinute();
-    let m = (this.minutes() + (direction * step)) % 60;
+    let m = (this.minutes() + direction * step) % 60;
     if (m < 0) {
       m += 60;
     }
@@ -160,7 +167,7 @@ export class GpTimePickerComponent extends GpEditableBaseComponent implements Co
 
   public spinSecond(direction: number): void {
     const step = this.stepSecond() || 1;
-    let s = (this.seconds() + (direction * step)) % 60;
+    let s = (this.seconds() + direction * step) % 60;
     if (s < 0) {
       s += 60;
     }

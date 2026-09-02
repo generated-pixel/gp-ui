@@ -1,39 +1,44 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   OnInit,
-  OnChanges,
-  SimpleChanges,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  input,
+  output,
   signal,
-  computed
+  computed,
+  effect
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-  ValidatorFn
-} from '@angular/forms';
+
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import {
   GpButtonComponent,
   GpInputTextComponent,
   GpTextareaComponent,
   GpPasswordComponent,
   GpInputNumberComponent,
+  GpInputMaskComponent,
   GpSelectComponent,
   GpMultiSelectComponent,
+  GpAutoCompleteComponent,
+  GpCascadeSelectComponent,
+  GpTreeSelectComponent,
+  GpListboxComponent,
   GpCheckboxComponent,
   GpRadioButtonComponent,
   GpSwitchComponent,
+  GpToggleButtonComponent,
   GpSliderComponent,
   GpRatingComponent,
   GpColorPickerComponent,
   GpDatePickerComponent,
+  GpDateRangePickerComponent,
   GpTimePickerComponent,
+  GpFileUploadComponent,
+  GpFormFieldComponent,
+  GpLabelComponent,
+  GpFloatLabelComponent,
+  GpInsetLabelComponent,
   GpCardComponent,
   GpDividerComponent,
   GpIconComponent
@@ -44,7 +49,6 @@ import { GpFormSchema, GpFieldSchema, GpFormAction } from '../schema.types';
   selector: 'gp-dynamic-form',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     GpButtonComponent,
@@ -52,72 +56,86 @@ import { GpFormSchema, GpFieldSchema, GpFormAction } from '../schema.types';
     GpTextareaComponent,
     GpPasswordComponent,
     GpInputNumberComponent,
+    GpInputMaskComponent,
     GpSelectComponent,
     GpMultiSelectComponent,
+    GpAutoCompleteComponent,
+    GpCascadeSelectComponent,
+    GpTreeSelectComponent,
+    GpListboxComponent,
     GpCheckboxComponent,
     GpRadioButtonComponent,
     GpSwitchComponent,
+    GpToggleButtonComponent,
     GpSliderComponent,
     GpRatingComponent,
     GpColorPickerComponent,
     GpDatePickerComponent,
+    GpDateRangePickerComponent,
     GpTimePickerComponent,
+    GpFileUploadComponent,
+    GpFormFieldComponent,
+    GpLabelComponent,
+    GpFloatLabelComponent,
+    GpInsetLabelComponent,
     GpDividerComponent,
     GpIconComponent
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './dynamic-form.component.html',
   styleUrl: './dynamic-form.component.scss'
 })
-export class GpDynamicFormComponent implements OnInit, OnChanges {
-  @Input() set schema(value: GpFormSchema | undefined) {
-    this._schema.set(value);
-    this.buildForm();
-  }
-  get schema(): () => GpFormSchema | undefined {
-    return this._schema;
-  }
+export class GpDynamicFormComponent implements OnInit {
+  public schema = input<GpFormSchema | undefined>(undefined);
+  public initialValues = input<Record<string, any> | undefined>(undefined);
 
-  @Input() initialValues?: Record<string, any>;
+  public formSubmit = output<Record<string, any>>();
+  public formChange = output<Record<string, any>>();
+  public formReset = output<void>();
+  public actionClick = output<GpFormAction>();
 
-  @Output() formSubmit = new EventEmitter<Record<string, any>>();
-  @Output() formChange = new EventEmitter<Record<string, any>>();
-  @Output() formReset = new EventEmitter<void>();
-  @Output() actionClick = new EventEmitter<GpFormAction>();
+  public form: FormGroup = new FormGroup({});
+  public formSubmitted = signal<boolean>(false);
 
-  private _schema = signal<GpFormSchema | undefined>(undefined);
-  form: FormGroup = new FormGroup({});
-  formSubmitted = signal<boolean>(false);
-
-  visibleFields = computed(() => {
-    const s = this._schema();
-    if (!s || !s.fields) return [];
-    return s.fields.filter(field => {
-      if (!field.hiddenWhen) return true;
+  public visibleFields = computed(() => {
+    const s = this.schema();
+    if (!s || !s.fields) {
+      return [];
+    }
+    return s.fields.filter((field) => {
+      if (!field.hiddenWhen) {
+        return true;
+      }
       const val = this.form.get(field.hiddenWhen.field)?.value;
       return val !== field.hiddenWhen.equals;
     });
   });
 
-  ngOnInit() {
-    this.buildForm();
+  constructor() {
+    effect(() => {
+      const s = this.schema();
+      const initVals = this.initialValues();
+      if (s) {
+        this.buildForm(s, initVals);
+      }
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['initialValues'] && !changes['initialValues'].isFirstChange()) {
-      if (this.initialValues) {
-        this.form.patchValue(this.initialValues);
-      }
+  ngOnInit(): void {
+    const s = this.schema();
+    if (s) {
+      this.buildForm(s, this.initialValues());
     }
   }
 
-  buildForm() {
-    const s = this._schema();
-    if (!s) return;
-
+  public buildForm(s: GpFormSchema, initVals?: Record<string, any>): void {
     const group: Record<string, FormControl> = {};
 
-    s.fields.forEach(field => {
-      if (field.type === 'divider' || field.type === 'heading') return;
+    s.fields.forEach((field) => {
+      if (field.type === 'divider' || field.type === 'heading') {
+        return;
+      }
 
       const validators: ValidatorFn[] = [];
       if (field.required || field.validation?.required) {
@@ -142,54 +160,84 @@ export class GpDynamicFormComponent implements OnInit, OnChanges {
         validators.push(Validators.pattern(field.validation.pattern));
       }
 
-      const initialVal =
-        this.initialValues && this.initialValues[field.name] !== undefined
-          ? this.initialValues[field.name]
+      let initialVal =
+        initVals && initVals[field.name] !== undefined
+          ? initVals[field.name]
           : field.defaultValue !== undefined
-          ? field.defaultValue
-          : field.type === 'checkbox' || field.type === 'switch'
-          ? false
-          : '';
+            ? field.defaultValue
+            : null;
 
-      group[field.name] = new FormControl(
-        { value: initialVal, disabled: field.disabled || false },
-        validators
-      );
+      if (initialVal === null) {
+        if (field.type === 'checkbox' || field.type === 'switch' || field.type === 'toggle-button') {
+          initialVal = false;
+        } else if (field.type === 'multi-select' || field.type === 'tree-select') {
+          initialVal = [];
+        } else if (
+          field.type === 'number' ||
+          field.type === 'input-number' ||
+          field.type === 'slider' ||
+          field.type === 'rating'
+        ) {
+          initialVal = field.min !== undefined ? field.min : 0;
+        } else if (field.type === 'color' || field.type === 'color-picker') {
+          initialVal = '#6366f1';
+        } else {
+          initialVal = '';
+        }
+      }
+
+      group[field.name] = new FormControl({ value: initialVal, disabled: field.disabled || false }, validators);
     });
 
     this.form = new FormGroup(group);
 
-    this.form.valueChanges.subscribe(val => {
-      this.formChange.emit(val);
+    this.form.valueChanges.subscribe((vals) => {
+      this.formChange.emit(vals);
     });
   }
 
-  isFieldInvalid(fieldName: string): boolean {
+  public isFieldInvalid(fieldName: string): boolean {
     const control = this.form.get(fieldName);
-    if (!control) return false;
-    return control.invalid && (control.touched || control.dirty || this.formSubmitted());
+    if (!control) {
+      return false;
+    }
+    return control.invalid && (control.touched || this.formSubmitted());
   }
 
-  getFieldErrorMessage(field: GpFieldSchema): string {
+  public getFieldErrorMessage(field: GpFieldSchema): string {
     const control = this.form.get(field.name);
-    if (!control || !control.errors) return '';
+    if (!control || !control.errors) {
+      return '';
+    }
 
-    if (field.validation?.customMessage) return field.validation.customMessage;
-
-    if (control.errors['required']) return `${field.label || 'This field'} is required`;
-    if (control.errors['email']) return 'Please enter a valid email address';
-    if (control.errors['min']) return `Value must be at least ${control.errors['min'].min}`;
-    if (control.errors['max']) return `Value cannot exceed ${control.errors['max'].max}`;
-    if (control.errors['minlength'])
-      return `Must be at least ${control.errors['minlength'].requiredLength} characters`;
-    if (control.errors['maxlength'])
-      return `Cannot exceed ${control.errors['maxlength'].requiredLength} characters`;
-    if (control.errors['pattern']) return 'Invalid format';
-
-    return 'Invalid field value';
+    if (field.validation?.customMessage) {
+      return field.validation.customMessage;
+    }
+    if (control.errors['required']) {
+      return `${field.label || field.name} is required.`;
+    }
+    if (control.errors['email']) {
+      return 'Please enter a valid email address.';
+    }
+    if (control.errors['minlength']) {
+      return `Minimum length is ${control.errors['minlength'].requiredLength} characters.`;
+    }
+    if (control.errors['maxlength']) {
+      return `Maximum length is ${control.errors['maxlength'].requiredLength} characters.`;
+    }
+    if (control.errors['min']) {
+      return `Minimum value is ${control.errors['min'].min}.`;
+    }
+    if (control.errors['max']) {
+      return `Maximum value is ${control.errors['max'].max}.`;
+    }
+    if (control.errors['pattern']) {
+      return 'Invalid format.';
+    }
+    return 'Invalid value.';
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     this.formSubmitted.set(true);
     if (this.form.valid) {
       this.formSubmit.emit(this.form.getRawValue());
@@ -198,13 +246,13 @@ export class GpDynamicFormComponent implements OnInit, OnChanges {
     }
   }
 
-  onReset() {
+  public onReset(): void {
     this.formSubmitted.set(false);
     this.form.reset();
     this.formReset.emit();
   }
 
-  onActionClick(action: GpFormAction) {
+  public onActionClick(action: GpFormAction): void {
     this.actionClick.emit(action);
   }
 }

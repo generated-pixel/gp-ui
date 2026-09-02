@@ -1,4 +1,14 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -8,6 +18,8 @@ export interface GpWizardStepItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-multi-step-wizard',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpCheckboxComponent, GpIconComponent, GpInputTextComponent],
@@ -37,41 +49,31 @@ export class GpFormMultiStepWizardComponent {
     agreeTerms: boolean;
   }>();
 
-  @Input() public stepperTemplate?: TemplateRef<any>;
-  @Input() public step1Template?: TemplateRef<any>;
-  @Input() public step2Template?: TemplateRef<any>;
-  @Input() public step3Template?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public stepperTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public step1Template = input<TemplateRef<any> | undefined>(undefined);
+  public step2Template = input<TemplateRef<any> | undefined>(undefined);
+  public step3Template = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('stepper') public contentStepper?: TemplateRef<any>;
-  @ContentChild('step1') public contentStep1?: TemplateRef<any>;
-  @ContentChild('step2') public contentStep2?: TemplateRef<any>;
-  @ContentChild('step3') public contentStep3?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentStepper = contentChild<TemplateRef<any>>('stepper');
+  public contentStep1 = contentChild<TemplateRef<any>>('step1');
+  public contentStep2 = contentChild<TemplateRef<any>>('step2');
+  public contentStep3 = contentChild<TemplateRef<any>>('step3');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveStepper(): TemplateRef<any> | undefined {
-    return this.stepperTemplate || this.contentStepper;
-  }
+  public effectiveStepper = computed(() => this.stepperTemplate() || this.contentStepper());
 
-  public get effectiveStep1(): TemplateRef<any> | undefined {
-    return this.step1Template || this.contentStep1;
-  }
+  public effectiveStep1 = computed(() => this.step1Template() || this.contentStep1());
 
-  public get effectiveStep2(): TemplateRef<any> | undefined {
-    return this.step2Template || this.contentStep2;
-  }
+  public effectiveStep2 = computed(() => this.step2Template() || this.contentStep2());
 
-  public get effectiveStep3(): TemplateRef<any> | undefined {
-    return this.step3Template || this.contentStep3;
-  }
+  public effectiveStep3 = computed(() => this.step3Template() || this.contentStep3());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public nextStep(): void {
     if (this.currentStep() < this.steps().length) {
-      this.currentStep.update(s => s + 1);
+      this.currentStep.update((s) => s + 1);
     } else {
       this.complete.emit({
         fullName: this.fullName(),
@@ -85,7 +87,7 @@ export class GpFormMultiStepWizardComponent {
 
   public prevStep(): void {
     if (this.currentStep() > 1) {
-      this.currentStep.update(s => s - 1);
+      this.currentStep.update((s) => s - 1);
     }
   }
 }

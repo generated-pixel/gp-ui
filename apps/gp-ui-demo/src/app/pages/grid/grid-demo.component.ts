@@ -1,18 +1,7 @@
-import {
-  Component,
-  signal,
-  computed,
-  ViewChild
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, computed, ViewChild } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
-import {
-  GpGridComponent,
-  GpGridWidgetComponent,
-  GpGridItem,
-  GpGridChangeEvent,
-  GpGridCompactType
-} from 'gp-grid';
+import { GpGridComponent, GpGridWidgetComponent, GpGridItem, GpGridChangeEvent, GpGridCompactType } from 'gp-grid';
 import {
   GpButtonComponent,
   GpBadgeComponent,
@@ -27,7 +16,15 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
 
 export interface WidgetPayload {
-  type: 'kpi-revenue' | 'kpi-server' | 'chart-analytics' | 'table-nodes' | 'list-activity' | 'locked-banner' | 'media' | 'notes';
+  type:
+    | 'kpi-revenue'
+    | 'kpi-server'
+    | 'chart-analytics'
+    | 'table-nodes'
+    | 'list-activity'
+    | 'locked-banner'
+    | 'media'
+    | 'notes';
   data?: any;
 }
 
@@ -35,7 +32,6 @@ export interface WidgetPayload {
   selector: 'app-grid-demo',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     GpGridComponent,
     GpGridWidgetComponent,
@@ -314,23 +310,17 @@ export class GridDemoComponent {
 
   public toggleItemLock(item: GpGridItem): void {
     const nextLocked = !item.locked;
-    const updated = this.widgets().map((it) =>
-      it.id === item.id ? { ...it, locked: nextLocked } : it
-    );
+    const updated = this.widgets().map((it) => (it.id === item.id ? { ...it, locked: nextLocked } : it));
     this.widgets.set(updated);
     this.logEvent(`Widget "${item.title || item.id}" locked state changed to ${nextLocked}.`);
   }
 
   public onItemMoved(e: GpGridChangeEvent): void {
-    this.logEvent(
-      `Widget "${e.item.title || e.item.id}" moved from (${e.oldX}, ${e.oldY}) to (${e.newX}, ${e.newY}).`
-    );
+    this.logEvent(`Widget "${e.item.title || e.item.id}" moved from (${e.oldX}, ${e.oldY}) to (${e.newX}, ${e.newY}).`);
   }
 
   public onItemResized(e: GpGridChangeEvent): void {
-    this.logEvent(
-      `Widget "${e.item.title || e.item.id}" resized from ${e.oldW}x${e.oldH} to ${e.newW}x${e.newH}.`
-    );
+    this.logEvent(`Widget "${e.item.title || e.item.id}" resized from ${e.oldW}x${e.oldH} to ${e.newW}x${e.newH}.`);
   }
 
   public onItemRemoved(item: GpGridItem): void {
@@ -368,14 +358,11 @@ export class GridDemoComponent {
 
   private logEvent(msg: string): void {
     this.lastEventLog.set(msg);
-    this.eventHistory.update((prev) => [
-      `[${new Date().toLocaleTimeString()}] ${msg}`,
-      ...prev.slice(0, 19)
-    ]);
+    this.eventHistory.update((prev) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev.slice(0, 19)]);
   }
 
   // --- API DOCUMENTATION DATA ---
-  public importCode = `import { GpGridComponent, GpGridWidgetComponent, GpGridItem } from 'gp-grid';`;
+  public importCode = "import { GpGridComponent, GpGridWidgetComponent, GpGridItem } from 'gp-grid';";
 
   public usageCode = `@Component({
   selector: 'app-dashboard',
@@ -535,7 +522,8 @@ export class DashboardComponent {
       name: 'dataSource',
       type: 'input<GpWidgetDataSource<any>>',
       default: 'undefined',
-      description: 'Universal reactive data source (direct object, Signal, Observable, Subject, Promise, or provider function).'
+      description:
+        'Universal reactive data source (direct object, Signal, Observable, Subject, Promise, or provider function).'
     },
     {
       name: 'showHeader',
@@ -577,13 +565,15 @@ export class DashboardComponent {
       name: 'widgetType',
       type: "input<'custom' | 'kpi' | 'chart' | 'table' | 'list' | 'progress'>",
       default: "'custom'",
-      description: 'Specialized typed widget type for automatic rendering of KPI, Chart, Table, List, or Progress widgets.'
+      description:
+        'Specialized typed widget type for automatic rendering of KPI, Chart, Table, List, or Progress widgets.'
     },
     {
       name: 'widgetData',
       type: 'input<any>',
       default: 'undefined',
-      description: 'Typed payload data matching GpKpiWidgetData, GpChartWidgetData, GpTableWidgetData, GpListWidgetData, or GpProgressWidgetData.'
+      description:
+        'Typed payload data matching GpKpiWidgetData, GpChartWidgetData, GpTableWidgetData, GpListWidgetData, or GpProgressWidgetData.'
     },
     {
       name: 'routerLink',

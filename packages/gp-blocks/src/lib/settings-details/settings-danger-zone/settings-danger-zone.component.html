@@ -1,32 +1,28 @@
 <div class="gp-settings-card danger-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="danger-head">
-        <h3 class="danger-title">{{ title() }}</h3>
-        <p class="danger-subtitle">{{ subtitle() }}</p>
-      </div>
-    
-  </ng-template>
+    <div class="danger-head">
+      <h3 class="danger-title">{{ title() }}</h3>
+      <p class="danger-subtitle">{{ subtitle() }}</p>
+    </div>
+  }
 
   <!-- Content Override or Actions List -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[content], [slot=content]" />
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
-      </ng-container>
-      <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]" />
-
-          <div class="danger-actions-list" *ngIf="actions() && actions().length > 0">
-            <div class="danger-item" *ngFor="let a of actions()">
+    @if (effectiveActions()) {
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
+    } @else {
+      <ng-content select="[actions], [slot=actions]" />
+      @if (actions() && actions().length > 0) {
+        <div class="danger-actions-list">
+          @for (a of actions(); track a) {
+            <div class="danger-item">
               <div class="danger-info">
                 <span class="d-title">{{ a.title }}</span>
                 <p class="d-desc">{{ a.desc }}</p>
@@ -40,9 +36,10 @@
                 {{ a.buttonLabel }}
               </gp-button>
             </div>
-          </div>
-        
-      </ng-template>
-      <ng-content />
-  </ng-template>
+          }
+        </div>
+      }
+    }
+    <ng-content />
+  }
 </div>

@@ -10,7 +10,7 @@ import {
   effect,
   inject
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpTranslationService } from '../../../config/gp-config.service';
 
@@ -24,7 +24,7 @@ export interface GpPageState {
 @Component({
   selector: 'gp-paginator',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './paginator.component.html',
@@ -107,7 +107,9 @@ export class GpPaginatorComponent extends GpBaseComponent {
   public changePage(p: number): void {
     const maxPage = this.pageCount() - 1;
     const targetPage = Math.max(0, Math.min(p, maxPage));
-    if (targetPage === this.page()) return;
+    if (targetPage === this.page()) {
+      return;
+    }
 
     const r = this.internalRows();
     const nextFirst = targetPage * r;

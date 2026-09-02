@@ -1,8 +1,10 @@
 <div class="gp-dashboard-analytics-root">
   <!-- Optional Top Action Bar / Slot -->
-  <div class="dashboard-top-slot" *ngIf="contentHeaderActions">
-    <ng-container *ngTemplateOutlet="contentHeaderActions" />
-  </div>
+  @if (contentHeaderActions()) {
+    <div class="dashboard-top-slot">
+      <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
+    </div>
+  }
   <ng-content select="[actions], [slot=actions]" />
 
   <!-- Drag-and-Drop Grid Canvas -->
@@ -17,92 +19,82 @@
   >
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
-      <ng-container *ngIf="effectiveWidgetTemplate; else defaultWidgetRender">
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate; context: { $implicit: item }" />
-      </ng-container>
-
-      <ng-template #defaultWidgetRender>
+      @if (effectiveWidgetTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
+      } @else {
         <!-- 1. Stats KPI Widget -->
-        <ng-container *ngIf="item.id === 'stats'">
-          <ng-container *ngIf="contentStats; else defaultStats">
-            <ng-container *ngTemplateOutlet="contentStats" />
-          </ng-container>
-          <ng-template #defaultStats>
-            <div class="stat-banner-row" *ngIf="stats() && stats().length > 0">
-              <div
-                class="stat-box"
-                *ngFor="let s of stats()"
-                (click)="statClick.emit(s)"
-                style="cursor: pointer;"
-              >
-                <span class="stat-title">{{ s.title }}</span>
-                <div class="stat-num-row">
-                  <span class="stat-val">{{ s.value }}</span>
-                  <span
-                    class="stat-pill"
-                    [class.pos]="s.trend === 'pos' || (!s.trend && s.change.startsWith('+'))"
-                    [class.neg]="s.trend === 'neg' || (!s.trend && s.change.startsWith('-'))"
-                  >
-                    {{ s.change }}
-                  </span>
-                </div>
+        @if (item.id === 'stats') {
+          @if (contentStats()) {
+            <ng-container *ngTemplateOutlet="contentStats()!" />
+          } @else {
+            @if (stats() && stats().length > 0) {
+              <div class="stat-banner-row">
+                @for (s of stats(); track s) {
+                  <div class="stat-box" (click)="statClick.emit(s)" style="cursor: pointer">
+                    <span class="stat-title">{{ s.title }}</span>
+                    <div class="stat-num-row">
+                      <span class="stat-val">{{ s.value }}</span>
+                      <span
+                        class="stat-pill"
+                        [class.pos]="s.trend === 'pos' || (!s.trend && s.change.startsWith('+'))"
+                        [class.neg]="s.trend === 'neg' || (!s.trend && s.change.startsWith('-'))"
+                      >
+                        {{ s.change }}
+                      </span>
+                    </div>
+                  </div>
+                }
               </div>
-            </div>
-          </ng-template>
-        </ng-container>
-
+            }
+          }
+        }
         <!-- 2. Channels Widget -->
-        <ng-container *ngIf="item.id === 'channels'">
-          <ng-container *ngIf="contentChannels; else defaultChannels">
-            <ng-container *ngTemplateOutlet="contentChannels" />
-          </ng-container>
-          <ng-template #defaultChannels>
-            <div class="analytics-card" *ngIf="channels() && channels().length > 0" style="height: 100%;">
-              <h3 class="card-head">{{ channelsTitle() }}</h3>
-              <div class="progress-list">
-                <div
-                  class="progress-row"
-                  *ngFor="let c of channels()"
-                  (click)="channelClick.emit(c)"
-                  style="cursor: pointer;"
-                >
-                  <div class="row-meta">
-                    <span class="meta-name">{{ c.name }}</span>
-                    <span class="meta-val">{{ c.users }} users ({{ c.pct }}%)</span>
-                  </div>
-                  <gp-progress-bar [value]="c.pct" [showValue]="false" />
+        @if (item.id === 'channels') {
+          @if (contentChannels()) {
+            <ng-container *ngTemplateOutlet="contentChannels()!" />
+          } @else {
+            @if (channels() && channels().length > 0) {
+              <div class="analytics-card" style="height: 100%">
+                <h3 class="card-head">{{ channelsTitle() }}</h3>
+                <div class="progress-list">
+                  @for (c of channels(); track c) {
+                    <div class="progress-row" (click)="channelClick.emit(c)" style="cursor: pointer">
+                      <div class="row-meta">
+                        <span class="meta-name">{{ c.name }}</span>
+                        <span class="meta-val">{{ c.users }} users ({{ c.pct }}%)</span>
+                      </div>
+                      <gp-progress-bar [value]="c.pct" [showValue]="false" />
+                    </div>
+                  }
                 </div>
               </div>
-            </div>
-          </ng-template>
-        </ng-container>
-
+            }
+          }
+        }
         <!-- 3. Regions Widget -->
-        <ng-container *ngIf="item.id === 'regions'">
-          <ng-container *ngIf="contentRegions; else defaultRegions">
-            <ng-container *ngTemplateOutlet="contentRegions" />
-          </ng-container>
-          <ng-template #defaultRegions>
-            <div class="analytics-card" *ngIf="regions() && regions().length > 0" style="height: 100%;">
-              <h3 class="card-head">{{ regionsTitle() }}</h3>
-              <div class="region-list">
-                <div
-                  class="region-row"
-                  *ngFor="let r of regions()"
-                  (click)="regionClick.emit(r)"
-                  style="cursor: pointer;"
-                >
-                  <span class="country-name">{{ r.country }}</span>
-                  <div class="region-meter">
-                    <gp-progress-bar [value]="r.pct" [showValue]="false" />
-                  </div>
-                  <span class="session-count">{{ r.sessions }}</span>
+        @if (item.id === 'regions') {
+          @if (contentRegions()) {
+            <ng-container *ngTemplateOutlet="contentRegions()!" />
+          } @else {
+            @if (regions() && regions().length > 0) {
+              <div class="analytics-card" style="height: 100%">
+                <h3 class="card-head">{{ regionsTitle() }}</h3>
+                <div class="region-list">
+                  @for (r of regions(); track r) {
+                    <div class="region-row" (click)="regionClick.emit(r)" style="cursor: pointer">
+                      <span class="country-name">{{ r.country }}</span>
+                      <div class="region-meter">
+                        <gp-progress-bar [value]="r.pct" [showValue]="false" />
+                      </div>
+                      <span class="session-count">{{ r.sessions }}</span>
+                    </div>
+                  }
                 </div>
               </div>
-            </div>
-          </ng-template>
-        </ng-container>
-      </ng-template>
+            }
+          }
+        }
+      }
     </ng-template>
   </gp-grid>
 </div>

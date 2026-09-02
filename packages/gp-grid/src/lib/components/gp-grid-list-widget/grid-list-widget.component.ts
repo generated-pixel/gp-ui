@@ -1,13 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  input,
-  output,
-  computed,
-  Signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, computed, Signal } from '@angular/core';
+
 import {
   GpAvatarComponent,
   GpBadgeComponent,
@@ -22,7 +14,7 @@ import { GpGridWidgetBase } from '../../base/gp-grid-widget.base';
 @Component({
   selector: 'gp-grid-list-widget',
   standalone: true,
-  imports: [CommonModule, GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpSkeletonComponent],
+  imports: [GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpSkeletonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid-list-widget.component.html',
@@ -43,11 +35,15 @@ export class GpGridListWidgetComponent extends GpGridWidgetBase<GpListWidgetData
     return normalizeListWidgetData(this.rawData());
   });
 
-  public effectiveTitle = computed(() => this.title() || this.normalizedData().title || this.item()?.title || 'Activity Feed');
+  public effectiveTitle = computed(
+    () => this.title() || this.normalizedData().title || this.item()?.title || 'Activity Feed'
+  );
   public effectiveActionLabel = computed(() => this.actionLabel() || this.normalizedData().actionLabel || '');
 
   public effectiveItems = computed<GpGridListItem[]>(() => {
-    if (this.items() && this.items().length > 0) return this.items();
+    if (this.items() && this.items().length > 0) {
+      return this.items();
+    }
     if (this.normalizedData().items && this.normalizedData().items!.length > 0) {
       return this.normalizedData().items!;
     }

@@ -1,11 +1,11 @@
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpInsetLabelSize } from './inset-label.interface';
 
 @Component({
   selector: 'gp-inset-label, [gpInsetLabel]',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './inset-label.component.html',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpButtonComponent,
   GpButtonGroupComponent,
@@ -15,7 +15,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-buttons-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpButtonComponent,
     GpButtonGroupComponent,
     GpSplitButtonComponent,
@@ -162,7 +161,7 @@ export class ButtonsDemoComponent {
 <gp-split-button label="Save Document" icon="check" [model]="splitItems" severity="primary" />
 <gp-toggle-button onLabel="Active" offLabel="Inactive" onIcon="check" offIcon="times" />`;
 
-  speedDialCode = `<gp-speed-dial [model]="speedDialItems" direction="up" />`;
+  speedDialCode = '<gp-speed-dial [model]="speedDialItems" direction="up" />';
 
   splitItems: GpMenuItem[] = [
     { label: 'Update', icon: 'refresh' },

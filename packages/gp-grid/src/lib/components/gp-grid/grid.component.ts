@@ -170,7 +170,11 @@ export class GpGridComponent implements OnInit, OnDestroy {
   });
 
   public effectiveEmptyMessage = computed(() => {
-    return this.emptyMessage() || this.translationService?.translation().grid?.emptyMessage || 'No widgets placed on this grid. Add widgets dynamically using the grid controls or API.';
+    return (
+      this.emptyMessage() ||
+      this.translationService?.translation().grid?.emptyMessage ||
+      'No widgets placed on this grid. Add widgets dynamically using the grid controls or API.'
+    );
   });
 
   public effectiveResizeHandleTitle = computed(() => {
@@ -326,7 +330,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
    */
   public getPlaceholderStyle(): Record<string, string> {
     const ph = this.placeholderPos();
-    if (!ph) return { display: 'none' };
+    if (!ph) {
+      return { display: 'none' };
+    }
 
     const colW = this.columnWidth();
     const rowH = this.rowHeight();
@@ -420,7 +426,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
 
   private handleDragMove(e: PointerEvent): void {
     const drag = this.activeDrag();
-    if (!drag) return;
+    if (!drag) {
+      return;
+    }
 
     e.preventDefault();
 
@@ -479,12 +487,7 @@ export class GpGridComponent implements OnInit, OnDestroy {
         });
 
         // Realign non-locked items in live preview
-        const realigned = GpGridEngine.realignGrid(
-          this.items(),
-          candidate,
-          cols,
-          this.compactType()
-        );
+        const realigned = GpGridEngine.realignGrid(this.items(), candidate, cols, this.compactType());
         this.previewItems.set(realigned);
       }
     });
@@ -494,7 +497,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
     const drag = this.activeDrag();
     this.removeGlobalListeners();
 
-    if (!drag) return;
+    if (!drag) {
+      return;
+    }
 
     this.ngZone.run(() => {
       const ph = this.placeholderPos();
@@ -507,12 +512,7 @@ export class GpGridComponent implements OnInit, OnDestroy {
           y: ph.y
         };
 
-        updatedItems = GpGridEngine.realignGrid(
-          this.items(),
-          finalItem,
-          this.columns(),
-          this.compactType()
-        );
+        updatedItems = GpGridEngine.realignGrid(this.items(), finalItem, this.columns(), this.compactType());
 
         const changeEvent: GpGridChangeEvent = {
           item: finalItem,
@@ -582,7 +582,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
 
   private handleResizeMove(e: PointerEvent): void {
     const res = this.activeResize();
-    if (!res) return;
+    if (!res) {
+      return;
+    }
 
     e.preventDefault();
 
@@ -637,11 +639,7 @@ export class GpGridComponent implements OnInit, OnDestroy {
           valid: true
         });
 
-        const realigned = GpGridEngine.resolveResize(
-          this.items(),
-          candidate,
-          cols
-        );
+        const realigned = GpGridEngine.resolveResize(this.items(), candidate, cols);
         this.previewItems.set(realigned);
       }
     });
@@ -651,7 +649,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
     const res = this.activeResize();
     this.removeGlobalListeners();
 
-    if (!res) return;
+    if (!res) {
+      return;
+    }
 
     this.ngZone.run(() => {
       const ph = this.placeholderPos();
@@ -664,11 +664,7 @@ export class GpGridComponent implements OnInit, OnDestroy {
           h: ph.h
         };
 
-        updatedItems = GpGridEngine.resolveResize(
-          this.items(),
-          finalItem,
-          this.columns()
-        );
+        updatedItems = GpGridEngine.resolveResize(this.items(), finalItem, this.columns());
 
         const changeEvent: GpGridChangeEvent = {
           item: finalItem,
@@ -698,7 +694,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
 
   // --- ITEM ACTIONS ---
   public onWidgetClose(item: GpGridItem): void {
-    if (this.readonly()) return;
+    if (this.readonly()) {
+      return;
+    }
 
     const remaining = this.items().filter((i) => i.id !== item.id);
     this.items.set(remaining);
@@ -713,9 +711,7 @@ export class GpGridComponent implements OnInit, OnDestroy {
 
   public onWidgetLockToggle(event: { item?: GpGridItem; locked: boolean }, fallbackItem: GpGridItem): void {
     const targetItem = event.item || fallbackItem;
-    const updated = this.items().map((it) =>
-      it.id === targetItem.id ? { ...it, locked: event.locked } : it
-    );
+    const updated = this.items().map((it) => (it.id === targetItem.id ? { ...it, locked: event.locked } : it));
     this.items.set(updated);
     this.layoutChanged.emit(updated);
   }
@@ -723,11 +719,7 @@ export class GpGridComponent implements OnInit, OnDestroy {
   /**
    * Helper method to programmatically add a new widget at the next available position.
    */
-  public addWidget(
-    widgetPartial: Partial<GpGridItem> & { id: string },
-    w = 4,
-    h = 2
-  ): GpGridItem {
+  public addWidget(widgetPartial: Partial<GpGridItem> & { id: string }, w = 4, h = 2): GpGridItem {
     const pos = GpGridEngine.findAvailablePosition(
       this.items(),
       widgetPartial.w || w,
@@ -781,7 +773,9 @@ export class GpGridComponent implements OnInit, OnDestroy {
   private removeGlobalListeners(): void {
     while (this.cleanupListeners.length > 0) {
       const cleanup = this.cleanupListeners.pop();
-      if (cleanup) cleanup();
+      if (cleanup) {
+        cleanup();
+      }
     }
   }
 }

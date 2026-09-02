@@ -1,4 +1,14 @@
-import { Component, input, output, model, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  model,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpProgressBarComponent } from '@generatedpixel/gp-ui';
 import { GpGridComponent, GpGridItem } from '@generatedpixel/gp-grid';
@@ -23,6 +33,8 @@ export interface GpRegionStat {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-dashboard-analytics',
   standalone: true,
   imports: [CommonModule, GpProgressBarComponent, GpGridComponent],
@@ -84,18 +96,16 @@ export class GpDashboardAnalyticsComponent {
   public regionClick = output<GpRegionStat>();
   public layoutChange = output<GpGridItem[]>();
 
-  @Input() public widgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
-  @Input() public headerActionsTemplate?: TemplateRef<any>;
+  public widgetTemplate = input<TemplateRef<{ $implicit: GpGridItem }> | undefined>(undefined);
+  public headerActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('widgetTemplate') public contentWidgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
-  @ContentChild('stats') public contentStats?: TemplateRef<any>;
-  @ContentChild('channels') public contentChannels?: TemplateRef<any>;
-  @ContentChild('regions') public contentRegions?: TemplateRef<any>;
-  @ContentChild('headerActions') public contentHeaderActions?: TemplateRef<any>;
+  public contentWidgetTemplate = contentChild<TemplateRef<{ $implicit: GpGridItem }>>('widgetTemplate');
+  public contentStats = contentChild<TemplateRef<any>>('stats');
+  public contentChannels = contentChild<TemplateRef<any>>('channels');
+  public contentRegions = contentChild<TemplateRef<any>>('regions');
+  public contentHeaderActions = contentChild<TemplateRef<any>>('headerActions');
 
-  public get effectiveWidgetTemplate(): TemplateRef<{ $implicit: GpGridItem }> | undefined {
-    return this.widgetTemplate || this.contentWidgetTemplate;
-  }
+  public effectiveWidgetTemplate = computed(() => this.widgetTemplate() || this.contentWidgetTemplate());
 
   public onLayoutChanged(newLayout: GpGridItem[]): void {
     this.widgets.set(newLayout);

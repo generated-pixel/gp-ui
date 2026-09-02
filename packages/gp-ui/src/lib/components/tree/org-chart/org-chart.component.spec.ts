@@ -6,13 +6,7 @@ import { GpTreeNode } from '../tree-node/tree-node.interface';
 @Component({
   standalone: true,
   imports: [GpOrgChartComponent],
-  template: `
-    <gp-org-chart
-      [value]="rootNode"
-      selectionMode="single"
-      [(selection)]="selectedNode"
-    />
-  `
+  template: ' <gp-org-chart [value]="rootNode" selectionMode="single" [(selection)]="selectedNode" /> '
 })
 class TestOrgChartHostComponent {
   selectedNode: GpTreeNode | null = null;

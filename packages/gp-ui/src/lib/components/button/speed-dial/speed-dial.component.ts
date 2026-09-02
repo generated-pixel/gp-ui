@@ -8,15 +8,11 @@ import {
   HostListener,
   signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpButtonComponent } from '../button/button.component';
 import { GpTooltipDirective } from '../../../directives/tooltip.directive';
 import { GpMenuItem } from '../split-button/split-button.component';
-import {
-  GpButtonBaseComponent,
-  GpButtonSeverity,
-  GpButtonVariant
-} from '../../../base/gp-button-base.component';
+import { GpButtonBaseComponent, GpButtonSeverity, GpButtonVariant } from '../../../base/gp-button-base.component';
 
 export type GpSpeedDialDirection = 'up' | 'down' | 'left' | 'right';
 export type GpSpeedDialType = 'linear' | 'circle' | 'semi-circle';
@@ -24,7 +20,7 @@ export type GpSpeedDialType = 'linear' | 'circle' | 'semi-circle';
 @Component({
   selector: 'gp-speed-dial',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpTooltipDirective],
+  imports: [GpButtonComponent, GpTooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './speed-dial.component.html',

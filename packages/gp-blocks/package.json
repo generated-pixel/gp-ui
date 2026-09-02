@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-blocks",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Enterprise Reusable UI Blocks & Dynamic JSON Metadata Engine for Angular",
   "keywords": [
     "angular",
@@ -32,10 +32,10 @@
     "@angular/core": ">=18.0.0",
     "@angular/forms": ">=18.0.0",
     "@angular/router": ">=18.0.0",
-    "@generatedpixel/gp-ui": ">=0.4.0",
-    "@generatedpixel/gp-ui-icons": ">=0.4.0",
-    "@generatedpixel/gp-ui-theme": ">=0.4.0",
-    "@generatedpixel/gp-grid": ">=0.4.0",
+    "@generatedpixel/gp-ui": ">=1.0.0",
+    "@generatedpixel/gp-ui-icons": ">=1.0.0",
+    "@generatedpixel/gp-ui-theme": ">=1.0.0",
+    "@generatedpixel/gp-grid": ">=1.0.0",
     "rxjs": ">=7.0.0"
   },
   "dependencies": {

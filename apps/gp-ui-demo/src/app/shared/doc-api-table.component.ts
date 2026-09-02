@@ -1,5 +1,4 @@
 import { Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export interface DocApiProperty {
   name: string;
@@ -12,7 +11,7 @@ export interface DocApiProperty {
 @Component({
   selector: 'doc-api-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="doc-api-container">
       <div class="doc-api-header">

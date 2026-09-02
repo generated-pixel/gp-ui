@@ -129,7 +129,9 @@
   width: 100%;
   background: var(--gp-primary, #6366f1);
   border-radius: var(--gp-border-radius-sm, 6px) var(--gp-border-radius-sm, 6px) 0 0;
-  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease;
+  transition:
+    height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.15s ease;
 }
 
 .gp-grid-col-month {

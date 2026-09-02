@@ -1,4 +1,8 @@
-<div class="gp-timepicker" [class.gp-select-open]="overlayVisible()" [class.gp-input-disabled]="isEffectivelyDisabled()">
+<div
+  class="gp-timepicker"
+  [class.gp-select-open]="overlayVisible()"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
+>
   <div class="gp-input-wrapper">
     <input
       [id]="inputId()"
@@ -17,7 +21,12 @@
   </div>
 
   @if (overlayVisible()) {
-    <div class="gp-datepicker-panel gp-timepicker-panel" (click)="$event.stopPropagation()">
+    <div
+      class="gp-datepicker-panel gp-timepicker-panel"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="el"
+    >
       <div class="gp-timepicker-controls">
         <!-- Hours Column -->
         <div class="gp-timepicker-column">
@@ -34,7 +43,12 @@
 
         <!-- Minutes Column -->
         <div class="gp-timepicker-column">
-          <button type="button" class="gp-timepicker-btn" (click)="spinMinute(1)" [attr.aria-label]="'Increase ' + activeStepMinute() + ' minutes'">
+          <button
+            type="button"
+            class="gp-timepicker-btn"
+            (click)="spinMinute(1)"
+            [attr.aria-label]="'Increase ' + activeStepMinute() + ' minutes'"
+          >
             <gp-icon name="chevron-up" size="0.85em" />
           </button>
           <span class="gp-timepicker-val">{{ formattedMinute() }}</span>
@@ -51,21 +65,11 @@
         @if (showSeconds()) {
           <span class="gp-timepicker-separator">:</span>
           <div class="gp-timepicker-column">
-            <button
-              type="button"
-              class="gp-timepicker-btn"
-              (click)="spinSecond(1)"
-              aria-label="Increase second"
-            >
+            <button type="button" class="gp-timepicker-btn" (click)="spinSecond(1)" aria-label="Increase second">
               <gp-icon name="chevron-up" size="0.85em" />
             </button>
             <span class="gp-timepicker-val">{{ formattedSecond() }}</span>
-            <button
-              type="button"
-              class="gp-timepicker-btn"
-              (click)="spinSecond(-1)"
-              aria-label="Decrease second"
-            >
+            <button type="button" class="gp-timepicker-btn" (click)="spinSecond(-1)" aria-label="Decrease second">
               <gp-icon name="chevron-down" size="0.85em" />
             </button>
           </div>

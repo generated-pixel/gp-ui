@@ -1,68 +1,65 @@
 <div class="gp-sidebar-pinned-status-shell">
   <aside class="pinned-status-sidebar">
-    <ng-container *ngIf="effectiveSidebar; else defaultSidebar">
-      <ng-container *ngTemplateOutlet="effectiveSidebar" />
-    </ng-container>
-    <ng-template #defaultSidebar>
+    @if (effectiveSidebar()) {
+      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    } @else {
       <ng-content select="[sidebar], [slot=sidebar]" />
-        <div class="brand-head">
-          <gp-icon [name]="brandIcon()" size="1.2em" />
-          <span class="brand-name">{{ brandName() }}</span>
-        </div>
-
-        <nav class="sidebar-nav" *ngIf="navItems() && navItems().length > 0">
-          <a
-            href="javascript:void(0)"
-            *ngFor="let item of navItems()"
-            class="nav-item"
-            [class.active]="item.id === activeNavId() || item.active"
-            (click)="navItemClick.emit(item)"
-          >
-            <gp-icon [name]="item.icon" size="1.1em" />
-            <span>{{ item.label }}</span>
-          </a>
+      <div class="brand-head">
+        <gp-icon [name]="brandIcon()" size="1.2em" />
+        <span class="brand-name">{{ brandName() }}</span>
+      </div>
+      @if (navItems() && navItems().length > 0) {
+        <nav class="sidebar-nav">
+          @for (item of navItems(); track item) {
+            <a
+              href="javascript:void(0)"
+              class="nav-item"
+              [class.active]="item.id === activeNavId() || item.active"
+              (click)="navItemClick.emit(item)"
+            >
+              <gp-icon [name]="item.icon" size="1.1em" />
+              <span>{{ item.label }}</span>
+            </a>
+          }
         </nav>
-
-        <ng-container *ngIf="effectiveStatus; else defaultStatus">
-          <ng-container *ngTemplateOutlet="effectiveStatus" />
-        </ng-container>
-        <ng-template #defaultStatus>
-          <ng-content select="[status], [slot=status]" />
-
-
-            <div class="pinned-status-box" *ngIf="systemStatus()" (click)="statusClick.emit()" style="cursor: pointer;">
-              <div class="status-top">
-                <span class="pulse-indicator"></span>
-                <span class="status-label">{{ systemStatus() }}</span>
-              </div>
-              <span class="uptime-text" *ngIf="uptimeText()">{{ uptimeText() }}</span>
+      }
+      @if (effectiveStatus()) {
+        <ng-container *ngTemplateOutlet="effectiveStatus()!" />
+      } @else {
+        <ng-content select="[status], [slot=status]" />
+        @if (systemStatus()) {
+          <div class="pinned-status-box" (click)="statusClick.emit()" style="cursor: pointer">
+            <div class="status-top">
+              <span class="pulse-indicator"></span>
+              <span class="status-label">{{ systemStatus() }}</span>
             </div>
-          
-        </ng-template>
-      
-    </ng-template>
+            @if (uptimeText()) {
+              <span class="uptime-text">{{ uptimeText() }}</span>
+            }
+          </div>
+        }
+      }
+    }
   </aside>
 
   <div class="main-shell">
     <header class="top-nav-bar">
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
-        <ng-container *ngIf="effectiveTopActions; else projectedTopActions">
-          <ng-container *ngTemplateOutlet="effectiveTopActions" />
-        </ng-container>
-        <ng-template #projectedTopActions>
+        @if (effectiveTopActions()) {
+          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        } @else {
           <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
-        </ng-template>
+        }
       </div>
     </header>
     <main class="page-content-area">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
-      </ng-container>
-      <ng-template #defaultContent>
+      @if (effectiveContent()) {
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
-      </ng-template>
+        <ng-content />
+      }
     </main>
   </div>
 </div>

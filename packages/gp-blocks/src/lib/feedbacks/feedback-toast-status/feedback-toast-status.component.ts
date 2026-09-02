@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -11,6 +20,8 @@ export interface GpToastStatusItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-feedback-toast-status',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent],
@@ -22,17 +33,13 @@ export class GpFeedbackToastStatusComponent {
 
   public closeToast = output<GpToastStatusItem>();
 
-  @Input() public toastTemplate?: TemplateRef<{ $implicit: GpToastStatusItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public toastTemplate = input<TemplateRef<{ $implicit: GpToastStatusItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('toastTemplate') public contentToastTemplate?: TemplateRef<{ $implicit: GpToastStatusItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentToastTemplate = contentChild<TemplateRef<{ $implicit: GpToastStatusItem }>>('toastTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveToastTemplate(): TemplateRef<{ $implicit: GpToastStatusItem }> | undefined {
-    return this.toastTemplate || this.contentToastTemplate;
-  }
+  public effectiveToastTemplate = computed(() => this.toastTemplate() || this.contentToastTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

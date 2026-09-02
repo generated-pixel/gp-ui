@@ -1,4 +1,14 @@
-import { Component, input, output, signal, computed, Input, TemplateRef, ContentChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  computed,
+  TemplateRef,
+  ViewEncapsulation,
+  contentChild,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   GpAvatarComponent,
@@ -18,6 +28,7 @@ export interface GpTopBarNavLink {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-nav-responsive-top-bar',
   standalone: true,
   imports: [
@@ -57,37 +68,27 @@ export class GpNavResponsiveTopBarComponent {
   public notificationsClick = output<void>();
   public profileClick = output<void>();
 
-  @Input() public brandTemplate?: TemplateRef<any>;
-  @Input() public navTemplate?: TemplateRef<any>;
-  @Input() public searchTemplate?: TemplateRef<any>;
-  @Input() public userTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public brandTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public navTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public searchTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public userTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('brand') public contentBrand?: TemplateRef<any>;
-  @ContentChild('nav') public contentNav?: TemplateRef<any>;
-  @ContentChild('search') public contentSearch?: TemplateRef<any>;
-  @ContentChild('user') public contentUser?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentBrand = contentChild<TemplateRef<any>>('brand');
+  public contentNav = contentChild<TemplateRef<any>>('nav');
+  public contentSearch = contentChild<TemplateRef<any>>('search');
+  public contentUser = contentChild<TemplateRef<any>>('user');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveBrand(): TemplateRef<any> | undefined {
-    return this.brandTemplate || this.contentBrand;
-  }
+  public effectiveBrand = computed(() => this.brandTemplate() || this.contentBrand());
 
-  public get effectiveNav(): TemplateRef<any> | undefined {
-    return this.navTemplate || this.contentNav;
-  }
+  public effectiveNav = computed(() => this.navTemplate() || this.contentNav());
 
-  public get effectiveSearch(): TemplateRef<any> | undefined {
-    return this.searchTemplate || this.contentSearch;
-  }
+  public effectiveSearch = computed(() => this.searchTemplate() || this.contentSearch());
 
-  public get effectiveUser(): TemplateRef<any> | undefined {
-    return this.userTemplate || this.contentUser;
-  }
+  public effectiveUser = computed(() => this.userTemplate() || this.contentUser());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onSearchInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;

@@ -1,0 +1,53 @@
+<div
+  class="gp-dialog-mask gp-dialog-mask-visible"
+  (click)="onMaskClick($event)"
+  [attr.aria-hidden]="false"
+>
+  <div
+    class="gp-dialog"
+    [class.gp-dialog-maximized]="maximized()"
+    [ngClass]="config.styleClass || ''"
+    [style.width]="maximized() ? '100vw' : config.width || '36rem'"
+    [style.maxWidth]="maximized() ? '100vw' : config.maxWidth || '90vw'"
+    [style.height]="maximized() ? '100vh' : config.height || 'auto'"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="config.ariaLabel || config.header || 'Dialog'"
+    (click)="$event.stopPropagation()"
+    gpFocusTrap
+  >
+    <!-- Header -->
+    @if (config.showHeader !== false) {
+      <div class="gp-dialog-header">
+        <span class="gp-dialog-title">{{ config.header || '' }}</span>
+        <div class="gp-dialog-header-actions">
+          @if (config.maximizable) {
+            <button
+              type="button"
+              class="gp-dialog-header-action"
+              [attr.aria-label]="maximized() ? 'Restore Dialog' : 'Maximize Dialog'"
+              (click)="toggleMaximize()"
+            >
+              <gp-icon [name]="maximized() ? 'compress' : 'expand'" size="0.85em" />
+            </button>
+          }
+          @if (config.closable !== false) {
+            <button
+              type="button"
+              class="gp-dialog-header-action"
+              aria-label="Close Dialog"
+              (click)="close()"
+            >
+              <gp-icon name="times" size="0.85em" />
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Dynamic Component Host Content -->
+    <div class="gp-dialog-content" [ngStyle]="config.contentStyle || {}">
+      <ng-template #contentHost></ng-template>
+    </div>
+  </div>
+</div>

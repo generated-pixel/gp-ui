@@ -1,8 +1,25 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GpButtonComponent, GpDrawerComponent, GpInputNumberComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
+import {
+  GpButtonComponent,
+  GpDrawerComponent,
+  GpInputNumberComponent,
+  GpInputTextComponent
+} from '@generatedpixel/gp-ui';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-overlay-slide-over-panel',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpDrawerComponent, GpInputNumberComponent, GpInputTextComponent],
@@ -25,31 +42,23 @@ export class GpOverlaySlideOverPanelComponent {
   public cancel = output<void>();
   public save = output<{ configTag: string; workerNodes: number }>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public bodyTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public bodyTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('body') public contentBody?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentBody = contentChild<TemplateRef<any>>('body');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveBody(): TemplateRef<any> | undefined {
-    return this.bodyTemplate || this.contentBody;
-  }
+  public effectiveBody = computed(() => this.bodyTemplate() || this.contentBody());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public open(): void {
     this.closeReason = null;

@@ -34,11 +34,7 @@ export class GpHotkeyService {
    * Registers a keyboard shortcut.
    * e.g. 'meta.k', 'ctrl.s', 'shift.alt.d', 'escape'
    */
-  public register(
-    keys: string,
-    callback: (event: KeyboardEvent) => void,
-    options: GpHotkeyOptions = {}
-  ): () => void {
+  public register(keys: string, callback: (event: KeyboardEvent) => void, options: GpHotkeyOptions = {}): () => void {
     const id = `hotkey-${++this.nextId}`;
     const normalizedKeys = this.normalizeKeyCombo(keys);
 
@@ -137,9 +133,15 @@ export class GpHotkeyService {
       .replace(/\s+/g, '')
       .split(/[.+]/)
       .map((p) => {
-        if (p === 'cmd' || p === 'command' || p === 'meta') return 'meta';
-        if (p === 'control') return 'ctrl';
-        if (p === 'esc') return 'escape';
+        if (p === 'cmd' || p === 'command' || p === 'meta') {
+          return 'meta';
+        }
+        if (p === 'control') {
+          return 'ctrl';
+        }
+        if (p === 'esc') {
+          return 'escape';
+        }
         return p;
       });
 
@@ -151,10 +153,18 @@ export class GpHotkeyService {
     const regularKeys = parts.filter((p) => !['meta', 'ctrl', 'alt', 'shift'].includes(p)).sort();
 
     const normalized: string[] = [];
-    if (hasCtrl) normalized.push('ctrl');
-    if (hasAlt) normalized.push('alt');
-    if (hasShift) normalized.push('shift');
-    if (hasMeta) normalized.push('meta');
+    if (hasCtrl) {
+      normalized.push('ctrl');
+    }
+    if (hasAlt) {
+      normalized.push('alt');
+    }
+    if (hasShift) {
+      normalized.push('shift');
+    }
+    if (hasMeta) {
+      normalized.push('meta');
+    }
     normalized.push(...regularKeys);
 
     return normalized.join('+');
@@ -162,13 +172,23 @@ export class GpHotkeyService {
 
   private getEventKeyCombo(event: KeyboardEvent): string {
     const parts: string[] = [];
-    if (event.ctrlKey) parts.push('ctrl');
-    if (event.altKey) parts.push('alt');
-    if (event.shiftKey) parts.push('shift');
-    if (event.metaKey) parts.push('meta');
+    if (event.ctrlKey) {
+      parts.push('ctrl');
+    }
+    if (event.altKey) {
+      parts.push('alt');
+    }
+    if (event.shiftKey) {
+      parts.push('shift');
+    }
+    if (event.metaKey) {
+      parts.push('meta');
+    }
 
     let key = event.key.toLowerCase();
-    if (key === 'escape' || key === 'esc') key = 'escape';
+    if (key === 'escape' || key === 'esc') {
+      key = 'escape';
+    }
     if (!['control', 'alt', 'shift', 'meta'].includes(key)) {
       parts.push(key);
     }

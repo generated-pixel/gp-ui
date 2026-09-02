@@ -1,11 +1,10 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'gp-progress-spinner',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './progress-spinner.component.html',

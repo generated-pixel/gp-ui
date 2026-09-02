@@ -1,9 +1,18 @@
 import { Component, signal, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs/operators';
-import { GpBadgeComponent, GpButtonComponent, GpDirectionService, GpInputTextComponent, GP_UI_VERSION, GpCommandPaletteComponent, GpCommandPaletteService, GpCommandItem } from 'gp-ui';
+import {
+  GpBadgeComponent,
+  GpButtonComponent,
+  GpDirectionService,
+  GpInputTextComponent,
+  GP_UI_VERSION,
+  GpCommandPaletteComponent,
+  GpCommandPaletteService,
+  GpCommandItem
+} from 'gp-ui';
 import { GpThemeManager } from 'gp-ui-theme';
 import { GpIconComponent } from 'gp-ui-icons';
 import { ThemeEditorDialogComponent } from './pages/theming/theme-editor-dialog.component';
@@ -27,14 +36,30 @@ export interface ComponentCatalogueItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, GpBadgeComponent, GpButtonComponent, GpInputTextComponent, GpIconComponent, GpCommandPaletteComponent, ThemeEditorDialogComponent],
+  imports: [
+    RouterModule,
+    FormsModule,
+    GpBadgeComponent,
+    GpButtonComponent,
+    GpInputTextComponent,
+    GpIconComponent,
+    GpCommandPaletteComponent,
+    ThemeEditorDialogComponent
+  ],
   template: `
     <div class="app-layout">
       <!-- Top Navigation Header -->
       <header class="app-header">
         <div class="site-shell-header">
           <div class="header-left">
-            <gp-button icon="bars" [iconOnly]="true" variant="text" styleClass="mobile-menu-btn" ariaLabel="Toggle navigation" (onClickEvent)="toggleSidebar()" />
+            <gp-button
+              icon="bars"
+              [iconOnly]="true"
+              variant="text"
+              styleClass="mobile-menu-btn"
+              ariaLabel="Toggle navigation"
+              (onClickEvent)="toggleSidebar()"
+            />
 
             <a routerLink="/" class="brand-mark">
               <img src="/img/generated-pixel-logomark.svg" alt="Generated Pixel logo" class="brand-mark__logo" />
@@ -56,6 +81,9 @@ export interface ComponentCatalogueItem {
               <span class="company-link__label">Built by</span>
               <span class="company-link__brand">Generated Pixel</span>
             </a>
+
+            <!-- Buy Me A Coffee Donation CTA (Prominently next to Generated Pixel Logo) -->
+<a href="https://www.buymeacoffee.com/generatedpixel" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 36px !important;width: 130px !important;" ></a>
           </div>
 
           <!-- Component Search Bar -->
@@ -105,7 +133,13 @@ export interface ComponentCatalogueItem {
                     <span class="theme-mode-badge">{{ isDark() ? 'Dark Mode' : 'Light Mode' }}</span>
                   </div>
                   <div class="theme-dropdown-studio-cta">
-                    <gp-button label="Open Theme Editor Studio..." icon="sliders" variant="text" styleClass="dropdown-studio-btn" (onClickEvent)="themeEditorService.open(); closeThemeMenu()" />
+                    <gp-button
+                      label="Open Theme Editor Studio..."
+                      icon="sliders"
+                      variant="text"
+                      styleClass="dropdown-studio-btn"
+                      (onClickEvent)="themeEditorService.open(); closeThemeMenu()"
+                    />
                   </div>
                   <div class="theme-list">
                     @for (t of availableThemes; track t.id) {
@@ -175,7 +209,6 @@ export interface ComponentCatalogueItem {
         <aside class="app-sidebar" [class.app-sidebar-open]="sidebarOpen()">
           <div class="sidebar-header-note">
             <span>gp-ui Framework v{{ version }}</span>
-            <gp-button label="Theme Studio" icon="sliders" size="sm" variant="text" styleClass="sidebar-studio-btn" (onClickEvent)="themeEditorService.open(); closeSidebarOnMobile()" />
           </div>
           <nav class="sidebar-nav">
             @for (cat of categories(); track cat) {
@@ -224,7 +257,9 @@ export interface ComponentCatalogueItem {
             <gp-icon name="envelope" size="0.9em" class="sidebar-help-icon" />
             <div class="sidebar-help-body">
               <span class="sidebar-help-title">Want to help?</span>
-              <a class="sidebar-help-link" href="mailto:hello@generatedpixel.dev">Email us at hello&#64;generatedpixel.dev</a>
+              <a class="sidebar-help-link" href="mailto:hello@generatedpixel.dev"
+                >Email us at hello&#64;generatedpixel.dev</a
+              >
             </div>
           </div>
         </aside>
@@ -249,7 +284,9 @@ export interface ComponentCatalogueItem {
           <span class="site-footer__divider" aria-hidden="true">&bull;</span>
           <div class="site-footer__help">
             <span class="site-footer__help-prompt">Want to help?</span>
-            <a class="site-footer__link" href="mailto:hello@generatedpixel.dev">Email us at hello&#64;generatedpixel.dev</a>
+            <a class="site-footer__link" href="mailto:hello@generatedpixel.dev"
+              >Email us at hello&#64;generatedpixel.dev</a
+            >
           </div>
         </div>
       </footer>
@@ -448,6 +485,55 @@ export interface ComponentCatalogueItem {
       .header-icon-btn:hover {
         background: var(--gp-surface-hover);
         color: var(--gp-primary);
+      }
+      .bmc-donation-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.42rem 0.95rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #FFDD00 0%, #F59E0B 100%);
+        color: #000000 !important;
+        font-weight: 800;
+        font-size: 0.84rem;
+        text-decoration: none !important;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        box-shadow:
+          0 2px 10px rgba(245, 158, 11, 0.4),
+          0 0 0 1px rgba(255, 221, 0, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .bmc-donation-btn:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow:
+          0 6px 20px rgba(245, 158, 11, 0.65),
+          0 0 0 2px rgba(255, 221, 0, 0.5);
+        background: linear-gradient(135deg, #FFE54C 0%, #D97706 100%);
+        color: #000000 !important;
+      }
+      .bmc-cup-icon {
+        font-size: 1.15rem;
+        line-height: 1;
+        display: inline-block;
+        animation: bmcWiggle 3s ease-in-out infinite;
+        transform-origin: bottom center;
+      }
+      @keyframes bmcWiggle {
+        0%, 75%, 100% { transform: rotate(0deg) scale(1); }
+        80% { transform: rotate(-12deg) scale(1.15); }
+        85% { transform: rotate(12deg) scale(1.15); }
+        90% { transform: rotate(-6deg) scale(1.1); }
+        95% { transform: rotate(6deg) scale(1.05); }
+      }
+      @media (max-width: 768px) {
+        .bmc-btn-text {
+          display: none;
+        }
+        .bmc-donation-btn {
+          padding: 0.38rem 0.6rem;
+        }
       }
       .header-theme-studio-btn {
         display: inline-flex;
@@ -859,8 +945,21 @@ export class AppComponent {
 
   catalogueItems: ComponentCatalogueItem[] = [
     { name: 'Getting Started', route: '/getting-started', category: 'General', icon: 'file' },
+    {
+      name: 'Business Rules Engine',
+      route: '/rules',
+      category: 'General',
+      icon: 'sliders',
+      badge: 'New'
+    },
     { name: 'UI Blocks Gallery', route: '/blocks', category: 'General', icon: 'grid', badge: '60+ Blocks' },
-    { name: 'JSON Schema Studio', route: '/blocks-playground', category: 'General', icon: 'sparkles', badge: 'Dynamic' },
+    {
+      name: 'JSON Schema Studio',
+      route: '/blocks-playground',
+      category: 'General',
+      icon: 'sparkles',
+      badge: 'Dynamic'
+    },
     { name: 'Grid & Dashboard', route: '/grid', category: 'General', icon: 'layout-grid', badge: 'New' },
     { name: 'gp-css Engine', route: '/gp-css', category: 'General', icon: 'sparkles', badge: `v${GP_UI_VERSION}` },
     { name: 'Theming Playground', route: '/theming', category: 'General', icon: 'palette', badge: 'Multi-Theme' },
@@ -872,7 +971,13 @@ export class AppComponent {
     { name: 'Toggle Button', route: '/component/toggle-button', category: 'Components', icon: 'toggle-on' },
     { name: 'Label', route: '/component/label', category: 'Form Controls', icon: 'tag', badge: 'New' },
     { name: 'Float Label', route: '/component/float-label', category: 'Form Controls', icon: 'arrow-up', badge: 'New' },
-    { name: 'Inset Label', route: '/component/inset-label', category: 'Form Controls', icon: 'square-check', badge: 'New' },
+    {
+      name: 'Inset Label',
+      route: '/component/inset-label',
+      category: 'Form Controls',
+      icon: 'square-check',
+      badge: 'New'
+    },
     { name: 'Form Field', route: '/component/form-field', category: 'Form Controls', icon: 'square', badge: 'Updated' },
     { name: 'Input Text', route: '/component/input-text', category: 'Form Controls', icon: 'edit' },
     { name: 'Textarea', route: '/component/textarea', category: 'Form Controls', icon: 'align-left' },
@@ -892,7 +997,13 @@ export class AppComponent {
     { name: 'Cascade Select', route: '/component/cascade-select', category: 'Form Controls', icon: 'sitemap' },
     { name: 'Tree Select', route: '/component/tree-select', category: 'Form Controls', icon: 'folder-tree' },
     { name: 'Date Picker', route: '/component/date-picker', category: 'Form Controls', icon: 'calendar' },
-    { name: 'Date Range Picker', route: '/component/date-range-picker', category: 'Form Controls', icon: 'calendar', badge: 'New' },
+    {
+      name: 'Date Range Picker',
+      route: '/component/date-range-picker',
+      category: 'Form Controls',
+      icon: 'calendar',
+      badge: 'New'
+    },
     { name: 'Time Picker', route: '/component/time-picker', category: 'Form Controls', icon: 'clock' },
     { name: 'File Upload', route: '/component/file-upload', category: 'Form Controls', icon: 'upload' },
     { name: 'Paginator', route: '/component/paginator', category: 'Data Presentation', icon: 'bars' },

@@ -108,7 +108,9 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--gp-border-radius-sm, 4px);
-  transition: background 150ms ease, color 150ms ease;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
 }
 
 .gp-timepicker-btn:hover {

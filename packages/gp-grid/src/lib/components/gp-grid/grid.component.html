@@ -1,9 +1,4 @@
-<div
-  class="gp-grid-container"
-  #gridContainer
-  [attr.role]="'region'"
-  [attr.aria-label]="effectiveAriaLabel()"
->
+<div class="gp-grid-container" #gridContainer [attr.role]="'region'" [attr.aria-label]="effectiveAriaLabel()">
   <!-- Background Grid Lines Overlay (Optional / During Drag) -->
   @if (showGridLines() || isDragging() || isResizing()) {
     <div class="gp-grid-lines" aria-hidden="true">
@@ -15,11 +10,7 @@
 
   <!-- Active Drag / Resize Ghost Placeholder -->
   @if (placeholderPos(); as ph) {
-    <div
-      class="gp-grid-placeholder"
-      [class.gp-grid-placeholder--invalid]="!ph.valid"
-      [style]="getPlaceholderStyle()"
-    >
+    <div class="gp-grid-placeholder" [class.gp-grid-placeholder--invalid]="!ph.valid" [style]="getPlaceholderStyle()">
       <div class="gp-grid-placeholder-inner">
         @if (!ph.valid) {
           <span class="gp-grid-placeholder-warning">
@@ -43,9 +34,7 @@
       (pointerdown)="onWidgetPointerDown($event, item)"
     >
       @if (widgetTemplate) {
-        <ng-container
-          *ngTemplateOutlet="widgetTemplate; context: { $implicit: item }"
-        />
+        <ng-container *ngTemplateOutlet="widgetTemplate; context: { $implicit: item }" />
       } @else if (item.widgetType === 'kpi') {
         <gp-grid-kpi-widget
           [item]="item"
@@ -133,11 +122,7 @@
       @if (emptyTemplate) {
         <ng-container *ngTemplateOutlet="emptyTemplate" />
       } @else {
-        <gp-empty-state
-          icon="layout-grid"
-          [title]="effectiveEmptyTitle()"
-          [message]="effectiveEmptyMessage()"
-        />
+        <gp-empty-state icon="layout-grid" [title]="effectiveEmptyTitle()" [message]="effectiveEmptyMessage()" />
       }
     </div>
   }

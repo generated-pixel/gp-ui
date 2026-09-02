@@ -81,7 +81,7 @@ export function compile(config: CompileConfig = {}): CompileResult {
   }
 
   for (const [mediaQuery, rules] of mediaRules.entries()) {
-    utilitiesCss += `\n@media ${mediaQuery} {\n` + rules.map((r) => `  ${r.cssText}`).join('\n') + `\n}`;
+    utilitiesCss += `\n@media ${mediaQuery} {\n` + rules.map((r) => `  ${r.cssText}`).join('\n') + '\n}';
   }
 
   const inputCss = config.inputCss || '@gp-css theme;\n@gp-css base;\n@gp-css components;\n@gp-css utilities;';

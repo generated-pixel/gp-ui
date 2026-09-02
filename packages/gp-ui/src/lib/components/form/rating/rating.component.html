@@ -20,7 +20,8 @@
       tabindex="0"
       role="radio"
       [attr.aria-checked]="
-        internalValue() === $index + 1 || (allowHalfStars() && internalValue()! > $index && internalValue()! < $index + 1)
+        internalValue() === $index + 1 ||
+        (allowHalfStars() && internalValue()! > $index && internalValue()! < $index + 1)
       "
       [attr.aria-label]="$index + 1 + ' stars'"
     >

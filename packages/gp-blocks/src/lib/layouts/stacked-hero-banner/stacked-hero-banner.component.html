@@ -1,68 +1,78 @@
 <div class="gp-stacked-hero-shell">
   <!-- Top Navigation -->
   <header class="hero-topbar">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
-    </ng-container>
-    <ng-template #defaultHeader>
+    @if (effectiveHeader()) {
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+    } @else {
       <ng-content select="[header], [slot=header]" />
-
-        <div class="topbar-inner">
-          <div class="brand-group">
-            <gp-icon [name]="brandIcon()" size="1.2em" />
-            <span class="brand-name">{{ brandName() }}</span>
-          </div>
-
-          <nav class="hero-nav" *ngIf="navLinks() && navLinks().length > 0">
-            <a
-              href="javascript:void(0)"
-              *ngFor="let link of navLinks()"
-              class="hero-link"
-              [class.active]="link.active"
-              (click)="navLinkClick.emit(link)"
-            >
-              {{ link.label }}
-            </a>
-          </nav>
+      <div class="topbar-inner">
+        <div class="brand-group">
+          <gp-icon [name]="brandIcon()" size="1.2em" />
+          <span class="brand-name">{{ brandName() }}</span>
         </div>
-      
-    </ng-template>
+        @if (navLinks() && navLinks().length > 0) {
+          <nav class="hero-nav">
+            @for (link of navLinks(); track link) {
+              <a
+                href="javascript:void(0)"
+                class="hero-link"
+                [class.active]="link.active"
+                (click)="navLinkClick.emit(link)"
+              >
+                {{ link.label }}
+              </a>
+            }
+          </nav>
+        }
+      </div>
+    }
   </header>
 
   <!-- Big Hero Banner -->
   <section class="hero-banner-section">
-    <ng-container *ngIf="effectiveHero; else defaultHero">
-      <ng-container *ngTemplateOutlet="effectiveHero" />
-    </ng-container>
-    <ng-template #defaultHero>
+    @if (effectiveHero()) {
+      <ng-container *ngTemplateOutlet="effectiveHero()!" />
+    } @else {
       <ng-content select="[hero], [slot=hero]" />
-
-        <div class="hero-banner-content">
-          <h1 class="hero-title" *ngIf="heroTitle()">{{ heroTitle() }}</h1>
-          <p class="hero-subtitle" *ngIf="heroSubtitle()">{{ heroSubtitle() }}</p>
-          <div class="hero-actions" *ngIf="primaryCta() || secondaryCta()">
-            <gp-button severity="primary" styleClass="btn-primary" *ngIf="primaryCta()" (onClickEvent)="primaryClick.emit()">
-              {{ primaryCta() }}
-            </gp-button>
-            <gp-button variant="outlined" severity="secondary" styleClass="btn-secondary" *ngIf="secondaryCta()" (onClickEvent)="secondaryClick.emit()">
-              {{ secondaryCta() }}
-            </gp-button>
+      <div class="hero-banner-content">
+        @if (heroTitle()) {
+          <h1 class="hero-title">{{ heroTitle() }}</h1>
+        }
+        @if (heroSubtitle()) {
+          <p class="hero-subtitle">{{ heroSubtitle() }}</p>
+        }
+        @if (primaryCta() || secondaryCta()) {
+          <div class="hero-actions">
+            @if (primaryCta()) {
+              <gp-button severity="primary" styleClass="btn-primary" (onClickEvent)="primaryClick.emit()">
+                {{ primaryCta() }}
+              </gp-button>
+            }
+            @if (secondaryCta()) {
+              <gp-button
+                variant="outlined"
+                severity="secondary"
+                styleClass="btn-secondary"
+                (onClickEvent)="secondaryClick.emit()"
+              >
+                {{ secondaryCta() }}
+              </gp-button>
+            }
           </div>
-        </div>
-      
-    </ng-template>
+        }
+      </div>
+    }
   </section>
 
   <!-- Main Body Content Card overlapping Hero -->
   <main class="hero-main-container">
     <div class="hero-content-card">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
-      </ng-container>
-      <ng-template #defaultContent>
+      @if (effectiveContent()) {
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
-      </ng-template>
+        <ng-content />
+      }
     </div>
   </main>
 </div>

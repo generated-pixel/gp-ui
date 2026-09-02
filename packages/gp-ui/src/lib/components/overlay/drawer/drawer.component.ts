@@ -1,19 +1,14 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpOverlayBaseComponent } from '../../../base/gp-overlay-base.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 
 export type GpDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 
 @Component({
   selector: 'gp-drawer',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './drawer.component.html',

@@ -1,69 +1,66 @@
 <div class="gp-stacked-classic-shell">
   <!-- Top Navigation Bar -->
   <header class="stacked-topbar">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
-    </ng-container>
-    <ng-template #defaultHeader>
+    @if (effectiveHeader()) {
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+    } @else {
       <ng-content select="[header], [slot=header]" />
-        <div class="topbar-inner">
-          <div class="topbar-left">
-            <div class="brand-badge">
-              <gp-icon [name]="brandIcon()" size="1.1em" />
-            </div>
-            <span class="brand-name">{{ brandName() }}</span>
-
-            <nav class="topbar-nav" *ngIf="navItems() && navItems().length > 0">
-              <a
-                href="javascript:void(0)"
-                *ngFor="let item of navItems()"
-                class="nav-link"
-                [class.active]="item.id === activeNavId() || item.active"
-                (click)="navItemClick.emit(item)"
-              >
-                {{ item.label }}
-              </a>
-            </nav>
+      <div class="topbar-inner">
+        <div class="topbar-left">
+          <div class="brand-badge">
+            <gp-icon [name]="brandIcon()" size="1.1em" />
           </div>
-
-          <ng-container *ngIf="effectiveUser; else defaultUser">
-            <ng-container *ngTemplateOutlet="effectiveUser" />
-          </ng-container>
-          <ng-template #defaultUser>
-            <ng-content select="[user], [slot=user]" />
-
-
-              <div class="topbar-right" *ngIf="userName()" (click)="userClick.emit()" style="cursor: pointer;">
-                <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
-              </div>
-            
-          </ng-template>
+          <span class="brand-name">{{ brandName() }}</span>
+          @if (navItems() && navItems().length > 0) {
+            <nav class="topbar-nav">
+              @for (item of navItems(); track item) {
+                <a
+                  href="javascript:void(0)"
+                  class="nav-link"
+                  [class.active]="item.id === activeNavId() || item.active"
+                  (click)="navItemClick.emit(item)"
+                >
+                  {{ item.label }}
+                </a>
+              }
+            </nav>
+          }
         </div>
-      
-    </ng-template>
+        @if (effectiveUser()) {
+          <ng-container *ngTemplateOutlet="effectiveUser()!" />
+        } @else {
+          <ng-content select="[user], [slot=user]" />
+          @if (userName()) {
+            <div class="topbar-right" (click)="userClick.emit()" style="cursor: pointer">
+              <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+            </div>
+          }
+        }
+      </div>
+    }
   </header>
 
   <!-- Constrained Centered Content Container -->
   <main class="stacked-main-container">
-    <div class="page-header-row" *ngIf="title() || effectiveHeaderActions">
-      <h1 class="page-title">{{ title() }}</h1>
-      <div class="header-actions">
-        <ng-container *ngIf="effectiveHeaderActions; else projectedHeaderActions">
-          <ng-container *ngTemplateOutlet="effectiveHeaderActions" />
-        </ng-container>
-        <ng-template #projectedHeaderActions>
-          <ng-content select="[header-actions], [slot=header-actions], [actions], [slot=actions]" />
-        </ng-template>
+    @if (title() || effectiveHeaderActions()) {
+      <div class="page-header-row">
+        <h1 class="page-title">{{ title() }}</h1>
+        <div class="header-actions">
+          @if (effectiveHeaderActions()) {
+            <ng-container *ngTemplateOutlet="effectiveHeaderActions()!" />
+          } @else {
+            <ng-content select="[header-actions], [slot=header-actions], [actions], [slot=actions]" />
+          }
+        </div>
       </div>
-    </div>
+    }
     <div class="page-body">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
-      </ng-container>
-      <ng-template #defaultContent>
+      @if (effectiveContent()) {
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
-      </ng-template>
+        <ng-content />
+      }
     </div>
   </main>
 </div>

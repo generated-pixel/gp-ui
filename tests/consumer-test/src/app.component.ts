@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import {
   GpButtonComponent,
@@ -19,7 +19,6 @@ import { GpIconComponent } from 'gp-ui-icons';
   selector: 'app-consumer-root',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     GpButtonComponent,

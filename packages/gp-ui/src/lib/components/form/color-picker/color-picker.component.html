@@ -10,7 +10,11 @@
   ></div>
 
   @if (overlayVisible()) {
-    <div class="gp-color-picker-overlay">
+    <div
+      class="gp-color-picker-overlay"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="hostElementRef"
+    >
       <div class="gp-color-picker-palette">
         @for (c of presetColors(); track c) {
           <div

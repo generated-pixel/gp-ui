@@ -746,7 +746,8 @@ export const cyberpunkTheme: GpThemeDefinition = extendTheme({
 export const highContrastDarkTheme: GpThemeDefinition = extendTheme({
   id: 'high-contrast-dark',
   name: 'High Contrast Dark (WCAG AAA)',
-  description: 'Maximum contrast dark mode compliant with WCAG 2.2 AAA with vibrant yellow accent and distinct white borders.',
+  description:
+    'Maximum contrast dark mode compliant with WCAG 2.2 AAA with vibrant yellow accent and distinct white borders.',
   primitives: {
     borderRadius: {
       base: '4px',

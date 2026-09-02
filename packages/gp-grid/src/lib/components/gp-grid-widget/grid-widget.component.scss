@@ -47,12 +47,16 @@
 
   &--dragging {
     opacity: 0.95;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45), 0 0 0 2px var(--gp-primary, #6366f1);
+    box-shadow:
+      0 16px 32px rgba(0, 0, 0, 0.45),
+      0 0 0 2px var(--gp-primary, #6366f1);
     z-index: 100;
   }
 
   &--resizing {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35), 0 0 0 2px var(--gp-primary, #6366f1);
+    box-shadow:
+      0 12px 24px rgba(0, 0, 0, 0.35),
+      0 0 0 2px var(--gp-primary, #6366f1);
     z-index: 100;
   }
 }
@@ -88,7 +92,9 @@
   padding: 0.2rem;
   border-radius: 4px;
   touch-action: none;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
 
   &:hover {
     color: var(--gp-grid-widget-drag-handle-hover-color, var(--gp-primary, #6366f1));
@@ -192,7 +198,9 @@
   color: var(--gp-text-color-secondary, #94a3b8);
   border-radius: var(--gp-border-radius-sm, 4px);
   cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
 
   &:hover {
     color: var(--gp-text-color, #ffffff);
@@ -227,7 +235,9 @@
   cursor: se-resize;
   color: var(--gp-grid-widget-resize-handle-color, var(--gp-text-color-muted, #64748b));
   touch-action: none;
-  transition: color 0.15s ease, transform 0.15s ease;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
 
   &:hover {
     color: var(--gp-primary, #6366f1);

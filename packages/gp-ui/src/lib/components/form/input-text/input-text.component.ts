@@ -1,11 +1,5 @@
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
@@ -13,7 +7,7 @@ import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
 @Component({
   selector: 'gp-input-text',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [FormsModule, GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

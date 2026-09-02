@@ -25,7 +25,13 @@
   </div>
 
   @if (inline() || overlayVisible()) {
-    <div class="gp-datepicker-panel" [class.gp-datepicker-inline]="inline()" (click)="$event.stopPropagation()">
+    <div
+      class="gp-datepicker-panel"
+      [class.gp-datepicker-inline]="inline()"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="inline() ? 'self' : appendTo()"
+      [gpConnectedTo]="hostElRef"
+    >
       <div class="gp-datepicker-header">
         <button type="button" class="gp-datepicker-nav-btn" (click)="prevMonth()" aria-label="Previous Month">
           <gp-icon name="chevron-left" size="0.85em" />

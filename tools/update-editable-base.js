@@ -42,7 +42,9 @@ const valueHoldingComponents = [
 
 for (const rel of valueHoldingComponents) {
   const fullPath = path.join(__dirname, '..', rel);
-  if (!fs.existsSync(fullPath)) continue;
+  if (!fs.existsSync(fullPath)) {
+    continue;
+  }
 
   let content = fs.readFileSync(fullPath, 'utf8');
   const dirName = path.dirname(fullPath);

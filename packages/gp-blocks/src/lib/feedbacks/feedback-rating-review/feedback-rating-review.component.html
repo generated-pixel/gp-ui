@@ -1,54 +1,58 @@
 <div class="gp-rating-review-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="card-head" *ngIf="title()">
+    @if (title()) {
+      <div class="card-head">
         <h3 class="head-title">{{ title() }}</h3>
-        <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+        @if (subtitle()) {
+          <p class="head-subtitle">{{ subtitle() }}</p>
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Content Override or Stars Rating Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
-    <ng-container *ngIf="effectiveStars; else defaultStars">
-      <ng-container *ngTemplateOutlet="effectiveStars" />
-    </ng-container>
-    <ng-template #defaultStars>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
+    @if (effectiveStars()) {
+      <ng-container *ngTemplateOutlet="effectiveStars()!" />
+    } @else {
       <ng-content select="[stars], [slot=stars], [rating], [slot=rating]" />
-
-        <div class="rating-picker-row">
-          <gp-rating
-            [value]="rating()"
-            [stars]="5"
-            [cancel]="false"
-            ariaLabel="Satisfaction rating"
-            (onRate)="rating.set($event.value)"
-          />
-        </div>
-      
-    </ng-template>
-
+      <div class="rating-picker-row">
+        <gp-rating
+          [value]="rating()"
+          [stars]="5"
+          [cancel]="false"
+          ariaLabel="Satisfaction rating"
+          (onRate)="rating.set($event.value)"
+        />
+      </div>
+    }
     <!-- Footer Actions -->
-    <ng-container *ngIf="effectiveActions; else defaultActions">
-      <ng-container *ngTemplateOutlet="effectiveActions" />
-    </ng-container>
-    <ng-template #defaultActions>
+    @if (effectiveActions()) {
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
+    } @else {
       <ng-content select="[actions], [slot=actions]" />
-
-        <div class="review-actions">
-          <gp-button [label]="dismissBtnLabel()" variant="outlined" severity="secondary" size="sm" (onClickEvent)="dismiss.emit()" />
-          <gp-button [label]="submitBtnLabel()" severity="primary" size="sm" (onClickEvent)="submitRating.emit(rating())" />
-        </div>
-      
-    </ng-template>
+      <div class="review-actions">
+        <gp-button
+          [label]="dismissBtnLabel()"
+          variant="outlined"
+          severity="secondary"
+          size="sm"
+          (onClickEvent)="dismiss.emit()"
+        />
+        <gp-button
+          [label]="submitBtnLabel()"
+          severity="primary"
+          size="sm"
+          (onClickEvent)="submitRating.emit(rating())"
+        />
+      </div>
+    }
     <ng-content />
-  </ng-template>
+  }
 </div>

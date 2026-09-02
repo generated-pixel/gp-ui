@@ -16,7 +16,7 @@
     [attr.maxlength]="maxlength() || null"
     [attr.minlength]="minlength() || null"
     [attr.autofocus]="autofocus() ? '' : null"
-    [attr.tabindex]="tabindex() !== undefined ? tabindex() : (isEffectivelyDisabled() ? -1 : 0)"
+    [attr.tabindex]="tabindex() !== undefined ? tabindex() : isEffectivelyDisabled() ? -1 : 0"
     [attr.aria-label]="ariaLabel() || placeholder() || null"
     [attr.aria-invalid]="isInvalid()"
     [attr.aria-required]="required()"

@@ -1,14 +1,6 @@
-import {
-  Directive,
-  input,
-  output,
-  signal,
-  computed,
-  ElementRef,
-  HostListener,
-  inject
-} from '@angular/core';
+import { Directive, input, output, signal, computed, ElementRef, HostListener, inject } from '@angular/core';
 import { GpEditableBaseComponent } from './gp-editable-base.component';
+import { GpAppendToTarget } from '../overlay/append-to.interface';
 
 export interface GpSelectItem<T = any> {
   label?: string;
@@ -27,7 +19,10 @@ export type GpSelectVariant = 'outlined' | 'filled';
  */
 @Directive()
 export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseComponent<T> {
-  private selectHostEl = inject(ElementRef);
+  public selectHostEl = inject(ElementRef);
+
+  /** Target DOM element where dropdown overlay should be appended ('body', 'self', selector or element) */
+  public appendTo = input<GpAppendToTarget>('body');
 
   /** Array of raw option objects or primitives */
   public options = input<(GpSelectItem | any)[]>([]);
@@ -102,7 +97,11 @@ export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseCompo
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (this.overlayVisible() && this.selectHostEl?.nativeElement && !this.selectHostEl.nativeElement.contains(event.target)) {
+    if (
+      this.overlayVisible() &&
+      this.selectHostEl?.nativeElement &&
+      !this.selectHostEl.nativeElement.contains(event.target)
+    ) {
       this.hideOverlay();
     }
   }
@@ -146,9 +145,7 @@ export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseCompo
     if (!q) {
       return this.normalizedOptions();
     }
-    return this.normalizedOptions().filter((opt) =>
-      (opt.label || '').toLowerCase().includes(q)
-    );
+    return this.normalizedOptions().filter((opt) => (opt.label || '').toLowerCase().includes(q));
   });
 
   public toggleOverlay(event?: MouseEvent): void {
@@ -202,12 +199,16 @@ export abstract class GpSelectBaseComponent<T = any> extends GpEditableBaseCompo
   }
 
   public getOptionLabel(option: GpSelectItem | any): string {
-    if (!option) return '';
+    if (!option) {
+      return '';
+    }
     return option.label ?? option[this.optionLabel()] ?? String(option);
   }
 
   public getOptionValue(option: GpSelectItem | any): any {
-    if (!option) return null;
+    if (!option) {
+      return null;
+    }
     return option.value !== undefined ? option.value : (option[this.optionValue()] ?? option);
   }
 }

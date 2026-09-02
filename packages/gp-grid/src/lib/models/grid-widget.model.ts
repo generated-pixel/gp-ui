@@ -6,16 +6,7 @@ import { GpBadgeSeverity } from '@generatedpixel/gp-ui';
  * Standard widget types supported natively by gp-grid.
  */
 export type GpGridWidgetType =
-  | 'custom'
-  | 'kpi'
-  | 'chart'
-  | 'table'
-  | 'list'
-  | 'progress'
-  | 'stats'
-  | 'timeline'
-  | 'feed'
-  | 'empty';
+  'custom' | 'kpi' | 'chart' | 'table' | 'list' | 'progress' | 'stats' | 'timeline' | 'feed' | 'empty';
 
 /**
  * Function provider for resolving data asynchronously or synchronously.
@@ -32,12 +23,7 @@ export type GpWidgetDataProvider<T = any> = () => Promise<T> | Observable<T> | T
  * 5. Async / Sync Fetcher Function (() => Promise<T> | Observable<T> | T)
  */
 export type GpWidgetDataSource<T = any> =
-  | T
-  | Signal<T>
-  | Observable<T>
-  | Subscribable<T>
-  | Promise<T>
-  | GpWidgetDataProvider<T>;
+  T | Signal<T> | Observable<T> | Subscribable<T> | Promise<T> | GpWidgetDataProvider<T>;
 
 /**
  * Navigation configuration for interactive router linking.

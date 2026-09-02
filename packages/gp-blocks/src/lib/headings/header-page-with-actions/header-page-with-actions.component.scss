@@ -14,79 +14,79 @@
   gap: 0.85rem;
   width: 100%;
   box-sizing: border-box;
-}
 
-.header-breadcrumbs {
-  display: flex;
-  align-items: center;
-}
+  .header-breadcrumbs {
+    display: flex;
+    align-items: center;
+  }
 
-.breadcrumb-trail {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--gp-text-color-secondary);
-}
+  .breadcrumb-trail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--gp-text-color-secondary);
+  }
 
-.crumb-link {
-  color: var(--gp-text-color-secondary);
-  text-decoration: none;
-  cursor: pointer;
-  transition: color var(--gp-transition-duration, 150ms) ease;
-}
+  .crumb-link {
+    color: var(--gp-text-color-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--gp-transition-duration, 150ms) ease;
+  }
 
-.crumb-link:hover {
-  color: var(--gp-primary);
-}
+  .crumb-link:hover {
+    color: var(--gp-primary);
+  }
 
-.crumb-sep {
-  color: var(--gp-text-color-secondary);
-  opacity: 0.6;
-}
+  .crumb-sep {
+    color: var(--gp-text-color-secondary);
+    opacity: 0.6;
+  }
 
-.crumb-current {
-  color: var(--gp-text-color);
-  font-weight: 600;
-}
+  .crumb-current {
+    color: var(--gp-text-color);
+    font-weight: 600;
+  }
 
-.header-main-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-}
+  .header-main-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
 
-.title-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+  .title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-.title-with-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
+  .title-with-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
 
-.page-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  margin: 0;
-  color: var(--gp-text-color);
-}
+  .page-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
 
-.page-subtitle {
-  font-size: 0.875rem;
-  color: var(--gp-text-color-secondary);
-  margin: 0;
-}
+  .page-subtitle {
+    font-size: 0.875rem;
+    color: var(--gp-text-color-secondary);
+    margin: 0;
+  }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
 }

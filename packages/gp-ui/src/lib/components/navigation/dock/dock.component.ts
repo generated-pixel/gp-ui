@@ -1,5 +1,5 @@
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpTooltipDirective } from '../../../directives/tooltip.directive';
@@ -11,7 +11,7 @@ export type GpDockPosition = 'bottom' | 'top' | 'left' | 'right';
 @Component({
   selector: 'gp-dock',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpIconComponent, GpTooltipDirective],
+  imports: [RouterModule, GpIconComponent, GpTooltipDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dock.component.html',

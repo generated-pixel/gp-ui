@@ -82,7 +82,9 @@
   cursor: pointer;
   border-radius: var(--gp-border-radius-sm, 4px);
   margin: 0 0.25rem;
-  transition: background var(--gp-transition-duration), color var(--gp-transition-duration);
+  transition:
+    background var(--gp-transition-duration),
+    color var(--gp-transition-duration);
 }
 
 .gp-menu-item:hover:not(.gp-menu-item-disabled) > .gp-menu-item-link,

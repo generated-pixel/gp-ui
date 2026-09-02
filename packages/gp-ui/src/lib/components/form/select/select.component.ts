@@ -12,13 +12,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 import { GpIconComponent } from '../../../icons/icon.component';
 import { ObjectUtils } from '../../../utils/object-utils';
 import { GpSelectBaseComponent, GpSelectItem } from '../../../base/gp-select-base.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 
 export { GpSelectItem };
 
 @Component({
   selector: 'gp-select',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent],
+  imports: [CommonModule, FormsModule, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

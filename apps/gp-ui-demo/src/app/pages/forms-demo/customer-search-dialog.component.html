@@ -1,0 +1,49 @@
+<div class="customer-search-modal p-2">
+  <div class="mb-4">
+    <p class="text-sm text-secondary mb-2">
+      Dynamically launched by <code>GpDialogService</code>. Filter enterprise customers and click
+      <strong>Select</strong> to return results directly to the typeahead.
+    </p>
+    <div class="flex gap-2">
+      <gp-input-text
+        class="flex-1"
+        placeholder="Filter customers by name, territory, or ID..."
+        [value]="filterQuery"
+        (valueChange)="filterQuery = $event"
+      />
+      <gp-button label="Filter" icon="search" />
+    </div>
+  </div>
+
+  <div class="border rounded-lg overflow-hidden max-h-72 overflow-y-auto">
+    <table class="w-full text-left text-sm border-collapse">
+      <thead class="bg-surface-section text-xs uppercase font-bold text-secondary">
+        <tr>
+          <th class="p-3">Customer Name</th>
+          <th class="p-3">Tier</th>
+          <th class="p-3">Location</th>
+          <th class="p-3 text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cust of filteredCustomers(); track cust.id) {
+          <tr class="border-t hover:bg-surface-hover transition-colors">
+            <td class="p-3 font-semibold">{{ cust.name }}</td>
+            <td class="p-3">
+              <gp-badge [value]="cust.tier" [severity]="cust.tier === 'Enterprise' ? 'primary' : 'success'" />
+            </td>
+            <td class="p-3 text-secondary">{{ cust.location }}</td>
+            <td class="p-3 text-right">
+              <gp-button
+                label="Select"
+                size="sm"
+                icon="check"
+                (onClickEvent)="chooseCustomer(cust)"
+              />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

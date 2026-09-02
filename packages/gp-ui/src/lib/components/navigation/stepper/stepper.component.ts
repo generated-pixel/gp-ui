@@ -9,13 +9,13 @@ import {
   signal,
   effect
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 
 @Component({
   selector: 'gp-step',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './step.component.html',
   styleUrl: './step.component.scss'
 })
@@ -29,7 +29,7 @@ export class GpStepComponent extends GpBaseComponent {
 @Component({
   selector: 'gp-stepper',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './stepper.component.html',

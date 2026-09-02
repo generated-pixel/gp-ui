@@ -14,24 +14,27 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { GpCommandItem, GpCommandGroup } from './command-palette.interface';
 import { GpCommandPaletteService } from './command-palette.service';
 import { GpHotkeyService } from '../../../services/hotkey.service';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpBadgeComponent } from '../../feedback/badge/badge.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-command-palette',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpIconComponent, GpBadgeComponent],
+  imports: [FormsModule, GpIconComponent, GpBadgeComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './command-palette.component.html',
   styleUrl: './command-palette.component.scss'
 })
 export class GpCommandPaletteComponent implements OnInit, OnDestroy {
+  public appendTo = input<GpAppendToTarget>('body');
   public items = input<GpCommandItem[]>([]);
   public shortcut = input<string>('meta.k, ctrl.k');
   public placeholder = input<string>('Type a command or search...');
@@ -121,7 +124,10 @@ export class GpCommandPaletteComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const sc = this.shortcut();
     if (sc) {
-      const combos = sc.split(',').map((c) => c.trim()).filter(Boolean);
+      const combos = sc
+        .split(',')
+        .map((c) => c.trim())
+        .filter(Boolean);
       const unregs = combos.map((combo) => this.hotkeyService.register(combo, () => this.toggle()));
       this.unregisterHotkey = () => unregs.forEach((u) => u());
     }

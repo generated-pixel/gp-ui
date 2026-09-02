@@ -12,16 +12,18 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpButtonComponent } from '../../button/button/button.component';
 import { GpDateRange, GpDateRangePreset } from './date-range-picker.interface';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-date-range-picker',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpButtonComponent],
+  imports: [GpIconComponent, GpButtonComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -35,6 +37,8 @@ import { GpDateRange, GpDateRangePreset } from './date-range-picker.interface';
   styleUrl: './date-range-picker.component.scss'
 })
 export class GpDateRangePickerComponent implements ControlValueAccessor {
+  public hostElRef = inject(ElementRef);
+  public appendTo = input<GpAppendToTarget>('body');
   public placeholder = input<string>('Select date range (e.g. Jan 1 - Jan 15)');
   public disabledInput = input<boolean>(false, { alias: 'disabled' });
   public presets = input<GpDateRangePreset[]>([
@@ -265,11 +269,7 @@ export class GpDateRangePickerComponent implements ControlValueAccessor {
   }
 
   private isSameDay(d1: Date, d2: Date): boolean {
-    return (
-      d1.getFullYear() === d2.getFullYear() &&
-      d1.getMonth() === d2.getMonth() &&
-      d1.getDate() === d2.getDate()
-    );
+    return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
   }
 
   public formatDate(d: Date | null): string {

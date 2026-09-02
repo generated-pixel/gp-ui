@@ -1,11 +1,11 @@
 import { Component, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpButtonComponent } from 'gp-ui';
 
 @Component({
   selector: 'doc-code',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent],
+  imports: [GpButtonComponent],
   template: `
     <div class="doc-code-container">
       <div class="doc-code-header">

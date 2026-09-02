@@ -35,10 +35,7 @@
   @if (trend() || subtitle()) {
     <div class="gp-stat-card__footer">
       @if (trend()) {
-        <div
-          class="gp-stat-card__trend"
-          [ngClass]="'gp-stat-card__trend--' + trendSeverity()"
-        >
+        <div class="gp-stat-card__trend" [ngClass]="'gp-stat-card__trend--' + trendSeverity()">
           <gp-icon [name]="trendIcon()" size="0.8em" />
           <span class="gp-stat-card__trend-value">{{ trend()!.value }}</span>
           @if (trend()!.label) {

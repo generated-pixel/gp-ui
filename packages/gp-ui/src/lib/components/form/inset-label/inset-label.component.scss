@@ -32,7 +32,8 @@
   background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
   border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
   border-radius: var(--gp-border-radius, 6px);
-  padding: var(--gp-inset-label-padding-top, 1.35rem) var(--gp-input-padding-x, 0.75rem) 0.35rem var(--gp-input-padding-x, 0.75rem) !important;
+  padding: var(--gp-inset-label-padding-top, 1.35rem) var(--gp-input-padding-x, 0.75rem) 0.35rem
+    var(--gp-input-padding-x, 0.75rem) !important;
   min-height: 3.25rem;
   line-height: 1.5;
   transition:

@@ -11,19 +11,22 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-bottom-sheet',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './bottom-sheet.component.html',
   styleUrl: './bottom-sheet.component.scss'
 })
 export class GpBottomSheetComponent {
+  public appendTo = input<GpAppendToTarget>('body');
   public visible = model<boolean>(false);
   public title = input<string | undefined>(undefined);
   public showDragHandle = input<boolean>(true);

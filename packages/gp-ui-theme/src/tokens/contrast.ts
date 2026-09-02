@@ -5,10 +5,10 @@
 export interface ContrastEvaluation {
   ratio: number;
   formattedRatio: string;
-  aaNormal: boolean;   // >= 4.5:1
-  aaLarge: boolean;    // >= 3:1
-  aaaNormal: boolean;  // >= 7:1
-  aaaLarge: boolean;   // >= 4.5:1
+  aaNormal: boolean; // >= 4.5:1
+  aaLarge: boolean; // >= 3:1
+  aaaNormal: boolean; // >= 7:1
+  aaaLarge: boolean; // >= 4.5:1
   grade: 'AAA' | 'AA' | 'AA Large' | 'Fail';
 }
 
@@ -18,7 +18,10 @@ export interface ContrastEvaluation {
 export function hexToRgb01(hex: string): [number, number, number] {
   let clean = hex.replace('#', '').trim();
   if (clean.length === 3) {
-    clean = clean.split('').map((c) => c + c).join('');
+    clean = clean
+      .split('')
+      .map((c) => c + c)
+      .join('');
   }
   if (clean.length >= 6) {
     clean = clean.slice(0, 6);
@@ -110,11 +113,7 @@ export function evaluateContrast(fgHex: string, bgHex: string): ContrastEvaluati
  * @param backgroundHex Background color to evaluate contrast against
  * @returns An adjusted hex color code meeting the target ratio
  */
-export function autoTuneContrast(
-  hexColor: string,
-  targetRatio = 7.0,
-  backgroundHex = '#ffffff'
-): string {
+export function autoTuneContrast(hexColor: string, targetRatio = 7.0, backgroundHex = '#ffffff'): string {
   if (getContrastRatio(hexColor, backgroundHex) >= targetRatio) {
     return hexColor;
   }
@@ -131,9 +130,15 @@ export function autoTuneContrast(
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h /= 6;
   }
@@ -152,18 +157,45 @@ export function autoTuneContrast(
     const c = (1 - Math.abs(2 * light - 1)) * sat;
     const x = c * (1 - Math.abs(((hDeg / 60) % 2) - 1));
     const m = light - c / 2;
-    let red = 0, green = 0, blue = 0;
+    let red = 0,
+      green = 0,
+      blue = 0;
 
-    if (0 <= hDeg && hDeg < 60) { red = c; green = x; blue = 0; }
-    else if (60 <= hDeg && hDeg < 120) { red = x; green = c; blue = 0; }
-    else if (120 <= hDeg && hDeg < 180) { red = 0; green = c; blue = x; }
-    else if (180 <= hDeg && hDeg < 240) { red = 0; green = x; blue = c; }
-    else if (240 <= hDeg && hDeg < 300) { red = x; green = 0; blue = c; }
-    else if (300 <= hDeg && hDeg < 360) { red = c; green = 0; blue = x; }
+    if (0 <= hDeg && hDeg < 60) {
+      red = c;
+      green = x;
+      blue = 0;
+    } else if (60 <= hDeg && hDeg < 120) {
+      red = x;
+      green = c;
+      blue = 0;
+    } else if (120 <= hDeg && hDeg < 180) {
+      red = 0;
+      green = c;
+      blue = x;
+    } else if (180 <= hDeg && hDeg < 240) {
+      red = 0;
+      green = x;
+      blue = c;
+    } else if (240 <= hDeg && hDeg < 300) {
+      red = x;
+      green = 0;
+      blue = c;
+    } else if (300 <= hDeg && hDeg < 360) {
+      red = c;
+      green = 0;
+      blue = x;
+    }
 
-    const rHex = Math.round((red + m) * 255).toString(16).padStart(2, '0');
-    const gHex = Math.round((green + m) * 255).toString(16).padStart(2, '0');
-    const bHex = Math.round((blue + m) * 255).toString(16).padStart(2, '0');
+    const rHex = Math.round((red + m) * 255)
+      .toString(16)
+      .padStart(2, '0');
+    const gHex = Math.round((green + m) * 255)
+      .toString(16)
+      .padStart(2, '0');
+    const bHex = Math.round((blue + m) * 255)
+      .toString(16)
+      .padStart(2, '0');
     return `#${rHex}${gHex}${bHex}`;
   };
 

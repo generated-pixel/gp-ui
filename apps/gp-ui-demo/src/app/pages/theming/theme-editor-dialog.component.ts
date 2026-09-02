@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpButtonComponent } from 'gp-ui';
 import { GpIconComponent } from 'gp-ui-icons';
 import { ThemeEditorComponent } from './theme-editor.component';
@@ -8,14 +8,10 @@ import { ThemeEditorService } from './theme-editor.service';
 @Component({
   selector: 'app-theme-editor-dialog',
   standalone: true,
-  imports: [CommonModule, GpButtonComponent, GpIconComponent, ThemeEditorComponent],
+  imports: [GpButtonComponent, GpIconComponent, ThemeEditorComponent],
   template: `
     @if (editorService.isOpen()) {
-      <div
-        class="dialog-backdrop"
-        [class.dialog-backdrop-maximized]="isMaximized()"
-        (click)="closeOnBackdrop($event)"
-      >
+      <div class="dialog-backdrop" [class.dialog-backdrop-maximized]="isMaximized()" (click)="closeOnBackdrop($event)">
         <div
           class="dialog-window"
           [class.dialog-window-maximized]="isMaximized()"
@@ -166,8 +162,12 @@ import { ThemeEditorService } from './theme-editor.service';
       }
 
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
     `
   ]

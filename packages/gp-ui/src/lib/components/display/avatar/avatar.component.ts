@@ -1,6 +1,6 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import { Component, input, computed, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 
 export type GpAvatarSize = 'normal' | 'large' | 'xlarge';
@@ -9,7 +9,7 @@ export type GpAvatarShape = 'square' | 'circle';
 @Component({
   selector: 'gp-avatar-group',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './avatar-group.component.html',
@@ -20,7 +20,7 @@ export class GpAvatarGroupComponent extends GpBaseComponent {}
 @Component({
   selector: 'gp-avatar',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './avatar.component.html',

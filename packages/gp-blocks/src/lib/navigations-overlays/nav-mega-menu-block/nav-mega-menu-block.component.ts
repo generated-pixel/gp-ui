@@ -1,4 +1,13 @@
-import { Component, input, output, computed, Input, TemplateRef, ContentChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  computed,
+  TemplateRef,
+  ViewEncapsulation,
+  contentChild,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpMegaMenuComponent, GpMegaMenuItem } from '@generatedpixel/gp-ui';
 
@@ -21,6 +30,7 @@ export interface GpMegaMenuPromo {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-nav-mega-menu-block',
   standalone: true,
   imports: [CommonModule, GpMegaMenuComponent],
@@ -43,15 +53,16 @@ export class GpNavMegaMenuBlockComponent {
         url: link.url,
         command: () => this.linkClick.emit(link)
       })),
-      featured: index === 0 && promo && !this.effectivePromo
-        ? {
-            badge: promo.badge,
-            title: promo.title,
-            description: promo.text,
-            actionLabel: promo.ctaText,
-            actionCommand: () => this.promoClick.emit(promo)
-          }
-        : undefined
+      featured:
+        index === 0 && promo && !this.effectivePromo
+          ? {
+              badge: promo.badge,
+              title: promo.title,
+              description: promo.text,
+              actionLabel: promo.ctaText,
+              actionCommand: () => this.promoClick.emit(promo)
+            }
+          : undefined
     }));
 
     if (columns.length === 0 && promo && !this.effectivePromo) {
@@ -74,23 +85,17 @@ export class GpNavMegaMenuBlockComponent {
   public linkClick = output<GpMegaMenuLink>();
   public promoClick = output<GpMegaMenuPromo>();
 
-  @Input() public sectionsTemplate?: TemplateRef<any>;
-  @Input() public promoTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public sectionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public promoTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('sections') public contentSections?: TemplateRef<any>;
-  @ContentChild('promo') public contentPromo?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentSections = contentChild<TemplateRef<any>>('sections');
+  public contentPromo = contentChild<TemplateRef<any>>('promo');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveSections(): TemplateRef<any> | undefined {
-    return this.sectionsTemplate || this.contentSections;
-  }
+  public effectiveSections = computed(() => this.sectionsTemplate() || this.contentSections());
 
-  public get effectivePromo(): TemplateRef<any> | undefined {
-    return this.promoTemplate || this.contentPromo;
-  }
+  public effectivePromo = computed(() => this.promoTemplate() || this.contentPromo());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

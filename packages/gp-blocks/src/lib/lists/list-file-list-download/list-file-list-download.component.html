@@ -1,34 +1,31 @@
 <div class="gp-file-list-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="card-head" *ngIf="title()">
+    @if (title()) {
+      <div class="card-head">
         <h3 class="head-title">{{ title() }}</h3>
         <gp-button severity="primary" size="sm" (onClickEvent)="uploadClick.emit()">
-          <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem;" />
+          <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem" />
           {{ uploadBtnLabel() }}
         </gp-button>
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Files List Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[files], [slot=files]" />
-
-      <div class="file-items-list" *ngIf="files() && files().length > 0">
-        <ng-container *ngFor="let f of files()">
-          <ng-container *ngIf="effectiveFileTemplate; else defaultFile">
-            <ng-container *ngTemplateOutlet="effectiveFileTemplate; context: { $implicit: f }" />
-          </ng-container>
-          <ng-template #defaultFile>
+    @if (files() && files().length > 0) {
+      <div class="file-items-list">
+        @for (f of files(); track f) {
+          @if (effectiveFileTemplate()) {
+            <ng-container *ngTemplateOutlet="effectiveFileTemplate()!; context: { $implicit: f }" />
+          } @else {
             <div class="file-row">
               <div class="file-info-group">
                 <div class="file-icon-box">
@@ -40,14 +37,14 @@
                 </div>
               </div>
               <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadFile.emit(f)">
-                <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem;" />
+                <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem" />
                 Download
               </gp-button>
             </div>
-          </ng-template>
-        </ng-container>
+          }
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

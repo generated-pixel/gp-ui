@@ -1,9 +1,4 @@
-<div
-  class="gp-speed-dial"
-  [class]="'gp-speed-dial-direction-' + direction()"
-  [class]="styleClass()"
-  [style]="style()"
->
+<div class="gp-speed-dial" [class]="'gp-speed-dial-direction-' + direction()" [class]="styleClass()" [style]="style()">
   <gp-button
     [icon]="visible() ? hideIcon() : showIcon()"
     [severity]="buttonSeverity()"

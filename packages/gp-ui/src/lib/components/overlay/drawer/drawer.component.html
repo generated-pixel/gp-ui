@@ -1,5 +1,12 @@
 @if (visible()) {
-  <div class="gp-drawer-mask" [class.gp-drawer-mask-modal]="modal()" [style.z-index]="zIndex()" (click)="onMaskClick()">
+  <div
+    class="gp-drawer-mask"
+    [class.gp-drawer-mask-modal]="modal()"
+    [style.z-index]="zIndex()"
+    [gpAppendTo]="appendTo()"
+    [gpOverlayZIndex]="zIndex()"
+    (click)="onMaskClick()"
+  >
     <div
       class="gp-drawer"
       [class]="'gp-drawer-' + position()"

@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -10,6 +19,8 @@ export interface GpPinnedStatusNavEntry {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-layout-sidebar-pinned-status',
   standalone: true,
   imports: [CommonModule, GpIconComponent],
@@ -29,31 +40,27 @@ export class GpLayoutSidebarPinnedStatusComponent {
   public navItemClick = output<GpPinnedStatusNavEntry>();
   public statusClick = output<void>();
 
-  @Input() public sidebarTemplate?: TemplateRef<any>;
-  @Input() public statusTemplate?: TemplateRef<any>;
-  @Input() public topActionsTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public sidebarTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public statusTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public topActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('sidebar') public contentSidebar?: TemplateRef<any>;
-  @ContentChild('status') public contentStatus?: TemplateRef<any>;
-  @ContentChild('topActions') public contentTopActions?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
-  @ContentChild('main') public contentMain?: TemplateRef<any>;
+  public contentSidebar = contentChild<TemplateRef<any>>('sidebar');
+  public contentStatus = contentChild<TemplateRef<any>>('status');
+  public contentTopActions = contentChild<TemplateRef<any>>('topActions');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
+  public contentArea = contentChild<TemplateRef<any>>('content');
+  public contentMain = contentChild<TemplateRef<any>>('main');
 
-  public get effectiveSidebar(): TemplateRef<any> | undefined {
-    return this.sidebarTemplate || this.contentSidebar;
-  }
+  public effectiveSidebar = computed(() => this.sidebarTemplate() || this.contentSidebar());
 
-  public get effectiveStatus(): TemplateRef<any> | undefined {
-    return this.statusTemplate || this.contentStatus;
-  }
+  public effectiveStatus = computed(() => this.statusTemplate() || this.contentStatus());
 
-  public get effectiveTopActions(): TemplateRef<any> | undefined {
-    return this.topActionsTemplate || this.contentTopActions || this.contentActions;
-  }
+  public effectiveTopActions = computed<TemplateRef<any> | undefined>(
+    () => this.topActionsTemplate() || this.contentTopActions() || this.contentActions()
+  );
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea || this.contentMain;
-  }
+  public effectiveContent = computed<TemplateRef<any> | undefined>(
+    () => this.contentTemplate() || this.contentArea() || this.contentMain()
+  );
 }

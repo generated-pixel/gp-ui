@@ -31,13 +31,33 @@ const baseComponentProperties: DocApiProperty[] = [
     default: 'null',
     description: 'Custom inline styling signal applied to the root element.'
   },
-  { name: 'ariaLabel', type: 'input<string>', default: "''", description: 'Accessible label signal used for screen readers.' },
-  { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Signal disabling interactive behavior and user input.' }
+  {
+    name: 'ariaLabel',
+    type: 'input<string>',
+    default: "''",
+    description: 'Accessible label signal used for screen readers.'
+  },
+  {
+    name: 'disabled',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Signal disabling interactive behavior and user input.'
+  }
 ];
 
 const editableBaseProperties: DocApiProperty[] = [
-  { name: 'value', type: 'input<T | null> / model<T>', default: 'null', description: 'Current value signal bound to the control.' },
-  { name: 'name', type: 'input<string>', default: "''", description: 'Form field name signal used by the surrounding form APIs.' },
+  {
+    name: 'value',
+    type: 'input<T | null> / model<T>',
+    default: 'null',
+    description: 'Current value signal bound to the control.'
+  },
+  {
+    name: 'name',
+    type: 'input<string>',
+    default: "''",
+    description: 'Form field name signal used by the surrounding form APIs.'
+  },
   {
     name: 'placeholder',
     type: 'input<string>',
@@ -70,7 +90,12 @@ const editableBaseProperties: DocApiProperty[] = [
     default: "''",
     description: 'Custom validation message signal used when validation fails.'
   },
-  { name: 'helperText', type: 'input<string>', default: "''", description: 'Additional helper context displayed below the field.' },
+  {
+    name: 'helperText',
+    type: 'input<string>',
+    default: "''",
+    description: 'Additional helper context displayed below the field.'
+  },
   {
     name: 'valueEffect',
     type: 'input<GpValueEffectFn<T>>',
@@ -80,7 +105,11 @@ const editableBaseProperties: DocApiProperty[] = [
 ];
 
 const editableBaseEvents: DocApiProperty[] = [
-  { name: 'valueChange', type: 'output<T>()', description: 'Emitted whenever the field value changes via two-way signal binding.' },
+  {
+    name: 'valueChange',
+    type: 'output<T>()',
+    description: 'Emitted whenever the field value changes via two-way signal binding.'
+  },
   {
     name: 'onValidate',
     type: 'output<GpValidationState<T>>()',
@@ -102,15 +131,40 @@ const editableBaseEvents: DocApiProperty[] = [
 const buttonBaseProperties: DocApiProperty[] = [
   { name: 'label', type: 'input<string>', default: "''", description: 'Button text label signal.' },
   { name: 'icon', type: 'input<string>', default: "''", description: 'Icon name signal rendered on the button.' },
-  { name: 'iconPos', type: "input<'left' | 'right' | 'top' | 'bottom'>", default: "'left'", description: 'Position of the icon relative to the label.' },
-  { name: 'variant', type: "input<'solid' | 'outlined' | 'text' | 'link'>", default: "'solid'", description: 'Visual button variant style signal.' },
-  { name: 'severity', type: "input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'>", default: "'primary'", description: 'Semantic color severity accent.' },
+  {
+    name: 'iconPos',
+    type: "input<'left' | 'right' | 'top' | 'bottom'>",
+    default: "'left'",
+    description: 'Position of the icon relative to the label.'
+  },
+  {
+    name: 'variant',
+    type: "input<'solid' | 'outlined' | 'text' | 'link'>",
+    default: "'solid'",
+    description: 'Visual button variant style signal.'
+  },
+  {
+    name: 'severity',
+    type: "input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'>",
+    default: "'primary'",
+    description: 'Semantic color severity accent.'
+  },
   { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Size scale of the button.' },
   { name: 'rounded', type: 'input<boolean>', default: 'false', description: 'Fully rounded pill border radius flag.' },
   { name: 'raised', type: 'input<boolean>', default: 'false', description: 'Elevated box shadow styling flag.' },
   { name: 'fluid', type: 'input<boolean>', default: 'false', description: 'Full 100% width button layout flag.' },
-  { name: 'loading', type: 'input<boolean>', default: 'false', description: 'Displays an animated spinner indicator and disables clicking.' },
-  { name: 'badge', type: 'input<string>', default: "''", description: 'Badge counter or tag text rendered on the button.' }
+  {
+    name: 'loading',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Displays an animated spinner indicator and disables clicking.'
+  },
+  {
+    name: 'badge',
+    type: 'input<string>',
+    default: "''",
+    description: 'Badge counter or tag text rendered on the button.'
+  }
 ];
 
 const buttonBaseEvents: DocApiProperty[] = [
@@ -125,13 +179,33 @@ const buttonBaseEvents: DocApiProperty[] = [
 ];
 
 const inputBaseProperties: DocApiProperty[] = [
-  { name: 'inputId', type: 'input<string>', default: "UniqueId.generate('input_')", description: 'HTML id attribute attached to the underlying input.' },
+  {
+    name: 'inputId',
+    type: 'input<string>',
+    default: "UniqueId.generate('input_')",
+    description: 'HTML id attribute attached to the underlying input.'
+  },
   { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Size scale of the input.' },
-  { name: 'variant', type: "input<'outlined' | 'filled'>", default: "'outlined'", description: 'Visual appearance variant.' },
-  { name: 'clearable', type: 'input<boolean>', default: 'false', description: 'Displays a clear button when text is present.' },
+  {
+    name: 'variant',
+    type: "input<'outlined' | 'filled'>",
+    default: "'outlined'",
+    description: 'Visual appearance variant.'
+  },
+  {
+    name: 'clearable',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Displays a clear button when text is present.'
+  },
   { name: 'autofocus', type: 'input<boolean>', default: 'false', description: 'Auto-focuses the input on render.' },
   { name: 'tabindex', type: 'input<number | undefined>', default: 'undefined', description: 'Tab index attribute.' },
-  { name: 'maxlength', type: 'input<number | undefined>', default: 'undefined', description: 'Maximum character limit allowed.' },
+  {
+    name: 'maxlength',
+    type: 'input<number | undefined>',
+    default: 'undefined',
+    description: 'Maximum character limit allowed.'
+  },
   { name: 'autocomplete', type: 'input<string>', default: "'off'", description: 'Browser autocomplete attribute.' }
 ];
 
@@ -146,27 +220,75 @@ const inputBaseEvents: DocApiProperty[] = [
 
 const menuBaseProperties: DocApiProperty[] = [
   { name: 'model', type: 'input<T[]>', default: '[]', description: 'Array of hierarchical or flat menu items.' },
-  { name: 'popup', type: 'input<boolean>', default: 'false', description: 'Whether the menu opens as an anchored popup overlay.' },
-  { name: 'autoZIndex', type: 'input<boolean>', default: 'true', description: 'Automatically manage elevation z-index layer.' }
+  {
+    name: 'popup',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Whether the menu opens as an anchored popup overlay.'
+  },
+  {
+    name: 'autoZIndex',
+    type: 'input<boolean>',
+    default: 'true',
+    description: 'Automatically manage elevation z-index layer.'
+  }
 ];
 
 const menuBaseEvents: DocApiProperty[] = [
-  { name: 'onItemClickEvent', type: 'output<{ originalEvent: Event; item: T }>()', description: 'Emitted when a menu item is clicked.' },
+  {
+    name: 'onItemClickEvent',
+    type: 'output<{ originalEvent: Event; item: T }>()',
+    description: 'Emitted when a menu item is clicked.'
+  },
   { name: 'onShow', type: 'output<void>()', description: 'Emitted when popup overlay opens.' },
   { name: 'onHide', type: 'output<void>()', description: 'Emitted when popup overlay closes.' }
 ];
 
 const overlayBaseProperties: DocApiProperty[] = [
-  { name: 'header', type: 'input<string>', default: "''", description: 'Title header text rendered in the overlay header.' },
-  { name: 'modal', type: 'input<boolean>', default: 'true', description: 'Dims and blocks background interaction when open.' },
-  { name: 'closable', type: 'input<boolean>', default: 'true', description: 'Shows an interactive close button in the header.' },
-  { name: 'closeOnEscape', type: 'input<boolean>', default: 'true', description: 'Closes the overlay when user presses the Escape key.' },
-  { name: 'dismissableMask', type: 'input<boolean>', default: 'false', description: 'Closes overlay when clicking the backdrop mask.' },
-  { name: 'visible', type: 'model<boolean>', default: 'false', description: 'Two-way bound signal controlling overlay visibility [(visible)].' }
+  {
+    name: 'header',
+    type: 'input<string>',
+    default: "''",
+    description: 'Title header text rendered in the overlay header.'
+  },
+  {
+    name: 'modal',
+    type: 'input<boolean>',
+    default: 'true',
+    description: 'Dims and blocks background interaction when open.'
+  },
+  {
+    name: 'closable',
+    type: 'input<boolean>',
+    default: 'true',
+    description: 'Shows an interactive close button in the header.'
+  },
+  {
+    name: 'closeOnEscape',
+    type: 'input<boolean>',
+    default: 'true',
+    description: 'Closes the overlay when user presses the Escape key.'
+  },
+  {
+    name: 'dismissableMask',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Closes overlay when clicking the backdrop mask.'
+  },
+  {
+    name: 'visible',
+    type: 'model<boolean>',
+    default: 'false',
+    description: 'Two-way bound signal controlling overlay visibility [(visible)].'
+  }
 ];
 
 const overlayBaseEvents: DocApiProperty[] = [
-  { name: 'visibleChange', type: 'output<boolean>()', description: 'Emitted on visibility change for two-way binding.' },
+  {
+    name: 'visibleChange',
+    type: 'output<boolean>()',
+    description: 'Emitted on visibility change for two-way binding.'
+  },
   { name: 'onShow', type: 'output<void>()', description: 'Emitted when overlay opens.' },
   { name: 'onHide', type: 'output<void>()', description: 'Emitted when overlay closes.' }
 ];
@@ -174,7 +296,12 @@ const overlayBaseEvents: DocApiProperty[] = [
 const panelBaseProperties: DocApiProperty[] = [
   { name: 'header', type: 'input<string>', default: "''", description: 'Header title text.' },
   { name: 'subheader', type: 'input<string>', default: "''", description: 'Subtitle description text.' },
-  { name: 'toggleable', type: 'input<boolean>', default: 'false', description: 'Allows collapsing/expanding the panel content.' }
+  {
+    name: 'toggleable',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Allows collapsing/expanding the panel content.'
+  }
 ];
 
 const panelBaseEvents: DocApiProperty[] = [
@@ -184,8 +311,24 @@ const panelBaseEvents: DocApiProperty[] = [
 ];
 
 const buttonDocSlugs = new Set<string>(['button', 'split-button', 'speed-dial', 'toggle-button']);
-const inputDocSlugs = new Set<string>(['input-text', 'textarea', 'password', 'input-number', 'input-mask', 'autocomplete']);
-const menuDocSlugs = new Set<string>(['menu', 'menubar', 'context-menu', 'tiered-menu', 'mega-menu', 'panel-menu', 'dock', 'breadcrumb']);
+const inputDocSlugs = new Set<string>([
+  'input-text',
+  'textarea',
+  'password',
+  'input-number',
+  'input-mask',
+  'autocomplete'
+]);
+const menuDocSlugs = new Set<string>([
+  'menu',
+  'menubar',
+  'context-menu',
+  'tiered-menu',
+  'mega-menu',
+  'panel-menu',
+  'dock',
+  'breadcrumb'
+]);
 const overlayDocSlugs = new Set<string>(['dialog', 'drawer', 'confirm-dialog', 'popover']);
 const panelDocSlugs = new Set<string>(['panel', 'card', 'fieldset']);
 
@@ -284,8 +427,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Components',
     icon: 'check',
     description: 'Interactive actions with semantic severity, visual variants, and icon support.',
-    importStatement: `import { GpButtonComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-button label="Primary" severity="primary" />\n<gp-button label="Outlined" variant="outlined" severity="secondary" />`,
+    importStatement: "import { GpButtonComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-button label="Primary" severity="primary" />\n<gp-button label="Outlined" variant="outlined" severity="secondary" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Text label displayed on the button.' },
       {
@@ -309,9 +453,7 @@ export const componentDocs: ComponentDocDefinition[] = [
         description: 'Displays a loading indicator and blocks clicks.'
       }
     ],
-    events: [
-      { name: 'onClickEvent', type: 'output<MouseEvent>()', description: 'Emitted when the button is clicked.' }
-    ]
+    events: [{ name: 'onClickEvent', type: 'output<MouseEvent>()', description: 'Emitted when the button is clicked.' }]
   },
   {
     slug: 'split-button',
@@ -319,8 +461,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Components',
     icon: 'check',
     description: 'A primary action paired with a contextual menu.',
-    importStatement: `import { GpSplitButtonComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-split-button label="Save Document" icon="check" [model]="menuItems" severity="primary" />`,
+    importStatement: "import { GpSplitButtonComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-split-button label="Save Document" icon="check" [model]="menuItems" severity="primary" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Main action label.' },
       { name: 'icon', type: 'string', default: "''", description: 'Primary icon on the main button.' },
@@ -339,8 +481,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Components',
     icon: 'check',
     description: 'Floating action menu for quick secondary actions.',
-    importStatement: `import { GpSpeedDialComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-speed-dial [model]="quickActions" direction="up" />`,
+    importStatement: "import { GpSpeedDialComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-speed-dial [model]="quickActions" direction="up" />',
     properties: [
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Items displayed in the floating menu.' },
       {
@@ -357,7 +499,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Components',
     icon: 'layer-group',
     description: 'Grouped button controls for related actions and toggle-like sets.',
-    importStatement: `import { GpButtonGroupComponent } from '@generatedpixel/gp-ui';`,
+    importStatement: "import { GpButtonGroupComponent } from '@generatedpixel/gp-ui';",
     exampleCode: `<gp-button-group>
   <gp-button label="One" severity="primary" />
   <gp-button label="Two" variant="outlined" severity="secondary" />
@@ -377,8 +519,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Components',
     icon: 'toggle-on',
     description: 'Two-state button control for enable, disable, or toggled actions.',
-    importStatement: `import { GpToggleButtonComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-toggle-button label="Bold" [value]="true" />`,
+    importStatement: "import { GpToggleButtonComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-toggle-button label="Bold" [value]="true" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Text shown for the toggle control.' },
       { name: 'value', type: 'boolean', default: 'false', description: 'Current toggle state.' }
@@ -390,8 +532,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Data Presentation',
     icon: 'bars',
     description: 'Pagination control for navigating through large collections of content.',
-    importStatement: `import { GpPaginatorComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-paginator [totalRecords]="200" [rows]="10" />`,
+    importStatement: "import { GpPaginatorComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-paginator [totalRecords]="200" [rows]="10" />',
     properties: [
       { name: 'totalRecords', type: 'number', default: '0', description: 'Total number of items available.' },
       { name: 'rows', type: 'number', default: '0', description: 'Number of rows per page.' },
@@ -404,8 +546,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Data Presentation',
     icon: 'table',
     description: 'Table column definition used by data tables and grid layouts.',
-    importStatement: `import { GpColumnComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-column field="name" header="Name" />`,
+    importStatement: "import { GpColumnComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-column field="name" header="Name" />',
     properties: [
       { name: 'field', type: 'string', default: "''", description: 'Data key used for the column value.' },
       { name: 'header', type: 'string', default: "''", description: 'Header label displayed for the column.' }
@@ -417,8 +559,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Data Presentation',
     icon: 'sitemap',
     description: 'Hierarchical table for nested rows and expandable content.',
-    importStatement: `import { GpTreeTableComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-tree-table [value]="treeRows" />`,
+    importStatement: "import { GpTreeTableComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-tree-table [value]="treeRows" />',
     properties: [
       { name: 'value', type: 'any[]', default: '[]', description: 'Tree data rendered in the table.' },
       { name: 'selectionMode', type: 'string', default: "''", description: 'Selection mode used for row interaction.' }
@@ -430,8 +572,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Data Presentation',
     icon: 'list',
     description: 'Layout for viewing groups of data with flexible item templates.',
-    importStatement: `import { GpDataViewComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-data-view [value]="items" layout="grid" />`,
+    importStatement: "import { GpDataViewComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-data-view [value]="items" layout="grid" />',
     properties: [
       { name: 'value', type: 'any[]', default: '[]', description: 'Collection of items to render.' },
       { name: 'layout', type: "'list' | 'grid'", default: "'list'", description: 'How items are laid out.' }
@@ -443,8 +585,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Data Presentation',
     icon: 'scroll',
     description: 'Efficient scrolling for large lists and virtualized item sets.',
-    importStatement: `import { GpVirtualScrollerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-virtual-scroller [value]="items" />`,
+    importStatement: "import { GpVirtualScrollerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-virtual-scroller [value]="items" />',
     properties: [
       { name: 'value', type: 'any[]', default: '[]', description: 'Items rendered in the scroller.' },
       {
@@ -461,8 +603,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Tree & Hierarchy',
     icon: 'folder-tree',
     description: 'Hierarchical tree list for navigable nested content.',
-    importStatement: `import { GpTreeComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-tree [value]="nodes" selectionMode="single" />`,
+    importStatement: "import { GpTreeComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-tree [value]="nodes" selectionMode="single" />',
     properties: [
       { name: 'value', type: 'GpTreeNode[]', default: '[]', description: 'Tree nodes to render.' },
       {
@@ -479,8 +621,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Tree & Hierarchy',
     icon: 'network',
     description: 'Organizational chart for hierarchical reporting and relationship mapping.',
-    importStatement: `import { GpOrgChartComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-org-chart [value]="orgData" />`,
+    importStatement: "import { GpOrgChartComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-org-chart [value]="orgData" />',
     properties: [
       { name: 'value', type: 'any[]', default: '[]', description: 'Structured hierarchy displayed in the chart.' }
     ]
@@ -491,8 +633,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'menu',
     description: 'Contextual menu for commands, actions, and grouped navigation items.',
-    importStatement: `import { GpMenuComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-menu [model]="menuItems" />`,
+    importStatement: "import { GpMenuComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-menu [model]="menuItems" />',
     properties: [
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Menu items displayed in the component.' }
     ]
@@ -503,8 +645,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'bars',
     description: 'Application nav bar built from grouped menu entries.',
-    importStatement: `import { GpMenubarComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-menubar [model]="menuModel" />`,
+    importStatement: "import { GpMenubarComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-menubar [model]="menuModel" />',
     properties: [
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Menu data used to render the menubar.' }
     ]
@@ -515,8 +657,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'context-menu',
     description: 'Action menu revealed from an element or mouse context.',
-    importStatement: `import { GpContextMenuComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-context-menu [model]="contextActions" />`,
+    importStatement: "import { GpContextMenuComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-context-menu [model]="contextActions" />',
     properties: [{ name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Actions shown in the menu.' }]
   },
   {
@@ -525,8 +667,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'sitemap',
     description: 'Nested menu structure with parent/child action groups.',
-    importStatement: `import { GpTieredMenuComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-tiered-menu [model]="menuTree" />`,
+    importStatement: "import { GpTieredMenuComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-tiered-menu [model]="menuTree" />',
     properties: [{ name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Hierarchical menu data source.' }]
   },
   {
@@ -535,8 +677,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'grid',
     description: 'Large navigation surface for wide content groupings and cross-links.',
-    importStatement: `import { GpMegaMenuComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-mega-menu [model]="megaItems" />`,
+    importStatement: "import { GpMegaMenuComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-mega-menu [model]="megaItems" />',
     properties: [
       {
         name: 'model',
@@ -552,8 +694,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'folder',
     description: 'Side panel navigation with nested item groups and expandable sections.',
-    importStatement: `import { GpPanelMenuComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-panel-menu [model]="panelItems" />`,
+    importStatement: "import { GpPanelMenuComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-panel-menu [model]="panelItems" />',
     properties: [
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Menu data for panel-style navigation.' }
     ]
@@ -564,8 +706,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'home',
     description: 'Path indicator showing the current location in a hierarchy.',
-    importStatement: `import { GpBreadcrumbComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-breadcrumb [items]="crumbs" />`,
+    importStatement: "import { GpBreadcrumbComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-breadcrumb [items]="crumbs" />',
     properties: [
       { name: 'items', type: 'any[]', default: '[]', description: 'Breadcrumb items shown from root to current page.' }
     ]
@@ -576,8 +718,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'route',
     description: 'Multi-step progress indicator for onboarding and workflow flows.',
-    importStatement: `import { GpStepperComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-stepper [steps]="steps" />`,
+    importStatement: "import { GpStepperComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-stepper [steps]="steps" />',
     properties: [{ name: 'steps', type: 'any[]', default: '[]', description: 'Steps shown in sequence.' }]
   },
   {
@@ -586,8 +728,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'dock',
     description: 'Docked navigation container for pinned actions or app shortcuts.',
-    importStatement: `import { GpDockComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-dock [items]="dockItems" />`,
+    importStatement: "import { GpDockComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-dock [items]="dockItems" />',
     properties: [{ name: 'items', type: 'any[]', default: '[]', description: 'Actions pinned in the dock.' }]
   },
   {
@@ -596,8 +738,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'tool',
     description: 'Action bar grouping commands, filters, and secondary controls.',
-    importStatement: `import { GpToolbarComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-toolbar [items]="actions" />`,
+    importStatement: "import { GpToolbarComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-toolbar [items]="actions" />',
     properties: [{ name: 'items', type: 'any[]', default: '[]', description: 'Toolbar actions rendered in the bar.' }]
   },
   {
@@ -606,8 +748,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Overlays',
     icon: 'confirm',
     description: 'Confirmation overlay for destructive or irreversible actions.',
-    importStatement: `import { GpConfirmDialogComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-confirm-dialog header="Delete" [visible]="true" />`,
+    importStatement: "import { GpConfirmDialogComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-confirm-dialog header="Delete" [visible]="true" />',
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Dialog title shown in the header.' },
       {
@@ -624,8 +766,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Overlays',
     icon: 'panel-right',
     description: 'Slide-over panel for contextual content and secondary workflows.',
-    importStatement: `import { GpDrawerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-drawer header="Filters" [visible]="true" />`,
+    importStatement: "import { GpDrawerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-drawer header="Filters" [visible]="true" />',
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Drawer title text.' },
       { name: 'visible', type: 'boolean', default: 'false', description: 'Controls drawer visibility.' }
@@ -637,8 +779,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Overlays',
     icon: 'message-circle',
     description: 'Floating content container anchored to a trigger element.',
-    importStatement: `import { GpPopoverComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-popover content="Helpful details" />`,
+    importStatement: "import { GpPopoverComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-popover content="Helpful details" />',
     properties: [{ name: 'content', type: 'string', default: "''", description: 'Popover content shown when opened.' }]
   },
   {
@@ -647,7 +789,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Panels',
     icon: 'chevron-down',
     description: 'Collapsible stacked sections for compact content organization.',
-    importStatement: `import { GpAccordionComponent } from '@generatedpixel/gp-ui';`,
+    importStatement: "import { GpAccordionComponent } from '@generatedpixel/gp-ui';",
     exampleCode: `<gp-accordion>
   <gp-accordion-tab header="Overview">...</gp-accordion-tab>
 </gp-accordion>`,
@@ -666,7 +808,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Panels',
     icon: 'window',
     description: 'Semantically grouped form content presented as a labelled block.',
-    importStatement: `import { GpFieldsetComponent } from '@generatedpixel/gp-ui';`,
+    importStatement: "import { GpFieldsetComponent } from '@generatedpixel/gp-ui';",
     exampleCode: `<gp-fieldset legend="Profile">
   <gp-input-text label="Name" />
 </gp-fieldset>`,
@@ -678,8 +820,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Panels',
     icon: 'separator',
     description: 'Horizontal or vertical rule used to separate content regions.',
-    importStatement: `import { GpDividerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-divider />`,
+    importStatement: "import { GpDividerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-divider />',
     properties: [
       {
         name: 'orientation',
@@ -695,7 +837,7 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Panels',
     icon: 'resize',
     description: 'Resizable content panes for split layouts and workspaces.',
-    importStatement: `import { GpSplitterComponent } from '@generatedpixel/gp-ui';`,
+    importStatement: "import { GpSplitterComponent } from '@generatedpixel/gp-ui';",
     exampleCode: `<gp-splitter>
   <gp-splitter-panel>Left</gp-splitter-panel>
   <gp-splitter-panel>Right</gp-splitter-panel>
@@ -715,8 +857,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Panels',
     icon: 'scroll',
     description: 'Scrollable panel with stable layout for long-form or overflow-heavy content.',
-    importStatement: `import { GpScrollPanelComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-scroll-panel style="height: 12rem;">Long content...</gp-scroll-panel>`,
+    importStatement: "import { GpScrollPanelComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-scroll-panel style="height: 12rem;">Long content...</gp-scroll-panel>',
     properties: [
       { name: 'scrollbars', type: 'string', default: "'auto'", description: 'Scrolling behavior for the panel.' }
     ]
@@ -727,8 +869,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'bell',
     description: 'Transient notification for success, warning, and status messages.',
-    importStatement: `import { GpToastComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-toast severity="success" message="Saved successfully" />`,
+    importStatement: "import { GpToastComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-toast severity="success" message="Saved successfully" />',
     properties: [
       { name: 'message', type: 'string', default: "''", description: 'Toast content.' },
       {
@@ -745,8 +887,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'progress',
     description: 'Linear progress indicator for task completion and loading states.',
-    importStatement: `import { GpProgressBarComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-progress-bar [value]="70" />`,
+    importStatement: "import { GpProgressBarComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-progress-bar [value]="70" />',
     properties: [
       { name: 'value', type: 'number', default: '0', description: 'Current progress value between 0 and 100.' }
     ]
@@ -757,8 +899,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'spinner',
     description: 'Circular loading indicator for busy or pending background work.',
-    importStatement: `import { GpProgressSpinnerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-progress-spinner [value]="60" />`,
+    importStatement: "import { GpProgressSpinnerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-progress-spinner [value]="60" />',
     properties: [
       {
         name: 'value',
@@ -774,8 +916,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'shimmer',
     description: 'Placeholder shimmer used while content is loading.',
-    importStatement: `import { GpSkeletonComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-skeleton width="12rem" height="1rem" />`,
+    importStatement: "import { GpSkeletonComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-skeleton width="12rem" height="1rem" />',
     properties: [
       { name: 'width', type: 'string', default: "'100%'", description: 'Width of the skeleton placeholder.' },
       { name: 'height', type: 'string', default: "'1rem'", description: 'Height of the skeleton placeholder.' }
@@ -787,8 +929,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'tag',
     description: 'Label chip used for metadata, states, and inline classification.',
-    importStatement: `import { GpTagComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-tag value="Beta" severity="secondary" />`,
+    importStatement: "import { GpTagComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-tag value="Beta" severity="secondary" />',
     properties: [
       { name: 'value', type: 'string', default: "''", description: 'Tag label content.' },
       {
@@ -805,8 +947,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'chip',
     description: 'Compact visual element for status, labels, or filter selections.',
-    importStatement: `import { GpChipComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-chip label="New" />`,
+    importStatement: "import { GpChipComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-chip label="New" />',
     properties: [{ name: 'label', type: 'string', default: "''", description: 'Text displayed inside the chip.' }]
   },
   {
@@ -815,8 +957,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'image',
     description: 'Image media component with responsive sizing and fallback options.',
-    importStatement: `import { GpImageComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-image src="/img/example.png" alt="Example" />`,
+    importStatement: "import { GpImageComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-image src="/img/example.png" alt="Example" />',
     properties: [
       { name: 'src', type: 'string', default: "''", description: 'Path for the image resource.' },
       {
@@ -833,8 +975,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'slides',
     description: 'Rotating media or content slides for presentation and showcase layouts.',
-    importStatement: `import { GpCarouselComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-carousel [items]="slides" />`,
+    importStatement: "import { GpCarouselComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-carousel [items]="slides" />',
     properties: [{ name: 'items', type: 'any[]', default: '[]', description: 'Slide data rendered by the carousel.' }]
   },
   {
@@ -843,10 +985,15 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'timeline',
     description: 'Temporal sequence for events, activities, and historical content.',
-    importStatement: `import { GpTimelineComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-timeline [value]="history" />`,
+    importStatement: "import { GpTimelineComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-timeline [value]="history" />',
     properties: [
-      { name: 'value', type: 'input<GpTimelineEvent[]>', default: '[]', description: 'Items displayed in order along the timeline.' }
+      {
+        name: 'value',
+        type: 'input<GpTimelineEvent[]>',
+        default: '[]',
+        description: 'Items displayed in order along the timeline.'
+      }
     ]
   },
   {
@@ -855,10 +1002,15 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'meter',
     description: 'Group of value meters representing allocations or progress summaries.',
-    importStatement: `import { GpMeterGroupComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-meter-group [value]="demoMeterItems" />`,
+    importStatement: "import { GpMeterGroupComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-meter-group [value]="demoMeterItems" />',
     properties: [
-      { name: 'value', type: 'input<GpMeterItem[]>', default: '[]', description: 'List of meter item objects to render.' }
+      {
+        name: 'value',
+        type: 'input<GpMeterItem[]>',
+        default: '[]',
+        description: 'List of meter item objects to render.'
+      }
     ]
   },
   {
@@ -867,8 +1019,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'sparkles',
     description: 'Friendly placeholder for empty content areas with a clear call to action.',
-    importStatement: `import { GpEmptyStateComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-empty-state title="No items yet" message="Start by creating your first record." />`,
+    importStatement: "import { GpEmptyStateComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-empty-state title="No items yet" message="Start by creating your first record." />',
     properties: [
       { name: 'title', type: 'string', default: "''", description: 'Primary heading shown in the empty state.' },
       { name: 'message', type: 'string', default: "''", description: 'Supporting descriptive text.' }
@@ -880,8 +1032,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'edit',
     description: 'Single-line text entry with validation and helper text support.',
-    importStatement: `import { GpInputTextComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-input-text label="Name" placeholder="Jane Doe" />`,
+    importStatement: "import { GpInputTextComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-input-text label="Name" placeholder="Jane Doe" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Label shown above the input.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text shown when empty.' },
@@ -896,8 +1048,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'edit',
     description: 'Single or multi-choice selection with searchable options.',
-    importStatement: `import { GpSelectComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-select label="Role" [options]="roles" placeholder="Select role" />`,
+    importStatement: "import { GpSelectComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-select label="Role" [options]="roles" placeholder="Select role" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Field label.' },
       { name: 'options', type: 'any[]', default: '[]', description: 'Available selectable options.' },
@@ -911,8 +1063,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'align-left',
     description: 'Multi-line text entry with resizing, counter, and validation support.',
-    importStatement: `import { GpTextareaComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-textarea label="Bio" placeholder="Tell us about yourself" [autoResize]="true" />`,
+    importStatement: "import { GpTextareaComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-textarea label="Bio" placeholder="Tell us about yourself" [autoResize]="true" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Label shown for the text area.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text when empty.' },
@@ -931,8 +1083,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'lock',
     description: 'Password input with visibility toggling and strength guidance.',
-    importStatement: `import { GpPasswordComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-password label="Password" placeholder="Choose a password" />`,
+    importStatement: "import { GpPasswordComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-password label="Password" placeholder="Choose a password" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Label shown for the password control.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text for the field.' },
@@ -951,8 +1103,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'calculator',
     description: 'Numeric entry with min/max, step, prefix, and suffix formatting.',
-    importStatement: `import { GpInputNumberComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-input-number label="Budget" prefix="$" [min]="0" [step]="50" />`,
+    importStatement: "import { GpInputNumberComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-input-number label="Budget" prefix="$" [min]="0" [step]="50" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Field label.' },
       { name: 'value', type: 'number', default: '0', description: 'Current numeric value.' },
@@ -967,8 +1119,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'check-square',
     description: 'Binary selection control for opt-ins and boolean values.',
-    importStatement: `import { GpCheckboxComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-checkbox label="I agree to the terms" [checked]="true" />`,
+    importStatement: "import { GpCheckboxComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-checkbox label="I agree to the terms" [checked]="true" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Text shown next to the checkbox.' },
       { name: 'checked', type: 'boolean', default: 'false', description: 'Current checked state.' },
@@ -981,8 +1133,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'circle-dot',
     description: 'Single-choice option control within a grouped set of values.',
-    importStatement: `import { GpRadioButtonComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-radio-button value="personal" label="Personal" />\n<gp-radio-button value="business" label="Business" />`,
+    importStatement: "import { GpRadioButtonComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-radio-button value="personal" label="Personal" />\n<gp-radio-button value="business" label="Business" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Visible label next to the radio input.' },
       { name: 'value', type: 'string | number | boolean', default: "''", description: 'Radio value for the group.' },
@@ -995,8 +1148,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'toggle-on',
     description: 'Boolean toggle styled as a modern on/off switch.',
-    importStatement: `import { GpSwitchComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-switch label="Push notifications" [checked]="true" />`,
+    importStatement: "import { GpSwitchComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-switch label="Push notifications" [checked]="true" />',
     properties: [
       { name: 'label', type: 'string', default: "''", description: 'Text associated with the toggle.' },
       { name: 'checked', type: 'boolean', default: 'false', description: 'Current on/off state.' },
@@ -1009,8 +1162,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'sliders',
     description: 'Range value selector with min, max, and step support.',
-    importStatement: `import { GpSliderComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-slider [min]="0" [max]="100" [step]="1" />`,
+    importStatement: "import { GpSliderComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-slider [min]="0" [max]="100" [step]="1" />',
     properties: [
       { name: 'min', type: 'number', default: '0', description: 'Minimum slider value.' },
       { name: 'max', type: 'number', default: '100', description: 'Maximum slider value.' },
@@ -1024,8 +1177,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'star',
     description: 'Interactive star-based feedback and scoring control.',
-    importStatement: `import { GpRatingComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-rating [value]="4" [max]="5" />`,
+    importStatement: "import { GpRatingComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-rating [value]="4" [max]="5" />',
     properties: [
       { name: 'value', type: 'number', default: '0', description: 'Current rating value.' },
       { name: 'max', type: 'number', default: '5', description: 'Maximum possible rating.' },
@@ -1038,8 +1191,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'palette',
     description: 'Color selection control with palette and custom color input support.',
-    importStatement: `import { GpColorPickerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-color-picker label="Accent color" value="#6366f1" />`,
+    importStatement: "import { GpColorPickerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-color-picker label="Accent color" value="#6366f1" />',
     properties: [
       { name: 'value', type: 'string', default: "'#000000'", description: 'Selected color value in hex format.' },
       { name: 'label', type: 'string', default: "''", description: 'Visible label for the control.' },
@@ -1052,8 +1205,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'grid',
     description: 'Text masking for phone, account, and formatted values.',
-    importStatement: `import { GpInputMaskComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-input-mask label="Phone" mask="(999) 999-9999" />`,
+    importStatement: "import { GpInputMaskComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-input-mask label="Phone" mask="(999) 999-9999" />',
     properties: [
       { name: 'mask', type: 'string', default: "''", description: 'Mask format applied to the input value.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder shown before user input.' },
@@ -1066,8 +1219,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'list-check',
     description: 'Selection control for choosing multiple options with chips or checklists.',
-    importStatement: `import { GpMultiSelectComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-multi-select [options]="skills" placeholder="Select skills" />`,
+    importStatement: "import { GpMultiSelectComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-multi-select [options]="skills" placeholder="Select skills" />',
     properties: [
       { name: 'options', type: 'any[]', default: '[]', description: 'Available selectable values.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text for the picker.' },
@@ -1085,8 +1238,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'list',
     description: 'List-based selection with strong support for grouped choices and keyboard navigation.',
-    importStatement: `import { GpListboxComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-listbox [options]="items" optionLabel="label" />`,
+    importStatement: "import { GpListboxComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-listbox [options]="items" optionLabel="label" />',
     properties: [
       { name: 'options', type: 'any[]', default: '[]', description: 'Available list entries.' },
       {
@@ -1104,17 +1257,32 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'search',
     description: 'Typeahead suggestions for rapid selection and filtering.',
-    importStatement: `import { GpAutoCompleteComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-autocomplete [suggestions]="cities" (completeMethod)="search($event)" />`,
+    importStatement: "import { GpAutoCompleteComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-autocomplete [suggestions]="cities" (completeMethod)="search($event)" />',
     properties: [
       { name: 'suggestions', type: 'any[]', default: '[]', description: 'Matching results shown during typing.' },
+      { name: 'field', type: 'string', default: "''", description: 'Property name to use as the display label on object items.' },
+      { name: 'multiple', type: 'boolean', default: 'false', description: 'Enables multiple selection mode with removable token chips.' },
+      {
+        name: 'externalSelection',
+        type: 'Observable<any | any[]>',
+        default: 'undefined',
+        description: 'Observable stream that automatically injects selected items from external search dialogs or subscriptions.'
+      },
+      { name: 'showAdvancedSearch', type: 'boolean', default: 'false', description: 'Shows an Advanced Search footer action row in the overlay.' },
+      { name: 'hasMore', type: 'boolean', default: 'false', description: 'Indicates more results exist beyond the current suggestions.' },
+      { name: 'totalResults', type: 'number', default: 'undefined', description: 'Total results count displayed in the advanced search badge.' },
+      { name: 'advancedSearchLabel', type: 'string', default: "'Advanced Search...'", description: 'Label for the advanced search action button.' },
+      { name: 'showAdvancedSearchButton', type: 'boolean', default: 'false', description: 'Renders an advanced search icon button in the input wrapper.' },
+      { name: 'showClear', type: 'boolean', default: 'false', description: 'Shows a clear button when values are selected.' },
       { name: 'dropdown', type: 'boolean', default: 'false', description: 'Shows a dropdown arrow button.' },
       {
         name: 'minLength',
         type: 'number',
         default: '1',
         description: 'Minimum characters before suggestions are requested.'
-      }
+      },
+      { name: 'debounce', type: 'number', default: '250', description: 'Debounce delay in milliseconds before completeMethod is triggered.' }
     ]
   },
   {
@@ -1123,8 +1291,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'sitemap',
     description: 'Hierarchical value selection across levels of nested options.',
-    importStatement: `import { GpCascadeSelectComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-cascade-select [options]="regions" placeholder="Choose location" />`,
+    importStatement: "import { GpCascadeSelectComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-cascade-select [options]="regions" placeholder="Choose location" />',
     properties: [
       {
         name: 'options',
@@ -1147,8 +1315,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'folder-tree',
     description: 'Selection component for hierarchical trees with expandable groups.',
-    importStatement: `import { GpTreeSelectComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-tree-select [options]="departmentTree" placeholder="Select department" />`,
+    importStatement: "import { GpTreeSelectComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-tree-select [options]="departmentTree" placeholder="Select department" />',
     properties: [
       { name: 'options', type: 'any[]', default: '[]', description: 'Nested tree data.' },
       { name: 'placeholder', type: 'string', default: "''", description: 'Placeholder text shown when empty.' },
@@ -1161,8 +1329,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'calendar',
     description: 'Calendar-based date selection with localization support.',
-    importStatement: `import { GpDatePickerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-date-picker placeholder="MM/DD/YYYY" />`,
+    importStatement: "import { GpDatePickerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-date-picker placeholder="MM/DD/YYYY" />',
     properties: [
       {
         name: 'placeholder',
@@ -1180,8 +1348,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'clock',
     description: 'Time selection with 12h or 24h display options.',
-    importStatement: `import { GpTimePickerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-time-picker hourFormat="12" />`,
+    importStatement: "import { GpTimePickerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-time-picker hourFormat="12" />',
     properties: [
       {
         name: 'hourFormat',
@@ -1199,8 +1367,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'upload',
     description: 'Dropzone-style uploader with multi-file selection and validation.',
-    importStatement: `import { GpFileUploadComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-file-upload [multiple]="true" accept="image/*" />`,
+    importStatement: "import { GpFileUploadComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-file-upload [multiple]="true" accept="image/*" />',
     properties: [
       { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows more than one file to be selected.' },
       {
@@ -1218,8 +1386,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Data Presentation',
     icon: 'bars',
     description: 'Structured table with sorting, pagination, and custom columns.',
-    importStatement: `import { GpTableComponent, GpColumnComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-table [value]="rows">\n  <gp-column field="name" header="Name" />\n  <gp-column field="status" header="Status" />\n</gp-table>`,
+    importStatement: "import { GpTableComponent, GpColumnComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-table [value]="rows">\n  <gp-column field="name" header="Name" />\n  <gp-column field="status" header="Status" />\n</gp-table>',
     properties: [
       { name: 'value', type: 'any[]', default: '[]', description: 'Rows displayed in the table.' },
       { name: 'striped', type: 'boolean', default: 'false', description: 'Alternates row shading for readability.' },
@@ -1233,8 +1402,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Navigation',
     icon: 'window',
     description: 'Tabbed navigation for switching between contextual views.',
-    importStatement: `import { GpTabsComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-tabs [tabs]="tabs" [(value)]="selectedTab" />`,
+    importStatement: "import { GpTabsComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-tabs [tabs]="tabs" [(value)]="selectedTab" />',
     properties: [
       { name: 'tabs', type: 'GpTabItem[]', default: '[]', description: 'Tab definitions shown by the component.' },
       { name: 'value', type: 'string | number', default: "''", description: 'Selected tab value.' },
@@ -1252,8 +1421,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Overlays',
     icon: 'sliders',
     description: 'Modal overlays for confirmation, forms, and focused tasks.',
-    importStatement: `import { GpDialogComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-button label="Open Dialog" (onClickEvent)="visible = true" />\n\n<gp-dialog\n  header="Edit Profile"\n  [visible]="visible"\n  (visibleChange)="visible = $event"\n  [maximizable]="true"\n>\n  <p>Make changes to your profile details here. Click save when you're done.</p>\n  <div footer>\n    <gp-button label="Cancel" severity="secondary" variant="outlined" (onClickEvent)="visible = false" />\n    <gp-button label="Save" severity="primary" (onClickEvent)="visible = false" />\n  </div>\n</gp-dialog>`,
+    importStatement: "import { GpDialogComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-button label="Open Dialog" (onClickEvent)="visible = true" />\n\n<gp-dialog\n  header="Edit Profile"\n  [visible]="visible"\n  (visibleChange)="visible = $event"\n  [maximizable]="true"\n>\n  <p>Make changes to your profile details here. Click save when you\'re done.</p>\n  <div footer>\n    <gp-button label="Cancel" severity="secondary" variant="outlined" (onClickEvent)="visible = false" />\n    <gp-button label="Save" severity="primary" (onClickEvent)="visible = false" />\n  </div>\n</gp-dialog>',
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Dialog title text.' },
       { name: 'visible', type: 'boolean', default: 'false', description: 'Controls dialog visibility.' },
@@ -1264,10 +1434,25 @@ export const componentDocs: ComponentDocDefinition[] = [
         description: 'Whether the dialog should trap focus and mask the background.'
       },
       { name: 'closable', type: 'boolean', default: 'true', description: 'Whether the close button is shown.' },
-      { name: 'maximizable', type: 'boolean', default: 'false', description: 'Whether the maximize toggle button is shown.' },
+      {
+        name: 'maximizable',
+        type: 'boolean',
+        default: 'false',
+        description: 'Whether the maximize toggle button is shown.'
+      },
       { name: 'width', type: 'string', default: "'30rem'", description: 'Width of the dialog container.' },
-      { name: 'closeOnEscape', type: 'boolean', default: 'true', description: 'Whether pressing Escape dismisses the dialog.' },
-      { name: 'dismissableMask', type: 'boolean', default: 'false', description: 'Whether clicking the backdrop mask dismisses the dialog.' }
+      {
+        name: 'closeOnEscape',
+        type: 'boolean',
+        default: 'true',
+        description: 'Whether pressing Escape dismisses the dialog.'
+      },
+      {
+        name: 'dismissableMask',
+        type: 'boolean',
+        default: 'false',
+        description: 'Whether clicking the backdrop mask dismisses the dialog.'
+      }
     ]
   },
   {
@@ -1276,8 +1461,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Panels',
     icon: 'layer-group',
     description: 'Content containers with optional header, body, and footer areas.',
-    importStatement: `import { GpCardComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-card header="Project Summary">\n  <p>Overview and metrics</p>\n</gp-card>`,
+    importStatement: "import { GpCardComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-card header="Project Summary">\n  <p>Overview and metrics</p>\n</gp-card>',
     properties: [
       { name: 'header', type: 'string', default: "''", description: 'Title displayed in the header region.' },
       { name: 'subheader', type: 'string', default: "''", description: 'Secondary subtitle content.' },
@@ -1290,8 +1475,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'info-circle',
     description: 'Inline status notifications tied to user or system state.',
-    importStatement: `import { GpMessageComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-message severity="success" text="Saved successfully" />`,
+    importStatement: "import { GpMessageComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-message severity="success" text="Saved successfully" />',
     properties: [
       {
         name: 'severity',
@@ -1309,8 +1494,9 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'star',
     description: 'SVG icon component backed by the gp-icons registry for consistent utility and action visuals.',
-    importStatement: `import { GpIconComponent } from 'gp-ui-icons';`,
-    exampleCode: `<gp-icon name="search" size="1.5em" />\n<gp-icon name="check-circle" size="1.5em" color="var(--gp-success)" />`,
+    importStatement: "import { GpIconComponent } from 'gp-ui-icons';",
+    exampleCode:
+      '<gp-icon name="search" size="1.5em" />\n<gp-icon name="check-circle" size="1.5em" color="var(--gp-success)" />',
     properties: [
       { name: 'name', type: 'string', default: "''", description: 'Icon key looked up in the gp-icons registry.' },
       { name: 'size', type: 'string | number', default: "'1em'", description: 'Icon width and height size.' },
@@ -1326,8 +1512,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Display',
     icon: 'star',
     description: 'User profile visuals with image or initials-based fallback.',
-    importStatement: `import { GpAvatarComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-avatar image="/img/profile.png" size="md" />`,
+    importStatement: "import { GpAvatarComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-avatar image="/img/profile.png" size="md" />',
     properties: [
       { name: 'image', type: 'string', default: "''", description: 'Image URL for the avatar.' },
       { name: 'label', type: 'string', default: "''", description: 'Alternative text or initials fallback.' },
@@ -1340,8 +1526,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Feedback',
     icon: 'info-circle',
     description: 'Compact status indicators for counts, states, and labels.',
-    importStatement: `import { GpBadgeComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-badge value="New" severity="primary" />`,
+    importStatement: "import { GpBadgeComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-badge value="New" severity="primary" />',
     properties: [
       { name: 'value', type: 'string | number', default: "''", description: 'Badge content.' },
       {
@@ -1357,20 +1543,62 @@ export const componentDocs: ComponentDocDefinition[] = [
     name: 'Label',
     category: 'Form Controls',
     icon: 'tag',
-    description: 'Accessible form label component with required asterisks, optional text markers, interactive tooltips, and signal properties.',
-    importStatement: `import { GpLabelComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-label for="username-input" text="Username" [required]="true" helpText="Enter your unique system handle" />\n<input id="username-input" gpInputText placeholder="e.g. johndoe" />`,
+    description:
+      'Accessible form label component with required asterisks, optional text markers, interactive tooltips, and signal properties.',
+    importStatement: "import { GpLabelComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-label for="username-input" text="Username" [required]="true" helpText="Enter your unique system handle" />\n<input id="username-input" gpInputText placeholder="e.g. johndoe" />',
     properties: [
-      { name: 'for', type: 'input<string>', default: "''", description: 'HTML for attribute linking the label to the target input ID.' },
+      {
+        name: 'for',
+        type: 'input<string>',
+        default: "''",
+        description: 'HTML for attribute linking the label to the target input ID.'
+      },
       { name: 'text', type: 'input<string>', default: "''", description: 'Label text content.' },
-      { name: 'icon', type: 'input<string | undefined>', default: 'undefined', description: 'Icon name rendered before the label text.' },
-      { name: 'required', type: 'input<boolean>', default: 'false', description: 'Whether to show the red required asterisk marker (*).' },
-      { name: 'optional', type: 'input<boolean>', default: 'false', description: 'Whether to display an optional badge marker.' },
-      { name: 'optionalText', type: 'input<string>', default: "'(optional)'", description: 'Custom optional text indicator.' },
+      {
+        name: 'icon',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Icon name rendered before the label text.'
+      },
+      {
+        name: 'required',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Whether to show the red required asterisk marker (*).'
+      },
+      {
+        name: 'optional',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Whether to display an optional badge marker.'
+      },
+      {
+        name: 'optionalText',
+        type: 'input<string>',
+        default: "'(optional)'",
+        description: 'Custom optional text indicator.'
+      },
       { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Label typography scale.' },
-      { name: 'severity', type: "input<'default' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'>", default: "'default'", description: 'Color severity state.' },
-      { name: 'helpText', type: 'input<string | undefined>', default: 'undefined', description: 'Tooltip help text shown when hovering over the info icon.' },
-      { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Whether the label is rendered in disabled style.' }
+      {
+        name: 'severity',
+        type: "input<'default' | 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'>",
+        default: "'default'",
+        description: 'Color severity state.'
+      },
+      {
+        name: 'helpText',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Tooltip help text shown when hovering over the info icon.'
+      },
+      {
+        name: 'disabled',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Whether the label is rendered in disabled style.'
+      }
     ]
   },
   {
@@ -1379,11 +1607,23 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'arrow-up',
     description: 'Animated floating label container that moves smoothly when child input receives focus or has value.',
-    importStatement: `import { GpFloatLabelComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-float-label variant="on">\n  <input id="email" gpInputText placeholder=" " />\n  <label for="email">Email Address</label>\n</gp-float-label>`,
+    importStatement: "import { GpFloatLabelComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-float-label variant="on">\n  <input id="email" gpInputText placeholder=" " />\n  <label for="email">Email Address</label>\n</gp-float-label>',
     properties: [
-      { name: 'variant', type: "input<'on' | 'in' | 'over'>", default: "'on'", description: "Floating label animation style: 'on' (on border), 'in' (inside top edge), or 'over' (cleanly above)." },
-      { name: 'always', type: 'input<boolean>', default: 'false', description: 'Forces the label to stay permanently floated in the active position.' }
+      {
+        name: 'variant',
+        type: "input<'on' | 'in' | 'over'>",
+        default: "'on'",
+        description:
+          "Floating label animation style: 'on' (on border), 'in' (inside top edge), or 'over' (cleanly above)."
+      },
+      {
+        name: 'always',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Forces the label to stay permanently floated in the active position.'
+      }
     ]
   },
   {
@@ -1392,10 +1632,16 @@ export const componentDocs: ComponentDocDefinition[] = [
     category: 'Form Controls',
     icon: 'square-check',
     description: 'Embedded top-left inset label container with integrated input padding and focus accent color shifts.',
-    importStatement: `import { GpInsetLabelComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-inset-label>\n  <label for="firstname">First Name</label>\n  <input id="firstname" gpInputText placeholder="Jane" />\n</gp-inset-label>`,
+    importStatement: "import { GpInsetLabelComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-inset-label>\n  <label for="firstname">First Name</label>\n  <input id="firstname" gpInputText placeholder="Jane" />\n</gp-inset-label>',
     properties: [
-      { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Inset container scale and padding dimensions.' },
+      {
+        name: 'size',
+        type: "input<'sm' | 'md' | 'lg'>",
+        default: "'md'",
+        description: 'Inset container scale and padding dimensions.'
+      },
       { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disabled presentation state.' }
     ]
   },
@@ -1404,21 +1650,53 @@ export const componentDocs: ComponentDocDefinition[] = [
     name: 'Form Field',
     category: 'Form Controls',
     icon: 'square',
-    description: 'Universal form field wrapper with support for floating labels, inset labels, prefix/suffix icons, helper text, and validation error messages.',
-    importStatement: `import { GpFormFieldComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-form-field label="Work Email" [required]="true" helpText="We will never share your email" appearance="outlined">\n  <input gpInputText placeholder="user@company.com" />\n</gp-form-field>`,
+    description:
+      'Universal form field wrapper with support for floating labels, inset labels, prefix/suffix icons, helper text, and validation error messages.',
+    importStatement: "import { GpFormFieldComponent } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-form-field label="Work Email" [required]="true" helpText="We will never share your email" appearance="outlined">\n  <input gpInputText placeholder="user@company.com" />\n</gp-form-field>',
     properties: [
-      { name: 'label', type: 'input<string | undefined>', default: 'undefined', description: 'Label text to display or float.' },
-      { name: 'appearance', type: "input<'outlined' | 'filled' | 'inset'>", default: "'outlined'", description: 'Visual container styling variant.' },
-      { name: 'floatLabel', type: "input<'auto' | 'always' | 'never' | 'on' | 'in' | 'over' | 'inset'>", default: "'auto'", description: 'Float behavior and position style.' },
+      {
+        name: 'label',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Label text to display or float.'
+      },
+      {
+        name: 'appearance',
+        type: "input<'outlined' | 'filled' | 'inset'>",
+        default: "'outlined'",
+        description: 'Visual container styling variant.'
+      },
+      {
+        name: 'floatLabel',
+        type: "input<'auto' | 'always' | 'never' | 'on' | 'in' | 'over' | 'inset'>",
+        default: "'auto'",
+        description: 'Float behavior and position style.'
+      },
       { name: 'required', type: 'input<boolean>', default: 'false', description: 'Shows required asterisk indicator.' },
       { name: 'optional', type: 'input<boolean>', default: 'false', description: 'Shows optional indicator.' },
-      { name: 'helpText', type: 'input<string | undefined>', default: 'undefined', description: 'Tooltip help text trigger.' },
+      {
+        name: 'helpText',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Tooltip help text trigger.'
+      },
       { name: 'icon', type: 'input<string | undefined>', default: 'undefined', description: 'Prefix icon name.' },
       { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disables field.' },
       { name: 'invalid', type: 'input<boolean>', default: 'false', description: 'Explicit invalid error state.' },
-      { name: 'hint', type: 'input<string | undefined>', default: 'undefined', description: 'Helper hint message rendered below the input.' },
-      { name: 'errorMessage', type: 'input<string | undefined>', default: 'undefined', description: 'Error message shown when invalid.' }
+      {
+        name: 'hint',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Helper hint message rendered below the input.'
+      },
+      {
+        name: 'errorMessage',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Error message shown when invalid.'
+      }
     ]
   },
   {
@@ -1426,16 +1704,32 @@ export const componentDocs: ComponentDocDefinition[] = [
     name: 'Date Range Picker',
     category: 'Form Controls',
     icon: 'calendar',
-    description: 'Calendar range picker with dual-pane month navigation, preset shortcuts (Today, Last 7 Days, Last 30 Days), and reactive signals.',
-    importStatement: `import { GpDateRangePickerComponent } from '@generatedpixel/gp-ui';`,
-    exampleCode: `<gp-date-range-picker placeholder="Select start & end date..." />`,
+    description:
+      'Calendar range picker with dual-pane month navigation, preset shortcuts (Today, Last 7 Days, Last 30 Days), and reactive signals.',
+    importStatement: "import { GpDateRangePickerComponent } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-date-range-picker placeholder="Select start & end date..." />',
     properties: [
-      { name: 'placeholder', type: 'input<string>', default: "'Select date range...'", description: 'Placeholder label.' },
+      {
+        name: 'placeholder',
+        type: 'input<string>',
+        default: "'Select date range...'",
+        description: 'Placeholder label.'
+      },
       { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disabled control state.' },
-      { name: 'presets', type: 'input<GpDateRangePreset[]>', default: 'Default presets', description: 'Array of quick range preset shortcuts.' }
+      {
+        name: 'presets',
+        type: 'input<GpDateRangePreset[]>',
+        default: 'Default presets',
+        description: 'Array of quick range preset shortcuts.'
+      }
     ],
     events: [
-      { name: 'rangeChange', type: 'output<GpDateRange | null>', default: '-', description: 'Emitted when a complete date range is selected or cleared.' }
+      {
+        name: 'rangeChange',
+        type: 'output<GpDateRange | null>',
+        default: '-',
+        description: 'Emitted when a complete date range is selected or cleared.'
+      }
     ]
   }
 ];

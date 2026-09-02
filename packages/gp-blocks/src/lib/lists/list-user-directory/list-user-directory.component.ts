@@ -1,4 +1,14 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -10,6 +20,8 @@ export interface GpDirectoryUserItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-list-user-directory',
   standalone: true,
   imports: [CommonModule, GpAvatarComponent, GpButtonComponent, GpIconComponent, GpInputTextComponent],
@@ -29,25 +41,19 @@ export class GpListUserDirectoryComponent {
   public profileClick = output<GpDirectoryUserItem>();
   public messageClick = output<GpDirectoryUserItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public userTemplate?: TemplateRef<{ $implicit: GpDirectoryUserItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public userTemplate = input<TemplateRef<{ $implicit: GpDirectoryUserItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('userTemplate') public contentUserTemplate?: TemplateRef<{ $implicit: GpDirectoryUserItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentUserTemplate = contentChild<TemplateRef<{ $implicit: GpDirectoryUserItem }>>('userTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveUserTemplate(): TemplateRef<{ $implicit: GpDirectoryUserItem }> | undefined {
-    return this.userTemplate || this.contentUserTemplate;
-  }
+  public effectiveUserTemplate = computed(() => this.userTemplate() || this.contentUserTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onSearchInput(e: Event): void {
     const val = (e.target as HTMLInputElement).value;

@@ -28,7 +28,9 @@
   font-weight: 600;
   color: var(--gp-text-color);
   user-select: none;
-  transition: background var(--gp-transition-duration), color var(--gp-transition-duration);
+  transition:
+    background var(--gp-transition-duration),
+    color var(--gp-transition-duration);
 }
 
 .gp-panelmenu-header:hover {
@@ -116,7 +118,9 @@
   text-decoration: none;
   font-size: var(--gp-font-size-sm);
   cursor: pointer;
-  transition: background var(--gp-transition-duration), color var(--gp-transition-duration);
+  transition:
+    background var(--gp-transition-duration),
+    color var(--gp-transition-duration);
 }
 
 .gp-panelmenu-link:hover {

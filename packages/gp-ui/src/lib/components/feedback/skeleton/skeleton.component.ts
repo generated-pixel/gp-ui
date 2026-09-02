@@ -1,13 +1,12 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type GpSkeletonShape = 'rectangle' | 'circle';
 
 @Component({
   selector: 'gp-skeleton',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './skeleton.component.html',

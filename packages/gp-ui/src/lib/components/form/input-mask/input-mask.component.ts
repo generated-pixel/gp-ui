@@ -1,19 +1,12 @@
-import {
-  Component,
-  input,
-  output,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  forwardRef
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, forwardRef } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpInputBaseComponent } from '../../../base/gp-input-base.component';
 
 @Component({
   selector: 'gp-input-mask',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

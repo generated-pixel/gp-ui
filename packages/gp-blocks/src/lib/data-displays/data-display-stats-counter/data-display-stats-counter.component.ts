@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface GpStatsCounterItem {
@@ -9,6 +18,8 @@ export interface GpStatsCounterItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-data-display-stats-counter',
   standalone: true,
   imports: [CommonModule],
@@ -20,17 +31,13 @@ export class GpDataDisplayStatsCounterComponent {
 
   public counterClick = output<GpStatsCounterItem>();
 
-  @Input() public counterTemplate?: TemplateRef<{ $implicit: GpStatsCounterItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public counterTemplate = input<TemplateRef<{ $implicit: GpStatsCounterItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('counterTemplate') public contentCounterTemplate?: TemplateRef<{ $implicit: GpStatsCounterItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentCounterTemplate = contentChild<TemplateRef<{ $implicit: GpStatsCounterItem }>>('counterTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveCounterTemplate(): TemplateRef<{ $implicit: GpStatsCounterItem }> | undefined {
-    return this.counterTemplate || this.contentCounterTemplate;
-  }
+  public effectiveCounterTemplate = computed(() => this.counterTemplate() || this.contentCounterTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

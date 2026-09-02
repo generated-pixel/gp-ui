@@ -1,4 +1,14 @@
-import { Component, input, output, model, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  model,
+  TemplateRef,
+  contentChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 import { GpGridComponent, GpGridItem } from '@generatedpixel/gp-grid';
@@ -27,6 +37,8 @@ export interface GpEcomOrder {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-dashboard-ecommerce',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpGridComponent],
@@ -90,18 +102,16 @@ export class GpDashboardEcommerceComponent {
   public viewAllProductsClick = output<void>();
   public layoutChange = output<GpGridItem[]>();
 
-  @Input() public widgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
-  @Input() public headerActionsTemplate?: TemplateRef<any>;
+  public widgetTemplate = input<TemplateRef<{ $implicit: GpGridItem }> | undefined>(undefined);
+  public headerActionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('widgetTemplate') public contentWidgetTemplate?: TemplateRef<{ $implicit: GpGridItem }>;
-  @ContentChild('kpis') public contentKpis?: TemplateRef<any>;
-  @ContentChild('products') public contentProducts?: TemplateRef<any>;
-  @ContentChild('orders') public contentOrders?: TemplateRef<any>;
-  @ContentChild('headerActions') public contentHeaderActions?: TemplateRef<any>;
+  public contentWidgetTemplate = contentChild<TemplateRef<{ $implicit: GpGridItem }>>('widgetTemplate');
+  public contentKpis = contentChild<TemplateRef<any>>('kpis');
+  public contentProducts = contentChild<TemplateRef<any>>('products');
+  public contentOrders = contentChild<TemplateRef<any>>('orders');
+  public contentHeaderActions = contentChild<TemplateRef<any>>('headerActions');
 
-  public get effectiveWidgetTemplate(): TemplateRef<{ $implicit: GpGridItem }> | undefined {
-    return this.widgetTemplate || this.contentWidgetTemplate;
-  }
+  public effectiveWidgetTemplate = computed(() => this.widgetTemplate() || this.contentWidgetTemplate());
 
   public onLayoutChanged(newLayout: GpGridItem[]): void {
     this.widgets.set(newLayout);

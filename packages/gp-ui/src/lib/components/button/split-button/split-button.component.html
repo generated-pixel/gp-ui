@@ -48,7 +48,13 @@
   />
 
   @if (overlayVisible()) {
-    <div class="gp-menu-overlay gp-split-button-menu" role="menu" (click)="$event.stopPropagation()">
+    <div
+      class="gp-menu-overlay gp-split-button-menu"
+      role="menu"
+      (click)="$event.stopPropagation()"
+      [gpAppendTo]="appendTo()"
+      [gpConnectedTo]="el"
+    >
       <ul class="gp-menu-list">
         @for (item of model(); track $index) {
           @if (item.separator) {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpAvatarComponent,
   GpAvatarGroupComponent,
@@ -22,7 +22,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-display-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpAvatarComponent,
     GpAvatarGroupComponent,
     GpChipComponent,
@@ -50,7 +49,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="doc-section">
         <h2 class="doc-section-title">Announcement &amp; Alert Banners</h2>
         <p class="doc-section-desc">
-          Top-level sticky or inline notification bars with severity themes, action buttons, and localStorage dismissal persistence.
+          Top-level sticky or inline notification bars with severity themes, action buttons, and localStorage dismissal
+          persistence.
         </p>
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
           <gp-announcement-bar
@@ -71,7 +71,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="doc-section">
         <h2 class="doc-section-title">KPI &amp; Metric Stat Cards</h2>
         <p class="doc-section-desc">
-          Enterprise statistics cards with positive/negative trend badges, icon badges, comparison subtitles, and progress tracking.
+          Enterprise statistics cards with positive/negative trend badges, icon badges, comparison subtitles, and
+          progress tracking.
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
           <gp-stat-card
@@ -218,13 +219,13 @@ export class DisplayDemoComponent {
   <gp-avatar label="+3" shape="circle" />
 </gp-avatar-group>`;
 
-  chipCode = `<gp-chip label="Angular" icon="code" [removable]="true" />`;
+  chipCode = '<gp-chip label="Angular" icon="code" [removable]="true" />';
 
-  imageCode = `<gp-image src="https://picsum.photos/300/200" alt="Preview" width="240px" [preview]="true" />`;
+  imageCode = '<gp-image src="https://picsum.photos/300/200" alt="Preview" width="240px" [preview]="true" />';
 
-  meterCode = `<gp-meter-group [value]="meters" />`;
+  meterCode = '<gp-meter-group [value]="meters" />';
 
-  timelineCode = `<gp-timeline [value]="events" />`;
+  timelineCode = '<gp-timeline [value]="events" />';
 
   emptyStateCode = `<gp-empty-state title="No Transactions" message="You have no records.">
   <gp-button label="Add Item" icon="plus" size="sm" />
@@ -237,9 +238,7 @@ export class DisplayDemoComponent {
     { label: 'System', value: 20, color: 'var(--gp-danger)' }
   ];
 
-  bannerActions: GpBannerAction[] = [
-    { label: 'View Roadmap', url: 'https://github.com' }
-  ];
+  bannerActions: GpBannerAction[] = [{ label: 'View Roadmap', url: 'https://github.com' }];
 
   events: GpTimelineEvent[] = [
     { status: 'Ordered', date: '15/10/2026 10:30', icon: 'check', color: '#6366f1' },

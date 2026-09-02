@@ -13,15 +13,15 @@
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius-lg, 0.75rem);
   box-sizing: border-box;
-}
 
-.gp-mega-menu-block .gp-megamenu {
-  background: var(--gp-surface-card);
-}
+  .gp-mega-menu-block .gp-megamenu {
+    background: var(--gp-surface-card);
+  }
 
-.gp-mega-menu-block__custom-promo {
-  padding: var(--gp-spacing-4, 1rem);
-  background: var(--gp-surface-card);
-  border: 1px solid var(--gp-surface-border);
-  border-radius: var(--gp-border-radius, 0.5rem);
+  .gp-mega-menu-block__custom-promo {
+    padding: var(--gp-spacing-4, 1rem);
+    background: var(--gp-surface-card);
+    border: 1px solid var(--gp-surface-border);
+    border-radius: var(--gp-border-radius, 0.5rem);
+  }
 }

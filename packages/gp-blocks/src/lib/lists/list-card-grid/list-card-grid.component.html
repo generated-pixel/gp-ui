@@ -1,42 +1,37 @@
 <div class="gp-card-grid-block">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="block-top" *ngIf="title()">
+    @if (title()) {
+      <div class="block-top">
         <div>
           <h3 class="head-title">{{ title() }}</h3>
-          <p class="head-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+          @if (subtitle()) {
+            <p class="head-subtitle">{{ subtitle() }}</p>
+          }
         </div>
         <gp-button severity="primary" size="sm" (onClickEvent)="createClick.emit()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
+          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
           {{ createBtnLabel() }}
         </gp-button>
       </div>
-    
-  </ng-template>
+    }
+  }
 
   <!-- Cards Grid -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[cards], [slot=cards]" />
-
-      <div class="grid-wrap" *ngIf="cards() && cards().length > 0">
-        <ng-container *ngFor="let c of cards()">
-          <ng-container *ngIf="effectiveCardTemplate; else defaultCard">
-            <ng-container *ngTemplateOutlet="effectiveCardTemplate; context: { $implicit: c }" />
-          </ng-container>
-          <ng-template #defaultCard>
-            <div
-              class="item-card"
-              (click)="cardClick.emit(c)"
-              style="cursor: pointer;"
-            >
+    @if (cards() && cards().length > 0) {
+      <div class="grid-wrap">
+        @for (c of cards(); track c) {
+          @if (effectiveCardTemplate()) {
+            <ng-container *ngTemplateOutlet="effectiveCardTemplate()!; context: { $implicit: c }" />
+          } @else {
+            <div class="item-card" (click)="cardClick.emit(c)" style="cursor: pointer">
               <div class="card-head">
                 <div class="card-ico">
                   <gp-icon [name]="c.icon" size="1.2em" />
@@ -50,10 +45,10 @@
                 <gp-icon name="arrow-right" size="0.85em" class="foot-arrow" />
               </div>
             </div>
-          </ng-template>
-        </ng-container>
+          }
+        }
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

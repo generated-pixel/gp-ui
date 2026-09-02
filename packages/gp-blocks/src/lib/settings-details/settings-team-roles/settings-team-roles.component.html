@@ -1,43 +1,34 @@
 <div class="gp-settings-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="settings-head-action-row">
-        <div>
-          <h3 class="settings-title">{{ title() }}</h3>
-          <p class="settings-subtitle">{{ subtitle() }}</p>
-        </div>
-        <gp-button severity="primary" size="sm" (onClickEvent)="inviteMember.emit()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-          {{ inviteBtnLabel() }}
-        </gp-button>
+    <div class="settings-head-action-row">
+      <div>
+        <h3 class="settings-title">{{ title() }}</h3>
+        <p class="settings-subtitle">{{ subtitle() }}</p>
       </div>
-    
-  </ng-template>
+      <gp-button severity="primary" size="sm" (onClickEvent)="inviteMember.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+        {{ inviteBtnLabel() }}
+      </gp-button>
+    </div>
+  }
 
   <!-- Content Override or Members List -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[content], [slot=content]" />
-      <ng-container *ngIf="effectiveMembers; else defaultMembers">
-        <ng-container *ngTemplateOutlet="effectiveMembers" />
-      </ng-container>
-      <ng-template #defaultMembers>
-        <ng-content select="[members], [slot=members]" />
-
-          <div class="team-list" *ngIf="members() && members().length > 0">
-            <div
-              class="team-member-row"
-              *ngFor="let m of members()"
-              (click)="editMember.emit(m)"
-              style="cursor: pointer;"
-            >
+    @if (effectiveMembers()) {
+      <ng-container *ngTemplateOutlet="effectiveMembers()!" />
+    } @else {
+      <ng-content select="[members], [slot=members]" />
+      @if (members() && members().length > 0) {
+        <div class="team-list">
+          @for (m of members(); track m) {
+            <div class="team-member-row" (click)="editMember.emit(m)" style="cursor: pointer">
               <div class="member-profile">
                 <gp-avatar [label]="m.name.charAt(0)" size="normal" shape="circle" />
                 <div class="member-meta">
@@ -50,9 +41,10 @@
                 <gp-badge [value]="m.status" [severity]="m.status === 'Active' ? 'success' : 'secondary'" />
               </div>
             </div>
-          </div>
-        
-      </ng-template>
-      <ng-content />
-  </ng-template>
+          }
+        </div>
+      }
+    }
+    <ng-content />
+  }
 </div>

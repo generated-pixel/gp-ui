@@ -3,6 +3,8 @@
     class="gp-dialog-mask"
     [class.gp-dialog-mask-modal]="modal()"
     [style.z-index]="zIndex()"
+    [gpAppendTo]="appendTo()"
+    [gpOverlayZIndex]="zIndex()"
     (click)="onMaskClick($event)"
   >
     <div

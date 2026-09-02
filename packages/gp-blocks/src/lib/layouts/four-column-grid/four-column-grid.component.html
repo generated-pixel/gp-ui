@@ -1,73 +1,77 @@
 <div class="gp-layout-4col-grid">
   <div class="grid-card-pane">
-    <div class="pane-header" *ngIf="col1Title() || col1Badge()">
-      <span class="pane-title">{{ col1Title() }}</span>
-      <gp-badge *ngIf="col1Badge()" [value]="col1Badge()" severity="primary" />
-    </div>
+    @if (col1Title() || col1Badge()) {
+      <div class="pane-header">
+        <span class="pane-title">{{ col1Title() }}</span>
+        @if (col1Badge()) {
+          <gp-badge [value]="col1Badge()" severity="primary" />
+        }
+      </div>
+    }
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol1; else projectedOrFallbackCol1">
-        <ng-container *ngTemplateOutlet="effectiveCol1" />
-      </ng-container>
-      <ng-template #projectedOrFallbackCol1>
+      @if (effectiveCol1()) {
+        <ng-container *ngTemplateOutlet="effectiveCol1()!" />
+      } @else {
         <ng-content select="[col1], [slot=col1]" />
-
-          <p class="placeholder-text">Panel 1 data and widgets stream</p>
-        
-      </ng-template>
+        <p class="placeholder-text">Panel 1 data and widgets stream</p>
+      }
     </div>
   </div>
 
   <div class="grid-card-pane">
-    <div class="pane-header" *ngIf="col2Title() || col2Badge()">
-      <span class="pane-title">{{ col2Title() }}</span>
-      <gp-badge *ngIf="col2Badge()" [value]="col2Badge()" severity="success" />
-    </div>
+    @if (col2Title() || col2Badge()) {
+      <div class="pane-header">
+        <span class="pane-title">{{ col2Title() }}</span>
+        @if (col2Badge()) {
+          <gp-badge [value]="col2Badge()" severity="success" />
+        }
+      </div>
+    }
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol2; else projectedOrFallbackCol2">
-        <ng-container *ngTemplateOutlet="effectiveCol2" />
-      </ng-container>
-      <ng-template #projectedOrFallbackCol2>
+      @if (effectiveCol2()) {
+        <ng-container *ngTemplateOutlet="effectiveCol2()!" />
+      } @else {
         <ng-content select="[col2], [slot=col2]" />
-
-          <p class="placeholder-text">Panel 2 data and widgets stream</p>
-        
-      </ng-template>
+        <p class="placeholder-text">Panel 2 data and widgets stream</p>
+      }
     </div>
   </div>
 
   <div class="grid-card-pane">
-    <div class="pane-header" *ngIf="col3Title() || col3Badge()">
-      <span class="pane-title">{{ col3Title() }}</span>
-      <gp-badge *ngIf="col3Badge()" [value]="col3Badge()" severity="info" />
-    </div>
+    @if (col3Title() || col3Badge()) {
+      <div class="pane-header">
+        <span class="pane-title">{{ col3Title() }}</span>
+        @if (col3Badge()) {
+          <gp-badge [value]="col3Badge()" severity="info" />
+        }
+      </div>
+    }
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol3; else projectedOrFallbackCol3">
-        <ng-container *ngTemplateOutlet="effectiveCol3" />
-      </ng-container>
-      <ng-template #projectedOrFallbackCol3>
+      @if (effectiveCol3()) {
+        <ng-container *ngTemplateOutlet="effectiveCol3()!" />
+      } @else {
         <ng-content select="[col3], [slot=col3]" />
-
-          <p class="placeholder-text">Panel 3 data and widgets stream</p>
-        
-      </ng-template>
+        <p class="placeholder-text">Panel 3 data and widgets stream</p>
+      }
     </div>
   </div>
 
   <div class="grid-card-pane">
-    <div class="pane-header" *ngIf="col4Title() || col4Badge()">
-      <span class="pane-title">{{ col4Title() }}</span>
-      <gp-badge *ngIf="col4Badge()" [value]="col4Badge()" severity="warning" />
-    </div>
+    @if (col4Title() || col4Badge()) {
+      <div class="pane-header">
+        <span class="pane-title">{{ col4Title() }}</span>
+        @if (col4Badge()) {
+          <gp-badge [value]="col4Badge()" severity="warning" />
+        }
+      </div>
+    }
     <div class="pane-content">
-      <ng-container *ngIf="effectiveCol4; else projectedOrFallbackCol4">
-        <ng-container *ngTemplateOutlet="effectiveCol4" />
-      </ng-container>
-      <ng-template #projectedOrFallbackCol4>
+      @if (effectiveCol4()) {
+        <ng-container *ngTemplateOutlet="effectiveCol4()!" />
+      } @else {
         <ng-content select="[col4], [slot=col4]" />
-
-          <p class="placeholder-text">Panel 4 data and widgets stream</p>
-        
-      </ng-template>
+        <p class="placeholder-text">Panel 4 data and widgets stream</p>
+      }
     </div>
   </div>
 </div>

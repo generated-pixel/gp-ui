@@ -1,59 +1,57 @@
 <div class="gp-sidebar-header-over-shell">
   <!-- Full-Width Header Spanning Across -->
   <header class="spanning-header">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
-    </ng-container>
-    <ng-template #defaultHeader>
+    @if (effectiveHeader()) {
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+    } @else {
       <ng-content select="[header], [slot=header]" />
-
-        <div class="header-brand">
-          <div class="brand-sq">
-            <gp-icon [name]="brandIcon()" size="1.1em" />
-          </div>
-          <span class="brand-name">{{ brandName() }}</span>
+      <div class="header-brand">
+        <div class="brand-sq">
+          <gp-icon [name]="brandIcon()" size="1.1em" />
         </div>
-        <div class="header-user-badge" *ngIf="userName()" (click)="userClick.emit()" style="cursor: pointer;">
+        <span class="brand-name">{{ brandName() }}</span>
+      </div>
+      @if (userName()) {
+        <div class="header-user-badge" (click)="userClick.emit()" style="cursor: pointer">
           <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
           <span class="user-name">{{ userName() }}</span>
         </div>
-      
-    </ng-template>
+      }
+    }
   </header>
 
   <!-- Bottom Body Split (Sidebar + Content) -->
   <div class="spanning-body">
     <aside class="nested-sidebar">
-      <ng-container *ngIf="effectiveSidebar; else defaultSidebar">
-        <ng-container *ngTemplateOutlet="effectiveSidebar" />
-      </ng-container>
-      <ng-template #defaultSidebar>
+      @if (effectiveSidebar()) {
+        <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+      } @else {
         <ng-content select="[sidebar], [slot=sidebar]" />
-
-          <nav class="nested-nav" *ngIf="navItems() && navItems().length > 0">
-            <a
-              href="javascript:void(0)"
-              *ngFor="let item of navItems()"
-              class="nav-link"
-              [class.active]="item.id === activeNavId() || item.active"
-              (click)="navItemClick.emit(item)"
-            >
-              <gp-icon [name]="item.icon" size="1.1em" />
-              <span>{{ item.label }}</span>
-            </a>
+        @if (navItems() && navItems().length > 0) {
+          <nav class="nested-nav">
+            @for (item of navItems(); track item) {
+              <a
+                href="javascript:void(0)"
+                class="nav-link"
+                [class.active]="item.id === activeNavId() || item.active"
+                (click)="navItemClick.emit(item)"
+              >
+                <gp-icon [name]="item.icon" size="1.1em" />
+                <span>{{ item.label }}</span>
+              </a>
+            }
           </nav>
-        
-      </ng-template>
+        }
+      }
     </aside>
 
     <main class="spanning-main">
-      <ng-container *ngIf="effectiveContent; else defaultContent">
-        <ng-container *ngTemplateOutlet="effectiveContent" />
-      </ng-container>
-      <ng-template #defaultContent>
+      @if (effectiveContent()) {
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      } @else {
         <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
-      </ng-template>
+        <ng-content />
+      }
     </main>
   </div>
 </div>

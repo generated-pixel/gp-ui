@@ -1,12 +1,5 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import {
-  Component,
-  input,
-  contentChild,
-  TemplateRef,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, input, contentChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'gp-column',

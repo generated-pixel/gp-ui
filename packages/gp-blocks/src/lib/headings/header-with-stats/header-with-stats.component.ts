@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface GpHeaderWithStatItem {
@@ -7,6 +16,8 @@ export interface GpHeaderWithStatItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-with-stats',
   standalone: true,
   imports: [CommonModule],
@@ -20,17 +31,13 @@ export class GpHeaderWithStatsComponent {
 
   public statClick = output<GpHeaderWithStatItem>();
 
-  @Input() public titleTemplate?: TemplateRef<any>;
-  @Input() public statsTemplate?: TemplateRef<any>;
+  public titleTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public statsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('title') public contentTitle?: TemplateRef<any>;
-  @ContentChild('stats') public contentStats?: TemplateRef<any>;
+  public contentTitle = contentChild<TemplateRef<any>>('title');
+  public contentStats = contentChild<TemplateRef<any>>('stats');
 
-  public get effectiveTitle(): TemplateRef<any> | undefined {
-    return this.titleTemplate || this.contentTitle;
-  }
+  public effectiveTitle = computed(() => this.titleTemplate() || this.contentTitle());
 
-  public get effectiveStats(): TemplateRef<any> | undefined {
-    return this.statsTemplate || this.contentStats;
-  }
+  public effectiveStats = computed(() => this.statsTemplate() || this.contentStats());
 }

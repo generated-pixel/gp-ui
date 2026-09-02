@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpButtonComponent,
   GpDialogComponent,
@@ -20,7 +20,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-overlay-demo',
   standalone: true,
   imports: [
-    CommonModule,
     GpButtonComponent,
     GpDialogComponent,
     GpConfirmDialogComponent,
@@ -39,8 +38,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="page-header">
         <h1>Overlay & Modal Components</h1>
         <p class="page-desc">
-          Centralized overlay infrastructure featuring Command Palettes, mobile Bottom Sheets, focus trapping, dynamic z-index layering, off-canvas drawers,
-          popovers, and programmatic confirmation dialogs.
+          Centralized overlay infrastructure featuring Command Palettes, mobile Bottom Sheets, focus trapping, dynamic
+          z-index layering, off-canvas drawers, popovers, and programmatic confirmation dialogs.
         </p>
       </div>
 
@@ -55,7 +54,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <div class="doc-section">
         <h2 class="doc-section-title">Interactive Overlays</h2>
         <p class="doc-section-desc">
-          Click below to trigger modal dialogs, programmatic confirm dialogs, slide-out drawers, popovers, bottom sheets, and the command palette:
+          Click below to trigger modal dialogs, programmatic confirm dialogs, slide-out drawers, popovers, bottom
+          sheets, and the command palette:
         </p>
         <div class="doc-demo-box" style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
           <gp-button label="Show Dialog" (onClickEvent)="dialog.show()" />
@@ -71,16 +71,29 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
       <!-- Command Palette Demo Section -->
       <div class="doc-section">
-        <h2 class="doc-section-title">Command Palette / Omnibar (<span style="font-family: monospace; font-size: 0.9em;">gp-command-palette</span>)</h2>
+        <h2 class="doc-section-title">
+          Command Palette / Omnibar (<span style="font-family: monospace; font-size: 0.9em;">gp-command-palette</span>)
+        </h2>
         <p class="doc-section-desc">
-          Power-user search and action dispatcher triggered via <kbd style="padding: 2px 6px; background: var(--gp-surface-ground); border: 1px solid var(--gp-surface-border); border-radius: 4px; font-weight: 600;">Cmd+K</kbd> or <kbd style="padding: 2px 6px; background: var(--gp-surface-ground); border: 1px solid var(--gp-surface-border); border-radius: 4px; font-weight: 600;">Ctrl+K</kbd>. Supports categorization, keyboard navigation, fuzzy search, and nested action drilling.
+          Power-user search and action dispatcher triggered via
+          <kbd
+            style="padding: 2px 6px; background: var(--gp-surface-ground); border: 1px solid var(--gp-surface-border); border-radius: 4px; font-weight: 600;"
+            >Cmd+K</kbd
+          >
+          or
+          <kbd
+            style="padding: 2px 6px; background: var(--gp-surface-ground); border: 1px solid var(--gp-surface-border); border-radius: 4px; font-weight: 600;"
+            >Ctrl+K</kbd
+          >. Supports categorization, keyboard navigation, fuzzy search, and nested action drilling.
         </p>
         <doc-code [code]="commandPaletteCode" language="html" />
       </div>
 
       <!-- Bottom Sheet Demo Section -->
       <div class="doc-section">
-        <h2 class="doc-section-title">Mobile Bottom Sheet (<span style="font-family: monospace; font-size: 0.9em;">gp-bottom-sheet</span>)</h2>
+        <h2 class="doc-section-title">
+          Mobile Bottom Sheet (<span style="font-family: monospace; font-size: 0.9em;">gp-bottom-sheet</span>)
+        </h2>
         <p class="doc-section-desc">
           Touch-friendly mobile drawer with drag handle, swipe-to-dismiss gesture physics, and safe-area inset support.
         </p>
@@ -115,13 +128,34 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       </gp-popover>
 
       <!-- Bottom Sheet Component instance -->
-      <gp-bottom-sheet [visible]="bottomSheetVisible()" (visibleChange)="bottomSheetVisible.set($event)" title="Share Options">
+      <gp-bottom-sheet
+        [visible]="bottomSheetVisible()"
+        (visibleChange)="bottomSheetVisible.set($event)"
+        title="Share Options"
+      >
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <p style="margin: 0; color: var(--gp-text-color-secondary);">Select how you want to export or share this content:</p>
+          <p style="margin: 0; color: var(--gp-text-color-secondary);">
+            Select how you want to export or share this content:
+          </p>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <gp-button label="Copy Link" icon="link" variant="outlined" (onClickEvent)="bottomSheetVisible.set(false)" />
-            <gp-button label="Email Report" icon="mail" variant="outlined" (onClickEvent)="bottomSheetVisible.set(false)" />
-            <gp-button label="Download PDF" icon="download" severity="primary" (onClickEvent)="bottomSheetVisible.set(false)" />
+            <gp-button
+              label="Copy Link"
+              icon="link"
+              variant="outlined"
+              (onClickEvent)="bottomSheetVisible.set(false)"
+            />
+            <gp-button
+              label="Email Report"
+              icon="mail"
+              variant="outlined"
+              (onClickEvent)="bottomSheetVisible.set(false)"
+            />
+            <gp-button
+              label="Download PDF"
+              icon="download"
+              severity="primary"
+              (onClickEvent)="bottomSheetVisible.set(false)"
+            />
           </div>
         </div>
       </gp-bottom-sheet>
@@ -223,9 +257,27 @@ export class OverlayDemoComponent {
     { id: 'nav-forms', title: 'Go to Form Controls', icon: 'edit', category: 'Navigation', shortcut: 'G F' },
     { id: 'nav-tables', title: 'Go to Data Tables', icon: 'table', category: 'Navigation', shortcut: 'G T' },
     { id: 'nav-theming', title: 'Go to Theming Studio', icon: 'palette', category: 'Navigation', badge: 'Theme' },
-    { id: 'act-export-csv', title: 'Export Current Dataset as CSV', icon: 'download', category: 'Actions', badge: 'CSV' },
-    { id: 'act-export-excel', title: 'Export Current Dataset as Excel XML', icon: 'download', category: 'Actions', badge: 'XLS' },
-    { id: 'pref-contrast', title: 'Switch to High Contrast Dark Mode', icon: 'moon', category: 'Accessibility', badge: 'WCAG AAA' }
+    {
+      id: 'act-export-csv',
+      title: 'Export Current Dataset as CSV',
+      icon: 'download',
+      category: 'Actions',
+      badge: 'CSV'
+    },
+    {
+      id: 'act-export-excel',
+      title: 'Export Current Dataset as Excel XML',
+      icon: 'download',
+      category: 'Actions',
+      badge: 'XLS'
+    },
+    {
+      id: 'pref-contrast',
+      title: 'Switch to High Contrast Dark Mode',
+      icon: 'moon',
+      category: 'Accessibility',
+      badge: 'WCAG AAA'
+    }
   ];
 
   private confirmationService = inject(GpConfirmationService);
@@ -247,16 +299,36 @@ export class OverlayDemoComponent {
 
   commandPaletteProperties: DocApiProperty[] = [
     { name: 'items', type: 'GpCommandItem[]', default: '[]', description: 'List of command items and nested actions.' },
-    { name: 'shortcut', type: 'string', default: "'meta.k, ctrl.k'", description: 'Global shortcut to toggle command palette.' },
-    { name: 'placeholder', type: 'string', default: "'Type a command...'", description: 'Placeholder for omnibar search input.' },
+    {
+      name: 'shortcut',
+      type: 'string',
+      default: "'meta.k, ctrl.k'",
+      description: 'Global shortcut to toggle command palette.'
+    },
+    {
+      name: 'placeholder',
+      type: 'string',
+      default: "'Type a command...'",
+      description: 'Placeholder for omnibar search input.'
+    },
     { name: 'visible', type: 'boolean', default: 'false', description: 'Two-way binding for palette visibility.' }
   ];
 
   bottomSheetProperties: DocApiProperty[] = [
     { name: 'visible', type: 'boolean', default: 'false', description: 'Controls bottom sheet open/close state.' },
     { name: 'title', type: 'string', default: 'undefined', description: 'Header title text.' },
-    { name: 'showDragHandle', type: 'boolean', default: 'true', description: 'Displays top drag bar for touch gestures.' },
-    { name: 'dismissable', type: 'boolean', default: 'true', description: 'Allows backdrop touch and swipe-down dismissal.' },
+    {
+      name: 'showDragHandle',
+      type: 'boolean',
+      default: 'true',
+      description: 'Displays top drag bar for touch gestures.'
+    },
+    {
+      name: 'dismissable',
+      type: 'boolean',
+      default: 'true',
+      description: 'Allows backdrop touch and swipe-down dismissal.'
+    },
     { name: 'maxHeight', type: 'string', default: "'80vh'", description: 'Maximum height of sheet in viewport.' }
   ];
 

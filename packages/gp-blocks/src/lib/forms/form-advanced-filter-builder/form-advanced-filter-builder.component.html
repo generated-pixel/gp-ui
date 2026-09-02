@@ -1,75 +1,72 @@
 <div class="gp-filter-builder-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="builder-head">
-        <div class="head-titles" *ngIf="title()">
+    <div class="builder-head">
+      @if (title()) {
+        <div class="head-titles">
           <h3 class="head-title">{{ title() }}</h3>
         </div>
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="addCondition()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem;" />
-          {{ addConditionBtnLabel() }}
-        </gp-button>
-      </div>
-    
-  </ng-template>
+      }
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="addCondition()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+        {{ addConditionBtnLabel() }}
+      </gp-button>
+    </div>
+  }
 
   <!-- Conditions Body -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[conditions], [slot=conditions]" />
-
-      <div class="builder-conditions-list">
-        <div class="empty-conditions" *ngIf="conditions().length === 0">
+    <div class="builder-conditions-list">
+      @if (conditions().length === 0) {
+        <div class="empty-conditions">
           <p>No active filter rules. Click "Add Condition" to filter dataset.</p>
         </div>
-
-        <ng-container *ngFor="let cond of conditions(); let i = index">
-          <ng-container *ngIf="effectiveConditionRowTemplate; else defaultConditionRow">
-            <ng-container *ngTemplateOutlet="effectiveConditionRowTemplate; context: { $implicit: cond, index: i }" />
-          </ng-container>
-          <ng-template #defaultConditionRow>
-            <div class="condition-row">
-              <span class="where-label">{{ i === 0 ? 'WHERE' : 'AND' }}</span>
-              <gp-select styleClass="cond-select" [options]="fieldOptions()" [(ngModel)]="cond.field" />
-
-              <gp-select styleClass="cond-select op-select" [options]="operatorOptions()" [(ngModel)]="cond.operator" />
-
-              <gp-input-text
-                type="text"
-                styleClass="cond-input"
-                [(ngModel)]="cond.value"
-                placeholder="Value..."
-              />
-
-              <gp-button variant="text" severity="danger" size="sm" [iconOnly]="true" styleClass="trash-btn" ariaLabel="Remove Rule" (onClickEvent)="removeCondition(i)">
-                <gp-icon name="trash" size="0.9em" />
-              </gp-button>
-            </div>
-          </ng-template>
-        </ng-container>
-      </div>
-    
-  </ng-template>
+      }
+      @for (cond of conditions(); track cond; let i = $index) {
+        @if (effectiveConditionRowTemplate()) {
+          <ng-container *ngTemplateOutlet="effectiveConditionRowTemplate()!; context: { $implicit: cond, index: i }" />
+        } @else {
+          <div class="condition-row">
+            <span class="where-label">{{ i === 0 ? 'WHERE' : 'AND' }}</span>
+            <gp-select styleClass="cond-select" [options]="fieldOptions()" [(ngModel)]="cond.field" />
+            <gp-select styleClass="cond-select op-select" [options]="operatorOptions()" [(ngModel)]="cond.operator" />
+            <gp-input-text type="text" styleClass="cond-input" [(ngModel)]="cond.value" placeholder="Value..." />
+            <gp-button
+              variant="text"
+              severity="danger"
+              size="sm"
+              [iconOnly]="true"
+              styleClass="trash-btn"
+              ariaLabel="Remove Rule"
+              (onClickEvent)="removeCondition(i)"
+            >
+              <gp-icon name="trash" size="0.9em" />
+            </gp-button>
+          </div>
+        }
+      }
+    </div>
+  }
 
   <!-- Actions Footer -->
-  <ng-container *ngIf="effectiveActions; else defaultActions">
-    <ng-container *ngTemplateOutlet="effectiveActions" />
-  </ng-container>
-  <ng-template #defaultActions>
+  @if (effectiveActions()) {
+    <ng-container *ngTemplateOutlet="effectiveActions()!" />
+  } @else {
     <ng-content select="[actions], [slot=actions]" />
-
-      <div class="builder-foot" *ngIf="conditions().length > 0">
-        <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="resetFilters()">{{ clearBtnLabel() }}</gp-button>
+    @if (conditions().length > 0) {
+      <div class="builder-foot">
+        <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="resetFilters()">{{
+          clearBtnLabel()
+        }}</gp-button>
         <gp-button severity="primary" size="sm" (onClickEvent)="onApply()">{{ applyBtnLabel() }}</gp-button>
       </div>
-    
-  </ng-template>
+    }
+  }
   <ng-content />
 </div>

@@ -1,4 +1,14 @@
-import { Component, input, output, signal, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpInputTextComponent } from '@generatedpixel/gp-ui';
 
@@ -8,6 +18,8 @@ export interface GpCountdownUnit {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-page-coming-soon',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpInputTextComponent],
@@ -25,25 +37,19 @@ export class GpPageComingSoonComponent {
   public email = signal<string>('');
   public subscribe = output<string>();
 
-  @Input() public countdownTemplate?: TemplateRef<any>;
-  @Input() public formTemplate?: TemplateRef<any>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public countdownTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public formTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('countdown') public contentCountdown?: TemplateRef<any>;
-  @ContentChild('form') public contentForm?: TemplateRef<any>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentCountdown = contentChild<TemplateRef<any>>('countdown');
+  public contentForm = contentChild<TemplateRef<any>>('form');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveCountdown(): TemplateRef<any> | undefined {
-    return this.countdownTemplate || this.contentCountdown;
-  }
+  public effectiveCountdown = computed(() => this.countdownTemplate() || this.contentCountdown());
 
-  public get effectiveForm(): TemplateRef<any> | undefined {
-    return this.formTemplate || this.contentForm;
-  }
+  public effectiveForm = computed(() => this.formTemplate() || this.contentForm());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 
   public onSubscribe(): void {
     if (this.email().trim()) {

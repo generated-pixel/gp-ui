@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBadgeComponent, GpButtonComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -12,6 +21,8 @@ export interface GpCardGridItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-list-card-grid',
   standalone: true,
   imports: [CommonModule, GpBadgeComponent, GpButtonComponent, GpIconComponent],
@@ -27,23 +38,17 @@ export class GpListCardGridComponent {
   public createClick = output<void>();
   public cardClick = output<GpCardGridItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public cardTemplate?: TemplateRef<{ $implicit: GpCardGridItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public cardTemplate = input<TemplateRef<{ $implicit: GpCardGridItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('cardTemplate') public contentCardTemplate?: TemplateRef<{ $implicit: GpCardGridItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentCardTemplate = contentChild<TemplateRef<{ $implicit: GpCardGridItem }>>('cardTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveCardTemplate(): TemplateRef<{ $implicit: GpCardGridItem }> | undefined {
-    return this.cardTemplate || this.contentCardTemplate;
-  }
+  public effectiveCardTemplate = computed(() => this.cardTemplate() || this.contentCardTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpButtonComponent, GpIconComponent, GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -11,6 +20,8 @@ export interface GpSectionTabItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-header-section-tabs',
   standalone: true,
   imports: [CommonModule, GpButtonComponent, GpIconComponent, GpBadgeComponent],
@@ -27,25 +38,19 @@ export class GpHeaderSectionTabsComponent {
   public actionClick = output<void>();
   public tabChange = output<GpSectionTabItem>();
 
-  @Input() public titleTemplate?: TemplateRef<any>;
-  @Input() public tabsTemplate?: TemplateRef<any>;
-  @Input() public actionsTemplate?: TemplateRef<any>;
+  public titleTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public tabsTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('title') public contentTitle?: TemplateRef<any>;
-  @ContentChild('tabs') public contentTabs?: TemplateRef<any>;
-  @ContentChild('actions') public contentActions?: TemplateRef<any>;
+  public contentTitle = contentChild<TemplateRef<any>>('title');
+  public contentTabs = contentChild<TemplateRef<any>>('tabs');
+  public contentActions = contentChild<TemplateRef<any>>('actions');
 
-  public get effectiveTitle(): TemplateRef<any> | undefined {
-    return this.titleTemplate || this.contentTitle;
-  }
+  public effectiveTitle = computed(() => this.titleTemplate() || this.contentTitle());
 
-  public get effectiveTabs(): TemplateRef<any> | undefined {
-    return this.tabsTemplate || this.contentTabs;
-  }
+  public effectiveTabs = computed(() => this.tabsTemplate() || this.contentTabs());
 
-  public get effectiveActions(): TemplateRef<any> | undefined {
-    return this.actionsTemplate || this.contentActions;
-  }
+  public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
 
   public onTabClick(tab: GpSectionTabItem): void {
     this.tabChange.emit(tab);

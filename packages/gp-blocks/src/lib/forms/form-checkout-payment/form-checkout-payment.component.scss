@@ -16,92 +16,92 @@
   max-width: 580px;
   margin: 0 auto;
   box-sizing: border-box;
-}
 
-.card-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
 
-.head-titles {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.head-title {
-  font-size: 1.35rem;
-  font-weight: 800;
-  margin: 0;
-  color: var(--gp-text-color);
-}
-
-.head-subtitle {
-  font-size: 0.875rem;
-  color: var(--gp-text-color-secondary);
-  margin: 0;
-}
-
-.security-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.775rem;
-  font-weight: 600;
-  color: var(--gp-success, #22c55e);
-  background: var(--gp-success-light, rgba(34, 197, 94, 0.12));
-  padding: 0.25rem 0.65rem;
-  border-radius: 9999px;
-}
-
-.payment-form-body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.field-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  flex: 1;
-}
-
-.input-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--gp-text-color);
-}
-
-.card-num-box {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.card-ico {
-  position: absolute;
-  left: 0.75rem;
-  color: var(--gp-text-color-secondary);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.split-row {
-  display: flex;
-  gap: 1rem;
-}
-
-.pay-btn-wrap {
-  margin-top: 0.75rem;
-}
-
-@media (max-width: 640px) {
-  .split-row {
+  .head-titles {
+    display: flex;
     flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .head-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
+
+  .head-subtitle {
+    font-size: 0.875rem;
+    color: var(--gp-text-color-secondary);
+    margin: 0;
+  }
+
+  .security-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    color: var(--gp-success, #22c55e);
+    background: var(--gp-success-light, rgba(34, 197, 94, 0.12));
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+  }
+
+  .payment-form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+  }
+
+  .input-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gp-text-color);
+  }
+
+  .card-num-box {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .card-ico {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--gp-text-color-secondary);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .split-row {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .pay-btn-wrap {
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .split-row {
+      flex-direction: column;
+    }
   }
 }

@@ -93,6 +93,29 @@
         }
       }
     },
+    "gp-rules": {
+      "projectType": "library",
+      "root": "packages/gp-rules",
+      "sourceRoot": "packages/gp-rules/src",
+      "prefix": "gp",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/gp-rules/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/gp-rules/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/gp-rules/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    },
     "gp-ui-demo": {
       "projectType": "application",
       "schematics": {

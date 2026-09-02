@@ -78,7 +78,9 @@ for (const filePath of files) {
     const existingImplements = match[2];
 
     // Don't extend base if already extends
-    if (fullMatch.includes('extends')) continue;
+    if (fullMatch.includes('extends')) {
+      continue;
+    }
 
     // Check if main component class (usually ends with Component)
     if (className.endsWith('Component')) {

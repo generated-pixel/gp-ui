@@ -447,10 +447,20 @@ export class GpThemeManager {
     size?: string;
     radius?: string;
   }): void {
-    if (options.thumb) GpThemeManager.setCustomToken('--gp-scrollbar-thumb', options.thumb);
-    if (options.thumbHover) GpThemeManager.setCustomToken('--gp-scrollbar-thumb-hover', options.thumbHover);
-    if (options.track) GpThemeManager.setCustomToken('--gp-scrollbar-track', options.track);
-    if (options.size) GpThemeManager.setCustomToken('--gp-scrollbar-size', options.size);
-    if (options.radius) GpThemeManager.setCustomToken('--gp-scrollbar-radius', options.radius);
+    if (options.thumb) {
+      GpThemeManager.setCustomToken('--gp-scrollbar-thumb', options.thumb);
+    }
+    if (options.thumbHover) {
+      GpThemeManager.setCustomToken('--gp-scrollbar-thumb-hover', options.thumbHover);
+    }
+    if (options.track) {
+      GpThemeManager.setCustomToken('--gp-scrollbar-track', options.track);
+    }
+    if (options.size) {
+      GpThemeManager.setCustomToken('--gp-scrollbar-size', options.size);
+    }
+    if (options.radius) {
+      GpThemeManager.setCustomToken('--gp-scrollbar-radius', options.radius);
+    }
   }
 }

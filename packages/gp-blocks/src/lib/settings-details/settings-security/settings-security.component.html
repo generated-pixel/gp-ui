@@ -1,122 +1,123 @@
 <div class="gp-settings-card">
   <!-- Header -->
-  <ng-container *ngIf="effectiveHeader; else defaultHeader">
-    <ng-container *ngTemplateOutlet="effectiveHeader" />
-  </ng-container>
-  <ng-template #defaultHeader>
+  @if (effectiveHeader()) {
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  } @else {
     <ng-content select="[header], [slot=header]" />
-
-      <div class="settings-head">
-        <h3 class="settings-title">{{ title() }}</h3>
-        <p class="settings-subtitle">{{ subtitle() }}</p>
-      </div>
-    
-  </ng-template>
+    <div class="settings-head">
+      <h3 class="settings-title">{{ title() }}</h3>
+      <p class="settings-subtitle">{{ subtitle() }}</p>
+    </div>
+  }
 
   <!-- Full Content Override or Sections -->
-  <ng-container *ngIf="effectiveContent; else defaultContent">
-    <ng-container *ngTemplateOutlet="effectiveContent" />
-  </ng-container>
-  <ng-template #defaultContent>
+  @if (effectiveContent()) {
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else {
     <ng-content select="[content], [slot=content]" />
-      <!-- Password Change Section -->
-      <ng-container *ngIf="effectivePassword; else defaultPassword">
-        <ng-container *ngTemplateOutlet="effectivePassword" />
-      </ng-container>
-      <ng-template #defaultPassword>
-        <ng-content select="[password], [slot=password]" />
-
-          <div class="security-section">
-            <h4 class="sec-subtitle">Change Password</h4>
-            <div class="pass-fields-grid">
-              <div class="field-col">
-                <label class="f-label">Current Password</label>
-                <gp-password
-                  styleClass="form-inp"
-                  [fluid]="true"
-                  [feedback]="false"
-                  [value]="currentPasswordValue()"
-                  (valueChange)="currentPasswordValue.set($event)"
-                  placeholder="Enter current password"
-                />
-              </div>
-              <div class="field-col">
-                <label class="f-label">New Password</label>
-                <gp-password
-                  styleClass="form-inp"
-                  [fluid]="true"
-                  [feedback]="false"
-                  [value]="newPasswordValue()"
-                  (valueChange)="newPasswordValue.set($event)"
-                  placeholder="Enter new password"
-                />
-              </div>
-              <div class="field-col">
-                <label class="f-label">Confirm New Password</label>
-                <gp-password
-                  styleClass="form-inp"
-                  [fluid]="true"
-                  [feedback]="false"
-                  [value]="confirmPasswordValue()"
-                  (valueChange)="confirmPasswordValue.set($event)"
-                  placeholder="Confirm new password"
-                />
-              </div>
-            </div>
-            <div class="sec-action-row">
-              <gp-button severity="primary" size="sm" (onClickEvent)="onUpdatePassword()">Update Password</gp-button>
-            </div>
+    <!-- Password Change Section -->
+    @if (effectivePassword()) {
+      <ng-container *ngTemplateOutlet="effectivePassword()!" />
+    } @else {
+      <ng-content select="[password], [slot=password]" />
+      <div class="security-section">
+        <h4 class="sec-subtitle">Change Password</h4>
+        <div class="pass-fields-grid">
+          <div class="field-col">
+            <label class="f-label">Current Password</label>
+            <gp-password
+              styleClass="form-inp"
+              [fluid]="true"
+              [feedback]="false"
+              [value]="currentPasswordValue()"
+              (valueChange)="currentPasswordValue.set($event)"
+              placeholder="Enter current password"
+            />
           </div>
-        
-      </ng-template>
-
-      <!-- 2FA Section -->
-      <ng-container *ngIf="effectiveTwoFa; else defaultTwoFa">
-        <ng-container *ngTemplateOutlet="effectiveTwoFa" />
-      </ng-container>
-      <ng-template #defaultTwoFa>
-        <ng-content select="[two-fa], [slot=two-fa], [2fa], [slot=2fa]" />
-
-          <div class="security-section">
-            <div class="two-fa-row">
-              <div class="two-fa-info">
-                <div class="two-fa-title-row">
-                  <h4 class="sec-subtitle" style="margin: 0;">Two-Factor Authentication (2FA)</h4>
-                  <gp-badge [value]="twoFaEnabled() ? 'Enabled' : 'Disabled'" [severity]="twoFaEnabled() ? 'success' : 'secondary'" />
-                </div>
-                <p class="two-fa-desc">Require an authentication code from Google Authenticator or SMS on login.</p>
-              </div>
-              <gp-switch [value]="twoFaEnabled()" (valueChange)="twoFaChange.emit($event)" />
-            </div>
+          <div class="field-col">
+            <label class="f-label">New Password</label>
+            <gp-password
+              styleClass="form-inp"
+              [fluid]="true"
+              [feedback]="false"
+              [value]="newPasswordValue()"
+              (valueChange)="newPasswordValue.set($event)"
+              placeholder="Enter new password"
+            />
           </div>
-        
-      </ng-template>
-
-      <!-- Active Sessions -->
-      <ng-container *ngIf="effectiveSessions; else defaultSessions">
-        <ng-container *ngTemplateOutlet="effectiveSessions" />
-      </ng-container>
-      <ng-template #defaultSessions>
-        <ng-content select="[sessions], [slot=sessions]" />
-
-          <div class="security-section" *ngIf="sessions() && sessions().length > 0">
-            <h4 class="sec-subtitle">Active Browser Sessions</h4>
-            <div class="sessions-list">
-              <div class="session-item" *ngFor="let s of sessions()">
+          <div class="field-col">
+            <label class="f-label">Confirm New Password</label>
+            <gp-password
+              styleClass="form-inp"
+              [fluid]="true"
+              [feedback]="false"
+              [value]="confirmPasswordValue()"
+              (valueChange)="confirmPasswordValue.set($event)"
+              placeholder="Confirm new password"
+            />
+          </div>
+        </div>
+        <div class="sec-action-row">
+          <gp-button severity="primary" size="sm" (onClickEvent)="onUpdatePassword()">Update Password</gp-button>
+        </div>
+      </div>
+    }
+    <!-- 2FA Section -->
+    @if (effectiveTwoFa()) {
+      <ng-container *ngTemplateOutlet="effectiveTwoFa()!" />
+    } @else {
+      <ng-content select="[two-fa], [slot=two-fa], [2fa], [slot=2fa]" />
+      <div class="security-section">
+        <div class="two-fa-row">
+          <div class="two-fa-info">
+            <div class="two-fa-title-row">
+              <h4 class="sec-subtitle" style="margin: 0">Two-Factor Authentication (2FA)</h4>
+              <gp-badge
+                [value]="twoFaEnabled() ? 'Enabled' : 'Disabled'"
+                [severity]="twoFaEnabled() ? 'success' : 'secondary'"
+              />
+            </div>
+            <p class="two-fa-desc">Require an authentication code from Google Authenticator or SMS on login.</p>
+          </div>
+          <gp-switch [value]="twoFaEnabled()" (valueChange)="twoFaChange.emit($event)" />
+        </div>
+      </div>
+    }
+    <!-- Active Sessions -->
+    @if (effectiveSessions()) {
+      <ng-container *ngTemplateOutlet="effectiveSessions()!" />
+    } @else {
+      <ng-content select="[sessions], [slot=sessions]" />
+      @if (sessions() && sessions().length > 0) {
+        <div class="security-section">
+          <h4 class="sec-subtitle">Active Browser Sessions</h4>
+          <div class="sessions-list">
+            @for (s of sessions(); track s) {
+              <div class="session-item">
                 <div class="sess-ico">
                   <gp-icon name="window" size="1.1em" />
                 </div>
                 <div class="sess-info">
                   <span class="sess-title">{{ s.device }} ({{ s.location }})</span>
-                  <span class="sess-meta">{{ s.isCurrent ? 'Current Active Session' : ('Last active ' + s.lastActive) }} &bull; IP {{ s.ip }}</span>
+                  <span class="sess-meta"
+                    >{{ s.isCurrent ? 'Current Active Session' : 'Last active ' + s.lastActive }} &bull; IP
+                    {{ s.ip }}</span
+                  >
                 </div>
-                <gp-badge *ngIf="s.isCurrent" value="Current" severity="primary" />
-                <gp-button *ngIf="!s.isCurrent" variant="text" severity="danger" size="sm" (onClickEvent)="revokeSession.emit(s)">Revoke</gp-button>
+                @if (s.isCurrent) {
+                  <gp-badge value="Current" severity="primary" />
+                }
+                @if (!s.isCurrent) {
+                  <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeSession.emit(s)"
+                    >Revoke</gp-button
+                  >
+                }
               </div>
-            </div>
+            }
           </div>
-        
-      </ng-template>
-      <ng-content />
-  </ng-template>
+        </div>
+      }
+    }
+    <ng-content />
+  }
 </div>

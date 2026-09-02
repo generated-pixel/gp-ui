@@ -1,4 +1,13 @@
-import { Component, OnInit, signal, computed, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal,
+  computed,
+  input,
+  output,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpBadgeComponent } from '../badge/badge.component';

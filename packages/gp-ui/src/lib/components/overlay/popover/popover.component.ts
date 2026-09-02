@@ -1,6 +1,7 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import {
   Component,
+  input,
   output,
   ChangeDetectionStrategy,
   ViewEncapsulation,
@@ -8,18 +9,20 @@ import {
   ElementRef,
   HostListener
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
 @Component({
   selector: 'gp-popover',
   standalone: true,
-  imports: [CommonModule],
+  imports: [GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './popover.component.html',
   styleUrl: './popover.component.scss'
 })
 export class GpPopoverComponent extends GpBaseComponent {
+  public appendTo = input<GpAppendToTarget>('body');
   public onShow = output<void>();
   public onHide = output<void>();
 

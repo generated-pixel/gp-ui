@@ -1,14 +1,7 @@
-import {
-  Directive,
-  input,
-  output,
-  signal,
-  effect,
-  HostListener,
-  inject
-} from '@angular/core';
+import { Directive, input, output, signal, effect, HostListener, inject, ElementRef } from '@angular/core';
 import { GpBaseComponent } from './gp-base.component';
 import { ZIndexService } from '../overlay/z-index.service';
+import { GpAppendToTarget } from '../overlay/append-to.interface';
 
 /**
  * Base class for all modal and floating overlay components (Dialog, Drawer, ConfirmDialog, Popover).
@@ -17,6 +10,10 @@ import { ZIndexService } from '../overlay/z-index.service';
 @Directive()
 export abstract class GpOverlayBaseComponent extends GpBaseComponent {
   protected zIndexService = inject(ZIndexService);
+  public hostElRef = inject(ElementRef);
+
+  /** Target DOM element where overlay should be appended ('body', 'self', selector or element) */
+  public appendTo = input<GpAppendToTarget>('body');
 
   /** Overlay header title text */
   public header = input<string>('');

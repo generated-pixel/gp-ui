@@ -1,13 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  input,
-  output,
-  computed,
-  Signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, computed, Signal } from '@angular/core';
+
 import { GpIconComponent, GpSkeletonComponent } from '@generatedpixel/gp-ui';
 import { GpKpiWidgetData } from '../../models/grid-widget.model';
 import { GpGridItem } from '../../models/grid-item.model';
@@ -17,7 +9,7 @@ import { GpGridWidgetBase } from '../../base/gp-grid-widget.base';
 @Component({
   selector: 'gp-grid-kpi-widget',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpSkeletonComponent],
+  imports: [GpIconComponent, GpSkeletonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid-kpi-widget.component.html',
@@ -53,23 +45,40 @@ export class GpGridKpiWidgetComponent extends GpGridWidgetBase<GpKpiWidgetData> 
   public effectiveLabel = computed(() => this.label() || this.normalizedData().label || this.item()?.title || '');
   public effectiveValue = computed(() => this.value() || this.normalizedData().value || '');
   public effectiveChange = computed(
-    () => this.change() || this.normalizedData().change || this.normalizedData().trendText || this.normalizedData().meta || ''
+    () =>
+      this.change() ||
+      this.normalizedData().change ||
+      this.normalizedData().trendText ||
+      this.normalizedData().meta ||
+      ''
   );
   public effectiveTrend = computed<'pos' | 'neg' | 'neutral'>(() => {
     const raw = this.trend() || this.normalizedData().trend || this.normalizedData().trendType;
-    if (raw === 'pos' || raw === 'positive') return 'pos';
-    if (raw === 'neg' || raw === 'negative') return 'neg';
-    if (raw === 'neutral') return 'neutral';
+    if (raw === 'pos' || raw === 'positive') {
+      return 'pos';
+    }
+    if (raw === 'neg' || raw === 'negative') {
+      return 'neg';
+    }
+    if (raw === 'neutral') {
+      return 'neutral';
+    }
     const c = this.effectiveChange();
-    if (c.startsWith('+')) return 'pos';
-    if (c.startsWith('-')) return 'neg';
+    if (c.startsWith('+')) {
+      return 'pos';
+    }
+    if (c.startsWith('-')) {
+      return 'neg';
+    }
     return 'neutral';
   });
   public effectiveIcon = computed(() => this.icon() || this.normalizedData().icon || this.item()?.icon || 'chart-line');
   public effectiveIconBg = computed(
     () => this.iconBg() || this.normalizedData().iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.1))'
   );
-  public effectiveIconColor = computed(() => this.iconColor() || this.normalizedData().iconColor || 'var(--gp-primary, #6366f1)');
+  public effectiveIconColor = computed(
+    () => this.iconColor() || this.normalizedData().iconColor || 'var(--gp-primary, #6366f1)'
+  );
   public effectiveSubtitle = computed(() => this.subtitle() || this.normalizedData().subtitle || '');
   public effectiveRouterLink = computed(
     () => this.routerLink() || this.normalizedData().routerLink || this.item()?.routerLink

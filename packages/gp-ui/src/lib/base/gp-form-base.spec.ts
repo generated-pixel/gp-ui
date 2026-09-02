@@ -26,11 +26,7 @@ import { GpCheckboxComponent } from '../components/form/checkbox/checkbox.compon
       (onClose)="onSelectClose()"
     />
 
-    <gp-checkbox
-      #chkComp
-      [label]="'Accept terms'"
-      (onChange)="onCheckboxChange($event)"
-    />
+    <gp-checkbox #chkComp [label]="'Accept terms'" (onChange)="onCheckboxChange($event)" />
   `
 })
 class FormBaseTestHostComponent {
@@ -107,7 +103,7 @@ describe('Form Base Classes Architecture', () => {
   });
 
   it('should handle options normalization, open, close, and change on GpSelectBaseComponent', () => {
-    const select = (fixture.debugElement.children[1].componentInstance) as GpSelectComponent;
+    const select = fixture.debugElement.children[1].componentInstance as GpSelectComponent;
     expect(select.normalizedOptions().length).toBe(2);
 
     select.showOverlay();
@@ -122,7 +118,7 @@ describe('Form Base Classes Architecture', () => {
   });
 
   it('should handle checked state toggle on GpCheckableBaseComponent', () => {
-    const chk = (fixture.debugElement.children[2].componentInstance) as GpCheckboxComponent;
+    const chk = fixture.debugElement.children[2].componentInstance as GpCheckboxComponent;
     expect(chk.isChecked()).toBeFalse();
 
     chk.onClick(new MouseEvent('click'));

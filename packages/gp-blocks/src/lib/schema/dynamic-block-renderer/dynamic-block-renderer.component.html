@@ -1,82 +1,111 @@
-<div *ngIf="metadata()" class="gp-dynamic-block-root">
-  <!-- 1. Header Section -->
-  <gp-dynamic-header
-    *ngIf="metadata()?.header"
-    [schema]="metadata()!.header"
-    (actionClick)="onActionClick($event)"
-    (backClick)="backClick.emit()"
-  />
-
-  <!-- 2. KPI / Metrics Stats Grid -->
-  <gp-dynamic-stats *ngIf="metadata()?.stats" [schema]="metadata()!.stats" />
-
-  <!-- 3. Key-Value Description List -->
-  <div *ngIf="metadata()?.descriptions" class="gp-descriptions-card">
-    <div *ngIf="metadata()!.descriptions!.title || metadata()!.descriptions!.subtitle" class="desc-header">
-      <h3 *ngIf="metadata()!.descriptions!.title" class="desc-title">{{ metadata()!.descriptions!.title }}</h3>
-      <p *ngIf="metadata()!.descriptions!.subtitle" class="desc-subtitle">{{ metadata()!.descriptions!.subtitle }}</p>
-    </div>
-
-    <div
-      class="gp-descriptions-grid"
-      [style.gridTemplateColumns]="'repeat(' + (metadata()!.descriptions!.columns || 2) + ', minmax(0, 1fr))'"
-      [class.is-bordered]="metadata()!.descriptions!.bordered !== false"
-    >
-      <div *ngFor="let item of metadata()!.descriptions!.items" class="desc-item-cell">
-        <dt class="desc-item-label">{{ item.label }}</dt>
-        <dd class="desc-item-value">
-          <span *ngIf="item.type === 'badge'">
-            <gp-badge [value]="item.value" [severity]="item.badgeSeverity || 'primary'" />
-          </span>
-          <span *ngIf="item.type === 'tag'">
-            <gp-tag [value]="item.value" [severity]="item.badgeSeverity || 'secondary'" />
-          </span>
-          <a *ngIf="item.type === 'link'" [href]="item.value" target="_blank" class="desc-link">
-            {{ item.value }}
-            <gp-icon name="external-link" size="0.8em" style="margin-left: 0.25rem;" />
-          </a>
-          <span *ngIf="!item.type || item.type === 'text'">{{ item.value }}</span>
-        </dd>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. Form Renderer -->
-  <div *ngIf="metadata()?.form" class="gp-form-section">
-    <gp-dynamic-form
-      [schema]="metadata()!.form"
-      (formSubmit)="formSubmit.emit($event)"
-      (formChange)="formChange.emit($event)"
-      (actionClick)="onActionClick($event)"
-    />
-  </div>
-
-  <!-- 5. Timeline Stream -->
-  <div *ngIf="metadata()?.timeline" class="gp-timeline-card">
-    <h3 *ngIf="metadata()!.timeline!.title" class="timeline-title">{{ metadata()!.timeline!.title }}</h3>
-    <div class="timeline-stream">
-      <div *ngFor="let event of metadata()!.timeline!.items; let last = last" class="timeline-stream-item">
-        <div class="stream-marker-col">
-          <div
-            class="stream-icon-badge"
-            [style.backgroundColor]="event.color || 'var(--gp-primary)'"
-          >
-            <gp-icon [name]="event.icon || 'check'" size="0.75em" style="color: #fff;" />
+@if (metadata()) {
+  <div class="gp-dynamic-block-root">
+    <!-- 1. Header Section -->
+    @if (metadata()?.header) {
+      <gp-dynamic-header
+        [schema]="metadata()!.header"
+        (actionClick)="onActionClick($event)"
+        (backClick)="backClick.emit()"
+      />
+    }
+    <!-- 2. KPI / Metrics Stats Grid -->
+    @if (metadata()?.stats) {
+      <gp-dynamic-stats [schema]="metadata()!.stats" />
+    }
+    <!-- 3. Key-Value Description List -->
+    @if (metadata()?.descriptions) {
+      <div class="gp-descriptions-card">
+        @if (metadata()!.descriptions!.title || metadata()!.descriptions!.subtitle) {
+          <div class="desc-header">
+            @if (metadata()!.descriptions!.title) {
+              <h3 class="desc-title">{{ metadata()!.descriptions!.title }}</h3>
+            }
+            @if (metadata()!.descriptions!.subtitle) {
+              <p class="desc-subtitle">{{ metadata()!.descriptions!.subtitle }}</p>
+            }
           </div>
-          <div *ngIf="!last" class="stream-line"></div>
-        </div>
-        <div class="stream-content">
-          <div class="stream-header">
-            <span class="stream-event-title">{{ event.title }}</span>
-            <span class="stream-time">{{ event.date }}</span>
-          </div>
-          <p *ngIf="event.description" class="stream-desc">{{ event.description }}</p>
-          <div *ngIf="event.user" class="stream-user">
-            <gp-avatar [label]="event.user.name.charAt(0)" size="normal" shape="circle" />
-            <span class="stream-username">{{ event.user.name }}</span>
-          </div>
+        }
+        <div
+          class="gp-descriptions-grid"
+          [style.gridTemplateColumns]="'repeat(' + (metadata()!.descriptions!.columns || 2) + ', minmax(0, 1fr))'"
+          [class.is-bordered]="metadata()!.descriptions!.bordered !== false"
+        >
+          @for (item of metadata()!.descriptions!.items; track item) {
+            <div class="desc-item-cell">
+              <dt class="desc-item-label">{{ item.label }}</dt>
+              <dd class="desc-item-value">
+                @if (item.type === 'badge') {
+                  <span>
+                    <gp-badge [value]="item.value" [severity]="item.badgeSeverity || 'primary'" />
+                  </span>
+                }
+                @if (item.type === 'tag') {
+                  <span>
+                    <gp-tag [value]="item.value" [severity]="item.badgeSeverity || 'secondary'" />
+                  </span>
+                }
+                @if (item.type === 'link') {
+                  <a [href]="item.value" target="_blank" class="desc-link">
+                    {{ item.value }}
+                    <gp-icon name="external-link" size="0.8em" style="margin-left: 0.25rem" />
+                  </a>
+                }
+                @if (!item.type || item.type === 'text') {
+                  <span>{{ item.value }}</span>
+                }
+              </dd>
+            </div>
+          }
         </div>
       </div>
-    </div>
+    }
+    <!-- 4. Form Renderer -->
+    @if (metadata()?.form) {
+      <div class="gp-form-section">
+        <gp-dynamic-form
+          [schema]="metadata()!.form"
+          (formSubmit)="formSubmit.emit($event)"
+          (formChange)="formChange.emit($event)"
+          (actionClick)="onActionClick($event)"
+        />
+      </div>
+    }
+    <!-- 5. Timeline Stream -->
+    @if (metadata()?.timeline) {
+      <div class="gp-timeline-card">
+        @if (metadata()!.timeline!.title) {
+          <h3 class="timeline-title">{{ metadata()!.timeline!.title }}</h3>
+        }
+        <div class="timeline-stream">
+          @for (event of metadata()!.timeline!.items; track event; let last = $last) {
+            <div class="timeline-stream-item">
+              <div class="stream-marker-col">
+                <div class="stream-icon-badge" [style.backgroundColor]="event.color || 'var(--gp-primary)'">
+                  <gp-icon [name]="event.icon || 'check'" size="0.75em" style="color: #fff" />
+                </div>
+                @if (!last) {
+                  <div class="stream-line"></div>
+                }
+              </div>
+              <div class="stream-content">
+                <div class="stream-header">
+                  <span class="stream-event-title">{{ event.title }}</span>
+                  <span class="stream-time">{{ event.date }}</span>
+                </div>
+                @if (event.description) {
+                  <p class="stream-desc">{{ event.description }}</p>
+                }
+                @if (event.user) {
+                  <div class="stream-user">
+                    <gp-avatar [label]="event.user.name.charAt(0)" size="normal" shape="circle" />
+                    <span class="stream-username">{{ event.user.name }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
   </div>
-</div>
+}

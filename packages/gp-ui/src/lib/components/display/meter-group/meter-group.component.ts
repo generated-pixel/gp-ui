@@ -1,6 +1,6 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 
 export interface GpMeterItem {
@@ -13,7 +13,7 @@ export interface GpMeterItem {
 @Component({
   selector: 'gp-meter-group',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './meter-group.component.html',

@@ -1,13 +1,13 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
 import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 import { ZIndexService } from '../../../overlay/z-index.service';
 
 @Component({
   selector: 'gp-image',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './image.component.html',

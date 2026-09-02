@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpAvatarComponent, GpIconComponent } from '@generatedpixel/gp-ui';
 
@@ -13,6 +22,8 @@ export interface GpTimelineStreamEvent {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-data-display-timeline-stream',
   standalone: true,
   imports: [CommonModule, GpAvatarComponent, GpIconComponent],
@@ -25,23 +36,17 @@ export class GpDataDisplayTimelineStreamComponent {
 
   public eventClick = output<GpTimelineStreamEvent>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public eventTemplate?: TemplateRef<{ $implicit: GpTimelineStreamEvent }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public eventTemplate = input<TemplateRef<{ $implicit: GpTimelineStreamEvent }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('eventTemplate') public contentEventTemplate?: TemplateRef<{ $implicit: GpTimelineStreamEvent }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentEventTemplate = contentChild<TemplateRef<{ $implicit: GpTimelineStreamEvent }>>('eventTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveEventTemplate(): TemplateRef<{ $implicit: GpTimelineStreamEvent }> | undefined {
-    return this.eventTemplate || this.contentEventTemplate;
-  }
+  public effectiveEventTemplate = computed(() => this.eventTemplate() || this.contentEventTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

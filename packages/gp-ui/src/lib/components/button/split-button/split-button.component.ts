@@ -8,10 +8,12 @@ import {
   HostListener,
   signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { GpButtonComponent } from '../button/button.component';
 import { GpIconComponent } from '../../../icons/icon.component';
+import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 import {
   GpButtonBaseComponent,
   GpButtonSeverity,
@@ -37,13 +39,14 @@ export interface GpMenuItem {
 @Component({
   selector: 'gp-split-button',
   standalone: true,
-  imports: [CommonModule, RouterModule, GpButtonComponent, GpIconComponent],
+  imports: [RouterModule, GpButtonComponent, GpIconComponent, GpAppendToDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './split-button.component.html',
   styleUrl: './split-button.component.scss'
 })
 export class GpSplitButtonComponent extends GpButtonBaseComponent {
+  public appendTo = input<GpAppendToTarget>('body');
   public model = input<GpMenuItem[]>([]);
   public dropdownIcon = input<string>('chevron-down');
 
@@ -54,7 +57,7 @@ export class GpSplitButtonComponent extends GpButtonBaseComponent {
 
   public overlayVisible = signal<boolean>(false);
 
-  constructor(private el: ElementRef) {
+  constructor(public el: ElementRef) {
     super();
   }
 

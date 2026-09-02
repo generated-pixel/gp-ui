@@ -1,4 +1,13 @@
-import { Component, input, output, Input, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  TemplateRef,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpIconComponent, GpBadgeComponent, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
@@ -13,6 +22,8 @@ export interface GpTransactionListItem {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-list-transactions',
   standalone: true,
   imports: [CommonModule, GpIconComponent, GpBadgeComponent],
@@ -27,23 +38,18 @@ export class GpListTransactionsComponent {
 
   public transactionClick = output<GpTransactionListItem>();
 
-  @Input() public headerTemplate?: TemplateRef<any>;
-  @Input() public transactionTemplate?: TemplateRef<{ $implicit: GpTransactionListItem }>;
-  @Input() public contentTemplate?: TemplateRef<any>;
+  public headerTemplate = input<TemplateRef<any> | undefined>(undefined);
+  public transactionTemplate = input<TemplateRef<{ $implicit: GpTransactionListItem }> | undefined>(undefined);
+  public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
-  @ContentChild('header') public contentHeader?: TemplateRef<any>;
-  @ContentChild('transactionTemplate') public contentTransactionTemplate?: TemplateRef<{ $implicit: GpTransactionListItem }>;
-  @ContentChild('content') public contentArea?: TemplateRef<any>;
+  public contentHeader = contentChild<TemplateRef<any>>('header');
+  public contentTransactionTemplate =
+    contentChild<TemplateRef<{ $implicit: GpTransactionListItem }>>('transactionTemplate');
+  public contentArea = contentChild<TemplateRef<any>>('content');
 
-  public get effectiveHeader(): TemplateRef<any> | undefined {
-    return this.headerTemplate || this.contentHeader;
-  }
+  public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());
 
-  public get effectiveTransactionTemplate(): TemplateRef<{ $implicit: GpTransactionListItem }> | undefined {
-    return this.transactionTemplate || this.contentTransactionTemplate;
-  }
+  public effectiveTransactionTemplate = computed(() => this.transactionTemplate() || this.contentTransactionTemplate());
 
-  public get effectiveContent(): TemplateRef<any> | undefined {
-    return this.contentTemplate || this.contentArea;
-  }
+  public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 }

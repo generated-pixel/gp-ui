@@ -1,8 +1,4 @@
-<div
-  class="gp-dataview"
-  [class.gp-dataview-list]="layout() === 'list'"
-  [class.gp-dataview-grid]="layout() === 'grid'"
->
+<div class="gp-dataview" [class.gp-dataview-list]="layout() === 'list'" [class.gp-dataview-grid]="layout() === 'grid'">
   @if (headerTemplate() || layoutOptions()) {
     <div class="gp-dataview-header">
       <div class="gp-dataview-header-content">

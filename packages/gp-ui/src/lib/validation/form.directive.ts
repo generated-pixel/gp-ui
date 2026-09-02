@@ -1,12 +1,4 @@
-import {
-  Directive,
-  input,
-  output,
-  HostListener,
-  contentChildren,
-  ElementRef,
-  inject
-} from '@angular/core';
+import { Directive, input, output, HostListener, contentChildren, ElementRef, inject } from '@angular/core';
 import { GpEditableBaseComponent } from '../base/gp-editable-base.component';
 import { GpFormSubmitEvent, GpFormInvalidEvent, GpValidationError } from './types';
 

@@ -49,7 +49,9 @@ function isValidCandidate(candidate: string): boolean {
   if (candidate.length < 2 || candidate.length > 100) {
     return false;
   }
-  if (/^[0-9]+$/.test(candidate)) return false; // purely numeric
+  if (/^[0-9]+$/.test(candidate)) {
+    return false;
+  } // purely numeric
   if (
     candidate.startsWith('<') ||
     candidate.startsWith('>') ||
@@ -106,7 +108,9 @@ function isValidCandidate(candidate: string): boolean {
     'viewport',
     'content'
   ]);
-  if (reserved.has(candidate.toLowerCase())) return false;
+  if (reserved.has(candidate.toLowerCase())) {
+    return false;
+  }
 
   return true;
 }

@@ -1,77 +1,75 @@
 <div class="gp-stacked-sticky-shell">
   <!-- Brand Nav Top Header -->
   <header class="sticky-nav-header">
-    <ng-container *ngIf="effectiveHeader; else defaultHeader">
-      <ng-container *ngTemplateOutlet="effectiveHeader" />
-    </ng-container>
-    <ng-template #defaultHeader>
+    @if (effectiveHeader()) {
+      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+    } @else {
       <ng-content select="[header], [slot=header]" />
-
-        <div class="header-inner">
-          <div class="brand-group">
-            <gp-icon [name]="brandIcon()" size="1.2em" />
-            <span class="brand-name">{{ brandName() }}</span>
-          </div>
-
-          <nav class="sticky-nav" *ngIf="navLinks() && navLinks().length > 0">
-            <a
-              href="javascript:void(0)"
-              *ngFor="let link of navLinks()"
-              class="nav-link"
-              [class.active]="link.id === activeNavId() || link.active"
-              (click)="navLinkClick.emit(link)"
-            >
-              {{ link.label }}
-            </a>
-          </nav>
+      <div class="header-inner">
+        <div class="brand-group">
+          <gp-icon [name]="brandIcon()" size="1.2em" />
+          <span class="brand-name">{{ brandName() }}</span>
         </div>
-      
-    </ng-template>
+        @if (navLinks() && navLinks().length > 0) {
+          <nav class="sticky-nav">
+            @for (link of navLinks(); track link) {
+              <a
+                href="javascript:void(0)"
+                class="nav-link"
+                [class.active]="link.id === activeNavId() || link.active"
+                (click)="navLinkClick.emit(link)"
+              >
+                {{ link.label }}
+              </a>
+            }
+          </nav>
+        }
+      </div>
+    }
   </header>
 
   <!-- Sticky Action & Search Bar -->
   <div class="sticky-action-bar">
-    <ng-container *ngIf="effectiveActionBar; else defaultActionBar">
-      <ng-container *ngTemplateOutlet="effectiveActionBar" />
-    </ng-container>
-    <ng-template #defaultActionBar>
+    @if (effectiveActionBar()) {
+      <ng-container *ngTemplateOutlet="effectiveActionBar()!" />
+    } @else {
       <ng-content select="[action-bar], [slot=action-bar], [actions], [slot=actions]" />
-
-        <div class="bar-inner">
-          <div class="bar-left">
-            <h2 class="bar-title" *ngIf="pageTitle()">{{ pageTitle() }}</h2>
-            <gp-badge *ngIf="itemCount() > 0" [value]="itemCount() + ' items'" severity="primary" />
-          </div>
-
-          <div class="bar-right">
-            <div class="search-wrap">
-              <gp-icon name="search" size="0.9em" class="search-ico" />
-              <gp-input-text
-                type="text"
-                [value]="searchQuery()"
-                [placeholder]="searchPlaceholder()"
-                (onInputEvent)="onSearch($event)"
-                styleClass="search-input"
-              />
-            </div>
-            <gp-button severity="primary" (onClickEvent)="addClick.emit()">
-              <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem;" />
-              {{ addBtnLabel() }}
-            </gp-button>
-          </div>
+      <div class="bar-inner">
+        <div class="bar-left">
+          @if (pageTitle()) {
+            <h2 class="bar-title">{{ pageTitle() }}</h2>
+          }
+          @if (itemCount() > 0) {
+            <gp-badge [value]="itemCount() + ' items'" severity="primary" />
+          }
         </div>
-      
-    </ng-template>
+        <div class="bar-right">
+          <div class="search-wrap">
+            <gp-icon name="search" size="0.9em" class="search-ico" />
+            <gp-input-text
+              type="text"
+              [value]="searchQuery()"
+              [placeholder]="searchPlaceholder()"
+              (onInputEvent)="onSearch($event)"
+              styleClass="search-input"
+            />
+          </div>
+          <gp-button severity="primary" (onClickEvent)="addClick.emit()">
+            <gp-icon name="plus" size="0.9em" style="margin-right: 0.35rem" />
+            {{ addBtnLabel() }}
+          </gp-button>
+        </div>
+      </div>
+    }
   </div>
 
   <!-- Page Content Scroll -->
   <main class="sticky-main-content">
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
-    </ng-container>
-    <ng-template #defaultContent>
+    @if (effectiveContent()) {
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
+    } @else {
       <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
-    </ng-template>
+      <ng-content />
+    }
   </main>
 </div>

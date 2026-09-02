@@ -285,13 +285,16 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   vars['--gp-ease-spring'] = prim.transitions.easing?.spring || 'cubic-bezier(0.34, 1.56, 0.64, 1.0)';
 
   // 10. Glassmorphism & Depth Elevation
-  vars['--gp-surface-glass'] = sem.surfaces.glass || (mode === 'dark' ? 'rgba(30, 41, 59, 0.72)' : 'rgba(255, 255, 255, 0.75)');
-  vars['--gp-surface-glass-border'] = sem.surfaces.glassBorder || (mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.5)');
+  vars['--gp-surface-glass'] =
+    sem.surfaces.glass || (mode === 'dark' ? 'rgba(30, 41, 59, 0.72)' : 'rgba(255, 255, 255, 0.75)');
+  vars['--gp-surface-glass-border'] =
+    sem.surfaces.glassBorder || (mode === 'dark' ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.5)');
   vars['--gp-blur-sm'] = prim.blur?.sm || '4px';
   vars['--gp-blur-md'] = prim.blur?.md || '12px';
   vars['--gp-blur-lg'] = prim.blur?.lg || '24px';
   vars['--gp-glow-primary'] = sem.shadows.glowPrimary || `0 0 20px ${sem.primary.light || 'rgba(99, 102, 241, 0.35)'}`;
-  vars['--gp-glow-secondary'] = sem.shadows.glowSecondary || `0 0 20px ${sem.secondary.light || 'rgba(6, 182, 212, 0.35)'}`;
+  vars['--gp-glow-secondary'] =
+    sem.shadows.glowSecondary || `0 0 20px ${sem.secondary.light || 'rgba(6, 182, 212, 0.35)'}`;
 
   // 11. Fluid Typography & Adaptive Spacing (CSS clamp)
   vars['--gp-fluid-font-xs'] = prim.fluidTypography?.xs || 'clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem)';
@@ -334,7 +337,8 @@ export function modeTokensToCssVars(theme: GpThemeDefinition, mode: 'light' | 'd
   vars['--gp-float-label-active-color'] = sem.primary.main;
   vars['--gp-float-label-active-bg'] = sem.surfaces.card;
   vars['--gp-float-label-scale'] = '0.85';
-  vars['--gp-float-label-transition'] = 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1), font-size 150ms cubic-bezier(0.4, 0, 0.2, 1), top 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease';
+  vars['--gp-float-label-transition'] =
+    'transform 150ms cubic-bezier(0.4, 0, 0.2, 1), font-size 150ms cubic-bezier(0.4, 0, 0.2, 1), top 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms ease';
 
   vars['--gp-inset-label-color'] = sem.text.secondary;
   vars['--gp-inset-label-active-color'] = sem.primary.main;
@@ -524,7 +528,10 @@ export function hexToHsl(hex: string): [number, number, number] {
   }
   let c = hex.replace('#', '').trim();
   if (c.length === 3) {
-    c = c.split('').map((x) => x + x).join('');
+    c = c
+      .split('')
+      .map((x) => x + x)
+      .join('');
   }
   const num = parseInt(c, 16);
   if (isNaN(num) || c.length !== 6) {
@@ -666,7 +673,8 @@ export const ${varName}: GpThemeDefinition = extendTheme(${JSON.stringify(
  */
 export function themeToJson(theme: GpThemeDefinition): string {
   return JSON.stringify(theme, null, 2);
-}/**
+}
+/**
  * Returns Angular project integration code snippet for the specified theme.
  */
 export function themeToAngularSetup(theme: GpThemeDefinition): string {

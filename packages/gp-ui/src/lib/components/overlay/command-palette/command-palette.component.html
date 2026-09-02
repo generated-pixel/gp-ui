@@ -1,6 +1,7 @@
 @if (isVisible()) {
   <div
     class="gp-command-palette-backdrop"
+    [gpAppendTo]="appendTo()"
     (click)="onBackdropClick($event)"
     role="dialog"
     aria-modal="true"
@@ -94,12 +95,8 @@
         <span class="gp-command-footer-tip">
           <kbd class="gp-kbd-key">↑</kbd><kbd class="gp-kbd-key">↓</kbd> Navigate
         </span>
-        <span class="gp-command-footer-tip">
-          <kbd class="gp-kbd-key">↵</kbd> Select
-        </span>
-        <span class="gp-command-footer-tip">
-          <kbd class="gp-kbd-key">ESC</kbd> Close
-        </span>
+        <span class="gp-command-footer-tip"> <kbd class="gp-kbd-key">↵</kbd> Select </span>
+        <span class="gp-command-footer-tip"> <kbd class="gp-kbd-key">ESC</kbd> Close </span>
       </div>
     </div>
   </div>

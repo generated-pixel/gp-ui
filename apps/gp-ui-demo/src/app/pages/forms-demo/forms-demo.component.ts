@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { Subject } from 'rxjs';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   GpInputTextComponent,
@@ -22,6 +22,9 @@ import {
   GpFileUploadComponent,
   GpButtonComponent,
   GpCardComponent,
+  GpDialogComponent,
+  GpDialogService,
+  GpBadgeComponent,
   GpValidators,
   GpFormDirective,
   GpFormErrorComponent,
@@ -35,6 +38,7 @@ import {
   GpInsetLabelComponent,
   GpInputTextDirective
 } from 'gp-ui';
+import { CustomerSearchDialogComponent } from './customer-search-dialog.component';
 import { GpIconComponent } from 'gp-ui-icons';
 import { DocCodeComponent } from '../../shared/doc-code.component';
 import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table.component';
@@ -43,7 +47,6 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
   selector: 'app-forms-demo',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     GpInputTextComponent,
@@ -59,6 +62,8 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
     GpSelectComponent,
     GpMultiSelectComponent,
     GpAutoCompleteComponent,
+    GpDialogComponent,
+    GpBadgeComponent,
     GpTreeSelectComponent,
     GpDatePickerComponent,
     GpDateRangePickerComponent,
@@ -101,9 +106,14 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
       <form [formGroup]="demoForm" (ngSubmit)="onSubmit()">
         <!-- Unified Form Field & Floating Labels Showcase -->
         <div class="doc-section">
-          <h2 class="doc-section-title">Unified Form Field & Floating Labels (<span style="font-family: monospace; font-size: 0.9em;">gp-form-field</span>)</h2>
+          <h2 class="doc-section-title">
+            Unified Form Field & Floating Labels (<span style="font-family: monospace; font-size: 0.9em;"
+              >gp-form-field</span
+            >)
+          </h2>
           <p class="doc-section-desc">
-            Encapsulates inputs with animated floating labels, appearance styles (<code>outlined</code>, <code>filled</code>), prefix/suffix icon slots, inline validation hints, and helper text.
+            Encapsulates inputs with animated floating labels, appearance styles (<code>outlined</code>,
+            <code>filled</code>), prefix/suffix icon slots, inline validation hints, and helper text.
           </p>
           <div class="form-grid">
             <div>
@@ -145,12 +155,17 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
         <!-- Dedicated Label Component Suite -->
         <div class="doc-section">
-          <h2 class="doc-section-title">Label Suite (<code>gp-label</code>, <code>gp-float-label</code>, <code>gp-ifta-label</code>)</h2>
+          <h2 class="doc-section-title">
+            Label Suite (<code>gp-label</code>, <code>gp-float-label</code>, <code>gp-ifta-label</code>)
+          </h2>
           <p class="doc-section-desc">
-            Complete suite of label styles: standard accessible labels with required/optional markers, animated floating labels, and compact inset top-left IFTA labels.
+            Complete suite of label styles: standard accessible labels with required/optional markers, animated floating
+            labels, and compact inset top-left IFTA labels.
           </p>
 
-          <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">1. Regular Labels (&lt;gp-label&gt;)</h3>
+          <h3 style="margin-top: 1.25rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">
+            1. Regular Labels (&lt;gp-label&gt;)
+          </h3>
           <div class="form-grid">
             <div class="form-field">
               <gp-label for="demo-uname" text="Username" [required]="true" helpText="Your public handle" />
@@ -168,31 +183,53 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
             </div>
           </div>
 
-          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">2. Floating Labels (&lt;gp-float-label&gt;)</h3>
+          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">
+            2. Floating Labels (&lt;gp-float-label&gt;)
+          </h3>
           <div class="form-grid">
             <div class="form-field">
               <gp-float-label variant="on">
-                <input id="fl-username" gpInputText placeholder=" " [(ngModel)]="floatUsername" [ngModelOptions]="{standalone: true}" />
+                <input
+                  id="fl-username"
+                  gpInputText
+                  placeholder=" "
+                  [(ngModel)]="floatUsername"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <label for="fl-username">Username (On-Border)</label>
               </gp-float-label>
             </div>
 
             <div class="form-field">
               <gp-float-label variant="in">
-                <input id="fl-email" gpInputText placeholder=" " [(ngModel)]="floatEmail" [ngModelOptions]="{standalone: true}" />
+                <input
+                  id="fl-email"
+                  gpInputText
+                  placeholder=" "
+                  [(ngModel)]="floatEmail"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <label for="fl-email">Email Address (In-Edge)</label>
               </gp-float-label>
             </div>
 
             <div class="form-field">
               <gp-float-label variant="over">
-                <input id="fl-city" gpInputText placeholder=" " [(ngModel)]="floatCity" [ngModelOptions]="{standalone: true}" />
+                <input
+                  id="fl-city"
+                  gpInputText
+                  placeholder=" "
+                  [(ngModel)]="floatCity"
+                  [ngModelOptions]="{ standalone: true }"
+                />
                 <label for="fl-city">City / Region (Over-Input)</label>
               </gp-float-label>
             </div>
           </div>
 
-          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">3. Inset Top-Left Embedded Labels (&lt;gp-inset-label&gt;)</h3>
+          <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; font-weight: 600;">
+            3. Inset Top-Left Embedded Labels (&lt;gp-inset-label&gt;)
+          </h3>
           <div class="form-grid">
             <div class="form-field">
               <gp-inset-label>
@@ -285,14 +322,48 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
             </div>
 
             <div class="form-field">
-              <label>City (Autocomplete Typeahead)</label>
+              <label>City (Single Autocomplete)</label>
               <gp-autocomplete
                 formControlName="city"
                 [suggestions]="filteredCities"
+                field="label"
                 (completeMethod)="searchCities($event)"
                 [dropdown]="true"
-                placeholder="Search city..."
+                [showClear]="true"
+                placeholder="Search city (e.g. Rome, Paris, Tokyo...)"
               />
+            </div>
+
+            <div class="form-field">
+              <label>Technology Tags (Multiple Token Autocomplete)</label>
+              <gp-autocomplete
+                [multiple]="true"
+                [suggestions]="filteredTechs"
+                (completeMethod)="searchTechs($event)"
+                [showClear]="true"
+                placeholder="Type and press Enter to add tags..."
+                [value]="['Angular', 'TypeScript', 'Signals']"
+              />
+            </div>
+
+            <div class="form-field">
+              <label>Enterprise Customer (With Dynamic GpDialogService & Subscription)</label>
+              <gp-autocomplete
+                [suggestions]="filteredCustomers"
+                field="name"
+                (completeMethod)="searchCustomers($event)"
+                [dropdown]="true"
+                [showAdvancedSearch]="true"
+                [showAdvancedSearchButton]="true"
+                [hasMore]="true"
+                [totalResults]="842"
+                advancedSearchLabel="Open Advanced Customer Search..."
+                [searchDialogComponent]="CustomerSearchDialog"
+                placeholder="Search customer by name, email or ID..."
+              />
+              <span class="field-hint text-xs text-secondary mt-1">
+                Tip: When typeahead returns too many results, click "Open Advanced Search". <code>GpDialogService</code> dynamically mounts the search dialog component and automatically feeds the selected customer back via reactive subscription.
+              </span>
             </div>
 
             <div class="form-field">
@@ -301,6 +372,61 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
             </div>
           </div>
         </div>
+
+        <!-- Advanced Search Modal Dialog for Autocomplete Subscription -->
+        <gp-dialog
+          [(visible)]="searchDialogVisible"
+          header="Advanced Customer Database Search"
+          [width]="'42rem'"
+          [showFooter]="true"
+        >
+          <div class="p-3">
+            <p class="text-sm text-secondary mb-3">
+              Detailed search form with filters. Click any customer row to select and inject it directly into the typeahead field via reactive stream.
+            </p>
+            <div class="flex gap-2 mb-3">
+              <gp-input-text
+                class="flex-1"
+                placeholder="Search by customer name, account number, or territory..."
+                [value]="dialogSearchQuery"
+                (valueChange)="dialogSearchQuery = $event"
+              />
+              <gp-button label="Search" icon="search" />
+            </div>
+
+            <div class="border rounded-lg overflow-hidden max-h-60 overflow-y-auto">
+              <table class="w-full text-left text-sm border-collapse">
+                <thead class="bg-surface-section text-xs uppercase font-bold text-secondary">
+                  <tr>
+                    <th class="p-2.5">Customer Name</th>
+                    <th class="p-2.5">Tier</th>
+                    <th class="p-2.5">Account ID</th>
+                    <th class="p-2.5 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (cust of allDatabaseCustomers; track cust.id) {
+                    <tr class="border-t hover:bg-surface-hover transition-colors">
+                      <td class="p-2.5 font-semibold">{{ cust.name }}</td>
+                      <td class="p-2.5">
+                        <gp-badge [value]="cust.tier" [severity]="cust.tier === 'Enterprise' ? 'primary' : 'success'" />
+                      </td>
+                      <td class="p-2.5 text-secondary">#{{ cust.id }}</td>
+                      <td class="p-2.5 text-right">
+                        <gp-button
+                          label="Select"
+                          size="sm"
+                          icon="check"
+                          (onClickEvent)="selectCustomerFromDialog(cust)"
+                        />
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </gp-dialog>
 
         <!-- Date & Time Pickers -->
         <div class="doc-section">
@@ -326,11 +452,7 @@ import { DocApiTableComponent, DocApiProperty } from '../../shared/doc-api-table
 
             <div class="form-field">
               <label>Shift Start Time (24h with 15m Increments)</label>
-              <gp-time-picker
-                hourFormat="24"
-                [stepMinute]="15"
-                [minuteSteps]="[5, 15, 30]"
-              />
+              <gp-time-picker hourFormat="24" [stepMinute]="15" [minuteSteps]="[5, 15, 30]" />
             </div>
 
             <div class="form-field gp-col-span-2">
@@ -664,8 +786,19 @@ export class MyFormComponent {
     { label: 'Accessibility (a11y)', value: 'A11y' }
   ];
 
-  cities = ['New York', 'San Francisco', 'London', 'Berlin', 'Tokyo', 'Sydney', 'Toronto', 'Paris'];
-  filteredCities: string[] = [];
+  cities = [
+    { label: 'Rome, Italy', value: 'Rome', subtext: 'Lazio • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Paris, France', value: 'Paris', subtext: 'Île-de-France • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'New York, USA', value: 'New York', subtext: 'New York State • Americas', icon: 'map-pin', badge: 'Metro' },
+    { label: 'London, UK', value: 'London', subtext: 'Greater London • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Tokyo, Japan', value: 'Tokyo', subtext: 'Kantō • Asia', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Berlin, Germany', value: 'Berlin', subtext: 'Berlin State • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Madrid, Spain', value: 'Madrid', subtext: 'Community of Madrid • Europe', icon: 'map-pin', badge: 'Capital' },
+    { label: 'Sydney, Australia', value: 'Sydney', subtext: 'New South Wales • Oceania', icon: 'map-pin', badge: 'Metro' },
+    { label: 'Toronto, Canada', value: 'Toronto', subtext: 'Ontario • Americas', icon: 'map-pin', badge: 'Metro' },
+    { label: 'Singapore', value: 'Singapore', subtext: 'Southeast Asia', icon: 'map-pin', badge: 'City-State' }
+  ];
+  filteredCities: any[] = [];
 
   deptTree = [
     {
@@ -898,7 +1031,69 @@ export class MyFormComponent {
 
   searchCities(event: any): void {
     const q = (event.query || '').toLowerCase();
-    this.filteredCities = this.cities.filter((c) => c.toLowerCase().includes(q));
+    this.filteredCities = this.cities.filter((c) =>
+      c.label.toLowerCase().includes(q) || c.subtext.toLowerCase().includes(q) || c.value.toLowerCase().includes(q)
+    );
+  }
+
+  // Technologies for Multi-Select Token Typeahead
+  public techOptions = ['Angular', 'TypeScript', 'Signals', 'RxJS', 'NgRx', 'NodeJS', 'Tailwind', 'Sass', 'GraphQL', 'Docker', 'Kubernetes', 'Python', 'Go'];
+  public filteredTechs: string[] = [];
+
+  searchTechs(event: any): void {
+    const q = (event.query || '').toLowerCase();
+    this.filteredTechs = this.techOptions.filter((t) => t.toLowerCase().includes(q));
+  }
+
+  // Enterprise Customers for Advanced Search Dialog & Subscription
+  public allDatabaseCustomers = [
+    { id: 101, name: 'Acme Global Enterprises', tier: 'Enterprise', location: 'New York, USA', subtext: 'New York, USA • HQ', icon: 'building', badge: 'Enterprise' },
+    { id: 102, name: 'Apex Cyber Solutions', tier: 'Enterprise', location: 'London, UK', subtext: 'London, UK • EMEA Hub', icon: 'shield', badge: 'Enterprise' },
+    { id: 103, name: 'BlueStar Logistics', tier: 'Professional', location: 'Toronto, Canada', subtext: 'Toronto, Canada • Supply Chain', icon: 'truck', badge: 'Pro' },
+    { id: 104, name: 'CloudScale Technologies', tier: 'Enterprise', location: 'San Francisco, USA', subtext: 'San Francisco, USA • Cloud Infra', icon: 'cloud', badge: 'Enterprise' },
+    { id: 105, name: 'DataCore Analytics Ltd', tier: 'Professional', location: 'Berlin, Germany', subtext: 'Berlin, Germany • AI & BI', icon: 'database', badge: 'Pro' },
+    { id: 106, name: 'EchoWave Interactive', tier: 'Standard', location: 'Sydney, Australia', subtext: 'Sydney, Australia • Digital Media', icon: 'globe', badge: 'Standard' },
+    { id: 107, name: 'FusionWorks Labs', tier: 'Enterprise', location: 'Tokyo, Japan', subtext: 'Tokyo, Japan • R&D Center', icon: 'cogs', badge: 'Enterprise' },
+    { id: 108, name: 'Global Horizon Corp', tier: 'Enterprise', location: 'Paris, France', subtext: 'Paris, France • Global Accounts', icon: 'globe', badge: 'Enterprise' }
+  ];
+  public filteredCustomers: any[] = [];
+
+  // Dynamic Search Dialog Component for GpDialogService
+  public CustomerSearchDialog = CustomerSearchDialogComponent;
+  private dialogService = inject(GpDialogService);
+
+  // Subscription Subject for injecting selected customer from Modal Dialog
+  public dialogSelection$ = new Subject<any>();
+  public searchDialogVisible = false;
+  public dialogSearchQuery = '';
+
+  searchCustomers(event: any): void {
+    const q = (event.query || '').toLowerCase();
+    this.filteredCustomers = this.allDatabaseCustomers.filter((c) =>
+      c.name.toLowerCase().includes(q) || String(c.id).includes(q)
+    );
+  }
+
+  openSearchDialog(event: any): void {
+    this.dialogSearchQuery = event.query || '';
+    this.searchDialogVisible = true;
+  }
+
+  selectCustomerFromDialog(cust: any): void {
+    this.dialogSelection$.next(cust);
+    this.searchDialogVisible = false;
+  }
+
+  openCustomerSearchDirectly(): void {
+    const ref = this.dialogService.open(CustomerSearchDialogComponent, {
+      header: 'Direct GpDialogService Customer Finder',
+      width: '42rem'
+    });
+    ref.onClose.subscribe((selected) => {
+      if (selected) {
+        alert(`Selected customer via GpDialogService: ${selected.name} (${selected.tier})`);
+      }
+    });
   }
 
   public GpValidators = GpValidators;

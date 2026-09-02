@@ -1,13 +1,6 @@
 import { GpEditableBaseComponent } from '../../../base/gp-editable-base.component';
-import {
-  Component,
-  input,
-  output,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 import { GpButtonComponent } from '../../button/button/button.component';
 
@@ -22,7 +15,7 @@ export interface GpFileItem {
 @Component({
   selector: 'gp-file-upload',
   standalone: true,
-  imports: [CommonModule, GpIconComponent, GpButtonComponent],
+  imports: [GpIconComponent, GpButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './file-upload.component.html',

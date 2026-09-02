@@ -5,6 +5,7 @@
     [style]="style()"
     [style.top.px]="top()"
     [style.left.px]="left()"
+    [gpAppendTo]="appendTo()"
     [attr.aria-label]="ariaLabel() || null"
     (click)="$event.stopPropagation()"
   >

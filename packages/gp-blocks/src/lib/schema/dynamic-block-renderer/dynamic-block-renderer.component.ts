@@ -1,5 +1,5 @@
-import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+
 import { GpDynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { GpDynamicHeaderComponent } from '../dynamic-header/dynamic-header.component';
 import { GpDynamicStatsComponent } from '../dynamic-stats/dynamic-stats.component';
@@ -10,7 +10,6 @@ import { GpBlockMetadata, GpFormAction } from '../schema.types';
   selector: 'gp-dynamic-block-renderer',
   standalone: true,
   imports: [
-    CommonModule,
     GpDynamicFormComponent,
     GpDynamicHeaderComponent,
     GpDynamicStatsComponent,
@@ -19,6 +18,8 @@ import { GpBlockMetadata, GpFormAction } from '../schema.types';
     GpAvatarComponent,
     GpIconComponent
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './dynamic-block-renderer.component.html',
   styleUrl: './dynamic-block-renderer.component.scss'
 })

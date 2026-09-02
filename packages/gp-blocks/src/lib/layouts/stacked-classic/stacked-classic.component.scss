@@ -14,104 +14,104 @@
   border-radius: var(--gp-border-radius-lg, 12px);
   overflow: hidden;
   box-sizing: border-box;
-}
 
-.stacked-topbar {
-  height: 64px;
-  background: var(--gp-surface-card);
-  border-bottom: 1px solid var(--gp-surface-border);
-  color: var(--gp-text-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1.5rem;
-  box-sizing: border-box;
-}
+  .stacked-topbar {
+    height: 64px;
+    background: var(--gp-surface-card);
+    border-bottom: 1px solid var(--gp-surface-border);
+    color: var(--gp-text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+  }
 
-.topbar-inner {
-  width: 100%;
-  max-width: 1120px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+  .topbar-inner {
+    width: 100%;
+    max-width: 1120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.topbar-left {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
 
-.brand-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--gp-border-radius-sm, 8px);
-  background: var(--gp-primary);
-  color: var(--gp-primary-text, #fff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .brand-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--gp-border-radius-sm, 8px);
+    background: var(--gp-primary);
+    color: var(--gp-primary-text, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.brand-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--gp-text-color);
-}
+  .brand-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gp-text-color);
+  }
 
-.topbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+  .topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-.nav-link {
-  padding: 0.45rem 0.75rem;
-  border-radius: var(--gp-border-radius-sm, 6px);
-  color: var(--gp-text-color-secondary);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all var(--gp-transition-duration, 150ms) ease;
-}
+  .nav-link {
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--gp-border-radius-sm, 6px);
+    color: var(--gp-text-color-secondary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all var(--gp-transition-duration, 150ms) ease;
+  }
 
-.nav-link:hover {
-  color: var(--gp-text-color);
-  background: var(--gp-surface-hover);
-}
+  .nav-link:hover {
+    color: var(--gp-text-color);
+    background: var(--gp-surface-hover);
+  }
 
-.nav-link.active {
-  color: var(--gp-primary);
-  background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
-  font-weight: 600;
-}
+  .nav-link.active {
+    color: var(--gp-primary);
+    background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
+    font-weight: 600;
+  }
 
-.stacked-main-container {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+  .stacked-main-container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
 
-.page-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.75rem;
-}
+  .page-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+  }
 
-.page-title {
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  margin: 0;
-  color: var(--gp-text-color);
-}
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
 
-.page-body {
-  flex: 1;
+  .page-body {
+    flex: 1;
+  }
 }

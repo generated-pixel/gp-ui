@@ -14,74 +14,77 @@
   gap: 1.25rem;
   width: 100%;
   box-sizing: border-box;
+
+  .fb-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--gp-text-color);
+  }
+
+  .conditions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .condition-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--gp-surface-ground);
+    border: 1px solid var(--gp-surface-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cond-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--gp-primary);
+    min-width: 45px;
+  }
+
+  .cond-select,
+  .cond-inp {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--gp-surface-border);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: var(--gp-surface-card);
+    color: var(--gp-text-color);
+    outline: none;
+  }
+
+  .cond-inp {
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .btn-remove {
+    background: transparent;
+    border: none;
+    color: var(--gp-text-color-secondary);
+    cursor: pointer;
+    padding: 0.35rem;
+  }
+
+  .btn-remove:hover {
+    color: var(--gp-error-500, #ef4444);
+  }
+
+  .fb-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    border-top: 1px solid var(--gp-surface-border);
+    padding-top: 1.25rem;
+  }
 }
-
-      .fb-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--gp-text-color);
-      }
-
-      .conditions-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-
-      .condition-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        background: var(--gp-surface-ground);
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        flex-wrap: wrap;
-      }
-
-      .cond-label {
-        font-size: 0.75rem;
-        font-weight: 800;
-        color: var(--gp-primary);
-        min-width: 45px;
-      }
-
-      .cond-select, .cond-inp {
-        padding: 0.45rem 0.75rem;
-        border: 1px solid var(--gp-surface-border);
-        border-radius: 6px;
-        font-size: 0.85rem;
-        background: var(--gp-surface-card);
-        color: var(--gp-text-color);
-        outline: none;
-      }
-
-      .cond-inp {
-        flex: 1;
-        min-width: 160px;
-      }
-
-      .btn-remove {
-        background: transparent;
-        border: none;
-        color: var(--gp-text-color-secondary);
-        cursor: pointer;
-        padding: 0.35rem;
-      }
-
-      .btn-remove:hover { color: var(--gp-error-500, #ef4444); }
-
-      .fb-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 0.75rem;
-        border-top: 1px solid var(--gp-surface-border);
-        padding-top: 1.25rem;
-      }

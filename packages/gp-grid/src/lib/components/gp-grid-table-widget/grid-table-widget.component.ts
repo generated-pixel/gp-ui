@@ -8,7 +8,7 @@ import {
   signal,
   Signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   GpAvatarComponent,
   GpBadgeComponent,
@@ -24,7 +24,7 @@ import { GpGridWidgetBase } from '../../base/gp-grid-widget.base';
 @Component({
   selector: 'gp-grid-table-widget',
   standalone: true,
-  imports: [CommonModule, GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpSkeletonComponent],
+  imports: [GpAvatarComponent, GpBadgeComponent, GpButtonComponent, GpIconComponent, GpSkeletonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './grid-table-widget.component.html',
@@ -50,10 +50,14 @@ export class GpGridTableWidgetComponent extends GpGridWidgetBase<GpTableWidgetDa
     return normalizeTableWidgetData(this.rawData());
   });
 
-  public effectiveTitle = computed(() => this.title() || this.normalizedData().title || this.item()?.title || 'Data Records');
+  public effectiveTitle = computed(
+    () => this.title() || this.normalizedData().title || this.item()?.title || 'Data Records'
+  );
 
   public effectiveColumns = computed<GpGridTableColumn[]>(() => {
-    if (this.columns() && this.columns().length > 0) return this.columns();
+    if (this.columns() && this.columns().length > 0) {
+      return this.columns();
+    }
     if (this.normalizedData().columns && this.normalizedData().columns!.length > 0) {
       return this.normalizedData().columns!;
     }
@@ -74,10 +78,16 @@ export class GpGridTableWidgetComponent extends GpGridWidgetBase<GpTableWidgetDa
     }
 
     const q = this.filterQuery().trim().toLowerCase();
-    if (!q) return list;
+    if (!q) {
+      return list;
+    }
 
     return list.filter((row) => {
-      return Object.values(row).some((val) => String(val ?? '').toLowerCase().includes(q));
+      return Object.values(row).some((val) =>
+        String(val ?? '')
+          .toLowerCase()
+          .includes(q)
+      );
     });
   });
 
@@ -85,11 +95,19 @@ export class GpGridTableWidgetComponent extends GpGridWidgetBase<GpTableWidgetDa
     if (col.badgeSeverityField && row[col.badgeSeverityField]) {
       return row[col.badgeSeverityField] as GpBadgeSeverity;
     }
-    if (col.badgeSeverity) return col.badgeSeverity;
+    if (col.badgeSeverity) {
+      return col.badgeSeverity;
+    }
     const val = String(row[col.field] || '').toLowerCase();
-    if (val.includes('active') || val.includes('completed') || val.includes('paid') || val.includes('success')) return 'success';
-    if (val.includes('pending') || val.includes('processing') || val.includes('warning')) return 'warning';
-    if (val.includes('danger') || val.includes('failed') || val.includes('error')) return 'danger';
+    if (val.includes('active') || val.includes('completed') || val.includes('paid') || val.includes('success')) {
+      return 'success';
+    }
+    if (val.includes('pending') || val.includes('processing') || val.includes('warning')) {
+      return 'warning';
+    }
+    if (val.includes('danger') || val.includes('failed') || val.includes('error')) {
+      return 'danger';
+    }
     return 'primary';
   }
 

@@ -1,14 +1,6 @@
 import { GpBaseComponent } from '../../../base/gp-base.component';
-import {
-  Component,
-  input,
-  output,
-  computed,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  signal
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, output, computed, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
+
 import { GpIconComponent } from '../../../icons/icon.component';
 
 export type GpMessageSeverity = 'success' | 'info' | 'warning' | 'error' | 'secondary' | 'contrast';
@@ -16,7 +8,7 @@ export type GpMessageSeverity = 'success' | 'info' | 'warning' | 'error' | 'seco
 @Component({
   selector: 'gp-message',
   standalone: true,
-  imports: [CommonModule, GpIconComponent],
+  imports: [GpIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './message.component.html',

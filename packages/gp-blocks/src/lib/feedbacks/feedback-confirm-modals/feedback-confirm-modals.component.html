@@ -1,50 +1,44 @@
 <div class="gp-confirm-modal-shell">
   <div class="modal-card">
-    <ng-container *ngIf="effectiveContent; else defaultContent">
-      <ng-container *ngTemplateOutlet="effectiveContent" />
-    </ng-container>
-    <ng-template #defaultContent>
+    @if (effectiveContent()) {
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
+    } @else {
       <div class="modal-body-content">
         <!-- Icon Top -->
-        <ng-container *ngIf="effectiveIcon; else defaultIcon">
-          <ng-container *ngTemplateOutlet="effectiveIcon" />
-        </ng-container>
-        <ng-template #defaultIcon>
+        @if (effectiveIcon()) {
+          <ng-container *ngTemplateOutlet="effectiveIcon()!" />
+        } @else {
           <ng-content select="[icon], [slot=icon]" />
-
-            <div class="modal-icon-circle" [ngClass]="iconSeverity()">
-              <gp-icon [name]="icon()" size="1.25em" />
-            </div>
-          
-        </ng-template>
-
-        <!-- Message Body -->
-        <ng-container *ngIf="effectiveBody; else defaultBody">
-          <ng-container *ngTemplateOutlet="effectiveBody" />
-        </ng-container>
-        <ng-template #defaultBody>
-          <ng-content select="[body], [slot=body], [message], [slot=message]" />
-
-            <h3 class="modal-title" *ngIf="title()">{{ title() }}</h3>
-            <p class="modal-msg" *ngIf="message()">{{ message() }}</p>
-          
-        </ng-template>
-      </div>
-
-      <!-- Action Buttons -->
-      <ng-container *ngIf="effectiveActions; else defaultActions">
-        <ng-container *ngTemplateOutlet="effectiveActions" />
-      </ng-container>
-      <ng-template #defaultActions>
-        <ng-content select="[actions], [slot=actions]" />
-
-          <div class="modal-actions-row">
-            <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{ cancelBtnLabel() }}</gp-button>
-            <gp-button [severity]="confirmSeverity()" (onClickEvent)="confirm.emit()">{{ confirmBtnLabel() }}</gp-button>
+          <div class="modal-icon-circle" [ngClass]="iconSeverity()">
+            <gp-icon [name]="icon()" size="1.25em" />
           </div>
-        
-      </ng-template>
+        }
+        <!-- Message Body -->
+        @if (effectiveBody()) {
+          <ng-container *ngTemplateOutlet="effectiveBody()!" />
+        } @else {
+          <ng-content select="[body], [slot=body], [message], [slot=message]" />
+          @if (title()) {
+            <h3 class="modal-title">{{ title() }}</h3>
+          }
+          @if (message()) {
+            <p class="modal-msg">{{ message() }}</p>
+          }
+        }
+      </div>
+      <!-- Action Buttons -->
+      @if (effectiveActions()) {
+        <ng-container *ngTemplateOutlet="effectiveActions()!" />
+      } @else {
+        <ng-content select="[actions], [slot=actions]" />
+        <div class="modal-actions-row">
+          <gp-button variant="outlined" severity="secondary" (onClickEvent)="cancel.emit()">{{
+            cancelBtnLabel()
+          }}</gp-button>
+          <gp-button [severity]="confirmSeverity()" (onClickEvent)="confirm.emit()">{{ confirmBtnLabel() }}</gp-button>
+        </div>
+      }
       <ng-content />
-    </ng-template>
+    }
   </div>
 </div>

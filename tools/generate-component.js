@@ -110,4 +110,4 @@ export const Default: Story = {
 fs.writeFileSync(storyFile, storyContent);
 
 console.log(`✅ Component scaffolded successfully at packages/gp-ui/src/lib/components/${kebabName}/`);
-console.log(`Remember to export from packages/gp-ui/src/public-api.ts if ready!`);
+console.log('Remember to export from packages/gp-ui/src/public-api.ts if ready!');
