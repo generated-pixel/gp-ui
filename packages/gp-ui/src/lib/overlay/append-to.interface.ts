@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 
 /**
- * Valid target targets for attaching overlays and popups into the DOM.
+ * Valid targets for attaching overlays and popups into the DOM.
  * - 'body': Appends to document.body (default)
  * - 'self': Keeps the element in its local component template hierarchy
  * - HTMLElement | ElementRef: Appends to the specified DOM node
