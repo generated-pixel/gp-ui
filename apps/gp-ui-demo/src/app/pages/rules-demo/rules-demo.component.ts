@@ -8,7 +8,8 @@ import {
   GpBadgeComponent,
   GpIconComponent,
   GpToastComponent,
-  GpToastService
+  GpToastService,
+  GP_UI_VERSION
 } from 'gp-ui';
 import {
   GpRuleDirective,
@@ -51,7 +52,7 @@ import { DocCodeComponent } from '../../shared/doc-code.component';
       <div class="page-header">
         <div class="header-badge-row">
           <gp-badge value="@generatedpixel/gp-rules" severity="primary" />
-          <gp-badge value="v0.6.0" severity="info" />
+          <gp-badge [value]="'v' + version" severity="info" />
           <gp-badge value="Signals Reactive" severity="success" />
         </div>
         <h1 class="page-title">Dynamic Business Rules Engine</h1>
@@ -765,6 +766,7 @@ export class RulesDemoComponent implements OnInit {
   private toastService = inject(GpToastService);
   private engine = inject(GpRuleEngineService);
 
+  public readonly version = GP_UI_VERSION;
   public activeTab = signal<'demo' | 'api' | 'recipes'>('demo');
 
   public orderState = signal<{
