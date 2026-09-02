@@ -449,7 +449,31 @@ import { getComponentDoc } from './component-docs.data';
           <gp-data-view [value]="demoRows" layout="grid" />
         }
         @case ('virtual-scroller') {
-          <gp-virtual-scroller [items]="demoRows" [itemSize]="48" />
+          <div class="w-full max-w-[560px] flex flex-col gap-2">
+            <div class="flex items-center justify-between text-xs text-muted px-1">
+              <span>Rendering <strong>10,000</strong> virtual records smoothly</span>
+              <span class="text-primary font-mono font-medium">52px / row</span>
+            </div>
+            <gp-virtual-scroller [items]="demoVirtualScrollItems" [itemSize]="52" scrollHeight="320px">
+              <ng-template #item let-row>
+                <div class="flex items-center justify-between w-full px-4 py-2 hover:bg-surface-hover transition-colors">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                      {{ row.id }}
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="text-sm font-medium text-foreground">{{ row.name }}</span>
+                      <span class="text-xs text-muted">{{ row.email }}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs px-2 py-0.5 rounded bg-surface border border-surface-border text-foreground font-mono">{{ row.role }}</span>
+                    <gp-badge [value]="row.status" [severity]="row.status === 'Active' ? 'success' : row.status === 'Pending' ? 'warning' : 'secondary'" />
+                  </div>
+                </div>
+              </ng-template>
+            </gp-virtual-scroller>
+          </div>
         }
         @case ('tree') {
           <gp-tree [value]="demoTreeNodes" selectionMode="single" />
@@ -1084,6 +1108,13 @@ export class ComponentDocPage implements OnInit {
       ]
     }
   ];
+  demoVirtualScrollItems = Array.from({ length: 10000 }, (_, i) => ({
+    id: i + 1,
+    name: `Enterprise Record #${i + 1}`,
+    email: `user.${i + 1}@generatedpixel.dev`,
+    role: i % 4 === 0 ? 'Admin' : i % 4 === 1 ? 'Developer' : i % 4 === 2 ? 'Editor' : 'Viewer',
+    status: i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Pending' : 'Offline'
+  }));
   demoMeterItems = [
     { label: 'Design', value: 45, color: 'var(--gp-primary)' },
     { label: 'Engineering', value: 30, color: 'var(--gp-info)' },

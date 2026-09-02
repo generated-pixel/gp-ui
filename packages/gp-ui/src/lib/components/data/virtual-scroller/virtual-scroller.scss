@@ -4,6 +4,13 @@
   background: var(--gp-surface-card);
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius);
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus-visible {
+    border-color: var(--gp-primary);
+    box-shadow: var(--gp-focus-ring);
+  }
 }
 
 .gp-virtual-scroller-spacer {
@@ -15,4 +22,26 @@
   top: 0;
   left: 0;
   width: 100%;
+}
+
+.gp-virtual-scroller-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--gp-surface-divider, var(--gp-surface-border, #e2e8f0));
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.gp-virtual-scroller-default-item {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gp-spacing-md, 1rem);
+  width: 100%;
+  height: 100%;
+  font-size: var(--gp-font-size-sm, 0.875rem);
+  color: var(--gp-text-color);
+  box-sizing: border-box;
 }

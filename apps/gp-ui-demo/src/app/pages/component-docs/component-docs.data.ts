@@ -584,16 +584,35 @@ export const componentDocs: ComponentDocDefinition[] = [
     name: 'Virtual Scroller',
     category: 'Data Presentation',
     icon: 'scroll',
-    description: 'Efficient scrolling for large lists and virtualized item sets.',
+    description: 'High-performance DOM virtualization engine rendering tens of thousands of items with 60fps smooth scrolling.',
     importStatement: "import { GpVirtualScroller } from '@generatedpixel/gp-ui';",
-    exampleCode: '<gp-virtual-scroller [value]="items" />',
+    exampleCode: `<gp-virtual-scroller [items]="largeList" [itemSize]="52" scrollHeight="320px">
+  <ng-template #item let-row>
+    <div class="virtual-row">
+      <span>{{ row.name }}</span>
+      <span>{{ row.status }}</span>
+    </div>
+  </ng-template>
+</gp-virtual-scroller>`,
     properties: [
-      { name: 'value', type: 'any[]', default: '[]', description: 'Items rendered in the scroller.' },
+      { name: 'items', type: 'any[]', default: '[]', description: 'Complete collection of data items to virtualize.' },
       {
         name: 'itemSize',
         type: 'number',
-        default: '32',
-        description: 'Approximate item height used for virtualization.'
+        default: '48',
+        description: 'Fixed height in pixels of each row item for virtualization calculations.'
+      },
+      {
+        name: 'scrollHeight',
+        type: 'string',
+        default: "'20rem'",
+        description: 'Maximum visible height of the virtual viewport.'
+      },
+      {
+        name: 'buffer',
+        type: 'number',
+        default: '5',
+        description: 'Number of extra buffer rows rendered above and below the visible viewport.'
       }
     ]
   },

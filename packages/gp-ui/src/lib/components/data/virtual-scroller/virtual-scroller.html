@@ -5,6 +5,10 @@
       <div class="gp-virtual-scroller-item" [style.height.px]="itemSize()">
         @if (itemTemplate()) {
           <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
+        } @else {
+          <div class="gp-virtual-scroller-default-item">
+            <span>{{ item?.name || item?.label || item?.title || item }}</span>
+          </div>
         }
       </div>
     }
