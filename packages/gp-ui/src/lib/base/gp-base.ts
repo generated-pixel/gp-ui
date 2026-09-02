@@ -36,6 +36,13 @@ export abstract class GpBase
   /** Disabled state */
   public disabled = input<boolean>(false);
 
+  /**
+   * Helper method to compose CSS class strings, filtering out falsy values and appending styleClass().
+   */
+  public cx(...classes: (string | boolean | null | undefined)[]): string {
+    return [...classes, this.styleClass()].filter(Boolean).join(' ');
+  }
+
   onInit() {
     // NOOP - to be implemented by subclasses
   }

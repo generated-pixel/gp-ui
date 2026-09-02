@@ -76,18 +76,15 @@ export abstract class GpInputBase<T = any> extends GpEditableBase<T> {
    * Computed CSS classes for the input element or container
    */
   protected inputClassNames = computed(() => {
-    return [
+    return this.cx(
       'gp-inputtext',
       `gp-input-${this.size()}`,
       `gp-input-${this.variant()}`,
-      this.isEffectivelyDisabled() ? 'gp-input-disabled' : '',
-      this.readonly() ? 'gp-input-readonly' : '',
-      !this.isValid() ? 'gp-input-invalid' : '',
-      this.fluid() ? 'gp-input-fluid' : '',
-      this.styleClass()
-    ]
-      .filter(Boolean)
-      .join(' ');
+      this.isEffectivelyDisabled() && 'gp-input-disabled',
+      this.readonly() && 'gp-input-readonly',
+      !this.isValid() && 'gp-input-invalid',
+      this.fluid() && 'gp-input-fluid'
+    );
   });
 
   public handleInput(event: Event): void {
