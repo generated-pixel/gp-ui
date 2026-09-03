@@ -54,6 +54,10 @@ export class App {
   protected isDark = signal<boolean>(true);
   protected activeThemeId = signal<string>('default');
   protected sidebarOpen = signal<boolean>(false);
+  protected sidebarCollapsed = signal<boolean>(false);
+  protected activeFlyoutCategory = signal<string | null>(null);
+  protected flyoutTop = signal<number>(80);
+  private flyoutTimer: any = null;
   protected themeMenuOpen = signal<boolean>(false);
 
   public availableThemes = GpThemeManager.getAvailableThemes();
@@ -355,10 +359,146 @@ export class App {
   }
 
   public toggleSidebar(): void {
-    this.sidebarOpen.update((v) => !v);
+    if (typeof window !== 'undefined' && window.innerWidth <= 900) {
+      this.sidebarOpen.update((v) => !v);
+    } else {
+      this.sidebarCollapsed.update((v) => !v);
+    }
   }
 
   public closeSidebarOnMobile(): void {
     this.sidebarOpen.set(false);
+  }
+
+  public getCategoryIcon(category: string): string {
+    switch (category) {
+      case 'General':
+        return 'sparkles';
+      case 'Components':
+        return 'box';
+      case 'Form Controls':
+        return 'edit';
+      case 'Data Presentation':
+        return 'table';
+      case 'Tree & Hierarchy':
+        return 'folder-tree';
+      case 'Navigation':
+        return 'menu';
+      case 'Panels':
+        return 'layers';
+      case 'Overlays':
+        return 'window';
+      case 'Feedback':
+        return 'bell';
+      case 'Display':
+        return 'image';
+      default:
+        return 'circle';
+    }
+  }
+
+  public getCategoryAbbr(category: string): string {
+    switch (category) {
+      case 'General':
+        return 'General';
+      case 'Components':
+        return 'Buttons';
+      case 'Form Controls':
+        return 'Forms';
+      case 'Data Presentation':
+        return 'Data';
+      case 'Tree & Hierarchy':
+        return 'Tree';
+      case 'Navigation':
+        return 'Nav';
+      case 'Panels':
+        return 'Panels';
+      case 'Overlays':
+        return 'Overlay';
+      case 'Feedback':
+        return 'Feedback';
+      case 'Display':
+        return 'Display';
+      default:
+        return category.slice(0, 5);
+    }
+  }
+
+  public isCategoryActive(category: string): boolean {
+    const items = this.categoryItemsMap()[category];
+    if (!items) {
+      return false;
+    }
+    const url = this.currentUrl();
+    return items.some((item) => item.route === url || (item.route !== '/' && url.startsWith(item.route)));
+  }
+
+  public isFlyoutMulticol(cat?: string | null): boolean {
+    if (cat) {
+      const items = this.categoryItemsMap()[cat] || [];
+      return items.length > 12;
+    }
+    return this.getFlyoutItems().length > 12;
+  }
+
+  public openFlyout(cat: string, event: MouseEvent): void {
+    if (this.flyoutTimer) {
+      clearTimeout(this.flyoutTimer);
+      this.flyoutTimer = null;
+    }
+    const target = (event.currentTarget as HTMLElement) || (event.target as HTMLElement);
+    if (target) {
+      const rect = target.getBoundingClientRect();
+      const items = this.categoryItemsMap()[cat] || [];
+      const multicol = this.isFlyoutMulticol(cat);
+      const rowCount = multicol ? Math.ceil(items.length / 2) : items.length;
+      const estimatedHeight = Math.min(
+        typeof window !== 'undefined' ? window.innerHeight - 80 : 500,
+        56 + rowCount * 36
+      );
+      const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 900;
+      const spaceBelow = viewportHeight - rect.top;
+
+      let top: number;
+      if (spaceBelow < estimatedHeight + 16) {
+        top = Math.max(65, viewportHeight - estimatedHeight - 16);
+      } else {
+        top = Math.max(65, rect.top - 6);
+      }
+      this.flyoutTop.set(Math.round(top));
+    }
+    this.activeFlyoutCategory.set(cat);
+  }
+
+  public scheduleCloseFlyout(): void {
+    if (this.flyoutTimer) {
+      clearTimeout(this.flyoutTimer);
+    }
+    this.flyoutTimer = setTimeout(() => {
+      this.activeFlyoutCategory.set(null);
+    }, 160);
+  }
+
+  public cancelCloseFlyout(): void {
+    if (this.flyoutTimer) {
+      clearTimeout(this.flyoutTimer);
+      this.flyoutTimer = null;
+    }
+  }
+
+  public closeFlyoutImmediate(): void {
+    if (this.flyoutTimer) {
+      clearTimeout(this.flyoutTimer);
+      this.flyoutTimer = null;
+    }
+    this.activeFlyoutCategory.set(null);
+  }
+
+  public getFlyoutItems(): ComponentCatalogueItem[] {
+    const cat = this.activeFlyoutCategory();
+    if (!cat) {
+      return [];
+    }
+    return this.categoryItemsMap()[cat] ?? [];
   }
 }
