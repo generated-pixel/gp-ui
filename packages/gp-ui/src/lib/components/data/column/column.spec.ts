@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpColumn],
-  template: `
-    <gp-column field="name" header="Full Name" [sortable]="true" width="200px" align="center" />
-  `
+  template: ` <gp-column field="name" header="Full Name" [sortable]="true" width="200px" align="center" /> `
 })
 class TestHostComponent {}
 

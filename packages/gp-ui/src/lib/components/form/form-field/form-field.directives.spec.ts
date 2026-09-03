@@ -1,11 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import {
-  GpPrefixDirective,
-  GpSuffixDirective,
-  GpHelperDirective,
-  GpErrorDirective
-} from './form-field.directives';
+import { GpPrefixDirective, GpSuffixDirective, GpHelperDirective, GpErrorDirective } from './form-field.directives';
 
 @Component({
   standalone: true,

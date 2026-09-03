@@ -1,28 +1,13 @@
 import { Component, inject } from '@angular/core';
 
-import {
-  GpTable,
-  GpColumn,
-  GpButton,
-  GpTag,
-  GpDataView,
-  GpExportService
-} from 'gp-ui';
+import { GpTable, GpColumn, GpButton, GpTag, GpDataView, GpExportService } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
 
 @Component({
   selector: 'app-data-demo',
   standalone: true,
-  imports: [
-    GpTable,
-    GpColumn,
-    GpButton,
-    GpTag,
-    GpDataView,
-    DocCode,
-    DocApiTable
-  ],
+  imports: [GpTable, GpColumn, GpButton, GpTag, GpDataView, DocCode, DocApiTable],
   template: `
     <div class="page-container">
       <div class="page-header">

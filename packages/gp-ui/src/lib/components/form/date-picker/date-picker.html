@@ -24,88 +24,88 @@
     />
 
     @if (!inline()) {
-      <button
-        type="button"
-        class="gp-datepicker-trigger"
-        (click)="toggleOverlay()"
-        aria-label="Open Calendar"
-        [attr.aria-haspopup]="'dialog'"
-        [attr.aria-expanded]="overlayVisible()"
-      >
-        <gp-icon [name]="icon()" size="0.9em" />
-      </button>
+    <button
+      type="button"
+      class="gp-datepicker-trigger"
+      (click)="toggleOverlay()"
+      aria-label="Open Calendar"
+      [attr.aria-haspopup]="'dialog'"
+      [attr.aria-expanded]="overlayVisible()"
+    >
+      <gp-icon [name]="icon()" size="0.9em" />
+    </button>
     }
   </div>
 
   @if (inline() || overlayVisible()) {
-    <div
-      class="gp-datepicker-panel"
-      role="dialog"
-      aria-label="Calendar"
-      [class.gp-datepicker-inline]="inline()"
-      (click)="$event.stopPropagation()"
-      [gpAppendTo]="inline() ? 'self' : appendTo()"
-      [gpConnectedTo]="hostElRef"
-    >
-      <div class="gp-datepicker-header">
-        <button type="button" class="gp-datepicker-nav-btn" (click)="prevMonth()" aria-label="Previous Month">
-          <gp-icon name="chevron-left" size="0.85em" />
-        </button>
+  <div
+    class="gp-datepicker-panel"
+    role="dialog"
+    aria-label="Calendar"
+    [class.gp-datepicker-inline]="inline()"
+    (click)="$event.stopPropagation()"
+    [gpAppendTo]="inline() ? 'self' : appendTo()"
+    [gpConnectedTo]="hostElRef"
+  >
+    <div class="gp-datepicker-header">
+      <button type="button" class="gp-datepicker-nav-btn" (click)="prevMonth()" aria-label="Previous Month">
+        <gp-icon name="chevron-left" size="0.85em" />
+      </button>
 
-        <div class="gp-datepicker-title">
-          <span class="gp-datepicker-month">{{ currentMonthName() }}</span>
-          <span class="gp-datepicker-year">{{ currentYear() }}</span>
-        </div>
-
-        <button type="button" class="gp-datepicker-nav-btn" (click)="nextMonth()" aria-label="Next Month">
-          <gp-icon name="chevron-right" size="0.85em" />
-        </button>
+      <div class="gp-datepicker-title">
+        <span class="gp-datepicker-month">{{ currentMonthName() }}</span>
+        <span class="gp-datepicker-year">{{ currentYear() }}</span>
       </div>
 
-      <table class="gp-datepicker-calendar" role="grid" [attr.aria-label]="currentMonthName() + ' ' + currentYear()">
-        <thead>
-          <tr>
-            @for (dayName of weekDayNames(); track $index) {
-              <th scope="col" class="gp-datepicker-weekday">{{ dayName }}</th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          @for (week of calendarWeeks(); track $index) {
-            <tr>
-              @for (d of week; track d.date.getTime()) {
-                <td
-                  class="gp-datepicker-day-cell"
-                  [class.gp-datepicker-other-month]="!d.isCurrentMonth"
-                  [class.gp-datepicker-today]="d.isToday"
-                  [class.gp-datepicker-selected]="d.isSelected"
-                  (click)="selectDate(d.date)"
-                  (keydown.enter)="selectDate(d.date)"
-                  (keydown.space)="$event.preventDefault(); selectDate(d.date)"
-                  tabindex="0"
-                  role="gridcell"
-                  [attr.aria-selected]="d.isSelected"
-                  [attr.aria-current]="d.isToday ? 'date' : null"
-                  [attr.aria-label]="d.date.toDateString()"
-                >
-                  <span class="gp-datepicker-day-number">{{ d.dayNumber }}</span>
-                </td>
-              }
-            </tr>
-          }
-        </tbody>
-      </table>
-
-      @if (showButtonBar()) {
-        <div class="gp-datepicker-buttonbar">
-          <button type="button" class="gp-datepicker-bar-btn" (click)="selectToday()" aria-label="Select today">
-            {{ translationService.get('today') }}
-          </button>
-          <button type="button" class="gp-datepicker-bar-btn" (click)="clear()" aria-label="Clear date">
-            {{ translationService.get('clear') }}
-          </button>
-        </div>
-      }
+      <button type="button" class="gp-datepicker-nav-btn" (click)="nextMonth()" aria-label="Next Month">
+        <gp-icon name="chevron-right" size="0.85em" />
+      </button>
     </div>
+
+    <table class="gp-datepicker-calendar" role="grid" [attr.aria-label]="currentMonthName() + ' ' + currentYear()">
+      <thead>
+        <tr>
+          @for (dayName of weekDayNames(); track $index) {
+          <th scope="col" class="gp-datepicker-weekday">{{ dayName }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (week of calendarWeeks(); track $index) {
+        <tr>
+          @for (d of week; track d.date.getTime()) {
+          <td
+            class="gp-datepicker-day-cell"
+            [class.gp-datepicker-other-month]="!d.isCurrentMonth"
+            [class.gp-datepicker-today]="d.isToday"
+            [class.gp-datepicker-selected]="d.isSelected"
+            (click)="selectDate(d.date)"
+            (keydown.enter)="selectDate(d.date)"
+            (keydown.space)="$event.preventDefault(); selectDate(d.date)"
+            tabindex="0"
+            role="gridcell"
+            [attr.aria-selected]="d.isSelected"
+            [attr.aria-current]="d.isToday ? 'date' : null"
+            [attr.aria-label]="d.date.toDateString()"
+          >
+            <span class="gp-datepicker-day-number">{{ d.dayNumber }}</span>
+          </td>
+          }
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (showButtonBar()) {
+    <div class="gp-datepicker-buttonbar">
+      <button type="button" class="gp-datepicker-bar-btn" (click)="selectToday()" aria-label="Select today">
+        {{ translationService.get('today') }}
+      </button>
+      <button type="button" class="gp-datepicker-bar-btn" (click)="clear()" aria-label="Clear date">
+        {{ translationService.get('clear') }}
+      </button>
+    </div>
+    }
+  </div>
   }
 </div>

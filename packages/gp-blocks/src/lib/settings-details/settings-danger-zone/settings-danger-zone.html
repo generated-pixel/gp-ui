@@ -1,45 +1,44 @@
 <div class="gp-settings-card danger-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    <div class="danger-head">
-      <h3 class="danger-title">{{ title() }}</h3>
-      <p class="danger-subtitle">{{ subtitle() }}</p>
-    </div>
+  <ng-content select="[header], [slot=header]" />
+  <div class="danger-head">
+    <h3 class="danger-title">{{ title() }}</h3>
+    <p class="danger-subtitle">{{ subtitle() }}</p>
+  </div>
   }
 
   <!-- Content Override or Actions List -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[content], [slot=content]" />
-    @if (effectiveActions()) {
-      <ng-container *ngTemplateOutlet="effectiveActions()!" />
-    } @else {
-      <ng-content select="[actions], [slot=actions]" />
-      @if (actions() && actions().length > 0) {
-        <div class="danger-actions-list">
-          @for (a of actions(); track a) {
-            <div class="danger-item">
-              <div class="danger-info">
-                <span class="d-title">{{ a.title }}</span>
-                <p class="d-desc">{{ a.desc }}</p>
-              </div>
-              <gp-button
-                [variant]="a.buttonVariant || 'outlined'"
-                severity="danger"
-                size="sm"
-                (onClickEvent)="actionClick.emit(a)"
-              >
-                {{ a.buttonLabel }}
-              </gp-button>
-            </div>
-          }
-        </div>
-      }
+  <ng-content select="[content], [slot=content]" />
+  @if (effectiveActions()) {
+  <ng-container *ngTemplateOutlet="effectiveActions()!" />
+  } @else {
+  <ng-content select="[actions], [slot=actions]" />
+  @if (actions() && actions().length > 0) {
+  <div class="danger-actions-list">
+    @for (a of actions(); track a) {
+    <div class="danger-item">
+      <div class="danger-info">
+        <span class="d-title">{{ a.title }}</span>
+        <p class="d-desc">{{ a.desc }}</p>
+      </div>
+      <gp-button
+        [variant]="a.buttonVariant || 'outlined'"
+        severity="danger"
+        size="sm"
+        (onClickEvent)="actionClick.emit(a)"
+      >
+        {{ a.buttonLabel }}
+      </gp-button>
+    </div>
     }
-    <ng-content />
+  </div>
+  } }
+  <ng-content />
   }
 </div>

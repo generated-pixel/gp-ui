@@ -91,7 +91,9 @@ export class GpConditionEvaluator {
       }
       for (const sub of condition.all) {
         const res = await this.evaluateAsync(sub, context);
-        if (!res) return false;
+        if (!res) {
+          return false;
+        }
       }
       return true;
     }
@@ -103,7 +105,9 @@ export class GpConditionEvaluator {
       }
       for (const sub of condition.any) {
         const res = await this.evaluateAsync(sub, context);
-        if (res) return true;
+        if (res) {
+          return true;
+        }
       }
       return false;
     }
@@ -115,7 +119,9 @@ export class GpConditionEvaluator {
       }
       for (const sub of condition.none) {
         const res = await this.evaluateAsync(sub, context);
-        if (res) return false;
+        if (res) {
+          return false;
+        }
       }
       return true;
     }
@@ -342,8 +348,12 @@ export class GpConditionEvaluator {
    * Helper to parse timestamps safely.
    */
   private static toTimestamp(val: any): number | null {
-    if (!val) return null;
-    if (val instanceof Date) return val.getTime();
+    if (!val) {
+      return null;
+    }
+    if (val instanceof Date) {
+      return val.getTime();
+    }
     const parsed = new Date(val);
     const time = parsed.getTime();
     return isNaN(time) ? null : time;
@@ -353,8 +363,12 @@ export class GpConditionEvaluator {
    * Helper to parse Date object safely.
    */
   private static toDate(val: any): Date | null {
-    if (!val) return null;
-    if (val instanceof Date) return val;
+    if (!val) {
+      return null;
+    }
+    if (val instanceof Date) {
+      return val;
+    }
     const parsed = new Date(val);
     return isNaN(parsed.getTime()) ? null : parsed;
   }

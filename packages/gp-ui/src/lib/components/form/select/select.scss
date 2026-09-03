@@ -33,14 +33,17 @@
   background: var(--gp-surface-ground);
 }
 
-.gp-select__label-container, .gp-select__label, .gp-select-label-container {
+.gp-select__label-container,
+.gp-select__label,
+.gp-select-label-container {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.gp-select__label, .gp-select-label {
+.gp-select__label,
+.gp-select-label {
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color);
   display: inline-flex;
@@ -48,17 +51,20 @@
   gap: 0.5rem;
 }
 
-.gp-select__placeholder, .gp-select-placeholder {
+.gp-select__placeholder,
+.gp-select-placeholder {
   color: var(--gp-select-placeholder-color, var(--gp-text-color-muted));
 }
 
-.gp-select__triggers, .gp-select-triggers {
+.gp-select__triggers,
+.gp-select-triggers {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
 }
 
-.gp-select__clear-btn, .gp-select-clear-btn {
+.gp-select__clear-btn,
+.gp-select-clear-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -71,7 +77,8 @@
   color: var(--gp-text-color-muted);
 }
 
-.gp-select__overlay, .gp-select-overlay {
+.gp-select__overlay,
+.gp-select-overlay {
   position: absolute;
   top: 100%;
   left: 0;
@@ -91,13 +98,15 @@
   box-sizing: border-box;
 }
 
-.gp-select__filter-container, .gp-select-filter-container {
+.gp-select__filter-container,
+.gp-select-filter-container {
   position: relative;
   padding: 0.5rem;
   border-bottom: 1px solid var(--gp-surface-divider);
 }
 
-.gp-select__filter-input, .gp-select-filter-input {
+.gp-select__filter-input,
+.gp-select-filter-input {
   padding-right: 2rem;
   height: 2rem;
 }
@@ -117,7 +126,8 @@
   overflow-y: auto;
 }
 
-.gp-select__item, .gp-select-item {
+.gp-select__item,
+.gp-select-item {
   padding: var(--gp-select-item-padding, 0.5rem 0.75rem);
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color);
@@ -128,7 +138,8 @@
   transition: background var(--gp-transition-duration);
 }
 
-.gp-select__item, .gp-select-item:hover:not(.gp-select-item-disabled) {
+.gp-select__item,
+.gp-select-item:hover:not(.gp-select-item-disabled) {
   background: var(--gp-select-item-focus-background, var(--gp-surface-hover));
 }
 

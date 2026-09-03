@@ -11,16 +11,7 @@ import { GpSpeedDial } from '../button/speed-dial/speed-dial';
 
 @Component({
   standalone: true,
-  imports: [
-    GpMenu,
-    GpMenubar,
-    GpContextMenu,
-    GpTieredMenu,
-    GpPanelMenu,
-    GpMegaMenu,
-    GpSplitButton,
-    GpSpeedDial
-  ],
+  imports: [GpMenu, GpMenubar, GpContextMenu, GpTieredMenu, GpPanelMenu, GpMegaMenu, GpSplitButton, GpSpeedDial],
   template: `
     <gp-menu #menu [model]="menuItems" [popup]="true" />
     <gp-menubar #menubar [model]="menubarItems" />

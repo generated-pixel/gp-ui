@@ -1,20 +1,26 @@
-.gp-tabs, .gp-tabview {
+.gp-tabs,
+.gp-tabview {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
-.gp-tabs__nav-container, .gp-tabs__nav, .gp-tabview-nav-container {
+.gp-tabs__nav-container,
+.gp-tabs__nav,
+.gp-tabview-nav-container {
   border-bottom: 2px solid var(--gp-surface-border);
   position: relative;
 }
-.gp-tabs__nav, .gp-tabview-nav {
+.gp-tabs__nav,
+.gp-tabview-nav {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
   gap: 0.5rem;
 }
-.gp-tabs__nav-link, .gp-tabs__nav, .gp-tabview-nav-link {
+.gp-tabs__nav-link,
+.gp-tabs__nav,
+.gp-tabview-nav-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -30,16 +36,22 @@
   font-family: inherit;
   transition: all var(--gp-transition-duration);
 }
-.gp-tabs__nav-link, .gp-tabs__nav, .gp-tabview-nav-link:hover:not(:disabled) {
+.gp-tabs__nav-link,
+.gp-tabs__nav,
+.gp-tabview-nav-link:hover:not(:disabled) {
   color: var(--gp-text-color);
   border-bottom-color: var(--gp-input-border-hover);
 }
-.gp-tabs__header, .gp-tabview-header-active .gp-tabs__nav-link, .gp-tabs__nav, .gp-tabview-nav-link {
+.gp-tabs__header,
+.gp-tabview-header-active .gp-tabs__nav-link,
+.gp-tabs__nav,
+.gp-tabview-nav-link {
   color: var(--gp-primary) !important;
   border-bottom-color: var(--gp-primary) !important;
   font-weight: 600;
 }
-.gp-tabs__close-btn, .gp-tabview-close-btn {
+.gp-tabs__close-btn,
+.gp-tabview-close-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -48,9 +60,11 @@
   display: inline-flex;
   border-radius: 50%;
 }
-.gp-tabs__close-btn, .gp-tabview-close-btn:hover {
+.gp-tabs__close-btn,
+.gp-tabview-close-btn:hover {
   color: var(--gp-danger);
 }
-.gp-tabs__panels, .gp-tabview-panels {
+.gp-tabs__panels,
+.gp-tabview-panels {
   padding: 1rem 0;
 }

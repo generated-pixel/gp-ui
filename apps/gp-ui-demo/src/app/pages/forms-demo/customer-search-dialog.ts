@@ -1,14 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  GP_DIALOG_DATA,
-  GP_DIALOG_REF,
-  GpDialogRef,
-  GpInputText,
-  GpButton,
-  GpBadge
-} from 'gp-ui';
+import { GP_DIALOG_DATA, GP_DIALOG_REF, GpDialogRef, GpInputText, GpButton, GpBadge } from 'gp-ui';
 
 @Component({
   selector: 'app-customer-search-dialog',
@@ -39,8 +32,8 @@ export class CustomerSearchDialog {
     if (!q) {
       return this.customers;
     }
-    return this.customers.filter((c) =>
-      c.name.toLowerCase().includes(q) || c.location.toLowerCase().includes(q) || String(c.id).includes(q)
+    return this.customers.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.location.toLowerCase().includes(q) || String(c.id).includes(q)
     );
   }
 

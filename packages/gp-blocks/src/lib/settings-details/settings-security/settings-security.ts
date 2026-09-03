@@ -10,13 +10,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpBadge,
-  GpButton,
-  GpIcon,
-  GpPassword,
-  GpSwitch
-} from '@generatedpixel/gp-ui';
+import { GpBadge, GpButton, GpIcon, GpPassword, GpSwitch } from '@generatedpixel/gp-ui';
 
 export interface GpSession {
   id?: string;

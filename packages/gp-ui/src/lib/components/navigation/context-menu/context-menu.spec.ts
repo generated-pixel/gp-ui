@@ -7,9 +7,7 @@ import { provideRouter } from '@angular/router';
 @Component({
   standalone: true,
   imports: [GpContextMenu],
-  template: `
-    <gp-context-menu [model]="items" #cm />
-  `
+  template: ` <gp-context-menu [model]="items" #cm /> `
 })
 class TestHostComponent {
   items: GpMenuItem[] = [

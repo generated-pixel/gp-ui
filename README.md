@@ -90,28 +90,12 @@ GpThemeManager.setMode('dark');
 ```typescript
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  GpButton,
-  GpInputText,
-  GpSelect,
-  GpTable,
-  GpColumn,
-  GpToast,
-  GpToastService
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpInputText, GpSelect, GpTable, GpColumn, GpToast, GpToastService } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'app-my-view',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    GpButton,
-    GpInputText,
-    GpSelect,
-    GpTable,
-    GpColumn,
-    GpToast
-  ],
+  imports: [ReactiveFormsModule, GpButton, GpInputText, GpSelect, GpTable, GpColumn, GpToast],
   template: `
     <gp-toast />
 

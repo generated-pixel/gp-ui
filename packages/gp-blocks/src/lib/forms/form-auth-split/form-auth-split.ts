@@ -10,27 +10,14 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpButton,
-  GpCheckbox,
-  GpIcon,
-  GpInputText,
-  GpPassword
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpCheckbox, GpIcon, GpInputText, GpPassword } from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-auth-split',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpButton,
-    GpCheckbox,
-    GpIcon,
-    GpInputText,
-    GpPassword
-  ],
+  imports: [CommonModule, GpButton, GpCheckbox, GpIcon, GpInputText, GpPassword],
   templateUrl: './form-auth-split.html',
   styleUrl: './form-auth-split.scss'
 })

@@ -6,9 +6,7 @@ import { provideRouter } from '@angular/router';
 @Component({
   standalone: true,
   imports: [GpMenubar],
-  template: `
-    <gp-menubar [model]="items" />
-  `
+  template: ` <gp-menubar [model]="items" /> `
 })
 class TestHostComponent {
   items: GpMenubarItem[] = [

@@ -11,68 +11,60 @@
   <gp-popover #actionPopover styleClass="gp-dropdown-action-menu__popover" ariaLabel="Action menu">
     <div class="gp-dropdown-action-menu__content" role="menu">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      } @else { @if (effectiveUserHeader()) {
+      <ng-container *ngTemplateOutlet="effectiveUserHeader()!" />
       } @else {
-        @if (effectiveUserHeader()) {
-          <ng-container *ngTemplateOutlet="effectiveUserHeader()!" />
+      <ng-content select="[user-header], [slot=user-header]" />
+
+      @if (userEmail()) {
+      <div class="gp-dropdown-action-menu__user">
+        <span>{{ signedInLabel() }}</span>
+        <strong>{{ userEmail() }}</strong>
+      </div>
+      } } @if (userEmail()) {
+      <gp-divider />
+      }
+
+      <ng-content select="[primary-items], [slot=primary-items]" />
+
+      <div class="gp-dropdown-action-menu__section">
+        @for (item of primaryItems(); track item.id) { @if (effectiveItemTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
         } @else {
-          <ng-content select="[user-header], [slot=user-header]" />
+        <gp-button
+          [label]="item.label"
+          [icon]="item.icon || ''"
+          variant="text"
+          severity="secondary"
+          [fluid]="true"
+          styleClass="gp-dropdown-action-menu__item"
+          (onClickEvent)="selectItem(item)"
+        />
+        } }
+      </div>
 
-          @if (userEmail()) {
-            <div class="gp-dropdown-action-menu__user">
-              <span>{{ signedInLabel() }}</span>
-              <strong>{{ userEmail() }}</strong>
-            </div>
-          }
-        }
+      @if (dangerItems().length) {
+      <gp-divider />
+      <ng-content select="[danger-items], [slot=danger-items]" />
 
-        @if (userEmail()) {
-          <gp-divider />
-        }
-
-        <ng-content select="[primary-items], [slot=primary-items]" />
-
-        <div class="gp-dropdown-action-menu__section">
-          @for (item of primaryItems(); track item.id) {
-            @if (effectiveItemTemplate()) {
-              <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
-            } @else {
-              <gp-button
-                [label]="item.label"
-                [icon]="item.icon || ''"
-                variant="text"
-                severity="secondary"
-                [fluid]="true"
-                styleClass="gp-dropdown-action-menu__item"
-                (onClickEvent)="selectItem(item)"
-              />
-            }
-          }
-        </div>
-
-        @if (dangerItems().length) {
-          <gp-divider />
-          <ng-content select="[danger-items], [slot=danger-items]" />
-
-          <div class="gp-dropdown-action-menu__section">
-            @for (item of dangerItems(); track item.id) {
-              @if (effectiveItemTemplate()) {
-                <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
-              } @else {
-                <gp-button
-                  [label]="item.label"
-                  [icon]="item.icon || ''"
-                  variant="text"
-                  severity="danger"
-                  [fluid]="true"
-                  styleClass="gp-dropdown-action-menu__item"
-                  (onClickEvent)="selectItem(item)"
-                />
-              }
-            }
-          </div>
-        }
-        <ng-content />
+      <div class="gp-dropdown-action-menu__section">
+        @for (item of dangerItems(); track item.id) { @if (effectiveItemTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item }" />
+        } @else {
+        <gp-button
+          [label]="item.label"
+          [icon]="item.icon || ''"
+          variant="text"
+          severity="danger"
+          [fluid]="true"
+          styleClass="gp-dropdown-action-menu__item"
+          (onClickEvent)="selectItem(item)"
+        />
+        } }
+      </div>
+      }
+      <ng-content />
       }
     </div>
   </gp-popover>

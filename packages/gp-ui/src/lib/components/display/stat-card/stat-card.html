@@ -8,52 +8,50 @@
   <div class="gp-stat-card__header">
     <div class="gp-stat-card__title-wrap">
       @if (icon()) {
-        <div class="gp-stat-card__icon" [style.background]="iconBg() || 'var(--gp-primary-light)'">
-          <gp-icon [name]="icon()!" size="1.1em" [style.color]="iconColor() || 'var(--gp-primary)'" />
-        </div>
+      <div class="gp-stat-card__icon" [style.background]="iconBg() || 'var(--gp-primary-light)'">
+        <gp-icon [name]="icon()!" size="1.1em" [style.color]="iconColor() || 'var(--gp-primary)'" />
+      </div>
       }
       <span class="gp-stat-card__title">{{ title() }}</span>
     </div>
 
     @if (badge()) {
-      <gp-badge [value]="badge()!" [severity]="badgeSeverity()" />
+    <gp-badge [value]="badge()!" [severity]="badgeSeverity()" />
     }
   </div>
 
   <!-- Main Metric Value Display -->
   <div class="gp-stat-card__value-row">
     @if (prefix()) {
-      <span class="gp-stat-card__affix gp-stat-card__prefix">{{ prefix() }}</span>
+    <span class="gp-stat-card__affix gp-stat-card__prefix">{{ prefix() }}</span>
     }
     <span class="gp-stat-card__value">{{ value() }}</span>
     @if (suffix()) {
-      <span class="gp-stat-card__affix gp-stat-card__suffix">{{ suffix() }}</span>
+    <span class="gp-stat-card__affix gp-stat-card__suffix">{{ suffix() }}</span>
     }
   </div>
 
   <!-- Trend & Comparison Subtitle -->
   @if (trend() || subtitle()) {
-    <div class="gp-stat-card__footer">
-      @if (trend()) {
-        <div class="gp-stat-card__trend" [ngClass]="'gp-stat-card__trend--' + trendSeverity()">
-          <gp-icon [name]="trendIcon()" size="0.8em" />
-          <span class="gp-stat-card__trend-value">{{ trend()!.value }}</span>
-          @if (trend()!.label) {
-            <span class="gp-stat-card__trend-label">{{ trend()!.label }}</span>
-          }
-        </div>
-      }
-
-      @if (subtitle()) {
-        <span class="gp-stat-card__subtitle">{{ subtitle() }}</span>
+  <div class="gp-stat-card__footer">
+    @if (trend()) {
+    <div class="gp-stat-card__trend" [ngClass]="'gp-stat-card__trend--' + trendSeverity()">
+      <gp-icon [name]="trendIcon()" size="0.8em" />
+      <span class="gp-stat-card__trend-value">{{ trend()!.value }}</span>
+      @if (trend()!.label) {
+      <span class="gp-stat-card__trend-label">{{ trend()!.label }}</span>
       }
     </div>
+    } @if (subtitle()) {
+    <span class="gp-stat-card__subtitle">{{ subtitle() }}</span>
+    }
+  </div>
   }
 
   <!-- Optional Target Progress Bar -->
   @if (progress() !== undefined) {
-    <div class="gp-stat-card__progress-wrap">
-      <gp-progress-bar [value]="progress()!" [showValue]="false" />
-    </div>
+  <div class="gp-stat-card__progress-wrap">
+    <gp-progress-bar [value]="progress()!" [showValue]="false" />
+  </div>
   }
 </div>

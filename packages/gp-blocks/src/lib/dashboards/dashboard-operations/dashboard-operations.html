@@ -1,9 +1,9 @@
 <div class="gp-dashboard-ops-root">
   <!-- Optional Top Action Bar / Slot -->
   @if (contentHeaderActions()) {
-    <div class="dashboard-top-slot">
-      <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
-    </div>
+  <div class="dashboard-top-slot">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
+  </div>
   }
   <ng-content select="[actions], [slot=actions]" />
 
@@ -20,67 +20,60 @@
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
       @if (effectiveWidgetTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
+      <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       } @else {
-        <!-- 1. Fleet Status Banner Widget -->
-        @if (item.id === 'fleet-status') {
-          @if (contentStatus()) {
-            <ng-container *ngTemplateOutlet="contentStatus()!" />
-          } @else {
-            <div class="ops-status-banner">
-              <div class="banner-left">
-                <span class="live-dot"></span>
-                <span class="banner-text">{{ bannerText() }}</span>
-              </div>
-              <gp-badge [value]="uptimeBadge()" severity="success" />
-            </div>
-          }
-        }
-        <!-- 2. Nodes List Widget -->
-        @if (item.id === 'nodes-list') {
-          @if (contentNodes()) {
-            <ng-container *ngTemplateOutlet="contentNodes()!" />
-          } @else {
-            @if (nodes() && nodes().length > 0) {
-              <div class="ops-node-grid" style="height: 100%">
-                @for (node of nodes(); track node) {
-                  <div class="node-card" (click)="nodeClick.emit(node)" style="cursor: pointer">
-                    <div class="node-head">
-                      <span class="node-name">{{ node.name }}</span>
-                      <gp-badge
-                        [value]="node.status"
-                        [severity]="
+      <!-- 1. Fleet Status Banner Widget -->
+      @if (item.id === 'fleet-status') { @if (contentStatus()) {
+      <ng-container *ngTemplateOutlet="contentStatus()!" />
+      } @else {
+      <div class="ops-status-banner">
+        <div class="banner-left">
+          <span class="live-dot"></span>
+          <span class="banner-text">{{ bannerText() }}</span>
+        </div>
+        <gp-badge [value]="uptimeBadge()" severity="success" />
+      </div>
+      } }
+      <!-- 2. Nodes List Widget -->
+      @if (item.id === 'nodes-list') { @if (contentNodes()) {
+      <ng-container *ngTemplateOutlet="contentNodes()!" />
+      } @else { @if (nodes() && nodes().length > 0) {
+      <div class="ops-node-grid" style="height: 100%">
+        @for (node of nodes(); track node) {
+        <div class="node-card" (click)="nodeClick.emit(node)" style="cursor: pointer">
+          <div class="node-head">
+            <span class="node-name">{{ node.name }}</span>
+            <gp-badge
+              [value]="node.status"
+              [severity]="
                           node.status === 'Healthy' ? 'success' : node.status === 'Degraded' ? 'warning' : 'danger'
                         "
-                      />
-                    </div>
-                    <div class="node-metrics-list">
-                      <div class="metric-meter">
-                        <div class="meter-info">
-                          <span>CPU Utilization</span>
-                          <span>{{ node.cpu }}%</span>
-                        </div>
-                        <gp-progress-bar [value]="node.cpu" [showValue]="false" />
-                      </div>
-                      <div class="metric-meter">
-                        <div class="meter-info">
-                          <span>Memory Load</span>
-                          <span>{{ node.ram }}%</span>
-                        </div>
-                        <gp-progress-bar [value]="node.ram" [showValue]="false" />
-                      </div>
-                    </div>
-                    <div class="node-footer-meta">
-                      <span>{{ node.latency }}ms latency</span>
-                      <span>{{ node.rps }}</span>
-                    </div>
-                  </div>
-                }
+            />
+          </div>
+          <div class="node-metrics-list">
+            <div class="metric-meter">
+              <div class="meter-info">
+                <span>CPU Utilization</span>
+                <span>{{ node.cpu }}%</span>
               </div>
-            }
-          }
+              <gp-progress-bar [value]="node.cpu" [showValue]="false" />
+            </div>
+            <div class="metric-meter">
+              <div class="meter-info">
+                <span>Memory Load</span>
+                <span>{{ node.ram }}%</span>
+              </div>
+              <gp-progress-bar [value]="node.ram" [showValue]="false" />
+            </div>
+          </div>
+          <div class="node-footer-meta">
+            <span>{{ node.latency }}ms latency</span>
+            <span>{{ node.rps }}</span>
+          </div>
+        </div>
         }
-      }
+      </div>
+      } } } }
     </ng-template>
   </gp-grid>
 </div>

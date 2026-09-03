@@ -4,32 +4,40 @@
   [attr.aria-multiselectable]="selectionMode() === 'multiple' || selectionMode() === 'checkbox'"
 >
   @if (filter()) {
-    <div class="gp-tree__filter-container gp-tree-filter-container">
-      <gp-input-text
-        iconLeft="search"
-        [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
-        [value]="filterText()"
-        [clearable]="true"
-        (onInputEvent)="onFilterInput($event)"
-        (onClearEvent)="clearFilter()"
-      />
-    </div>
+  <div class="gp-tree__filter-container gp-tree-filter-container">
+    <gp-input-text
+      iconLeft="search"
+      [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
+      [value]="filterText()"
+      [clearable]="true"
+      (onInputEvent)="onFilterInput($event)"
+      (onClearEvent)="clearFilter()"
+    />
+  </div>
   }
 
   <ul class="gp-tree__container gp-tree-container">
     @for (node of filteredNodes(); track node.key || $index) {
-      <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, level: 0 }" />
+    <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: node, level: 0 }" />
     } @empty {
-      <li class="gp-tree__empty-message gp-tree-empty-message">{{ emptyMessage() || translationService.get('emptyMessage') || 'No records found' }}</li>
+    <li class="gp-tree__empty-message gp-tree-empty-message">
+      {{ emptyMessage() || translationService.get('emptyMessage') || 'No records found' }}
+    </li>
     }
   </ul>
 </div>
 
 <ng-template #nodeTemplate let-node let-level="level">
-  <li class="gp-tree__node gp-tree-node" role="treeitem" [attr.aria-expanded]="node.expanded" [style.padding-left.rem]="level * 1.25">
+  <li
+    class="gp-tree__node gp-tree-node"
+    role="treeitem"
+    [attr.aria-expanded]="node.expanded"
+    [style.padding-left.rem]="level * 1.25"
+  >
     <div
       class="gp-tree__node-content gp-tree-node-content"
-      [class.gp-tree__node-content--selected]="isNodeSelected(node)" [class.gp-tree-node-selected]="isNodeSelected(node)"
+      [class.gp-tree__node-content--selected]="isNodeSelected(node)"
+      [class.gp-tree-node-selected]="isNodeSelected(node)"
       tabindex="0"
       [attr.aria-selected]="isNodeSelected(node)"
       (click)="onNodeClick(node, $event)"
@@ -37,41 +45,37 @@
       (keydown.space)="$event.preventDefault(); onNodeClick(node, $event)"
     >
       @if (node.children && node.children.length > 0) {
-        <button
-          type="button"
-          class="gp-treeselect-toggler"
-          (click)="toggleNode(node, $event)"
-          [attr.aria-label]="(node.expanded ? 'Collapse ' : 'Expand ') + (node.label || 'node')"
-          [attr.aria-expanded]="node.expanded"
-        >
-          <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
-        </button>
+      <button
+        type="button"
+        class="gp-treeselect-toggler"
+        (click)="toggleNode(node, $event)"
+        [attr.aria-label]="(node.expanded ? 'Collapse ' : 'Expand ') + (node.label || 'node')"
+        [attr.aria-expanded]="node.expanded"
+      >
+        <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
+      </button>
       } @else {
-        <span class="gp-treeselect-toggler-spacer"></span>
-      }
-
-      @if (selectionMode() === 'checkbox') {
-        <gp-checkbox
-          [binary]="true"
-          [value]="isNodeSelected(node)"
-          [ariaLabel]="'Select ' + (node.label || 'node')"
-          (onChange)="toggleCheckboxSelection(node)"
-        />
-      }
-
-      @if (node.icon) {
-        <gp-icon [name]="node.icon" class="gp-tree__node-icon gp-tree-node-icon" />
+      <span class="gp-treeselect-toggler-spacer"></span>
+      } @if (selectionMode() === 'checkbox') {
+      <gp-checkbox
+        [binary]="true"
+        [value]="isNodeSelected(node)"
+        [ariaLabel]="'Select ' + (node.label || 'node')"
+        (onChange)="toggleCheckboxSelection(node)"
+      />
+      } @if (node.icon) {
+      <gp-icon [name]="node.icon" class="gp-tree__node-icon gp-tree-node-icon" />
       }
 
       <span class="gp-tree__node-label gp-tree-node-label">{{ node.label }}</span>
     </div>
 
     @if (node.expanded && node.children && node.children.length > 0) {
-      <ul class="gp-tree-sub-tree" role="group">
-        @for (child of node.children; track child.key || $index) {
-          <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: child, level: level + 1 }" />
-        }
-      </ul>
+    <ul class="gp-tree-sub-tree" role="group">
+      @for (child of node.children; track child.key || $index) {
+      <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: child, level: level + 1 }" />
+      }
+    </ul>
     }
   </li>
 </ng-template>

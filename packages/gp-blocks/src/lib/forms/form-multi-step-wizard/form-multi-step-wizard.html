@@ -2,148 +2,134 @@
   <!-- Stepper Indicator Header -->
   <div class="wizard-header">
     @if (effectiveStepper()) {
-      <ng-container *ngTemplateOutlet="effectiveStepper()!" />
+    <ng-container *ngTemplateOutlet="effectiveStepper()!" />
     } @else {
-      <ng-content select="[stepper], [slot=stepper]" />
-      @if (steps() && steps().length > 0) {
-        <div class="stepper-track">
-          @for (s of steps(); track s) {
-            <div
-              class="step-node"
-              [class.active]="s.number === currentStep()"
-              [class.completed]="s.number < currentStep()"
-            >
-              <div class="node-circle">
-                @if (s.number < currentStep()) {
-                  <gp-icon name="check" size="0.85em" />
-                }
-                @if (s.number >= currentStep()) {
-                  <span>{{ s.number }}</span>
-                }
-              </div>
-              <span class="node-label">{{ s.label }}</span>
-            </div>
+    <ng-content select="[stepper], [slot=stepper]" />
+    @if (steps() && steps().length > 0) {
+    <div class="stepper-track">
+      @for (s of steps(); track s) {
+      <div class="step-node" [class.active]="s.number === currentStep()" [class.completed]="s.number < currentStep()">
+        <div class="node-circle">
+          @if (s.number < currentStep()) {
+          <gp-icon name="check" size="0.85em" />
+          } @if (s.number >= currentStep()) {
+          <span>{{ s.number }}</span>
           }
         </div>
+        <span class="node-label">{{ s.label }}</span>
+      </div>
       }
-    }
+    </div>
+    } }
   </div>
 
   <!-- Wizard Step Body -->
   <div class="wizard-body-card">
     @if (effectiveContent()) {
-      <ng-container *ngTemplateOutlet="effectiveContent()!" />
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
     } @else {
-      <!-- Step 1 -->
-      @if (currentStep() === 1) {
-        <div class="step-container">
-          @if (effectiveStep1()) {
-            <ng-container *ngTemplateOutlet="effectiveStep1()!" />
-          } @else {
-            <ng-content select="[step1], [slot=step1]" />
-            <h3 class="step-title">Account Credentials</h3>
-            <div class="step-form">
-              <div class="field-wrap">
-                <label class="input-label">Full Name</label>
-                <gp-input-text
-                  type="text"
-                  styleClass="form-input"
-                  [fluid]="true"
-                  [value]="fullName()"
-                  (valueChange)="fullName.set($event)"
-                  placeholder="Enter full name"
-                />
-              </div>
-              <div class="field-wrap">
-                <label class="input-label">Work Email</label>
-                <gp-input-text
-                  type="email"
-                  styleClass="form-input"
-                  [fluid]="true"
-                  [value]="email()"
-                  (valueChange)="email.set($event)"
-                  placeholder="name@company.com"
-                />
-              </div>
-            </div>
-          }
+    <!-- Step 1 -->
+    @if (currentStep() === 1) {
+    <div class="step-container">
+      @if (effectiveStep1()) {
+      <ng-container *ngTemplateOutlet="effectiveStep1()!" />
+      } @else {
+      <ng-content select="[step1], [slot=step1]" />
+      <h3 class="step-title">Account Credentials</h3>
+      <div class="step-form">
+        <div class="field-wrap">
+          <label class="input-label">Full Name</label>
+          <gp-input-text
+            type="text"
+            styleClass="form-input"
+            [fluid]="true"
+            [value]="fullName()"
+            (valueChange)="fullName.set($event)"
+            placeholder="Enter full name"
+          />
         </div>
-      }
-      <!-- Step 2 -->
-      @if (currentStep() === 2) {
-        <div class="step-container">
-          @if (effectiveStep2()) {
-            <ng-container *ngTemplateOutlet="effectiveStep2()!" />
-          } @else {
-            <ng-content select="[step2], [slot=step2]" />
-            <h3 class="step-title">Organization Details</h3>
-            <div class="step-form">
-              <div class="field-wrap">
-                <label class="input-label">Company Name</label>
-                <gp-input-text
-                  type="text"
-                  styleClass="form-input"
-                  [fluid]="true"
-                  [value]="companyName()"
-                  (valueChange)="companyName.set($event)"
-                  placeholder="Acme Corp"
-                />
-              </div>
-              <div class="field-wrap">
-                <label class="input-label">Website Domain</label>
-                <gp-input-text
-                  type="text"
-                  styleClass="form-input"
-                  [fluid]="true"
-                  [value]="companyWebsite()"
-                  (valueChange)="companyWebsite.set($event)"
-                  placeholder="https://acme.org"
-                />
-              </div>
-            </div>
-          }
+        <div class="field-wrap">
+          <label class="input-label">Work Email</label>
+          <gp-input-text
+            type="email"
+            styleClass="form-input"
+            [fluid]="true"
+            [value]="email()"
+            (valueChange)="email.set($event)"
+            placeholder="name@company.com"
+          />
         </div>
+      </div>
       }
-      <!-- Step 3 -->
-      @if (currentStep() === 3) {
-        <div class="step-container">
-          @if (effectiveStep3()) {
-            <ng-container *ngTemplateOutlet="effectiveStep3()!" />
-          } @else {
-            <ng-content select="[step3], [slot=step3]" />
-            <h3 class="step-title">Review & Finish</h3>
-            <div class="review-box">
-              <div class="rev-row">
-                <span>Name:</span> <strong>{{ fullName() || '-' }}</strong>
-              </div>
-              <div class="rev-row">
-                <span>Email:</span> <strong>{{ email() || '-' }}</strong>
-              </div>
-              <div class="rev-row">
-                <span>Company:</span> <strong>{{ companyName() || '-' }}</strong>
-              </div>
-              <div class="rev-row">
-                <span>Website:</span> <strong>{{ companyWebsite() || '-' }}</strong>
-              </div>
-            </div>
-            <gp-checkbox
-              styleClass="check-label"
-              [style]="{ marginTop: '1.25rem' }"
-              [binary]="true"
-              [checked]="agreeTerms()"
-              label="I accept the Service License Agreement and Privacy Policy"
-              (valueChange)="agreeTerms.set($event)"
-            />
-          }
+    </div>
+    }
+    <!-- Step 2 -->
+    @if (currentStep() === 2) {
+    <div class="step-container">
+      @if (effectiveStep2()) {
+      <ng-container *ngTemplateOutlet="effectiveStep2()!" />
+      } @else {
+      <ng-content select="[step2], [slot=step2]" />
+      <h3 class="step-title">Organization Details</h3>
+      <div class="step-form">
+        <div class="field-wrap">
+          <label class="input-label">Company Name</label>
+          <gp-input-text
+            type="text"
+            styleClass="form-input"
+            [fluid]="true"
+            [value]="companyName()"
+            (valueChange)="companyName.set($event)"
+            placeholder="Acme Corp"
+          />
         </div>
+        <div class="field-wrap">
+          <label class="input-label">Website Domain</label>
+          <gp-input-text
+            type="text"
+            styleClass="form-input"
+            [fluid]="true"
+            [value]="companyWebsite()"
+            (valueChange)="companyWebsite.set($event)"
+            placeholder="https://acme.org"
+          />
+        </div>
+      </div>
       }
-      <ng-content />
+    </div>
+    }
+    <!-- Step 3 -->
+    @if (currentStep() === 3) {
+    <div class="step-container">
+      @if (effectiveStep3()) {
+      <ng-container *ngTemplateOutlet="effectiveStep3()!" />
+      } @else {
+      <ng-content select="[step3], [slot=step3]" />
+      <h3 class="step-title">Review & Finish</h3>
+      <div class="review-box">
+        <div class="rev-row"><span>Name:</span> <strong>{{ fullName() || '-' }}</strong></div>
+        <div class="rev-row"><span>Email:</span> <strong>{{ email() || '-' }}</strong></div>
+        <div class="rev-row"><span>Company:</span> <strong>{{ companyName() || '-' }}</strong></div>
+        <div class="rev-row"><span>Website:</span> <strong>{{ companyWebsite() || '-' }}</strong></div>
+      </div>
+      <gp-checkbox
+        styleClass="check-label"
+        [style]="{ marginTop: '1.25rem' }"
+        [binary]="true"
+        [checked]="agreeTerms()"
+        label="I accept the Service License Agreement and Privacy Policy"
+        (valueChange)="agreeTerms.set($event)"
+      />
+      }
+    </div>
+    }
+    <ng-content />
     }
 
     <!-- Wizard Footer Controls -->
     <div class="wizard-footer">
       @if (currentStep() > 1) {
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="prevStep()"> Previous </gp-button>
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="prevStep()"> Previous </gp-button>
       }
       <div style="flex: 1"></div>
       <gp-button severity="primary" size="sm" (onClickEvent)="nextStep()">

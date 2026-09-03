@@ -27,15 +27,7 @@ export type GpSelectionMode = 'single' | 'multiple' | null;
 @Component({
   selector: 'gp-table',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    GpIcon,
-    GpPaginator,
-    GpCheckbox,
-    GpRadioButton,
-    GpInputText
-  ],
+  imports: [CommonModule, FormsModule, GpIcon, GpPaginator, GpCheckbox, GpRadioButton, GpInputText],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './table.html',

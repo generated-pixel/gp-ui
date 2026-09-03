@@ -3,86 +3,82 @@
     <div class="gp-grid-list-title-group">
       <h4 class="gp-grid-list-title">{{ effectiveTitle() }}</h4>
       @if (normalizedData().subtitle) {
-        <span class="gp-grid-list-sub">{{ normalizedData().subtitle }}</span>
+      <span class="gp-grid-list-sub">{{ normalizedData().subtitle }}</span>
       }
     </div>
     @if (effectiveActionLabel()) {
-      <gp-button variant="text" size="sm" severity="primary" (onClickEvent)="onActionClicked($event)">
-        {{ effectiveActionLabel() }}
-        <gp-icon name="arrow-right" size="0.85em" style="margin-left: 0.35rem" />
-      </gp-button>
+    <gp-button variant="text" size="sm" severity="primary" (onClickEvent)="onActionClicked($event)">
+      {{ effectiveActionLabel() }}
+      <gp-icon name="arrow-right" size="0.85em" style="margin-left: 0.35rem" />
+    </gp-button>
     }
   </div>
 
   @if (isLoading()) {
-    <div class="gp-grid-list-loading">
-      @for (i of [1, 2, 3, 4]; track i) {
-        <div class="gp-grid-list-skeleton-item">
-          <gp-skeleton shape="circle" size="2.25rem" />
-          <div style="flex: 1; display: flex; flex-direction: column; gap: 0.35rem">
-            <gp-skeleton width="60%" height="1rem" />
-            <gp-skeleton width="40%" height="0.75rem" />
-          </div>
-        </div>
-      }
+  <div class="gp-grid-list-loading">
+    @for (i of [1, 2, 3, 4]; track i) {
+    <div class="gp-grid-list-skeleton-item">
+      <gp-skeleton shape="circle" size="2.25rem" />
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 0.35rem">
+        <gp-skeleton width="60%" height="1rem" />
+        <gp-skeleton width="40%" height="0.75rem" />
+      </div>
     </div>
+    }
+  </div>
   } @else if (errorMessage()) {
-    <div class="gp-grid-list-error">
-      <gp-icon name="circle-alert" size="1.75em" class="gp-grid-list-error-icon" />
-      <span class="gp-grid-list-error-text">{{ errorMessage() }}</span>
-      <button type="button" class="gp-grid-list-retry-btn" (click)="refresh()">Retry</button>
-    </div>
+  <div class="gp-grid-list-error">
+    <gp-icon name="circle-alert" size="1.75em" class="gp-grid-list-error-icon" />
+    <span class="gp-grid-list-error-text">{{ errorMessage() }}</span>
+    <button type="button" class="gp-grid-list-retry-btn" (click)="refresh()">Retry</button>
+  </div>
   } @else {
-    <div class="gp-grid-list-scroll">
-      @for (item of effectiveItems(); track item.id || $index) {
+  <div class="gp-grid-list-scroll">
+    @for (item of effectiveItems(); track item.id || $index) {
+    <div
+      class="gp-grid-list-item"
+      [class.gp-grid-list-item--clickable]="!!item.routerLink || !!itemClick"
+      (click)="onItemClicked(item, $event)"
+      (keydown.enter)="onItemClicked(item, $event)"
+      tabindex="0"
+      role="button"
+    >
+      <div class="gp-grid-list-item-main">
+        @if (item.avatar) {
+        <gp-avatar [image]="item.avatar" size="normal" shape="circle" />
+        } @else if (item.avatarLabel) {
+        <gp-avatar [label]="item.avatarLabel" size="normal" shape="circle" />
+        } @else if (item.icon) {
         <div
-          class="gp-grid-list-item"
-          [class.gp-grid-list-item--clickable]="!!item.routerLink || !!itemClick"
-          (click)="onItemClicked(item, $event)"
-          (keydown.enter)="onItemClicked(item, $event)"
-          tabindex="0"
-          role="button"
+          class="gp-grid-list-icon"
+          [style.background]="item.iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.12))'"
+          [style.color]="item.iconColor || 'var(--gp-primary, #6366f1)'"
         >
-          <div class="gp-grid-list-item-main">
-            @if (item.avatar) {
-              <gp-avatar [image]="item.avatar" size="normal" shape="circle" />
-            } @else if (item.avatarLabel) {
-              <gp-avatar [label]="item.avatarLabel" size="normal" shape="circle" />
-            } @else if (item.icon) {
-              <div
-                class="gp-grid-list-icon"
-                [style.background]="item.iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.12))'"
-                [style.color]="item.iconColor || 'var(--gp-primary, #6366f1)'"
-              >
-                <gp-icon [name]="item.icon" size="1.1em" />
-              </div>
-            }
-
-            <div class="gp-grid-list-details">
-              <span class="gp-grid-list-title-text">{{ item.title }}</span>
-              @if (item.subtitle || item.category) {
-                <span class="gp-grid-list-subtitle-text">{{ item.subtitle || item.category }}</span>
-              }
-            </div>
-          </div>
-
-          <div class="gp-grid-list-meta">
-            @if (item.badge) {
-              <gp-badge [value]="item.badge" [severity]="item.badgeSeverity || 'primary'" />
-            }
-            @if (item.revenue || item.sales) {
-              <strong class="gp-grid-list-val">{{ item.revenue || item.sales }}</strong>
-            }
-            @if (item.time) {
-              <span class="gp-grid-list-time">{{ item.time }}</span>
-            }
-          </div>
+          <gp-icon [name]="item.icon" size="1.1em" />
         </div>
-      } @empty {
-        <div class="gp-grid-list-empty">
-          {{ normalizedData().emptyMessage || 'No recent activity.' }}
+        }
+
+        <div class="gp-grid-list-details">
+          <span class="gp-grid-list-title-text">{{ item.title }}</span>
+          @if (item.subtitle || item.category) {
+          <span class="gp-grid-list-subtitle-text">{{ item.subtitle || item.category }}</span>
+          }
         </div>
-      }
+      </div>
+
+      <div class="gp-grid-list-meta">
+        @if (item.badge) {
+        <gp-badge [value]="item.badge" [severity]="item.badgeSeverity || 'primary'" />
+        } @if (item.revenue || item.sales) {
+        <strong class="gp-grid-list-val">{{ item.revenue || item.sales }}</strong>
+        } @if (item.time) {
+        <span class="gp-grid-list-time">{{ item.time }}</span>
+        }
+      </div>
     </div>
+    } @empty {
+    <div class="gp-grid-list-empty">{{ normalizedData().emptyMessage || 'No recent activity.' }}</div>
+    }
+  </div>
   }
 </div>

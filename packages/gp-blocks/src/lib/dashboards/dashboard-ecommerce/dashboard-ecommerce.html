@@ -1,9 +1,9 @@
 <div class="gp-dashboard-ecom-root">
   <!-- Optional Top Action Bar / Slot -->
   @if (contentHeaderActions()) {
-    <div class="dashboard-top-slot">
-      <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
-    </div>
+  <div class="dashboard-top-slot">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
+  </div>
   }
   <ng-content select="[actions], [slot=actions]" />
 
@@ -20,118 +20,105 @@
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
       @if (effectiveWidgetTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
+      <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       } @else {
-        <!-- 1. KPI Cards Widget -->
-        @if (item.id === 'kpis') {
-          @if (contentKpis()) {
-            <ng-container *ngTemplateOutlet="contentKpis()!" />
-          } @else {
-            @if (kpis() && kpis().length > 0) {
-              <div class="ecom-kpi-row">
-                @for (k of kpis(); track k) {
-                  <div class="ecom-card" (click)="kpiClick.emit(k)" style="cursor: pointer">
-                    <span class="card-label">{{ k.label }}</span>
-                    <div class="val-line">
-                      <span class="val-num">{{ k.value }}</span>
-                      <span
-                        class="trend-tag"
-                        [class.pos]="k.trend === 'pos' || (!k.trend && k.meta.startsWith('+'))"
-                        [class.neg]="k.trend === 'neg' || (!k.trend && k.meta.startsWith('-'))"
-                      >
-                        {{ k.meta }}
-                      </span>
-                    </div>
-                  </div>
-                }
-              </div>
-            }
-          }
+      <!-- 1. KPI Cards Widget -->
+      @if (item.id === 'kpis') { @if (contentKpis()) {
+      <ng-container *ngTemplateOutlet="contentKpis()!" />
+      } @else { @if (kpis() && kpis().length > 0) {
+      <div class="ecom-kpi-row">
+        @for (k of kpis(); track k) {
+        <div class="ecom-card" (click)="kpiClick.emit(k)" style="cursor: pointer">
+          <span class="card-label">{{ k.label }}</span>
+          <div class="val-line">
+            <span class="val-num">{{ k.value }}</span>
+            <span
+              class="trend-tag"
+              [class.pos]="k.trend === 'pos' || (!k.trend && k.meta.startsWith('+'))"
+              [class.neg]="k.trend === 'neg' || (!k.trend && k.meta.startsWith('-'))"
+            >
+              {{ k.meta }}
+            </span>
+          </div>
+        </div>
         }
-        <!-- 2. Top Products Widget -->
-        @if (item.id === 'top-products') {
-          @if (contentProducts()) {
-            <ng-container *ngTemplateOutlet="contentProducts()!" />
-          } @else {
-            @if (topProducts() && topProducts().length > 0) {
-              <div class="ecom-panel" style="height: 100%">
-                <div class="panel-header">
-                  <h3 class="panel-title">{{ productsTitle() }}</h3>
-                  <gp-button variant="text" severity="primary" (onClickEvent)="viewAllProductsClick.emit()"
-                    >View Catalog</gp-button
-                  >
-                </div>
-                <div class="product-list">
-                  @for (prod of topProducts(); track prod) {
-                    <div class="prod-row" (click)="productClick.emit(prod)" style="cursor: pointer">
-                      <div class="prod-info">
-                        <div class="prod-name">{{ prod.name }}</div>
-                        <div class="prod-cat">{{ prod.category }}</div>
-                      </div>
-                      <div class="prod-stats">
-                        <span class="prod-rev">{{ prod.revenue }}</span>
-                        <span class="prod-sales">{{ prod.sales }} sold</span>
-                      </div>
-                    </div>
-                  }
-                </div>
-              </div>
-            }
+      </div>
+      } } }
+      <!-- 2. Top Products Widget -->
+      @if (item.id === 'top-products') { @if (contentProducts()) {
+      <ng-container *ngTemplateOutlet="contentProducts()!" />
+      } @else { @if (topProducts() && topProducts().length > 0) {
+      <div class="ecom-panel" style="height: 100%">
+        <div class="panel-header">
+          <h3 class="panel-title">{{ productsTitle() }}</h3>
+          <gp-button variant="text" severity="primary" (onClickEvent)="viewAllProductsClick.emit()"
+            >View Catalog</gp-button
+          >
+        </div>
+        <div class="product-list">
+          @for (prod of topProducts(); track prod) {
+          <div class="prod-row" (click)="productClick.emit(prod)" style="cursor: pointer">
+            <div class="prod-info">
+              <div class="prod-name">{{ prod.name }}</div>
+              <div class="prod-cat">{{ prod.category }}</div>
+            </div>
+            <div class="prod-stats">
+              <span class="prod-rev">{{ prod.revenue }}</span>
+              <span class="prod-sales">{{ prod.sales }} sold</span>
+            </div>
+          </div>
           }
-        }
-        <!-- 3. Recent Orders Widget -->
-        @if (item.id === 'recent-orders') {
-          @if (contentOrders()) {
-            <ng-container *ngTemplateOutlet="contentOrders()!" />
-          } @else {
-            @if (recentOrders() && recentOrders().length > 0) {
-              <div class="ecom-panel" style="height: 100%">
-                <div class="panel-header">
-                  <h3 class="panel-title">{{ ordersTitle() }}</h3>
-                  @if (ordersBadge()) {
-                    <gp-badge [value]="ordersBadge()" severity="primary" />
-                  }
-                </div>
-                <table class="orders-table">
-                  <thead>
-                    <tr>
-                      <th>Order #</th>
-                      <th>Customer</th>
-                      <th>Total</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (order of recentOrders(); track order) {
-                      <tr (click)="orderClick.emit(order)" style="cursor: pointer">
-                        <td>
-                          <span class="order-id">{{ order.id }}</span>
-                        </td>
-                        <td>{{ order.customer }}</td>
-                        <td>
-                          <strong>{{ order.amount }}</strong>
-                        </td>
-                        <td>
-                          <gp-badge
-                            [value]="order.status"
-                            [severity]="
+        </div>
+      </div>
+      } } }
+      <!-- 3. Recent Orders Widget -->
+      @if (item.id === 'recent-orders') { @if (contentOrders()) {
+      <ng-container *ngTemplateOutlet="contentOrders()!" />
+      } @else { @if (recentOrders() && recentOrders().length > 0) {
+      <div class="ecom-panel" style="height: 100%">
+        <div class="panel-header">
+          <h3 class="panel-title">{{ ordersTitle() }}</h3>
+          @if (ordersBadge()) {
+          <gp-badge [value]="ordersBadge()" severity="primary" />
+          }
+        </div>
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of recentOrders(); track order) {
+            <tr (click)="orderClick.emit(order)" style="cursor: pointer">
+              <td>
+                <span class="order-id">{{ order.id }}</span>
+              </td>
+              <td>{{ order.customer }}</td>
+              <td>
+                <strong>{{ order.amount }}</strong>
+              </td>
+              <td>
+                <gp-badge
+                  [value]="order.status"
+                  [severity]="
                               order.status === 'Completed'
                                 ? 'success'
                                 : order.status === 'Processing'
                                   ? 'primary'
                                   : 'warning'
                             "
-                          />
-                        </td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
+                />
+              </td>
+            </tr>
             }
-          }
-        }
-      }
+          </tbody>
+        </table>
+      </div>
+      } } } }
     </ng-template>
   </gp-grid>
 </div>

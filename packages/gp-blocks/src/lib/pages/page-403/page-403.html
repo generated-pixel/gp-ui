@@ -1,35 +1,34 @@
 <div class="gp-page-state-shell">
   <div class="state-card">
     @if (effectiveContent()) {
-      <ng-container *ngTemplateOutlet="effectiveContent()!" />
+    <ng-container *ngTemplateOutlet="effectiveContent()!" />
     } @else {
-      <!-- Big Error Code -->
-      @if (effectiveCode()) {
-        <ng-container *ngTemplateOutlet="effectiveCode()!" />
-      } @else {
-        <ng-content select="[code], [slot=code]" />
-        <h1 class="state-code">{{ code() }}</h1>
-      }
-      <!-- Headings -->
-      @if (title()) {
-        <h2 class="state-title">{{ title() }}</h2>
-      }
-      @if (description()) {
-        <p class="state-desc">{{ description() }}</p>
-      }
-      <!-- Actions -->
-      @if (effectiveActions()) {
-        <ng-container *ngTemplateOutlet="effectiveActions()!" />
-      } @else {
-        <ng-content select="[actions], [slot=actions]" />
-        <div class="state-actions-row">
-          <gp-button variant="outlined" severity="secondary" (onClickEvent)="requestAccess.emit()">{{
-            requestAccessBtnLabel()
-          }}</gp-button>
-          <gp-button severity="primary" (onClickEvent)="returnHome.emit()">{{ returnHomeBtnLabel() }}</gp-button>
-        </div>
-      }
-      <ng-content />
+    <!-- Big Error Code -->
+    @if (effectiveCode()) {
+    <ng-container *ngTemplateOutlet="effectiveCode()!" />
+    } @else {
+    <ng-content select="[code], [slot=code]" />
+    <h1 class="state-code">{{ code() }}</h1>
+    }
+    <!-- Headings -->
+    @if (title()) {
+    <h2 class="state-title">{{ title() }}</h2>
+    } @if (description()) {
+    <p class="state-desc">{{ description() }}</p>
+    }
+    <!-- Actions -->
+    @if (effectiveActions()) {
+    <ng-container *ngTemplateOutlet="effectiveActions()!" />
+    } @else {
+    <ng-content select="[actions], [slot=actions]" />
+    <div class="state-actions-row">
+      <gp-button variant="outlined" severity="secondary" (onClickEvent)="requestAccess.emit()"
+        >{{ requestAccessBtnLabel() }}</gp-button
+      >
+      <gp-button severity="primary" (onClickEvent)="returnHome.emit()">{{ returnHomeBtnLabel() }}</gp-button>
+    </div>
+    }
+    <ng-content />
     }
   </div>
 </div>

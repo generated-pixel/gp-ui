@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 console.log('🔍 Running gp-ui architectural linter...');
 
@@ -52,9 +53,24 @@ if (fs.existsSync(path.join(__dirname, '../packages/gp-rules/src/lib'))) {
   checkFiles(path.join(__dirname, '../packages/gp-rules/src/lib'));
 }
 
-if (errors === 0) {
+const architecturePassed = errors === 0;
+if (architecturePassed) {
   console.log('✅ All components pass architectural lint rules (standalone, OnPush, no 3rd-party dependencies)!');
 } else {
   console.error(`❌ Lint failed with ${errors} error(s).`);
+}
+
+console.log('🔍 Running ESLint...');
+let eslintPassed = true;
+try {
+  execSync('npx eslint .', {
+    cwd: path.join(__dirname, '..'),
+    stdio: 'inherit'
+  });
+} catch {
+  eslintPassed = false;
+}
+
+if (!architecturePassed || !eslintPassed) {
   process.exit(1);
 }

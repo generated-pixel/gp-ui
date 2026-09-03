@@ -16,38 +16,38 @@
   ></div>
 
   @if (overlayVisible()) {
-    <div
-      class="gp-color-picker-overlay"
-      role="dialog"
-      aria-label="Color Palette"
-      [gpAppendTo]="appendTo()"
-      [gpConnectedTo]="hostElementRef"
-    >
-      <div class="gp-color-picker-palette">
-        @for (c of presetColors(); track c) {
-          <div
-            class="gp-color-picker-swatch"
-            [style.background-color]="c"
-            [class.gp-color-picker-swatch-selected]="internalValue() === c"
-            role="button"
-            tabindex="0"
-            [attr.aria-label]="'Select color ' + c"
-            (click)="selectColor(c)"
-            (keydown.enter)="selectColor(c)"
-            (keydown.space)="$event.preventDefault(); selectColor(c)"
-          ></div>
-        }
-      </div>
-      <div class="gp-color-picker-custom">
-        <input
-          type="color"
-          [value]="internalValue()"
-          (input)="onNativeColorInput($event)"
-          aria-label="Custom color picker"
-          class="gp-color-picker-native"
-        />
-        <span class="gp-color-picker-hex">{{ internalValue() }}</span>
-      </div>
+  <div
+    class="gp-color-picker-overlay"
+    role="dialog"
+    aria-label="Color Palette"
+    [gpAppendTo]="appendTo()"
+    [gpConnectedTo]="hostElementRef"
+  >
+    <div class="gp-color-picker-palette">
+      @for (c of presetColors(); track c) {
+      <div
+        class="gp-color-picker-swatch"
+        [style.background-color]="c"
+        [class.gp-color-picker-swatch-selected]="internalValue() === c"
+        role="button"
+        tabindex="0"
+        [attr.aria-label]="'Select color ' + c"
+        (click)="selectColor(c)"
+        (keydown.enter)="selectColor(c)"
+        (keydown.space)="$event.preventDefault(); selectColor(c)"
+      ></div>
+      }
     </div>
+    <div class="gp-color-picker-custom">
+      <input
+        type="color"
+        [value]="internalValue()"
+        (input)="onNativeColorInput($event)"
+        aria-label="Custom color picker"
+        class="gp-color-picker-native"
+      />
+      <span class="gp-color-picker-hex">{{ internalValue() }}</span>
+    </div>
+  </div>
   }
 </div>

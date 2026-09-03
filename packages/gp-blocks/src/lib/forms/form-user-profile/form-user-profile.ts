@@ -40,6 +40,7 @@ export class GpFormUserProfile {
     phone: string;
     bio: string;
   }>();
+
   public cancel = output<void>();
 
   public headerTemplate = input<TemplateRef<any> | undefined>(undefined);

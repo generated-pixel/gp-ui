@@ -1,48 +1,48 @@
-<nav class="gp-breadcrumb" [attr.aria-label]="ariaLabel() || 'Breadcrumb'" [attr.aria-labelledby]="ariaLabelledBy() || null">
+<nav
+  class="gp-breadcrumb"
+  [attr.aria-label]="ariaLabel() || 'Breadcrumb'"
+  [attr.aria-labelledby]="ariaLabelledBy() || null"
+>
   <ol class="gp-breadcrumb__list gp-breadcrumb-list">
     @if (home(); as homeItem) {
-      <li class="gp-breadcrumb__item gp-breadcrumb-item">
-        <a
-          [routerLink]="homeItem.routerLink"
-          [attr.href]="homeItem.url || null"
-          class="gp-breadcrumb__link gp-breadcrumb-link"
-          (click)="onItemClick(homeItem, $event)"
-          aria-label="Home"
-        >
-          <gp-icon [name]="homeItem.icon || 'home'" size="1em" />
-        </a>
-      </li>
-      @if (model() && model().length > 0) {
-        <li class="gp-breadcrumb__separator gp-breadcrumb-separator" aria-hidden="true">
-          <gp-icon [name]="separatorIcon()" size="0.75em" />
-        </li>
-      }
-    }
-
-    @for (item of model(); track $index; let last = $last) {
-      <li class="gp-breadcrumb__item gp-breadcrumb-item" [class.gp-breadcrumb__item--last]="last">
-        @if (last || item.disabled) {
-          <span class="gp-breadcrumb__current gp-breadcrumb-current" aria-current="page">{{ item.label }}</span>
-        } @else {
-          <a
-            [routerLink]="item.routerLink"
-            [attr.href]="item.url || null"
-            class="gp-breadcrumb__link gp-breadcrumb-link"
-            (click)="onItemClick(item, $event)"
-          >
-            @if (item.icon) {
-              <gp-icon [name]="item.icon" size="0.9em" />
-            }
-            <span>{{ item.label }}</span>
-          </a>
+    <li class="gp-breadcrumb__item gp-breadcrumb-item">
+      <a
+        [routerLink]="homeItem.routerLink"
+        [attr.href]="homeItem.url || null"
+        class="gp-breadcrumb__link gp-breadcrumb-link"
+        (click)="onItemClick(homeItem, $event)"
+        aria-label="Home"
+      >
+        <gp-icon [name]="homeItem.icon || 'home'" size="1em" />
+      </a>
+    </li>
+    @if (model() && model().length > 0) {
+    <li class="gp-breadcrumb__separator gp-breadcrumb-separator" aria-hidden="true">
+      <gp-icon [name]="separatorIcon()" size="0.75em" />
+    </li>
+    } } @for (item of model(); track $index; let last = $last) {
+    <li class="gp-breadcrumb__item gp-breadcrumb-item" [class.gp-breadcrumb__item--last]="last">
+      @if (last || item.disabled) {
+      <span class="gp-breadcrumb__current gp-breadcrumb-current" aria-current="page">{{ item.label }}</span>
+      } @else {
+      <a
+        [routerLink]="item.routerLink"
+        [attr.href]="item.url || null"
+        class="gp-breadcrumb__link gp-breadcrumb-link"
+        (click)="onItemClick(item, $event)"
+      >
+        @if (item.icon) {
+        <gp-icon [name]="item.icon" size="0.9em" />
         }
-      </li>
-
-      @if (!last) {
-        <li class="gp-breadcrumb__separator gp-breadcrumb-separator" aria-hidden="true">
-          <gp-icon [name]="separatorIcon()" size="0.75em" />
-        </li>
+        <span>{{ item.label }}</span>
+      </a>
       }
-    }
+    </li>
+
+    @if (!last) {
+    <li class="gp-breadcrumb__separator gp-breadcrumb-separator" aria-hidden="true">
+      <gp-icon [name]="separatorIcon()" size="0.75em" />
+    </li>
+    } }
   </ol>
 </nav>

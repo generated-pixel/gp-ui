@@ -202,10 +202,18 @@ export class GpRuleValidator {
       }
     }
 
-    if (cond.all) cond.all.forEach((sub) => this.validateCondition(ruleId, sub, errors, warnings));
-    if (cond.any) cond.any.forEach((sub) => this.validateCondition(ruleId, sub, errors, warnings));
-    if (cond.none) cond.none.forEach((sub) => this.validateCondition(ruleId, sub, errors, warnings));
-    if (cond.not) this.validateCondition(ruleId, cond.not, errors, warnings);
+    if (cond.all) {
+      cond.all.forEach((sub) => this.validateCondition(ruleId, sub, errors, warnings));
+    }
+    if (cond.any) {
+      cond.any.forEach((sub) => this.validateCondition(ruleId, sub, errors, warnings));
+    }
+    if (cond.none) {
+      cond.none.forEach((sub) => this.validateCondition(ruleId, sub, errors, warnings));
+    }
+    if (cond.not) {
+      this.validateCondition(ruleId, cond.not, errors, warnings);
+    }
   }
 
   private static validateActions(
@@ -226,7 +234,9 @@ export class GpRuleValidator {
       return;
     }
 
-    if (!actions) return;
+    if (!actions) {
+      return;
+    }
 
     const actionList = Array.isArray(actions) ? actions : [actions];
     if (actionList.length === 0 && !isElse) {

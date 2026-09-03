@@ -2,34 +2,32 @@
   <!-- Floating Card Sidebar -->
   <aside class="floating-sidebar-card">
     @if (effectiveSidebar()) {
-      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     } @else {
-      <ng-content select="[sidebar], [slot=sidebar]" />
-      @if (effectiveBrand()) {
-        <ng-container *ngTemplateOutlet="effectiveBrand()!" />
-      } @else {
-        <ng-content select="[brand], [slot=brand]" />
-        <div class="floating-brand">
-          <div class="brand-orb"></div>
-          <span class="brand-text">{{ brandName() }}</span>
-        </div>
+    <ng-content select="[sidebar], [slot=sidebar]" />
+    @if (effectiveBrand()) {
+    <ng-container *ngTemplateOutlet="effectiveBrand()!" />
+    } @else {
+    <ng-content select="[brand], [slot=brand]" />
+    <div class="floating-brand">
+      <div class="brand-orb"></div>
+      <span class="brand-text">{{ brandName() }}</span>
+    </div>
+    } @if (navItems() && navItems().length > 0) {
+    <nav class="floating-nav">
+      @for (item of navItems(); track item) {
+      <a
+        href="javascript:void(0)"
+        class="floating-link"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+      </a>
       }
-      @if (navItems() && navItems().length > 0) {
-        <nav class="floating-nav">
-          @for (item of navItems(); track item) {
-            <a
-              href="javascript:void(0)"
-              class="floating-link"
-              [class.active]="item.id === activeNavId() || item.active"
-              (click)="navItemClick.emit(item)"
-            >
-              <gp-icon [name]="item.icon" size="1.1em" />
-              <span>{{ item.label }}</span>
-            </a>
-          }
-        </nav>
-      }
-    }
+    </nav>
+    } }
   </aside>
 
   <!-- Main Shell Content -->
@@ -38,18 +36,18 @@
       <h2 class="floating-title">{{ title() }}</h2>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="floating-content-card">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

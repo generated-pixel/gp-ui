@@ -14,7 +14,11 @@
       <div class="field-row">
         <div class="form-group flex-2">
           <label>Rule Name</label>
-          <gp-input-text [ngModel]="ruleName()" (ngModelChange)="ruleName.set($event)" placeholder="e.g. Discount Evaluator" />
+          <gp-input-text
+            [ngModel]="ruleName()"
+            (ngModelChange)="ruleName.set($event)"
+            placeholder="e.g. Discount Evaluator"
+          />
         </div>
         <div class="form-group flex-1">
           <label>Category</label>
@@ -37,16 +41,16 @@
         </div>
 
         @if (triggerEvent() === 'keypress' || triggerEvent() === 'input') {
-          <div class="form-group flex-1">
-            <label>Debounce (ms)</label>
-            <gp-input-number
-              [ngModel]="debounceMs()"
-              (ngModelChange)="debounceMs.set($event)"
-              [min]="50"
-              [max]="2000"
-              [step]="50"
-            />
-          </div>
+        <div class="form-group flex-1">
+          <label>Debounce (ms)</label>
+          <gp-input-number
+            [ngModel]="debounceMs()"
+            (ngModelChange)="debounceMs.set($event)"
+            [min]="50"
+            [max]="2000"
+            [step]="50"
+          />
+        </div>
         }
       </div>
     </div>
@@ -83,23 +87,23 @@
         </div>
 
         @if (compareMode() === 'staticValue') {
-          <div class="form-group flex-1">
-            <label>Expected Value</label>
-            <gp-input-text
-              [ngModel]="conditionValue()"
-              (ngModelChange)="conditionValue.set($event)"
-              placeholder="e.g. VIP100"
-            />
-          </div>
+        <div class="form-group flex-1">
+          <label>Expected Value</label>
+          <gp-input-text
+            [ngModel]="conditionValue()"
+            (ngModelChange)="conditionValue.set($event)"
+            placeholder="e.g. VIP100"
+          />
+        </div>
         } @else {
-          <div class="form-group flex-1">
-            <label>Compare to Field</label>
-            <gp-input-text
-              [ngModel]="compareToField()"
-              (ngModelChange)="compareToField.set($event)"
-              placeholder="e.g. password"
-            />
-          </div>
+        <div class="form-group flex-1">
+          <label>Compare to Field</label>
+          <gp-input-text
+            [ngModel]="compareToField()"
+            (ngModelChange)="compareToField.set($event)"
+            placeholder="e.g. password"
+          />
+        </div>
         }
       </div>
     </div>
@@ -114,17 +118,23 @@
         </div>
 
         @if (actionType() === 'copyValue') {
-          <div class="form-group flex-1">
-            <label>Source Field (fromField)</label>
-            <gp-input-text [ngModel]="fromField()" (ngModelChange)="fromField.set($event)" placeholder="e.g. billingAddress" />
-          </div>
-        }
-
-        @if (actionType() === 'transformValue') {
-          <div class="form-group flex-1">
-            <label>Transformation Type</label>
-            <gp-select [options]="transformOptions" [ngModel]="transformType()" (ngModelChange)="transformType.set($event)" />
-          </div>
+        <div class="form-group flex-1">
+          <label>Source Field (fromField)</label>
+          <gp-input-text
+            [ngModel]="fromField()"
+            (ngModelChange)="fromField.set($event)"
+            placeholder="e.g. billingAddress"
+          />
+        </div>
+        } @if (actionType() === 'transformValue') {
+        <div class="form-group flex-1">
+          <label>Transformation Type</label>
+          <gp-select
+            [options]="transformOptions"
+            [ngModel]="transformType()"
+            (ngModelChange)="transformType.set($event)"
+          />
+        </div>
         }
 
         <div class="form-group flex-1">
@@ -151,30 +161,38 @@
     <div class="builder-section">
       <div class="else-toggle-row">
         <label class="checkbox-label">
-          <input
-            type="checkbox"
-            [ngModel]="enableElseAction()"
-            (ngModelChange)="enableElseAction.set($event)"
-          />
+          <input type="checkbox" [ngModel]="enableElseAction()" (ngModelChange)="enableElseAction.set($event)" />
           <span>Enable Else Branch (Actions when condition is false)</span>
         </label>
       </div>
 
       @if (enableElseAction()) {
-        <div class="field-row" style="margin-top: 0.5rem">
-          <div class="form-group flex-1">
-            <label>Else Action Type</label>
-            <gp-select [options]="actionOptions" [ngModel]="elseActionType()" (ngModelChange)="elseActionType.set($event)" />
-          </div>
-          <div class="form-group flex-1">
-            <label>Else Target Field</label>
-            <gp-input-text [ngModel]="elseActionTarget()" (ngModelChange)="elseActionTarget.set($event)" placeholder="e.g. discount" />
-          </div>
-          <div class="form-group flex-1">
-            <label>Else Value / Formula</label>
-            <gp-input-text [ngModel]="elseActionValue()" (ngModelChange)="elseActionValue.set($event)" placeholder="e.g. 0" />
-          </div>
+      <div class="field-row" style="margin-top: 0.5rem">
+        <div class="form-group flex-1">
+          <label>Else Action Type</label>
+          <gp-select
+            [options]="actionOptions"
+            [ngModel]="elseActionType()"
+            (ngModelChange)="elseActionType.set($event)"
+          />
         </div>
+        <div class="form-group flex-1">
+          <label>Else Target Field</label>
+          <gp-input-text
+            [ngModel]="elseActionTarget()"
+            (ngModelChange)="elseActionTarget.set($event)"
+            placeholder="e.g. discount"
+          />
+        </div>
+        <div class="form-group flex-1">
+          <label>Else Value / Formula</label>
+          <gp-input-text
+            [ngModel]="elseActionValue()"
+            (ngModelChange)="elseActionValue.set($event)"
+            placeholder="e.g. 0"
+          />
+        </div>
+      </div>
       }
     </div>
   </div>

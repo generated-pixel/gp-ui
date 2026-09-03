@@ -45,6 +45,7 @@ export class GpListTransactions {
   public contentHeader = contentChild<TemplateRef<any>>('header');
   public contentTransactionTemplate =
     contentChild<TemplateRef<{ $implicit: GpTransactionListItem }>>('transactionTemplate');
+
   public contentArea = contentChild<TemplateRef<any>>('content');
 
   public effectiveHeader = computed(() => this.headerTemplate() || this.contentHeader());

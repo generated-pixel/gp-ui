@@ -14,7 +14,8 @@ gp-slider {
   padding: 0.75rem 0;
   box-sizing: border-box;
 
-  &.gp-slider--vertical, &.gp-slider-vertical {
+  &.gp-slider--vertical,
+  &.gp-slider-vertical {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
@@ -38,7 +39,8 @@ gp-slider {
   }
 }
 
-.gp-slider__range, .gp-slider-range {
+.gp-slider__range,
+.gp-slider-range {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -53,7 +55,8 @@ gp-slider {
   }
 }
 
-.gp-slider__handle, .gp-slider-handle {
+.gp-slider__handle,
+.gp-slider-handle {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -62,7 +65,9 @@ gp-slider {
   border-radius: 50%;
   background: var(--gp-surface-card, #ffffff);
   border: 2.5px solid var(--gp-primary, #6366f1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
   outline: none;
   cursor: grab;
   z-index: 2;
@@ -79,7 +84,9 @@ gp-slider {
 
   &:hover {
     transform: translate(-50%, -50%) scale(1.15);
-    box-shadow: 0 0 0 4px var(--gp-primary-light, rgba(99, 102, 241, 0.15)), 0 3px 8px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      0 0 0 4px var(--gp-primary-light, rgba(99, 102, 241, 0.15)),
+      0 3px 8px rgba(0, 0, 0, 0.2);
 
     .gp-slider-vertical & {
       transform: translate(-50%, 50%) scale(1.15);
@@ -87,13 +94,17 @@ gp-slider {
   }
 
   &:focus-visible {
-    box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.35)), 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.35)),
+      0 2px 6px rgba(0, 0, 0, 0.2);
   }
 
   .gp-slider-dragging & {
     cursor: grabbing;
     transform: translate(-50%, -50%) scale(1.2);
-    box-shadow: 0 0 0 6px var(--gp-primary-light, rgba(99, 102, 241, 0.2)), 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow:
+      0 0 0 6px var(--gp-primary-light, rgba(99, 102, 241, 0.2)),
+      0 4px 12px rgba(0, 0, 0, 0.25);
 
     .gp-slider-vertical & {
       transform: translate(-50%, 50%) scale(1.2);
@@ -106,7 +117,8 @@ gp-slider {
   cursor: not-allowed;
   pointer-events: none;
 
-  .gp-slider__handle, .gp-slider-handle {
+  .gp-slider__handle,
+  .gp-slider-handle {
     cursor: not-allowed;
   }
 }

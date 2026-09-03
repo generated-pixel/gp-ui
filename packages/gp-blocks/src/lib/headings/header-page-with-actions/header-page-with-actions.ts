@@ -9,14 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpButton,
-  GpBadge,
-  GpIcon,
-  GpBadgeSeverity,
-  GpButtonVariant,
-  GpButtonSeverity
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpBadge, GpIcon, GpBadgeSeverity, GpButtonVariant, GpButtonSeverity } from '@generatedpixel/gp-ui';
 
 export interface GpHeaderBreadcrumb {
   label: string;

@@ -9,15 +9,7 @@ import { GpBlockMetadata, GpFormAction } from '../schema.types';
 @Component({
   selector: 'gp-dynamic-block-renderer',
   standalone: true,
-  imports: [
-    GpDynamicForm,
-    GpDynamicHeader,
-    GpDynamicStats,
-    GpBadge,
-    GpTag,
-    GpAvatar,
-    GpIcon
-  ],
+  imports: [GpDynamicForm, GpDynamicHeader, GpDynamicStats, GpBadge, GpTag, GpAvatar, GpIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './dynamic-block-renderer.html',

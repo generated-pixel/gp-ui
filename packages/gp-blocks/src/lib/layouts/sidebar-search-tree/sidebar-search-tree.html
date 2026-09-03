@@ -1,53 +1,51 @@
 <div class="gp-sidebar-search-tree-shell">
   <aside class="tree-sidebar">
     @if (effectiveSidebar()) {
-      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     } @else {
-      <ng-content select="[sidebar], [slot=sidebar]" />
-      <!-- Search Input -->
-      <div class="sidebar-search-box">
-        <gp-icon name="search" size="0.9em" class="search-ico" />
-        <gp-input-text
-          type="text"
-          [value]="searchQuery()"
-          [placeholder]="searchPlaceholder()"
-          (onInputEvent)="onSearch($event)"
-          styleClass="search-inp"
-        />
-      </div>
-      <div class="tree-container">
-        @if (effectiveTree()) {
-          <ng-container *ngTemplateOutlet="effectiveTree()!" />
-        } @else {
-          <ng-content select="[tree], [slot=tree]" />
-          @if (catalogLabel()) {
-            <div class="tree-group-label">{{ catalogLabel() }}</div>
+    <ng-content select="[sidebar], [slot=sidebar]" />
+    <!-- Search Input -->
+    <div class="sidebar-search-box">
+      <gp-icon name="search" size="0.9em" class="search-ico" />
+      <gp-input-text
+        type="text"
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        (onInputEvent)="onSearch($event)"
+        styleClass="search-inp"
+      />
+    </div>
+    <div class="tree-container">
+      @if (effectiveTree()) {
+      <ng-container *ngTemplateOutlet="effectiveTree()!" />
+      } @else {
+      <ng-content select="[tree], [slot=tree]" />
+      @if (catalogLabel()) {
+      <div class="tree-group-label">{{ catalogLabel() }}</div>
+      } @for (node of treeData(); track node) {
+      <div class="tree-node" [class.expanded]="node.expanded">
+        <div class="node-row" (click)="toggleNode(node)" style="cursor: pointer">
+          <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
+          <gp-icon [name]="node.expanded ? 'folder-open' : 'folder'" size="0.9em" class="folder-ico" />
+          <span>{{ node.label }}</span>
+        </div>
+        @if (node.expanded && node.children) {
+        <div class="node-children">
+          @for (leaf of node.children; track leaf) {
+          <div
+            class="leaf-node"
+            [class.active]="leaf.id === activeLeafId() || leaf.active"
+            (click)="leafClick.emit(leaf)"
+            style="cursor: pointer"
+          >
+            <span>{{ leaf.label }}</span>
+          </div>
           }
-          @for (node of treeData(); track node) {
-            <div class="tree-node" [class.expanded]="node.expanded">
-              <div class="node-row" (click)="toggleNode(node)" style="cursor: pointer">
-                <gp-icon [name]="node.expanded ? 'chevron-down' : 'chevron-right'" size="0.75em" />
-                <gp-icon [name]="node.expanded ? 'folder-open' : 'folder'" size="0.9em" class="folder-ico" />
-                <span>{{ node.label }}</span>
-              </div>
-              @if (node.expanded && node.children) {
-                <div class="node-children">
-                  @for (leaf of node.children; track leaf) {
-                    <div
-                      class="leaf-node"
-                      [class.active]="leaf.id === activeLeafId() || leaf.active"
-                      (click)="leafClick.emit(leaf)"
-                      style="cursor: pointer"
-                    >
-                      <span>{{ leaf.label }}</span>
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          }
+        </div>
         }
       </div>
+      } }
+    </div>
     }
   </aside>
 
@@ -56,18 +54,18 @@
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="page-content-area">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

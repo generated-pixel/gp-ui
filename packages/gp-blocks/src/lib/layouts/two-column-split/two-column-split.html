@@ -8,34 +8,33 @@
     <div class="pane-header">
       <div class="pane-title-group">
         @if (primaryTitle()) {
-          <h3 class="pane-title">{{ primaryTitle() }}</h3>
-        }
-        @if (primaryBadge()) {
-          <gp-badge [value]="primaryBadge()" severity="primary" />
+        <h3 class="pane-title">{{ primaryTitle() }}</h3>
+        } @if (primaryBadge()) {
+        <gp-badge [value]="primaryBadge()" severity="primary" />
         }
       </div>
       <div class="pane-header-actions">
         @if (effectivePrimaryActions()) {
-          <ng-container *ngTemplateOutlet="effectivePrimaryActions()!" />
+        <ng-container *ngTemplateOutlet="effectivePrimaryActions()!" />
         } @else {
-          <ng-content select="[primary-actions], [slot=primary-actions]" />
+        <ng-content select="[primary-actions], [slot=primary-actions]" />
         }
       </div>
     </div>
     <div class="pane-body">
       @if (effectivePrimary()) {
-        <ng-container *ngTemplateOutlet="effectivePrimary()!" />
+      <ng-container *ngTemplateOutlet="effectivePrimary()!" />
       } @else {
-        <ng-content select="[primary], [slot=primary], [left], [slot=left], [col1], [slot=col1]" />
-        <div class="split-default-content">
-          @if (primaryDescription()) {
-            <p class="lead-text">{{ primaryDescription() }}</p>
-          }
-          <div class="sample-content-box">
-            <h4>Main Editor & Workspace</h4>
-            <p>Project custom content or pass [primaryTemplate] to embed forms, tables, or editors.</p>
-          </div>
+      <ng-content select="[primary], [slot=primary], [left], [slot=left], [col1], [slot=col1]" />
+      <div class="split-default-content">
+        @if (primaryDescription()) {
+        <p class="lead-text">{{ primaryDescription() }}</p>
+        }
+        <div class="sample-content-box">
+          <h4>Main Editor & Workspace</h4>
+          <p>Project custom content or pass [primaryTemplate] to embed forms, tables, or editors.</p>
         </div>
+      </div>
       }
     </div>
   </section>
@@ -44,31 +43,31 @@
   <section class="split-pane pane-secondary">
     <div class="pane-header">
       @if (secondaryTitle()) {
-        <h3 class="pane-title">{{ secondaryTitle() }}</h3>
+      <h3 class="pane-title">{{ secondaryTitle() }}</h3>
       }
       <div class="pane-header-actions">
         @if (effectiveSecondaryActions()) {
-          <ng-container *ngTemplateOutlet="effectiveSecondaryActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveSecondaryActions()!" />
         } @else {
-          <ng-content select="[secondary-actions], [slot=secondary-actions]" />
+        <ng-content select="[secondary-actions], [slot=secondary-actions]" />
         }
       </div>
     </div>
     <div class="pane-body">
       @if (effectiveSecondary()) {
-        <ng-container *ngTemplateOutlet="effectiveSecondary()!" />
+      <ng-container *ngTemplateOutlet="effectiveSecondary()!" />
       } @else {
-        <ng-content select="[secondary], [slot=secondary], [right], [slot=right], [col2], [slot=col2]" />
-        <div class="split-default-content">
-          @if (secondaryDescription()) {
-            <p class="lead-text">{{ secondaryDescription() }}</p>
-          }
-          <div class="sample-preview-box">
-            <gp-icon name="window" size="2em" class="preview-icon" />
-            <h4>Live Preview & Side Effects</h4>
-            <p>Project custom preview cards, summaries, or metadata logs.</p>
-          </div>
+      <ng-content select="[secondary], [slot=secondary], [right], [slot=right], [col2], [slot=col2]" />
+      <div class="split-default-content">
+        @if (secondaryDescription()) {
+        <p class="lead-text">{{ secondaryDescription() }}</p>
+        }
+        <div class="sample-preview-box">
+          <gp-icon name="window" size="2em" class="preview-icon" />
+          <h4>Live Preview & Side Effects</h4>
+          <p>Project custom preview cards, summaries, or metadata logs.</p>
         </div>
+      </div>
       }
     </div>
   </section>

@@ -62,12 +62,14 @@ export class GpFormAdvancedFilterBuilder {
   public conditionRowTemplate = input<TemplateRef<{ $implicit: GpFilterCondition; index: number }> | undefined>(
     undefined
   );
+
   public actionsTemplate = input<TemplateRef<any> | undefined>(undefined);
   public contentTemplate = input<TemplateRef<any> | undefined>(undefined);
 
   public contentHeader = contentChild<TemplateRef<any>>('header');
   public contentConditionRowTemplate =
     contentChild<TemplateRef<{ $implicit: GpFilterCondition; index: number }>>('conditionRowTemplate');
+
   public contentActions = contentChild<TemplateRef<any>>('actions');
   public contentArea = contentChild<TemplateRef<any>>('content');
 
@@ -75,6 +77,7 @@ export class GpFormAdvancedFilterBuilder {
   public effectiveConditionRowTemplate = computed(
     () => this.conditionRowTemplate() || this.contentConditionRowTemplate()
   );
+
   public effectiveActions = computed(() => this.actionsTemplate() || this.contentActions());
   public effectiveContent = computed(() => this.contentTemplate() || this.contentArea());
 

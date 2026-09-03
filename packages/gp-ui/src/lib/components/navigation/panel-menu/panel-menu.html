@@ -1,92 +1,88 @@
 <div class="gp-panel-menu gp-panelmenu" role="tree" [attr.aria-label]="ariaLabel() || 'Panel Menu'">
   @for (item of model(); track $index) {
-    <div class="gp-panel-menu__panel gp-panelmenu-panel" [class.gp-panelmenu-panel-expanded]="isExpanded(item)">
-      <div
-        class="gp-panel-menu__header gp-panelmenu-header"
-        [class.gp-panelmenu-header-active]="isExpanded(item)"
-        [class.gp-panelmenu-header-disabled]="item.disabled"
-        (click)="onItemClick(item, $event)"
-        (keydown.enter)="onItemClick(item, $event)"
-        (keydown.space)="$event.preventDefault(); onItemClick(item, $event)"
-        tabindex="0"
-        role="treeitem"
-        [attr.aria-expanded]="item.items && item.items.length > 0 ? isExpanded(item) : null"
-        [attr.aria-disabled]="item.disabled || null"
-      >
-        @if (item.icon) {
-          <gp-icon [name]="item.icon" class="gp-panelmenu-icon" />
-        }
-        <span class="gp-panelmenu-label">{{ item.label }}</span>
-        @if (item.badge) {
-          <span class="gp-menu-item-badge">{{ item.badge }}</span>
-        }
-        @if (item.items && item.items.length > 0) {
-          <gp-icon
-            name="chevron-down"
-            size="0.8em"
-            class="gp-panelmenu-arrow"
-            [class.gp-panelmenu-arrow-rotated]="isExpanded(item)"
-          />
-        }
-      </div>
-
-      @if (item.items && item.items.length > 0 && isExpanded(item)) {
-        <ul class="gp-panelmenu-list" role="tree">
-          @for (sub of item.items; track $index) {
-            @if (sub.separator) {
-              <li class="gp-menu-separator" role="separator"></li>
-            } @else {
-              <li class="gp-panelmenu-item">
-                <a
-                  [routerLink]="sub.routerLink"
-                  [attr.href]="sub.url || null"
-                  [attr.target]="sub.target || null"
-                  class="gp-panelmenu-link"
-                  [class.gp-panelmenu-link-disabled]="sub.disabled"
-                  (click)="onItemClick(sub, $event)"
-                >
-                  @if (sub.icon) {
-                    <gp-icon [name]="sub.icon" size="0.9em" class="gp-panelmenu-icon" />
-                  }
-                  <span class="gp-panelmenu-sub-label">{{ sub.label }}</span>
-                  @if (sub.badge) {
-                    <span class="gp-menu-item-badge">{{ sub.badge }}</span>
-                  }
-                  @if (sub.items && sub.items.length > 0) {
-                    <gp-icon
-                      name="chevron-down"
-                      size="0.75em"
-                      class="gp-panelmenu-arrow"
-                      [class.gp-panelmenu-arrow-rotated]="isExpanded(sub)"
-                    />
-                  }
-                </a>
-
-                @if (sub.items && sub.items.length > 0 && isExpanded(sub)) {
-                  <ul class="gp-panelmenu-nested-list">
-                    @for (nested of sub.items; track $index) {
-                      <li class="gp-panelmenu-item">
-                        <a
-                          [routerLink]="nested.routerLink"
-                          [attr.href]="nested.url || null"
-                          [attr.target]="nested.target || null"
-                          class="gp-panelmenu-link"
-                          (click)="onItemClick(nested, $event)"
-                        >
-                          @if (nested.icon) {
-                            <gp-icon [name]="nested.icon" size="0.85em" class="gp-panelmenu-icon" />
-                          }
-                          <span>{{ nested.label }}</span>
-                        </a>
-                      </li>
-                    }
-                  </ul>
-                }
-              </li>
-            }
-          }
-        </ul>
+  <div class="gp-panel-menu__panel gp-panelmenu-panel" [class.gp-panelmenu-panel-expanded]="isExpanded(item)">
+    <div
+      class="gp-panel-menu__header gp-panelmenu-header"
+      [class.gp-panelmenu-header-active]="isExpanded(item)"
+      [class.gp-panelmenu-header-disabled]="item.disabled"
+      (click)="onItemClick(item, $event)"
+      (keydown.enter)="onItemClick(item, $event)"
+      (keydown.space)="$event.preventDefault(); onItemClick(item, $event)"
+      tabindex="0"
+      role="treeitem"
+      [attr.aria-expanded]="item.items && item.items.length > 0 ? isExpanded(item) : null"
+      [attr.aria-disabled]="item.disabled || null"
+    >
+      @if (item.icon) {
+      <gp-icon [name]="item.icon" class="gp-panelmenu-icon" />
+      }
+      <span class="gp-panelmenu-label">{{ item.label }}</span>
+      @if (item.badge) {
+      <span class="gp-menu-item-badge">{{ item.badge }}</span>
+      } @if (item.items && item.items.length > 0) {
+      <gp-icon
+        name="chevron-down"
+        size="0.8em"
+        class="gp-panelmenu-arrow"
+        [class.gp-panelmenu-arrow-rotated]="isExpanded(item)"
+      />
       }
     </div>
+
+    @if (item.items && item.items.length > 0 && isExpanded(item)) {
+    <ul class="gp-panelmenu-list" role="tree">
+      @for (sub of item.items; track $index) { @if (sub.separator) {
+      <li class="gp-menu-separator" role="separator"></li>
+      } @else {
+      <li class="gp-panelmenu-item">
+        <a
+          [routerLink]="sub.routerLink"
+          [attr.href]="sub.url || null"
+          [attr.target]="sub.target || null"
+          class="gp-panelmenu-link"
+          [class.gp-panelmenu-link-disabled]="sub.disabled"
+          (click)="onItemClick(sub, $event)"
+        >
+          @if (sub.icon) {
+          <gp-icon [name]="sub.icon" size="0.9em" class="gp-panelmenu-icon" />
+          }
+          <span class="gp-panelmenu-sub-label">{{ sub.label }}</span>
+          @if (sub.badge) {
+          <span class="gp-menu-item-badge">{{ sub.badge }}</span>
+          } @if (sub.items && sub.items.length > 0) {
+          <gp-icon
+            name="chevron-down"
+            size="0.75em"
+            class="gp-panelmenu-arrow"
+            [class.gp-panelmenu-arrow-rotated]="isExpanded(sub)"
+          />
+          }
+        </a>
+
+        @if (sub.items && sub.items.length > 0 && isExpanded(sub)) {
+        <ul class="gp-panelmenu-nested-list">
+          @for (nested of sub.items; track $index) {
+          <li class="gp-panelmenu-item">
+            <a
+              [routerLink]="nested.routerLink"
+              [attr.href]="nested.url || null"
+              [attr.target]="nested.target || null"
+              class="gp-panelmenu-link"
+              (click)="onItemClick(nested, $event)"
+            >
+              @if (nested.icon) {
+              <gp-icon [name]="nested.icon" size="0.85em" class="gp-panelmenu-icon" />
+              }
+              <span>{{ nested.label }}</span>
+            </a>
+          </li>
+          }
+        </ul>
+        }
+      </li>
+      } }
+    </ul>
+    }
+  </div>
   }
 </div>

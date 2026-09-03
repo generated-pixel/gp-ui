@@ -21,11 +21,11 @@ import { GpBadge, GpBadgeSeverity } from '../../feedback/badge/badge';
   templateUrl: './tab-panel.html',
   styleUrl: './tab-panel.scss',
   host: {
-    'role': 'tabpanel',
+    role: 'tabpanel',
     '[attr.hidden]': '!selected() ? true : null',
     '[class.gp-tabview-panel]': 'true',
     '[class.gp-tabview-panel-active]': 'selected()',
-    'tabindex': '0'
+    tabindex: '0'
   }
 })
 export class GpTabPanel extends GpBase {

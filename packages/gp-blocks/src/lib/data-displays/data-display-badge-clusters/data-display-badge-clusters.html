@@ -1,49 +1,44 @@
 <div class="gp-badge-clusters-block">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <div class="block-head">
-        <h3 class="head-title">{{ title() }}</h3>
-        @if (subtitle()) {
-          <p class="head-subtitle">{{ subtitle() }}</p>
-        }
-      </div>
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <div class="block-head">
+    <h3 class="head-title">{{ title() }}</h3>
+    @if (subtitle()) {
+    <p class="head-subtitle">{{ subtitle() }}</p>
     }
-  }
+  </div>
+  } }
 
   <!-- Clusters Content -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[clusters], [slot=clusters], [groups], [slot=groups]" />
-    @if (groups() && groups().length > 0) {
-      <div class="cluster-groups">
-        @for (g of groups(); track g) {
-          <div class="cluster-card">
-            <h4 class="group-title">{{ g.title }}</h4>
-            <div class="badges-wrap">
-              @for (item of g.items; track item) {
-                @if (effectiveBadgeTemplate()) {
-                  <ng-container *ngTemplateOutlet="effectiveBadgeTemplate()!; context: { $implicit: item }" />
-                } @else {
-                  <span (click)="itemClick.emit(item)" style="cursor: pointer; display: inline-flex">
-                    @if (item.isTag) {
-                      <gp-tag [value]="item.value" [severity]="item.severity || 'secondary'" />
-                    }
-                    @if (!item.isTag) {
-                      <gp-badge [value]="item.value" [severity]="item.severity || 'primary'" />
-                    }
-                  </span>
-                }
-              }
-            </div>
-          </div>
-        }
+  <ng-content select="[clusters], [slot=clusters], [groups], [slot=groups]" />
+  @if (groups() && groups().length > 0) {
+  <div class="cluster-groups">
+    @for (g of groups(); track g) {
+    <div class="cluster-card">
+      <h4 class="group-title">{{ g.title }}</h4>
+      <div class="badges-wrap">
+        @for (item of g.items; track item) { @if (effectiveBadgeTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveBadgeTemplate()!; context: { $implicit: item }" />
+        } @else {
+        <span (click)="itemClick.emit(item)" style="cursor: pointer; display: inline-flex">
+          @if (item.isTag) {
+          <gp-tag [value]="item.value" [severity]="item.severity || 'secondary'" />
+          } @if (!item.isTag) {
+          <gp-badge [value]="item.value" [severity]="item.severity || 'primary'" />
+          }
+        </span>
+        } }
       </div>
+    </div>
     }
-  }
+  </div>
+  } }
   <ng-content />
 </div>

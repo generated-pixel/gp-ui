@@ -2,14 +2,7 @@ import { Directive, input, output, signal, computed } from '@angular/core';
 import { GpBase } from './gp-base';
 
 export type GpFeedbackSeverity =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'error'
-  | 'contrast';
+  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'error' | 'contrast';
 
 export type GpFeedbackSize = 'sm' | 'md' | 'lg';
 

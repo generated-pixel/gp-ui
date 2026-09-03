@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpDivider],
-  template: `
-    <gp-divider layout="horizontal" type="dashed" align="center">OR</gp-divider>
-  `
+  template: ` <gp-divider layout="horizontal" type="dashed" align="center">OR</gp-divider> `
 })
 class TestHostComponent {}
 

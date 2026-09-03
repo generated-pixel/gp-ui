@@ -1,15 +1,18 @@
 <div
   class="gp-input-wrapper"
-  [class.gp-input-wrapper--disabled]="isEffectivelyDisabled()" [class.gp-input-disabled]="isEffectivelyDisabled()"
-  [class.gp-input-wrapper--filled]="!!internalValue()" [class.gp-input-filled]="!!internalValue()"
-  [class.gp-input-wrapper--invalid]="isInvalid()" [class.gp-input-invalid]="isInvalid()"
+  [class.gp-input-wrapper--disabled]="isEffectivelyDisabled()"
+  [class.gp-input-disabled]="isEffectivelyDisabled()"
+  [class.gp-input-wrapper--filled]="!!internalValue()"
+  [class.gp-input-filled]="!!internalValue()"
+  [class.gp-input-wrapper--invalid]="isInvalid()"
+  [class.gp-input-invalid]="isInvalid()"
   [class.gp-input-with-prefix]="!!iconLeft()"
   [class.gp-input-with-suffix]="!!iconRight() || (clearable() && !!internalValue())"
   [class]="styleClass()"
   [style]="style()"
 >
   @if (iconLeft()) {
-    <gp-icon [name]="iconLeft()" class="gp-input-icon gp-input-icon-left" />
+  <gp-icon [name]="iconLeft()" class="gp-input-icon gp-input-icon-left" />
   }
 
   <input
@@ -38,10 +41,15 @@
   />
 
   @if (clearable() && !!internalValue() && !isEffectivelyDisabled() && !readonly()) {
-    <button type="button" class="gp-input-wrapper__clear-btn gp-input-clear-btn" aria-label="Clear input" (click)="clearInput($event)">
-      <gp-icon name="times" size="0.9em" />
-    </button>
+  <button
+    type="button"
+    class="gp-input-wrapper__clear-btn gp-input-clear-btn"
+    aria-label="Clear input"
+    (click)="clearInput($event)"
+  >
+    <gp-icon name="times" size="0.9em" />
+  </button>
   } @else if (iconRight()) {
-    <gp-icon [name]="iconRight()" class="gp-input-icon gp-input-icon-right" />
+  <gp-icon [name]="iconRight()" class="gp-input-icon gp-input-icon-right" />
   }
 </div>

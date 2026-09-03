@@ -1,59 +1,55 @@
 <div class="gp-user-directory-block">
   <!-- Header with Search -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <div class="dir-top">
-        <h3 class="head-title">{{ title() }}</h3>
-        <div class="search-box">
-          <gp-icon name="search" size="0.9em" class="search-ico" />
-          <gp-input-text
-            type="text"
-            [value]="searchQuery()"
-            [placeholder]="searchPlaceholder()"
-            (onInputEvent)="onSearchInput($event)"
-            styleClass="search-input"
-          />
-        </div>
-      </div>
-    }
-  }
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <div class="dir-top">
+    <h3 class="head-title">{{ title() }}</h3>
+    <div class="search-box">
+      <gp-icon name="search" size="0.9em" class="search-ico" />
+      <gp-input-text
+        type="text"
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        (onInputEvent)="onSearchInput($event)"
+        styleClass="search-input"
+      />
+    </div>
+  </div>
+  } }
 
   <!-- User Cards Grid Body -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[users], [slot=users], [directory], [slot=directory]" />
-    @if (users() && users().length > 0) {
-      <div class="user-grid">
-        @for (u of users(); track u) {
-          @if (effectiveUserTemplate()) {
-            <ng-container *ngTemplateOutlet="effectiveUserTemplate()!; context: { $implicit: u }" />
-          } @else {
-            <div class="user-card">
-              <div class="avatar-wrap">
-                <gp-avatar [label]="u.name.charAt(0)" size="xlarge" shape="circle" />
-                @if (u.online) {
-                  <span class="online-indicator"></span>
-                }
-              </div>
-              <h4 class="user-name">{{ u.name }}</h4>
-              <span class="user-role">{{ u.role }}</span>
-              <div class="user-actions">
-                <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="profileClick.emit(u)">{{
-                  profileBtnLabel()
-                }}</gp-button>
-                <gp-button severity="primary" size="sm" (onClickEvent)="messageClick.emit(u)">{{
-                  messageBtnLabel()
-                }}</gp-button>
-              </div>
-            </div>
-          }
+  <ng-content select="[users], [slot=users], [directory], [slot=directory]" />
+  @if (users() && users().length > 0) {
+  <div class="user-grid">
+    @for (u of users(); track u) { @if (effectiveUserTemplate()) {
+    <ng-container *ngTemplateOutlet="effectiveUserTemplate()!; context: { $implicit: u }" />
+    } @else {
+    <div class="user-card">
+      <div class="avatar-wrap">
+        <gp-avatar [label]="u.name.charAt(0)" size="xlarge" shape="circle" />
+        @if (u.online) {
+        <span class="online-indicator"></span>
         }
       </div>
-    }
-  }
+      <h4 class="user-name">{{ u.name }}</h4>
+      <span class="user-role">{{ u.role }}</span>
+      <div class="user-actions">
+        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="profileClick.emit(u)"
+          >{{ profileBtnLabel() }}</gp-button
+        >
+        <gp-button severity="primary" size="sm" (onClickEvent)="messageClick.emit(u)"
+          >{{ messageBtnLabel() }}</gp-button
+        >
+      </div>
+    </div>
+    } }
+  </div>
+  } }
   <ng-content />
 </div>

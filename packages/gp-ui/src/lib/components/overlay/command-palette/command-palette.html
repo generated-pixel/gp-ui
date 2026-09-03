@@ -1,111 +1,117 @@
 @if (isVisible()) {
-  <div
-    class="gp-command-palette gp-command-palette__backdrop gp-command-palette-backdrop"
-    [gpAppendTo]="appendTo()"
-    (click)="onBackdropClick($event)"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Command Palette"
-  >
-    <div class="gp-command-palette__container gp-command-palette-container" (click)="$event.stopPropagation()">
-      <!-- Header & Search Input -->
-      <div class="gp-command-palette__header gp-command-palette-header">
-        <gp-icon name="search" class="gp-command-palette__search-icon gp-command-search-icon" />
-        <input
-          #searchInput
-          type="text"
-          class="gp-command-palette__input gp-command-palette-input"
-          role="combobox"
-          aria-expanded="true"
-          aria-autocomplete="list"
-          aria-controls="gp-command-palette-list"
-          [attr.aria-activedescendant]="activeItemId() ? 'cmd_item_' + activeItemId() : null"
-          aria-label="Command search"
-          [placeholder]="placeholder()"
-          [ngModel]="searchQuery()"
-          (ngModelChange)="onSearchChange($event)"
-          (keydown)="onKeyDown($event)"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <kbd class="gp-command-palette__shortcut-badge gp-command-shortcut-badge">ESC</kbd>
+<div
+  class="gp-command-palette gp-command-palette__backdrop gp-command-palette-backdrop"
+  [gpAppendTo]="appendTo()"
+  (click)="onBackdropClick($event)"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Command Palette"
+>
+  <div class="gp-command-palette__container gp-command-palette-container" (click)="$event.stopPropagation()">
+    <!-- Header & Search Input -->
+    <div class="gp-command-palette__header gp-command-palette-header">
+      <gp-icon name="search" class="gp-command-palette__search-icon gp-command-search-icon" />
+      <input
+        #searchInput
+        type="text"
+        class="gp-command-palette__input gp-command-palette-input"
+        role="combobox"
+        aria-expanded="true"
+        aria-autocomplete="list"
+        aria-controls="gp-command-palette-list"
+        [attr.aria-activedescendant]="activeItemId() ? 'cmd_item_' + activeItemId() : null"
+        aria-label="Command search"
+        [placeholder]="placeholder()"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="onSearchChange($event)"
+        (keydown)="onKeyDown($event)"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="gp-command-palette__shortcut-badge gp-command-shortcut-badge">ESC</kbd>
+    </div>
+
+    <!-- Breadcrumb navigation if inside a sub-command group -->
+    @if (activeParent()) {
+    <div class="gp-command-palette__breadcrumbs gp-command-palette-breadcrumbs">
+      <button
+        type="button"
+        class="gp-command-palette__breadcrumb-btn gp-command-breadcrumb-btn"
+        (click)="navigateBack()"
+        aria-label="Navigate back"
+      >
+        <gp-icon name="chevron-left" />
+        <span>{{ activeParent()?.title }}</span>
+      </button>
+    </div>
+    }
+
+    <!-- Results List -->
+    <div
+      id="gp-command-palette-list"
+      class="gp-command-palette__body gp-command-palette-body"
+      role="listbox"
+      aria-label="Commands"
+    >
+      @if (groupedItems().length === 0) {
+      <div class="gp-command-palette__empty gp-command-palette-empty">
+        <gp-icon name="search" class="gp-command-palette__empty-icon gp-command-empty-icon" />
+        <p>{{ emptyMessage() }}</p>
       </div>
-
-      <!-- Breadcrumb navigation if inside a sub-command group -->
-      @if (activeParent()) {
-        <div class="gp-command-palette__breadcrumbs gp-command-palette-breadcrumbs">
-          <button type="button" class="gp-command-palette__breadcrumb-btn gp-command-breadcrumb-btn" (click)="navigateBack()" aria-label="Navigate back">
-            <gp-icon name="chevron-left" />
-            <span>{{ activeParent()?.title }}</span>
-          </button>
-        </div>
-      }
-
-      <!-- Results List -->
-      <div id="gp-command-palette-list" class="gp-command-palette__body gp-command-palette-body" role="listbox" aria-label="Commands">
-        @if (groupedItems().length === 0) {
-          <div class="gp-command-palette__empty gp-command-palette-empty">
-            <gp-icon name="search" class="gp-command-palette__empty-icon gp-command-empty-icon" />
-            <p>{{ emptyMessage() }}</p>
+      } @for (group of groupedItems(); track group.name) {
+      <div class="gp-command-palette__group gp-command-group" role="group" [attr.aria-label]="group.name">
+        <div class="gp-command-group-title">{{ group.name }}</div>
+        @for (item of group.items; track item.id) {
+        <div
+          [id]="'cmd_item_' + item.id"
+          class="gp-command-palette__item gp-command-item"
+          [class.gp-command-palette__item--active]="item.id === activeItemId()"
+          [class.gp-command-palette__item--disabled]="item.disabled"
+          (click)="selectItem(item)"
+          (mouseenter)="setActiveItem(item.id)"
+          role="option"
+          [attr.aria-selected]="item.id === activeItemId()"
+          [attr.aria-disabled]="item.disabled || null"
+        >
+          <div class="gp-command-item-left">
+            @if (item.icon) {
+            <gp-icon [name]="item.icon" class="gp-command-item-icon" />
+            }
+            <div class="gp-command-item-info">
+              <span class="gp-command-item-title">{{ item.title }}</span>
+              @if (item.description) {
+              <span class="gp-command-item-desc">{{ item.description }}</span>
+              }
+            </div>
           </div>
-        }
 
-        @for (group of groupedItems(); track group.name) {
-          <div class="gp-command-palette__group gp-command-group" role="group" [attr.aria-label]="group.name">
-            <div class="gp-command-group-title">{{ group.name }}</div>
-            @for (item of group.items; track item.id) {
-              <div
-                [id]="'cmd_item_' + item.id"
-                class="gp-command-palette__item gp-command-item"
-                [class.gp-command-palette__item--active]="item.id === activeItemId()"
-                [class.gp-command-palette__item--disabled]="item.disabled"
-                (click)="selectItem(item)"
-                (mouseenter)="setActiveItem(item.id)"
-                role="option"
-                [attr.aria-selected]="item.id === activeItemId()"
-                [attr.aria-disabled]="item.disabled || null"
-              >
-                <div class="gp-command-item-left">
-                  @if (item.icon) {
-                    <gp-icon [name]="item.icon" class="gp-command-item-icon" />
-                  }
-                  <div class="gp-command-item-info">
-                    <span class="gp-command-item-title">{{ item.title }}</span>
-                    @if (item.description) {
-                      <span class="gp-command-item-desc">{{ item.description }}</span>
-                    }
-                  </div>
-                </div>
-
-                <div class="gp-command-item-right">
-                  @if (item.badge) {
-                    <gp-badge
-                      [value]="item.badge"
-                      [severity]="item.badgeSeverity || 'secondary'"
-                      class="gp-command-item-badge"
-                    />
-                  }
-                  @if (item.shortcut) {
-                    <kbd class="gp-command-item-shortcut">{{ item.shortcut }}</kbd>
-                  }
-                  @if (item.children && item.children.length > 0) {
-                    <gp-icon name="chevron-right" class="gp-command-item-chevron" />
-                  }
-                </div>
-              </div>
+          <div class="gp-command-item-right">
+            @if (item.badge) {
+            <gp-badge
+              [value]="item.badge"
+              [severity]="item.badgeSeverity || 'secondary'"
+              class="gp-command-item-badge"
+            />
+            } @if (item.shortcut) {
+            <kbd class="gp-command-item-shortcut">{{ item.shortcut }}</kbd>
+            } @if (item.children && item.children.length > 0) {
+            <gp-icon name="chevron-right" class="gp-command-item-chevron" />
             }
           </div>
+        </div>
         }
       </div>
+      }
+    </div>
 
-      <!-- Footer Help -->
-      <div class="gp-command-palette-footer">
-        <span class="gp-command-footer-tip">
-          <kbd class="gp-kbd-key">↑</kbd><kbd class="gp-kbd-key">↓</kbd> Navigate
-        </span>
-        <span class="gp-command-footer-tip"> <kbd class="gp-kbd-key">↵</kbd> Select </span>
-        <span class="gp-command-footer-tip"> <kbd class="gp-kbd-key">ESC</kbd> Close </span>
-      </div>
+    <!-- Footer Help -->
+    <div class="gp-command-palette-footer">
+      <span class="gp-command-footer-tip">
+        <kbd class="gp-kbd-key">↑</kbd><kbd class="gp-kbd-key">↓</kbd> Navigate
+      </span>
+      <span class="gp-command-footer-tip"> <kbd class="gp-kbd-key">↵</kbd> Select </span>
+      <span class="gp-command-footer-tip"> <kbd class="gp-kbd-key">ESC</kbd> Close </span>
     </div>
   </div>
+</div>
 }

@@ -2,25 +2,24 @@
   <!-- Minimal Header -->
   <header class="floating-header">
     @if (effectiveHeader()) {
-      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
     } @else {
-      <ng-content select="[header], [slot=header]" />
-      <div class="header-inner">
-        <div class="brand-group" (click)="brandClick.emit()" style="cursor: pointer">
-          <gp-icon [name]="brandIcon()" size="1.2em" />
-          <span class="brand-name">{{ brandName() }}</span>
-        </div>
-        @if (effectiveUser()) {
-          <ng-container *ngTemplateOutlet="effectiveUser()!" />
-        } @else {
-          <ng-content select="[user], [slot=user]" />
-          @if (userName()) {
-            <div class="user-badge" (click)="userClick.emit()" style="cursor: pointer">
-              <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
-            </div>
-          }
-        }
+    <ng-content select="[header], [slot=header]" />
+    <div class="header-inner">
+      <div class="brand-group" (click)="brandClick.emit()" style="cursor: pointer">
+        <gp-icon [name]="brandIcon()" size="1.2em" />
+        <span class="brand-name">{{ brandName() }}</span>
       </div>
+      @if (effectiveUser()) {
+      <ng-container *ngTemplateOutlet="effectiveUser()!" />
+      } @else {
+      <ng-content select="[user], [slot=user]" />
+      @if (userName()) {
+      <div class="user-badge" (click)="userClick.emit()" style="cursor: pointer">
+        <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+      </div>
+      } }
+    </div>
     }
   </header>
 
@@ -28,14 +27,14 @@
   <main class="floating-island-wrapper">
     <div class="floating-island-card">
       @if (title()) {
-        <h2 class="card-title">{{ title() }}</h2>
+      <h2 class="card-title">{{ title() }}</h2>
       }
       <div class="card-body">
         @if (effectiveContent()) {
-          <ng-container *ngTemplateOutlet="effectiveContent()!" />
+        <ng-container *ngTemplateOutlet="effectiveContent()!" />
         } @else {
-          <ng-content select="[main], [slot=main], [content], [slot=content]" />
-          <ng-content />
+        <ng-content select="[main], [slot=main], [content], [slot=content]" />
+        <ng-content />
         }
       </div>
     </div>

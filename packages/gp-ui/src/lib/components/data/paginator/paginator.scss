@@ -11,8 +11,10 @@
   font-size: var(--gp-font-size-sm);
 }
 
-.gp-paginator__btn, .gp-paginator-btn,
-.gp-paginator__page, .gp-paginator-page {
+.gp-paginator__btn,
+.gp-paginator-btn,
+.gp-paginator__page,
+.gp-paginator-page {
   min-width: 2.25rem;
   height: 2.25rem;
   padding: 0 0.5rem;
@@ -29,34 +31,42 @@
   transition: all var(--gp-transition-duration);
 }
 
-.gp-paginator__btn, .gp-paginator-btn:hover:not(:disabled),
-.gp-paginator__page, .gp-paginator-page:hover {
+.gp-paginator__btn,
+.gp-paginator-btn:hover:not(:disabled),
+.gp-paginator__page,
+.gp-paginator-page:hover {
   background: var(--gp-surface-hover);
 }
 
-.gp-paginator__btn, .gp-paginator-btn:disabled {
+.gp-paginator__btn,
+.gp-paginator-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.gp-paginator__page, .gp-paginator-page-active {
+.gp-paginator__page,
+.gp-paginator-page-active {
   background: var(--gp-primary-light) !important;
   color: var(--gp-primary) !important;
   font-weight: 700;
   border-color: var(--gp-primary-border);
 }
 
-.gp-paginator__pages, .gp-paginator__page, .gp-paginator-pages {
+.gp-paginator__pages,
+.gp-paginator__page,
+.gp-paginator-pages {
   display: inline-flex;
   gap: 0.25rem;
 }
 
-.gp-paginator__report, .gp-paginator-report {
+.gp-paginator__report,
+.gp-paginator-report {
   margin-right: auto;
   font-size: var(--gp-font-size-xs);
 }
 
-.gp-paginator__rpp-select, .gp-paginator-rpp-select {
+.gp-paginator__rpp-select,
+.gp-paginator-rpp-select {
   background: var(--gp-input-bg);
   border: 1px solid var(--gp-input-border);
   border-radius: var(--gp-border-radius);

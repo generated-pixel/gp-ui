@@ -2,62 +2,59 @@
   <!-- Dark Sidebar -->
   <aside class="dark-sidebar">
     @if (effectiveSidebar()) {
-      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     } @else {
-      <ng-content select="[sidebar], [slot=sidebar]" />
-      <!-- Brand Header -->
-      @if (effectiveBrand()) {
-        <ng-container *ngTemplateOutlet="effectiveBrand()!" />
-      } @else {
-        <ng-content select="[brand], [slot=brand]" />
-        <div class="brand-header">
-          <div class="brand-logo-mark">
-            <gp-icon [name]="brandIcon()" size="1.2em" />
-          </div>
-          <span class="brand-text">{{ brandName() }}</span>
-        </div>
-      }
-      <!-- Nav -->
-      @if (effectiveNav()) {
-        <ng-container *ngTemplateOutlet="effectiveNav()!" />
-      } @else {
-        <ng-content select="[nav], [slot=nav]" />
-        <nav class="sidebar-nav">
-          @if (navGroupLabel()) {
-            <div class="nav-section-label">{{ navGroupLabel() }}</div>
-          }
-          @for (item of navItems(); track item) {
-            <a
-              href="javascript:void(0)"
-              class="nav-item"
-              [class.active]="item.id === activeNavId() || item.active"
-              (click)="navItemClick.emit(item)"
-            >
-              <gp-icon [name]="item.icon" size="1.1em" />
-              <span>{{ item.label }}</span>
-              @if (item.badge) {
-                <gp-badge [value]="item.badge" [severity]="item.badgeSeverity || 'primary'" />
-              }
-            </a>
-          }
-        </nav>
-      }
-      <!-- User Footer -->
-      @if (effectiveUser()) {
-        <ng-container *ngTemplateOutlet="effectiveUser()!" />
-      } @else {
-        <ng-content select="[user], [slot=user]" />
-        @if (userName() || userEmail()) {
-          <div class="user-footer" (click)="userClick.emit()" style="cursor: pointer">
-            <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
-            <div class="user-info">
-              <span class="user-name">{{ userName() }}</span>
-              <span class="user-role">{{ userEmail() }}</span>
-            </div>
-          </div>
-        }
-      }
+    <ng-content select="[sidebar], [slot=sidebar]" />
+    <!-- Brand Header -->
+    @if (effectiveBrand()) {
+    <ng-container *ngTemplateOutlet="effectiveBrand()!" />
+    } @else {
+    <ng-content select="[brand], [slot=brand]" />
+    <div class="brand-header">
+      <div class="brand-logo-mark">
+        <gp-icon [name]="brandIcon()" size="1.2em" />
+      </div>
+      <span class="brand-text">{{ brandName() }}</span>
+    </div>
     }
+    <!-- Nav -->
+    @if (effectiveNav()) {
+    <ng-container *ngTemplateOutlet="effectiveNav()!" />
+    } @else {
+    <ng-content select="[nav], [slot=nav]" />
+    <nav class="sidebar-nav">
+      @if (navGroupLabel()) {
+      <div class="nav-section-label">{{ navGroupLabel() }}</div>
+      } @for (item of navItems(); track item) {
+      <a
+        href="javascript:void(0)"
+        class="nav-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+        @if (item.badge) {
+        <gp-badge [value]="item.badge" [severity]="item.badgeSeverity || 'primary'" />
+        }
+      </a>
+      }
+    </nav>
+    }
+    <!-- User Footer -->
+    @if (effectiveUser()) {
+    <ng-container *ngTemplateOutlet="effectiveUser()!" />
+    } @else {
+    <ng-content select="[user], [slot=user]" />
+    @if (userName() || userEmail()) {
+    <div class="user-footer" (click)="userClick.emit()" style="cursor: pointer">
+      <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+      <div class="user-info">
+        <span class="user-name">{{ userName() }}</span>
+        <span class="user-role">{{ userEmail() }}</span>
+      </div>
+    </div>
+    } } }
   </aside>
 
   <!-- Main Shell Content -->
@@ -66,18 +63,18 @@
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="page-content-area">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

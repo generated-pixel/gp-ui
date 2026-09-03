@@ -276,7 +276,9 @@ export class GpActionExecutor {
    * Applies string and value transformations.
    */
   public static applyTransformation(val: any, type: GpTransformType): any {
-    if (val === null || val === undefined) return val;
+    if (val === null || val === undefined) {
+      return val;
+    }
     const str = String(val);
 
     switch (type) {
@@ -349,8 +351,12 @@ export class GpActionExecutor {
           const t1 = new Date(d1).getTime();
           const t2 = new Date(d2).getTime();
           const diffMs = Math.abs(t2 - t1);
-          if (unit === 'hours') return diffMs / (1000 * 60 * 60);
-          if (unit === 'minutes') return diffMs / (1000 * 60);
+          if (unit === 'hours') {
+            return diffMs / (1000 * 60 * 60);
+          }
+          if (unit === 'minutes') {
+            return diffMs / (1000 * 60);
+          }
           return diffMs / (1000 * 60 * 60 * 24);
         }
       };

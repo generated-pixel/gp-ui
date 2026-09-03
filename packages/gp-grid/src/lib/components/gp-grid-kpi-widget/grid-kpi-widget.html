@@ -8,61 +8,59 @@
   [attr.aria-label]="effectiveLabel()"
 >
   @if (isLoading()) {
-    <div class="gp-grid-kpi-loading">
-      <div class="gp-grid-kpi-top">
-        <gp-skeleton width="60%" height="1rem" />
-        <gp-skeleton shape="circle" size="2.25rem" />
-      </div>
-      <div class="gp-grid-kpi-value-row">
-        <gp-skeleton width="80%" height="2rem" />
-      </div>
-      <div class="gp-grid-kpi-footer">
-        <gp-skeleton width="45%" height="1.25rem" />
-      </div>
-    </div>
-  } @else if (errorMessage()) {
-    <div class="gp-grid-kpi-error">
-      <gp-icon name="circle-alert" size="1.5em" class="gp-grid-kpi-error-icon" />
-      <span class="gp-grid-kpi-error-text">{{ errorMessage() }}</span>
-      <button type="button" class="gp-grid-kpi-retry-btn" (click)="refresh(); $event.stopPropagation()">Retry</button>
-    </div>
-  } @else {
+  <div class="gp-grid-kpi-loading">
     <div class="gp-grid-kpi-top">
-      <span class="gp-grid-kpi-label">{{ effectiveLabel() }}</span>
-      <div
-        class="gp-grid-kpi-icon-wrap"
-        [style.background]="effectiveIconBg()"
-        [style.color]="effectiveIconColor()"
-        aria-hidden="true"
-      >
-        <gp-icon [name]="effectiveIcon()" size="1.2em" />
-      </div>
+      <gp-skeleton width="60%" height="1rem" />
+      <gp-skeleton shape="circle" size="2.25rem" />
     </div>
-
     <div class="gp-grid-kpi-value-row">
-      <span class="gp-grid-kpi-val">{{ effectiveValue() }}</span>
+      <gp-skeleton width="80%" height="2rem" />
     </div>
+    <div class="gp-grid-kpi-footer">
+      <gp-skeleton width="45%" height="1.25rem" />
+    </div>
+  </div>
+  } @else if (errorMessage()) {
+  <div class="gp-grid-kpi-error">
+    <gp-icon name="circle-alert" size="1.5em" class="gp-grid-kpi-error-icon" />
+    <span class="gp-grid-kpi-error-text">{{ errorMessage() }}</span>
+    <button type="button" class="gp-grid-kpi-retry-btn" (click)="refresh(); $event.stopPropagation()">Retry</button>
+  </div>
+  } @else {
+  <div class="gp-grid-kpi-top">
+    <span class="gp-grid-kpi-label">{{ effectiveLabel() }}</span>
+    <div
+      class="gp-grid-kpi-icon-wrap"
+      [style.background]="effectiveIconBg()"
+      [style.color]="effectiveIconColor()"
+      aria-hidden="true"
+    >
+      <gp-icon [name]="effectiveIcon()" size="1.2em" />
+    </div>
+  </div>
 
-    @if (effectiveChange() || effectiveSubtitle()) {
-      <div class="gp-grid-kpi-footer">
-        @if (effectiveChange()) {
-          <div
-            class="gp-grid-kpi-trend"
-            [class.gp-grid-kpi-trend--pos]="effectiveTrend() === 'pos'"
-            [class.gp-grid-kpi-trend--neg]="effectiveTrend() === 'neg'"
-            [class.gp-grid-kpi-trend--neutral]="effectiveTrend() === 'neutral'"
-          >
-            <gp-icon
-              [name]="effectiveTrend() === 'neg' ? 'arrow-down' : effectiveTrend() === 'neutral' ? 'minus' : 'arrow-up'"
-              size="0.8em"
-            />
-            <span>{{ effectiveChange() }}</span>
-          </div>
-        }
-        @if (effectiveSubtitle()) {
-          <span class="gp-grid-kpi-sub">{{ effectiveSubtitle() }}</span>
-        }
-      </div>
+  <div class="gp-grid-kpi-value-row">
+    <span class="gp-grid-kpi-val">{{ effectiveValue() }}</span>
+  </div>
+
+  @if (effectiveChange() || effectiveSubtitle()) {
+  <div class="gp-grid-kpi-footer">
+    @if (effectiveChange()) {
+    <div
+      class="gp-grid-kpi-trend"
+      [class.gp-grid-kpi-trend--pos]="effectiveTrend() === 'pos'"
+      [class.gp-grid-kpi-trend--neg]="effectiveTrend() === 'neg'"
+      [class.gp-grid-kpi-trend--neutral]="effectiveTrend() === 'neutral'"
+    >
+      <gp-icon
+        [name]="effectiveTrend() === 'neg' ? 'arrow-down' : effectiveTrend() === 'neutral' ? 'minus' : 'arrow-up'"
+        size="0.8em"
+      />
+      <span>{{ effectiveChange() }}</span>
+    </div>
+    } @if (effectiveSubtitle()) {
+    <span class="gp-grid-kpi-sub">{{ effectiveSubtitle() }}</span>
     }
-  }
+  </div>
+  } }
 </div>

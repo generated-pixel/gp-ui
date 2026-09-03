@@ -21,7 +21,15 @@ import { GpTranslationService } from '../config/gp-config.service';
  */
 @Directive()
 export abstract class GpBase
-  implements OnInit, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy
+  implements
+    OnInit,
+    OnChanges,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    AfterViewInit,
+    AfterViewChecked,
+    OnDestroy
 {
   /** Injected translation service for centralized i18n / localization */
   public translationService = inject(GpTranslationService);

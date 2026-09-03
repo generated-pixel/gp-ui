@@ -6,7 +6,8 @@
   vertical-align: middle;
   gap: 0.5rem;
 }
-.gp-checkbox__box, .gp-checkbox-box {
+.gp-checkbox__box,
+.gp-checkbox-box {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,14 +19,17 @@
   transition: all var(--gp-transition-duration);
   outline: none;
 }
-.gp-checkbox:hover:not(.gp-checkbox-disabled) .gp-checkbox__box, .gp-checkbox-box {
+.gp-checkbox:hover:not(.gp-checkbox-disabled) .gp-checkbox__box,
+.gp-checkbox-box {
   border-color: var(--gp-input-border-hover);
 }
-.gp-checkbox__box, .gp-checkbox-box:focus-visible {
+.gp-checkbox__box,
+.gp-checkbox-box:focus-visible {
   box-shadow: var(--gp-focus-ring);
   border-color: var(--gp-primary);
 }
-.gp-checkbox-checked .gp-checkbox__box, .gp-checkbox-box {
+.gp-checkbox-checked .gp-checkbox__box,
+.gp-checkbox-box {
   background: var(--gp-primary);
   border-color: var(--gp-primary);
   color: var(--gp-primary-text);
@@ -34,11 +38,13 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-.gp-checkbox__label, .gp-checkbox-label {
+.gp-checkbox__label,
+.gp-checkbox-label {
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color);
   cursor: inherit;
 }
-.gp-input-invalid .gp-checkbox__box, .gp-checkbox-box {
+.gp-input-invalid .gp-checkbox__box,
+.gp-checkbox-box {
   border-color: var(--gp-danger);
 }

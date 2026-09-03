@@ -47,24 +47,31 @@ class FormBaseTestHost {
   onInput(e: Event) {
     this.inputEventFired = true;
   }
+
   onFocus(e: FocusEvent) {
     this.focusEventFired = true;
   }
+
   onBlur(e: FocusEvent) {
     this.blurEventFired = true;
   }
+
   onClear() {
     this.clearEventFired = true;
   }
+
   onSelectChange(e: any) {
     this.selectChangeFired = true;
   }
+
   onSelectOpen() {
     this.selectOpenFired = true;
   }
+
   onSelectClose() {
     this.selectCloseFired = true;
   }
+
   onCheckboxChange(e: any) {
     this.checkboxChangeFired = true;
   }

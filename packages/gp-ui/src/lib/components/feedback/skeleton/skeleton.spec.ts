@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpSkeleton],
-  template: `
-    <gp-skeleton shape="circle" width="3rem" height="3rem" />
-  `
+  template: ` <gp-skeleton shape="circle" width="3rem" height="3rem" /> `
 })
 class TestHostComponent {}
 

@@ -1,24 +1,27 @@
 <div class="gp-meter-group gp-metergroup">
   <div class="gp-meter-group__meters gp-metergroup-meters">
     @for (meter of value(); track meter.label) {
-      <div
-        class="gp-meter-group__meter gp-metergroup-meter"
-        [style.width.%]="meter.value"
-        [style.background-color]="meter.color || 'var(--gp-primary)'"
-      ></div>
+    <div
+      class="gp-meter-group__meter gp-metergroup-meter"
+      [style.width.%]="meter.value"
+      [style.background-color]="meter.color || 'var(--gp-primary)'"
+    ></div>
     }
   </div>
 
   <div class="gp-meter-group__labels gp-metergroup-labels">
     @for (meter of value(); track meter.label) {
-      <div class="gp-meter-group__label-item gp-metergroup-label-item">
-        <span class="gp-meter-group__label-dot gp-metergroup-label-dot" [style.background-color]="meter.color || 'var(--gp-primary)'"></span>
-        @if (meter.icon) {
-          <gp-icon [name]="meter.icon" size="0.85em" />
-        }
-        <span class="gp-meter-group__label-text gp-metergroup-label-text">{{ meter.label }}</span>
-        <span class="gp-meter-group__label-val gp-metergroup-label-val">({{ meter.value }}%)</span>
-      </div>
+    <div class="gp-meter-group__label-item gp-metergroup-label-item">
+      <span
+        class="gp-meter-group__label-dot gp-metergroup-label-dot"
+        [style.background-color]="meter.color || 'var(--gp-primary)'"
+      ></span>
+      @if (meter.icon) {
+      <gp-icon [name]="meter.icon" size="0.85em" />
+      }
+      <span class="gp-meter-group__label-text gp-metergroup-label-text">{{ meter.label }}</span>
+      <span class="gp-meter-group__label-val gp-metergroup-label-val">({{ meter.value }}%)</span>
+    </div>
     }
   </div>
 </div>

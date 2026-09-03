@@ -22,8 +22,12 @@ describe('GpRuleEngineService & Rule Engine', () => {
       expect(GpConditionEvaluator.evaluate({ field: 'age', operator: 'lt', value: 21 }, context)).toBe(false);
       expect(GpConditionEvaluator.evaluate({ field: 'role', operator: 'eq', value: 'admin' }, context)).toBe(true);
       expect(GpConditionEvaluator.evaluate({ field: 'tags', operator: 'contains', value: 'lead' }, context)).toBe(true);
-      expect(GpConditionEvaluator.evaluate({ field: 'score', operator: 'between', value: [80, 90] }, context)).toBe(true);
-      expect(GpConditionEvaluator.evaluate({ field: 'score', operator: 'notBetween', value: [10, 50] }, context)).toBe(true);
+      expect(GpConditionEvaluator.evaluate({ field: 'score', operator: 'between', value: [80, 90] }, context)).toBe(
+        true
+      );
+      expect(GpConditionEvaluator.evaluate({ field: 'score', operator: 'notBetween', value: [10, 50] }, context)).toBe(
+        true
+      );
     });
 
     it('evaluates compareToField dynamic field-to-field comparisons', () => {
@@ -33,17 +37,11 @@ describe('GpRuleEngineService & Rule Engine', () => {
       });
 
       expect(
-        GpConditionEvaluator.evaluate(
-          { field: 'confirmPassword', operator: 'eq', compareToField: 'password' },
-          context
-        )
+        GpConditionEvaluator.evaluate({ field: 'confirmPassword', operator: 'eq', compareToField: 'password' }, context)
       ).toBe(true);
 
       expect(
-        GpConditionEvaluator.evaluate(
-          { field: 'otherField', operator: 'eq', compareToField: 'password' },
-          context
-        )
+        GpConditionEvaluator.evaluate({ field: 'otherField', operator: 'eq', compareToField: 'password' }, context)
       ).toBe(false);
     });
 
@@ -79,15 +77,15 @@ describe('GpRuleEngineService & Rule Engine', () => {
         triggerEvent: 'change'
       });
 
-      expect(GpConditionEvaluator.evaluate({ field: 'roles', operator: 'allIn', value: ['user', 'admin'] }, context)).toBe(
-        true
-      );
-      expect(GpConditionEvaluator.evaluate({ field: 'roles', operator: 'anyIn', value: ['guest', 'admin'] }, context)).toBe(
-        true
-      );
-      expect(GpConditionEvaluator.evaluate({ field: 'roles', operator: 'noneIn', value: ['superadmin', 'banned'] }, context)).toBe(
-        true
-      );
+      expect(
+        GpConditionEvaluator.evaluate({ field: 'roles', operator: 'allIn', value: ['user', 'admin'] }, context)
+      ).toBe(true);
+      expect(
+        GpConditionEvaluator.evaluate({ field: 'roles', operator: 'anyIn', value: ['guest', 'admin'] }, context)
+      ).toBe(true);
+      expect(
+        GpConditionEvaluator.evaluate({ field: 'roles', operator: 'noneIn', value: ['superadmin', 'banned'] }, context)
+      ).toBe(true);
       expect(GpConditionEvaluator.evaluate({ field: 'title', operator: 'lengthGt', value: 10 }, context)).toBe(true);
     });
 
@@ -242,10 +240,7 @@ describe('GpRuleEngineService & Rule Engine', () => {
         { type: 'setValidationError', target: 'email', errorKey: 'invalidDomain', errorMessage: 'Must use work email' },
         context
       );
-      await GpActionExecutor.execute(
-        { type: 'setClass', target: 'email', className: 'has-error' },
-        context
-      );
+      await GpActionExecutor.execute({ type: 'setClass', target: 'email', className: 'has-error' }, context);
 
       expect(state['_error_email']).toEqual({ key: 'invalidDomain', message: 'Must use work email' });
       expect(state['_class_email']).toBe('has-error');

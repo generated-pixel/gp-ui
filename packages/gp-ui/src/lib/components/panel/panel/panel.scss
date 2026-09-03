@@ -5,7 +5,8 @@
   overflow: hidden;
   width: 100%;
 }
-.gp-panel__header, .gp-panel-header {
+.gp-panel__header,
+.gp-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,20 +14,24 @@
   background: var(--gp-surface-section);
   border-bottom: 1px solid var(--gp-surface-border);
 }
-.gp-panel-collapsed .gp-panel__header, .gp-panel-header {
+.gp-panel-collapsed .gp-panel__header,
+.gp-panel-header {
   border-bottom: none;
 }
-.gp-panel__title, .gp-panel-title {
+.gp-panel__title,
+.gp-panel-title {
   font-weight: 700;
   font-size: var(--gp-font-size-base);
   color: var(--gp-text-color);
 }
-.gp-panel__icons, .gp-panel-icons {
+.gp-panel__icons,
+.gp-panel-icons {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.gp-panel__toggle-btn, .gp-panel-toggle-btn {
+.gp-panel__toggle-btn,
+.gp-panel-toggle-btn {
   background: none;
   border: none;
   color: var(--gp-text-color-secondary);
@@ -35,16 +40,19 @@
   display: inline-flex;
   border-radius: 50%;
 }
-.gp-panel__toggle-btn, .gp-panel-toggle-btn:hover {
+.gp-panel__toggle-btn,
+.gp-panel-toggle-btn:hover {
   background: var(--gp-surface-hover);
   color: var(--gp-text-color);
 }
-.gp-panel__content, .gp-panel-content {
+.gp-panel__content,
+.gp-panel-content {
   padding: 1.25rem;
   color: var(--gp-text-color);
   line-height: 1.5;
 }
-.gp-panel__footer, .gp-panel-footer {
+.gp-panel__footer,
+.gp-panel-footer {
   padding: 0.75rem 1.25rem;
   border-top: 1px solid var(--gp-surface-divider);
   background: var(--gp-surface-ground);

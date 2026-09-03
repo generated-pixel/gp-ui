@@ -1,62 +1,59 @@
 <div class="gp-sidebar-stepper-shell">
   <aside class="stepper-sidebar">
     @if (effectiveSidebar()) {
-      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     } @else {
-      <ng-content select="[sidebar], [slot=sidebar]" />
-      <div class="brand-badge">
-        <span>{{ brandName() }}</span>
-      </div>
-      @if (steps() && steps().length > 0) {
-        <div class="step-list">
-          @for (s of steps(); track s) {
-            <div
-              class="step-item"
-              [class.active]="s.number === currentStep()"
-              [class.completed]="s.completed"
-              (click)="stepClick.emit(s)"
-              style="cursor: pointer"
-            >
-              <div class="step-num">
-                @if (s.completed) {
-                  <gp-icon name="check" size="0.9em" />
-                }
-                @if (!s.completed) {
-                  <span>{{ s.number }}</span>
-                }
-              </div>
-              <span class="step-text">{{ s.label }}</span>
-            </div>
+    <ng-content select="[sidebar], [slot=sidebar]" />
+    <div class="brand-badge">
+      <span>{{ brandName() }}</span>
+    </div>
+    @if (steps() && steps().length > 0) {
+    <div class="step-list">
+      @for (s of steps(); track s) {
+      <div
+        class="step-item"
+        [class.active]="s.number === currentStep()"
+        [class.completed]="s.completed"
+        (click)="stepClick.emit(s)"
+        style="cursor: pointer"
+      >
+        <div class="step-num">
+          @if (s.completed) {
+          <gp-icon name="check" size="0.9em" />
+          } @if (!s.completed) {
+          <span>{{ s.number }}</span>
           }
         </div>
+        <span class="step-text">{{ s.label }}</span>
+      </div>
       }
-    }
+    </div>
+    } }
   </aside>
 
   <div class="main-shell">
     <header class="top-nav-bar">
       <div class="step-header-text">
         @if (currentStepTitle()) {
-          <h2 class="step-title">{{ currentStepTitle() }}</h2>
-        }
-        @if (currentStepSubtitle()) {
-          <p class="step-subtitle">{{ currentStepSubtitle() }}</p>
+        <h2 class="step-title">{{ currentStepTitle() }}</h2>
+        } @if (currentStepSubtitle()) {
+        <p class="step-subtitle">{{ currentStepSubtitle() }}</p>
         }
       </div>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="page-content-area">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

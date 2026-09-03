@@ -1,6 +1,7 @@
 # `@generatedpixel/gp-rules` Comprehensive API & Developer Guide
 
 ## Table of Contents
+
 1. [Architecture Overview](#architecture-overview)
 2. [Event Triggers & Debounce](#event-triggers--debounce)
 3. [Condition Operators & Expressions](#condition-operators--expressions)
@@ -60,6 +61,7 @@
 Triggers specify when a business rule should be evaluated.
 
 ### Trigger Properties (`GpRuleTrigger`)
+
 - `event`: `'keypress' | 'keydown' | 'keyup' | 'input' | 'blur' | 'focus' | 'focusin' | 'focusout' | 'change' | 'valueChange' | 'click' | 'select' | 'init' | 'mount' | 'custom'`
 - `debounce`: Number in milliseconds (e.g. `debounce: 300`). Ideal for keystroke search, promo code validation, and live price recalculations.
 - `throttle`: Throttle interval in milliseconds.
@@ -72,35 +74,35 @@ Triggers specify when a business rule should be evaluated.
 
 ### Complete Operator Matrix
 
-| Operator | Syntax | Description | Example |
-|---|---|---|---|
-| `eq` / `equals` | `===` | Equality check | `{ field: 'tier', operator: 'eq', value: 'gold' }` |
-| `neq` / `notEquals` | `!==` | Inequality check | `{ field: 'status', operator: 'neq', value: 'disabled' }` |
-| `gt` / `greaterThan` | `>` | Numeric greater than | `{ field: 'age', operator: 'gt', value: 18 }` |
-| `gte` / `greaterThanOrEqual` | `>=` | Greater than or equal | `{ field: 'score', operator: 'gte', value: 80 }` |
-| `lt` / `lessThan` | `<` | Numeric less than | `{ field: 'inventory', operator: 'lt', value: 5 }` |
-| `lte` / `lessThanOrEqual` | `<=` | Less than or equal | `{ field: 'price', operator: 'lte', value: 100 }` |
-| `between` | `[min, max]` | Range inclusion (inclusive) | `{ field: 'age', operator: 'between', value: [18, 65] }` |
-| `notBetween` | `[min, max]` | Outside range | `{ field: 'temp', operator: 'notBetween', value: [32, 212] }` |
-| `isBefore` | `Date` / string | Date chronologically earlier | `{ field: 'startDate', operator: 'isBefore', compareToField: 'endDate' }` |
-| `isAfter` | `Date` / string | Date chronologically later | `{ field: 'endDate', operator: 'isAfter', compareToField: 'startDate' }` |
-| `isSameDay` | `Date` / string | Same calendar date | `{ field: 'pickupDate', operator: 'isSameDay', value: new Date() }` |
-| `isBetweenDates` | `[d1, d2]` | Date within range | `{ field: 'checkIn', operator: 'isBetweenDates', value: ['2026-06-01', '2026-08-31'] }` |
-| `isFuture` | none | Date is in the future | `{ field: 'flightDate', operator: 'isFuture' }` |
-| `isPast` | none | Date is in the past | `{ field: 'dob', operator: 'isPast' }` |
-| `contains` | Substring / item | Substring or array contains | `{ field: 'roles', operator: 'contains', value: 'admin' }` |
-| `notContains` | Substring / item | Does not contain | `{ field: 'tags', operator: 'notContains', value: 'archived' }` |
-| `startsWith` | String prefix | Prefix matching | `{ field: 'vatNumber', operator: 'startsWith', value: 'GB' }` |
-| `endsWith` | String suffix | Suffix matching | `{ field: 'email', operator: 'endsWith', value: '@company.com' }` |
-| `matches` | Regex pattern | Regular expression test | `{ field: 'zip', operator: 'matches', value: '^\\d{5}$' }` |
-| `allIn` | Array of items | Array contains all items | `{ field: 'userBadges', operator: 'allIn', value: ['pro', 'verified'] }` |
-| `anyIn` | Array of items | Array contains at least one | `{ field: 'userRoles', operator: 'anyIn', value: ['editor', 'admin'] }` |
-| `noneIn` | Array of items | Array contains none | `{ field: 'userFlags', operator: 'noneIn', value: ['banned', 'suspended'] }` |
-| `hasLength` | Number | String or array exact length | `{ field: 'pin', operator: 'hasLength', value: 4 }` |
-| `lengthGt` | Number | Length greater than | `{ field: 'password', operator: 'lengthGt', value: 8 }` |
-| `lengthLt` | Number | Length less than | `{ field: 'bio', operator: 'lengthLt', value: 160 }` |
-| `empty` / `notEmpty` | none | Null / empty string / empty array | `{ field: 'comment', operator: 'notEmpty' }` |
-| `truthy` / `falsy` | none | Boolean coercions | `{ field: 'agreedToTerms', operator: 'truthy' }` |
+| Operator                     | Syntax           | Description                       | Example                                                                                 |
+| ---------------------------- | ---------------- | --------------------------------- | --------------------------------------------------------------------------------------- |
+| `eq` / `equals`              | `===`            | Equality check                    | `{ field: 'tier', operator: 'eq', value: 'gold' }`                                      |
+| `neq` / `notEquals`          | `!==`            | Inequality check                  | `{ field: 'status', operator: 'neq', value: 'disabled' }`                               |
+| `gt` / `greaterThan`         | `>`              | Numeric greater than              | `{ field: 'age', operator: 'gt', value: 18 }`                                           |
+| `gte` / `greaterThanOrEqual` | `>=`             | Greater than or equal             | `{ field: 'score', operator: 'gte', value: 80 }`                                        |
+| `lt` / `lessThan`            | `<`              | Numeric less than                 | `{ field: 'inventory', operator: 'lt', value: 5 }`                                      |
+| `lte` / `lessThanOrEqual`    | `<=`             | Less than or equal                | `{ field: 'price', operator: 'lte', value: 100 }`                                       |
+| `between`                    | `[min, max]`     | Range inclusion (inclusive)       | `{ field: 'age', operator: 'between', value: [18, 65] }`                                |
+| `notBetween`                 | `[min, max]`     | Outside range                     | `{ field: 'temp', operator: 'notBetween', value: [32, 212] }`                           |
+| `isBefore`                   | `Date` / string  | Date chronologically earlier      | `{ field: 'startDate', operator: 'isBefore', compareToField: 'endDate' }`               |
+| `isAfter`                    | `Date` / string  | Date chronologically later        | `{ field: 'endDate', operator: 'isAfter', compareToField: 'startDate' }`                |
+| `isSameDay`                  | `Date` / string  | Same calendar date                | `{ field: 'pickupDate', operator: 'isSameDay', value: new Date() }`                     |
+| `isBetweenDates`             | `[d1, d2]`       | Date within range                 | `{ field: 'checkIn', operator: 'isBetweenDates', value: ['2026-06-01', '2026-08-31'] }` |
+| `isFuture`                   | none             | Date is in the future             | `{ field: 'flightDate', operator: 'isFuture' }`                                         |
+| `isPast`                     | none             | Date is in the past               | `{ field: 'dob', operator: 'isPast' }`                                                  |
+| `contains`                   | Substring / item | Substring or array contains       | `{ field: 'roles', operator: 'contains', value: 'admin' }`                              |
+| `notContains`                | Substring / item | Does not contain                  | `{ field: 'tags', operator: 'notContains', value: 'archived' }`                         |
+| `startsWith`                 | String prefix    | Prefix matching                   | `{ field: 'vatNumber', operator: 'startsWith', value: 'GB' }`                           |
+| `endsWith`                   | String suffix    | Suffix matching                   | `{ field: 'email', operator: 'endsWith', value: '@company.com' }`                       |
+| `matches`                    | Regex pattern    | Regular expression test           | `{ field: 'zip', operator: 'matches', value: '^\\d{5}$' }`                              |
+| `allIn`                      | Array of items   | Array contains all items          | `{ field: 'userBadges', operator: 'allIn', value: ['pro', 'verified'] }`                |
+| `anyIn`                      | Array of items   | Array contains at least one       | `{ field: 'userRoles', operator: 'anyIn', value: ['editor', 'admin'] }`                 |
+| `noneIn`                     | Array of items   | Array contains none               | `{ field: 'userFlags', operator: 'noneIn', value: ['banned', 'suspended'] }`            |
+| `hasLength`                  | Number           | String or array exact length      | `{ field: 'pin', operator: 'hasLength', value: 4 }`                                     |
+| `lengthGt`                   | Number           | Length greater than               | `{ field: 'password', operator: 'lengthGt', value: 8 }`                                 |
+| `lengthLt`                   | Number           | Length less than                  | `{ field: 'bio', operator: 'lengthLt', value: 160 }`                                    |
+| `empty` / `notEmpty`         | none             | Null / empty string / empty array | `{ field: 'comment', operator: 'notEmpty' }`                                            |
+| `truthy` / `falsy`           | none             | Boolean coercions                 | `{ field: 'agreedToTerms', operator: 'truthy' }`                                        |
 
 ---
 
@@ -122,7 +124,12 @@ export const PASSWORD_MATCH_RULE: GpBusinessRule = {
     { type: 'setClass', target: 'confirmPassword', className: 'field-valid', removeClassName: 'field-invalid' }
   ],
   elseActions: [
-    { type: 'setValidationError', target: 'confirmPassword', errorKey: 'mismatch', errorMessage: 'Passwords do not match.' },
+    {
+      type: 'setValidationError',
+      target: 'confirmPassword',
+      errorKey: 'mismatch',
+      errorMessage: 'Passwords do not match.'
+    },
     { type: 'setClass', target: 'confirmPassword', className: 'field-invalid', removeClassName: 'field-valid' }
   ]
 };
@@ -132,23 +139,23 @@ export const PASSWORD_MATCH_RULE: GpBusinessRule = {
 
 ## 5. Action Types & Value Transformations
 
-| Action Type | Key Properties | Purpose |
-|---|---|---|
-| `setValue` | `target`, `value` | Sets a field value in form / context |
-| `copyValue` | `fromField`, `target` | Copies value from one field to another |
-| `transformValue` | `fromField`, `target`, `transformType` | Formats string (`slugify`, `uppercase`, `lowercase`, `titlecase`, `capitalize`, `trim`, `currency`, `phone`) |
-| `setValidationError` | `target`, `errorKey`, `errorMessage` | Injects error on Angular Reactive Form control |
-| `clearValidationError` | `target`, `errorKey` | Removes validation error from control |
-| `setClass` | `target`, `className`, `removeClassName` | Toggles CSS classes on target DOM element |
-| `setStyle` | `target`, `styles` | Applies inline styles |
-| `setFocus` | `target` | Focuses the target input element |
-| `show` / `hide` | `target` | Sets target visibility flag |
-| `enable` / `disable` | `target` | Toggles control disabled status |
-| `compute` / `calculate` | `target`, `formula` | Mathematical and string formula computation |
-| `setOptions` | `target`, `options` | Populates dropdown select options |
-| `toast` | `message`, `severity` | Emits a toast notification |
-| `apiCall` | `url`, `method`, `responseMapping` | Executes REST request & maps JSON response to state |
-| `custom` | `execute: (ctx) => void` | Programmatic TypeScript callback |
+| Action Type             | Key Properties                           | Purpose                                                                                                      |
+| ----------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `setValue`              | `target`, `value`                        | Sets a field value in form / context                                                                         |
+| `copyValue`             | `fromField`, `target`                    | Copies value from one field to another                                                                       |
+| `transformValue`        | `fromField`, `target`, `transformType`   | Formats string (`slugify`, `uppercase`, `lowercase`, `titlecase`, `capitalize`, `trim`, `currency`, `phone`) |
+| `setValidationError`    | `target`, `errorKey`, `errorMessage`     | Injects error on Angular Reactive Form control                                                               |
+| `clearValidationError`  | `target`, `errorKey`                     | Removes validation error from control                                                                        |
+| `setClass`              | `target`, `className`, `removeClassName` | Toggles CSS classes on target DOM element                                                                    |
+| `setStyle`              | `target`, `styles`                       | Applies inline styles                                                                                        |
+| `setFocus`              | `target`                                 | Focuses the target input element                                                                             |
+| `show` / `hide`         | `target`                                 | Sets target visibility flag                                                                                  |
+| `enable` / `disable`    | `target`                                 | Toggles control disabled status                                                                              |
+| `compute` / `calculate` | `target`, `formula`                      | Mathematical and string formula computation                                                                  |
+| `setOptions`            | `target`, `options`                      | Populates dropdown select options                                                                            |
+| `toast`                 | `message`, `severity`                    | Emits a toast notification                                                                                   |
+| `apiCall`               | `url`, `method`, `responseMapping`       | Executes REST request & maps JSON response to state                                                          |
+| `custom`                | `execute: (ctx) => void`                 | Programmatic TypeScript callback                                                                             |
 
 ---
 
@@ -157,6 +164,7 @@ export const PASSWORD_MATCH_RULE: GpBusinessRule = {
 The formula evaluator (`compute` / `calculate`) includes safety token checks and built-in helper functions:
 
 ### Built-in Helper Functions
+
 - **Math**:
   - `SUM(a, b, ...)`
   - `AVG(a, b, ...)`
@@ -177,6 +185,7 @@ The formula evaluator (`compute` / `calculate`) includes safety token checks and
   - `DATE_DIFF(date1, date2, 'days' | 'hours' | 'minutes')`
 
 ### Formula Example:
+
 ```typescript
 {
   type: 'compute',
@@ -235,14 +244,11 @@ if (!validation.valid) {
 Embed a live execution log and analytics bar directly into your template:
 
 ```html
-<gp-rule-inspector
-  title="Real-Time Audit Trail"
-  [maxLogs]="50"
-  [showStats]="true"
-/>
+<gp-rule-inspector title="Real-Time Audit Trail" [maxLogs]="50" [showStats]="true" />
 ```
 
 Features:
+
 - Real-time runs count, match rate (%), and average execution duration (ms).
 - Search query and status filters ('All', 'Matched', 'Unmatched').
 - One-click JSON export of execution logs.
@@ -281,17 +287,9 @@ Attach rules directly to Reactive Forms using directives:
 
 ```html
 <form [formGroup]="userForm" [gpRuleGroup]="formRules">
-  <gp-input-text
-    formControlName="password"
-    placeholder="New Password"
-    [gpRule]="passwordStrengthRule"
-  />
+  <gp-input-text formControlName="password" placeholder="New Password" [gpRule]="passwordStrengthRule" />
 
-  <gp-input-text
-    formControlName="confirmPassword"
-    placeholder="Confirm Password"
-    [gpRule]="confirmPasswordRule"
-  />
+  <gp-input-text formControlName="confirmPassword" placeholder="Confirm Password" [gpRule]="confirmPasswordRule" />
 </form>
 ```
 

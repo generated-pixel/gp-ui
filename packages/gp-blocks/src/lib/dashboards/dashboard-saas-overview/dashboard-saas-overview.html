@@ -1,9 +1,9 @@
 <div class="gp-dashboard-saas-root">
   <!-- Optional Top Action Bar / Slot -->
   @if (contentHeaderActions()) {
-    <div class="dashboard-top-slot">
-      <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
-    </div>
+  <div class="dashboard-top-slot">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
+  </div>
   }
   <ng-content select="[actions], [slot=actions]" />
 
@@ -20,166 +20,149 @@
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
       @if (effectiveWidgetTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
+      <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       } @else {
-        <!-- 1. KPI Widget -->
-        @if (item.id === 'kpis') {
-          @if (contentKpis()) {
-            <ng-container *ngTemplateOutlet="contentKpis()!" />
-          } @else {
-            @if (kpis() && kpis().length > 0) {
-              <div class="kpi-grid">
-                @for (k of kpis(); track k) {
-                  <div class="kpi-card" (click)="kpiClick.emit(k)" style="cursor: pointer">
-                    <div class="kpi-top">
-                      <span class="kpi-label">{{ k.label }}</span>
-                      <div
-                        class="kpi-icon-wrap"
-                        [style.background]="k.iconBg || 'rgba(99, 102, 241, 0.1)'"
-                        [style.color]="k.iconColor || 'var(--gp-primary)'"
-                      >
-                        <gp-icon [name]="k.icon" size="1.2em" />
-                      </div>
-                    </div>
-                    <div class="kpi-val-row">
-                      <span class="kpi-value">{{ k.value }}</span>
-                    </div>
-                    <div
-                      class="kpi-trend"
-                      [class.positive]="k.trendType === 'positive' || (!k.trendType && k.trendText.startsWith('+'))"
-                      [class.negative]="k.trendType === 'negative' || (!k.trendType && k.trendText.startsWith('-'))"
-                      [class.neutral]="k.trendType === 'neutral'"
-                    >
-                      <gp-icon
-                        [name]="
+      <!-- 1. KPI Widget -->
+      @if (item.id === 'kpis') { @if (contentKpis()) {
+      <ng-container *ngTemplateOutlet="contentKpis()!" />
+      } @else { @if (kpis() && kpis().length > 0) {
+      <div class="kpi-grid">
+        @for (k of kpis(); track k) {
+        <div class="kpi-card" (click)="kpiClick.emit(k)" style="cursor: pointer">
+          <div class="kpi-top">
+            <span class="kpi-label">{{ k.label }}</span>
+            <div
+              class="kpi-icon-wrap"
+              [style.background]="k.iconBg || 'rgba(99, 102, 241, 0.1)'"
+              [style.color]="k.iconColor || 'var(--gp-primary)'"
+            >
+              <gp-icon [name]="k.icon" size="1.2em" />
+            </div>
+          </div>
+          <div class="kpi-val-row">
+            <span class="kpi-value">{{ k.value }}</span>
+          </div>
+          <div
+            class="kpi-trend"
+            [class.positive]="k.trendType === 'positive' || (!k.trendType && k.trendText.startsWith('+'))"
+            [class.negative]="k.trendType === 'negative' || (!k.trendType && k.trendText.startsWith('-'))"
+            [class.neutral]="k.trendType === 'neutral'"
+          >
+            <gp-icon
+              [name]="
                           k.trendType === 'negative'
                             ? 'chevron-down'
                             : k.trendType === 'neutral'
                               ? 'minus'
                               : 'chevron-up'
                         "
-                        size="0.8em"
-                      />
-                      <span>{{ k.trendText }}</span>
+              size="0.8em"
+            />
+            <span>{{ k.trendText }}</span>
+          </div>
+        </div>
+        }
+      </div>
+      } } }
+      <!-- 2. Revenue Chart Widget -->
+      @if (item.id === 'revenue-chart') { @if (contentChart()) {
+      <ng-container *ngTemplateOutlet="contentChart()!" />
+      } @else { @if (monthlyData() && monthlyData().length > 0) {
+      <div class="panel-card chart-panel" style="height: 100%">
+        <div class="panel-header">
+          <h3 class="panel-title">{{ chartTitle() }}</h3>
+          @if (chartBadge()) {
+          <gp-badge [value]="chartBadge()" severity="success" />
+          }
+        </div>
+        <div class="simulated-chart-bars">
+          @for (month of monthlyData(); track month) {
+          <div class="chart-col">
+            <div class="bar-track">
+              <div class="bar-fill" [style.height]="month.pct + '%'"></div>
+            </div>
+            <span class="col-month">{{ month.month }}</span>
+            <span class="col-amt">{{ month.amt }}</span>
+          </div>
+          }
+        </div>
+      </div>
+      } } }
+      <!-- 3. Conversion Quotas Widget -->
+      @if (item.id === 'conversion-quotas') { @if (contentQuotas()) {
+      <ng-container *ngTemplateOutlet="contentQuotas()!" />
+      } @else { @if (quotas() && quotas().length > 0) {
+      <div class="panel-card quota-panel" style="height: 100%">
+        <div class="panel-header">
+          <h3 class="panel-title">{{ goalsTitle() }}</h3>
+          @if (goalsTarget()) {
+          <span class="target-pct">{{ goalsTarget() }}</span>
+          }
+        </div>
+        <div class="quota-list">
+          @for (q of quotas(); track q) {
+          <div class="quota-item">
+            <div class="quota-head">
+              <span class="q-label">{{ q.label }}</span>
+              <span class="q-val">{{ q.valText }}</span>
+            </div>
+            <gp-progress-bar [value]="q.pct" [showValue]="false" />
+          </div>
+          }
+        </div>
+      </div>
+      } } }
+      <!-- 4. Recent Subscriptions Table Widget -->
+      @if (item.id === 'recent-signups') { @if (contentTable()) {
+      <ng-container *ngTemplateOutlet="contentTable()!" />
+      } @else { @if (recentSignups() && recentSignups().length > 0) {
+      <div class="panel-card table-panel" style="height: 100%">
+        <div class="panel-header">
+          <h3 class="panel-title">{{ tableTitle() }}</h3>
+          <gp-button variant="outlined" severity="secondary" (onClickEvent)="exportClick.emit()"
+            >{{ exportBtnLabel() }}</gp-button
+          >
+        </div>
+        <div class="custom-data-table-wrap">
+          <table class="saas-table">
+            <thead>
+              <tr>
+                <th>Customer Organization</th>
+                <th>Plan Tier</th>
+                <th>Billing Cycle</th>
+                <th>Contract Value</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of recentSignups(); track row) {
+              <tr (click)="customerClick.emit(row)" style="cursor: pointer">
+                <td>
+                  <div class="customer-cell">
+                    <gp-avatar [label]="row.name.charAt(0)" size="normal" shape="circle" />
+                    <div>
+                      <div class="cust-name">{{ row.name }}</div>
+                      <div class="cust-domain">{{ row.domain }}</div>
                     </div>
                   </div>
-                }
-              </div>
-            }
-          }
-        }
-        <!-- 2. Revenue Chart Widget -->
-        @if (item.id === 'revenue-chart') {
-          @if (contentChart()) {
-            <ng-container *ngTemplateOutlet="contentChart()!" />
-          } @else {
-            @if (monthlyData() && monthlyData().length > 0) {
-              <div class="panel-card chart-panel" style="height: 100%">
-                <div class="panel-header">
-                  <h3 class="panel-title">{{ chartTitle() }}</h3>
-                  @if (chartBadge()) {
-                    <gp-badge [value]="chartBadge()" severity="success" />
-                  }
-                </div>
-                <div class="simulated-chart-bars">
-                  @for (month of monthlyData(); track month) {
-                    <div class="chart-col">
-                      <div class="bar-track">
-                        <div class="bar-fill" [style.height]="month.pct + '%'"></div>
-                      </div>
-                      <span class="col-month">{{ month.month }}</span>
-                      <span class="col-amt">{{ month.amt }}</span>
-                    </div>
-                  }
-                </div>
-              </div>
-            }
-          }
-        }
-        <!-- 3. Conversion Quotas Widget -->
-        @if (item.id === 'conversion-quotas') {
-          @if (contentQuotas()) {
-            <ng-container *ngTemplateOutlet="contentQuotas()!" />
-          } @else {
-            @if (quotas() && quotas().length > 0) {
-              <div class="panel-card quota-panel" style="height: 100%">
-                <div class="panel-header">
-                  <h3 class="panel-title">{{ goalsTitle() }}</h3>
-                  @if (goalsTarget()) {
-                    <span class="target-pct">{{ goalsTarget() }}</span>
-                  }
-                </div>
-                <div class="quota-list">
-                  @for (q of quotas(); track q) {
-                    <div class="quota-item">
-                      <div class="quota-head">
-                        <span class="q-label">{{ q.label }}</span>
-                        <span class="q-val">{{ q.valText }}</span>
-                      </div>
-                      <gp-progress-bar [value]="q.pct" [showValue]="false" />
-                    </div>
-                  }
-                </div>
-              </div>
-            }
-          }
-        }
-        <!-- 4. Recent Subscriptions Table Widget -->
-        @if (item.id === 'recent-signups') {
-          @if (contentTable()) {
-            <ng-container *ngTemplateOutlet="contentTable()!" />
-          } @else {
-            @if (recentSignups() && recentSignups().length > 0) {
-              <div class="panel-card table-panel" style="height: 100%">
-                <div class="panel-header">
-                  <h3 class="panel-title">{{ tableTitle() }}</h3>
-                  <gp-button variant="outlined" severity="secondary" (onClickEvent)="exportClick.emit()">{{
-                    exportBtnLabel()
-                  }}</gp-button>
-                </div>
-                <div class="custom-data-table-wrap">
-                  <table class="saas-table">
-                    <thead>
-                      <tr>
-                        <th>Customer Organization</th>
-                        <th>Plan Tier</th>
-                        <th>Billing Cycle</th>
-                        <th>Contract Value</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (row of recentSignups(); track row) {
-                        <tr (click)="customerClick.emit(row)" style="cursor: pointer">
-                          <td>
-                            <div class="customer-cell">
-                              <gp-avatar [label]="row.name.charAt(0)" size="normal" shape="circle" />
-                              <div>
-                                <div class="cust-name">{{ row.name }}</div>
-                                <div class="cust-domain">{{ row.domain }}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <span class="plan-tag">{{ row.plan }}</span>
-                          </td>
-                          <td>{{ row.cycle }}</td>
-                          <td>
-                            <strong>{{ row.mrr }}</strong>
-                          </td>
-                          <td>
-                            <gp-badge [value]="row.status" [severity]="row.status === 'Active' ? 'success' : 'info'" />
-                          </td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            }
-          }
-        }
-      }
+                </td>
+                <td>
+                  <span class="plan-tag">{{ row.plan }}</span>
+                </td>
+                <td>{{ row.cycle }}</td>
+                <td>
+                  <strong>{{ row.mrr }}</strong>
+                </td>
+                <td>
+                  <gp-badge [value]="row.status" [severity]="row.status === 'Active' ? 'success' : 'info'" />
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      } } } }
     </ng-template>
   </gp-grid>
 </div>

@@ -2,60 +2,58 @@
   <!-- Tier 1: Primary Icon Strip -->
   <aside class="tier-primary-strip">
     @if (effectiveTier1()) {
-      <ng-container *ngTemplateOutlet="effectiveTier1()!" />
+    <ng-container *ngTemplateOutlet="effectiveTier1()!" />
     } @else {
-      <ng-content select="[tier1], [slot=tier1], [primary-sidebar], [slot=primary-sidebar]" />
-      <div class="strip-logo">
-        <gp-icon name="layer-group" size="1.25em" />
-      </div>
-      @if (tier1Items() && tier1Items().length > 0) {
-        <nav class="strip-nav">
-          @for (item of tier1Items(); track item) {
-            <gp-button
-              type="button"
-              variant="text"
-              severity="secondary"
-              [iconOnly]="true"
-              styleClass="strip-btn"
-              [class.active]="item.id === activeTier1Id() || item.active"
-              [ariaLabel]="item.title"
-              (onClickEvent)="tier1Click.emit(item)"
-            >
-              <gp-icon [name]="item.icon" size="1.2em" />
-            </gp-button>
-          }
-        </nav>
+    <ng-content select="[tier1], [slot=tier1], [primary-sidebar], [slot=primary-sidebar]" />
+    <div class="strip-logo">
+      <gp-icon name="layer-group" size="1.25em" />
+    </div>
+    @if (tier1Items() && tier1Items().length > 0) {
+    <nav class="strip-nav">
+      @for (item of tier1Items(); track item) {
+      <gp-button
+        type="button"
+        variant="text"
+        severity="secondary"
+        [iconOnly]="true"
+        styleClass="strip-btn"
+        [class.active]="item.id === activeTier1Id() || item.active"
+        [ariaLabel]="item.title"
+        (onClickEvent)="tier1Click.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.2em" />
+      </gp-button>
       }
-    }
+    </nav>
+    } }
   </aside>
 
   <!-- Tier 2: Subnavigation List -->
   <aside class="tier-secondary-nav">
     @if (effectiveTier2()) {
-      <ng-container *ngTemplateOutlet="effectiveTier2()!" />
+    <ng-container *ngTemplateOutlet="effectiveTier2()!" />
     } @else {
-      <ng-content select="[tier2], [slot=tier2], [secondary-sidebar], [slot=secondary-sidebar]" />
-      <div class="tier-head">
-        <span class="tier-title">{{ subnavTitle() }}</span>
-        @if (subnavBadge()) {
-          <gp-badge [value]="subnavBadge()" severity="secondary" />
-        }
-      </div>
-      @if (tier2Items() && tier2Items().length > 0) {
-        <div class="tier-items">
-          @for (item of tier2Items(); track item) {
-            <a
-              href="javascript:void(0)"
-              class="tier-link"
-              [class.active]="item.id === activeTier2Id() || item.active"
-              (click)="tier2Click.emit(item)"
-            >
-              <span>{{ item.label }}</span>
-            </a>
-          }
-        </div>
+    <ng-content select="[tier2], [slot=tier2], [secondary-sidebar], [slot=secondary-sidebar]" />
+    <div class="tier-head">
+      <span class="tier-title">{{ subnavTitle() }}</span>
+      @if (subnavBadge()) {
+      <gp-badge [value]="subnavBadge()" severity="secondary" />
       }
-    }
+    </div>
+    @if (tier2Items() && tier2Items().length > 0) {
+    <div class="tier-items">
+      @for (item of tier2Items(); track item) {
+      <a
+        href="javascript:void(0)"
+        class="tier-link"
+        [class.active]="item.id === activeTier2Id() || item.active"
+        (click)="tier2Click.emit(item)"
+      >
+        <span>{{ item.label }}</span>
+      </a>
+      }
+    </div>
+    } }
   </aside>
 
   <!-- Main Content -->
@@ -64,18 +62,18 @@
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="page-content-area">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

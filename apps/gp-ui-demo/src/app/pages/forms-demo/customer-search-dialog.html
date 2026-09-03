@@ -27,21 +27,16 @@
       </thead>
       <tbody>
         @for (cust of filteredCustomers(); track cust.id) {
-          <tr class="border-t hover:bg-surface-hover transition-colors">
-            <td class="p-3 font-semibold">{{ cust.name }}</td>
-            <td class="p-3">
-              <gp-badge [value]="cust.tier" [severity]="cust.tier === 'Enterprise' ? 'primary' : 'success'" />
-            </td>
-            <td class="p-3 text-secondary">{{ cust.location }}</td>
-            <td class="p-3 text-right">
-              <gp-button
-                label="Select"
-                size="sm"
-                icon="check"
-                (onClickEvent)="chooseCustomer(cust)"
-              />
-            </td>
-          </tr>
+        <tr class="border-t hover:bg-surface-hover transition-colors">
+          <td class="p-3 font-semibold">{{ cust.name }}</td>
+          <td class="p-3">
+            <gp-badge [value]="cust.tier" [severity]="cust.tier === 'Enterprise' ? 'primary' : 'success'" />
+          </td>
+          <td class="p-3 text-secondary">{{ cust.location }}</td>
+          <td class="p-3 text-right">
+            <gp-button label="Select" size="sm" icon="check" (onClickEvent)="chooseCustomer(cust)" />
+          </td>
+        </tr>
         }
       </tbody>
     </table>

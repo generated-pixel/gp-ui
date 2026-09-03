@@ -11,13 +11,16 @@
     </button>
 
     <div class="gp-carousel__items-container gp-carousel-items-container">
-      <div class="gp-carousel__items-slider gp-carousel-items-slider" [style.transform]="'translateX(-' + activeIndex() * 100 + '%)'">
+      <div
+        class="gp-carousel__items-slider gp-carousel-items-slider"
+        [style.transform]="'translateX(-' + activeIndex() * 100 + '%)'"
+      >
         @for (item of value(); track $index) {
-          <div class="gp-carousel__item gp-carousel-item" role="group" [attr.aria-label]="'Slide ' + ($index + 1)">
-            @if (itemTemplate()) {
-              <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
-            }
-          </div>
+        <div class="gp-carousel__item gp-carousel-item" role="group" [attr.aria-label]="'Slide ' + ($index + 1)">
+          @if (itemTemplate()) {
+          <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
+          }
+        </div>
         }
       </div>
     </div>
@@ -34,17 +37,18 @@
   </div>
 
   @if (showIndicators() && value().length > 1) {
-    <div class="gp-carousel__indicators gp-carousel-indicators">
-      @for (item of value(); track $index) {
-        <button
-          type="button"
-          class="gp-carousel__indicator gp-carousel-indicator"
-          [class.gp-carousel__indicator--active]="activeIndex() === $index" [class.gp-carousel-indicator-active]="activeIndex() === $index"
-          (click)="selectSlide($index)"
-          [attr.aria-current]="activeIndex() === $index ? 'true' : null"
-          [attr.aria-label]="'Slide ' + ($index + 1)"
-        ></button>
-      }
-    </div>
+  <div class="gp-carousel__indicators gp-carousel-indicators">
+    @for (item of value(); track $index) {
+    <button
+      type="button"
+      class="gp-carousel__indicator gp-carousel-indicator"
+      [class.gp-carousel__indicator--active]="activeIndex() === $index"
+      [class.gp-carousel-indicator-active]="activeIndex() === $index"
+      (click)="selectSlide($index)"
+      [attr.aria-current]="activeIndex() === $index ? 'true' : null"
+      [attr.aria-label]="'Slide ' + ($index + 1)"
+    ></button>
+    }
+  </div>
   }
 </div>

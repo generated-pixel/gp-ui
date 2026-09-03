@@ -9,9 +9,12 @@
   border-radius: var(--gp-border-radius);
   gap: 0.5rem;
 }
-.gp-toolbar__start, .gp-toolbar-start,
-.gp-toolbar__center, .gp-toolbar-center,
-.gp-toolbar__end, .gp-toolbar-end {
+.gp-toolbar__start,
+.gp-toolbar-start,
+.gp-toolbar__center,
+.gp-toolbar-center,
+.gp-toolbar__end,
+.gp-toolbar-end {
   display: flex;
   align-items: center;
   gap: 0.5rem;

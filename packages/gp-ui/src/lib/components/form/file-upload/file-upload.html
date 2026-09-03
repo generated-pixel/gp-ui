@@ -30,41 +30,41 @@
   </div>
 
   @if (files().length > 0) {
-    <div class="gp-fileupload-files" role="list" aria-label="Selected files">
-      @for (f of files(); track f.name + f.size) {
-        <div class="gp-fileupload-file-card" role="listitem">
-          <gp-icon name="file" size="1.5em" class="gp-fileupload-file-icon" />
-          <div class="gp-fileupload-file-info">
-            <span class="gp-fileupload-file-name">{{ f.name }}</span>
-            <span class="gp-fileupload-file-size">{{ formatSize(f.size) }}</span>
-          </div>
-          <button
-            type="button"
-            class="gp-fileupload-file-remove"
-            (click)="removeFile(f, $event)"
-            [attr.aria-label]="'Remove file ' + f.name"
-          >
-            <gp-icon name="times" size="0.85em" />
-          </button>
-        </div>
-      }
-
-      <div class="gp-fileupload-actions">
-        <gp-button
-          [label]="uploadLabel() || translationService.get('upload') || 'Upload'"
-          icon="upload"
-          severity="primary"
-          [disabled]="isEffectivelyDisabled()"
-          (onClickEvent)="upload()"
-        />
-        <gp-button
-          [label]="cancelLabel() || translationService.get('clear') || 'Clear'"
-          icon="times"
-          variant="outlined"
-          severity="secondary"
-          (onClickEvent)="clear()"
-        />
+  <div class="gp-fileupload-files" role="list" aria-label="Selected files">
+    @for (f of files(); track f.name + f.size) {
+    <div class="gp-fileupload-file-card" role="listitem">
+      <gp-icon name="file" size="1.5em" class="gp-fileupload-file-icon" />
+      <div class="gp-fileupload-file-info">
+        <span class="gp-fileupload-file-name">{{ f.name }}</span>
+        <span class="gp-fileupload-file-size">{{ formatSize(f.size) }}</span>
       </div>
+      <button
+        type="button"
+        class="gp-fileupload-file-remove"
+        (click)="removeFile(f, $event)"
+        [attr.aria-label]="'Remove file ' + f.name"
+      >
+        <gp-icon name="times" size="0.85em" />
+      </button>
     </div>
+    }
+
+    <div class="gp-fileupload-actions">
+      <gp-button
+        [label]="uploadLabel() || translationService.get('upload') || 'Upload'"
+        icon="upload"
+        severity="primary"
+        [disabled]="isEffectivelyDisabled()"
+        (onClickEvent)="upload()"
+      />
+      <gp-button
+        [label]="cancelLabel() || translationService.get('clear') || 'Clear'"
+        icon="times"
+        variant="outlined"
+        severity="secondary"
+        (onClickEvent)="clear()"
+      />
+    </div>
+  </div>
   }
 </div>

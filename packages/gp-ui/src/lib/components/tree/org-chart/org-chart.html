@@ -1,10 +1,14 @@
-<div class="gp-org-chart gp-orgchart" [class.gp-org-chart--selectable]="selectionMode()" [class.gp-orgchart-selectable]="selectionMode()">
+<div
+  class="gp-org-chart gp-orgchart"
+  [class.gp-org-chart--selectable]="selectionMode()"
+  [class.gp-orgchart-selectable]="selectionMode()"
+>
   @if (value()) {
-    <table class="gp-org-chart__table gp-orgchart-table" role="tree">
-      <tbody>
-        <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: value(), isRoot: true }" />
-      </tbody>
-    </table>
+  <table class="gp-org-chart__table gp-orgchart-table" role="tree">
+    <tbody>
+      <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: value(), isRoot: true }" />
+    </tbody>
+  </table>
   }
 </div>
 
@@ -16,9 +20,12 @@
     >
       <div
         class="gp-org-chart__node gp-orgchart-node"
-        [class.gp-org-chart__node--selectable]="selectionMode() && node.selectable !== false" [class.gp-orgchart-node-selectable]="selectionMode() && node.selectable !== false"
-        [class.gp-org-chart__node--selected]="isSelected(node)" [class.gp-orgchart-node-selected]="isSelected(node)"
-        [class.gp-org-chart__node--collapsed]="!isExpanded(node)" [class.gp-orgchart-node-collapsed]="!isExpanded(node)"
+        [class.gp-org-chart__node--selectable]="selectionMode() && node.selectable !== false"
+        [class.gp-orgchart-node-selectable]="selectionMode() && node.selectable !== false"
+        [class.gp-org-chart__node--selected]="isSelected(node)"
+        [class.gp-orgchart-node-selected]="isSelected(node)"
+        [class.gp-org-chart__node--collapsed]="!isExpanded(node)"
+        [class.gp-orgchart-node-collapsed]="!isExpanded(node)"
         [class]="node.styleClass || ''"
         (click)="onNodeClick(node, $event)"
         role="treeitem"
@@ -26,81 +33,72 @@
         [attr.aria-selected]="selectionMode() ? isSelected(node) : null"
       >
         @if (nodeTemplateRef()) {
-          <ng-container *ngTemplateOutlet="nodeTemplateRef()!; context: { $implicit: node }" />
+        <ng-container *ngTemplateOutlet="nodeTemplateRef()!; context: { $implicit: node }" />
         } @else {
-          <div class="gp-orgchart-node-content">
-            @if (node.icon) {
-              <div class="gp-orgchart-node-icon-wrap">
-                <gp-icon [name]="node.icon" size="1.25em" class="gp-orgchart-icon" />
-              </div>
-            }
-            <div class="gp-orgchart-node-details">
-              <div class="gp-orgchart-node-label">{{ node.label }}</div>
-              @if (node.data?.title) {
-                <div class="gp-orgchart-node-title">{{ node.data.title }}</div>
-              }
-              @if (node.data?.department) {
-                <span class="gp-orgchart-node-dept">{{ node.data.department }}</span>
-              }
-            </div>
+        <div class="gp-orgchart-node-content">
+          @if (node.icon) {
+          <div class="gp-orgchart-node-icon-wrap">
+            <gp-icon [name]="node.icon" size="1.25em" class="gp-orgchart-icon" />
           </div>
-        }
-
-        @if (node.children && node.children.length > 0 && collapsible()) {
-          <button
-            type="button"
-            class="gp-orgchart-toggler"
-            (click)="toggleNode(node, $event)"
-            [attr.aria-label]="isExpanded(node) ? 'Collapse node' : 'Expand node'"
-          >
-            <gp-icon [name]="isExpanded(node) ? 'chevron-down' : 'chevron-up'" size="0.75em" />
-          </button>
+          }
+          <div class="gp-orgchart-node-details">
+            <div class="gp-orgchart-node-label">{{ node.label }}</div>
+            @if (node.data?.title) {
+            <div class="gp-orgchart-node-title">{{ node.data.title }}</div>
+            } @if (node.data?.department) {
+            <span class="gp-orgchart-node-dept">{{ node.data.department }}</span>
+            }
+          </div>
+        </div>
+        } @if (node.children && node.children.length > 0 && collapsible()) {
+        <button
+          type="button"
+          class="gp-orgchart-toggler"
+          (click)="toggleNode(node, $event)"
+          [attr.aria-label]="isExpanded(node) ? 'Collapse node' : 'Expand node'"
+        >
+          <gp-icon [name]="isExpanded(node) ? 'chevron-down' : 'chevron-up'" size="0.75em" />
+        </button>
         }
       </div>
     </td>
   </tr>
 
   @if (isExpanded(node) && node.children && node.children.length > 0) {
-    <!-- Vertical downward stem from parent -->
-    <tr class="gp-orgchart-lines" aria-hidden="true">
-      <td [attr.colspan]="node.children.length * 2" class="gp-orgchart-line-cell">
-        <div class="gp-orgchart-line-down"></div>
-      </td>
-    </tr>
+  <!-- Vertical downward stem from parent -->
+  <tr class="gp-orgchart-lines" aria-hidden="true">
+    <td [attr.colspan]="node.children.length * 2" class="gp-orgchart-line-cell">
+      <div class="gp-orgchart-line-down"></div>
+    </td>
+  </tr>
 
-    <!-- Horizontal connector bar between siblings -->
-    @if (node.children.length === 1) {
-      <tr class="gp-orgchart-lines" aria-hidden="true">
-        <td colspan="2" class="gp-orgchart-line-cell">
-          <div class="gp-orgchart-line-down"></div>
-        </td>
-      </tr>
-    } @else {
-      <tr class="gp-orgchart-lines" aria-hidden="true">
-        @for (
-          child of node.children;
-          track child.key || $index;
-          let idx = $index;
-          let first = $first;
-          let last = $last
-        ) {
-          <td class="gp-orgchart-line-cell gp-orgchart-line-left-half" [class.gp-orgchart-line-top]="!first">&nbsp;</td>
-          <td class="gp-orgchart-line-cell gp-orgchart-line-right-half" [class.gp-orgchart-line-top]="!last">&nbsp;</td>
-        }
-      </tr>
+  <!-- Horizontal connector bar between siblings -->
+  @if (node.children.length === 1) {
+  <tr class="gp-orgchart-lines" aria-hidden="true">
+    <td colspan="2" class="gp-orgchart-line-cell">
+      <div class="gp-orgchart-line-down"></div>
+    </td>
+  </tr>
+  } @else {
+  <tr class="gp-orgchart-lines" aria-hidden="true">
+    @for ( child of node.children; track child.key || $index; let idx = $index; let first = $first; let last = $last ) {
+    <td class="gp-orgchart-line-cell gp-orgchart-line-left-half" [class.gp-orgchart-line-top]="!first">&nbsp;</td>
+    <td class="gp-orgchart-line-cell gp-orgchart-line-right-half" [class.gp-orgchart-line-top]="!last">&nbsp;</td>
     }
+  </tr>
+  }
 
-    <!-- Child nodes recursive row -->
-    <tr class="gp-orgchart-nodes-row">
-      @for (child of node.children; track child.key || $index) {
-        <td colspan="2" class="gp-orgchart-child-cell">
-          <table class="gp-orgchart-table">
-            <tbody>
-              <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: child, isRoot: false }" />
-            </tbody>
-          </table>
-        </td>
-      }
-    </tr>
+  <!-- Child nodes recursive row -->
+  <tr class="gp-orgchart-nodes-row">
+    @for (child of node.children; track child.key || $index) {
+    <td colspan="2" class="gp-orgchart-child-cell">
+      <table class="gp-orgchart-table">
+        <tbody>
+          <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: child, isRoot: false }" />
+        </tbody>
+      </table>
+    </td>
+    }
+  </tr>
   }
 </ng-template>

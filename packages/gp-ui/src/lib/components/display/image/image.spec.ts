@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpImage],
-  template: `
-    <gp-image src="test.png" alt="Test Image" [preview]="true" />
-  `
+  template: ` <gp-image src="test.png" alt="Test Image" [preview]="true" /> `
 })
 class TestHostComponent {}
 

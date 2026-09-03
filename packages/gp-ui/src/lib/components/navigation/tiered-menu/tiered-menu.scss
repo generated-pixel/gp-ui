@@ -1,4 +1,5 @@
-.gp-tiered-menu, .gp-tieredmenu {
+.gp-tiered-menu,
+.gp-tieredmenu {
   background: var(--gp-surface-card);
   border: 1px solid var(--gp-surface-border);
   border-radius: var(--gp-border-radius);
@@ -9,7 +10,8 @@
   position: relative;
 }
 
-.gp-tiered-menu, .gp-tieredmenu.gp-menu-popup {
+.gp-tiered-menu,
+.gp-tieredmenu.gp-menu-popup {
   position: fixed;
   box-shadow: var(--gp-shadow-xl, 0 10px 25px -5px rgba(0, 0, 0, 0.15));
   z-index: 1100;
@@ -30,16 +32,19 @@
   }
 }
 
-.gp-tiered-menu__item, .gp-tieredmenu-item {
+.gp-tiered-menu__item,
+.gp-tieredmenu-item {
   position: relative;
 }
 
-.gp-tiered-menu__arrow, .gp-tieredmenu-arrow {
+.gp-tiered-menu__arrow,
+.gp-tieredmenu-arrow {
   margin-left: auto;
   color: var(--gp-text-color-muted);
 }
 
-.gp-tiered-menu__sub, .gp-tieredmenu-sub {
+.gp-tiered-menu__sub,
+.gp-tieredmenu-sub {
   position: absolute;
   top: 0;
   left: 100%;

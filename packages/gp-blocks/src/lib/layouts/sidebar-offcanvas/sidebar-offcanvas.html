@@ -1,44 +1,43 @@
 <div class="gp-sidebar-offcanvas-shell">
   <!-- Offcanvas Backdrop -->
   @if (sidebarOpen()) {
-    <div class="offcanvas-backdrop" (click)="closeSidebar()"></div>
+  <div class="offcanvas-backdrop" (click)="closeSidebar()"></div>
   }
 
   <!-- Offcanvas Sidebar -->
   <aside class="offcanvas-sidebar" [class.open]="sidebarOpen()">
     @if (effectiveSidebar()) {
-      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     } @else {
-      <ng-content select="[sidebar], [slot=sidebar]" />
-      <div class="offcanvas-head">
-        <span class="brand-title">{{ brandName() }}</span>
-        <gp-button
-          variant="text"
-          severity="secondary"
-          [iconOnly]="true"
-          styleClass="close-btn"
-          ariaLabel="Close sidebar"
-          (onClickEvent)="closeSidebar()"
-        >
-          <gp-icon name="close" size="1em" />
-        </gp-button>
-      </div>
-      @if (navItems() && navItems().length > 0) {
-        <nav class="sidebar-nav">
-          @for (item of navItems(); track item) {
-            <a
-              href="javascript:void(0)"
-              class="nav-item"
-              [class.active]="item.id === activeNavId() || item.active"
-              (click)="navItemClick.emit(item); closeSidebar()"
-            >
-              <gp-icon [name]="item.icon" size="1.1em" />
-              <span>{{ item.label }}</span>
-            </a>
-          }
-        </nav>
+    <ng-content select="[sidebar], [slot=sidebar]" />
+    <div class="offcanvas-head">
+      <span class="brand-title">{{ brandName() }}</span>
+      <gp-button
+        variant="text"
+        severity="secondary"
+        [iconOnly]="true"
+        styleClass="close-btn"
+        ariaLabel="Close sidebar"
+        (onClickEvent)="closeSidebar()"
+      >
+        <gp-icon name="close" size="1em" />
+      </gp-button>
+    </div>
+    @if (navItems() && navItems().length > 0) {
+    <nav class="sidebar-nav">
+      @for (item of navItems(); track item) {
+      <a
+        href="javascript:void(0)"
+        class="nav-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        (click)="navItemClick.emit(item); closeSidebar()"
+      >
+        <gp-icon [name]="item.icon" size="1.1em" />
+        <span>{{ item.label }}</span>
+      </a>
       }
-    }
+    </nav>
+    } }
   </aside>
 
   <div class="main-shell">
@@ -58,18 +57,18 @@
       </div>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="page-content-area">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

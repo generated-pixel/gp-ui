@@ -1,8 +1,11 @@
 <div
   class="gp-split-button"
-  [class.gp-split-button--expanded]="overlayVisible()" [class.gp-split-button-expanded]="overlayVisible()"
-  [class.gp-split-button--fluid]="fluid()" [class.gp-split-button-fluid]="fluid()"
-  [class.gp-split-button--rounded]="rounded()" [class.gp-split-button-rounded]="rounded()"
+  [class.gp-split-button--expanded]="overlayVisible()"
+  [class.gp-split-button-expanded]="overlayVisible()"
+  [class.gp-split-button--fluid]="fluid()"
+  [class.gp-split-button-fluid]="fluid()"
+  [class.gp-split-button--rounded]="rounded()"
+  [class.gp-split-button-rounded]="rounded()"
   [class]="styleClass()"
   [style]="style()"
 >
@@ -50,42 +53,40 @@
   />
 
   @if (overlayVisible()) {
-    <div
-      class="gp-menu-overlay gp-split-button__menu gp-split-button-menu"
-      role="menu"
-      (click)="$event.stopPropagation()"
-      [gpAppendTo]="appendTo()"
-      [gpConnectedTo]="el"
-    >
-      <ul class="gp-menu-list">
-        @for (item of model(); track $index) {
-          @if (item.separator) {
-            <li class="gp-menu-separator" role="separator"></li>
-          } @else {
-            <li
-              class="gp-menu-item"
-              [class.gp-menu-item-disabled]="item.disabled"
-              role="menuitem"
-              (click)="onItemClick(item, $event)"
-            >
-              <a
-                [routerLink]="item.routerLink"
-                [attr.href]="item.url || null"
-                [attr.target]="item.target || null"
-                class="gp-menu-item-link"
-              >
-                @if (item.icon) {
-                  <gp-icon [name]="item.icon" class="gp-menu-item-icon" />
-                }
-                <span class="gp-menu-item-text">{{ item.label }}</span>
-                @if (item.badge) {
-                  <span class="gp-menu-item-badge">{{ item.badge }}</span>
-                }
-              </a>
-            </li>
+  <div
+    class="gp-menu-overlay gp-split-button__menu gp-split-button-menu"
+    role="menu"
+    (click)="$event.stopPropagation()"
+    [gpAppendTo]="appendTo()"
+    [gpConnectedTo]="el"
+  >
+    <ul class="gp-menu-list">
+      @for (item of model(); track $index) { @if (item.separator) {
+      <li class="gp-menu-separator" role="separator"></li>
+      } @else {
+      <li
+        class="gp-menu-item"
+        [class.gp-menu-item-disabled]="item.disabled"
+        role="menuitem"
+        (click)="onItemClick(item, $event)"
+      >
+        <a
+          [routerLink]="item.routerLink"
+          [attr.href]="item.url || null"
+          [attr.target]="item.target || null"
+          class="gp-menu-item-link"
+        >
+          @if (item.icon) {
+          <gp-icon [name]="item.icon" class="gp-menu-item-icon" />
           }
-        }
-      </ul>
-    </div>
+          <span class="gp-menu-item-text">{{ item.label }}</span>
+          @if (item.badge) {
+          <span class="gp-menu-item-badge">{{ item.badge }}</span>
+          }
+        </a>
+      </li>
+      } }
+    </ul>
+  </div>
   }
 </div>

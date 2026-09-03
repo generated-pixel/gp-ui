@@ -5,8 +5,7 @@ export const routes: Routes = [
   { path: 'docs', redirectTo: 'getting-started', pathMatch: 'full' },
   {
     path: 'getting-started',
-    loadComponent: () =>
-      import('./pages/getting-started/getting-started').then((m) => m.GettingStarted)
+    loadComponent: () => import('./pages/getting-started/getting-started').then((m) => m.GettingStarted)
   },
   {
     path: 'rules',
@@ -18,8 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'blocks-playground',
-    loadComponent: () =>
-      import('./pages/blocks/blocks-playground').then((m) => m.BlocksPlaygroundPage)
+    loadComponent: () => import('./pages/blocks/blocks-playground').then((m) => m.BlocksPlaygroundPage)
   },
   {
     path: 'theming',
@@ -43,8 +41,7 @@ export const routes: Routes = [
   },
   {
     path: 'component/:component',
-    loadComponent: () =>
-      import('./pages/component-docs/component-doc-page').then((m) => m.ComponentDocPage)
+    loadComponent: () => import('./pages/component-docs/component-doc-page').then((m) => m.ComponentDocPage)
   },
   { path: '**', redirectTo: 'getting-started' }
 ];

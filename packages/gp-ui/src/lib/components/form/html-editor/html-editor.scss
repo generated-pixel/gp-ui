@@ -201,22 +201,36 @@ gp-html-editor {
   }
 
   /* Rich text element typography styling */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--gp-text-color, #0f172a);
     font-weight: 700;
     margin: 0.75rem 0 0.5rem;
     line-height: 1.25;
   }
-  h1 { font-size: 1.75rem; }
-  h2 { font-size: 1.45rem; }
-  h3 { font-size: 1.25rem; }
-  h4 { font-size: 1.05rem; }
+  h1 {
+    font-size: 1.75rem;
+  }
+  h2 {
+    font-size: 1.45rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+  h4 {
+    font-size: 1.05rem;
+  }
 
   p {
     margin: 0 0 0.75rem;
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin: 0 0 0.75rem 1.5rem;
     padding: 0;
   }

@@ -1,68 +1,61 @@
 <div class="gp-header-page-actions">
   @if (breadcrumbs() && breadcrumbs().length > 0) {
-    <div class="header-breadcrumbs">
-      @if (effectiveBreadcrumbs()) {
-        <ng-container *ngTemplateOutlet="effectiveBreadcrumbs()!" />
-      } @else {
-        <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
-        <nav class="breadcrumb-trail">
-          @for (crumb of breadcrumbs(); track crumb; let last = $last) {
-            @if (!last && crumb.url) {
-              <a [href]="crumb.url" class="crumb-link" (click)="$event.preventDefault(); breadcrumbClick.emit(crumb)">
-                {{ crumb.label }}
-              </a>
-            }
-            @if (!last && !crumb.url) {
-              <span class="crumb-link" (click)="breadcrumbClick.emit(crumb)">{{ crumb.label }}</span>
-            }
-            @if (last) {
-              <span class="crumb-current">{{ crumb.label }}</span>
-            }
-            @if (!last) {
-              <span class="crumb-sep">/</span>
-            }
-          }
-        </nav>
-      }
-    </div>
+  <div class="header-breadcrumbs">
+    @if (effectiveBreadcrumbs()) {
+    <ng-container *ngTemplateOutlet="effectiveBreadcrumbs()!" />
+    } @else {
+    <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
+    <nav class="breadcrumb-trail">
+      @for (crumb of breadcrumbs(); track crumb; let last = $last) { @if (!last && crumb.url) {
+      <a [href]="crumb.url" class="crumb-link" (click)="$event.preventDefault(); breadcrumbClick.emit(crumb)">
+        {{ crumb.label }}
+      </a>
+      } @if (!last && !crumb.url) {
+      <span class="crumb-link" (click)="breadcrumbClick.emit(crumb)">{{ crumb.label }}</span>
+      } @if (last) {
+      <span class="crumb-current">{{ crumb.label }}</span>
+      } @if (!last) {
+      <span class="crumb-sep">/</span>
+      } }
+    </nav>
+    }
+  </div>
   }
 
   <div class="header-main-row">
     @if (effectiveTitle()) {
-      <ng-container *ngTemplateOutlet="effectiveTitle()!" />
+    <ng-container *ngTemplateOutlet="effectiveTitle()!" />
     } @else {
-      <ng-content select="[title], [slot=title]" />
-      <div class="title-group">
-        <div class="title-with-badge">
-          <h1 class="page-title">{{ title() }}</h1>
-          @if (badgeText()) {
-            <gp-badge [value]="badgeText()" [severity]="badgeSeverity()" />
-          }
-        </div>
-        @if (subtitle()) {
-          <p class="page-subtitle">{{ subtitle() }}</p>
+    <ng-content select="[title], [slot=title]" />
+    <div class="title-group">
+      <div class="title-with-badge">
+        <h1 class="page-title">{{ title() }}</h1>
+        @if (badgeText()) {
+        <gp-badge [value]="badgeText()" [severity]="badgeSeverity()" />
         }
       </div>
+      @if (subtitle()) {
+      <p class="page-subtitle">{{ subtitle() }}</p>
+      }
+    </div>
     }
 
     <div class="header-actions">
       @if (effectiveActions()) {
-        <ng-container *ngTemplateOutlet="effectiveActions()!" />
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
       } @else {
-        <ng-content select="[actions], [slot=actions]" />
-        @for (act of actions(); track act) {
-          <gp-button
-            [variant]="act.variant || 'filled'"
-            [severity]="act.severity || 'primary'"
-            (onClickEvent)="actionClick.emit(act)"
-          >
-            @if (act.icon) {
-              <gp-icon [name]="act.icon" size="0.85em" style="margin-right: 0.35rem" />
-            }
-            {{ act.label }}
-          </gp-button>
-        }
-      }
+      <ng-content select="[actions], [slot=actions]" />
+      @for (act of actions(); track act) {
+      <gp-button
+        [variant]="act.variant || 'filled'"
+        [severity]="act.severity || 'primary'"
+        (onClickEvent)="actionClick.emit(act)"
+      >
+        @if (act.icon) {
+        <gp-icon [name]="act.icon" size="0.85em" style="margin-right: 0.35rem" />
+        } {{ act.label }}
+      </gp-button>
+      } }
     </div>
   </div>
   <ng-content />

@@ -14,11 +14,7 @@ import { Component } from '@angular/core';
   `
 })
 class TestHostComponent {
-  slides = [
-    { title: 'Slide 1' },
-    { title: 'Slide 2' },
-    { title: 'Slide 3' }
-  ];
+  slides = [{ title: 'Slide 1' }, { title: 'Slide 2' }, { title: 'Slide 3' }];
 }
 
 describe('GpCarousel', () => {

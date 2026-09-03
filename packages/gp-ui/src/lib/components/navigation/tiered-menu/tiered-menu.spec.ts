@@ -7,9 +7,7 @@ import { provideRouter } from '@angular/router';
 @Component({
   standalone: true,
   imports: [GpTieredMenu],
-  template: `
-    <gp-tiered-menu [model]="items" />
-  `
+  template: ` <gp-tiered-menu [model]="items" /> `
 })
 class TestHostComponent {
   items: GpMenubarItem[] = [

@@ -1,43 +1,38 @@
 <div class="gp-empty-state-card">
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <!-- Icon -->
-    @if (effectiveIcon()) {
-      <ng-container *ngTemplateOutlet="effectiveIcon()!" />
-    } @else {
-      <ng-content select="[icon], [slot=icon]" />
-      <div class="empty-icon-circle">
-        <gp-icon [name]="icon()" size="1.75em" />
-      </div>
+  <!-- Icon -->
+  @if (effectiveIcon()) {
+  <ng-container *ngTemplateOutlet="effectiveIcon()!" />
+  } @else {
+  <ng-content select="[icon], [slot=icon]" />
+  <div class="empty-icon-circle">
+    <gp-icon [name]="icon()" size="1.75em" />
+  </div>
+  }
+  <!-- Headings -->
+  @if (title()) {
+  <h3 class="empty-title">{{ title() }}</h3>
+  } @if (description()) {
+  <p class="empty-desc">{{ description() }}</p>
+  }
+  <!-- CTAs -->
+  @if (effectiveActions()) {
+  <ng-container *ngTemplateOutlet="effectiveActions()!" />
+  } @else {
+  <ng-content select="[actions], [slot=actions]" />
+  @if (primaryCta() || secondaryCta()) {
+  <div class="empty-actions-row">
+    @if (secondaryCta()) {
+    <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="secondaryClick.emit()">
+      {{ secondaryCta() }}
+    </gp-button>
+    } @if (primaryCta()) {
+    <gp-button severity="primary" size="sm" (onClickEvent)="primaryClick.emit()"> {{ primaryCta() }} </gp-button>
     }
-    <!-- Headings -->
-    @if (title()) {
-      <h3 class="empty-title">{{ title() }}</h3>
-    }
-    @if (description()) {
-      <p class="empty-desc">{{ description() }}</p>
-    }
-    <!-- CTAs -->
-    @if (effectiveActions()) {
-      <ng-container *ngTemplateOutlet="effectiveActions()!" />
-    } @else {
-      <ng-content select="[actions], [slot=actions]" />
-      @if (primaryCta() || secondaryCta()) {
-        <div class="empty-actions-row">
-          @if (secondaryCta()) {
-            <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="secondaryClick.emit()">
-              {{ secondaryCta() }}
-            </gp-button>
-          }
-          @if (primaryCta()) {
-            <gp-button severity="primary" size="sm" (onClickEvent)="primaryClick.emit()">
-              {{ primaryCta() }}
-            </gp-button>
-          }
-        </div>
-      }
-    }
-    <ng-content />
+  </div>
+  } }
+  <ng-content />
   }
 </div>

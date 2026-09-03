@@ -36,16 +36,7 @@ export interface ComponentCatalogueItem {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterModule,
-    FormsModule,
-    GpBadge,
-    GpButton,
-    GpInputText,
-    GpIcon,
-    GpCommandPalette,
-    ThemeEditorDialog
-  ],
+  imports: [RouterModule, FormsModule, GpBadge, GpButton, GpInputText, GpIcon, GpCommandPalette, ThemeEditorDialog],
   template: `
     <div class="app-layout">
       <!-- Top Navigation Header -->
@@ -83,7 +74,12 @@ export interface ComponentCatalogueItem {
             </a>
 
             <!-- Buy Me A Coffee Donation CTA (Prominently next to Generated Pixel Logo) -->
-<a href="https://www.buymeacoffee.com/generatedpixel" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 36px !important;width: 130px !important;" ></a>
+            <a href="https://www.buymeacoffee.com/generatedpixel" target="_blank"
+              ><img
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                alt="Buy Me a Coffee"
+                style="height: 36px !important;width: 130px !important;"
+            /></a>
           </div>
 
           <!-- Component Search Bar -->
@@ -492,7 +488,7 @@ export interface ComponentCatalogueItem {
         gap: 0.5rem;
         padding: 0.42rem 0.95rem;
         border-radius: 999px;
-        background: linear-gradient(135deg, #FFDD00 0%, #F59E0B 100%);
+        background: linear-gradient(135deg, #ffdd00 0%, #f59e0b 100%);
         color: #000000 !important;
         font-weight: 800;
         font-size: 0.84rem;
@@ -510,7 +506,7 @@ export interface ComponentCatalogueItem {
         box-shadow:
           0 6px 20px rgba(245, 158, 11, 0.65),
           0 0 0 2px rgba(255, 221, 0, 0.5);
-        background: linear-gradient(135deg, #FFE54C 0%, #D97706 100%);
+        background: linear-gradient(135deg, #ffe54c 0%, #d97706 100%);
         color: #000000 !important;
       }
       .bmc-cup-icon {
@@ -521,11 +517,23 @@ export interface ComponentCatalogueItem {
         transform-origin: bottom center;
       }
       @keyframes bmcWiggle {
-        0%, 75%, 100% { transform: rotate(0deg) scale(1); }
-        80% { transform: rotate(-12deg) scale(1.15); }
-        85% { transform: rotate(12deg) scale(1.15); }
-        90% { transform: rotate(-6deg) scale(1.1); }
-        95% { transform: rotate(6deg) scale(1.05); }
+        0%,
+        75%,
+        100% {
+          transform: rotate(0deg) scale(1);
+        }
+        80% {
+          transform: rotate(-12deg) scale(1.15);
+        }
+        85% {
+          transform: rotate(12deg) scale(1.15);
+        }
+        90% {
+          transform: rotate(-6deg) scale(1.1);
+        }
+        95% {
+          transform: rotate(6deg) scale(1.05);
+        }
       }
       @media (max-width: 768px) {
         .bmc-btn-text {
@@ -1009,7 +1017,13 @@ export class App {
     { name: 'Time Picker', route: '/component/time-picker', category: 'Form Controls', icon: 'clock' },
     { name: 'File Upload', route: '/component/file-upload', category: 'Form Controls', icon: 'upload' },
     { name: 'HTML Editor', route: '/component/html-editor', category: 'Form Controls', icon: 'edit', badge: 'New' },
-    { name: 'Markdown Editor', route: '/component/md-editor', category: 'Form Controls', icon: 'file-text', badge: 'New' },
+    {
+      name: 'Markdown Editor',
+      route: '/component/md-editor',
+      category: 'Form Controls',
+      icon: 'file-text',
+      badge: 'New'
+    },
     { name: 'Paginator', route: '/component/paginator', category: 'Data Presentation', icon: 'bars' },
     { name: 'Column', route: '/component/column', category: 'Data Presentation', icon: 'table' },
     { name: 'Table', route: '/component/table', category: 'Data Presentation', icon: 'bars' },

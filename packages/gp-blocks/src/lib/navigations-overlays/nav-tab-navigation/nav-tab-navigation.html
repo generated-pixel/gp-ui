@@ -1,40 +1,37 @@
 <div class="gp-tab-navigation-block">
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else { @if (effectiveUnderlineTabs()) {
+  <ng-container *ngTemplateOutlet="effectiveUnderlineTabs()!" />
   } @else {
-    @if (effectiveUnderlineTabs()) {
-      <ng-container *ngTemplateOutlet="effectiveUnderlineTabs()!" />
-    } @else {
-      <ng-content select="[underline-tabs], [slot=underline-tabs]" />
+  <ng-content select="[underline-tabs], [slot=underline-tabs]" />
 
-      <gp-tabs
-        styleClass="gp-tab-navigation-block__underline"
-        [activeIndex]="underlineActiveIndex()"
-        [hidePanels]="true"
-        (onChange)="onUnderlineChange($event.index)"
-      >
-        @for (tab of underlineTabs(); track tab.id) {
-          <gp-tab-panel [header]="tab.label" [badge]="tab.badge" [badgeSeverity]="tab.badgeSeverity || 'secondary'" />
-        }
-      </gp-tabs>
+  <gp-tabs
+    styleClass="gp-tab-navigation-block__underline"
+    [activeIndex]="underlineActiveIndex()"
+    [hidePanels]="true"
+    (onChange)="onUnderlineChange($event.index)"
+  >
+    @for (tab of underlineTabs(); track tab.id) {
+    <gp-tab-panel [header]="tab.label" [badge]="tab.badge" [badgeSeverity]="tab.badgeSeverity || 'secondary'" />
     }
+  </gp-tabs>
+  } @if (effectivePillTabs()) {
+  <ng-container *ngTemplateOutlet="effectivePillTabs()!" />
+  } @else {
+  <ng-content select="[pill-tabs], [slot=pill-tabs]" />
 
-    @if (effectivePillTabs()) {
-      <ng-container *ngTemplateOutlet="effectivePillTabs()!" />
-    } @else {
-      <ng-content select="[pill-tabs], [slot=pill-tabs]" />
-
-      <gp-tabs
-        styleClass="gp-tab-navigation-block__pills"
-        [activeIndex]="pillActiveIndex()"
-        [hidePanels]="true"
-        (onChange)="onPillChange($event.index)"
-      >
-        @for (tab of pillTabs(); track tab.id) {
-          <gp-tab-panel [header]="tab.label" [badge]="tab.badge" [badgeSeverity]="tab.badgeSeverity || 'secondary'" />
-        }
-      </gp-tabs>
+  <gp-tabs
+    styleClass="gp-tab-navigation-block__pills"
+    [activeIndex]="pillActiveIndex()"
+    [hidePanels]="true"
+    (onChange)="onPillChange($event.index)"
+  >
+    @for (tab of pillTabs(); track tab.id) {
+    <gp-tab-panel [header]="tab.label" [badge]="tab.badge" [badgeSeverity]="tab.badgeSeverity || 'secondary'" />
     }
-    <ng-content />
+  </gp-tabs>
+  }
+  <ng-content />
   }
 </div>

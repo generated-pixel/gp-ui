@@ -6,9 +6,7 @@ import { GpTreeNode } from '../tree-node/tree-node.interface';
 @Component({
   standalone: true,
   imports: [GpTree],
-  template: `
-    <gp-tree [value]="nodes" selectionMode="single" [(selection)]="selectedNode" />
-  `
+  template: ` <gp-tree [value]="nodes" selectionMode="single" [(selection)]="selectedNode" /> `
 })
 class TestHostComponent {
   selectedNode: any = null;

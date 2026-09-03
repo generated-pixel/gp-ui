@@ -2,52 +2,52 @@
   <div class="gp-tabs__nav-container gp-tabview-nav-container">
     <ul class="gp-tabs__nav gp-tabview-nav" role="tablist" [attr.aria-label]="ariaLabel() || 'Tabs'">
       @for (tab of tabPanels(); track $index) {
-        <li
-          class="gp-tabs__header gp-tabview-header"
-          [class.gp-tabs__header--active]="tab.selected()" [class.gp-tabview-header-active]="tab.selected()"
-          [class.gp-tabs__header--disabled]="tab.disabled()" [class.gp-tabview-header-disabled]="tab.disabled()"
-          role="presentation"
+      <li
+        class="gp-tabs__header gp-tabview-header"
+        [class.gp-tabs__header--active]="tab.selected()"
+        [class.gp-tabview-header-active]="tab.selected()"
+        [class.gp-tabs__header--disabled]="tab.disabled()"
+        [class.gp-tabview-header-disabled]="tab.disabled()"
+        role="presentation"
+      >
+        <button
+          type="button"
+          [id]="id() + '_tab_' + $index"
+          class="gp-tabs__nav-link gp-tabview-nav-link"
+          [disabled]="tab.disabled()"
+          (click)="selectTab(tab)"
+          (keydown)="onTabKeydown($event, $index)"
+          role="tab"
+          [attr.aria-selected]="tab.selected()"
+          [attr.aria-controls]="tab.id()"
+          [attr.tabindex]="tab.selected() ? 0 : -1"
         >
+          @if (tab.icon()) {
+          <gp-icon [name]="tab.icon()" size="0.9em" />
+          }
+          <span>{{ tab.header() }}</span>
+
+          @if (tab.badge() !== undefined) {
+          <gp-badge [value]="tab.badge()" [severity]="tab.badgeSeverity()" size="sm" />
+          } @if (tab.closable()) {
           <button
             type="button"
-            [id]="id() + '_tab_' + $index"
-            class="gp-tabs__nav-link gp-tabview-nav-link"
-            [disabled]="tab.disabled()"
-            (click)="selectTab(tab)"
-            (keydown)="onTabKeydown($event, $index)"
-            role="tab"
-            [attr.aria-selected]="tab.selected()"
-            [attr.aria-controls]="tab.id()"
-            [attr.tabindex]="tab.selected() ? 0 : -1"
+            class="gp-tabs__close-btn gp-tabview-close-btn"
+            (click)="closeTab(tab, $event)"
+            [attr.aria-label]="translationService.get('close') || 'Close tab'"
           >
-            @if (tab.icon()) {
-              <gp-icon [name]="tab.icon()" size="0.9em" />
-            }
-            <span>{{ tab.header() }}</span>
-
-            @if (tab.badge() !== undefined) {
-              <gp-badge [value]="tab.badge()" [severity]="tab.badgeSeverity()" size="sm" />
-            }
-
-            @if (tab.closable()) {
-              <button
-                type="button"
-                class="gp-tabs__close-btn gp-tabview-close-btn"
-                (click)="closeTab(tab, $event)"
-                [attr.aria-label]="translationService.get('close') || 'Close tab'"
-              >
-                <gp-icon name="times" size="0.7em" />
-              </button>
-            }
+            <gp-icon name="times" size="0.7em" />
           </button>
-        </li>
+          }
+        </button>
+      </li>
       }
     </ul>
   </div>
 
   @if (!hidePanels()) {
-    <div class="gp-tabs__panels gp-tabview-panels">
-      <ng-content />
-    </div>
+  <div class="gp-tabs__panels gp-tabview-panels">
+    <ng-content />
+  </div>
   }
 </div>

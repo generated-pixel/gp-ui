@@ -1,4 +1,5 @@
-.gp-bottom-sheet__backdrop, .gp-bottom-sheet-backdrop {
+.gp-bottom-sheet__backdrop,
+.gp-bottom-sheet-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1050;
@@ -11,7 +12,8 @@
   animation: gp-fade-in 0.2s ease-out;
 }
 
-.gp-bottom-sheet__container, .gp-bottom-sheet-container {
+.gp-bottom-sheet__container,
+.gp-bottom-sheet-container {
   width: 100%;
   max-width: 680px;
   background: var(--gp-surface-overlay, #ffffff);
@@ -27,7 +29,9 @@
   touch-action: none;
 }
 
-.gp-bottom-sheet__header-area, .gp-bottom-sheet__header, .gp-bottom-sheet-header-area {
+.gp-bottom-sheet__header-area,
+.gp-bottom-sheet__header,
+.gp-bottom-sheet-header-area {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,7 +40,8 @@
   user-select: none;
 }
 
-.gp-bottom-sheet__drag-handle, .gp-bottom-sheet-drag-handle {
+.gp-bottom-sheet__drag-handle,
+.gp-bottom-sheet-drag-handle {
   width: 36px;
   height: 4px;
   border-radius: 2px;
@@ -44,7 +49,8 @@
   margin-bottom: 8px;
 }
 
-.gp-bottom-sheet__header, .gp-bottom-sheet-header {
+.gp-bottom-sheet__header,
+.gp-bottom-sheet-header {
   width: 100%;
   display: flex;
   align-items: center;
@@ -53,14 +59,16 @@
   border-bottom: 1px solid var(--gp-surface-border, #f1f5f9);
 }
 
-.gp-bottom-sheet__title, .gp-bottom-sheet-title {
+.gp-bottom-sheet__title,
+.gp-bottom-sheet-title {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--gp-text-primary, #1e293b);
 }
 
-.gp-bottom-sheet__close-btn, .gp-bottom-sheet-close-btn {
+.gp-bottom-sheet__close-btn,
+.gp-bottom-sheet-close-btn {
   background: transparent;
   border: none;
   color: var(--gp-text-muted, #64748b);
@@ -76,12 +84,14 @@
     color 0.15s ease;
 }
 
-.gp-bottom-sheet__close-btn, .gp-bottom-sheet-close-btn:hover {
+.gp-bottom-sheet__close-btn,
+.gp-bottom-sheet-close-btn:hover {
   background: var(--gp-surface-ground, #f1f5f9);
   color: var(--gp-text-primary, #1e293b);
 }
 
-.gp-bottom-sheet__content, .gp-bottom-sheet-content {
+.gp-bottom-sheet__content,
+.gp-bottom-sheet-content {
   padding: 16px;
   overflow-y: auto;
   flex: 1;

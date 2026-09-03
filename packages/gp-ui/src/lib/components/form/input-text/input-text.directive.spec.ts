@@ -5,9 +5,7 @@ import { GpInputTextDirective } from './input-text.directive';
 @Component({
   standalone: true,
   imports: [GpInputTextDirective],
-  template: `
-    <input gpInputText size="sm" [invalid]="isInvalid" [disabled]="isDisabled" />
-  `
+  template: ` <input gpInputText size="sm" [invalid]="isInvalid" [disabled]="isDisabled" /> `
 })
 class TestHostComponent {
   isInvalid = false;

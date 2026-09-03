@@ -3,70 +3,69 @@
     <div>
       <h4 class="gp-grid-chart-title">{{ effectiveTitle() }}</h4>
       @if (effectiveSubtitle()) {
-        <p class="gp-grid-chart-sub">{{ effectiveSubtitle() }}</p>
+      <p class="gp-grid-chart-sub">{{ effectiveSubtitle() }}</p>
       }
     </div>
     <div class="gp-grid-chart-header-actions">
       @if (effectiveRanges().length > 0) {
-        <div class="gp-grid-chart-range-pills" role="tablist">
-          @for (range of effectiveRanges(); track range) {
-            <button
-              type="button"
-              class="gp-grid-chart-range-pill"
-              [class.gp-grid-chart-range-pill--active]="activeRange() === range"
-              (click)="setRange(range)"
-            >
-              {{ range }}
-            </button>
-          }
-        </div>
-      }
-      @if (effectiveBadge()) {
-        <gp-badge [value]="effectiveBadge()" [severity]="effectiveBadgeSeverity()" />
+      <div class="gp-grid-chart-range-pills" role="tablist">
+        @for (range of effectiveRanges(); track range) {
+        <button
+          type="button"
+          class="gp-grid-chart-range-pill"
+          [class.gp-grid-chart-range-pill--active]="activeRange() === range"
+          (click)="setRange(range)"
+        >
+          {{ range }}
+        </button>
+        }
+      </div>
+      } @if (effectiveBadge()) {
+      <gp-badge [value]="effectiveBadge()" [severity]="effectiveBadgeSeverity()" />
       }
     </div>
   </div>
 
   @if (isLoading()) {
-    <div class="gp-grid-chart-loading">
-      <div class="gp-grid-chart-bars">
-        @for (i of [1, 2, 3, 4, 5, 6]; track i) {
-          <div class="gp-grid-chart-col">
-            <div class="gp-grid-bar-track">
-              <gp-skeleton width="100%" [height]="i * 15 + 20 + '%'" />
-            </div>
-            <gp-skeleton width="24px" height="12px" />
-          </div>
-        }
+  <div class="gp-grid-chart-loading">
+    <div class="gp-grid-chart-bars">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+      <div class="gp-grid-chart-col">
+        <div class="gp-grid-bar-track">
+          <gp-skeleton width="100%" [height]="i * 15 + 20 + '%'" />
+        </div>
+        <gp-skeleton width="24px" height="12px" />
       </div>
+      }
     </div>
+  </div>
   } @else if (errorMessage()) {
-    <div class="gp-grid-chart-error">
-      <gp-icon name="circle-alert" size="1.75em" class="gp-grid-chart-error-icon" />
-      <span class="gp-grid-chart-error-text">{{ errorMessage() }}</span>
-      <button type="button" class="gp-grid-chart-retry-btn" (click)="refresh()">Retry</button>
-    </div>
+  <div class="gp-grid-chart-error">
+    <gp-icon name="circle-alert" size="1.75em" class="gp-grid-chart-error-icon" />
+    <span class="gp-grid-chart-error-text">{{ errorMessage() }}</span>
+    <button type="button" class="gp-grid-chart-retry-btn" (click)="refresh()">Retry</button>
+  </div>
   } @else {
-    <div class="gp-grid-chart-bars-wrap">
-      <div class="gp-grid-chart-bars">
-        @for (col of effectiveMonthlyData(); track col.month) {
-          <div
-            class="gp-grid-chart-col"
-            [class.gp-grid-chart-col--clickable]="!!col.routerLink"
-            (click)="onBarClicked(col, $event)"
-            (keydown.enter)="onBarClicked(col, $event)"
-            tabindex="0"
-            role="button"
-            [attr.aria-label]="col.month + ': ' + col.amt"
-          >
-            <div class="gp-grid-bar-track">
-              <div class="gp-grid-bar-fill" [style.height]="col.pct + '%'"></div>
-            </div>
-            <span class="gp-grid-col-month">{{ col.month }}</span>
-            <span class="gp-grid-col-amt">{{ col.amt }}</span>
-          </div>
-        }
+  <div class="gp-grid-chart-bars-wrap">
+    <div class="gp-grid-chart-bars">
+      @for (col of effectiveMonthlyData(); track col.month) {
+      <div
+        class="gp-grid-chart-col"
+        [class.gp-grid-chart-col--clickable]="!!col.routerLink"
+        (click)="onBarClicked(col, $event)"
+        (keydown.enter)="onBarClicked(col, $event)"
+        tabindex="0"
+        role="button"
+        [attr.aria-label]="col.month + ': ' + col.amt"
+      >
+        <div class="gp-grid-bar-track">
+          <div class="gp-grid-bar-fill" [style.height]="col.pct + '%'"></div>
+        </div>
+        <span class="gp-grid-col-month">{{ col.month }}</span>
+        <span class="gp-grid-col-amt">{{ col.amt }}</span>
       </div>
+      }
     </div>
+  </div>
   }
 </div>

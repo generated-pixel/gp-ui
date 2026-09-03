@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpTimeline],
-  template: `
-    <gp-timeline [value]="events" layout="vertical" align="alternate" />
-  `
+  template: ` <gp-timeline [value]="events" layout="vertical" align="alternate" /> `
 })
 class TestHostComponent {
   events: GpTimelineEvent[] = [

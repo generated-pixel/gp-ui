@@ -6,9 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpBottomSheet],
-  template: `
-    <gp-bottom-sheet [(visible)]="isVisible" title="Quick Options" />
-  `
+  template: ` <gp-bottom-sheet [(visible)]="isVisible" title="Quick Options" /> `
 })
 class TestHostComponent {
   isVisible = false;

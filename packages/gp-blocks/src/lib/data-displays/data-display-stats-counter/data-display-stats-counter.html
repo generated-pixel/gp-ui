@@ -1,21 +1,18 @@
 <div class="gp-stats-counter-strip">
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[counters], [slot=counters]" />
-    @for (c of counters(); track c) {
-      @if (effectiveCounterTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveCounterTemplate()!; context: { $implicit: c }" />
-      } @else {
-        <div class="counter-col" (click)="counterClick.emit(c)" style="cursor: pointer">
-          <span class="counter-num">{{ c.number }}</span>
-          <span class="counter-label">{{ c.label }}</span>
-          @if (c.desc) {
-            <p class="counter-desc">{{ c.desc }}</p>
-          }
-        </div>
-      }
+  <ng-content select="[counters], [slot=counters]" />
+  @for (c of counters(); track c) { @if (effectiveCounterTemplate()) {
+  <ng-container *ngTemplateOutlet="effectiveCounterTemplate()!; context: { $implicit: c }" />
+  } @else {
+  <div class="counter-col" (click)="counterClick.emit(c)" style="cursor: pointer">
+    <span class="counter-num">{{ c.number }}</span>
+    <span class="counter-label">{{ c.label }}</span>
+    @if (c.desc) {
+    <p class="counter-desc">{{ c.desc }}</p>
     }
-  }
+  </div>
+  } } }
   <ng-content />
 </div>

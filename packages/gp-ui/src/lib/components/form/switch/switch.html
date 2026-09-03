@@ -1,7 +1,9 @@
 <div
   class="gp-switch"
-  [class.gp-switch--checked]="checked()" [class.gp-switch-checked]="checked()"
-  [class.gp-switch--disabled]="isEffectivelyDisabled()" [class.gp-switch-disabled]="isEffectivelyDisabled()"
+  [class.gp-switch--checked]="checked()"
+  [class.gp-switch-checked]="checked()"
+  [class.gp-switch--disabled]="isEffectivelyDisabled()"
+  [class.gp-switch-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
   (click)="toggle($event)"
 >
@@ -24,6 +26,6 @@
   </div>
 
   @if (label()) {
-    <span class="gp-switch__label gp-switch-label">{{ label() }}</span>
+  <span class="gp-switch__label gp-switch-label">{{ label() }}</span>
   }
 </div>

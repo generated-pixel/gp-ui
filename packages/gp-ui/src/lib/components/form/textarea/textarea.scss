@@ -14,7 +14,8 @@
   resize: none;
   overflow-y: hidden;
 }
-.gp-textarea__counter, .gp-textarea-counter {
+.gp-textarea__counter,
+.gp-textarea-counter {
   font-size: var(--gp-font-size-xs);
   color: var(--gp-text-color-muted);
   text-align: right;

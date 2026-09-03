@@ -1,10 +1,13 @@
 <div
   [id]="inputId()"
   class="gp-select"
-  [class.gp-select--open]="overlayVisible()" [class.gp-select-open]="overlayVisible()"
-  [class.gp-select--disabled]="isEffectivelyDisabled()" [class.gp-select-disabled]="isEffectivelyDisabled()"
+  [class.gp-select--open]="overlayVisible()"
+  [class.gp-select-open]="overlayVisible()"
+  [class.gp-select--disabled]="isEffectivelyDisabled()"
+  [class.gp-select-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
-  [class.gp-select--clearable]="showClear() && internalValue() !== null" [class.gp-select-clearable]="showClear() && internalValue() !== null"
+  [class.gp-select--clearable]="showClear() && internalValue() !== null"
+  [class.gp-select-clearable]="showClear() && internalValue() !== null"
   (click)="toggleOverlay($event)"
   [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
   role="combobox"
@@ -19,87 +22,86 @@
   (keydown)="onKeyDown($event)"
 >
   <div class="gp-select__label-container gp-select-label-container">
-    @if (selectedItem(); as item) {
-      @if (itemTemplate()) {
-        <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
-      } @else {
-        <span class="gp-select__label gp-select-label">
-          @if (item.icon) {
-            <gp-icon [name]="item.icon" class="gp-select-item-icon" />
-          }
-          {{ item.label }}
-        </span>
-      }
+    @if (selectedItem(); as item) { @if (itemTemplate()) {
+    <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
     } @else {
-      <span class="gp-select__label gp-select-label gp-select__placeholder gp-select-placeholder">{{ placeholder() }}</span>
+    <span class="gp-select__label gp-select-label">
+      @if (item.icon) {
+      <gp-icon [name]="item.icon" class="gp-select-item-icon" />
+      } {{ item.label }}
+    </span>
+    } } @else {
+    <span class="gp-select__label gp-select-label gp-select__placeholder gp-select-placeholder"
+      >{{ placeholder() }}</span
+    >
     }
   </div>
 
   <div class="gp-select__triggers gp-select-triggers">
     @if (showClear() && internalValue() !== null && !isEffectivelyDisabled()) {
-      <button
-        type="button"
-        class="gp-select__clear-btn gp-select-clear-btn"
-        [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
-        (click)="clear($event)"
-      >
-        <gp-icon name="times" size="0.8em" />
-      </button>
+    <button
+      type="button"
+      class="gp-select__clear-btn gp-select-clear-btn"
+      [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
+      (click)="clear($event)"
+    >
+      <gp-icon name="times" size="0.8em" />
+    </button>
     }
     <gp-icon [name]="overlayVisible() ? 'chevron-up' : 'chevron-down'" size="0.85em" class="gp-select-arrow" />
   </div>
 
   @if (overlayVisible()) {
-    <div
-      [id]="listboxId()"
-      class="gp-select__overlay gp-select-overlay"
-      role="listbox"
-      [attr.aria-label]="ariaLabel() || placeholder() || 'Options'"
-      (click)="$event.stopPropagation()"
-      [gpAppendTo]="appendTo()"
-      [gpConnectedTo]="selectHostEl"
-      [gpOverlayMatchWidth]="true"
-    >
-      @if (filter()) {
-        <div class="gp-select__filter-container gp-select-filter-container">
-          <input
-            type="text"
-            class="gp-inputtext gp-select-filter-input"
-            [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
-            [value]="filterText()"
-            (input)="onFilterInput($event)"
-            (keydown.enter)="$event.preventDefault()"
-            [attr.aria-label]="translationService.get('aria')?.filter || translationService.get('search') || 'Filter items'"
-          />
-          <gp-icon name="search" size="0.85em" class="gp-select-filter-icon" />
-        </div>
-      }
-
-      <ul class="gp-select-items">
-        @for (opt of filteredOptions(); track $index) {
-          <li
-            class="gp-select__item gp-select-item"
-            [class.gp-select-item-selected]="isSelected(opt)"
-            [class.gp-select-item-disabled]="opt.disabled"
-            role="option"
-            [attr.aria-selected]="isSelected(opt)"
-            (click)="selectItem(opt, $event)"
-          >
-            @if (itemTemplate()) {
-              <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: opt }" />
-            } @else {
-              @if (opt.icon) {
-                <gp-icon [name]="opt.icon" class="gp-select-item-icon" />
-              }
-              <span>{{ opt.label }}</span>
-            }
-          </li>
-        } @empty {
-          <li class="gp-select-empty-message">
-            {{ emptyFilterMessage() || translationService.get('emptyFilterMessage') || translationService.get('emptyMessage') }}
-          </li>
-        }
-      </ul>
+  <div
+    [id]="listboxId()"
+    class="gp-select__overlay gp-select-overlay"
+    role="listbox"
+    [attr.aria-label]="ariaLabel() || placeholder() || 'Options'"
+    (click)="$event.stopPropagation()"
+    [gpAppendTo]="appendTo()"
+    [gpConnectedTo]="selectHostEl"
+    [gpOverlayMatchWidth]="true"
+  >
+    @if (filter()) {
+    <div class="gp-select__filter-container gp-select-filter-container">
+      <input
+        type="text"
+        class="gp-inputtext gp-select-filter-input"
+        [placeholder]="filterPlaceholder() || translationService.get('search') || 'Search...'"
+        [value]="filterText()"
+        (input)="onFilterInput($event)"
+        (keydown.enter)="$event.preventDefault()"
+        [attr.aria-label]="translationService.get('aria')?.filter || translationService.get('search') || 'Filter items'"
+      />
+      <gp-icon name="search" size="0.85em" class="gp-select-filter-icon" />
     </div>
+    }
+
+    <ul class="gp-select-items">
+      @for (opt of filteredOptions(); track $index) {
+      <li
+        class="gp-select__item gp-select-item"
+        [class.gp-select-item-selected]="isSelected(opt)"
+        [class.gp-select-item-disabled]="opt.disabled"
+        role="option"
+        [attr.aria-selected]="isSelected(opt)"
+        (click)="selectItem(opt, $event)"
+      >
+        @if (itemTemplate()) {
+        <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: opt }" />
+        } @else { @if (opt.icon) {
+        <gp-icon [name]="opt.icon" class="gp-select-item-icon" />
+        }
+        <span>{{ opt.label }}</span>
+        }
+      </li>
+      } @empty {
+      <li class="gp-select-empty-message">
+        {{ emptyFilterMessage() || translationService.get('emptyFilterMessage') ||
+        translationService.get('emptyMessage') }}
+      </li>
+      }
+    </ul>
+  </div>
   }
 </div>

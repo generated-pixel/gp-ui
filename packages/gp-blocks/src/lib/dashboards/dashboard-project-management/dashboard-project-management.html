@@ -1,9 +1,9 @@
 <div class="gp-dashboard-pm-root">
   <!-- Optional Top Action Bar / Slot -->
   @if (contentHeaderActions()) {
-    <div class="dashboard-top-slot">
-      <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
-    </div>
+  <div class="dashboard-top-slot">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
+  </div>
   }
   <ng-content select="[actions], [slot=actions]" />
 
@@ -20,75 +20,65 @@
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
       @if (effectiveWidgetTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
+      <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       } @else {
-        <!-- 1. Sprint Metrics Widget -->
-        @if (item.id === 'metrics') {
-          @if (contentMetrics()) {
-            <ng-container *ngTemplateOutlet="contentMetrics()!" />
-          } @else {
-            @if (metrics() && metrics().length > 0) {
-              <div class="metrics-summary-row">
-                @for (m of metrics(); track m) {
-                  <div class="metric-box" (click)="metricClick.emit(m)" style="cursor: pointer">
-                    <span class="m-title">{{ m.title }}</span>
-                    <div class="m-val">{{ m.value }}</div>
-                    @if (m.subText) {
-                      <span class="m-sub">{{ m.subText }}</span>
-                    }
-                    @if (m.progress !== undefined) {
-                      <div class="m-prog">
-                        <gp-progress-bar [value]="m.progress" [showValue]="false" />
-                      </div>
-                    }
-                  </div>
-                }
-              </div>
-            }
+      <!-- 1. Sprint Metrics Widget -->
+      @if (item.id === 'metrics') { @if (contentMetrics()) {
+      <ng-container *ngTemplateOutlet="contentMetrics()!" />
+      } @else { @if (metrics() && metrics().length > 0) {
+      <div class="metrics-summary-row">
+        @for (m of metrics(); track m) {
+        <div class="metric-box" (click)="metricClick.emit(m)" style="cursor: pointer">
+          <span class="m-title">{{ m.title }}</span>
+          <div class="m-val">{{ m.value }}</div>
+          @if (m.subText) {
+          <span class="m-sub">{{ m.subText }}</span>
+          } @if (m.progress !== undefined) {
+          <div class="m-prog">
+            <gp-progress-bar [value]="m.progress" [showValue]="false" />
+          </div>
           }
+        </div>
         }
-        <!-- 2. Kanban Board Widget -->
-        @if (item.id === 'kanban') {
-          @if (contentKanban()) {
-            <ng-container *ngTemplateOutlet="contentKanban()!" />
-          } @else {
-            @if (columns() && columns().length > 0) {
-              <div class="kanban-board-grid" style="height: 100%">
-                @for (col of columns(); track col) {
-                  <div class="kanban-column">
-                    <div class="col-head">
-                      <span class="col-title">{{ col.title }}</span>
-                      <gp-badge [value]="col.count" [severity]="col.badgeSeverity || 'secondary'" />
-                    </div>
-                    <div class="task-cards-list">
-                      @for (task of col.tasks; track task) {
-                        <div class="task-card" (click)="taskClick.emit(task)" style="cursor: pointer">
-                          <div class="card-top-tags">
-                            <span
-                              class="task-tag"
-                              [class.tag-feat]="task.tagType === 'feat'"
-                              [class.tag-bug]="task.tagType === 'bug'"
-                              [class.tag-chore]="task.tagType === 'chore'"
-                            >
-                              {{ task.tag }}
-                            </span>
-                            <span class="task-pts">{{ task.points }} pts</span>
-                          </div>
-                          <h4 class="task-title">{{ task.title }}</h4>
-                          <div class="task-footer">
-                            <gp-avatar [label]="task.assigneeLabel" size="normal" shape="circle" />
-                            <span class="assignee-text">{{ task.assigneeLabel }}</span>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                }
+      </div>
+      } } }
+      <!-- 2. Kanban Board Widget -->
+      @if (item.id === 'kanban') { @if (contentKanban()) {
+      <ng-container *ngTemplateOutlet="contentKanban()!" />
+      } @else { @if (columns() && columns().length > 0) {
+      <div class="kanban-board-grid" style="height: 100%">
+        @for (col of columns(); track col) {
+        <div class="kanban-column">
+          <div class="col-head">
+            <span class="col-title">{{ col.title }}</span>
+            <gp-badge [value]="col.count" [severity]="col.badgeSeverity || 'secondary'" />
+          </div>
+          <div class="task-cards-list">
+            @for (task of col.tasks; track task) {
+            <div class="task-card" (click)="taskClick.emit(task)" style="cursor: pointer">
+              <div class="card-top-tags">
+                <span
+                  class="task-tag"
+                  [class.tag-feat]="task.tagType === 'feat'"
+                  [class.tag-bug]="task.tagType === 'bug'"
+                  [class.tag-chore]="task.tagType === 'chore'"
+                >
+                  {{ task.tag }}
+                </span>
+                <span class="task-pts">{{ task.points }} pts</span>
               </div>
+              <h4 class="task-title">{{ task.title }}</h4>
+              <div class="task-footer">
+                <gp-avatar [label]="task.assigneeLabel" size="normal" shape="circle" />
+                <span class="assignee-text">{{ task.assigneeLabel }}</span>
+              </div>
+            </div>
             }
-          }
+          </div>
+        </div>
         }
-      }
+      </div>
+      } } } }
     </ng-template>
   </gp-grid>
 </div>

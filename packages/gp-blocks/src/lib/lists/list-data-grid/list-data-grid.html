@@ -1,123 +1,119 @@
 <div class="gp-data-grid-block">
   <!-- Toolbar Header -->
   @if (effectiveToolbar()) {
-    <ng-container *ngTemplateOutlet="effectiveToolbar()!" />
+  <ng-container *ngTemplateOutlet="effectiveToolbar()!" />
   } @else {
-    <ng-content select="[toolbar], [slot=toolbar]" />
-    <div class="grid-toolbar">
-      <div class="search-box">
-        <gp-input-text
-          [value]="searchQuery()"
-          [placeholder]="searchPlaceholder()"
-          iconLeft="search"
-          size="sm"
-          [fluid]="true"
-          styleClass="search-input"
-          (onInputEvent)="onSearchInput($event)"
-        />
-      </div>
-      <div class="toolbar-actions">
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="filterClick.emit()">
-          <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem" />
-          {{ filterBtnLabel() }}
-        </gp-button>
-        <gp-button severity="primary" size="sm" (onClickEvent)="newOrderClick.emit()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
-          {{ newOrderBtnLabel() }}
-        </gp-button>
-      </div>
+  <ng-content select="[toolbar], [slot=toolbar]" />
+  <div class="grid-toolbar">
+    <div class="search-box">
+      <gp-input-text
+        [value]="searchQuery()"
+        [placeholder]="searchPlaceholder()"
+        iconLeft="search"
+        size="sm"
+        [fluid]="true"
+        styleClass="search-input"
+        (onInputEvent)="onSearchInput($event)"
+      />
     </div>
+    <div class="toolbar-actions">
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="filterClick.emit()">
+        <gp-icon name="sliders" size="0.85em" style="margin-right: 0.35rem" />
+        {{ filterBtnLabel() }}
+      </gp-button>
+      <gp-button severity="primary" size="sm" (onClickEvent)="newOrderClick.emit()">
+        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+        {{ newOrderBtnLabel() }}
+      </gp-button>
+    </div>
+  </div>
   }
 
   <!-- Table Body -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[content], [slot=content]" />
-    @if (rows() && rows().length > 0) {
-      <div class="table-scroll-wrap">
-        <table class="gp-block-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Payment</th>
-              <th>Fulfillment</th>
-              <th style="text-align: right">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (r of rows(); track r) {
-              @if (effectiveRowTemplate()) {
-                <ng-container *ngTemplateOutlet="effectiveRowTemplate()!; context: { $implicit: r }" />
-              } @else {
-                <tr (click)="rowClick.emit(r)" style="cursor: pointer">
-                  <td>
-                    <span class="id-tag">#{{ r.id }}</span>
-                  </td>
-                  <td>
-                    <strong>{{ r.customer }}</strong>
-                  </td>
-                  <td>{{ r.date }}</td>
-                  <td>
-                    <strong>{{ r.amount }}</strong>
-                  </td>
-                  <td>
-                    <gp-badge
-                      [value]="r.payment"
-                      [severity]="r.payment === 'Paid' ? 'success' : r.payment === 'Pending' ? 'warning' : 'danger'"
-                    />
-                  </td>
-                  <td>
-                    <gp-badge
-                      [value]="r.fulfillment"
-                      [severity]="
+  <ng-content select="[content], [slot=content]" />
+  @if (rows() && rows().length > 0) {
+  <div class="table-scroll-wrap">
+    <table class="gp-block-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Payment</th>
+          <th>Fulfillment</th>
+          <th style="text-align: right">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows(); track r) { @if (effectiveRowTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveRowTemplate()!; context: { $implicit: r }" />
+        } @else {
+        <tr (click)="rowClick.emit(r)" style="cursor: pointer">
+          <td>
+            <span class="id-tag">#{{ r.id }}</span>
+          </td>
+          <td>
+            <strong>{{ r.customer }}</strong>
+          </td>
+          <td>{{ r.date }}</td>
+          <td>
+            <strong>{{ r.amount }}</strong>
+          </td>
+          <td>
+            <gp-badge
+              [value]="r.payment"
+              [severity]="r.payment === 'Paid' ? 'success' : r.payment === 'Pending' ? 'warning' : 'danger'"
+            />
+          </td>
+          <td>
+            <gp-badge
+              [value]="r.fulfillment"
+              [severity]="
                         r.fulfillment === 'Delivered'
                           ? 'success'
                           : r.fulfillment === 'Processing'
                             ? 'primary'
                             : 'secondary'
                       "
-                    />
-                  </td>
-                  <td style="text-align: right">
-                    <gp-button
-                      variant="text"
-                      severity="secondary"
-                      size="sm"
-                      [iconOnly]="true"
-                      styleClass="row-action-btn"
-                      ariaLabel="Row Options"
-                      (onClickEvent)="$event.stopPropagation(); rowActionClick.emit(r)"
-                    >
-                      <gp-icon name="more-horizontal" size="1em" />
-                    </gp-button>
-                  </td>
-                </tr>
-              }
-            }
-          </tbody>
-        </table>
-      </div>
-    }
-  }
+            />
+          </td>
+          <td style="text-align: right">
+            <gp-button
+              variant="text"
+              severity="secondary"
+              size="sm"
+              [iconOnly]="true"
+              styleClass="row-action-btn"
+              ariaLabel="Row Options"
+              (onClickEvent)="$event.stopPropagation(); rowActionClick.emit(r)"
+            >
+              <gp-icon name="more-horizontal" size="1em" />
+            </gp-button>
+          </td>
+        </tr>
+        } }
+      </tbody>
+    </table>
+  </div>
+  } }
 
   <!-- Footer Pagination / Status -->
   @if (effectiveFooter()) {
-    <ng-container *ngTemplateOutlet="effectiveFooter()!" />
+  <ng-container *ngTemplateOutlet="effectiveFooter()!" />
   } @else {
-    <ng-content select="[footer], [slot=footer]" />
-    @if (footerCountText()) {
-      <div class="grid-footer">
-        <span class="count-text">{{ footerCountText() }}</span>
-        <div class="pager-btns">
-          <gp-button variant="outlined" severity="secondary" size="sm">Previous</gp-button>
-          <gp-button variant="outlined" severity="secondary" size="sm">Next</gp-button>
-        </div>
-      </div>
-    }
-  }
+  <ng-content select="[footer], [slot=footer]" />
+  @if (footerCountText()) {
+  <div class="grid-footer">
+    <span class="count-text">{{ footerCountText() }}</span>
+    <div class="pager-btns">
+      <gp-button variant="outlined" severity="secondary" size="sm">Previous</gp-button>
+      <gp-button variant="outlined" severity="secondary" size="sm">Next</gp-button>
+    </div>
+  </div>
+  } }
   <ng-content />
 </div>

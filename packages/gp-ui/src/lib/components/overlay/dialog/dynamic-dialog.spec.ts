@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  template: `<p>Dialog Inner Content</p>`
+  template: '<p>Dialog Inner Content</p>'
 })
 class InnerContentComponent {}
 

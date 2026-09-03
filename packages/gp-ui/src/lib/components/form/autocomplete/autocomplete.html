@@ -8,29 +8,27 @@
   <div class="gp-input-wrapper gp-autocomplete-input-wrapper">
     <!-- Multiple Mode Chips/Tokens -->
     @if (multiple() && selectedItems().length > 0) {
-      <div class="gp-autocomplete-tokens">
-        @for (item of selectedItems(); track $index) {
-          @if (effectiveChipTemplate()) {
-            <ng-container
-              *ngTemplateOutlet="effectiveChipTemplate()!; context: { $implicit: item, index: $index, remove: removeMultipleItem.bind(this, item) }"
-            />
-          } @else {
-            <span class="gp-autocomplete-token">
-              <span class="gp-autocomplete-token-label">{{ getItemLabel(item) }}</span>
-              @if (!isEffectivelyDisabled() && !readonly()) {
-                <button
-                  type="button"
-                  class="gp-autocomplete-token-remove"
-                  [attr.aria-label]="'Remove ' + getItemLabel(item)"
-                  (click)="removeMultipleItem(item, $event)"
-                >
-                  <gp-icon name="times" size="0.65em" />
-                </button>
-              }
-            </span>
-          }
+    <div class="gp-autocomplete-tokens">
+      @for (item of selectedItems(); track $index) { @if (effectiveChipTemplate()) {
+      <ng-container
+        *ngTemplateOutlet="effectiveChipTemplate()!; context: { $implicit: item, index: $index, remove: removeMultipleItem.bind(this, item) }"
+      />
+      } @else {
+      <span class="gp-autocomplete-token">
+        <span class="gp-autocomplete-token-label">{{ getItemLabel(item) }}</span>
+        @if (!isEffectivelyDisabled() && !readonly()) {
+        <button
+          type="button"
+          class="gp-autocomplete-token-remove"
+          [attr.aria-label]="'Remove ' + getItemLabel(item)"
+          (click)="removeMultipleItem(item, $event)"
+        >
+          <gp-icon name="times" size="0.65em" />
+        </button>
         }
-      </div>
+      </span>
+      } }
+    </div>
     }
 
     <input
@@ -62,171 +60,166 @@
     <!-- Trailing Action Icons -->
     <div class="gp-autocomplete-actions">
       <!-- Clear Button -->
-      @if (showClear() && ((multiple() && selectedItems().length > 0) || (!multiple() && (internalValue() != null || query()))) && !isEffectivelyDisabled() && !readonly()) {
-        <button
-          type="button"
-          class="gp-autocomplete-action-btn gp-autocomplete-clear-btn"
-          [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
-          (click)="clear($event)"
-        >
-          <gp-icon name="times" size="0.8em" />
-        </button>
+      @if (showClear() && ((multiple() && selectedItems().length > 0) || (!multiple() && (internalValue() != null ||
+      query()))) && !isEffectivelyDisabled() && !readonly()) {
+      <button
+        type="button"
+        class="gp-autocomplete-action-btn gp-autocomplete-clear-btn"
+        [attr.aria-label]="translationService.get('clear') || 'Clear selection'"
+        (click)="clear($event)"
+      >
+        <gp-icon name="times" size="0.8em" />
+      </button>
       }
 
       <!-- Advanced Search Action Button -->
       @if (showAdvancedSearchButton()) {
-        <button
-          type="button"
-          class="gp-autocomplete-action-btn gp-autocomplete-search-btn"
-          aria-label="Open advanced search dialog"
-          [title]="advancedSearchLabel()"
-          (click)="triggerAdvancedSearch($event)"
-        >
-          <gp-icon name="search" size="0.85em" />
-        </button>
+      <button
+        type="button"
+        class="gp-autocomplete-action-btn gp-autocomplete-search-btn"
+        aria-label="Open advanced search dialog"
+        [title]="advancedSearchLabel()"
+        (click)="triggerAdvancedSearch($event)"
+      >
+        <gp-icon name="search" size="0.85em" />
+      </button>
       }
 
       <!-- Dropdown Toggle Button -->
       @if (dropdown()) {
-        <button
-          type="button"
-          class="gp-autocomplete-dropdown-btn"
-          aria-label="Open suggestions"
-          [attr.aria-haspopup]="'listbox'"
-          [attr.aria-expanded]="overlayVisible()"
-          (click)="toggleDropdown($event)"
-        >
-          <gp-icon name="chevron-down" size="0.85em" />
-        </button>
+      <button
+        type="button"
+        class="gp-autocomplete-dropdown-btn"
+        aria-label="Open suggestions"
+        [attr.aria-haspopup]="'listbox'"
+        [attr.aria-expanded]="overlayVisible()"
+        (click)="toggleDropdown($event)"
+      >
+        <gp-icon name="chevron-down" size="0.85em" />
+      </button>
       }
     </div>
   </div>
 
   <!-- Suggestions Overlay -->
   @if (overlayVisible()) {
-    <div
-      [id]="listboxId()"
-      class="gp-select-overlay gp-autocomplete-overlay"
-      role="listbox"
-      [attr.aria-label]="ariaLabel() || placeholder() || 'Suggestions'"
-      (click)="$event.stopPropagation()"
-      [gpAppendTo]="appendTo()"
-      [gpConnectedTo]="hostElRef"
-      [gpOverlayMatchWidth]="false"
-    >
-      <!-- Header Slot -->
-      @if (effectiveHeaderTemplate()) {
-        <div class="gp-autocomplete-header-slot">
-          <ng-container *ngTemplateOutlet="effectiveHeaderTemplate()!" />
-        </div>
-      }
+  <div
+    [id]="listboxId()"
+    class="gp-select-overlay gp-autocomplete-overlay"
+    role="listbox"
+    [attr.aria-label]="ariaLabel() || placeholder() || 'Suggestions'"
+    (click)="$event.stopPropagation()"
+    [gpAppendTo]="appendTo()"
+    [gpConnectedTo]="hostElRef"
+    [gpOverlayMatchWidth]="false"
+  >
+    <!-- Header Slot -->
+    @if (effectiveHeaderTemplate()) {
+    <div class="gp-autocomplete-header-slot">
+      <ng-container *ngTemplateOutlet="effectiveHeaderTemplate()!" />
+    </div>
+    }
 
-      <!-- Items List -->
-      @if (visibleSuggestions() && visibleSuggestions().length > 0) {
-        <ul class="gp-select-items gp-autocomplete-items">
-          @for (item of visibleSuggestions(); track $index) {
-            <li
-              [id]="inputId() + '_opt_' + $index"
-              class="gp-select-item gp-autocomplete-item"
-              [class.gp-select-item-selected]="$index === activeIndex()"
-              [class.gp-autocomplete-item-checked]="isItemSelected(item)"
-              role="option"
-              [attr.aria-selected]="$index === activeIndex() || isItemSelected(item)"
-              (click)="selectItem(item, $event)"
-            >
-              @if (effectiveItemTemplate()) {
-                <ng-container
-                  *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item, index: $index }"
-                />
-              } @else {
-                <div class="gp-autocomplete-item-content">
-                  @if (getItemIcon(item)) {
-                    <gp-icon [name]="getItemIcon(item)!" class="gp-autocomplete-item-icon" />
-                  }
-
-                  <div class="gp-autocomplete-item-main">
-                    <span class="gp-autocomplete-item-label">
-                      @for (chunk of getHighlightedParts(getItemLabel(item)); track $index) {
-                        @if (chunk.match) {
-                          <mark class="gp-autocomplete-highlight">{{ chunk.text }}</mark>
-                        } @else {
-                          <span>{{ chunk.text }}</span>
-                        }
-                      }
-                    </span>
-
-                    @if (getItemSubtext(item)) {
-                      <span class="gp-autocomplete-item-subtext">
-                        {{ getItemSubtext(item) }}
-                      </span>
-                    }
-                  </div>
-
-                  @if (getItemBadge(item)) {
-                    <span class="gp-autocomplete-item-badge">{{ getItemBadge(item) }}</span>
-                  }
-
-                  @if (isItemSelected(item)) {
-                    <gp-icon name="check" size="0.85em" class="gp-autocomplete-item-check" />
-                  }
-                </div>
-              }
-            </li>
-          }
-        </ul>
-      } @else if (isMinLengthMet()) {
-        @if (effectiveEmptyTemplate()) {
-          <div class="gp-autocomplete-empty-slot">
-            <ng-container *ngTemplateOutlet="effectiveEmptyTemplate()!" />
-          </div>
+    <!-- Items List -->
+    @if (visibleSuggestions() && visibleSuggestions().length > 0) {
+    <ul class="gp-select-items gp-autocomplete-items">
+      @for (item of visibleSuggestions(); track $index) {
+      <li
+        [id]="inputId() + '_opt_' + $index"
+        class="gp-select-item gp-autocomplete-item"
+        [class.gp-select-item-selected]="$index === activeIndex()"
+        [class.gp-autocomplete-item-checked]="isItemSelected(item)"
+        role="option"
+        [attr.aria-selected]="$index === activeIndex() || isItemSelected(item)"
+        (click)="selectItem(item, $event)"
+      >
+        @if (effectiveItemTemplate()) {
+        <ng-container *ngTemplateOutlet="effectiveItemTemplate()!; context: { $implicit: item, index: $index }" />
         } @else {
-          <div class="gp-autocomplete-empty-state">
-            <div class="gp-autocomplete-empty-icon-wrap">
-              <gp-icon name="search" size="1.25em" />
-            </div>
-            <div class="gp-autocomplete-empty-title">{{ emptyMessage() || translationService.get('emptyMessage') || 'No results found' }}</div>
-            @if (query()) {
-              <div class="gp-autocomplete-empty-desc">{{ translationService.get('emptyFilterMessage') || ('No suggestions found matching “' + query() + '”') }}</div>
+        <div class="gp-autocomplete-item-content">
+          @if (getItemIcon(item)) {
+          <gp-icon [name]="getItemIcon(item)!" class="gp-autocomplete-item-icon" />
+          }
+
+          <div class="gp-autocomplete-item-main">
+            <span class="gp-autocomplete-item-label">
+              @for (chunk of getHighlightedParts(getItemLabel(item)); track $index) { @if (chunk.match) {
+              <mark class="gp-autocomplete-highlight">{{ chunk.text }}</mark>
+              } @else {
+              <span>{{ chunk.text }}</span>
+              } }
+            </span>
+
+            @if (getItemSubtext(item)) {
+            <span class="gp-autocomplete-item-subtext"> {{ getItemSubtext(item) }} </span>
             }
           </div>
+
+          @if (getItemBadge(item)) {
+          <span class="gp-autocomplete-item-badge">{{ getItemBadge(item) }}</span>
+          } @if (isItemSelected(item)) {
+          <gp-icon name="check" size="0.85em" class="gp-autocomplete-item-check" />
+          }
+        </div>
         }
+      </li>
       }
-
-      <!-- Advanced Search Prompt Row (Too many results / search more) -->
-      @if (showAdvancedSearchRow()) {
-        <div
-          class="gp-autocomplete-advanced-search-row"
-          role="button"
-          tabindex="0"
-          [attr.aria-label]="advancedSearchLabel()"
-          (click)="triggerAdvancedSearch($event)"
-          (keydown.enter)="triggerAdvancedSearch($event)"
-          (keydown.space)="$event.preventDefault(); triggerAdvancedSearch($event)"
-        >
-          <div class="gp-autocomplete-advanced-search-left">
-            <div class="gp-autocomplete-adv-icon-badge">
-              <gp-icon name="search" size="0.85em" class="gp-autocomplete-adv-icon" />
-            </div>
-            <div class="gp-autocomplete-adv-text-wrap">
-              <span class="gp-autocomplete-adv-label">{{ advancedSearchLabel() }}</span>
-              <span class="gp-autocomplete-adv-sub">Search entire catalog with advanced filters</span>
-            </div>
-          </div>
-          <div class="gp-autocomplete-advanced-search-right">
-            @if (totalResults() !== undefined) {
-              <span class="gp-autocomplete-total-badge">{{ totalResults() }} available</span>
-            }
-            <gp-icon name="chevron-right" size="0.75em" class="gp-autocomplete-adv-arrow" />
-          </div>
-        </div>
-      }
-
-      <!-- Footer Slot -->
-      @if (effectiveFooterTemplate()) {
-        <div class="gp-autocomplete-footer-slot">
-          <ng-container *ngTemplateOutlet="effectiveFooterTemplate()!" />
-        </div>
+    </ul>
+    } @else if (isMinLengthMet()) { @if (effectiveEmptyTemplate()) {
+    <div class="gp-autocomplete-empty-slot">
+      <ng-container *ngTemplateOutlet="effectiveEmptyTemplate()!" />
+    </div>
+    } @else {
+    <div class="gp-autocomplete-empty-state">
+      <div class="gp-autocomplete-empty-icon-wrap">
+        <gp-icon name="search" size="1.25em" />
+      </div>
+      <div class="gp-autocomplete-empty-title">
+        {{ emptyMessage() || translationService.get('emptyMessage') || 'No results found' }}
+      </div>
+      @if (query()) {
+      <div class="gp-autocomplete-empty-desc">
+        {{ translationService.get('emptyFilterMessage') || ('No suggestions found matching “' + query() + '”') }}
+      </div>
       }
     </div>
+    } }
+
+    <!-- Advanced Search Prompt Row (Too many results / search more) -->
+    @if (showAdvancedSearchRow()) {
+    <div
+      class="gp-autocomplete-advanced-search-row"
+      role="button"
+      tabindex="0"
+      [attr.aria-label]="advancedSearchLabel()"
+      (click)="triggerAdvancedSearch($event)"
+      (keydown.enter)="triggerAdvancedSearch($event)"
+      (keydown.space)="$event.preventDefault(); triggerAdvancedSearch($event)"
+    >
+      <div class="gp-autocomplete-advanced-search-left">
+        <div class="gp-autocomplete-adv-icon-badge">
+          <gp-icon name="search" size="0.85em" class="gp-autocomplete-adv-icon" />
+        </div>
+        <div class="gp-autocomplete-adv-text-wrap">
+          <span class="gp-autocomplete-adv-label">{{ advancedSearchLabel() }}</span>
+          <span class="gp-autocomplete-adv-sub">Search entire catalog with advanced filters</span>
+        </div>
+      </div>
+      <div class="gp-autocomplete-advanced-search-right">
+        @if (totalResults() !== undefined) {
+        <span class="gp-autocomplete-total-badge">{{ totalResults() }} available</span>
+        }
+        <gp-icon name="chevron-right" size="0.75em" class="gp-autocomplete-adv-arrow" />
+      </div>
+    </div>
+    }
+
+    <!-- Footer Slot -->
+    @if (effectiveFooterTemplate()) {
+    <div class="gp-autocomplete-footer-slot">
+      <ng-container *ngTemplateOutlet="effectiveFooterTemplate()!" />
+    </div>
+    }
+  </div>
   }
 </div>

@@ -34,90 +34,88 @@
   </div>
 
   @if (overlayVisible()) {
-    <div
-      class="gp-datepicker-panel gp-timepicker-panel"
-      role="dialog"
-      aria-label="Time Picker"
-      (click)="$event.stopPropagation()"
-      [gpAppendTo]="appendTo()"
-      [gpConnectedTo]="el"
-    >
-      <div class="gp-timepicker-controls">
-        <!-- Hours Column -->
-        <div class="gp-timepicker-column" role="spinbutton" [attr.aria-valuenow]="formattedHour()" aria-label="Hours">
-          <button type="button" class="gp-timepicker-btn" (click)="spinHour(1)" aria-label="Increase hour">
-            <gp-icon name="chevron-up" size="0.85em" />
-          </button>
-          <span class="gp-timepicker-val">{{ formattedHour() }}</span>
-          <button type="button" class="gp-timepicker-btn" (click)="spinHour(-1)" aria-label="Decrease hour">
-            <gp-icon name="chevron-down" size="0.85em" />
-          </button>
-        </div>
-
-        <span class="gp-timepicker-separator">:</span>
-
-        <!-- Minutes Column -->
-        <div class="gp-timepicker-column">
-          <button
-            type="button"
-            class="gp-timepicker-btn"
-            (click)="spinMinute(1)"
-            [attr.aria-label]="'Increase ' + activeStepMinute() + ' minutes'"
-          >
-            <gp-icon name="chevron-up" size="0.85em" />
-          </button>
-          <span class="gp-timepicker-val">{{ formattedMinute() }}</span>
-          <button
-            type="button"
-            class="gp-timepicker-btn"
-            (click)="spinMinute(-1)"
-            [attr.aria-label]="'Decrease ' + activeStepMinute() + ' minutes'"
-          >
-            <gp-icon name="chevron-down" size="0.85em" />
-          </button>
-        </div>
-
-        @if (showSeconds()) {
-          <span class="gp-timepicker-separator">:</span>
-          <div class="gp-timepicker-column">
-            <button type="button" class="gp-timepicker-btn" (click)="spinSecond(1)" aria-label="Increase second">
-              <gp-icon name="chevron-up" size="0.85em" />
-            </button>
-            <span class="gp-timepicker-val">{{ formattedSecond() }}</span>
-            <button type="button" class="gp-timepicker-btn" (click)="spinSecond(-1)" aria-label="Decrease second">
-              <gp-icon name="chevron-down" size="0.85em" />
-            </button>
-          </div>
-        }
-
-        @if (hourFormat() === '12') {
-          <div class="gp-timepicker-column gp-timepicker-ampm">
-            <button type="button" class="gp-timepicker-ampm-btn" (click)="toggleAmPm()" title="Toggle AM/PM">
-              {{ isPm() ? 'PM' : 'AM' }}
-            </button>
-          </div>
-        }
+  <div
+    class="gp-datepicker-panel gp-timepicker-panel"
+    role="dialog"
+    aria-label="Time Picker"
+    (click)="$event.stopPropagation()"
+    [gpAppendTo]="appendTo()"
+    [gpConnectedTo]="el"
+  >
+    <div class="gp-timepicker-controls">
+      <!-- Hours Column -->
+      <div class="gp-timepicker-column" role="spinbutton" [attr.aria-valuenow]="formattedHour()" aria-label="Hours">
+        <button type="button" class="gp-timepicker-btn" (click)="spinHour(1)" aria-label="Increase hour">
+          <gp-icon name="chevron-up" size="0.85em" />
+        </button>
+        <span class="gp-timepicker-val">{{ formattedHour() }}</span>
+        <button type="button" class="gp-timepicker-btn" (click)="spinHour(-1)" aria-label="Decrease hour">
+          <gp-icon name="chevron-down" size="0.85em" />
+        </button>
       </div>
 
-      <!-- Minute Step Increment Chooser -->
-      @if (showStepPicker() && minuteSteps() && minuteSteps()!.length > 1) {
-        <div class="gp-timepicker-steps-wrap">
-          <span class="gp-timepicker-steps-label">Step:</span>
-          <div class="gp-timepicker-steps-pills">
-            @for (step of minuteSteps()!; track step) {
-              <button
-                type="button"
-                class="gp-timepicker-step-pill"
-                [class.gp-timepicker-step-pill--active]="activeStepMinute() === step"
-                (click)="setMinuteStep(step)"
-                [title]="'Set step increment to ' + step + ' min'"
-              >
-                {{ step }}m
-              </button>
-            }
-          </div>
-        </div>
+      <span class="gp-timepicker-separator">:</span>
+
+      <!-- Minutes Column -->
+      <div class="gp-timepicker-column">
+        <button
+          type="button"
+          class="gp-timepicker-btn"
+          (click)="spinMinute(1)"
+          [attr.aria-label]="'Increase ' + activeStepMinute() + ' minutes'"
+        >
+          <gp-icon name="chevron-up" size="0.85em" />
+        </button>
+        <span class="gp-timepicker-val">{{ formattedMinute() }}</span>
+        <button
+          type="button"
+          class="gp-timepicker-btn"
+          (click)="spinMinute(-1)"
+          [attr.aria-label]="'Decrease ' + activeStepMinute() + ' minutes'"
+        >
+          <gp-icon name="chevron-down" size="0.85em" />
+        </button>
+      </div>
+
+      @if (showSeconds()) {
+      <span class="gp-timepicker-separator">:</span>
+      <div class="gp-timepicker-column">
+        <button type="button" class="gp-timepicker-btn" (click)="spinSecond(1)" aria-label="Increase second">
+          <gp-icon name="chevron-up" size="0.85em" />
+        </button>
+        <span class="gp-timepicker-val">{{ formattedSecond() }}</span>
+        <button type="button" class="gp-timepicker-btn" (click)="spinSecond(-1)" aria-label="Decrease second">
+          <gp-icon name="chevron-down" size="0.85em" />
+        </button>
+      </div>
+      } @if (hourFormat() === '12') {
+      <div class="gp-timepicker-column gp-timepicker-ampm">
+        <button type="button" class="gp-timepicker-ampm-btn" (click)="toggleAmPm()" title="Toggle AM/PM">
+          {{ isPm() ? 'PM' : 'AM' }}
+        </button>
+      </div>
       }
     </div>
+
+    <!-- Minute Step Increment Chooser -->
+    @if (showStepPicker() && minuteSteps() && minuteSteps()!.length > 1) {
+    <div class="gp-timepicker-steps-wrap">
+      <span class="gp-timepicker-steps-label">Step:</span>
+      <div class="gp-timepicker-steps-pills">
+        @for (step of minuteSteps()!; track step) {
+        <button
+          type="button"
+          class="gp-timepicker-step-pill"
+          [class.gp-timepicker-step-pill--active]="activeStepMinute() === step"
+          (click)="setMinuteStep(step)"
+          [title]="'Set step increment to ' + step + ' min'"
+        >
+          {{ step }}m
+        </button>
+        }
+      </div>
+    </div>
+    }
+  </div>
   }
 </div>

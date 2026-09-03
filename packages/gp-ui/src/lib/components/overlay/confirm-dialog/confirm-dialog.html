@@ -7,28 +7,31 @@
 >
   <div class="gp-confirm-dialog__body gp-confirm-dialog-body">
     @if (confirmation()?.icon || icon()) {
-      <gp-icon [name]="confirmation()?.icon || icon()" size="2em" class="gp-confirm-dialog__icon gp-confirm-dialog-icon" />
+    <gp-icon
+      [name]="confirmation()?.icon || icon()"
+      size="2em"
+      class="gp-confirm-dialog__icon gp-confirm-dialog-icon"
+    />
     }
     <span class="gp-confirm-dialog__message gp-confirm-dialog-message">{{ confirmation()?.message || message() }}</span>
   </div>
 
   <div footer class="gp-confirm-dialog__footer gp-confirm-dialog-footer">
     @if (confirmation()?.rejectVisible !== false) {
-      <gp-button
-        [label]="confirmation()?.rejectLabel || (rejectLabel() && rejectLabel() !== 'No' ? rejectLabel() : (translationService.get('reject') || 'No'))"
-        [icon]="confirmation()?.rejectIcon || 'times'"
-        variant="outlined"
-        severity="secondary"
-        (onClickEvent)="reject()"
-      />
-    }
-    @if (confirmation()?.acceptVisible !== false) {
-      <gp-button
-        [label]="confirmation()?.acceptLabel || (acceptLabel() && acceptLabel() !== 'Yes' ? acceptLabel() : (translationService.get('accept') || 'Yes'))"
-        [icon]="confirmation()?.acceptIcon || 'check'"
-        severity="primary"
-        (onClickEvent)="accept()"
-      />
+    <gp-button
+      [label]="confirmation()?.rejectLabel || (rejectLabel() && rejectLabel() !== 'No' ? rejectLabel() : (translationService.get('reject') || 'No'))"
+      [icon]="confirmation()?.rejectIcon || 'times'"
+      variant="outlined"
+      severity="secondary"
+      (onClickEvent)="reject()"
+    />
+    } @if (confirmation()?.acceptVisible !== false) {
+    <gp-button
+      [label]="confirmation()?.acceptLabel || (acceptLabel() && acceptLabel() !== 'Yes' ? acceptLabel() : (translationService.get('accept') || 'Yes'))"
+      [icon]="confirmation()?.acceptIcon || 'check'"
+      severity="primary"
+      (onClickEvent)="accept()"
+    />
     }
   </div>
 </gp-dialog>

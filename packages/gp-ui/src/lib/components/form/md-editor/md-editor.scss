@@ -199,16 +199,33 @@ gp-md-editor {
 
 /* Markdown Preview Elements Typography */
 .gp-md-editor__pane--preview {
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--gp-text-color, #0f172a);
     font-weight: 700;
     margin: 0.75rem 0 0.5rem;
     line-height: 1.25;
   }
-  h1 { font-size: 1.75rem; border-bottom: 1px solid var(--gp-surface-divider, #e2e8f0); padding-bottom: 0.35rem; }
-  h2 { font-size: 1.45rem; border-bottom: 1px solid var(--gp-surface-divider, #e2e8f0); padding-bottom: 0.25rem; }
-  h3 { font-size: 1.25rem; }
-  h4 { font-size: 1.05rem; }
+  h1 {
+    font-size: 1.75rem;
+    border-bottom: 1px solid var(--gp-surface-divider, #e2e8f0);
+    padding-bottom: 0.35rem;
+  }
+  h2 {
+    font-size: 1.45rem;
+    border-bottom: 1px solid var(--gp-surface-divider, #e2e8f0);
+    padding-bottom: 0.25rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+  h4 {
+    font-size: 1.05rem;
+  }
 
   p {
     margin: 0 0 0.75rem;
@@ -224,7 +241,8 @@ gp-md-editor {
     border-radius: 0 4px 4px 0;
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin: 0 0 0.75rem 1.5rem;
     padding: 0;
   }
@@ -279,7 +297,8 @@ gp-md-editor {
     margin: 1rem 0;
     font-size: 0.875rem;
 
-    th, td {
+    th,
+    td {
       border: 1px solid var(--gp-md-editor-table-border-color, var(--gp-surface-border, #cbd5e1));
       padding: 0.5rem 0.75rem;
       text-align: left;
