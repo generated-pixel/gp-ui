@@ -60,8 +60,8 @@ export class GpPanelMenu extends GpMenuBase<GpMenubarItem> {
     }
     if (item.items && item.items.length > 0) {
       this.toggleItem(item, event);
-    } else if (item.command) {
-      item.command({ originalEvent: event, item });
+    } else {
+      this.handleMenuItemClick(item, event as MouseEvent);
     }
   }
 }
