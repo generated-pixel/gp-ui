@@ -19,10 +19,8 @@ module.exports = [
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
       curly: ['error', 'all'],
-      'brace-style': ['error', '1tbs'],
-      'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'off'
+      'brace-style': 'off', // Turn off so Prettier's newline brace doesn't fail linting
+      'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }]
     }
   },
   {
