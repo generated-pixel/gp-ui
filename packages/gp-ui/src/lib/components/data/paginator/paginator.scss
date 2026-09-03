@@ -31,20 +31,20 @@
   transition: all var(--gp-transition-duration);
 }
 
-.gp-paginator__btn,
+.gp-paginator__btn:hover:not(:disabled),
 .gp-paginator-btn:hover:not(:disabled),
-.gp-paginator__page,
+.gp-paginator__page:hover,
 .gp-paginator-page:hover {
   background: var(--gp-surface-hover);
 }
 
-.gp-paginator__btn,
+.gp-paginator__btn:disabled,
 .gp-paginator-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-.gp-paginator__page,
+.gp-paginator__page--active,
 .gp-paginator-page-active {
   background: var(--gp-primary-light) !important;
   color: var(--gp-primary) !important;
@@ -53,7 +53,6 @@
 }
 
 .gp-paginator__pages,
-.gp-paginator__page,
 .gp-paginator-pages {
   display: inline-flex;
   gap: 0.25rem;

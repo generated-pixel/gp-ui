@@ -25,9 +25,8 @@
   border-color: var(--gp-success-border, var(--gp-success));
   border-left: 4px solid var(--gp-success);
 }
-.gp-message--success,
-.gp-message-success .gp-message__icon,
-.gp-message-icon {
+.gp-message--success .gp-message__icon,
+.gp-message-success .gp-message-icon {
   color: var(--gp-success);
 }
 
@@ -43,9 +42,8 @@
   border-color: var(--gp-info-border, var(--gp-info));
   border-left: 4px solid var(--gp-info);
 }
-.gp-message--info,
-.gp-message-info .gp-message__icon,
-.gp-message-icon {
+.gp-message--info .gp-message__icon,
+.gp-message-info .gp-message-icon {
   color: var(--gp-info);
 }
 
@@ -61,9 +59,8 @@
   border-color: var(--gp-warning-border, var(--gp-warning));
   border-left: 4px solid var(--gp-warning);
 }
-.gp-message--warn,
-.gp-message-warning .gp-message__icon,
-.gp-message-icon {
+.gp-message--warn .gp-message__icon,
+.gp-message-warning .gp-message-icon {
   color: var(--gp-warning);
 }
 
@@ -79,9 +76,8 @@
   border-color: var(--gp-danger-border, var(--gp-danger));
   border-left: 4px solid var(--gp-danger);
 }
-.gp-message--error,
-.gp-message-error .gp-message__icon,
-.gp-message-icon {
+.gp-message--error .gp-message__icon,
+.gp-message-error .gp-message-icon {
   color: var(--gp-danger);
 }
 
@@ -128,7 +124,7 @@
   transition: all var(--gp-transition-duration, 150ms) ease;
 }
 
-.gp-message__close,
+.gp-message__close:hover,
 .gp-message-close:hover {
   opacity: 1;
   background: var(--gp-surface-hover, rgba(0, 0, 0, 0.06));

@@ -24,7 +24,7 @@
   font-size: var(--gp-font-size-sm);
   transition: color var(--gp-transition-duration);
 }
-.gp-breadcrumb__link,
+.gp-breadcrumb__link:hover,
 .gp-breadcrumb-link:hover {
   color: var(--gp-primary);
 }

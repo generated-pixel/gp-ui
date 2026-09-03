@@ -14,8 +14,8 @@
   background: var(--gp-surface-section);
   border-bottom: 1px solid var(--gp-surface-border);
 }
-.gp-panel-collapsed .gp-panel__header,
-.gp-panel-header {
+.gp-panel--collapsed .gp-panel__header,
+.gp-panel-collapsed .gp-panel-header {
   border-bottom: none;
 }
 .gp-panel__title,
@@ -40,7 +40,7 @@
   display: inline-flex;
   border-radius: 50%;
 }
-.gp-panel__toggle-btn,
+.gp-panel__toggle-btn:hover,
 .gp-panel-toggle-btn:hover {
   background: var(--gp-surface-hover);
   color: var(--gp-text-color);

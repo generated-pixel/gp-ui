@@ -49,20 +49,19 @@
   transition: all var(--gp-transition-duration);
 }
 
-.gp-carousel__nav-btn,
+.gp-carousel__nav-btn:hover:not(:disabled),
 .gp-carousel-nav-btn:hover:not(:disabled) {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
 
-.gp-carousel__nav-btn,
+.gp-carousel__nav-btn:disabled,
 .gp-carousel-nav-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
 .gp-carousel__indicators,
-.gp-carousel__indicator,
 .gp-carousel-indicators {
   display: flex;
   align-items: center;
@@ -83,12 +82,12 @@
   padding: 0;
 }
 
-.gp-carousel__indicator,
+.gp-carousel__indicator:hover,
 .gp-carousel-indicator:hover {
   background: var(--gp-input-border-hover);
 }
 
-.gp-carousel__indicator,
+.gp-carousel__indicator--active,
 .gp-carousel-indicator-active {
   background: var(--gp-primary);
   width: 1.5rem;

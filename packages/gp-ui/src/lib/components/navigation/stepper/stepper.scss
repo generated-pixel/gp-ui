@@ -40,23 +40,24 @@
   font-weight: 500;
   color: var(--gp-text-color-secondary);
 }
-.gp-stepper-header-active .gp-stepper__number,
-.gp-stepper-number {
+.gp-stepper__header--active .gp-stepper__number,
+.gp-stepper-header-active .gp-stepper-number {
   border-color: var(--gp-primary);
   background: var(--gp-primary);
   color: var(--gp-primary-text);
 }
-.gp-stepper-header-active .gp-stepper__title,
-.gp-stepper-title {
+.gp-stepper__header--active .gp-stepper__title,
+.gp-stepper-header-active .gp-stepper-title {
   color: var(--gp-primary);
   font-weight: 600;
 }
-.gp-stepper-header-completed .gp-stepper__number,
-.gp-stepper-number {
+.gp-stepper__header--completed .gp-stepper__number,
+.gp-stepper-header-completed .gp-stepper-number {
   border-color: var(--gp-success);
   background: var(--gp-success);
   color: var(--gp-success-text);
 }
+.gp-stepper__separator,
 .gp-stepper-separator {
   flex: 1;
   height: 2px;
@@ -64,6 +65,7 @@
   margin: 0 0.75rem;
   transition: background var(--gp-transition-duration);
 }
+.gp-stepper__separator--active,
 .gp-stepper-separator-active {
   background: var(--gp-success);
 }

@@ -15,7 +15,7 @@
   transition: border-color var(--gp-transition-duration);
 }
 
-.gp-panel-menu__panel,
+.gp-panel-menu__panel--expanded,
 .gp-panelmenu-panel-expanded {
   border-color: var(--gp-primary-light, var(--gp-surface-border));
 }
@@ -37,56 +37,62 @@
     color var(--gp-transition-duration);
 }
 
-.gp-panel-menu__header,
+.gp-panel-menu__header:hover,
 .gp-panelmenu-header:hover {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
 
-.gp-panel-menu__header,
+.gp-panel-menu__header--active,
 .gp-panelmenu-header-active {
   color: var(--gp-primary);
   background: var(--gp-surface-hover);
 }
 
-.gp-panel-menu__header,
+.gp-panel-menu__header--disabled,
 .gp-panelmenu-header-disabled {
   opacity: 0.45;
   cursor: not-allowed;
   pointer-events: none;
 }
 
+.gp-panel-menu__label,
 .gp-panelmenu-label {
   flex: 1;
 }
 
+.gp-panel-menu__sub-label,
 .gp-panelmenu-sub-label {
   flex: 1;
 }
 
+.gp-panel-menu__icon,
 .gp-panelmenu-icon {
   color: var(--gp-text-color-secondary);
   display: inline-flex;
   align-items: center;
 }
 
-.gp-panel-menu__header,
+.gp-panel-menu__header:hover .gp-panel-menu__icon,
 .gp-panelmenu-header:hover .gp-panelmenu-icon,
-.gp-panel-menu__header,
+.gp-panel-menu__header--active .gp-panel-menu__icon,
 .gp-panelmenu-header-active .gp-panelmenu-icon {
   color: var(--gp-primary);
 }
 
+.gp-panel-menu__arrow,
 .gp-panelmenu-arrow {
   color: var(--gp-text-color-muted);
   transition: transform 0.2s ease;
   transform: rotate(-90deg);
 }
 
+.gp-panel-menu__arrow--rotated,
 .gp-panelmenu-arrow-rotated {
   transform: rotate(0deg);
 }
 
+.gp-panel-menu__list,
 .gp-panelmenu-list {
   list-style: none;
   margin: 0;
@@ -106,16 +112,19 @@
   }
 }
 
+.gp-panel-menu__nested-list,
 .gp-panelmenu-nested-list {
   list-style: none;
   margin: 0;
   padding: 0.25rem 0 0.25rem 1.25rem;
 }
 
+.gp-panel-menu__item,
 .gp-panelmenu-item {
   position: relative;
 }
 
+.gp-panel-menu__link,
 .gp-panelmenu-link {
   display: flex;
   align-items: center;
@@ -132,11 +141,13 @@
     color var(--gp-transition-duration);
 }
 
+.gp-panel-menu__link:hover,
 .gp-panelmenu-link:hover {
   color: var(--gp-primary);
   background: var(--gp-surface-hover);
 }
 
+.gp-panel-menu__link--disabled,
 .gp-panelmenu-link-disabled {
   opacity: 0.45;
   cursor: not-allowed;

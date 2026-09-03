@@ -38,12 +38,12 @@
   transition: all var(--gp-transition-duration);
 }
 
-.gp-data-view__layout-btn,
+.gp-data-view__layout-btn:hover,
 .gp-dataview-layout-btn:hover {
   background: var(--gp-surface-hover);
 }
 
-.gp-data-view__layout-btn,
+.gp-data-view__layout-btn--active,
 .gp-dataview-layout-btn-active {
   background: var(--gp-primary-light) !important;
   color: var(--gp-primary) !important;

@@ -78,100 +78,79 @@ button {
 /* Variants & Severities */
 /* Filled */
 .gp-button--filled.gp-button--primary,
-.gp-button--filled,
 .gp-button-filled.gp-button-primary {
   background: var(--gp-primary);
   color: var(--gp-primary-text);
 }
 
-.gp-button--filled.gp-button--primary,
-.gp-button--filled,
-.gp-button-filled.gp-button--primary:hover,
-.gp-button-primary:hover:not(:disabled) {
+.gp-button--filled.gp-button--primary:hover:not(:disabled),
+.gp-button-filled.gp-button-primary:hover:not(:disabled) {
   background: var(--gp-primary-hover);
 }
 
 .gp-button--filled.gp-button--secondary,
-.gp-button--filled,
 .gp-button-filled.gp-button-secondary {
   background: var(--gp-secondary);
   color: var(--gp-secondary-text);
 }
 
-.gp-button--filled.gp-button--secondary,
-.gp-button--filled,
-.gp-button-filled.gp-button--secondary:hover,
-.gp-button-secondary:hover:not(:disabled) {
+.gp-button--filled.gp-button--secondary:hover:not(:disabled),
+.gp-button-filled.gp-button-secondary:hover:not(:disabled) {
   background: var(--gp-secondary-hover);
 }
 
 .gp-button--filled.gp-button--success,
-.gp-button--filled,
 .gp-button-filled.gp-button-success {
   background: var(--gp-success);
   color: var(--gp-success-text);
 }
 
-.gp-button--filled.gp-button--success,
-.gp-button--filled,
-.gp-button-filled.gp-button--success:hover,
-.gp-button-success:hover:not(:disabled) {
+.gp-button--filled.gp-button--success:hover:not(:disabled),
+.gp-button-filled.gp-button-success:hover:not(:disabled) {
   background: var(--gp-success-hover);
 }
 
 .gp-button--filled.gp-button--info,
-.gp-button--filled,
 .gp-button-filled.gp-button-info {
   background: var(--gp-info);
   color: var(--gp-info-text);
 }
 
-.gp-button--filled.gp-button--info,
-.gp-button--filled,
-.gp-button-filled.gp-button--info:hover,
-.gp-button-info:hover:not(:disabled) {
+.gp-button--filled.gp-button--info:hover:not(:disabled),
+.gp-button-filled.gp-button-info:hover:not(:disabled) {
   background: var(--gp-info-hover);
 }
 
 .gp-button--filled.gp-button--warning,
-.gp-button--filled,
 .gp-button-filled.gp-button-warning {
   background: var(--gp-warning);
   color: var(--gp-warning-text);
 }
 
-.gp-button--filled.gp-button--warning,
-.gp-button--filled,
-.gp-button-filled.gp-button--warning:hover,
-.gp-button-warning:hover:not(:disabled) {
+.gp-button--filled.gp-button--warning:hover:not(:disabled),
+.gp-button-filled.gp-button-warning:hover:not(:disabled) {
   background: var(--gp-warning-hover);
 }
 
 .gp-button--filled.gp-button--danger,
-.gp-button--filled,
 .gp-button-filled.gp-button-danger {
   background: var(--gp-danger);
   color: var(--gp-danger-text);
 }
 
-.gp-button--filled.gp-button--danger,
-.gp-button--filled,
-.gp-button-filled.gp-button--danger:hover,
-.gp-button-danger:hover:not(:disabled) {
+.gp-button--filled.gp-button--danger:hover:not(:disabled),
+.gp-button-filled.gp-button-danger:hover:not(:disabled) {
   background: var(--gp-danger-hover);
 }
 
 .gp-button--filled.gp-button--contrast,
-.gp-button--filled,
 .gp-button-filled.gp-button-contrast {
   background: var(--gp-contrast);
   color: var(--gp-contrast-text);
 }
 
-.gp-button--filled.gp-button--contrast,
-.gp-button--filled,
-.gp-button-filled.gp-button--contrast:hover,
-.gp-button-contrast:hover:not(:disabled) {
+.gp-button--filled.gp-button--contrast:hover:not(:disabled),
+.gp-button-filled.gp-button-contrast:hover:not(:disabled) {
   background: var(--gp-contrast-hover);
 }
 
@@ -182,58 +161,46 @@ button {
 }
 
 .gp-button--outlined.gp-button--primary,
-.gp-button--outlined,
 .gp-button-outlined.gp-button-primary {
   border-color: var(--gp-primary);
   color: var(--gp-primary);
 }
 
-.gp-button--outlined.gp-button--primary,
-.gp-button--outlined,
-.gp-button-outlined.gp-button--primary:hover,
-.gp-button-primary:hover:not(:disabled) {
+.gp-button--outlined.gp-button--primary:hover:not(:disabled),
+.gp-button-outlined.gp-button-primary:hover:not(:disabled) {
   background: var(--gp-primary-light);
 }
 
 .gp-button--outlined.gp-button--secondary,
-.gp-button--outlined,
 .gp-button-outlined.gp-button-secondary {
   border-color: var(--gp-secondary);
   color: var(--gp-secondary);
 }
 
-.gp-button--outlined.gp-button--secondary,
-.gp-button--outlined,
-.gp-button-outlined.gp-button--secondary:hover,
-.gp-button-secondary:hover:not(:disabled) {
+.gp-button--outlined.gp-button--secondary:hover:not(:disabled),
+.gp-button-outlined.gp-button-secondary:hover:not(:disabled) {
   background: var(--gp-secondary-light);
 }
 
 .gp-button--outlined.gp-button--success,
-.gp-button--outlined,
 .gp-button-outlined.gp-button-success {
   border-color: var(--gp-success);
   color: var(--gp-success);
 }
 
-.gp-button--outlined.gp-button--success,
-.gp-button--outlined,
-.gp-button-outlined.gp-button--success:hover,
-.gp-button-success:hover:not(:disabled) {
+.gp-button--outlined.gp-button--success:hover:not(:disabled),
+.gp-button-outlined.gp-button-success:hover:not(:disabled) {
   background: var(--gp-success-light);
 }
 
 .gp-button--outlined.gp-button--danger,
-.gp-button--outlined,
 .gp-button-outlined.gp-button-danger {
   border-color: var(--gp-danger);
   color: var(--gp-danger);
 }
 
-.gp-button--outlined.gp-button--danger,
-.gp-button--outlined,
-.gp-button-outlined.gp-button--danger:hover,
-.gp-button-danger:hover:not(:disabled) {
+.gp-button--outlined.gp-button--danger:hover:not(:disabled),
+.gp-button-outlined.gp-button-danger:hover:not(:disabled) {
   background: var(--gp-danger-light);
 }
 
@@ -244,52 +211,44 @@ button {
 }
 
 .gp-button--text.gp-button--primary,
-.gp-button--text,
 .gp-button-text.gp-button-primary {
   color: var(--gp-primary);
 }
 
-.gp-button--text.gp-button--primary,
-.gp-button--text,
-.gp-button-text.gp-button--primary:hover,
-.gp-button-primary:hover:not(:disabled) {
+.gp-button--text.gp-button--primary:hover:not(:disabled),
+.gp-button-text.gp-button-primary:hover:not(:disabled) {
   background: var(--gp-primary-light);
 }
 
 .gp-button--text.gp-button--secondary,
-.gp-button--text,
 .gp-button-text.gp-button-secondary {
   color: var(--gp-secondary);
 }
 
-.gp-button--text.gp-button--secondary,
-.gp-button--text,
-.gp-button-text.gp-button--secondary:hover,
-.gp-button-secondary:hover:not(:disabled) {
+.gp-button--text.gp-button--secondary:hover:not(:disabled),
+.gp-button-text.gp-button-secondary:hover:not(:disabled) {
   background: var(--gp-secondary-light);
 }
 
 .gp-button--text.gp-button--danger,
-.gp-button--text,
 .gp-button-text.gp-button-danger {
   color: var(--gp-danger);
 }
 
-.gp-button--text.gp-button--danger,
-.gp-button--text,
-.gp-button-text.gp-button--danger:hover,
-.gp-button-danger:hover:not(:disabled) {
+.gp-button--text.gp-button--danger:hover:not(:disabled),
+.gp-button-text.gp-button-danger:hover:not(:disabled) {
   background: var(--gp-danger-light);
 }
 
 /* Tonal */
+.gp-button--tonal.gp-button--primary,
 .gp-button-tonal.gp-button-primary {
   background: var(--gp-primary-light);
   color: var(--gp-primary);
 }
 
-.gp-button-tonal.gp-button--primary:hover,
-.gp-button-primary:hover:not(:disabled) {
+.gp-button--tonal.gp-button--primary:hover:not(:disabled),
+.gp-button-tonal.gp-button-primary:hover:not(:disabled) {
   background: var(--gp-primary-200);
 }
 
@@ -302,29 +261,23 @@ button {
 }
 
 .gp-button--link.gp-button--primary,
-.gp-button--link,
 .gp-button-link.gp-button-primary {
   color: var(--gp-primary);
 }
 
-.gp-button--link.gp-button--primary,
-.gp-button--link,
-.gp-button-link.gp-button--primary:hover,
-.gp-button-primary:hover:not(:disabled) {
+.gp-button--link.gp-button--primary:hover:not(:disabled),
+.gp-button-link.gp-button-primary:hover:not(:disabled) {
   text-decoration: underline;
   color: var(--gp-primary-hover);
 }
 
 .gp-button--link.gp-button--secondary,
-.gp-button--link,
 .gp-button-link.gp-button-secondary {
   color: var(--gp-secondary);
 }
 
-.gp-button--link.gp-button--secondary,
-.gp-button--link,
-.gp-button-link.gp-button--secondary:hover,
-.gp-button-secondary:hover:not(:disabled) {
+.gp-button--link.gp-button--secondary:hover:not(:disabled),
+.gp-button-link.gp-button-secondary:hover:not(:disabled) {
   text-decoration: underline;
 }
 
@@ -342,22 +295,19 @@ button {
   border-radius: var(--gp-border-radius);
 }
 
-.gp-button--icon-only,
-.gp-button-icon-only.gp-button--rounded,
-.gp-button-rounded {
+.gp-button--icon-only.gp-button--rounded,
+.gp-button-icon-only.gp-button-rounded {
   border-radius: 50%;
 }
 
-.gp-button--icon-only,
-.gp-button-icon-only.gp-button--sm,
-.gp-button-sm {
+.gp-button--icon-only.gp-button--sm,
+.gp-button-icon-only.gp-button-sm {
   width: 2rem;
   height: 2rem;
 }
 
-.gp-button--icon-only,
-.gp-button-icon-only.gp-button--lg,
-.gp-button-lg {
+.gp-button--icon-only.gp-button--lg,
+.gp-button-icon-only.gp-button-lg {
   width: 3rem;
   height: 3rem;
 }
@@ -414,7 +364,6 @@ button {
 }
 
 .gp-button__badge--danger,
-.gp-button__badge,
 .gp-button-badge-danger,
 .gp-badge-danger {
   background: var(--gp-danger, #e11d48);

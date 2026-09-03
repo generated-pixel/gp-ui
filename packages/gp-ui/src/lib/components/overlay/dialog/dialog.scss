@@ -50,8 +50,6 @@
 }
 
 .gp-dialog__header-icons,
-.gp-dialog__header-icon,
-.gp-dialog__header,
 .gp-dialog-header-icons {
   display: flex;
   align-items: center;
@@ -59,7 +57,6 @@
 }
 
 .gp-dialog__header-icon,
-.gp-dialog__header,
 .gp-dialog-header-icon {
   background: none;
   border: none;
@@ -73,8 +70,7 @@
   transition: background var(--gp-transition-duration);
 }
 
-.gp-dialog__header-icon,
-.gp-dialog__header,
+.gp-dialog__header-icon:hover,
 .gp-dialog-header-icon:hover {
   background: var(--gp-surface-hover);
   color: var(--gp-text-color);

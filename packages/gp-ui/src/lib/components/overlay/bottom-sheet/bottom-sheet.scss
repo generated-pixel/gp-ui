@@ -30,7 +30,6 @@
 }
 
 .gp-bottom-sheet__header-area,
-.gp-bottom-sheet__header,
 .gp-bottom-sheet-header-area {
   display: flex;
   flex-direction: column;
@@ -84,7 +83,7 @@
     color 0.15s ease;
 }
 
-.gp-bottom-sheet__close-btn,
+.gp-bottom-sheet__close-btn:hover,
 .gp-bottom-sheet-close-btn:hover {
   background: var(--gp-surface-ground, #f1f5f9);
   color: var(--gp-text-primary, #1e293b);

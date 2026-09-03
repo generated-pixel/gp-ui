@@ -35,7 +35,7 @@
   text-decoration: none;
 }
 
-.gp-dock__link,
+.gp-dock__link:hover,
 .gp-dock-link:hover {
   transform: scale(1.35) translateY(-6px);
   color: var(--gp-primary);

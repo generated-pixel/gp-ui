@@ -13,20 +13,24 @@
   flex-shrink: 0;
 }
 
+.gp-avatar--circle,
 .gp-avatar-circle {
   border-radius: 50%;
 }
 
+.gp-avatar--square,
 .gp-avatar-square {
   border-radius: var(--gp-border-radius);
 }
 
+.gp-avatar--large,
 .gp-avatar-large {
   width: 3rem;
   height: 3rem;
   font-size: var(--gp-font-size-lg);
 }
 
+.gp-avatar--xlarge,
 .gp-avatar-xlarge {
   width: 4rem;
   height: 4rem;

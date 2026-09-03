@@ -19,11 +19,13 @@
   align-items: center;
   gap: 0.5rem;
 }
+.gp-fieldset--toggleable,
 .gp-fieldset-toggleable {
   cursor: pointer;
   user-select: none;
   transition: background var(--gp-transition-duration);
 }
+.gp-fieldset--toggleable:hover,
 .gp-fieldset-toggleable:hover {
   background: var(--gp-surface-hover);
 }

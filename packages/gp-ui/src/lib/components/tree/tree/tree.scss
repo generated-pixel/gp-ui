@@ -34,7 +34,7 @@
   user-select: none;
 }
 
-.gp-tree__node-content,
+.gp-tree__node-content:hover,
 .gp-tree-node-content:hover {
   background: var(--gp-surface-hover);
 }

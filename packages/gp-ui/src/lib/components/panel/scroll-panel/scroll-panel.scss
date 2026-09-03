@@ -15,12 +15,12 @@
   scrollbar-width: thin;
   scrollbar-color: var(--gp-input-border) transparent;
 }
-.gp-scroll-panel__wrapper,
+.gp-scroll-panel__wrapper::-webkit-scrollbar,
 .gp-scrollpanel-wrapper::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-.gp-scroll-panel__wrapper,
+.gp-scroll-panel__wrapper::-webkit-scrollbar-thumb,
 .gp-scrollpanel-wrapper::-webkit-scrollbar-thumb {
   background: var(--gp-input-border);
   border-radius: 3px;

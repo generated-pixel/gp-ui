@@ -1,3 +1,4 @@
+.gp-progress-bar,
 .gp-progressbar {
   position: relative;
   background: var(--gp-surface-hover);
@@ -6,7 +7,7 @@
   width: 100%;
   height: 0.75rem;
 }
-.gp-progressbar__value,
+.gp-progress-bar__value,
 .gp-progressbar-value {
   height: 100%;
   background: var(--gp-primary);
@@ -17,20 +18,20 @@
   justify-content: flex-end;
   padding-right: 0.4rem;
 }
-.gp-progressbar__label,
+.gp-progress-bar__label,
 .gp-progressbar-label {
   color: #ffffff;
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1;
 }
-.gp-progressbar__indeterminate-container,
+.gp-progress-bar__indeterminate-container,
 .gp-progressbar-indeterminate-container {
   position: relative;
   height: 100%;
   width: 100%;
 }
-.gp-progressbar__indeterminate-value,
+.gp-progress-bar__indeterminate-value,
 .gp-progressbar-indeterminate-value {
   position: absolute;
   top: 0;

@@ -11,12 +11,13 @@
   transition: all var(--gp-transition-duration);
 }
 
+.gp-card--hoverable:hover,
 .gp-card-hoverable:hover {
   box-shadow: var(--gp-shadow-lg);
   transform: translateY(-2px);
 }
 
-.gp-card__header-img,
+.gp-card__header-img img,
 .gp-card-header-img img {
   width: 100%;
   height: auto;

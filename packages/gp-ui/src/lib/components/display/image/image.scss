@@ -13,6 +13,7 @@
   object-fit: cover;
 }
 
+.gp-image__preview-mask,
 .gp-image-preview-mask {
   position: absolute;
   top: 0;
@@ -29,6 +30,7 @@
   color: #ffffff;
 }
 
+.gp-image:hover .gp-image__preview-mask,
 .gp-image:hover .gp-image-preview-mask {
   opacity: 1;
 }
@@ -74,7 +76,7 @@
   justify-content: center;
 }
 
-.gp-image__action-btn,
+.gp-image__action-btn:hover,
 .gp-image-action-btn:hover {
   background: rgba(255, 255, 255, 0.25);
 }

@@ -16,7 +16,7 @@
   transition: background var(--gp-transition-duration);
   outline: none;
 }
-.gp-switch__slider,
+.gp-switch__slider:focus-visible,
 .gp-switch-slider:focus-visible {
   box-shadow: var(--gp-focus-ring);
 }
@@ -32,14 +32,15 @@
   box-shadow: var(--gp-shadow-sm);
   transition: transform var(--gp-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
 }
-.gp-switch-checked .gp-switch__slider,
-.gp-switch-slider {
+.gp-switch--checked .gp-switch__slider,
+.gp-switch-checked .gp-switch-slider {
   background: var(--gp-primary);
 }
-.gp-switch-checked .gp-switch__handle,
-.gp-switch-handle {
+.gp-switch--checked .gp-switch__handle,
+.gp-switch-checked .gp-switch-handle {
   transform: translateX(1.25rem);
 }
+.gp-switch--disabled,
 .gp-switch-disabled {
   opacity: 0.6;
   cursor: not-allowed;

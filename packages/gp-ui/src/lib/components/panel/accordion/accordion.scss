@@ -25,14 +25,12 @@
   user-select: none;
   transition: background var(--gp-transition-duration);
 }
-.gp-accordion__header,
+.gp-accordion__header:hover,
 .gp-accordion-header:hover {
   background: var(--gp-surface-hover);
 }
-.gp-accordion__tab--active,
-.gp-accordion__tab,
-.gp-accordion-tab-active .gp-accordion__header,
-.gp-accordion-header {
+.gp-accordion__tab--active .gp-accordion__header,
+.gp-accordion-tab-active .gp-accordion-header {
   color: var(--gp-primary);
   border-bottom: 1px solid var(--gp-surface-divider);
 }
@@ -47,7 +45,6 @@
   line-height: 1.5;
 }
 .gp-accordion__tab--disabled,
-.gp-accordion__tab,
 .gp-accordion-tab-disabled {
   opacity: 0.6;
   pointer-events: none;

@@ -239,11 +239,32 @@ body {
 .grid {
   display: grid;
 }
+.gp-grid {
+  display: grid;
+}
+.block {
+  display: block;
+}
 .flex {
   display: flex;
 }
+.hidden {
+  display: none;
+}
+.relative {
+  position: relative;
+}
+.italic {
+  font-style: italic;
+}
+.rounded {
+  border-radius: var(--gp-border-radius, 0.25rem);
+}
 .sticky {
   position: sticky;
+}
+.underline {
+  text-decoration-line: underline;
 }
 .inline-flex {
   display: inline-flex;
@@ -252,44 +273,11 @@ body {
   transform: translate(var(--gp-translate-x, 0), var(--gp-translate-y, 0)) rotate(var(--gp-rotate, 0))
     scaleX(var(--gp-scale-x, 1)) scaleY(var(--gp-scale-y, 1));
 }
-.uppercase {
-  text-transform: uppercase;
-}
-.relative {
-  position: relative;
-}
 .absolute {
   position: absolute;
 }
-.inline-block {
-  display: inline-block;
-}
-.ease-in-out {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-.fixed {
-  position: fixed;
-}
-.ease-out {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-.block {
-  display: block;
-}
-.hidden {
-  display: none;
-}
-.underline {
-  text-decoration-line: underline;
-}
-.gp-grid {
-  display: grid;
-}
-.italic {
-  font-style: italic;
-}
-.rounded {
-  border-radius: var(--gp-border-radius, 0.25rem);
+.uppercase {
+  text-transform: uppercase;
 }
 .text-secondary {
   color: var(--gp-secondary, #64748b);
@@ -595,57 +583,24 @@ body {
 .h-\[40\%\] {
   height: 40%;
 }
+.fixed {
+  position: fixed;
+}
+.ease-out {
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
 .py-1 {
   padding-top: var(--gp-space-1, 0.25rem);
   padding-bottom: var(--gp-space-1, 0.25rem);
+}
+.inline-block {
+  display: inline-block;
 }
 .mt-8 {
   margin-top: var(--gp-space-8, 2rem);
 }
 .mt-6 {
   margin-top: var(--gp-space-6, 1.5rem);
-}
-.display\:inline-flex {
-  display: inline-flex;
-}
-.display\:grid {
-  display: grid;
-}
-.display\:flex {
-  display: flex;
-}
-.position\:sticky {
-  position: sticky;
-}
-.text-transform\:uppercase {
-  text-transform: uppercase;
-}
-.position\:relative {
-  position: relative;
-}
-.position\:absolute {
-  position: absolute;
-}
-.display\:inline-block {
-  display: inline-block;
-}
-.position\:fixed {
-  position: fixed;
-}
-.display\:block {
-  display: block;
-}
-.text-decoration-line\:underline {
-  text-decoration-line: underline;
-}
-.font-style\:italic {
-  font-style: italic;
-}
-.display\:inline {
-  display: inline;
-}
-.overflow\:hidden {
-  display: none;
 }
 .\:inline-flex {
   display: inline-flex;

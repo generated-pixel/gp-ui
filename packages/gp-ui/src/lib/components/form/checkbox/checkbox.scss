@@ -19,21 +19,22 @@
   transition: all var(--gp-transition-duration);
   outline: none;
 }
-.gp-checkbox:hover:not(.gp-checkbox-disabled) .gp-checkbox__box,
-.gp-checkbox-box {
+.gp-checkbox:hover:not(.gp-checkbox--disabled) .gp-checkbox__box,
+.gp-checkbox:hover:not(.gp-checkbox-disabled) .gp-checkbox-box {
   border-color: var(--gp-input-border-hover);
 }
-.gp-checkbox__box,
+.gp-checkbox__box:focus-visible,
 .gp-checkbox-box:focus-visible {
   box-shadow: var(--gp-focus-ring);
   border-color: var(--gp-primary);
 }
-.gp-checkbox-checked .gp-checkbox__box,
-.gp-checkbox-box {
+.gp-checkbox--checked .gp-checkbox__box,
+.gp-checkbox-checked .gp-checkbox-box {
   background: var(--gp-primary);
   border-color: var(--gp-primary);
   color: var(--gp-primary-text);
 }
+.gp-checkbox--disabled,
 .gp-checkbox-disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -45,6 +46,6 @@
   cursor: inherit;
 }
 .gp-input-invalid .gp-checkbox__box,
-.gp-checkbox-box {
+.gp-input-invalid .gp-checkbox-box {
   border-color: var(--gp-danger);
 }

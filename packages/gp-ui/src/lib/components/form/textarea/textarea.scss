@@ -1,3 +1,4 @@
+.gp-textarea__wrapper,
 .gp-textarea-wrapper {
   position: relative;
   width: 100%;
@@ -10,6 +11,7 @@
   resize: vertical;
   line-height: 1.5;
 }
+.gp-textarea--auto-resize,
 .gp-textarea-auto-resize {
   resize: none;
   overflow-y: hidden;
