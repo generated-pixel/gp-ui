@@ -23,6 +23,8 @@ describe('GpDynamicBlockRenderer', () => {
   it('should render header and form from block metadata', () => {
     const metadata: GpBlockMetadata = {
       id: 'test-block',
+      title: 'Test Block',
+      category: 'forms',
       header: { title: 'Test Block Header' },
       form: {
         id: 'test-f',

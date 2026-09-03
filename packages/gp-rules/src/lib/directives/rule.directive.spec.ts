@@ -10,7 +10,7 @@ import { GpRuleEngineService } from '../engine/rule-engine.service';
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, GpRuleDirective, GpRuleGroupDirective],
   template: `
-    <div [gpRuleGroup]="groupRules" [gpRuleState]="groupState">
+    <div [gpRuleGroup]="groupRules" [gpRuleGroupState]="groupState">
       <input
         id="test-input"
         type="text"
@@ -30,7 +30,7 @@ class TestHost {
 
   public testRule: GpBusinessRule = {
     id: 'test-click-rule',
-    trigger: ['click', 'blur', 'input', 'keydown', 'keyup', 'change'],
+    trigger: ['init', 'click', 'blur', 'input', 'keydown', 'keyup', 'change', 'valueChange'],
     condition: { field: 'promo', operator: 'eq', value: 'SAVE20' },
     actions: [{ type: 'setValue', target: 'discount', value: 50 }]
   };
@@ -43,8 +43,13 @@ class TestHost {
     }
   ];
 
+  public results: any[] = [];
+
   public onExecuted(res: any): void {
-    this.lastResult = res;
+    this.results.push(res);
+    if (res.ruleId === 'test-click-rule' || !this.lastResult) {
+      this.lastResult = res;
+    }
   }
 }
 
@@ -73,6 +78,7 @@ describe('GpRuleDirective & GpRuleGroupDirective', () => {
     fixture.detectChanges();
     const inputEl = fixture.nativeElement.querySelector('#test-input') as HTMLInputElement;
     inputEl.click();
+    await new Promise((r) => setTimeout(r, 20));
     await fixture.whenStable();
 
     expect(engine.logs().length).toBeGreaterThanOrEqual(1);
@@ -92,6 +98,7 @@ describe('GpRuleDirective & GpRuleGroupDirective', () => {
     inputEl.dispatchEvent(new Event('input'));
     inputEl.dispatchEvent(new Event('change'));
 
+    await new Promise((r) => setTimeout(r, 20));
     await fixture.whenStable();
     expect(engine.logs().length).toBeGreaterThanOrEqual(2);
   });
@@ -99,6 +106,7 @@ describe('GpRuleDirective & GpRuleGroupDirective', () => {
   it('should respond to reactive form control valueChanges', async () => {
     fixture.detectChanges();
     host.formCtrl.setValue('NEW_VAL');
+    await new Promise((r) => setTimeout(r, 20));
     await fixture.whenStable();
 
     expect(engine.logs().some((l) => l.triggerEvent === 'valueChange')).toBe(true);

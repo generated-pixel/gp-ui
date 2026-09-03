@@ -77,6 +77,7 @@ export class GpCheckbox extends GpCheckableBase implements ControlValueAccessor 
     }
 
     this.updateValue(nextValue);
+    this.checked.set(this.isChecked());
     this.onChange.emit({ checked: this.isChecked(), originalEvent: event });
     this.onClickEvent.emit(event);
   }

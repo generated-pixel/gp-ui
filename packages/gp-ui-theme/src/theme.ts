@@ -60,6 +60,9 @@ export class GpThemeManager {
     });
 
     if (GpThemeManager.initialized) {
+      if (typeof document !== 'undefined' && !document.getElementById(`gp-theme-${defaultThemeName}`)) {
+        GpThemeManager.injectTheme(GpThemeManager.getThemeDefinition(defaultThemeName));
+      }
       return GpThemeManager.getActiveMode();
     }
 

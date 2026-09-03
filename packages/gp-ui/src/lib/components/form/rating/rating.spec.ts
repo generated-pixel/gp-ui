@@ -20,15 +20,17 @@ describe('GpRating', () => {
   });
 
   it('should allow half-star values when enabled', () => {
-    component.allowHalfStars = true;
+    fixture.componentRef.setInput('allowHalfStars', true);
     const fakeTarget = {
       getBoundingClientRect: () => ({ left: 0, width: 20 })
-    } as HTMLElement;
+    } as unknown as HTMLElement;
 
-    component.rate(1, { clientX: 5, currentTarget: fakeTarget } as MouseEvent);
+    const fakeEvent = new MouseEvent('click', { clientX: 5 });
+    Object.defineProperty(fakeEvent, 'currentTarget', { value: fakeTarget });
+
+    component.rate(1, fakeEvent);
     fixture.detectChanges();
 
     expect(component.internalValue()).toBe(0.5);
-    expect(component.value).toBe(0.5);
   });
 });

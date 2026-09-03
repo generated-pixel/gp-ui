@@ -15,17 +15,17 @@ describe('GpGrid Widgets & Typed Models', () => {
       label: 'Monthly Recurring Revenue',
       value: '$124,500',
       change: '+14.2%',
-      trend: 'up',
-      caption: 'vs last month',
+      trend: 'positive',
+      meta: 'vs last month',
       icon: 'dollar-sign'
     };
 
     const item: GpGridItem = {
       id: 'mrr-widget',
-      col: 0,
-      row: 0,
-      cols: 3,
-      rows: 2,
+      x: 0,
+      y: 0,
+      w: 3,
+      h: 2,
       widgetType: 'kpi',
       widgetData: kpiData
     };
@@ -36,24 +36,21 @@ describe('GpGrid Widgets & Typed Models', () => {
 
   it('should create valid Chart widget item definition', () => {
     const chartData: GpChartWidgetData = {
-      monthly: [
-        { month: 'Jan', revenue: 45000, target: 40000 },
-        { month: 'Feb', revenue: 52000, target: 45000 }
-      ]
+      series: [{ name: 'Revenue', data: [45000, 52000] }]
     };
 
     const item: GpGridItem = {
       id: 'chart-widget',
-      col: 3,
-      row: 0,
-      cols: 6,
-      rows: 4,
+      x: 3,
+      y: 0,
+      w: 6,
+      h: 4,
       widgetType: 'chart',
       widgetData: chartData
     };
 
     expect(item.widgetType).toBe('chart');
-    expect((item.widgetData as GpChartWidgetData).monthly?.length).toBe(2);
+    expect((item.widgetData as GpChartWidgetData).series?.length).toBe(1);
   });
 
   it('should create valid Table widget item definition', () => {
@@ -68,16 +65,16 @@ describe('GpGrid Widgets & Typed Models', () => {
 
     const item: GpGridItem = {
       id: 'table-widget',
-      col: 0,
-      row: 2,
-      cols: 6,
-      rows: 4,
+      x: 0,
+      y: 2,
+      w: 6,
+      h: 4,
       widgetType: 'table',
       widgetData: tableData
     };
 
     expect(item.widgetType).toBe('table');
-    expect((item.widgetData as GpTableWidgetData).rows.length).toBe(1);
+    expect((item.widgetData as GpTableWidgetData).rows?.length).toBe(1);
   });
 
   it('should create valid List and Progress widget item definitions', () => {
@@ -86,25 +83,25 @@ describe('GpGrid Widgets & Typed Models', () => {
     };
 
     const progressData: GpProgressWidgetData = {
-      items: [{ label: 'Storage', value: 74, formattedValue: '74 GB / 100 GB', color: 'primary' }]
+      items: [{ label: 'Storage', percentage: 74, valueText: '74 GB / 100 GB' }]
     };
 
     const listItem: GpGridItem = {
       id: 'list-w',
-      col: 0,
-      row: 6,
-      cols: 4,
-      rows: 3,
+      x: 0,
+      y: 6,
+      w: 4,
+      h: 3,
       widgetType: 'list',
       widgetData: listData
     };
 
     const progressItem: GpGridItem = {
       id: 'prog-w',
-      col: 4,
-      row: 6,
-      cols: 4,
-      rows: 3,
+      x: 4,
+      y: 6,
+      w: 4,
+      h: 3,
       widgetType: 'progress',
       widgetData: progressData
     };
@@ -115,17 +112,16 @@ describe('GpGrid Widgets & Typed Models', () => {
 
   it('should layout typed widget items without collision with GpGridEngine', () => {
     const items: GpGridItem[] = [
-      { id: 'kpi-1', col: 0, row: 0, cols: 3, rows: 2, widgetType: 'kpi' },
-      { id: 'kpi-2', col: 3, row: 0, cols: 3, rows: 2, widgetType: 'kpi' },
-      { id: 'chart-1', col: 6, row: 0, cols: 6, rows: 4, widgetType: 'chart' }
+      { id: 'kpi-1', x: 0, y: 0, w: 3, h: 2, widgetType: 'kpi' },
+      { id: 'kpi-2', x: 3, y: 0, w: 3, h: 2, widgetType: 'kpi' },
+      { id: 'chart-1', x: 6, y: 0, w: 6, h: 4, widgetType: 'chart' }
     ];
 
-    const engine = new GpGridEngine(12, 'vertical');
-    const compacted = engine.compact(items);
+    const compacted = GpGridEngine.compactGrid(items, undefined, 12);
 
     expect(compacted.length).toBe(3);
-    expect(compacted.find((i) => i.id === 'kpi-1')?.row).toBe(0);
-    expect(compacted.find((i) => i.id === 'kpi-2')?.row).toBe(0);
-    expect(compacted.find((i) => i.id === 'chart-1')?.row).toBe(0);
+    expect(compacted.find((i: GpGridItem) => i.id === 'kpi-1')?.y).toBe(0);
+    expect(compacted.find((i: GpGridItem) => i.id === 'kpi-2')?.y).toBe(0);
+    expect(compacted.find((i: GpGridItem) => i.id === 'chart-1')?.y).toBe(0);
   });
 });

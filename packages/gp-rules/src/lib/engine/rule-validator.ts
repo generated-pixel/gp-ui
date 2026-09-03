@@ -94,7 +94,7 @@ export class GpRuleValidator {
     errors: GpRuleValidationError[],
     warnings: GpRuleValidationError[]
   ): void {
-    if (!rule.trigger) {
+    if (rule.trigger === undefined || rule.trigger === null) {
       errors.push({
         ruleId: rule.id,
         field: 'trigger',

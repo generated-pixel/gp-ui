@@ -19,7 +19,7 @@ describe('GpRuleValidator', () => {
   it('detects invalid triggers, missing IDs, and malformed formulas', () => {
     const invalidRule: GpBusinessRule = {
       id: '',
-      trigger: '',
+      trigger: '' as any,
       actions: [{ type: 'compute', target: 'total', formula: '((quantity * unitPrice' }]
     };
 

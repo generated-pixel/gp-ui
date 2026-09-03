@@ -33,7 +33,7 @@ describe('GpDynamicDialog', () => {
   });
 
   it('should render dynamic dialog container and header', () => {
-    const dialogEl = fixture.nativeElement.querySelector('.gp-dynamic-dialog');
+    const dialogEl = fixture.nativeElement.querySelector('.gp-dialog');
     expect(dialogEl).toBeTruthy();
     expect(fixture.nativeElement.textContent).toContain('Test Dialog');
   });

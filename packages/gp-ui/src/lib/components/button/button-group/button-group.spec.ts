@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GpButtonGroup } from './button-group';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { GpButton } from '../button/button';
 
 @Component({
   standalone: true,
   imports: [GpButtonGroup, GpButton],
   template: `
-    <gp-button-group [vertical]="isVertical">
+    <gp-button-group [vertical]="isVertical()">
       <gp-button label="One" />
       <gp-button label="Two" />
       <gp-button label="Three" />
@@ -15,7 +15,7 @@ import { GpButton } from '../button/button';
   `
 })
 class TestHostComponent {
-  isVertical = false;
+  isVertical = signal(false);
 }
 
 describe('GpButtonGroup', () => {
@@ -39,7 +39,7 @@ describe('GpButtonGroup', () => {
   });
 
   it('should apply vertical class when vertical is true', () => {
-    hostComponent.isVertical = true;
+    hostComponent.isVertical.set(true);
     fixture.detectChanges();
 
     const groupEl = fixture.nativeElement.querySelector('.gp-button-group');

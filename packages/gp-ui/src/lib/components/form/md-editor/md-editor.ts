@@ -73,11 +73,12 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
   public characterCount = computed(() => (this.internalValue() || '').length);
 
   public wordCount = computed(() => {
-    const text = (this.internalValue() || '').trim();
-    if (!text) {
+    const raw = (this.internalValue() || '').trim();
+    if (!raw) {
       return 0;
     }
-    return text.split(/\s+/).filter(Boolean).length;
+    const clean = raw.replace(/^#+\s+/gm, '').replace(/[*_~`]/g, '');
+    return clean.split(/\s+/).filter(Boolean).length;
   });
 
   public lineCount = computed(() => {
@@ -274,11 +275,12 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
     // 4. Tables
-    html = html.replace(/((?:\|[^\n]+\|\r?\n)+)/g, (tableMatch) => {
+    html = html.replace(/(?:\|[^\n]+\|(?:\r?\n|$))+/g, (tableMatch) => {
       const rows = tableMatch
         .trim()
         .split('\n')
-        .map((r) => r.trim());
+        .map((r) => r.trim())
+        .filter(Boolean);
       if (rows.length < 2) {
         return tableMatch;
       }

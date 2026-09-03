@@ -20,7 +20,7 @@ describe('GpRadioButton', () => {
 
   it('should select radio when clicked', () => {
     let selectedVal: any = null;
-    component.onChangeEvent.subscribe((val) => (selectedVal = val));
+    component.onChange.subscribe((event: { checked: boolean; originalEvent: Event }) => (selectedVal = event.checked));
 
     fixture.componentRef.setInput('value', 'optionA');
     fixture.componentRef.setInput('label', 'Option A');
@@ -31,6 +31,6 @@ describe('GpRadioButton', () => {
     fixture.detectChanges();
 
     expect(component.checked()).toBeTrue();
-    expect(selectedVal).toBe('optionA');
+    expect(selectedVal).toBeTrue();
   });
 });

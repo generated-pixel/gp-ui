@@ -133,7 +133,9 @@
           "options": {
             "buildTarget": "gp-ui:build:development",
             "tsConfig": "packages/tsconfig.spec.json",
-            "runner": "vitest"
+            "runner": "vitest",
+            "setupFiles": ["tools/test-setup.ts"],
+            "include": ["**/*.spec.ts"]
           }
         }
       }

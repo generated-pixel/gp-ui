@@ -8,7 +8,7 @@
   (click)="onClick($event)"
 >
   <div
-    class="gp-radio-button__box gp-radiobutton-box"
+    class="gp-radio-button__box gp-radiobutton-box gp-radio-box"
     [attr.id]="inputId()"
     [attr.aria-checked]="isChecked()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
@@ -21,6 +21,7 @@
     [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
     (keydown.space)="$event.preventDefault(); onClick($event)"
     (keydown.enter)="$event.preventDefault(); onClick($event)"
+    (click)="onClick($event); $event.stopPropagation()"
     gpRipple
   >
     <div class="gp-radio-button__icon gp-radiobutton-icon"></div>

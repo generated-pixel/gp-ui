@@ -59,13 +59,16 @@ class TestHost {
   ];
 }
 
+import { provideRouter } from '@angular/router';
+
 describe('Navigation Menu Components', () => {
   let fixture: ComponentFixture<TestHost>;
   let host: TestHost;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHost]
+      imports: [TestHost],
+      providers: [provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHost);

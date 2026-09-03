@@ -58,6 +58,9 @@ export class GpRuleContextFactory {
 
     const setVisibility = (fieldName: string, visible: boolean): void => {
       internalState[`_visible_${fieldName}`] = visible;
+      if (options.onStateChange) {
+        options.onStateChange(`_visible_${fieldName}`, visible);
+      }
       if (options.onVisibilityChange) {
         options.onVisibilityChange(fieldName, visible);
       }
@@ -65,6 +68,9 @@ export class GpRuleContextFactory {
 
     const setDisabled = (fieldName: string, disabled: boolean): void => {
       internalState[`_disabled_${fieldName}`] = disabled;
+      if (options.onStateChange) {
+        options.onStateChange(`_disabled_${fieldName}`, disabled);
+      }
       if (options.form && options.form.contains(fieldName)) {
         const ctrl = options.form.get(fieldName);
         if (disabled) {
@@ -80,13 +86,20 @@ export class GpRuleContextFactory {
 
     const setOptions = (fieldName: string, opts: Array<{ label: string; value: any; [key: string]: any }>): void => {
       internalState[`_options_${fieldName}`] = opts;
+      if (options.onStateChange) {
+        options.onStateChange(`_options_${fieldName}`, opts);
+      }
       if (options.onOptionsChange) {
         options.onOptionsChange(fieldName, opts);
       }
     };
 
     const setValidationError = (fieldName: string, errorKey: string, errorMessage?: string): void => {
-      internalState[`_error_${fieldName}`] = { key: errorKey, message: errorMessage };
+      const err = { key: errorKey, message: errorMessage };
+      internalState[`_error_${fieldName}`] = err;
+      if (options.onStateChange) {
+        options.onStateChange(`_error_${fieldName}`, err);
+      }
       if (options.form && options.form.contains(fieldName)) {
         const ctrl = options.form.get(fieldName);
         const existingErrors = ctrl?.errors || {};
@@ -101,9 +114,15 @@ export class GpRuleContextFactory {
       if (errorKey) {
         if (internalState[`_error_${fieldName}`]?.key === errorKey) {
           delete internalState[`_error_${fieldName}`];
+          if (options.onStateChange) {
+            options.onStateChange(`_error_${fieldName}`, undefined);
+          }
         }
       } else {
         delete internalState[`_error_${fieldName}`];
+        if (options.onStateChange) {
+          options.onStateChange(`_error_${fieldName}`, undefined);
+        }
       }
 
       if (options.form && options.form.contains(fieldName)) {
@@ -127,7 +146,11 @@ export class GpRuleContextFactory {
       const key = `_class_${target}`;
       const existing: string[] = internalState[key] ? String(internalState[key]).split(' ') : [];
       const updated = remove ? existing.filter((c) => c !== className) : Array.from(new Set([...existing, className]));
-      internalState[key] = updated.join(' ');
+      const nextClass = updated.join(' ');
+      internalState[key] = nextClass;
+      if (options.onStateChange) {
+        options.onStateChange(key, nextClass);
+      }
 
       if (options.onClassChange) {
         options.onClassChange(target, className, remove);
@@ -136,7 +159,11 @@ export class GpRuleContextFactory {
 
     const setStyle = (target: string, styles: Record<string, string>): void => {
       const key = `_style_${target}`;
-      internalState[key] = { ...(internalState[key] || {}), ...styles };
+      const nextStyles = { ...(internalState[key] || {}), ...styles };
+      internalState[key] = nextStyles;
+      if (options.onStateChange) {
+        options.onStateChange(key, nextStyles);
+      }
       if (options.onStyleChange) {
         options.onStyleChange(target, styles);
       }

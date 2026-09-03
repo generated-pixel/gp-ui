@@ -13,11 +13,12 @@ describe('GpTable', () => {
 
     fixture = TestBed.createComponent(GpTable);
     component = fixture.componentInstance;
-    component.value = [
+    fixture.componentRef.setInput('value', [
       { id: 1, name: 'Alice', role: 'Admin' },
       { id: 2, name: 'Bob', role: 'User' },
       { id: 3, name: 'Charlie', role: 'Developer' }
-    ];
+    ]);
+    fixture.detectChanges();
   });
 
   it('should create the table component', () => {

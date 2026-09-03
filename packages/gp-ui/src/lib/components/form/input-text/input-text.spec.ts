@@ -27,7 +27,7 @@ describe('GpInputText', () => {
   });
 
   it('should clear value when clear button is clicked', () => {
-    component.clearable = true;
+    fixture.componentRef.setInput('clearable', true);
     component.writeValue('Test');
     fixture.detectChanges();
 

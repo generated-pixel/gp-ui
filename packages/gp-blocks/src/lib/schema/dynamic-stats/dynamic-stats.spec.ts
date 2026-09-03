@@ -27,7 +27,7 @@ describe('GpDynamicStats', () => {
     fixture.componentRef.setInput('schema', schema);
     fixture.detectChanges();
 
-    const statCard = fixture.nativeElement.querySelector('.gp-dyn-stat-card');
+    const statCard = fixture.nativeElement.querySelector('.gp-stat-card');
     expect(statCard).toBeTruthy();
     expect(statCard.textContent).toContain('Total Revenue');
     expect(statCard.textContent).toContain('$45,000');

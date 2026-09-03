@@ -99,7 +99,7 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
 
   public characterCount = computed(() => {
     const html = this.internalValue() || '';
-    const text = this.stripHtml(html);
+    const text = this.stripHtml(html).trim();
     return text.length;
   });
 
@@ -329,8 +329,9 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
   }
 
   private stripHtml(html: string): string {
+    const formatted = html.replace(/<\/(p|div|h[1-6]|li|blockquote|tr)>/gi, ' ');
     const tmp = this.document.createElement('div');
-    tmp.innerHTML = html;
+    tmp.innerHTML = formatted;
     return tmp.textContent || tmp.innerText || '';
   }
 }

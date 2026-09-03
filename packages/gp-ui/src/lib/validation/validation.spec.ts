@@ -1,11 +1,15 @@
 import { GpValidators } from './validators';
 import { GpFormDirective } from './form.directive';
 import { GpEditableBase } from '../base/gp-editable-base';
-import { Component, ViewChild } from '@angular/core';
+import { signal, ElementRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { GpValidatorFn, GpValueEffectFn } from './types';
 
 // Test mock implementation of GpEditableBase
 class TestInputControl extends GpEditableBase<string> {
-  // Concrete implementation
+  public override name: any = signal<string>('');
+  public override validators: any = signal<GpValidatorFn<string>[]>([]);
+  public override valueEffect: any = signal<GpValueEffectFn<string> | undefined>(undefined);
 }
 
 describe('Validation & Side Effects Architecture', () => {
@@ -144,12 +148,15 @@ describe('Validation & Side Effects Architecture', () => {
     let ctrl: TestInputControl;
 
     beforeEach(() => {
-      ctrl = new TestInputControl();
-      ctrl.name = 'username';
+      TestBed.configureTestingModule({
+        providers: [{ provide: ElementRef, useValue: new ElementRef(document.createElement('div')) }]
+      });
+      ctrl = TestBed.runInInjectionContext(() => new TestInputControl());
+      ctrl.name.set('username');
     });
 
     it('should validate and set valid/invalid signals', async () => {
-      ctrl.validators = [GpValidators.required(), GpValidators.minLength(3)];
+      ctrl.validators.set([GpValidators.required(), GpValidators.minLength(3)]);
 
       ctrl.value = 'a';
       ctrl.internalValue.set('a');
@@ -172,7 +179,7 @@ describe('Validation & Side Effects Architecture', () => {
     });
 
     it('should emit onValid and onInvalid events', async () => {
-      ctrl.validators = [GpValidators.required()];
+      ctrl.validators.set([GpValidators.required()]);
 
       let validPayload: any = null;
       let invalidPayload: any = null;
@@ -200,11 +207,11 @@ describe('Validation & Side Effects Architecture', () => {
       let sideEffectNewVal: any = null;
       let sideEffectOldVal: any = null;
 
-      ctrl.valueEffect = async (newVal, oldVal) => {
+      ctrl.valueEffect.set(async (newVal: any, oldVal: any) => {
         effectExecuted = true;
         sideEffectNewVal = newVal;
         sideEffectOldVal = oldVal;
-      };
+      });
 
       await ctrl.updateValue('first-value');
       expect(effectExecuted).toBe(true);
@@ -247,15 +254,19 @@ describe('Validation & Side Effects Architecture', () => {
 
   describe('GpFormDirective', () => {
     it('should coordinate multi-field validation, value extraction, and server error mapping', async () => {
-      const form = new GpFormDirective();
+      TestBed.configureTestingModule({
+        providers: [{ provide: ElementRef, useValue: new ElementRef(document.createElement('div')) }]
+      });
 
-      const field1 = new TestInputControl();
-      field1.name = 'email';
-      field1.validators = [GpValidators.required(), GpValidators.email()];
+      const form = TestBed.runInInjectionContext(() => new GpFormDirective());
 
-      const field2 = new TestInputControl();
-      field2.name = 'age';
-      field2.validators = [GpValidators.required(), GpValidators.min(18)];
+      const field1 = TestBed.runInInjectionContext(() => new TestInputControl());
+      field1.name.set('email');
+      field1.validators.set([GpValidators.required(), GpValidators.email()]);
+
+      const field2 = TestBed.runInInjectionContext(() => new TestInputControl());
+      field2.name.set('age');
+      field2.validators.set([GpValidators.required(), GpValidators.min(18)]);
 
       form.registerControl(field1);
       form.registerControl(field2);
@@ -271,8 +282,8 @@ describe('Validation & Side Effects Architecture', () => {
       expect(form.isInvalid()).toBe(true);
 
       const values = form.getValues();
-      expect(values.email).toBe('invalid-email');
-      expect(values.age).toBe(16);
+      expect(values['email']).toBe('invalid-email');
+      expect(values['age']).toBe(16);
 
       // Fix values
       field1.value = 'valid@example.com';

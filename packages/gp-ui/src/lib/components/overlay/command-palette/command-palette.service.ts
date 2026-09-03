@@ -45,6 +45,20 @@ export class GpCommandPaletteService {
   }
 
   /**
+   * Registers a single command item.
+   */
+  public register(command: GpCommandItem): () => void {
+    return this.registerCommands([command]);
+  }
+
+  /**
+   * Unregisters a command item by ID.
+   */
+  public unregister(id: string): void {
+    this._registeredCommands.update((current) => current.filter((c) => c.id !== id));
+  }
+
+  /**
    * Clears all registered commands.
    */
   public clearCommands(): void {

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 import { GpDialogService } from './dialog.service';
 import { GP_DIALOG_DATA, GP_DIALOG_REF, GpDialogRef } from './dialog.interface';
 
@@ -35,7 +36,7 @@ describe('GpDialogService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should open dynamic dialog and receive emitted result on close', (done) => {
+  it('should open dynamic dialog and receive emitted result on close', async () => {
     const dialogRef = service.open(TestSearchModal, {
       header: 'Search Dialog',
       data: { query: 'Acme' }
@@ -43,11 +44,9 @@ describe('GpDialogService', () => {
 
     expect(dialogRef).toBeTruthy();
 
-    dialogRef.onClose.subscribe((result) => {
-      expect(result).toEqual({ id: 101, name: 'Acme Corporation' });
-      done();
-    });
-
+    const promise = firstValueFrom(dialogRef.onClose);
     dialogRef.close({ id: 101, name: 'Acme Corporation' });
+    const result = await promise;
+    expect(result).toEqual({ id: 101, name: 'Acme Corporation' });
   });
 });

@@ -39,12 +39,12 @@ describe('GpRuleSimulator', () => {
 
     expect(result.matchedRules).toContain('coupon-rule');
     expect(result.matchedRules).toContain('calc-total-rule');
-    expect(result.finalState.discountPercent).toBe(20);
-    expect(result.finalState.subtotal).toBe(100);
-    expect(result.finalState.total).toBe(80);
+    expect(result.finalState['discountPercent']).toBe(20);
+    expect(result.finalState['subtotal']).toBe(100);
+    expect(result.finalState['total']).toBe(80);
 
     // Initial state object is not mutated
-    expect(initialState.total).toBe(0);
+    expect(initialState['total']).toBe(0);
 
     // State diff contains changed fields
     expect(result.stateDiff.changed['total']).toBeDefined();

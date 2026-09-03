@@ -5,7 +5,7 @@
 
   <button
     type="button"
-    class="gp-paginator__btn gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-first"
     [disabled]="isFirstPage()"
     (click)="changePage(0)"
     [attr.aria-label]="translationService.get('pagination')?.firstPage || 'First Page'"
@@ -15,7 +15,7 @@
 
   <button
     type="button"
-    class="gp-paginator__btn gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-prev"
     [disabled]="isFirstPage()"
     (click)="changePage(page() - 1)"
     [attr.aria-label]="translationService.get('pagination')?.prevPage || 'Previous Page'"
@@ -41,7 +41,7 @@
 
   <button
     type="button"
-    class="gp-paginator__btn gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-next"
     [disabled]="isLastPage()"
     (click)="changePage(page() + 1)"
     [attr.aria-label]="translationService.get('pagination')?.nextPage || 'Next Page'"
@@ -51,7 +51,7 @@
 
   <button
     type="button"
-    class="gp-paginator__btn gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-last"
     [disabled]="isLastPage()"
     (click)="changePage(pageCount() - 1)"
     [attr.aria-label]="translationService.get('pagination')?.lastPage || 'Last Page'"

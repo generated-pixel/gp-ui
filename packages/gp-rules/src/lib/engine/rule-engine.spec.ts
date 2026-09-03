@@ -3,6 +3,7 @@ import { GpConditionEvaluator } from './condition-evaluator';
 import { GpActionExecutor } from './action-executor';
 import { GpRuleContextFactory } from './rule-context';
 import { GpBusinessRule } from '../types/rule.types';
+import { GpRuleCondition } from '../types/condition.types';
 
 describe('GpRuleEngineService & Rule Engine', () => {
   let service: GpRuleEngineService;
@@ -95,7 +96,7 @@ describe('GpRuleEngineService & Rule Engine', () => {
         triggerEvent: 'change'
       });
 
-      const conditionAnd = {
+      const conditionAnd: GpRuleCondition = {
         all: [
           { field: 'country', operator: 'eq', value: 'US' },
           { field: 'tier', operator: 'eq', value: 'gold' }
@@ -103,7 +104,7 @@ describe('GpRuleEngineService & Rule Engine', () => {
       };
       expect(GpConditionEvaluator.evaluate(conditionAnd, context)).toBe(true);
 
-      const conditionOr = {
+      const conditionOr: GpRuleCondition = {
         any: [
           { field: 'country', operator: 'eq', value: 'UK' },
           { field: 'score', operator: 'gte', value: 80 }
@@ -111,7 +112,7 @@ describe('GpRuleEngineService & Rule Engine', () => {
       };
       expect(GpConditionEvaluator.evaluate(conditionOr, context)).toBe(true);
 
-      const conditionNot = {
+      const conditionNot: GpRuleCondition = {
         not: { field: 'country', operator: 'eq', value: 'US' }
       };
       expect(GpConditionEvaluator.evaluate(conditionNot, context)).toBe(false);
