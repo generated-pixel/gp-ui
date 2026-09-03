@@ -129,6 +129,15 @@
   margin: 0;
   padding: 0.35rem 0;
   overflow-y: auto;
+
+  &.gp-select__items--multicol,
+  &.gp-select-items-multicol,
+  &[data-columns='2'] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(10rem, 1fr));
+    gap: 0.25rem;
+    padding: 0.5rem;
+  }
 }
 
 .gp-select__item,

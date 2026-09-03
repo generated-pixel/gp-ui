@@ -29,8 +29,7 @@ export abstract class GpBase
     AfterContentChecked,
     AfterViewInit,
     AfterViewChecked,
-    OnDestroy
-{
+    OnDestroy {
   /** Injected translation service for centralized i18n / localization */
   public translationService = inject(GpTranslationService);
   /** Unique element identifier */

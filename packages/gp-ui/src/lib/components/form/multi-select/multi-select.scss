@@ -247,9 +247,17 @@
 .gp-multiselect .gp-select-items {
   list-style: none;
   margin: 0;
-  padding: 0.35rem 0;
   max-height: 15rem;
   overflow-y: auto;
+
+  &.gp-select__items--multicol,
+  &.gp-select-items-multicol,
+  &[data-columns='2'] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(11rem, 1fr));
+    gap: 0.25rem;
+    padding: 0.5rem;
+  }
 }
 
 .gp-multi-select__item,
