@@ -80,4 +80,13 @@ describe('GpButton', () => {
     expect(btn.classList).toContain('gp-button-loading');
     expect(btn.disabled).toBe(true);
   });
+
+  it('should apply aria-haspopup and aria-expanded to the native button', () => {
+    fixture.componentRef.setInput('ariaHasPopup', 'menu');
+    fixture.componentRef.setInput('ariaExpanded', true);
+    fixture.detectChanges();
+    const btn = fixture.nativeElement.querySelector('button');
+    expect(btn.getAttribute('aria-haspopup')).toBe('menu');
+    expect(btn.getAttribute('aria-expanded')).toBe('true');
+  });
 });

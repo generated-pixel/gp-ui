@@ -76,6 +76,12 @@ export abstract class GpButtonBase extends GpBase {
   /** HTML tabindex attribute */
   public tabindex = input<number | undefined>(undefined);
 
+  /** ARIA haspopup attribute for assistive technologies */
+  public ariaHasPopup = input<string | null>(null);
+
+  /** ARIA expanded state for assistive technologies */
+  public ariaExpanded = input<boolean | null>(null);
+
   // ==========================================
   // Standard Button Event Outputs
   // ==========================================
