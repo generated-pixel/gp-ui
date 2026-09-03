@@ -29,8 +29,8 @@ describe('GpCheckbox', () => {
     box.click();
     fixture.detectChanges();
 
-    expect(component.checked()).toBeTrue();
-    expect(changedValue).toBeTrue();
+    expect(component.checked()).toBe(true);
+    expect(changedValue).toBe(true);
   });
 
   it('should not toggle when disabled', () => {
@@ -44,7 +44,7 @@ describe('GpCheckbox', () => {
     box.click();
     fixture.detectChanges();
 
-    expect(component.checked()).toBeFalse();
-    expect(changed).toBeFalse();
+    expect(component.checked()).toBe(false);
+    expect(changed).toBe(false);
   });
 });

@@ -59,28 +59,28 @@ describe('Overlay & Panel Base Classes Architecture', () => {
 
     dialog.show();
     fixture.detectChanges();
-    expect(dialog.visible()).toBeTrue();
-    expect(host.dialogVisible).toBeTrue();
-    expect(host.dialogShowFired).toBeTrue();
+    expect(dialog.visible()).toBe(true);
+    expect(host.dialogVisible).toBe(true);
+    expect(host.dialogShowFired).toBe(true);
 
     dialog.close();
     fixture.detectChanges();
-    expect(dialog.visible()).toBeFalse();
-    expect(host.dialogVisible).toBeFalse();
-    expect(host.dialogHideFired).toBeTrue();
+    expect(dialog.visible()).toBe(false);
+    expect(host.dialogVisible).toBe(false);
+    expect(host.dialogHideFired).toBe(true);
   });
 
   it('should handle toggle, expand, collapse on GpPanelBase', () => {
     const panel = fixture.debugElement.children[2].componentInstance as GpPanel;
 
-    expect(panel.collapsed()).toBeFalse();
+    expect(panel.collapsed()).toBe(false);
     panel.toggle();
     fixture.detectChanges();
-    expect(panel.collapsed()).toBeTrue();
-    expect(host.panelToggleFired).toBeTrue();
+    expect(panel.collapsed()).toBe(true);
+    expect(host.panelToggleFired).toBe(true);
 
     panel.expand();
     fixture.detectChanges();
-    expect(panel.collapsed()).toBeFalse();
+    expect(panel.collapsed()).toBe(false);
   });
 });

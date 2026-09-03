@@ -27,7 +27,7 @@ describe('GpSwitch', () => {
     slider.click();
     fixture.detectChanges();
 
-    expect(component.checked()).toBeTrue();
-    expect(emitted).toBeTrue();
+    expect(component.checked()).toBe(true);
+    expect(emitted).toBe(true);
   });
 });

@@ -38,6 +38,6 @@ describe('GpAnnouncementBar', () => {
 
   it('should trigger dismiss', () => {
     bar.dismiss();
-    expect((bar as any).isDismissing()).toBeTrue();
+    expect((bar as any).isDismissing()).toBe(true);
   });
 });

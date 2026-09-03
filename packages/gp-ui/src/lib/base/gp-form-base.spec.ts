@@ -98,15 +98,15 @@ describe('Form Base Classes Architecture', () => {
     inputEl.value = 'John Doe';
     inputEl.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    expect(host.inputEventFired).toBeTrue();
+    expect(host.inputEventFired).toBe(true);
 
     inputEl.dispatchEvent(new FocusEvent('focus'));
     fixture.detectChanges();
-    expect(host.focusEventFired).toBeTrue();
+    expect(host.focusEventFired).toBe(true);
 
     inputEl.dispatchEvent(new FocusEvent('blur'));
     fixture.detectChanges();
-    expect(host.blurEventFired).toBeTrue();
+    expect(host.blurEventFired).toBe(true);
   });
 
   it('should handle options normalization, open, close, and change on GpSelectBase', () => {
@@ -115,22 +115,22 @@ describe('Form Base Classes Architecture', () => {
 
     select.showOverlay();
     fixture.detectChanges();
-    expect(host.selectOpenFired).toBeTrue();
-    expect(select.overlayVisible()).toBeTrue();
+    expect(host.selectOpenFired).toBe(true);
+    expect(select.overlayVisible()).toBe(true);
 
     select.selectItem(select.normalizedOptions()[0], new MouseEvent('click'));
     fixture.detectChanges();
-    expect(host.selectChangeFired).toBeTrue();
+    expect(host.selectChangeFired).toBe(true);
     expect(select.overlayVisible()).toBe(false);
   });
 
   it('should handle checked state toggle on GpCheckableBase', () => {
     const chk = fixture.debugElement.children[2].componentInstance as GpCheckbox;
-    expect(chk.isChecked()).toBeFalse();
+    expect(chk.isChecked()).toBe(false);
 
     chk.onClick(new MouseEvent('click'));
     fixture.detectChanges();
-    expect(chk.isChecked()).toBeTrue();
-    expect(host.checkboxChangeFired).toBeTrue();
+    expect(chk.isChecked()).toBe(true);
+    expect(host.checkboxChangeFired).toBe(true);
   });
 });

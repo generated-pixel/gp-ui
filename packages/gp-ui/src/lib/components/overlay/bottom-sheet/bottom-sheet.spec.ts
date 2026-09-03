@@ -30,11 +30,11 @@ describe('GpBottomSheet', () => {
   });
 
   it('should toggle service open state', () => {
-    expect(service.isOpen()).toBeFalse();
+    expect(service.isOpen()).toBe(false);
     service.open();
-    expect(service.isOpen()).toBeTrue();
+    expect(service.isOpen()).toBe(true);
     service.close();
-    expect(service.isOpen()).toBeFalse();
+    expect(service.isOpen()).toBe(false);
   });
 
   it('should update bottom sheet visibility when signal changes', () => {

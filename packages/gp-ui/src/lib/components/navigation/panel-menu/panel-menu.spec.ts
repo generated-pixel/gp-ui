@@ -40,6 +40,6 @@ describe('GpPanelMenu', () => {
     expect(fixture.nativeElement.textContent).toContain('Documents');
 
     panelMenu.toggleItem(panelMenu.model()[0]);
-    expect(panelMenu.isExpanded(panelMenu.model()[0])).toBeTrue();
+    expect(panelMenu.isExpanded(panelMenu.model()[0])).toBe(true);
   });
 });

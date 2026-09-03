@@ -39,7 +39,7 @@ describe('GpInputText', () => {
     clearBtn.click();
     fixture.detectChanges();
 
-    expect(cleared).toBeTrue();
+    expect(cleared).toBe(true);
     const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
     expect(input.value).toBe('');
   });

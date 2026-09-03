@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "forceConsistentCasingInFileNames": true,
-    "types": ["jasmine", "node"]
+    "types": ["node"]
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }

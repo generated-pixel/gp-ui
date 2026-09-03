@@ -43,6 +43,6 @@ describe('GpButtonGroup', () => {
     fixture.detectChanges();
 
     const groupEl = fixture.nativeElement.querySelector('.gp-button-group');
-    expect(groupEl.classList.contains('gp-button-group--vertical')).toBeTrue();
+    expect(groupEl.classList.contains('gp-button-group--vertical')).toBe(true);
   });
 });

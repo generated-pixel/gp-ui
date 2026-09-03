@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
     "forceConsistentCasingInFileNames": true,
-    "types": ["jasmine", "node"]
+    "types": ["node", "vitest/globals"]
   },
   "include": ["**/*.spec.ts", "**/*.d.ts", "../tools/test-setup.ts"]
 }

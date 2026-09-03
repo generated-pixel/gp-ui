@@ -29,6 +29,6 @@ describe('GpMultiSelect', () => {
     trigger.click();
     fixture.detectChanges();
 
-    expect(component.overlayVisible()).toBeTrue();
+    expect(component.overlayVisible()).toBe(true);
   });
 });

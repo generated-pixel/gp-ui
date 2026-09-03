@@ -30,7 +30,7 @@ describe('GpRadioButton', () => {
     box.click();
     fixture.detectChanges();
 
-    expect(component.checked()).toBeTrue();
-    expect(selectedVal).toBeTrue();
+    expect(component.checked()).toBe(true);
+    expect(selectedVal).toBe(true);
   });
 });

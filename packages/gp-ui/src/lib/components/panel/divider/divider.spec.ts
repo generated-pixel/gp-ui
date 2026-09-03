@@ -24,8 +24,8 @@ describe('GpDivider', () => {
   it('should render horizontal dashed divider with content', () => {
     const divider = fixture.nativeElement.querySelector('.gp-divider');
     expect(divider).toBeTruthy();
-    expect(divider.classList.contains('gp-divider-horizontal')).toBeTrue();
-    expect(divider.classList.contains('gp-divider-dashed')).toBeTrue();
+    expect(divider.classList.contains('gp-divider-horizontal')).toBe(true);
+    expect(divider.classList.contains('gp-divider-dashed')).toBe(true);
     expect(fixture.nativeElement.textContent).toContain('OR');
   });
 });

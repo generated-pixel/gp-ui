@@ -26,7 +26,7 @@ describe('GpColumn', () => {
   it('should initialize column inputs correctly', () => {
     expect(column.field()).toBe('name');
     expect(column.header()).toBe('Full Name');
-    expect(column.sortable()).toBeTrue();
+    expect(column.sortable()).toBe(true);
     expect(column.width()).toBe('200px');
     expect(column.align()).toBe('center');
   });

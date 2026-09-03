@@ -31,11 +31,11 @@ describe('GpImage', () => {
   });
 
   it('should toggle preview modal visibility and zoom', () => {
-    expect((imageComponent as any).previewVisible()).toBeFalse();
+    expect((imageComponent as any).previewVisible()).toBe(false);
     imageComponent.showPreview();
     fixture.detectChanges();
 
-    expect((imageComponent as any).previewVisible()).toBeTrue();
+    expect((imageComponent as any).previewVisible()).toBe(true);
     imageComponent.zoomIn();
     expect((imageComponent as any).scale()).toBe(1.25);
   });

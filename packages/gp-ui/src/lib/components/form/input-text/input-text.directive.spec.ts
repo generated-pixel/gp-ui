@@ -28,8 +28,8 @@ describe('GpInputTextDirective', () => {
 
   it('should apply gp-inputtext and size classes', () => {
     const inputEl = fixture.nativeElement.querySelector('input');
-    expect(inputEl.classList.contains('gp-inputtext')).toBeTrue();
-    expect(inputEl.classList.contains('gp-inputtext-sm')).toBeTrue();
+    expect(inputEl.classList.contains('gp-inputtext')).toBe(true);
+    expect(inputEl.classList.contains('gp-inputtext-sm')).toBe(true);
   });
 
   it('should apply invalid and disabled classes when signals update', () => {
@@ -38,7 +38,7 @@ describe('GpInputTextDirective', () => {
     fixture.detectChanges();
 
     const inputEl = fixture.nativeElement.querySelector('input');
-    expect(inputEl.classList.contains('gp-input-invalid')).toBeTrue();
-    expect(inputEl.classList.contains('gp-input-disabled')).toBeTrue();
+    expect(inputEl.classList.contains('gp-input-invalid')).toBe(true);
+    expect(inputEl.classList.contains('gp-input-disabled')).toBe(true);
   });
 });
