@@ -1,12 +1,5 @@
 import { GpBase } from '../../../base/gp-base';
-import {
-  Component,
-  input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  signal,
-  inject
-} from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, signal, inject } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { GpIcon } from '../../../icons/icon';

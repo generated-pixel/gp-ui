@@ -149,14 +149,7 @@ import {
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    GpInputText,
-    GpSelect,
-    GpToggleSwitchComponent,
-    GpButton,
-    GpToast
-  ],
+  imports: [ReactiveFormsModule, GpInputText, GpSelect, GpToggleSwitchComponent, GpButton, GpToast],
   template: `
     <gp-toast />
 

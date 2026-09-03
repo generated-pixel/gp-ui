@@ -4,10 +4,12 @@
   align-items: center;
   justify-content: center;
 }
+.gp-divider--horizontal,
 .gp-divider-horizontal {
   width: 100%;
   margin: 1rem 0;
 }
+.gp-divider--horizontal::before,
 .gp-divider-horizontal::before {
   content: '';
   position: absolute;
@@ -16,10 +18,12 @@
   width: 100%;
   border-top: 1px solid var(--gp-surface-divider);
 }
+.gp-divider--vertical,
 .gp-divider-vertical {
   min-height: 100%;
   margin: 0 1rem;
 }
+.gp-divider--vertical::before,
 .gp-divider-vertical::before {
   content: '';
   position: absolute;
@@ -28,12 +32,15 @@
   height: 100%;
   border-left: 1px solid var(--gp-surface-divider);
 }
+.gp-divider--dashed::before,
 .gp-divider-dashed::before {
   border-style: dashed !important;
 }
+.gp-divider--dotted::before,
 .gp-divider-dotted::before {
   border-style: dotted !important;
 }
+.gp-divider__content,
 .gp-divider-content {
   position: relative;
   z-index: 1;
@@ -43,15 +50,19 @@
   font-size: var(--gp-font-size-xs);
   font-weight: 500;
 }
+.gp-divider--align-left,
 .gp-divider-align-left {
   justify-content: flex-start;
 }
+.gp-divider--align-left .gp-divider__content,
 .gp-divider-align-left .gp-divider-content {
   margin-left: 1rem;
 }
+.gp-divider--align-right,
 .gp-divider-align-right {
   justify-content: flex-end;
 }
+.gp-divider--align-right .gp-divider__content,
 .gp-divider-align-right .gp-divider-content {
   margin-right: 1rem;
 }

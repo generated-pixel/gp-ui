@@ -41,7 +41,6 @@ export interface CalendarDay {
   styleUrl: './date-picker.scss'
 })
 export class GpDatePicker extends GpDateBase implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('dp_'));
   public showButtonBar = input<boolean>(true);
 
   public onSelect = output<Date>();

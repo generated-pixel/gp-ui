@@ -47,7 +47,9 @@ export class GpRuleEngineService {
 
   public averageDurationMs = computed(() => {
     const allLogs = this.logs();
-    if (allLogs.length === 0) return 0;
+    if (allLogs.length === 0) {
+      return 0;
+    }
     const sum = allLogs.reduce((acc, curr) => acc + curr.durationMs, 0);
     return Math.round((sum / allLogs.length) * 100) / 100;
   });
@@ -72,6 +74,7 @@ export class GpRuleEngineService {
       sub: Subscription;
     }
   >();
+
   private debounceScopeIds = new WeakMap<object, string>();
 
   /**
@@ -366,12 +369,7 @@ export class GpRuleEngineService {
     debouncer.subject.next({ context, rule, targetField, cleanupAfterRun });
   }
 
-  private getDebounceKey(
-    ruleId: string,
-    eventType: string,
-    context: GpRuleContext,
-    targetField?: string
-  ): string {
+  private getDebounceKey(ruleId: string, eventType: string, context: GpRuleContext, targetField?: string): string {
     return `${ruleId}_${eventType}_${targetField || 'global'}_${this.getDebounceScopeKey(context)}`;
   }
 

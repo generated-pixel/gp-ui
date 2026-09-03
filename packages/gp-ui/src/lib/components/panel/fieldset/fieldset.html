@@ -1,18 +1,28 @@
-<fieldset class="gp-fieldset" [class.gp-fieldset-collapsed]="collapsed()">
+<fieldset class="gp-fieldset" [class.gp-fieldset--collapsed]="collapsed()" [class.gp-fieldset-collapsed]="collapsed()">
   <legend
-    class="gp-fieldset-legend"
+    class="gp-fieldset__legend gp-fieldset-legend"
     (click)="toggleable() ? toggle() : null"
+    (keydown.enter)="toggleable() ? toggle() : null"
+    (keydown.space)="$event.preventDefault(); toggleable() ? toggle() : null"
+    [class.gp-fieldset__legend--toggleable]="toggleable()"
     [class.gp-fieldset-toggleable]="toggleable()"
+    [attr.role]="toggleable() ? 'button' : null"
+    [attr.tabindex]="toggleable() ? 0 : null"
+    [attr.aria-expanded]="toggleable() ? !collapsed() : null"
   >
     @if (toggleable()) {
-      <gp-icon [name]="collapsed() ? 'chevron-down' : 'chevron-up'" size="0.75em" class="gp-fieldset-toggler" />
+    <gp-icon
+      [name]="collapsed() ? 'chevron-down' : 'chevron-up'"
+      size="0.75em"
+      class="gp-fieldset__toggler gp-fieldset-toggler"
+    />
     }
-    <span class="gp-fieldset-legend-text">{{ legend() || header() }}</span>
+    <span class="gp-fieldset__legend-text gp-fieldset-legend-text">{{ legend() || header() }}</span>
   </legend>
 
   @if (!collapsed()) {
-    <div class="gp-fieldset-content">
-      <ng-content />
-    </div>
+  <div class="gp-fieldset__content gp-fieldset-content">
+    <ng-content />
+  </div>
   }
 </fieldset>

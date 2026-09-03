@@ -4,34 +4,39 @@
   [id]="id()"
   [class]="styleClass()"
   [style]="style()"
+  role="navigation"
+  [attr.aria-label]="ariaLabel() || 'Progress Stepper'"
 >
-  <div class="gp-stepper-header-container">
+  <div class="gp-stepper__header-container gp-stepper-header-container" role="tablist">
     @for (step of steps(); track $index; let idx = $index; let last = $last) {
-      <div
-        class="gp-stepper-header"
-        [class.gp-stepper-header-active]="step.active()"
-        [class.gp-stepper-header-completed]="step.completed()"
-        [class.gp-stepper-header-disabled]="step.disabled()"
-        (click)="selectStep(idx)"
-        role="button"
-        tabindex="0"
-      >
-        <div class="gp-stepper-number">
-          @if (step.completed()) {
-            <gp-icon name="check" size="0.85em" />
-          } @else if (step.icon()) {
-            <gp-icon [name]="step.icon()" size="0.85em" />
-          } @else {
-            {{ idx + 1 }}
-          }
-        </div>
-        <span class="gp-stepper-title">{{ step.label() }}</span>
+    <div
+      class="gp-stepper__header gp-stepper-header"
+      [class.gp-stepper-header-active]="step.active()"
+      [class.gp-stepper-header-completed]="step.completed()"
+      [class.gp-stepper-header-disabled]="step.disabled()"
+      (click)="selectStep(idx)"
+      (keydown.enter)="selectStep(idx)"
+      (keydown.space)="$event.preventDefault(); selectStep(idx)"
+      role="tab"
+      [attr.aria-selected]="step.active()"
+      [attr.aria-current]="step.active() ? 'step' : null"
+      [attr.aria-disabled]="step.disabled()"
+      [attr.aria-label]="'Step ' + (idx + 1) + ': ' + step.label() + (step.completed() ? ', completed' : '')"
+      tabindex="0"
+    >
+      <div class="gp-stepper__number gp-stepper-number">
+        @if (step.completed()) {
+        <gp-icon name="check" size="0.85em" />
+        } @else if (step.icon()) {
+        <gp-icon [name]="step.icon()" size="0.85em" />
+        } @else { {{ idx + 1 }} }
       </div>
+      <span class="gp-stepper__title gp-stepper-title">{{ step.label() }}</span>
+    </div>
 
-      @if (!last) {
-        <div class="gp-stepper-separator" [class.gp-stepper-separator-active]="step.completed()"></div>
-      }
-    }
+    @if (!last) {
+    <div class="gp-stepper-separator" [class.gp-stepper-separator-active]="step.completed()" aria-hidden="true"></div>
+    } }
   </div>
 
   <div class="gp-stepper-panels">

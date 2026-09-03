@@ -1,3 +1,4 @@
+.gp-dialog__mask,
 .gp-dialog-mask {
   position: fixed;
   top: 0;
@@ -23,6 +24,7 @@
   outline: none;
 }
 
+.gp-dialog--maximized,
 .gp-dialog-maximized {
   width: 100vw !important;
   height: 100vh !important;
@@ -31,6 +33,7 @@
   border-radius: 0;
 }
 
+.gp-dialog__header,
 .gp-dialog-header {
   display: flex;
   align-items: center;
@@ -39,18 +42,21 @@
   border-bottom: 1px solid var(--gp-surface-divider);
 }
 
+.gp-dialog__title,
 .gp-dialog-title {
   font-weight: var(--gp-dialog-header-font-weight, 700);
   font-size: var(--gp-dialog-header-font-size, var(--gp-font-size-lg));
   color: var(--gp-text-color);
 }
 
+.gp-dialog__header-icons,
 .gp-dialog-header-icons {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+.gp-dialog__header-icon,
 .gp-dialog-header-icon {
   background: none;
   border: none;
@@ -64,11 +70,13 @@
   transition: background var(--gp-transition-duration);
 }
 
+.gp-dialog__header-icon:hover,
 .gp-dialog-header-icon:hover {
   background: var(--gp-surface-hover);
   color: var(--gp-text-color);
 }
 
+.gp-dialog__content,
 .gp-dialog-content {
   padding: var(--gp-dialog-content-padding, 1.5rem);
   overflow-y: auto;
@@ -76,6 +84,7 @@
   line-height: 1.6;
 }
 
+.gp-dialog__footer,
 .gp-dialog-footer {
   display: flex;
   align-items: center;

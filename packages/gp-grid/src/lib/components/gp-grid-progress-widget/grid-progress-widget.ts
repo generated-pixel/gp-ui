@@ -36,6 +36,7 @@ export class GpGridProgressWidget extends GpGridWidgetBase<GpProgressWidgetData>
       this.item()?.title ||
       'Target Goals'
   );
+
   public effectiveTarget = computed(
     () => this.target() || this.normalizedData().target || this.normalizedData().goalsTarget || ''
   );

@@ -20,14 +20,14 @@ describe('GpSwitch', () => {
 
   it('should toggle state on click', () => {
     let emitted = false;
-    component.onChangeEvent.subscribe((val) => (emitted = val));
+    component.onChange.subscribe((event: { checked: boolean; originalEvent: Event }) => (emitted = event.checked));
 
     fixture.detectChanges();
     const slider = fixture.nativeElement.querySelector('.gp-switch-slider');
     slider.click();
     fixture.detectChanges();
 
-    expect(component.checked()).toBeTrue();
-    expect(emitted).toBeTrue();
+    expect(component.checked()).toBe(true);
+    expect(emitted).toBe(true);
   });
 });

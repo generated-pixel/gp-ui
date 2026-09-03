@@ -7,9 +7,7 @@ import { GpAppendToTarget } from './append-to.interface';
   standalone: true,
   imports: [GpAppendToDirective],
   template: `
-    <div #trigger class="trigger-box" style="width: 200px; height: 40px; margin: 100px;">
-      Trigger Element
-    </div>
+    <div #trigger class="trigger-box" style="width: 200px; height: 40px; margin: 100px;">Trigger Element</div>
     <div
       #overlay
       class="test-overlay"

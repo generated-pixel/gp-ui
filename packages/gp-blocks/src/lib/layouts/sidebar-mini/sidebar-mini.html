@@ -1,30 +1,30 @@
 <div class="gp-sidebar-mini-shell">
   <aside class="mini-sidebar">
     @if (effectiveSidebar()) {
-      <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
+    <ng-container *ngTemplateOutlet="effectiveSidebar()!" />
     } @else {
-      <ng-content select="[sidebar], [slot=sidebar]" />
-      <div class="mini-logo">
-        <gp-icon [name]="brandIcon()" size="1.25em" />
-      </div>
-      @if (navItems() && navItems().length > 0) {
-        <nav class="mini-nav">
-          @for (item of navItems(); track item) {
-            <a
-              href="javascript:void(0)"
-              class="mini-item"
-              [class.active]="item.id === activeNavId() || item.active"
-              [title]="item.label"
-              (click)="navItemClick.emit(item)"
-            >
-              <gp-icon [name]="item.icon" size="1.2em" />
-            </a>
-          }
-        </nav>
+    <ng-content select="[sidebar], [slot=sidebar]" />
+    <div class="mini-logo">
+      <gp-icon [name]="brandIcon()" size="1.25em" />
+    </div>
+    @if (navItems() && navItems().length > 0) {
+    <nav class="mini-nav">
+      @for (item of navItems(); track item) {
+      <a
+        href="javascript:void(0)"
+        class="mini-item"
+        [class.active]="item.id === activeNavId() || item.active"
+        [title]="item.label"
+        (click)="navItemClick.emit(item)"
+      >
+        <gp-icon [name]="item.icon" size="1.2em" />
+      </a>
       }
-      <div class="mini-bottom" (click)="userClick.emit()" style="cursor: pointer">
-        <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
-      </div>
+    </nav>
+    }
+    <div class="mini-bottom" (click)="userClick.emit()" style="cursor: pointer">
+      <gp-avatar [label]="userName().charAt(0)" size="normal" shape="circle" />
+    </div>
     }
   </aside>
 
@@ -33,18 +33,18 @@
       <h2 class="page-title">{{ title() }}</h2>
       <div class="top-actions">
         @if (effectiveTopActions()) {
-          <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
+        <ng-container *ngTemplateOutlet="effectiveTopActions()!" />
         } @else {
-          <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
+        <ng-content select="[top-actions], [slot=top-actions], [actions], [slot=actions]" />
         }
       </div>
     </header>
     <main class="page-content-area">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content]" />
-        <ng-content />
+      <ng-content select="[main], [slot=main], [content], [slot=content]" />
+      <ng-content />
       }
     </main>
   </div>

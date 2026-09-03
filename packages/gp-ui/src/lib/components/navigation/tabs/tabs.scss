@@ -1,12 +1,15 @@
+.gp-tabs,
 .gp-tabview {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+.gp-tabs__nav-container,
 .gp-tabview-nav-container {
   border-bottom: 2px solid var(--gp-surface-border);
   position: relative;
 }
+.gp-tabs__nav,
 .gp-tabview-nav {
   display: flex;
   list-style: none;
@@ -14,6 +17,7 @@
   padding: 0;
   gap: 0.5rem;
 }
+.gp-tabs__nav-link,
 .gp-tabview-nav-link {
   display: inline-flex;
   align-items: center;
@@ -30,15 +34,18 @@
   font-family: inherit;
   transition: all var(--gp-transition-duration);
 }
+.gp-tabs__nav-link:hover:not(:disabled),
 .gp-tabview-nav-link:hover:not(:disabled) {
   color: var(--gp-text-color);
   border-bottom-color: var(--gp-input-border-hover);
 }
+.gp-tabs__header--active .gp-tabs__nav-link,
 .gp-tabview-header-active .gp-tabview-nav-link {
   color: var(--gp-primary) !important;
   border-bottom-color: var(--gp-primary) !important;
   font-weight: 600;
 }
+.gp-tabs__close-btn,
 .gp-tabview-close-btn {
   background: none;
   border: none;
@@ -48,9 +55,11 @@
   display: inline-flex;
   border-radius: 50%;
 }
+.gp-tabs__close-btn:hover,
 .gp-tabview-close-btn:hover {
   color: var(--gp-danger);
 }
+.gp-tabs__panels,
 .gp-tabview-panels {
   padding: 1rem 0;
 }

@@ -1,12 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, computed, Signal } from '@angular/core';
 
-import {
-  GpAvatar,
-  GpBadge,
-  GpButton,
-  GpIcon,
-  GpSkeleton
-} from '@generatedpixel/gp-ui';
+import { GpAvatar, GpBadge, GpButton, GpIcon, GpSkeleton } from '@generatedpixel/gp-ui';
 import { GpListWidgetData, GpGridListItem } from '../../models/grid-widget.model';
 import { normalizeListWidgetData } from '../../services/widget-data-resolver';
 import { GpGridWidgetBase } from '../../base/gp-grid-widget.base';
@@ -38,6 +32,7 @@ export class GpGridListWidget extends GpGridWidgetBase<GpListWidgetData> {
   public effectiveTitle = computed(
     () => this.title() || this.normalizedData().title || this.item()?.title || 'Activity Feed'
   );
+
   public effectiveActionLabel = computed(() => this.actionLabel() || this.normalizedData().actionLabel || '');
 
   public effectiveItems = computed<GpGridListItem[]>(() => {

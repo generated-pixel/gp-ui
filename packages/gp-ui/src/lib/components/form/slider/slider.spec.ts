@@ -24,6 +24,6 @@ describe('GpSlider', () => {
     fixture.componentRef.setInput('value', 45);
     fixture.detectChanges();
 
-    expect(component.value()).toBe(45);
+    expect(component.value).toBe(45);
   });
 });

@@ -33,7 +33,7 @@ describe('GpButton', () => {
 
     const btn = fixture.nativeElement.querySelector('button');
     btn.click();
-    expect(clicked).toBeTrue();
+    expect(clicked).toBe(true);
   });
 
   it('should not emit onClickEvent when disabled', () => {
@@ -44,7 +44,7 @@ describe('GpButton', () => {
 
     const btn = fixture.nativeElement.querySelector('button');
     btn.click();
-    expect(clicked).toBeFalse();
+    expect(clicked).toBe(false);
   });
 
   it('should emit focus and blur events', () => {
@@ -56,10 +56,10 @@ describe('GpButton', () => {
 
     const btn = fixture.nativeElement.querySelector('button');
     btn.dispatchEvent(new FocusEvent('focus'));
-    expect(focused).toBeTrue();
+    expect(focused).toBe(true);
 
     btn.dispatchEvent(new FocusEvent('blur'));
-    expect(blurred).toBeTrue();
+    expect(blurred).toBe(true);
   });
 
   it('should compute effective variant for shorthand flags', () => {
@@ -78,6 +78,15 @@ describe('GpButton', () => {
     fixture.detectChanges();
     const btn = fixture.nativeElement.querySelector('button');
     expect(btn.classList).toContain('gp-button-loading');
-    expect(btn.disabled).toBeTrue();
+    expect(btn.disabled).toBe(true);
+  });
+
+  it('should apply aria-haspopup and aria-expanded to the native button', () => {
+    fixture.componentRef.setInput('ariaHasPopup', 'menu');
+    fixture.componentRef.setInput('ariaExpanded', true);
+    fixture.detectChanges();
+    const btn = fixture.nativeElement.querySelector('button');
+    expect(btn.getAttribute('aria-haspopup')).toBe('menu');
+    expect(btn.getAttribute('aria-expanded')).toBe('true');
   });
 });

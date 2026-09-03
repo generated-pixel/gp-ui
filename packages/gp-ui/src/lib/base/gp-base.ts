@@ -1,6 +1,7 @@
 import {
   Directive,
   input,
+  inject,
   OnInit,
   OnChanges,
   DoCheck,
@@ -12,17 +13,33 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { UniqueId } from '../utils/unique-id';
+import { GpTranslationService } from '../config/gp-config.service';
+
+/** Lifecycle hook contract for GpBase */
+export interface GpLifecycle
+  extends
+    OnInit,
+    OnChanges,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    AfterViewInit,
+    AfterViewChecked,
+    OnDestroy {}
 
 /**
  * Base Component for all gp-ui UI components.
  * Provides consistent id generation, custom styling hooks, accessibility, and disabled state.
  */
 @Directive()
-export abstract class GpBase
-  implements OnInit, OnChanges, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked, OnDestroy
-{
+export abstract class GpBase implements GpLifecycle {
+  /** Injected translation service for centralized i18n / localization */
+  public translationService = inject(GpTranslationService);
   /** Unique element identifier */
   public id = input<string>(UniqueId.generate('gp_'));
+
+  /** Unique input identifier for native form controls, labels, and aria associations */
+  public inputId = input<string>(UniqueId.generate('gp_input_'));
 
   /** Custom CSS classes applied to host or root container */
   public styleClass = input<string>('');
@@ -32,6 +49,12 @@ export abstract class GpBase
 
   /** Accessible label for screen readers */
   public ariaLabel = input<string>('');
+
+  /** Accessible labelledby id for screen readers */
+  public ariaLabelledBy = input<string>('');
+
+  /** Accessible describedby id for screen readers (e.g. error messages or help text) */
+  public ariaDescribedBy = input<string>('');
 
   /** Disabled state */
   public disabled = input<boolean>(false);

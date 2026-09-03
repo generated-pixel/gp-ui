@@ -1,3 +1,4 @@
+.gp-table,
 .gp-datatable {
   position: relative;
   background: var(--gp-surface-card);
@@ -9,6 +10,7 @@
   width: 100%;
 }
 
+.gp-table__header,
 .gp-datatable-header {
   padding: 0.75rem 1rem;
   display: flex;
@@ -20,27 +22,32 @@
   background: var(--gp-surface-card);
 }
 
+.gp-table__caption,
 .gp-datatable-caption {
   flex: 1;
   min-width: 0;
 }
 
+.gp-table__global-filter,
 .gp-datatable-global-filter {
   width: 16rem;
   max-width: 100%;
 }
 
+.gp-table__wrapper,
 .gp-datatable-wrapper {
   overflow-x: auto;
   width: 100%;
 }
 
+.gp-table__table,
 .gp-datatable-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
+.gp-table__thead tr th,
 .gp-datatable-thead tr th {
   background: var(--gp-surface-section);
   color: var(--gp-text-color);
@@ -51,75 +58,93 @@
   user-select: none;
 }
 
+.gp-table__th--sortable,
 .gp-datatable-sortable {
   cursor: pointer;
   transition: background var(--gp-transition-duration);
 }
 
+.gp-table__th--sortable:hover,
 .gp-datatable-sortable:hover {
   background: var(--gp-surface-hover);
 }
 
+.gp-table__th--sorted,
 .gp-datatable-sorted {
   color: var(--gp-primary);
 }
 
+.gp-table__header-content,
 .gp-datatable-header-content {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+.gp-table__sort-icon,
 .gp-datatable-sort-icon {
   color: var(--gp-text-color-muted);
 }
 
+.gp-table__th--sorted .gp-table__sort-icon,
 .gp-datatable-sorted .gp-datatable-sort-icon {
   color: var(--gp-primary);
 }
 
+.gp-table__tbody tr,
 .gp-datatable-tbody tr {
   background: var(--gp-surface-card);
   border-bottom: 1px solid var(--gp-surface-border);
   transition: background var(--gp-transition-duration);
 }
 
+.gp-table__tbody tr:hover,
 .gp-datatable-tbody tr:hover {
   background: var(--gp-surface-hover);
 }
 
+.gp-table__tbody td,
 .gp-datatable-tbody td {
   padding: 0.75rem 1rem;
   font-size: var(--gp-font-size-sm);
   color: var(--gp-text-color);
 }
 
+.gp-table--striped .gp-table__tbody tr:nth-child(even),
 .gp-datatable-striped .gp-datatable-tbody tr:nth-child(even) {
   background: var(--gp-surface-ground);
 }
 
+.gp-table--gridlines .gp-table__th,
 .gp-datatable-gridlines .gp-datatable-th,
+.gp-table--gridlines .gp-table__td,
 .gp-datatable-gridlines .gp-datatable-td {
   border: 1px solid var(--gp-surface-border);
 }
 
+.gp-table--sm .gp-table__th,
 .gp-datatable-sm .gp-datatable-th,
+.gp-table--sm .gp-table__td,
 .gp-datatable-sm .gp-datatable-td {
   padding: 0.4rem 0.6rem;
   font-size: var(--gp-font-size-xs);
 }
 
+.gp-table--lg .gp-table__th,
 .gp-datatable-lg .gp-datatable-th,
+.gp-table--lg .gp-table__td,
 .gp-datatable-lg .gp-datatable-td {
   padding: 1.1rem 1.5rem;
   font-size: var(--gp-font-size-base);
 }
 
+.gp-table__row--selected,
 .gp-datatable-row-selected {
   background: var(--gp-primary-light) !important;
   color: var(--gp-primary);
 }
 
+.gp-table__expander-btn,
 .gp-datatable-expander-btn {
   background: none;
   border: none;
@@ -129,6 +154,7 @@
   display: inline-flex;
 }
 
+.gp-table__empty-message,
 .gp-datatable-empty-message {
   padding: 2rem 1rem;
   text-align: center;

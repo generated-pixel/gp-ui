@@ -9,13 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpButton,
-  GpAvatar,
-  GpBadge,
-  GpIcon,
-  GpBadgeSeverity
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpAvatar, GpBadge, GpIcon, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

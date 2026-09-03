@@ -122,9 +122,9 @@ import { DocCode } from '../../shared/doc-code';
           <li>
             <strong><code>GpButtonBase</code></strong
             >: Base for all button variants (<code>GpButton</code>, <code>GpSplitButton</code>,
-            <code>GpSpeedDial</code>, <code>GpToggleButton</code>). Standardizes <code>label</code>,
-            <code>icon</code>, <code>iconPos</code>, <code>variant</code>, <code>severity</code>, <code>size</code>,
-            <code>loading</code>, <code>badge</code>, and full focus, blur, mouse, and keyboard event outputs.
+            <code>GpSpeedDial</code>, <code>GpToggleButton</code>). Standardizes <code>label</code>, <code>icon</code>,
+            <code>iconPos</code>, <code>variant</code>, <code>severity</code>, <code>size</code>, <code>loading</code>,
+            <code>badge</code>, and full focus, blur, mouse, and keyboard event outputs.
           </li>
           <li>
             <strong><code>GpEditableBase&lt;T&gt;</code></strong
@@ -136,39 +136,36 @@ import { DocCode } from '../../shared/doc-code';
           <li>
             <strong><code>GpInputBase&lt;T&gt;</code></strong
             >: Extends <code>GpEditableBase</code> for text-like inputs (<code>GpInputText</code>,
-            <code>GpTextarea</code>, <code>GpPassword</code>, <code>GpInputMask</code>,
-            <code>GpInputNumber</code>). Standardizes <code>inputId</code>, <code>size</code>,
-            <code>variant</code>, <code>clearable</code>, <code>autofocus</code>, <code>tabindex</code>,
-            <code>maxlength</code>, and <code>onInputEvent</code>, <code>onFocusEvent</code>, <code>onBlurEvent</code>,
-            <code>onClearEvent</code>.
+            <code>GpTextarea</code>, <code>GpPassword</code>, <code>GpInputMask</code>, <code>GpInputNumber</code>).
+            Standardizes <code>inputId</code>, <code>size</code>, <code>variant</code>, <code>clearable</code>,
+            <code>autofocus</code>, <code>tabindex</code>, <code>maxlength</code>, and <code>onInputEvent</code>,
+            <code>onFocusEvent</code>, <code>onBlurEvent</code>, <code>onClearEvent</code>.
           </li>
           <li>
             <strong><code>GpSelectBase&lt;T&gt;</code></strong
-            >: Extends <code>GpEditableBase</code> for option dropdowns & listboxes
-            (<code>GpSelect</code>, <code>GpMultiSelect</code>, <code>GpListbox</code>).
-            Provides option normalization, live search filtering, overlay lifecycle, outside-click auto-dismissal, and
-            Escape key listener.
+            >: Extends <code>GpEditableBase</code> for option dropdowns & listboxes (<code>GpSelect</code>,
+            <code>GpMultiSelect</code>, <code>GpListbox</code>). Provides option normalization, live search filtering,
+            overlay lifecycle, outside-click auto-dismissal, and Escape key listener.
           </li>
           <li>
             <strong><code>GpCheckableBase</code></strong
-            >: Extends <code>GpEditableBase</code> for boolean and toggle controls
-            (<code>GpCheckbox</code>, <code>GpRadioButton</code>, <code>GpSwitch</code>).
-            Provides <code>checked</code> signal state, Space/Enter keyboard toggling, and change events.
+            >: Extends <code>GpEditableBase</code> for boolean and toggle controls (<code>GpCheckbox</code>,
+            <code>GpRadioButton</code>, <code>GpSwitch</code>). Provides <code>checked</code> signal state, Space/Enter
+            keyboard toggling, and change events.
           </li>
           <li>
             <strong><code>GpMenuBase&lt;T&gt;</code></strong
             >: Base for all menu and navigation overlays (<code>GpMenu</code>, <code>GpMenubar</code>,
-            <code>GpContextMenu</code>, <code>GpTieredMenu</code>, <code>GpMegaMenu</code>,
-            <code>GpPanelMenu</code>, <code>GpDock</code>, <code>GpBreadcrumb</code>).
-            Handles popup mode lifecycle, viewport-boundary collision detection, outside-click auto-dismissal, Escape
-            listener, and item command execution.
+            <code>GpContextMenu</code>, <code>GpTieredMenu</code>, <code>GpMegaMenu</code>, <code>GpPanelMenu</code>,
+            <code>GpDock</code>, <code>GpBreadcrumb</code>). Handles popup mode lifecycle, viewport-boundary collision
+            detection, outside-click auto-dismissal, Escape listener, and item command execution.
           </li>
           <li>
             <strong><code>GpOverlayBase</code></strong
-            >: Base for floating overlay and modal dialogs (<code>GpDialog</code>,
-            <code>GpDrawer</code>, <code>GpConfirmDialog</code>, <code>GpPopover</code>).
-            Provides two-way <code>[(visible)]</code> synchronization, modal z-index elevation layering with
-            <code>ZIndexService</code>, mask click handling, and Escape key dismissal.
+            >: Base for floating overlay and modal dialogs (<code>GpDialog</code>, <code>GpDrawer</code>,
+            <code>GpConfirmDialog</code>, <code>GpPopover</code>). Provides two-way
+            <code>[(visible)]</code> synchronization, modal z-index elevation layering with <code>ZIndexService</code>,
+            mask click handling, and Escape key dismissal.
           </li>
           <li>
             <strong><code>GpPanelBase</code></strong

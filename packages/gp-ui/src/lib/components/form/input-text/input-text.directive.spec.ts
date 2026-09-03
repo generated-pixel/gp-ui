@@ -1,17 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { GpInputTextDirective } from './input-text.directive';
 
 @Component({
   standalone: true,
   imports: [GpInputTextDirective],
-  template: `
-    <input gpInputText size="sm" [invalid]="isInvalid" [disabled]="isDisabled" />
-  `
+  template: ' <input gpInputText size="sm" [invalid]="isInvalid()" [disabled]="isDisabled()" /> '
 })
 class TestHostComponent {
-  isInvalid = false;
-  isDisabled = false;
+  isInvalid = signal(false);
+  isDisabled = signal(false);
 }
 
 describe('GpInputTextDirective', () => {
@@ -30,17 +28,17 @@ describe('GpInputTextDirective', () => {
 
   it('should apply gp-inputtext and size classes', () => {
     const inputEl = fixture.nativeElement.querySelector('input');
-    expect(inputEl.classList.contains('gp-inputtext')).toBeTrue();
-    expect(inputEl.classList.contains('gp-inputtext-sm')).toBeTrue();
+    expect(inputEl.classList.contains('gp-inputtext')).toBe(true);
+    expect(inputEl.classList.contains('gp-inputtext-sm')).toBe(true);
   });
 
   it('should apply invalid and disabled classes when signals update', () => {
-    hostComponent.isInvalid = true;
-    hostComponent.isDisabled = true;
+    hostComponent.isInvalid.set(true);
+    hostComponent.isDisabled.set(true);
     fixture.detectChanges();
 
     const inputEl = fixture.nativeElement.querySelector('input');
-    expect(inputEl.classList.contains('gp-input-invalid')).toBeTrue();
-    expect(inputEl.classList.contains('gp-input-disabled')).toBeTrue();
+    expect(inputEl.classList.contains('gp-input-invalid')).toBe(true);
+    expect(inputEl.classList.contains('gp-input-disabled')).toBe(true);
   });
 });

@@ -1,3 +1,4 @@
+.gp-scroll-panel,
 .gp-scrollpanel {
   position: relative;
   overflow: hidden;
@@ -6,6 +7,7 @@
   border-radius: var(--gp-border-radius);
   background: var(--gp-surface-card);
 }
+.gp-scroll-panel__wrapper,
 .gp-scrollpanel-wrapper {
   overflow: auto;
   width: 100%;
@@ -13,14 +15,17 @@
   scrollbar-width: thin;
   scrollbar-color: var(--gp-input-border) transparent;
 }
+.gp-scroll-panel__wrapper::-webkit-scrollbar,
 .gp-scrollpanel-wrapper::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+.gp-scroll-panel__wrapper::-webkit-scrollbar-thumb,
 .gp-scrollpanel-wrapper::-webkit-scrollbar-thumb {
   background: var(--gp-input-border);
   border-radius: 3px;
 }
+.gp-scroll-panel__content,
 .gp-scrollpanel-content {
   padding: 1.25rem;
   color: var(--gp-text-color);

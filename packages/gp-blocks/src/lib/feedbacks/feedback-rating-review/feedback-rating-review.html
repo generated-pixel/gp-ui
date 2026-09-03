@@ -1,58 +1,51 @@
 <div class="gp-rating-review-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <div class="card-head">
-        <h3 class="head-title">{{ title() }}</h3>
-        @if (subtitle()) {
-          <p class="head-subtitle">{{ subtitle() }}</p>
-        }
-      </div>
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <div class="card-head">
+    <h3 class="head-title">{{ title() }}</h3>
+    @if (subtitle()) {
+    <p class="head-subtitle">{{ subtitle() }}</p>
     }
-  }
+  </div>
+  } }
 
   <!-- Content Override or Stars Rating Body -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  } @else { @if (effectiveStars()) {
+  <ng-container *ngTemplateOutlet="effectiveStars()!" />
   } @else {
-    @if (effectiveStars()) {
-      <ng-container *ngTemplateOutlet="effectiveStars()!" />
-    } @else {
-      <ng-content select="[stars], [slot=stars], [rating], [slot=rating]" />
-      <div class="rating-picker-row">
-        <gp-rating
-          [value]="rating()"
-          [stars]="5"
-          [cancel]="false"
-          ariaLabel="Satisfaction rating"
-          (onRate)="rating.set($event.value)"
-        />
-      </div>
-    }
-    <!-- Footer Actions -->
-    @if (effectiveActions()) {
-      <ng-container *ngTemplateOutlet="effectiveActions()!" />
-    } @else {
-      <ng-content select="[actions], [slot=actions]" />
-      <div class="review-actions">
-        <gp-button
-          [label]="dismissBtnLabel()"
-          variant="outlined"
-          severity="secondary"
-          size="sm"
-          (onClickEvent)="dismiss.emit()"
-        />
-        <gp-button
-          [label]="submitBtnLabel()"
-          severity="primary"
-          size="sm"
-          (onClickEvent)="submitRating.emit(rating())"
-        />
-      </div>
-    }
-    <ng-content />
+  <ng-content select="[stars], [slot=stars], [rating], [slot=rating]" />
+  <div class="rating-picker-row">
+    <gp-rating
+      [value]="rating()"
+      [stars]="5"
+      [cancel]="false"
+      ariaLabel="Satisfaction rating"
+      (onRate)="rating.set($event.value)"
+    />
+  </div>
+  }
+  <!-- Footer Actions -->
+  @if (effectiveActions()) {
+  <ng-container *ngTemplateOutlet="effectiveActions()!" />
+  } @else {
+  <ng-content select="[actions], [slot=actions]" />
+  <div class="review-actions">
+    <gp-button
+      [label]="dismissBtnLabel()"
+      variant="outlined"
+      severity="secondary"
+      size="sm"
+      (onClickEvent)="dismiss.emit()"
+    />
+    <gp-button [label]="submitBtnLabel()" severity="primary" size="sm" (onClickEvent)="submitRating.emit(rating())" />
+  </div>
+  }
+  <ng-content />
   }
 </div>

@@ -31,6 +31,6 @@ describe('GpListbox', () => {
     items[0].click();
     fixture.detectChanges();
 
-    expect(component.value()).toBe('1');
+    expect(component.value).toBe('1');
   });
 });

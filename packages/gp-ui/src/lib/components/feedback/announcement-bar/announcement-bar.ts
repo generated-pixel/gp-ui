@@ -1,12 +1,4 @@
-import {
-  Component,
-  signal,
-  computed,
-  input,
-  output,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, signal, computed, input, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GpBase } from '../../../base/gp-base';
 import { GpIcon } from '../../../icons/icon';

@@ -8,15 +8,7 @@ import { GpDynamicBlockRenderer, GpBlockMetadata, GP_SCHEMA_PRESETS } from 'gp-b
 @Component({
   selector: 'app-blocks-playground-page',
   standalone: true,
-  imports: [
-    FormsModule,
-    RouterModule,
-    GpBadge,
-    GpButton,
-    GpIcon,
-    GpTextarea,
-    GpDynamicBlockRenderer
-  ],
+  imports: [FormsModule, RouterModule, GpBadge, GpButton, GpIcon, GpTextarea, GpDynamicBlockRenderer],
   template: `
     <div class="playground-root">
       <!-- Header -->

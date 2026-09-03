@@ -1,28 +1,13 @@
 import { Component } from '@angular/core';
 
-import {
-  GpButton,
-  GpButtonGroup,
-  GpSplitButton,
-  GpSpeedDial,
-  GpToggleButton,
-  GpMenuItem
-} from 'gp-ui';
+import { GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, GpMenuItem } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
 
 @Component({
   selector: 'app-buttons-demo',
   standalone: true,
-  imports: [
-    GpButton,
-    GpButtonGroup,
-    GpSplitButton,
-    GpSpeedDial,
-    GpToggleButton,
-    DocCode,
-    DocApiTable
-  ],
+  imports: [GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, DocCode, DocApiTable],
   template: `
     <div class="page-container">
       <div class="page-header">

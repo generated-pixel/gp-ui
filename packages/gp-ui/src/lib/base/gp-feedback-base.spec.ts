@@ -28,13 +28,13 @@ describe('GpFeedbackBase', () => {
   });
 
   it('should compute icons according to severity', () => {
-    (component as any).severity = () => 'success';
+    fixture.componentRef.setInput('severity', 'success');
     expect(component.defaultIcon()).toBe('check-circle');
 
-    (component as any).severity = () => 'warning';
+    fixture.componentRef.setInput('severity', 'warning');
     expect(component.defaultIcon()).toBe('exclamation-triangle');
 
-    (component as any).severity = () => 'danger';
+    fixture.componentRef.setInput('severity', 'danger');
     expect(component.defaultIcon()).toBe('times-circle');
   });
 

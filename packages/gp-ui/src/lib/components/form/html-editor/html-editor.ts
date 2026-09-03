@@ -99,14 +99,16 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
 
   public characterCount = computed(() => {
     const html = this.internalValue() || '';
-    const text = this.stripHtml(html);
+    const text = this.stripHtml(html).trim();
     return text.length;
   });
 
   public wordCount = computed(() => {
     const html = this.internalValue() || '';
     const text = this.stripHtml(html).trim();
-    if (!text) return 0;
+    if (!text) {
+      return 0;
+    }
     return text.split(/\s+/).filter(Boolean).length;
   });
 
@@ -238,7 +240,9 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
   }
 
   public checkActiveFormats(): void {
-    if (this.isSourceMode()) return;
+    if (this.isSourceMode()) {
+      return;
+    }
     try {
       this.activeFormats.set({
         bold: this.document.queryCommandState('bold'),
@@ -267,7 +271,9 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
   }
 
   public onKeyDown(event: KeyboardEvent): void {
-    if (this.isEffectivelyDisabled() || this.readonly()) return;
+    if (this.isEffectivelyDisabled() || this.readonly()) {
+      return;
+    }
 
     if (event.ctrlKey || event.metaKey) {
       if (event.key === 'b' || event.key === 'B') {
@@ -323,8 +329,9 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
   }
 
   private stripHtml(html: string): string {
+    const formatted = html.replace(/<\/(p|div|h[1-6]|li|blockquote|tr)>/gi, ' ');
     const tmp = this.document.createElement('div');
-    tmp.innerHTML = html;
+    tmp.innerHTML = formatted;
     return tmp.textContent || tmp.innerText || '';
   }
 }

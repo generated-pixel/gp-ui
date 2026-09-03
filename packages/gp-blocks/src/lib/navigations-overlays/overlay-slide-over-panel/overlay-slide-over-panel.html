@@ -13,58 +13,57 @@
 >
   <div class="gp-slide-over-content">
     @if (effectiveHeader()) {
-      <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
     } @else {
-      <ng-content select="[header], [slot=header]" />
+    <ng-content select="[header], [slot=header]" />
 
-      @if (description()) {
-        <p class="gp-slide-over-description">{{ description() }}</p>
-      }
-    }
+    @if (description()) {
+    <p class="gp-slide-over-description">{{ description() }}</p>
+    } }
 
     <div class="gp-slide-over-body">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
       } @else if (effectiveBody()) {
-        <ng-container *ngTemplateOutlet="effectiveBody()!" />
+      <ng-container *ngTemplateOutlet="effectiveBody()!" />
       } @else {
-        <ng-content select="[body], [slot=body]" />
+      <ng-content select="[body], [slot=body]" />
 
-        <div class="gp-slide-over-field">
-          <label for="gp-slide-config-tag">Configuration Tag</label>
-          <gp-input-text
-            inputId="gp-slide-config-tag"
-            [fluid]="true"
-            [value]="configTag()"
-            (onInputEvent)="configTag.set($any($event.target).value)"
-            placeholder="tag-name"
-          />
-        </div>
+      <div class="gp-slide-over-field">
+        <label for="gp-slide-config-tag">Configuration Tag</label>
+        <gp-input-text
+          inputId="gp-slide-config-tag"
+          [fluid]="true"
+          [value]="configTag()"
+          (onInputEvent)="configTag.set($any($event.target).value)"
+          placeholder="tag-name"
+        />
+      </div>
 
-        <div class="gp-slide-over-field">
-          <label for="gp-slide-worker-nodes">Worker Cluster Size (Nodes)</label>
-          <gp-input-number
-            inputId="gp-slide-worker-nodes"
-            [fluid]="true"
-            [value]="workerNodes()"
-            (onValueChange)="workerNodes.set($event ?? 1)"
-            [min]="1"
-            [max]="64"
-          />
-        </div>
+      <div class="gp-slide-over-field">
+        <label for="gp-slide-worker-nodes">Worker Cluster Size (Nodes)</label>
+        <gp-input-number
+          inputId="gp-slide-worker-nodes"
+          [fluid]="true"
+          [value]="workerNodes()"
+          (onValueChange)="workerNodes.set($event ?? 1)"
+          [min]="1"
+          [max]="64"
+        />
+      </div>
 
-        <ng-content />
+      <ng-content />
       }
     </div>
 
     <div class="gp-slide-over-actions">
       @if (effectiveActions()) {
-        <ng-container *ngTemplateOutlet="effectiveActions()!" />
+      <ng-container *ngTemplateOutlet="effectiveActions()!" />
       } @else {
-        <ng-content select="[actions], [slot=actions]" />
+      <ng-content select="[actions], [slot=actions]" />
 
-        <gp-button [label]="cancelBtnLabel()" variant="outlined" severity="secondary" (onClickEvent)="onCancel()" />
-        <gp-button [label]="saveBtnLabel()" severity="primary" (onClickEvent)="onSave()" />
+      <gp-button [label]="cancelBtnLabel()" variant="outlined" severity="secondary" (onClickEvent)="onCancel()" />
+      <gp-button [label]="saveBtnLabel()" severity="primary" (onClickEvent)="onSave()" />
       }
     </div>
   </div>

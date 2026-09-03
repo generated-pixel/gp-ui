@@ -6,12 +6,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [GpPaginator],
   template: `
-    <gp-paginator
-      [totalRecords]="totalRecords"
-      [rows]="rows"
-      [first]="first"
-      (onPageChange)="lastPageEvent = $event"
-    />
+    <gp-paginator [totalRecords]="totalRecords" [rows]="rows" [first]="first" (onPageChange)="lastPageEvent = $event" />
   `
 })
 class TestHostComponent {

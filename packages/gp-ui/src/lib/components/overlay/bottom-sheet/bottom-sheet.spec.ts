@@ -1,17 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GpBottomSheet } from './bottom-sheet';
 import { GpBottomSheetService } from './bottom-sheet.service';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   standalone: true,
   imports: [GpBottomSheet],
-  template: `
-    <gp-bottom-sheet [(visible)]="isVisible" title="Quick Options" />
-  `
+  template: ' <gp-bottom-sheet [visible]="isVisible()" title="Quick Options" /> '
 })
 class TestHostComponent {
-  isVisible = false;
+  isVisible = signal(false);
 }
 
 describe('GpBottomSheet', () => {
@@ -32,18 +30,18 @@ describe('GpBottomSheet', () => {
   });
 
   it('should toggle service open state', () => {
-    expect(service.isOpen()).toBeFalse();
+    expect(service.isOpen()).toBe(false);
     service.open();
-    expect(service.isOpen()).toBeTrue();
+    expect(service.isOpen()).toBe(true);
     service.close();
-    expect(service.isOpen()).toBeFalse();
+    expect(service.isOpen()).toBe(false);
   });
 
   it('should update bottom sheet visibility when signal changes', () => {
-    hostComponent.isVisible = true;
+    hostComponent.isVisible.set(true);
     fixture.detectChanges();
 
-    const sheet = fixture.nativeElement.querySelector('.gp-bottom-sheet');
+    const sheet = document.querySelector('.gp-bottom-sheet');
     expect(sheet).toBeTruthy();
   });
 });

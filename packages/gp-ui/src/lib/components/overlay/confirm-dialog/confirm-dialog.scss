@@ -1,16 +1,20 @@
+.gp-confirm-dialog__body,
 .gp-confirm-dialog-body {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+.gp-confirm-dialog__icon,
 .gp-confirm-dialog-icon {
   color: var(--gp-primary);
   flex-shrink: 0;
 }
+.gp-confirm-dialog__message,
 .gp-confirm-dialog-message {
   font-size: var(--gp-font-size-base);
   color: var(--gp-text-color);
 }
+.gp-confirm-dialog__footer,
 .gp-confirm-dialog-footer {
   display: flex;
   gap: 0.5rem;

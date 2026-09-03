@@ -1,52 +1,47 @@
 <div class="gp-timeline-stream-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <h3 class="card-head-title">{{ title() }}</h3>
-    }
-  }
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <h3 class="card-head-title">{{ title() }}</h3>
+  } }
 
   <!-- Timeline Body -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[events], [slot=events], [timeline], [slot=timeline]" />
-    @if (events() && events().length > 0) {
-      <div class="stream-flow">
-        @for (ev of events(); track ev) {
-          @if (effectiveEventTemplate()) {
-            <ng-container *ngTemplateOutlet="effectiveEventTemplate()!; context: { $implicit: ev }" />
-          } @else {
-            <div class="stream-node" (click)="eventClick.emit(ev)" style="cursor: pointer">
-              <div class="node-left-track">
-                <div class="icon-orb" [style.backgroundColor]="ev.color || 'var(--gp-primary)'">
-                  <gp-icon [name]="ev.icon || 'star'" size="0.75em" />
-                </div>
-                <div class="track-line"></div>
-              </div>
-              <div class="node-body">
-                <div class="node-head">
-                  <span class="node-title">{{ ev.title }}</span>
-                  <span class="node-time">{{ ev.time }}</span>
-                </div>
-                @if (ev.desc) {
-                  <p class="node-desc">{{ ev.desc }}</p>
-                }
-                @if (ev.author) {
-                  <div class="node-author">
-                    <gp-avatar [label]="ev.author.charAt(0)" size="normal" shape="circle" />
-                    <span>{{ ev.author }}</span>
-                  </div>
-                }
-              </div>
-            </div>
-          }
+  <ng-content select="[events], [slot=events], [timeline], [slot=timeline]" />
+  @if (events() && events().length > 0) {
+  <div class="stream-flow">
+    @for (ev of events(); track ev) { @if (effectiveEventTemplate()) {
+    <ng-container *ngTemplateOutlet="effectiveEventTemplate()!; context: { $implicit: ev }" />
+    } @else {
+    <div class="stream-node" (click)="eventClick.emit(ev)" style="cursor: pointer">
+      <div class="node-left-track">
+        <div class="icon-orb" [style.backgroundColor]="ev.color || 'var(--gp-primary)'">
+          <gp-icon [name]="ev.icon || 'star'" size="0.75em" />
+        </div>
+        <div class="track-line"></div>
+      </div>
+      <div class="node-body">
+        <div class="node-head">
+          <span class="node-title">{{ ev.title }}</span>
+          <span class="node-time">{{ ev.time }}</span>
+        </div>
+        @if (ev.desc) {
+        <p class="node-desc">{{ ev.desc }}</p>
+        } @if (ev.author) {
+        <div class="node-author">
+          <gp-avatar [label]="ev.author.charAt(0)" size="normal" shape="circle" />
+          <span>{{ ev.author }}</span>
+        </div>
         }
       </div>
-    }
-  }
+    </div>
+    } }
+  </div>
+  } }
   <ng-content />
 </div>

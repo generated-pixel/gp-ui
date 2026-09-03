@@ -15,32 +15,32 @@
       </gp-button>
     </div>
     @if (!leftCollapsed()) {
-      <div class="col-content">
-        @if (effectiveLeft()) {
-          <ng-container *ngTemplateOutlet="effectiveLeft()!" />
-        } @else {
-          <ng-content select="[left], [slot=left], [col1], [slot=col1]" />
-          <nav class="default-nav-list">
-            <a href="javascript:void(0)" class="nav-item active">
-              <gp-icon name="home" size="1em" />
-              <span>Overview</span>
-            </a>
-            <a href="javascript:void(0)" class="nav-item">
-              <gp-icon name="folder" size="1em" />
-              <span>Projects</span>
-              <gp-badge value="12" severity="secondary" />
-            </a>
-            <a href="javascript:void(0)" class="nav-item">
-              <gp-icon name="users" size="1em" />
-              <span>Team Members</span>
-            </a>
-            <a href="javascript:void(0)" class="nav-item">
-              <gp-icon name="sliders" size="1em" />
-              <span>Preferences</span>
-            </a>
-          </nav>
-        }
-      </div>
+    <div class="col-content">
+      @if (effectiveLeft()) {
+      <ng-container *ngTemplateOutlet="effectiveLeft()!" />
+      } @else {
+      <ng-content select="[left], [slot=left], [col1], [slot=col1]" />
+      <nav class="default-nav-list">
+        <a href="javascript:void(0)" class="nav-item active">
+          <gp-icon name="home" size="1em" />
+          <span>Overview</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-item">
+          <gp-icon name="folder" size="1em" />
+          <span>Projects</span>
+          <gp-badge value="12" severity="secondary" />
+        </a>
+        <a href="javascript:void(0)" class="nav-item">
+          <gp-icon name="users" size="1em" />
+          <span>Team Members</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-item">
+          <gp-icon name="sliders" size="1em" />
+          <span>Preferences</span>
+        </a>
+      </nav>
+      }
+    </div>
     }
   </aside>
 
@@ -66,18 +66,17 @@
 
     <div class="main-content-scroll">
       @if (effectiveMain()) {
-        <ng-container *ngTemplateOutlet="effectiveMain()!" />
+      <ng-container *ngTemplateOutlet="effectiveMain()!" />
       } @else {
-        <ng-content select="[main], [slot=main], [content], [slot=content], [col2], [slot=col2]" />
-        <div class="default-main-placeholder">
-          @if (mainTitle()) {
-            <h2 class="main-title">{{ mainTitle() }}</h2>
-          }
-          @if (mainSubtitle()) {
-            <p class="main-desc">{{ mainSubtitle() }}</p>
-          }
-          <ng-content />
-        </div>
+      <ng-content select="[main], [slot=main], [content], [slot=content], [col2], [slot=col2]" />
+      <div class="default-main-placeholder">
+        @if (mainTitle()) {
+        <h2 class="main-title">{{ mainTitle() }}</h2>
+        } @if (mainSubtitle()) {
+        <p class="main-desc">{{ mainSubtitle() }}</p>
+        }
+        <ng-content />
+      </div>
       }
     </div>
   </main>
@@ -98,37 +97,37 @@
       </gp-button>
     </div>
     @if (!rightCollapsed()) {
-      <div class="col-content">
-        @if (effectiveRight()) {
-          <ng-container *ngTemplateOutlet="effectiveRight()!" />
-        } @else {
-          <ng-content select="[right], [slot=right], [col3], [slot=col3]" />
-          <div class="default-context-panel">
-            <h4 class="context-heading">Live Activity</h4>
-            <div class="activity-mini-item">
-              <span class="activity-dot dot-success"></span>
-              <div class="activity-details">
-                <span class="activity-text">Deployment completed</span>
-                <span class="activity-time">5m ago</span>
-              </div>
-            </div>
-            <div class="activity-mini-item">
-              <span class="activity-dot dot-primary"></span>
-              <div class="activity-details">
-                <span class="activity-text">New member joined team</span>
-                <span class="activity-time">22m ago</span>
-              </div>
-            </div>
-            <div class="activity-mini-item">
-              <span class="activity-dot dot-warning"></span>
-              <div class="activity-details">
-                <span class="activity-text">Memory usage above 80%</span>
-                <span class="activity-time">1h ago</span>
-              </div>
-            </div>
+    <div class="col-content">
+      @if (effectiveRight()) {
+      <ng-container *ngTemplateOutlet="effectiveRight()!" />
+      } @else {
+      <ng-content select="[right], [slot=right], [col3], [slot=col3]" />
+      <div class="default-context-panel">
+        <h4 class="context-heading">Live Activity</h4>
+        <div class="activity-mini-item">
+          <span class="activity-dot dot-success"></span>
+          <div class="activity-details">
+            <span class="activity-text">Deployment completed</span>
+            <span class="activity-time">5m ago</span>
           </div>
-        }
+        </div>
+        <div class="activity-mini-item">
+          <span class="activity-dot dot-primary"></span>
+          <div class="activity-details">
+            <span class="activity-text">New member joined team</span>
+            <span class="activity-time">22m ago</span>
+          </div>
+        </div>
+        <div class="activity-mini-item">
+          <span class="activity-dot dot-warning"></span>
+          <div class="activity-details">
+            <span class="activity-text">Memory usage above 80%</span>
+            <span class="activity-time">1h ago</span>
+          </div>
+        </div>
       </div>
+      }
+    </div>
     }
   </aside>
 </div>

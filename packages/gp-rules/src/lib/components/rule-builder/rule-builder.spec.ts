@@ -32,15 +32,16 @@ describe('GpRuleBuilder', () => {
     component.onCreateRule();
 
     expect(created).toBeTruthy();
-    expect(created?.id).toBe('my-custom-rule');
-    expect(created?.condition?.field).toBe('discountCode');
-    expect(created?.condition?.value).toBe('PROMO50');
-    expect(created?.condition?.compareToField).toBeUndefined();
+    const rule1 = created as unknown as any;
+    expect(rule1?.id).toBe('my-custom-rule');
+    expect(rule1?.condition?.field).toBe('discountCode');
+    expect(rule1?.condition?.value).toBe('PROMO50');
+    expect(rule1?.condition?.compareToField).toBeUndefined();
   });
 
   it('should emit rule with compareToField when compareMode is compareToField', () => {
     let created: GpBusinessRule | null = null;
-    component.ruleCreated.subscribe((r) => (created = r));
+    component.ruleCreated.subscribe((r: GpBusinessRule) => (created = r));
 
     component.conditionField.set('confirmPassword');
     component.compareMode.set('compareToField');
@@ -52,14 +53,15 @@ describe('GpRuleBuilder', () => {
     component.onCreateRule();
 
     expect(created).toBeTruthy();
-    expect(created?.condition?.compareToField).toBe('password');
-    expect(created?.actions[0].type).toBe('setValidationError');
-    expect(created?.actions[0].errorKey).toBe('ruleError');
+    const rule2 = created as unknown as any;
+    expect(rule2?.condition?.compareToField).toBe('password');
+    expect(rule2?.actions[0].type).toBe('setValidationError');
+    expect(rule2?.actions[0].errorKey).toBe('ruleError');
   });
 
   it('should support else actions configuration', () => {
     let created: GpBusinessRule | null = null;
-    component.ruleCreated.subscribe((r) => (created = r));
+    component.ruleCreated.subscribe((r: GpBusinessRule) => (created = r));
 
     component.enableElseAction.set(true);
     component.elseActionType.set('setValue');
@@ -70,8 +72,9 @@ describe('GpRuleBuilder', () => {
     component.onCreateRule();
 
     expect(created).toBeTruthy();
-    expect(created?.elseActions).toBeDefined();
-    expect(Array.isArray(created?.elseActions)).toBe(true);
-    expect((created?.elseActions as any)[0].type).toBe('setValue');
+    const rule3 = created as unknown as any;
+    expect(rule3?.elseActions).toBeDefined();
+    expect(Array.isArray(rule3?.elseActions)).toBe(true);
+    expect(rule3?.elseActions[0].type).toBe('setValue');
   });
 });

@@ -2,6 +2,7 @@
   class="gp-slider"
   [class.gp-slider-disabled]="isEffectivelyDisabled()"
   [class.gp-slider-dragging]="isDragging()"
+  [class.gp-slider--vertical]="orientation() === 'vertical'"
   [class.gp-slider-vertical]="orientation() === 'vertical'"
   (pointerdown)="onPointerDown($event)"
   (pointermove)="onPointerMove($event)"
@@ -10,22 +11,26 @@
 >
   <div class="gp-slider-track">
     <div
-      class="gp-slider-range"
+      class="gp-slider__range gp-slider-range"
       [style.width.%]="orientation() === 'horizontal' ? percentage() : null"
       [style.height.%]="orientation() === 'vertical' ? percentage() : null"
     ></div>
   </div>
   <span
-    class="gp-slider-handle"
+    class="gp-slider__handle gp-slider-handle"
+    [attr.id]="inputId()"
     [style.left.%]="orientation() === 'horizontal' ? percentage() : null"
     [style.bottom.%]="orientation() === 'vertical' ? percentage() : null"
-    tabindex="0"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : 0"
     role="slider"
     [attr.aria-valuenow]="displayValue()"
     [attr.aria-valuemin]="min()"
     [attr.aria-valuemax]="max()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
     [attr.aria-orientation]="orientation()"
+    [attr.aria-label]="ariaLabel() || 'Slider'"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
     (keydown)="onKeyDown($event)"
   ></span>
 </div>

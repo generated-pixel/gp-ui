@@ -45,3 +45,5 @@ export class GpIconRegistry {
     return this.hasIcon(name);
   }
 }
+
+export { GpIconRegistry as GpIconRegistryService };

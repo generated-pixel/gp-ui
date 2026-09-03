@@ -1,3 +1,7 @@
-<div class="gp-splitter" [class.gp-splitter-vertical]="layout() === 'vertical'">
+<div
+  class="gp-splitter"
+  [class.gp-splitter--vertical]="layout() === 'vertical'"
+  [class.gp-splitter-vertical]="layout() === 'vertical'"
+>
   <ng-content />
 </div>

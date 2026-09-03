@@ -1,14 +1,14 @@
-<div class="gp-emptystate">
+<div class="gp-empty-state gp-emptystate">
   @if (icon()) {
-    <div class="gp-emptystate-icon-wrap">
-      <gp-icon [name]="icon()" size="2.5em" class="gp-emptystate-icon" />
-    </div>
+  <div class="gp-empty-state__icon-wrap gp-emptystate-icon-wrap">
+    <gp-icon [name]="icon()" size="2.5em" class="gp-empty-state__icon gp-emptystate-icon" />
+  </div>
   }
-  <h4 class="gp-emptystate-title">{{ title() }}</h4>
+  <h4 class="gp-empty-state__title gp-emptystate-title">{{ title() }}</h4>
   @if (message()) {
-    <p class="gp-emptystate-message">{{ message() }}</p>
+  <p class="gp-empty-state__message gp-emptystate-message">{{ message() }}</p>
   }
-  <div class="gp-emptystate-actions">
+  <div class="gp-empty-state__actions gp-emptystate-actions">
     <ng-content />
   </div>
 </div>

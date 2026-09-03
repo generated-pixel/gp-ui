@@ -66,9 +66,9 @@ import { DocCode } from '../../shared/doc-code';
         </div>
         <h1 class="page-title">Dynamic Business Rules Engine</h1>
         <p class="page-desc">
-          Enterprise declarative rules engine for Angular. Execute reactive UI actions triggered by keypress
-          (with configurable debounce), blur / focusout, value changes, button clicks, and custom events. Features
-          rich formula computation, field-to-field comparisons, transformations, dry-run simulator, and visual inspector.
+          Enterprise declarative rules engine for Angular. Execute reactive UI actions triggered by keypress (with
+          configurable debounce), blur / focusout, value changes, button clicks, and custom events. Features rich
+          formula computation, field-to-field comparisons, transformations, dry-run simulator, and visual inspector.
         </p>
       </div>
 
@@ -210,8 +210,8 @@ import { DocCode } from '../../shared/doc-code';
               </div>
               <div class="demo-card-body">
                 <p class="section-hint">
-                  Type a password to see strength scored live. Then type in <strong>Confirm Password</strong> to trigger the
-                  <code>compareToField</code> equality check rule in real time.
+                  Type a password to see strength scored live. Then type in <strong>Confirm Password</strong> to trigger
+                  the <code>compareToField</code> equality check rule in real time.
                 </p>
 
                 <div class="form-grid-2">
@@ -235,8 +235,9 @@ import { DocCode } from '../../shared/doc-code';
                       ></div>
                     </div>
                     <span class="strength-badge-text">
-                      Strength: <strong>{{ userSecurityState().passwordStrength | uppercase }}</strong>
-                      ({{ userSecurityState().passwordScore }}%)
+                      Strength: <strong>{{ userSecurityState().passwordStrength | uppercase }}</strong> ({{
+                        userSecurityState().passwordScore
+                      }}%)
                     </span>
                   </div>
 
@@ -249,9 +250,15 @@ import { DocCode } from '../../shared/doc-code';
                       [gpRule]="confirmPasswordRule"
                       [gpRuleState]="userSecurityState()"
                     />
-                    @if (userSecurityState().confirmPassword && userSecurityState().confirmPassword !== userSecurityState().password) {
+                    @if (
+                      userSecurityState().confirmPassword &&
+                      userSecurityState().confirmPassword !== userSecurityState().password
+                    ) {
                       <span class="field-error-msg">⚠️ Passwords do not match</span>
-                    } @else if (userSecurityState().confirmPassword && userSecurityState().confirmPassword === userSecurityState().password) {
+                    } @else if (
+                      userSecurityState().confirmPassword &&
+                      userSecurityState().confirmPassword === userSecurityState().password
+                    ) {
                       <span class="field-match-msg">✓ Passwords match perfectly</span>
                     }
                   </div>
@@ -270,7 +277,8 @@ import { DocCode } from '../../shared/doc-code';
               </div>
               <div class="demo-card-body">
                 <p class="section-hint">
-                  Enter test card prefixes (e.g. <code>4</code> for Visa, <code>55</code> for Mastercard, <code>37</code> for Amex, <code>6011</code> for Discover).
+                  Enter test card prefixes (e.g. <code>4</code> for Visa, <code>55</code> for Mastercard,
+                  <code>37</code> for Amex, <code>6011</code> for Discover).
                 </p>
 
                 <div class="form-grid-2">
@@ -310,7 +318,8 @@ import { DocCode } from '../../shared/doc-code';
               </div>
               <div class="demo-card-body">
                 <p class="section-hint">
-                  Type any blog post or article title. The business rule automatically transforms and formats it into an SEO-friendly URL slug.
+                  Type any blog post or article title. The business rule automatically transforms and formats it into an
+                  SEO-friendly URL slug.
                 </p>
 
                 <div class="form-grid-2">
@@ -397,8 +406,8 @@ import { DocCode } from '../../shared/doc-code';
             </div>
             <div class="doc-card-body">
               <p class="section-hint">
-                The <code>GpRuleSimulator</code> allows backend services, form wizards, and QA teams to simulate rule chains on mock data
-                and inspect complete execution diffs without modifying real component state.
+                The <code>GpRuleSimulator</code> allows backend services, form wizards, and QA teams to simulate rule
+                chains on mock data and inspect complete execution diffs without modifying real component state.
               </p>
 
               <div class="simulator-layout">
@@ -424,9 +433,15 @@ import { DocCode } from '../../shared/doc-code';
                   @if (simulationResult(); as res) {
                     <div class="sim-result-box">
                       <div class="sim-meta-row">
-                        <span>Matched Rules: <strong>{{ res.matchedRules.length }}</strong></span>
-                        <span>Executed Actions: <strong>{{ res.executedActions.length }}</strong></span>
-                        <span>Duration: <strong>{{ res.durationMs }}ms</strong></span>
+                        <span
+                          >Matched Rules: <strong>{{ res.matchedRules.length }}</strong></span
+                        >
+                        <span
+                          >Executed Actions: <strong>{{ res.executedActions.length }}</strong></span
+                        >
+                        <span
+                          >Duration: <strong>{{ res.durationMs }}ms</strong></span
+                        >
                       </div>
 
                       <div class="sim-diff-block">
@@ -525,7 +540,9 @@ import { DocCode } from '../../shared/doc-code';
                     <td><code>eq</code> / <code>equals</code></td>
                     <td>Strict or loose equality, supports <code>compareToField</code></td>
                     <td>
-                      <code>{{ '{' }} field: 'confirmPassword', operator: 'eq', compareToField: 'password' {{ '}' }}</code>
+                      <code
+                        >{{ '{' }} field: 'confirmPassword', operator: 'eq', compareToField: 'password' {{ '}' }}</code
+                      >
                     </td>
                   </tr>
                   <tr>
@@ -560,7 +577,9 @@ import { DocCode } from '../../shared/doc-code';
                     <td><code>isBefore</code> / <code>isAfter</code></td>
                     <td>Chronological date comparison</td>
                     <td>
-                      <code>{{ '{' }} field: 'endDate', operator: 'isAfter', compareToField: 'startDate' {{ '}' }}</code>
+                      <code
+                        >{{ '{' }} field: 'endDate', operator: 'isAfter', compareToField: 'startDate' {{ '}' }}</code
+                      >
                     </td>
                   </tr>
                   <tr>
@@ -588,7 +607,10 @@ import { DocCode } from '../../shared/doc-code';
                     <td><code>matches</code></td>
                     <td>Regular expression evaluation</td>
                     <td>
-                      <code>{{ '{' }} field: 'email', operator: 'matches', value: '^[\\w.-]+@[\\w.-]+\\.\\w+$' {{ '}' }}</code>
+                      <code
+                        >{{ '{' }} field: 'email', operator: 'matches', value: '^[\\w.-]+@[\\w.-]+\\.\\w+$'
+                        {{ '}' }}</code
+                      >
                     </td>
                   </tr>
                 </tbody>
@@ -1203,6 +1225,7 @@ export class RulesDemo implements OnInit {
       2
     )
   );
+
   public simulationResult = signal<GpRuleSimulationResult | null>(null);
 
   // Preset Rules
@@ -1304,16 +1327,31 @@ export const advancedPricingRule: GpBusinessRule = {
       if (field === 'password') {
         const pwd = String(val || '');
         let score = 0;
-        if (pwd.length >= 8) score += 25;
-        if (pwd.length >= 12) score += 15;
-        if (/[A-Z]/.test(pwd)) score += 20;
-        if (/[a-z]/.test(pwd)) score += 10;
-        if (/[0-9]/.test(pwd)) score += 15;
-        if (/[^A-Za-z0-9]/.test(pwd)) score += 15;
+        if (pwd.length >= 8) {
+          score += 25;
+        }
+        if (pwd.length >= 12) {
+          score += 15;
+        }
+        if (/[A-Z]/.test(pwd)) {
+          score += 20;
+        }
+        if (/[a-z]/.test(pwd)) {
+          score += 10;
+        }
+        if (/[0-9]/.test(pwd)) {
+          score += 15;
+        }
+        if (/[^A-Za-z0-9]/.test(pwd)) {
+          score += 15;
+        }
         score = Math.min(100, score);
         let level = 'weak';
-        if (score >= 80) level = 'strong';
-        else if (score >= 50) level = 'medium';
+        if (score >= 80) {
+          level = 'strong';
+        } else if (score >= 50) {
+          level = 'medium';
+        }
         updated.passwordScore = score;
         updated.passwordStrength = level;
       }
@@ -1381,7 +1419,10 @@ export const advancedPricingRule: GpBusinessRule = {
         triggerEvent: 'change'
       });
       this.simulationResult.set(result);
-      this.toastService.info('Simulation Finished', `Executed ${result.matchedRules.length} matching rules in ${result.durationMs}ms`);
+      this.toastService.info(
+        'Simulation Finished',
+        `Executed ${result.matchedRules.length} matching rules in ${result.durationMs}ms`
+      );
     } catch (err: any) {
       this.toastService.error('Simulation Error', `Invalid JSON or execution error: ${err?.message || err}`);
     }

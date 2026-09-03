@@ -1,88 +1,87 @@
 <div class="gp-settings-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    <div class="settings-head">
-      <h3 class="settings-title">{{ title() }}</h3>
-      <p class="settings-subtitle">{{ subtitle() }}</p>
-    </div>
+  <ng-content select="[header], [slot=header]" />
+  <div class="settings-head">
+    <h3 class="settings-title">{{ title() }}</h3>
+    <p class="settings-subtitle">{{ subtitle() }}</p>
+  </div>
   }
 
   <!-- Full Content Override or Sections -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[content], [slot=content]" />
-    <!-- Current Subscription Box -->
-    @if (effectivePlan()) {
-      <ng-container *ngTemplateOutlet="effectivePlan()!" />
-    } @else {
-      <ng-content select="[plan], [slot=plan]" />
-      <div class="current-plan-box">
-        <div class="plan-info">
-          <div class="plan-name-row">
-            <span class="plan-name">{{ planName() }}</span>
-            <gp-badge [value]="planStatus()" severity="success" />
-          </div>
-          <p class="plan-price">{{ planPrice() }}</p>
-        </div>
-        <div class="plan-actions">
-          <gp-button variant="outlined" severity="secondary" (onClickEvent)="changePlan.emit()">Change Plan</gp-button>
-          <gp-button variant="outlined" severity="danger" (onClickEvent)="cancelPlan.emit()">Cancel</gp-button>
-        </div>
+  <ng-content select="[content], [slot=content]" />
+  <!-- Current Subscription Box -->
+  @if (effectivePlan()) {
+  <ng-container *ngTemplateOutlet="effectivePlan()!" />
+  } @else {
+  <ng-content select="[plan], [slot=plan]" />
+  <div class="current-plan-box">
+    <div class="plan-info">
+      <div class="plan-name-row">
+        <span class="plan-name">{{ planName() }}</span>
+        <gp-badge [value]="planStatus()" severity="success" />
       </div>
-    }
-    <!-- Invoices History -->
-    @if (effectiveInvoices()) {
-      <ng-container *ngTemplateOutlet="effectiveInvoices()!" />
-    } @else {
-      <ng-content select="[invoices], [slot=invoices]" />
-      @if (invoices() && invoices().length > 0) {
-        <div class="invoices-section">
-          <h4 class="sec-subtitle">Billing History & Invoices</h4>
-          <table class="billing-table">
-            <thead>
-              <tr>
-                <th>Invoice Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (inv of invoices(); track inv) {
-                <tr>
-                  <td>{{ inv.date }}</td>
-                  <td>
-                    <strong>{{ inv.amount }}</strong>
-                  </td>
-                  <td>
-                    <gp-badge
-                      [value]="inv.status"
-                      [severity]="inv.status === 'Paid' ? 'success' : inv.status === 'Pending' ? 'warning' : 'danger'"
-                    />
-                  </td>
-                  <td>
-                    <gp-button
-                      variant="link"
-                      severity="primary"
-                      size="sm"
-                      styleClass="download-link"
-                      (onClickEvent)="downloadInvoice.emit(inv)"
-                    >
-                      <gp-icon name="download" size="0.85em" />
-                      PDF
-                    </gp-button>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      }
-    }
-    <ng-content />
+      <p class="plan-price">{{ planPrice() }}</p>
+    </div>
+    <div class="plan-actions">
+      <gp-button variant="outlined" severity="secondary" (onClickEvent)="changePlan.emit()">Change Plan</gp-button>
+      <gp-button variant="outlined" severity="danger" (onClickEvent)="cancelPlan.emit()">Cancel</gp-button>
+    </div>
+  </div>
+  }
+  <!-- Invoices History -->
+  @if (effectiveInvoices()) {
+  <ng-container *ngTemplateOutlet="effectiveInvoices()!" />
+  } @else {
+  <ng-content select="[invoices], [slot=invoices]" />
+  @if (invoices() && invoices().length > 0) {
+  <div class="invoices-section">
+    <h4 class="sec-subtitle">Billing History & Invoices</h4>
+    <table class="billing-table">
+      <thead>
+        <tr>
+          <th>Invoice Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (inv of invoices(); track inv) {
+        <tr>
+          <td>{{ inv.date }}</td>
+          <td>
+            <strong>{{ inv.amount }}</strong>
+          </td>
+          <td>
+            <gp-badge
+              [value]="inv.status"
+              [severity]="inv.status === 'Paid' ? 'success' : inv.status === 'Pending' ? 'warning' : 'danger'"
+            />
+          </td>
+          <td>
+            <gp-button
+              variant="link"
+              severity="primary"
+              size="sm"
+              styleClass="download-link"
+              (onClickEvent)="downloadInvoice.emit(inv)"
+            >
+              <gp-icon name="download" size="0.85em" />
+              PDF
+            </gp-button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } }
+  <ng-content />
   }
 </div>

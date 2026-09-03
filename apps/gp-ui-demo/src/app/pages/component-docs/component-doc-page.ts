@@ -348,12 +348,20 @@ import { getComponentDoc } from './component-docs.data';
         }
         @case ('html-editor') {
           <div class="w-full">
-            <gp-html-editor height="200px" [value]="'<h3>Rich Text Editor</h3><p>Edit formatted content with rich styling, headings, and color swatches.</p>'" />
+            <gp-html-editor
+              height="200px"
+              [value]="'<h3>Rich Text Editor</h3><p>Edit formatted content with rich styling, headings, and color swatches.</p>'"
+            />
           </div>
         }
         @case ('md-editor') {
           <div class="w-full">
-            <gp-md-editor height="250px" [value]="'# Markdown Editor\n\nLive **markdown** rendering with tables, task lists, and code blocks.'" />
+            <gp-md-editor
+              height="250px"
+              [value]="'# Markdown Editor
+
+Live **markdown** rendering with tables, task lists, and code blocks.'"
+            />
           </div>
         }
         @case ('password') {
@@ -474,9 +482,13 @@ import { getComponentDoc } from './component-docs.data';
             </div>
             <gp-virtual-scroller [items]="demoVirtualScrollItems" [itemSize]="52" scrollHeight="320px">
               <ng-template #item let-row>
-                <div class="flex items-center justify-between w-full px-4 py-2 hover:bg-surface-hover transition-colors">
+                <div
+                  class="flex items-center justify-between w-full px-4 py-2 hover:bg-surface-hover transition-colors"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                    <div
+                      class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs"
+                    >
                       {{ row.id }}
                     </div>
                     <div class="flex flex-col">
@@ -485,8 +497,16 @@ import { getComponentDoc } from './component-docs.data';
                     </div>
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="text-xs px-2 py-0.5 rounded bg-surface border border-surface-border text-foreground font-mono">{{ row.role }}</span>
-                    <gp-badge [value]="row.status" [severity]="row.status === 'Active' ? 'success' : row.status === 'Pending' ? 'warning' : 'secondary'" />
+                    <span
+                      class="text-xs px-2 py-0.5 rounded bg-surface border border-surface-border text-foreground font-mono"
+                      >{{ row.role }}</span
+                    >
+                    <gp-badge
+                      [value]="row.status"
+                      [severity]="
+                        row.status === 'Active' ? 'success' : row.status === 'Pending' ? 'warning' : 'secondary'
+                      "
+                    />
                   </div>
                 </div>
               </ng-template>
@@ -848,6 +868,7 @@ export class ComponentDocPage implements OnInit {
     { label: 'Developer', value: 'developer' },
     { label: 'Manager', value: 'manager' }
   ];
+
   demoCities = [
     { label: 'Rome, Italy', value: 'rome', subtext: 'Capital of Italy', icon: 'map-pin', badge: 'Europe' },
     { label: 'Paris, France', value: 'paris', subtext: 'Capital of France', icon: 'map-pin', badge: 'Europe' },
@@ -858,16 +879,19 @@ export class ComponentDocPage implements OnInit {
     { label: 'Madrid, Spain', value: 'madrid', subtext: 'Capital of Spain', icon: 'map-pin', badge: 'Europe' },
     { label: 'Sydney, Australia', value: 'sydney', subtext: 'Australia', icon: 'map-pin', badge: 'Oceania' }
   ];
+
   demoRows = [
     { name: 'Alpha', status: 'Ready' },
     { name: 'Beta', status: 'In progress' },
     { name: 'Gamma', status: 'Planned' }
   ];
+
   demoMenuItems: GpMenuItem[] = [
     { label: 'Overview', icon: 'home' },
     { label: 'Settings', icon: 'sliders' },
     { label: 'Archive', icon: 'folder' }
   ];
+
   demoMenubarItems: GpMenubarItem[] = [
     {
       label: 'File',
@@ -897,6 +921,7 @@ export class ComponentDocPage implements OnInit {
     { label: 'Users', icon: 'user' },
     { label: 'Settings', icon: 'sliders' }
   ];
+
   demoTieredMenuItems: GpMenubarItem[] = [
     {
       label: 'File',
@@ -924,6 +949,7 @@ export class ComponentDocPage implements OnInit {
     },
     { label: 'Help', icon: 'question-circle' }
   ];
+
   demoPanelMenuItems: GpMenubarItem[] = [
     {
       label: 'Documents',
@@ -950,6 +976,7 @@ export class ComponentDocPage implements OnInit {
       ]
     }
   ];
+
   demoContextMenuItems: GpMenuItem[] = [
     { label: 'Cut', icon: 'cut' },
     { label: 'Copy', icon: 'copy' },
@@ -966,6 +993,7 @@ export class ComponentDocPage implements OnInit {
     { separator: true },
     { label: 'Delete', icon: 'trash' }
   ];
+
   demoMegaMenuItems: GpMegaMenuItem[] = [
     {
       label: 'Products',
@@ -1042,6 +1070,7 @@ export class ComponentDocPage implements OnInit {
       ]
     }
   ];
+
   demoCascadeOptions = [
     {
       name: 'North America',
@@ -1066,6 +1095,7 @@ export class ComponentDocPage implements OnInit {
       ]
     }
   ];
+
   demoOrgChartNode = {
     label: 'Sarah Connor',
     icon: 'user',
@@ -1093,17 +1123,20 @@ export class ComponentDocPage implements OnInit {
       }
     ]
   };
+
   demoDockItems: GpMenuItem[] = [
     { label: 'Finder', icon: 'folder' },
     { label: 'App Store', icon: 'download' },
     { label: 'Settings', icon: 'sliders' },
     { label: 'Code', icon: 'code' }
   ];
+
   demoCarouselItems = [
     { title: 'Modern UI Components', desc: 'Over 75 accessible, customizable Angular components.' },
     { title: 'Built-in Multi-Theming', desc: 'Seamless Light & Dark mode switching.' },
     { title: 'Zero Third-Party Dependencies', desc: 'Fast, clean, high-performance architecture.' }
   ];
+
   demoTableData = [
     { id: 'PRJ-101', name: 'Quantum UI Engine', category: 'Core Platform', status: 'Active', budget: '$48,000' },
     { id: 'PRJ-102', name: 'Nexus Cloud Sync', category: 'Infrastructure', status: 'In Review', budget: '$32,500' },
@@ -1111,8 +1144,15 @@ export class ComponentDocPage implements OnInit {
     { id: 'PRJ-104', name: 'Hyperion Analytics', category: 'Data Science', status: 'Active', budget: '$61,200' },
     { id: 'PRJ-105', name: 'Vanguard Design System', category: 'Frontend', status: 'In Review', budget: '$28,000' },
     { id: 'PRJ-106', name: 'Pulse Notification Service', category: 'Messaging', status: 'Active', budget: '$19,500' },
-    { id: 'PRJ-107', name: 'Titan Database Cluster', category: 'Infrastructure', status: 'Completed', budget: '$112,000' }
+    {
+      id: 'PRJ-107',
+      name: 'Titan Database Cluster',
+      category: 'Infrastructure',
+      status: 'Completed',
+      budget: '$112,000'
+    }
   ];
+
   demoTreeNodes = [
     {
       label: 'Engineering',
@@ -1135,6 +1175,7 @@ export class ComponentDocPage implements OnInit {
       ]
     }
   ];
+
   demoVirtualScrollItems = Array.from({ length: 10000 }, (_, i) => ({
     id: i + 1,
     name: `Enterprise Record #${i + 1}`,
@@ -1142,11 +1183,13 @@ export class ComponentDocPage implements OnInit {
     role: i % 4 === 0 ? 'Admin' : i % 4 === 1 ? 'Developer' : i % 4 === 2 ? 'Editor' : 'Viewer',
     status: i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Pending' : 'Offline'
   }));
+
   demoMeterItems = [
     { label: 'Design', value: 45, color: 'var(--gp-primary)' },
     { label: 'Engineering', value: 30, color: 'var(--gp-info)' },
     { label: 'Operations', value: 25, color: 'var(--gp-success)' }
   ];
+
   demoTimelineEvents = [
     { status: 'Ordered', date: '15/10/2026 10:30', icon: 'check', color: '#6366f1' },
     { status: 'Processing', date: '15/10/2026 14:00', icon: 'refresh', color: '#f59e0b' },

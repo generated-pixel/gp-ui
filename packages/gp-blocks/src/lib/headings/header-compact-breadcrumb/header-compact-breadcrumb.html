@@ -1,35 +1,33 @@
 <div class="gp-header-compact">
   <div class="left-actions">
     @if (effectiveBreadcrumbs()) {
-      <ng-container *ngTemplateOutlet="effectiveBreadcrumbs()!" />
+    <ng-container *ngTemplateOutlet="effectiveBreadcrumbs()!" />
     } @else {
-      <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
-      <gp-button variant="text" severity="secondary" size="sm" styleClass="back-btn" (onClickEvent)="backClick.emit()">
-        <gp-icon name="arrow-left" size="0.9em" />
-        <span>{{ backLabel() }}</span>
-      </gp-button>
-      @if (activeItem()) {
-        <span class="sep">/</span>
-      }
-      @if (activeItem()) {
-        <span class="active-crumb">{{ activeItem() }}</span>
-      }
-    }
+    <ng-content select="[breadcrumbs], [slot=breadcrumbs]" />
+    <gp-button variant="text" severity="secondary" size="sm" styleClass="back-btn" (onClickEvent)="backClick.emit()">
+      <gp-icon name="arrow-left" size="0.9em" />
+      <span>{{ backLabel() }}</span>
+    </gp-button>
+    @if (activeItem()) {
+    <span class="sep">/</span>
+    } @if (activeItem()) {
+    <span class="active-crumb">{{ activeItem() }}</span>
+    } }
   </div>
 
   <div class="right-actions">
     @if (effectiveActions()) {
-      <ng-container *ngTemplateOutlet="effectiveActions()!" />
+    <ng-container *ngTemplateOutlet="effectiveActions()!" />
     } @else {
-      <ng-content select="[actions], [slot=actions]" />
-      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="shareClick.emit()">
-        <gp-icon name="share-2" size="0.85em" style="margin-right: 0.35rem" />
-        {{ shareBtnLabel() }}
-      </gp-button>
-      <gp-button severity="primary" size="sm" (onClickEvent)="editClick.emit()">
-        <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem" />
-        {{ editBtnLabel() }}
-      </gp-button>
+    <ng-content select="[actions], [slot=actions]" />
+    <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="shareClick.emit()">
+      <gp-icon name="share-2" size="0.85em" style="margin-right: 0.35rem" />
+      {{ shareBtnLabel() }}
+    </gp-button>
+    <gp-button severity="primary" size="sm" (onClickEvent)="editClick.emit()">
+      <gp-icon name="edit" size="0.85em" style="margin-right: 0.35rem" />
+      {{ editBtnLabel() }}
+    </gp-button>
     }
   </div>
   <ng-content />

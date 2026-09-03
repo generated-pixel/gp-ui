@@ -1,43 +1,40 @@
 <gp-toolbar styleClass="gp-nav-topbar" ariaLabel="Primary navigation">
   <div start class="gp-nav-topbar__start">
     @if (effectiveBrand()) {
-      <ng-container *ngTemplateOutlet="effectiveBrand()!" />
+    <ng-container *ngTemplateOutlet="effectiveBrand()!" />
     } @else {
-      <ng-content select="[brand], [slot=brand]" />
+    <ng-content select="[brand], [slot=brand]" />
 
-      <div class="gp-nav-topbar__brand">
-        <gp-icon [name]="brandIcon()" size="1.15em" />
-        <span>{{ brandName() }}</span>
-      </div>
-    }
-
-    @if (effectiveNav()) {
-      <ng-container *ngTemplateOutlet="effectiveNav()!" />
+    <div class="gp-nav-topbar__brand">
+      <gp-icon [name]="brandIcon()" size="1.15em" />
+      <span>{{ brandName() }}</span>
+    </div>
+    } @if (effectiveNav()) {
+    <ng-container *ngTemplateOutlet="effectiveNav()!" />
     } @else {
-      <ng-content select="[nav], [slot=nav], [links], [slot=links]" />
+    <ng-content select="[nav], [slot=nav], [links], [slot=links]" />
 
-      @if (menuItems().length) {
-        <gp-menubar [model]="menuItems()" styleClass="gp-nav-topbar__menu" />
-      }
-    }
+    @if (menuItems().length) {
+    <gp-menubar [model]="menuItems()" styleClass="gp-nav-topbar__menu" />
+    } }
   </div>
 
   <div end class="gp-nav-topbar__end">
     @if (effectiveSearch()) {
-      <ng-container *ngTemplateOutlet="effectiveSearch()!" />
+    <ng-container *ngTemplateOutlet="effectiveSearch()!" />
     } @else {
-      <ng-content select="[search], [slot=search]" />
+    <ng-content select="[search], [slot=search]" />
 
-      <gp-input-text
-        type="search"
-        iconLeft="search"
-        size="sm"
-        [value]="searchQuery()"
-        [placeholder]="searchPlaceholder()"
-        (onInputEvent)="onSearchInput($event)"
-        styleClass="gp-nav-topbar__search"
-        ariaLabel="Search"
-      />
+    <gp-input-text
+      type="search"
+      iconLeft="search"
+      size="sm"
+      [value]="searchQuery()"
+      [placeholder]="searchPlaceholder()"
+      (onInputEvent)="onSearchInput($event)"
+      styleClass="gp-nav-topbar__search"
+      ariaLabel="Search"
+    />
     }
 
     <gp-button
@@ -51,27 +48,27 @@
     />
 
     @if (effectiveUser()) {
-      <ng-container *ngTemplateOutlet="effectiveUser()!" />
+    <ng-container *ngTemplateOutlet="effectiveUser()!" />
     } @else {
-      <ng-content select="[user], [slot=user]" />
+    <ng-content select="[user], [slot=user]" />
 
-      <gp-button
-        variant="text"
-        severity="secondary"
-        size="sm"
-        [iconOnly]="true"
-        ariaLabel="Open profile"
-        styleClass="gp-nav-topbar__profile"
-        (onClickEvent)="profileClick.emit()"
-      >
-        <gp-avatar [label]="(userName() || 'U').charAt(0)" size="normal" shape="circle" />
-      </gp-button>
+    <gp-button
+      variant="text"
+      severity="secondary"
+      size="sm"
+      [iconOnly]="true"
+      ariaLabel="Open profile"
+      styleClass="gp-nav-topbar__profile"
+      (onClickEvent)="profileClick.emit()"
+    >
+      <gp-avatar [label]="(userName() || 'U').charAt(0)" size="normal" shape="circle" />
+    </gp-button>
     }
   </div>
 </gp-toolbar>
 
 @if (effectiveContent()) {
-  <ng-container *ngTemplateOutlet="effectiveContent()!" />
+<ng-container *ngTemplateOutlet="effectiveContent()!" />
 } @else {
-  <ng-content />
+<ng-content />
 }

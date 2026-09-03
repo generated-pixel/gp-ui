@@ -27,7 +27,7 @@ describe('GpInputText', () => {
   });
 
   it('should clear value when clear button is clicked', () => {
-    component.clearable = true;
+    fixture.componentRef.setInput('clearable', true);
     component.writeValue('Test');
     fixture.detectChanges();
 
@@ -39,7 +39,7 @@ describe('GpInputText', () => {
     clearBtn.click();
     fixture.detectChanges();
 
-    expect(cleared).toBeTrue();
+    expect(cleared).toBe(true);
     const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
     expect(input.value).toBe('');
   });

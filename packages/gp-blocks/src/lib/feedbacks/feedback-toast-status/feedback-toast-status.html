@@ -1,39 +1,36 @@
 <div class="gp-toast-status-stack">
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[toasts], [slot=toasts]" />
-    @for (t of toasts(); track t) {
-      @if (effectiveToastTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveToastTemplate()!; context: { $implicit: t }" />
-      } @else {
-        <div class="toast-card" [ngClass]="'severity-' + t.severity">
-          <div class="toast-ico">
-            <gp-icon
-              [name]="
+  <ng-content select="[toasts], [slot=toasts]" />
+  @for (t of toasts(); track t) { @if (effectiveToastTemplate()) {
+  <ng-container *ngTemplateOutlet="effectiveToastTemplate()!; context: { $implicit: t }" />
+  } @else {
+  <div class="toast-card" [ngClass]="'severity-' + t.severity">
+    <div class="toast-ico">
+      <gp-icon
+        [name]="
                 t.icon ||
                 (t.severity === 'success' ? 'check-circle' : t.severity === 'danger' ? 'alert-octagon' : 'info')
               "
-              size="1.2em"
-            />
-          </div>
-          <div class="toast-text">
-            <h4 class="toast-title">{{ t.title }}</h4>
-            <p class="toast-desc">{{ t.desc }}</p>
-          </div>
-          <gp-button
-            variant="text"
-            severity="secondary"
-            [iconOnly]="true"
-            styleClass="close-toast-btn"
-            ariaLabel="Close notification"
-            (onClickEvent)="closeToast.emit(t)"
-          >
-            <gp-icon name="close" size="0.85em" />
-          </gp-button>
-        </div>
-      }
-    }
-  }
+        size="1.2em"
+      />
+    </div>
+    <div class="toast-text">
+      <h4 class="toast-title">{{ t.title }}</h4>
+      <p class="toast-desc">{{ t.desc }}</p>
+    </div>
+    <gp-button
+      variant="text"
+      severity="secondary"
+      [iconOnly]="true"
+      styleClass="close-toast-btn"
+      ariaLabel="Close notification"
+      (onClickEvent)="closeToast.emit(t)"
+    >
+      <gp-icon name="close" size="0.85em" />
+    </gp-button>
+  </div>
+  } } }
   <ng-content />
 </div>

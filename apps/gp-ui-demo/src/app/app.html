@@ -1,0 +1,315 @@
+<div class="app-layout">
+  <header class="app-header">
+    <div class="site-shell-header">
+      <div class="header-left">
+        <gp-button
+          icon="bars"
+          [iconOnly]="true"
+          variant="text"
+          styleClass="sidebar-toggle-btn mobile-menu-btn"
+          [ariaLabel]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+          [title]="sidebarCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+          (onClickEvent)="toggleSidebar()"
+        />
+
+        <a routerLink="/" class="brand-mark">
+          <img src="/img/generated-pixel-logomark.svg" alt="Generated Pixel logo" class="brand-mark__logo" />
+          <span class="brand-mark__text">
+            <span class="brand-mark__name">gp-ui</span>
+            <span class="brand-mark__tag">Component Library</span>
+          </span>
+          <span class="pride-flag-small" aria-hidden="true"></span>
+        </a>
+
+        <a
+          class="company-link"
+          href="https://generatedpixel.dev/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Generated Pixel home"
+          title="Generated Pixel"
+        >
+          <span class="company-link__label">Built by</span>
+          <span class="company-link__brand">Generated Pixel</span>
+        </a>
+
+        <a
+          class="donation-badge"
+          href="https://www.buymeacoffee.com/generatedpixel"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Support Generated Pixel on Buy Me a Coffee"
+        >
+          <img
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+            alt="Buy Me a Coffee"
+            class="donation-badge__image"
+          />
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="search-input-wrap">
+          <gp-icon name="search" size="0.9em" class="search-icon" />
+          <gp-input-text
+            styleClass="search-input"
+            placeholder="Search components (e.g. table, select, dialog)..."
+            [value]="searchQuery()"
+            (onInputEvent)="onSearchInput($event)"
+            ariaLabel="Search component catalogue"
+          />
+        </div>
+      </div>
+
+      <div class="header-right">
+        <gp-button
+          label="Theme Studio"
+          icon="sliders"
+          styleClass="header-theme-studio-btn"
+          (onClickEvent)="themeEditorService.open()"
+          title="Open Interactive Theme Editor Dialog"
+        />
+
+        <div class="theme-switcher-container">
+          <gp-button
+            icon="palette"
+            [iconOnly]="true"
+            variant="text"
+            styleClass="header-icon-btn theme-palette-btn"
+            (onClickEvent)="toggleThemeMenu()"
+            [attr.aria-expanded]="themeMenuOpen()"
+            ariaLabel="Select Theme Preset"
+            title="Theme: {{ currentThemeName() }} (Click to Change)"
+          >
+            <span class="theme-dot-indicator" [style.backgroundColor]="currentThemeColor()"></span>
+          </gp-button>
+
+          @if (themeMenuOpen()) {
+          <div class="theme-dropdown-backdrop" (click)="closeThemeMenu()"></div>
+          <div class="theme-dropdown-menu">
+            <div class="theme-dropdown-header">
+              <span>Theme Presets</span>
+              <span class="theme-mode-badge">{{ isDark() ? 'Dark Mode' : 'Light Mode' }}</span>
+            </div>
+            <div class="theme-dropdown-studio-cta">
+              <gp-button
+                label="Open Theme Editor Studio..."
+                icon="sliders"
+                variant="text"
+                styleClass="dropdown-studio-btn"
+                (onClickEvent)="themeEditorService.open(); closeThemeMenu()"
+              />
+            </div>
+            <div class="theme-list">
+              @for (t of availableThemes; track t.id) {
+              <gp-button
+                variant="text"
+                [styleClass]="'theme-option-btn' + (activeThemeId() === t.id ? ' theme-option-active' : '')"
+                [ariaLabel]="'Select ' + t.name + ' theme'"
+                (onClickEvent)="selectTheme(t.id)"
+              >
+                <div class="theme-swatch-pair">
+                  <span class="theme-swatch" [style.backgroundColor]="t.primaryColor"></span>
+                  <span class="theme-swatch" [style.backgroundColor]="t.accentColor"></span>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-name">{{ t.name }}</span>
+                </div>
+                @if (activeThemeId() === t.id) {
+                <gp-icon name="check" size="0.9em" class="theme-check-icon" />
+                }
+              </gp-button>
+              }
+            </div>
+          </div>
+          }
+        </div>
+
+        <gp-button
+          [icon]="isDark() ? 'sun' : 'moon'"
+          [iconOnly]="true"
+          variant="text"
+          styleClass="header-icon-btn"
+          (onClickEvent)="toggleThemeMode()"
+          [ariaLabel]="isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          [title]="isDark() ? 'Mode: Dark (Click for Light)' : 'Mode: Light (Click for Dark)'"
+        />
+
+        <gp-button
+          icon="globe"
+          [iconOnly]="true"
+          variant="text"
+          styleClass="header-icon-btn"
+          (onClickEvent)="toggleRtl()"
+          ariaLabel="Toggle RTL Direction"
+          title="Toggle Text Direction (LTR / RTL)"
+        />
+
+        <a
+          href="https://github.com/generated-pixel/gp-ui"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="header-icon-btn"
+          aria-label="GitHub Repository"
+          title="GitHub Repository"
+        >
+          <gp-icon name="code" size="1.2em" />
+        </a>
+      </div>
+    </div>
+    <div class="pride-flag-banner" aria-hidden="true"></div>
+  </header>
+
+  <div class="app-body">
+    @if (sidebarOpen()) {
+    <div class="sidebar-backdrop" (click)="closeSidebarOnMobile()" aria-hidden="true"></div>
+    }
+    <aside
+      class="app-sidebar"
+      [class.app-sidebar-open]="sidebarOpen()"
+      [class.app-sidebar-collapsed]="sidebarCollapsed()"
+      [class.app-sidebar--transitioning]="sidebarTransitioning()"
+    >
+      <div class="sidebar-expanded-content">
+        <div class="sidebar-header-note">
+          <span>gp-ui Framework v{{ version }}</span>
+        </div>
+        <nav class="sidebar-nav">
+          @for (cat of categoryNames(); track cat) {
+          <div class="nav-category">
+            <div class="nav-category-title">{{ cat }}</div>
+            <ul class="nav-items">
+              @for (item of categoryItemsMap()[cat]; track item.route) {
+              <li class="nav-item">
+                <a
+                  [routerLink]="item.route"
+                  routerLinkActive="nav-link-active"
+                  class="nav-link"
+                  (click)="closeSidebarOnMobile()"
+                >
+                  <gp-icon [name]="item.icon" size="0.9em" class="nav-icon" />
+                  <span class="nav-label">{{ item.name }}</span>
+                  @if (item.badge) {
+                  <gp-badge [value]="item.badge" severity="primary" size="sm" />
+                  }
+                </a>
+
+                @if (item.children?.length) {
+                <ul class="nav-subitems">
+                  @for (child of item.children; track child.route) {
+                  <li class="nav-subitem">
+                    <a
+                      [routerLink]="child.route"
+                      routerLinkActive="nav-link-active"
+                      class="nav-link nav-link-sub"
+                      (click)="closeSidebarOnMobile()"
+                    >
+                      <gp-icon [name]="child.icon" size="0.85em" class="nav-icon" />
+                      <span class="nav-label">{{ child.name }}</span>
+                    </a>
+                  </li>
+                  }
+                </ul>
+                }
+              </li>
+              }
+            </ul>
+          </div>
+          }
+        </nav>
+        <div class="sidebar-help-card">
+          <gp-icon name="envelope" size="0.9em" class="sidebar-help-icon" />
+          <div class="sidebar-help-body">
+            <span class="sidebar-help-title">Want to help?</span>
+            <a class="sidebar-help-link" href="mailto:hello@generatedpixel.dev"
+              >Email us at hello&#64;generatedpixel.dev</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- COLLAPSED MINI RAIL (DESKTOP) -->
+      <nav class="sidebar-rail" aria-label="Category Rail Navigation">
+        @for (cat of categoryNames(); track cat) {
+        <div class="rail-category-item" (mouseenter)="openFlyout(cat, $event)" (mouseleave)="scheduleCloseFlyout()">
+          <button
+            type="button"
+            class="rail-category-btn"
+            [class.rail-btn--active-route]="isCategoryActive(cat)"
+            [class.rail-btn--active-flyout]="activeFlyoutCategory() === cat"
+            [attr.aria-label]="cat"
+            [title]="cat"
+            (click)="openFlyout(cat, $event)"
+          >
+            <gp-icon [name]="getCategoryIcon(cat)" size="1.2em" class="rail-icon" />
+            <span class="rail-cat-abbr">{{ getCategoryAbbr(cat) }}</span>
+          </button>
+        </div>
+        }
+      </nav>
+    </aside>
+
+    <!-- SLIDE-OUT FLYOUT MENU (DESKTOP COLLAPSED) -->
+    @if (sidebarCollapsed() && activeFlyoutCategory()) {
+    <div
+      class="sidebar-slideout-menu"
+      [class.sidebar-slideout-menu--multicol]="getFlyoutItems().length > 12"
+      [style.top.px]="flyoutTop()"
+      (mouseenter)="cancelCloseFlyout()"
+      (mouseleave)="scheduleCloseFlyout()"
+    >
+      <div class="slideout-header">
+        <div class="slideout-header__title">
+          <gp-icon [name]="getCategoryIcon(activeFlyoutCategory()!)" size="1.05em" />
+          <span>{{ activeFlyoutCategory() }}</span>
+        </div>
+        <gp-badge [value]="getFlyoutItems().length + ' items'" severity="contrast" size="sm" />
+      </div>
+      <div class="slideout-content" [class.slideout-content--multicol]="getFlyoutItems().length > 12">
+        <ul class="slideout-items" [class.slideout-items--multicol]="getFlyoutItems().length > 12">
+          @for (item of getFlyoutItems(); track item.route) {
+          <li class="slideout-item">
+            <a
+              [routerLink]="item.route"
+              routerLinkActive="slideout-link--active"
+              class="slideout-link"
+              (click)="closeFlyoutImmediate()"
+            >
+              <gp-icon [name]="item.icon" size="0.85em" class="slideout-item__icon" />
+              <span class="slideout-item__name">{{ item.name }}</span>
+              @if (item.badge) {
+              <gp-badge [value]="item.badge" severity="primary" size="sm" />
+              }
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+    }
+
+    <main class="app-main-docs">
+      <router-outlet />
+    </main>
+  </div>
+
+  <app-theme-editor-dialog />
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__powered">
+        <span class="site-footer__label">Powered by</span>
+        <a class="site-footer__link" href="https://generatedpixel.dev/" target="_blank" rel="noopener noreferrer">
+          Generated Pixel
+        </a>
+      </div>
+      <span class="site-footer__divider" aria-hidden="true">&bull;</span>
+      <div class="site-footer__help">
+        <span class="site-footer__help-prompt">Want to help?</span>
+        <a class="site-footer__link" href="mailto:hello@generatedpixel.dev">Email us at hello&#64;generatedpixel.dev</a>
+      </div>
+    </div>
+  </footer>
+
+  <gp-command-palette [items]="commandPaletteItems" (onSelect)="onCommandSelected($event)" />
+</div>

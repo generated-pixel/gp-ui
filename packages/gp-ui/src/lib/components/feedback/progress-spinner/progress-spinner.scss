@@ -5,6 +5,7 @@
   height: 2.5rem;
   display: inline-block;
 }
+.gp-progress-spinner__svg,
 .gp-progress-spinner-svg {
   animation: gp-rotate 2s linear infinite;
   height: 100%;
@@ -17,6 +18,7 @@
   right: 0;
   margin: auto;
 }
+.gp-progress-spinner__circle,
 .gp-progress-spinner-circle {
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;

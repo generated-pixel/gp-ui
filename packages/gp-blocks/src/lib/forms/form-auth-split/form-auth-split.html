@@ -2,25 +2,24 @@
   <!-- Left Brand Hero Column -->
   <div class="auth-hero-col">
     @if (effectiveHero()) {
-      <ng-container *ngTemplateOutlet="effectiveHero()!" />
+    <ng-container *ngTemplateOutlet="effectiveHero()!" />
     } @else {
-      <ng-content select="[hero], [slot=hero]" />
-      @if (brandName()) {
-        <div class="brand-row">
-          <div class="brand-sq">
-            <gp-icon [name]="brandIcon()" size="1.2em" />
-          </div>
-          <span class="brand-name">{{ brandName() }}</span>
-        </div>
-      }
-      <div class="hero-center-content">
-        @if (heroTitle()) {
-          <h1 class="hero-title">{{ heroTitle() }}</h1>
-        }
-        @if (heroDesc()) {
-          <p class="hero-desc">{{ heroDesc() }}</p>
-        }
+    <ng-content select="[hero], [slot=hero]" />
+    @if (brandName()) {
+    <div class="brand-row">
+      <div class="brand-sq">
+        <gp-icon [name]="brandIcon()" size="1.2em" />
       </div>
+      <span class="brand-name">{{ brandName() }}</span>
+    </div>
+    }
+    <div class="hero-center-content">
+      @if (heroTitle()) {
+      <h1 class="hero-title">{{ heroTitle() }}</h1>
+      } @if (heroDesc()) {
+      <p class="hero-desc">{{ heroDesc() }}</p>
+      }
+    </div>
     }
   </div>
 
@@ -28,63 +27,60 @@
   <div class="auth-form-col">
     <div class="form-container-card">
       @if (effectiveContent()) {
-        <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      <ng-container *ngTemplateOutlet="effectiveContent()!" />
+      } @else { @if (effectiveForm()) {
+      <ng-container *ngTemplateOutlet="effectiveForm()!" />
       } @else {
-        @if (effectiveForm()) {
-          <ng-container *ngTemplateOutlet="effectiveForm()!" />
-        } @else {
-          <ng-content select="[form], [slot=form]" />
-          @if (formTitle()) {
-            <div class="auth-form-head">
-              <h2 class="form-title">{{ formTitle() }}</h2>
-              @if (formSubtitle()) {
-                <p class="form-sub">{{ formSubtitle() }}</p>
-              }
-            </div>
-          }
-          <div class="auth-form-body">
-            <div class="form-field">
-              <label class="input-label">Email Address</label>
-              <gp-input-text
-                type="email"
-                styleClass="form-input"
-                [fluid]="true"
-                [value]="email()"
-                (valueChange)="email.set($event)"
-                placeholder="name@company.com"
-              />
-            </div>
-            <div class="form-field">
-              <div class="pass-label-row">
-                <label class="input-label">Password</label>
-                <a href="javascript:void(0)" class="forgot-link" (click)="forgotPasswordClick.emit()"
-                  >Forgot password?</a
-                >
-              </div>
-              <gp-password
-                styleClass="form-input"
-                [fluid]="true"
-                [feedback]="false"
-                [value]="password()"
-                (valueChange)="password.set($event)"
-                placeholder="Enter your password"
-              />
-            </div>
-            <div class="remember-row">
-              <gp-checkbox
-                styleClass="check-label"
-                [binary]="true"
-                [checked]="rememberMe()"
-                label="Remember this device for 30 days"
-                (valueChange)="rememberMe.set($event)"
-              />
-            </div>
-            <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onSubmit()">
-              {{ submitBtnLabel() }}
-            </gp-button>
-          </div>
+      <ng-content select="[form], [slot=form]" />
+      @if (formTitle()) {
+      <div class="auth-form-head">
+        <h2 class="form-title">{{ formTitle() }}</h2>
+        @if (formSubtitle()) {
+        <p class="form-sub">{{ formSubtitle() }}</p>
         }
-        <ng-content />
+      </div>
+      }
+      <div class="auth-form-body">
+        <div class="form-field">
+          <label class="input-label">Email Address</label>
+          <gp-input-text
+            type="email"
+            styleClass="form-input"
+            [fluid]="true"
+            [value]="email()"
+            (valueChange)="email.set($event)"
+            placeholder="name@company.com"
+          />
+        </div>
+        <div class="form-field">
+          <div class="pass-label-row">
+            <label class="input-label">Password</label>
+            <a href="javascript:void(0)" class="forgot-link" (click)="forgotPasswordClick.emit()">Forgot password?</a>
+          </div>
+          <gp-password
+            styleClass="form-input"
+            [fluid]="true"
+            [feedback]="false"
+            [value]="password()"
+            (valueChange)="password.set($event)"
+            placeholder="Enter your password"
+          />
+        </div>
+        <div class="remember-row">
+          <gp-checkbox
+            styleClass="check-label"
+            [binary]="true"
+            [checked]="rememberMe()"
+            label="Remember this device for 30 days"
+            (valueChange)="rememberMe.set($event)"
+          />
+        </div>
+        <gp-button severity="primary" [style]="{ width: '100%' }" (onClickEvent)="onSubmit()">
+          {{ submitBtnLabel() }}
+        </gp-button>
+      </div>
+      }
+      <ng-content />
       }
     </div>
   </div>

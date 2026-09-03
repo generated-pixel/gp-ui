@@ -2,15 +2,7 @@ import { Component, signal, computed, ViewChild } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { GpGrid, GpGridWidget, GpGridItem, GpGridChangeEvent, GpGridCompactType } from 'gp-grid';
-import {
-  GpButton,
-  GpBadge,
-  GpCheckbox,
-  GpSelect,
-  GpSwitch,
-  GpTag,
-  GpProgressBar
-} from 'gp-ui';
+import { GpButton, GpBadge, GpCheckbox, GpSelect, GpSwitch, GpTag, GpProgressBar } from 'gp-ui';
 import { GpIcon } from 'gp-ui-icons';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
@@ -31,18 +23,7 @@ export interface WidgetPayload {
 @Component({
   selector: 'app-grid-demo',
   standalone: true,
-  imports: [
-    FormsModule,
-    GpGrid,
-    GpGridWidget,
-    GpButton,
-    GpCheckbox,
-    GpSelect,
-    GpSwitch,
-    GpIcon,
-    DocCode,
-    DocApiTable
-  ],
+  imports: [FormsModule, GpGrid, GpGridWidget, GpButton, GpCheckbox, GpSelect, GpSwitch, GpIcon, DocCode, DocApiTable],
   templateUrl: './grid-demo.html',
   styleUrl: './grid-demo.scss'
 })
@@ -67,6 +48,7 @@ export class GridDemo {
     { label: '12 Cols', value: 12 },
     { label: '16 Cols', value: 16 }
   ];
+
   public rowHeightOptions = [
     { label: 'Compact (65px)', value: 65 },
     { label: 'Normal (85px)', value: 85 },

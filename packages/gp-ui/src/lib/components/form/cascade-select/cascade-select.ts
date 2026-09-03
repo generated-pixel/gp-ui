@@ -14,6 +14,7 @@ import {
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
+import { UniqueId } from '../../../utils/unique-id';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 import { GpAppendToTarget } from '../../../overlay/append-to.interface';
 
@@ -41,6 +42,7 @@ export interface GpCascadeSelectItem {
   styleUrl: './cascade-select.scss'
 })
 export class GpCascadeSelect extends GpEditableBase implements ControlValueAccessor {
+  public listboxId = computed<string>(() => this.inputId() + '_tree');
   public appendTo = input<GpAppendToTarget>('body');
   public options = input<any[]>([]);
   public optionLabel = input<string>('name');

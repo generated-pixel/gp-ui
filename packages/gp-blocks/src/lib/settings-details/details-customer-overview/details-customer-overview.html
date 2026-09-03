@@ -1,97 +1,93 @@
 <div class="gp-details-overview-card">
   <!-- Top Profile Header Row -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    <div class="overview-header">
-      <div class="profile-info-group">
-        <gp-avatar [label]="(customerName() || 'C').charAt(0)" size="xlarge" shape="circle" />
-        <div class="name-meta">
-          <div class="name-badge-line">
-            <h2 class="customer-name">{{ customerName() }}</h2>
-            <gp-badge [value]="customerStatus()" severity="success" />
-          </div>
-          <div class="company-loc-line">
-            <span class="comp-name">{{ companyName() }}</span>
-            @if (location()) {
-              <span class="dot-sep">&bull;</span>
-            }
-            @if (location()) {
-              <span class="loc-name">{{ location() }}</span>
-            }
-          </div>
+  <ng-content select="[header], [slot=header]" />
+  <div class="overview-header">
+    <div class="profile-info-group">
+      <gp-avatar [label]="(customerName() || 'C').charAt(0)" size="xlarge" shape="circle" />
+      <div class="name-meta">
+        <div class="name-badge-line">
+          <h2 class="customer-name">{{ customerName() }}</h2>
+          <gp-badge [value]="customerStatus()" severity="success" />
+        </div>
+        <div class="company-loc-line">
+          <span class="comp-name">{{ companyName() }}</span>
+          @if (location()) {
+          <span class="dot-sep">&bull;</span>
+          } @if (location()) {
+          <span class="loc-name">{{ location() }}</span>
+          }
         </div>
       </div>
-      <div class="header-action-buttons">
-        <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="editContact.emit()">{{
-          editBtnLabel()
-        }}</gp-button>
-        <gp-button severity="primary" size="sm" (onClickEvent)="newDeal.emit()">{{ newDealBtnLabel() }}</gp-button>
-      </div>
     </div>
+    <div class="header-action-buttons">
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="editContact.emit()"
+        >{{ editBtnLabel() }}</gp-button
+      >
+      <gp-button severity="primary" size="sm" (onClickEvent)="newDeal.emit()">{{ newDealBtnLabel() }}</gp-button>
+    </div>
+  </div>
   }
 
   <!-- Tags Row -->
   @if (tags() && tags().length > 0) {
-    <div class="tags-row">
-      @for (t of tags(); track t) {
-        <gp-badge [value]="t" severity="secondary" />
-      }
-    </div>
+  <div class="tags-row">
+    @for (t of tags(); track t) {
+    <gp-badge [value]="t" severity="secondary" />
+    }
+  </div>
   }
 
   <!-- Content Override or Meta + Timeline Split -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[content], [slot=content]" />
-    <div class="overview-split-body">
-      <!-- Meta Details Column -->
-      @if (effectiveMeta()) {
-        <ng-container *ngTemplateOutlet="effectiveMeta()!" />
-      } @else {
-        <ng-content select="[meta], [slot=meta]" />
-        @if (metaFields() && metaFields().length > 0) {
-          <div class="meta-col">
-            <h4 class="section-title">Contact Information</h4>
-            @for (f of metaFields(); track f) {
-              <div class="meta-field">
-                <span class="f-label">{{ f.label }}</span>
-                @if (!f.isLink) {
-                  <span class="f-val">{{ f.value }}</span>
-                }
-                @if (f.isLink) {
-                  <a class="f-link" [href]="f.href || 'mailto:' + f.value">{{ f.value }}</a>
-                }
-              </div>
-            }
-          </div>
+  <ng-content select="[content], [slot=content]" />
+  <div class="overview-split-body">
+    <!-- Meta Details Column -->
+    @if (effectiveMeta()) {
+    <ng-container *ngTemplateOutlet="effectiveMeta()!" />
+    } @else {
+    <ng-content select="[meta], [slot=meta]" />
+    @if (metaFields() && metaFields().length > 0) {
+    <div class="meta-col">
+      <h4 class="section-title">Contact Information</h4>
+      @for (f of metaFields(); track f) {
+      <div class="meta-field">
+        <span class="f-label">{{ f.label }}</span>
+        @if (!f.isLink) {
+        <span class="f-val">{{ f.value }}</span>
+        } @if (f.isLink) {
+        <a class="f-link" [href]="f.href || 'mailto:' + f.value">{{ f.value }}</a>
         }
-      }
-      <!-- Timeline Events Column -->
-      @if (effectiveTimeline()) {
-        <ng-container *ngTemplateOutlet="effectiveTimeline()!" />
-      } @else {
-        <ng-content select="[timeline], [slot=timeline]" />
-        @if (timelineEvents() && timelineEvents().length > 0) {
-          <div class="timeline-col">
-            <h4 class="section-title">Activity Timeline</h4>
-            <div class="timeline-tree">
-              @for (ev of timelineEvents(); track ev) {
-                <div class="timeline-node" (click)="eventClick.emit(ev)" style="cursor: pointer">
-                  <div class="node-bullet" [ngClass]="ev.bulletClass || 'primary'"></div>
-                  <div class="node-content">
-                    <span class="node-title">{{ ev.title }}</span>
-                    <span class="node-date">{{ ev.date }}</span>
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-        }
+      </div>
       }
     </div>
-    <ng-content />
+    } }
+    <!-- Timeline Events Column -->
+    @if (effectiveTimeline()) {
+    <ng-container *ngTemplateOutlet="effectiveTimeline()!" />
+    } @else {
+    <ng-content select="[timeline], [slot=timeline]" />
+    @if (timelineEvents() && timelineEvents().length > 0) {
+    <div class="timeline-col">
+      <h4 class="section-title">Activity Timeline</h4>
+      <div class="timeline-tree">
+        @for (ev of timelineEvents(); track ev) {
+        <div class="timeline-node" (click)="eventClick.emit(ev)" style="cursor: pointer">
+          <div class="node-bullet" [ngClass]="ev.bulletClass || 'primary'"></div>
+          <div class="node-content">
+            <span class="node-title">{{ ev.title }}</span>
+            <span class="node-date">{{ ev.date }}</span>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    } }
+  </div>
+  <ng-content />
   }
 </div>

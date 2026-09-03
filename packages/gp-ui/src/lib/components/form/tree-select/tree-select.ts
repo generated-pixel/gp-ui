@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
   forwardRef,
   signal,
+  computed,
   ElementRef,
   HostListener,
   ChangeDetectorRef,
@@ -15,6 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
+import { UniqueId } from '../../../utils/unique-id';
 import { GpTreeNode } from '../../tree/tree-node/tree-node.interface';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 import { GpAppendToTarget } from '../../../overlay/append-to.interface';
@@ -36,6 +38,7 @@ import { GpAppendToTarget } from '../../../overlay/append-to.interface';
   styleUrl: './tree-select.scss'
 })
 export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor {
+  public listboxId = computed<string>(() => this.inputId() + '_tree');
   public appendTo = input<GpAppendToTarget>('body');
   public options = input<GpTreeNode[]>([]);
 
@@ -77,13 +80,15 @@ export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor
     this.cdr.markForCheck();
   }
 
-  public toggleNode(node: GpTreeNode, event: MouseEvent): void {
-    event.stopPropagation();
+  public toggleNode(node: GpTreeNode, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     node.expanded = !node.expanded;
     this.cdr.markForCheck();
   }
 
-  public selectNode(node: GpTreeNode, event: MouseEvent): void {
+  public selectNode(node: GpTreeNode, event?: Event): void {
     this.selectedNode.set(node);
     this.updateValue(node);
     this.handleControlBlur();

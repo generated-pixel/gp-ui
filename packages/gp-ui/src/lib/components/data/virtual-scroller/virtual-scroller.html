@@ -1,16 +1,19 @@
 <div class="gp-virtual-scroller" [style.height]="scrollHeight()" (scroll)="onScroll($event)" tabindex="0">
-  <div class="gp-virtual-scroller-spacer" [style.height.px]="totalHeight()"></div>
-  <div class="gp-virtual-scroller-content" [style.transform]="'translateY(' + offsetY() + 'px)'">
+  <div class="gp-virtual-scroller__spacer gp-virtual-scroller-spacer" [style.height.px]="totalHeight()"></div>
+  <div
+    class="gp-virtual-scroller__content gp-virtual-scroller-content"
+    [style.transform]="'translateY(' + offsetY() + 'px)'"
+  >
     @for (item of visibleItems(); track $index) {
-      <div class="gp-virtual-scroller-item" [style.height.px]="itemSize()">
-        @if (itemTemplate()) {
-          <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
-        } @else {
-          <div class="gp-virtual-scroller-default-item">
-            <span>{{ item?.name || item?.label || item?.title || item }}</span>
-          </div>
-        }
+    <div class="gp-virtual-scroller-item" [style.height.px]="itemSize()">
+      @if (itemTemplate()) {
+      <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
+      } @else {
+      <div class="gp-virtual-scroller-default-item">
+        <span>{{ item?.name || item?.label || item?.title || item }}</span>
       </div>
+      }
+    </div>
     }
   </div>
 </div>

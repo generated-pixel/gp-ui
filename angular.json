@@ -10,7 +10,7 @@
       "prefix": "gp",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "packages/gp-ui/ng-package.json"
           },
@@ -25,10 +25,10 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "packages/gp-ui/tsconfig.spec.json",
-            "polyfills": ["zone.js", "zone.js/testing"]
+            "runner": "vitest"
           }
         }
       }
@@ -40,7 +40,7 @@
       "prefix": "gp",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "packages/gp-blocks/ng-package.json"
           },
@@ -55,10 +55,10 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "packages/gp-blocks/tsconfig.spec.json",
-            "polyfills": ["zone.js", "zone.js/testing"]
+            "runner": "vitest"
           }
         }
       }
@@ -70,7 +70,7 @@
       "prefix": "gp",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "packages/gp-grid/ng-package.json"
           },
@@ -85,10 +85,10 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "packages/gp-grid/tsconfig.spec.json",
-            "polyfills": ["zone.js", "zone.js/testing"]
+            "runner": "vitest"
           }
         }
       }
@@ -100,7 +100,7 @@
       "prefix": "gp",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "packages/gp-rules/ng-package.json"
           },
@@ -113,6 +113,30 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "packages/gp-rules/tsconfig.spec.json",
+            "runner": "vitest"
+          }
+        }
+      }
+    },
+    "packages-tests": {
+      "projectType": "application",
+      "root": "packages",
+      "sourceRoot": "packages",
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "gp-ui:build:development",
+            "tsConfig": "packages/tsconfig.spec.json",
+            "runner": "vitest",
+            "setupFiles": ["tools/test-setup.ts"],
+            "include": ["**/*.spec.ts"]
+          }
         }
       }
     },
@@ -154,8 +178,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1.25mb"
                 },
                 {
                   "type": "anyComponentStyle",

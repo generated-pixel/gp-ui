@@ -42,8 +42,9 @@ export class GpRuleDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // If bound to a form control with valueChanges, wire change trigger
-    if (this.ngControl && this.ngControl.valueChanges) {
-      this.controlSub = this.ngControl.valueChanges.subscribe((val) => {
+    const ctrl = this.ngControl?.control;
+    if (ctrl?.valueChanges) {
+      this.controlSub = ctrl.valueChanges.subscribe((val) => {
         this.dispatch('valueChange', val);
       });
     }
@@ -112,7 +113,7 @@ export class GpRuleDirective implements OnInit, OnDestroy {
 
     const effectiveForm = this.form() || this.ruleGroup?.form() || (this.ngControl?.control?.parent as FormGroup);
     const effectiveState = {
-      ...(this.ruleGroup?.state() || {}),
+      ...(this.ruleGroup?.getState ? this.ruleGroup.getState() : this.ruleGroup?.state() || {}),
       ...(this.state() || {})
     };
 

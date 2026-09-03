@@ -1,23 +1,33 @@
 <div
-  class="gp-radiobutton"
+  class="gp-radio-button gp-radiobutton"
+  [class.gp-radio-button--checked]="isChecked()"
   [class.gp-radiobutton-checked]="isChecked()"
+  [class.gp-radio-button--disabled]="isEffectivelyDisabled()"
   [class.gp-radiobutton-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
   (click)="onClick($event)"
 >
   <div
-    class="gp-radiobutton-box"
+    class="gp-radio-button__box gp-radiobutton-box gp-radio-box"
+    [attr.id]="inputId()"
     [attr.aria-checked]="isChecked()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
+    [attr.aria-required]="required()"
+    [attr.aria-invalid]="isInvalid()"
+    [attr.aria-label]="ariaLabel() || label() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
     role="radio"
-    tabindex="0"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
     (keydown.space)="$event.preventDefault(); onClick($event)"
+    (keydown.enter)="$event.preventDefault(); onClick($event)"
+    (click)="onClick($event); $event.stopPropagation()"
     gpRipple
   >
-    <div class="gp-radiobutton-icon"></div>
+    <div class="gp-radio-button__icon gp-radiobutton-icon"></div>
   </div>
 
   @if (label()) {
-    <label [for]="inputId()" class="gp-radiobutton-label">{{ label() }}</label>
+  <label [for]="inputId()" class="gp-radio-button__label gp-radiobutton-label">{{ label() }}</label>
   }
 </div>

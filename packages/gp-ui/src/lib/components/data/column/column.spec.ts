@@ -5,9 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpColumn],
-  template: `
-    <gp-column field="name" header="Full Name" [sortable]="true" width="200px" align="center" />
-  `
+  template: ' <gp-column field="name" header="Full Name" [sortable]="true" width="200px" align="center" /> '
 })
 class TestHostComponent {}
 
@@ -28,7 +26,7 @@ describe('GpColumn', () => {
   it('should initialize column inputs correctly', () => {
     expect(column.field()).toBe('name');
     expect(column.header()).toBe('Full Name');
-    expect(column.sortable()).toBeTrue();
+    expect(column.sortable()).toBe(true);
     expect(column.width()).toBe('200px');
     expect(column.align()).toBe('center');
   });

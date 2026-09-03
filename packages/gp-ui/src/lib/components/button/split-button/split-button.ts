@@ -14,12 +14,7 @@ import { GpButton } from '../button/button';
 import { GpIcon } from '../../../icons/icon';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 import { GpAppendToTarget } from '../../../overlay/append-to.interface';
-import {
-  GpButtonBase,
-  GpButtonSeverity,
-  GpButtonSize,
-  GpButtonVariant
-} from '../../../base/gp-button-base';
+import { GpButtonBase, GpButtonSeverity, GpButtonSize, GpButtonVariant } from '../../../base/gp-button-base';
 
 export interface GpMenuItem {
   label?: string;

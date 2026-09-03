@@ -7,305 +7,286 @@
 >
   <!-- Toolbar Header (hidden in readonly mode) -->
   @if (!readonly()) {
-    <div class="gp-md-editor__toolbar" role="toolbar" aria-label="Markdown Formatting Toolbar">
-      <div class="gp-md-editor__toolbar-group">
-        @for (ctrl of controls(); track $index) {
-          @switch (ctrl) {
-            @case ('|') {
-              <span class="gp-md-editor__divider" aria-hidden="true"></span>
-            }
-            @case ('heading1') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Heading 1 (#)"
-                aria-label="Heading 1"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('heading1')"
-              >
-                H1
-              </button>
-            }
-            @case ('heading2') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Heading 2 (##)"
-                aria-label="Heading 2"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('heading2')"
-              >
-                H2
-              </button>
-            }
-            @case ('heading3') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Heading 3 (###)"
-                aria-label="Heading 3"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('heading3')"
-              >
-                H3
-              </button>
-            }
-            @case ('bold') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Bold (**text**) (Ctrl+B)"
-                aria-label="Bold"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('bold')"
-              >
-                <gp-icon name="bold" size="0.85em" />
-              </button>
-            }
-            @case ('italic') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Italic (*text*) (Ctrl+I)"
-                aria-label="Italic"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('italic')"
-              >
-                <gp-icon name="italic" size="0.85em" />
-              </button>
-            }
-            @case ('strike') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Strikethrough (~~text~~)"
-                aria-label="Strikethrough"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('strike')"
-              >
-                <gp-icon name="strikethrough" size="0.85em" />
-              </button>
-            }
-            @case ('quote') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Quote (> text)"
-                aria-label="Quote"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('quote')"
-              >
-                <gp-icon name="quote-left" size="0.85em" />
-              </button>
-            }
-            @case ('code') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Inline Code (`code`)"
-                aria-label="Inline Code"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('code')"
-              >
-                <gp-icon name="code" size="0.85em" />
-              </button>
-            }
-            @case ('codeBlock') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Fenced Code Block (```code```)"
-                aria-label="Code Block"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('codeBlock')"
-              >
-                <gp-icon name="file-code" size="0.85em" />
-              </button>
-            }
-            @case ('unorderedList') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Bullet List (- item)"
-                aria-label="Bullet List"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('unorderedList')"
-              >
-                <gp-icon name="list-ul" size="0.85em" />
-              </button>
-            }
-            @case ('orderedList') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Numbered List (1. item)"
-                aria-label="Numbered List"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('orderedList')"
-              >
-                <gp-icon name="list-ol" size="0.85em" />
-              </button>
-            }
-            @case ('taskList') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Task List (- [ ] task)"
-                aria-label="Task List"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('taskList')"
-              >
-                <gp-icon name="check-square" size="0.85em" />
-              </button>
-            }
-            @case ('link') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Link ([text](url)) (Ctrl+K)"
-                aria-label="Insert Link"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('link')"
-              >
-                <gp-icon name="link" size="0.85em" />
-              </button>
-            }
-            @case ('image') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Image (![alt](url))"
-                aria-label="Insert Image"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('image')"
-              >
-                <gp-icon name="image" size="0.85em" />
-              </button>
-            }
-            @case ('table') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Insert Table"
-                aria-label="Insert Table"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('table')"
-              >
-                <gp-icon name="table" size="0.85em" />
-              </button>
-            }
-            @case ('hr') {
-              <button
-                type="button"
-                class="gp-md-editor__btn"
-                title="Horizontal Rule (---)"
-                aria-label="Horizontal Rule"
-                [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
-                (click)="insertFormatting('hr')"
-              >
-                <gp-icon name="minus" size="0.85em" />
-              </button>
-            }
-          }
+  <div class="gp-md-editor__toolbar" role="toolbar" aria-label="Markdown Formatting Toolbar">
+    <div class="gp-md-editor__toolbar-group">
+      @for (ctrl of controls(); track $index) { @switch (ctrl) { @case ('|') {
+      <span class="gp-md-editor__divider" aria-hidden="true"></span>
+      } @case ('heading1') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Heading 1 (#)"
+        aria-label="Heading 1"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('heading1')"
+      >
+        H1
+      </button>
+      } @case ('heading2') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Heading 2 (##)"
+        aria-label="Heading 2"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('heading2')"
+      >
+        H2
+      </button>
+      } @case ('heading3') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Heading 3 (###)"
+        aria-label="Heading 3"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('heading3')"
+      >
+        H3
+      </button>
+      } @case ('bold') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Bold (**text**) (Ctrl+B)"
+        aria-label="Bold"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('bold')"
+      >
+        <gp-icon name="bold" size="0.85em" />
+      </button>
+      } @case ('italic') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Italic (*text*) (Ctrl+I)"
+        aria-label="Italic"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('italic')"
+      >
+        <gp-icon name="italic" size="0.85em" />
+      </button>
+      } @case ('strike') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Strikethrough (~~text~~)"
+        aria-label="Strikethrough"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('strike')"
+      >
+        <gp-icon name="strikethrough" size="0.85em" />
+      </button>
+      } @case ('quote') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Quote (> text)"
+        aria-label="Quote"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('quote')"
+      >
+        <gp-icon name="quote-left" size="0.85em" />
+      </button>
+      } @case ('code') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Inline Code (`code`)"
+        aria-label="Inline Code"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('code')"
+      >
+        <gp-icon name="code" size="0.85em" />
+      </button>
+      } @case ('codeBlock') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Fenced Code Block (```code```)"
+        aria-label="Code Block"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('codeBlock')"
+      >
+        <gp-icon name="file-code" size="0.85em" />
+      </button>
+      } @case ('unorderedList') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Bullet List (- item)"
+        aria-label="Bullet List"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('unorderedList')"
+      >
+        <gp-icon name="list-ul" size="0.85em" />
+      </button>
+      } @case ('orderedList') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Numbered List (1. item)"
+        aria-label="Numbered List"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('orderedList')"
+      >
+        <gp-icon name="list-ol" size="0.85em" />
+      </button>
+      } @case ('taskList') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Task List (- [ ] task)"
+        aria-label="Task List"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('taskList')"
+      >
+        <gp-icon name="check-square" size="0.85em" />
+      </button>
+      } @case ('link') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Link ([text](url)) (Ctrl+K)"
+        aria-label="Insert Link"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('link')"
+      >
+        <gp-icon name="link" size="0.85em" />
+      </button>
+      } @case ('image') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Image (![alt](url))"
+        aria-label="Insert Image"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('image')"
+      >
+        <gp-icon name="image" size="0.85em" />
+      </button>
+      } @case ('table') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Insert Table"
+        aria-label="Insert Table"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('table')"
+      >
+        <gp-icon name="table" size="0.85em" />
+      </button>
+      } @case ('hr') {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        title="Horizontal Rule (---)"
+        aria-label="Horizontal Rule"
+        [disabled]="isEffectivelyDisabled() || viewMode() === 'preview'"
+        (click)="insertFormatting('hr')"
+      >
+        <gp-icon name="minus" size="0.85em" />
+      </button>
+      } } } @for (action of customActions(); track action.id) {
+      <button
+        type="button"
+        class="gp-md-editor__btn"
+        [title]="action.title || action.label"
+        (click)="action.command(this)"
+      >
+        @if (action.icon) {
+        <gp-icon [name]="action.icon" size="0.85em" />
         }
-
-        @for (action of customActions(); track action.id) {
-          <button
-            type="button"
-            class="gp-md-editor__btn"
-            [title]="action.title || action.label"
-            (click)="action.command(this)"
-          >
-            @if (action.icon) {
-              <gp-icon [name]="action.icon" size="0.85em" />
-            }
-            <span>{{ action.label }}</span>
-          </button>
-        }
-      </div>
-
-      <!-- View Mode Switcher -->
-      <div class="gp-md-editor__view-modes" role="radiogroup" aria-label="Editor View Modes">
-        <button
-          type="button"
-          class="gp-md-editor__mode-btn"
-          [class.gp-md-editor__mode-btn--active]="viewMode() === 'edit'"
-          title="Edit Only Mode"
-          (click)="setViewMode('edit')"
-        >
-          <gp-icon name="edit" size="0.8em" />
-          <span>Write</span>
-        </button>
-        <button
-          type="button"
-          class="gp-md-editor__mode-btn"
-          [class.gp-md-editor__mode-btn--active]="viewMode() === 'split'"
-          title="Side-by-Side Split View"
-          (click)="setViewMode('split')"
-        >
-          <gp-icon name="columns" size="0.8em" />
-          <span>Split</span>
-        </button>
-        <button
-          type="button"
-          class="gp-md-editor__mode-btn"
-          [class.gp-md-editor__mode-btn--active]="viewMode() === 'preview'"
-          title="Live Preview Mode"
-          (click)="setViewMode('preview')"
-        >
-          <gp-icon name="eye" size="0.8em" />
-          <span>Preview</span>
-        </button>
-      </div>
+        <span>{{ action.label }}</span>
+      </button>
+      }
     </div>
+
+    <!-- View Mode Switcher -->
+    <div class="gp-md-editor__view-modes" role="radiogroup" aria-label="Editor View Modes">
+      <button
+        type="button"
+        class="gp-md-editor__mode-btn"
+        [class.gp-md-editor__mode-btn--active]="viewMode() === 'edit'"
+        title="Edit Only Mode"
+        (click)="setViewMode('edit')"
+      >
+        <gp-icon name="edit" size="0.8em" />
+        <span>Write</span>
+      </button>
+      <button
+        type="button"
+        class="gp-md-editor__mode-btn"
+        [class.gp-md-editor__mode-btn--active]="viewMode() === 'split'"
+        title="Side-by-Side Split View"
+        (click)="setViewMode('split')"
+      >
+        <gp-icon name="columns" size="0.8em" />
+        <span>Split</span>
+      </button>
+      <button
+        type="button"
+        class="gp-md-editor__mode-btn"
+        [class.gp-md-editor__mode-btn--active]="viewMode() === 'preview'"
+        title="Live Preview Mode"
+        aria-label="Live Preview Mode"
+        (click)="setViewMode('preview')"
+      >
+        <gp-icon name="eye" size="0.8em" />
+        <span>Preview</span>
+      </button>
+    </div>
+  </div>
   }
 
   <!-- Editor / Preview Panes -->
   <div class="gp-md-editor__body" [style.height]="readonly() ? 'auto' : height()">
     <!-- Markdown Input Pane -->
     @if (!readonly() && (viewMode() === 'edit' || viewMode() === 'split')) {
-      <div
-        class="gp-md-editor__pane gp-md-editor__pane--input"
-        [class.gp-md-editor__pane--full]="viewMode() === 'edit'"
-      >
-        <textarea
-          #textareaRef
-          class="gp-md-editor__textarea"
-          [placeholder]="placeholder() || 'Write Markdown here...'"
-          [value]="internalValue() || ''"
-          [disabled]="isEffectivelyDisabled()"
-          [readonly]="readonly()"
-          (input)="onInput($event)"
-          (focus)="isFocused.set(true)"
-          (blur)="isFocused.set(false); handleControlBlur()"
-          (keydown)="onKeyDown($event)"
-          spellcheck="false"
-          aria-label="Markdown Source Text Area"
-        ></textarea>
-      </div>
+    <div class="gp-md-editor__pane gp-md-editor__pane--input" [class.gp-md-editor__pane--full]="viewMode() === 'edit'">
+      <textarea
+        #textareaRef
+        [id]="inputId()"
+        class="gp-md-editor__textarea"
+        [placeholder]="placeholder() || 'Write Markdown here...'"
+        [value]="internalValue() || ''"
+        [disabled]="isEffectivelyDisabled()"
+        [readonly]="readonly()"
+        (input)="onInput($event)"
+        (focus)="isFocused.set(true)"
+        (blur)="isFocused.set(false); handleControlBlur()"
+        (keydown)="onKeyDown($event)"
+        spellcheck="false"
+        [attr.aria-label]="ariaLabel() || placeholder() || 'Markdown Source Text Area'"
+        [attr.aria-labelledby]="ariaLabelledBy() || null"
+        [attr.aria-describedby]="ariaDescribedBy() || null"
+        [attr.aria-required]="required()"
+        [attr.aria-invalid]="isInvalid()"
+      ></textarea>
+    </div>
     }
 
     <!-- Live Preview Pane -->
     @if (readonly() || viewMode() === 'preview' || viewMode() === 'split') {
-      <div
-        class="gp-md-editor__pane gp-md-editor__pane--preview"
-        [class.gp-md-editor__pane--full]="readonly() || viewMode() === 'preview'"
-        [innerHTML]="renderedHtml()"
-        role="region"
-        aria-label="Markdown Live Rendered Preview"
-      ></div>
+    <div
+      class="gp-md-editor__pane gp-md-editor__pane--preview"
+      [class.gp-md-editor__pane--full]="readonly() || viewMode() === 'preview'"
+      [innerHTML]="renderedHtml()"
+      role="region"
+      aria-label="Markdown Live Rendered Preview"
+    ></div>
     }
   </div>
 
   <!-- Status Bar Footer (hidden in readonly mode) -->
   @if (showStatusBar() && !readonly()) {
-    <div class="gp-md-editor__footer">
-      <span class="gp-md-editor__status-item">{{ lineCount() }} lines</span>
-      <span class="gp-md-editor__status-dot">&bull;</span>
-      <span class="gp-md-editor__status-item">{{ wordCount() }} words</span>
-      <span class="gp-md-editor__status-dot">&bull;</span>
-      <span class="gp-md-editor__status-item">{{ characterCount() }} chars</span>
-      <span class="gp-md-editor__badge">Markdown GFM</span>
-    </div>
+  <div class="gp-md-editor__footer">
+    <span class="gp-md-editor__status-item">{{ lineCount() }} lines</span>
+    <span class="gp-md-editor__status-dot">&bull;</span>
+    <span class="gp-md-editor__status-item">{{ wordCount() }} words</span>
+    <span class="gp-md-editor__status-dot">&bull;</span>
+    <span class="gp-md-editor__status-item">{{ characterCount() }} chars</span>
+    <span class="gp-md-editor__badge">Markdown GFM</span>
+  </div>
   }
 </div>

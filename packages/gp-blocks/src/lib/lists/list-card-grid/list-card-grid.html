@@ -1,54 +1,50 @@
 <div class="gp-card-grid-block">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <div class="block-top">
-        <div>
-          <h3 class="head-title">{{ title() }}</h3>
-          @if (subtitle()) {
-            <p class="head-subtitle">{{ subtitle() }}</p>
-          }
-        </div>
-        <gp-button severity="primary" size="sm" (onClickEvent)="createClick.emit()">
-          <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
-          {{ createBtnLabel() }}
-        </gp-button>
-      </div>
-    }
-  }
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <div class="block-top">
+    <div>
+      <h3 class="head-title">{{ title() }}</h3>
+      @if (subtitle()) {
+      <p class="head-subtitle">{{ subtitle() }}</p>
+      }
+    </div>
+    <gp-button severity="primary" size="sm" (onClickEvent)="createClick.emit()">
+      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+      {{ createBtnLabel() }}
+    </gp-button>
+  </div>
+  } }
 
   <!-- Cards Grid -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[cards], [slot=cards]" />
-    @if (cards() && cards().length > 0) {
-      <div class="grid-wrap">
-        @for (c of cards(); track c) {
-          @if (effectiveCardTemplate()) {
-            <ng-container *ngTemplateOutlet="effectiveCardTemplate()!; context: { $implicit: c }" />
-          } @else {
-            <div class="item-card" (click)="cardClick.emit(c)" style="cursor: pointer">
-              <div class="card-head">
-                <div class="card-ico">
-                  <gp-icon [name]="c.icon" size="1.2em" />
-                </div>
-                <gp-badge [value]="c.status" [severity]="c.status === 'Active' ? 'success' : 'secondary'" />
-              </div>
-              <h4 class="card-title">{{ c.title }}</h4>
-              <p class="card-desc">{{ c.desc }}</p>
-              <div class="card-foot">
-                <span class="card-meta">{{ c.meta }}</span>
-                <gp-icon name="arrow-right" size="0.85em" class="foot-arrow" />
-              </div>
-            </div>
-          }
-        }
+  <ng-content select="[cards], [slot=cards]" />
+  @if (cards() && cards().length > 0) {
+  <div class="grid-wrap">
+    @for (c of cards(); track c) { @if (effectiveCardTemplate()) {
+    <ng-container *ngTemplateOutlet="effectiveCardTemplate()!; context: { $implicit: c }" />
+    } @else {
+    <div class="item-card" (click)="cardClick.emit(c)" style="cursor: pointer">
+      <div class="card-head">
+        <div class="card-ico">
+          <gp-icon [name]="c.icon" size="1.2em" />
+        </div>
+        <gp-badge [value]="c.status" [severity]="c.status === 'Active' ? 'success' : 'secondary'" />
       </div>
-    }
-  }
+      <h4 class="card-title">{{ c.title }}</h4>
+      <p class="card-desc">{{ c.desc }}</p>
+      <div class="card-foot">
+        <span class="card-meta">{{ c.meta }}</span>
+        <gp-icon name="arrow-right" size="0.85em" class="foot-arrow" />
+      </div>
+    </div>
+    } }
+  </div>
+  } }
   <ng-content />
 </div>

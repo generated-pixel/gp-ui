@@ -1,66 +1,63 @@
 <div class="gp-settings-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    <div class="settings-head-action-row">
-      <div>
-        <h3 class="settings-title">{{ title() }}</h3>
-        <p class="settings-subtitle">{{ subtitle() }}</p>
-      </div>
-      <gp-button severity="primary" size="sm" (onClickEvent)="generateKey.emit()">
-        <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
-        {{ generateBtnLabel() }}
-      </gp-button>
+  <ng-content select="[header], [slot=header]" />
+  <div class="settings-head-action-row">
+    <div>
+      <h3 class="settings-title">{{ title() }}</h3>
+      <p class="settings-subtitle">{{ subtitle() }}</p>
     </div>
+    <gp-button severity="primary" size="sm" (onClickEvent)="generateKey.emit()">
+      <gp-icon name="plus" size="0.85em" style="margin-right: 0.35rem" />
+      {{ generateBtnLabel() }}
+    </gp-button>
+  </div>
   }
 
   <!-- Content Override or Keys List -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[content], [slot=content]" />
-    @if (effectiveKeys()) {
-      <ng-container *ngTemplateOutlet="effectiveKeys()!" />
-    } @else {
-      <ng-content select="[keys], [slot=keys]" />
-      @if (apiKeys() && apiKeys().length > 0) {
-        <div class="keys-list">
-          @for (k of apiKeys(); track k) {
-            <div class="api-key-item">
-              <div class="key-top-info">
-                <div class="key-name-group">
-                  <span class="key-name">{{ k.name }}</span>
-                  <gp-badge [value]="k.scope" severity="primary" />
-                </div>
-                <div class="key-token-display">
-                  <code>{{ k.token }}</code>
-                  <gp-button
-                    variant="text"
-                    severity="secondary"
-                    size="sm"
-                    [iconOnly]="true"
-                    styleClass="copy-btn"
-                    ariaLabel="Copy Key"
-                    (onClickEvent)="copyKey.emit(k)"
-                  >
-                    <gp-icon name="copy" size="0.9em" />
-                  </gp-button>
-                </div>
-              </div>
-              <div class="key-bottom-meta">
-                <span>Created: {{ k.created }}</span>
-                <span>Last used: {{ k.lastUsed }}</span>
-                <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeKey.emit(k)"
-                  >Revoke</gp-button
-                >
-              </div>
-            </div>
-          }
+  <ng-content select="[content], [slot=content]" />
+  @if (effectiveKeys()) {
+  <ng-container *ngTemplateOutlet="effectiveKeys()!" />
+  } @else {
+  <ng-content select="[keys], [slot=keys]" />
+  @if (apiKeys() && apiKeys().length > 0) {
+  <div class="keys-list">
+    @for (k of apiKeys(); track k) {
+    <div class="api-key-item">
+      <div class="key-top-info">
+        <div class="key-name-group">
+          <span class="key-name">{{ k.name }}</span>
+          <gp-badge [value]="k.scope" severity="primary" />
         </div>
-      }
+        <div class="key-token-display">
+          <code>{{ k.token }}</code>
+          <gp-button
+            variant="text"
+            severity="secondary"
+            size="sm"
+            [iconOnly]="true"
+            styleClass="copy-btn"
+            ariaLabel="Copy Key"
+            (onClickEvent)="copyKey.emit(k)"
+          >
+            <gp-icon name="copy" size="0.9em" />
+          </gp-button>
+        </div>
+      </div>
+      <div class="key-bottom-meta">
+        <span>Created: {{ k.created }}</span>
+        <span>Last used: {{ k.lastUsed }}</span>
+        <gp-button variant="text" severity="danger" size="sm" (onClickEvent)="revokeKey.emit(k)">Revoke</gp-button>
+      </div>
+    </div>
     }
-    <ng-content />
+  </div>
+  } }
+  <ng-content />
   }
 </div>

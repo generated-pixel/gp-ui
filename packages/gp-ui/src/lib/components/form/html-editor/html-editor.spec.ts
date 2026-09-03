@@ -17,7 +17,7 @@ describe('GpHtmlEditor', () => {
 
   it('should create and initialize cleanly', () => {
     expect(component).toBeTruthy();
-    expect(component.isSourceMode()).toBeFalse();
+    expect(component.isSourceMode()).toBe(false);
   });
 
   it('should handle writeValue and update internalValue signal', () => {
@@ -28,11 +28,11 @@ describe('GpHtmlEditor', () => {
   });
 
   it('should toggle source mode correctly', () => {
-    expect(component.isSourceMode()).toBeFalse();
+    expect(component.isSourceMode()).toBe(false);
     component.toggleSourceMode();
-    expect(component.isSourceMode()).toBeTrue();
+    expect(component.isSourceMode()).toBe(true);
     component.toggleSourceMode();
-    expect(component.isSourceMode()).toBeFalse();
+    expect(component.isSourceMode()).toBe(false);
   });
 
   it('should compute word and character counts from stripped html', () => {

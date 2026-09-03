@@ -32,10 +32,10 @@ describe('GpInputNumber', () => {
 
     upBtn.click();
     fixture.detectChanges();
-    expect(component.value()).toBe(11);
+    expect(component.value).toBe(11);
 
     downBtn.click();
     fixture.detectChanges();
-    expect(component.value()).toBe(10);
+    expect(component.value).toBe(10);
   });
 });

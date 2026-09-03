@@ -10,12 +10,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpButton,
-  GpDrawer,
-  GpInputNumber,
-  GpInputText
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpDrawer, GpInputNumber, GpInputText } from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

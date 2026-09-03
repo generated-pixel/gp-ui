@@ -37,7 +37,7 @@ export class GpListbox extends GpSelectBase<any> implements ControlValueAccessor
     this.internalValue.set(value);
   }
 
-  public onOptionClick(opt: GpSelectItem, event: MouseEvent): void {
+  public onOptionClick(opt: GpSelectItem, event?: Event): void {
     if (this.isEffectivelyDisabled() || this.readonly() || opt.disabled) {
       return;
     }

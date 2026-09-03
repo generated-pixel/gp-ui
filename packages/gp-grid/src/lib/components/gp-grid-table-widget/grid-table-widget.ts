@@ -9,14 +9,7 @@ import {
   Signal
 } from '@angular/core';
 
-import {
-  GpAvatar,
-  GpBadge,
-  GpButton,
-  GpIcon,
-  GpBadgeSeverity,
-  GpSkeleton
-} from '@generatedpixel/gp-ui';
+import { GpAvatar, GpBadge, GpButton, GpIcon, GpBadgeSeverity, GpSkeleton } from '@generatedpixel/gp-ui';
 import { GpTableWidgetData, GpGridTableColumn, GpGridTableRow } from '../../models/grid-widget.model';
 import { normalizeTableWidgetData } from '../../services/widget-data-resolver';
 import { GpGridWidgetBase } from '../../base/gp-grid-widget.base';

@@ -79,7 +79,6 @@ export interface ResizeState {
 export class GpGrid extends GpBase {
   private elementRef = inject(ElementRef);
   private ngZone = inject(NgZone);
-  private translationService = inject(GpTranslationService, { optional: true });
 
   // --- SIGNALS (Inputs & Model) ---
   /**

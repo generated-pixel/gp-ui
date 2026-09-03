@@ -11,16 +11,7 @@ import { GpSpeedDial } from '../button/speed-dial/speed-dial';
 
 @Component({
   standalone: true,
-  imports: [
-    GpMenu,
-    GpMenubar,
-    GpContextMenu,
-    GpTieredMenu,
-    GpPanelMenu,
-    GpMegaMenu,
-    GpSplitButton,
-    GpSpeedDial
-  ],
+  imports: [GpMenu, GpMenubar, GpContextMenu, GpTieredMenu, GpPanelMenu, GpMegaMenu, GpSplitButton, GpSpeedDial],
   template: `
     <gp-menu #menu [model]="menuItems" [popup]="true" />
     <gp-menubar #menubar [model]="menubarItems" />
@@ -68,13 +59,16 @@ class TestHost {
   ];
 }
 
+import { provideRouter } from '@angular/router';
+
 describe('Navigation Menu Components', () => {
   let fixture: ComponentFixture<TestHost>;
   let host: TestHost;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHost]
+      imports: [TestHost],
+      providers: [provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHost);

@@ -366,7 +366,9 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
                 placeholder="Search customer by name, email or ID..."
               />
               <span class="field-hint text-xs text-secondary mt-1">
-                Tip: When typeahead returns too many results, click "Open Advanced Search". <code>GpDialogService</code> dynamically mounts the search dialog component and automatically feeds the selected customer back via reactive subscription.
+                Tip: When typeahead returns too many results, click "Open Advanced Search".
+                <code>GpDialogService</code> dynamically mounts the search dialog component and automatically feeds the
+                selected customer back via reactive subscription.
               </span>
             </div>
 
@@ -386,7 +388,8 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
         >
           <div class="p-3">
             <p class="text-sm text-secondary mb-3">
-              Detailed search form with filters. Click any customer row to select and inject it directly into the typeahead field via reactive stream.
+              Detailed search form with filters. Click any customer row to select and inject it directly into the
+              typeahead field via reactive stream.
             </p>
             <div class="flex gap-2 mb-3">
               <gp-input-text
@@ -504,7 +507,8 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
         <div class="doc-section">
           <h2 class="doc-section-title">Rich WYSIWYG HTML Editor (GpHtmlEditor)</h2>
           <p class="doc-section-desc">
-            Complete formatting toolbar with text formatting, headings, alignment, lists, color pickers, links, images, and raw HTML source code view.
+            Complete formatting toolbar with text formatting, headings, alignment, lists, color pickers, links, images,
+            and raw HTML source code view.
           </p>
           <div style="margin-top: 1rem;">
             <gp-html-editor formControlName="bioHtml" height="220px" placeholder="Write your professional bio..." />
@@ -515,7 +519,8 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
         <div class="doc-section">
           <h2 class="doc-section-title">Markdown Editor (GpMdEditor)</h2>
           <p class="doc-section-desc">
-            Split-pane Markdown editor with live preview, GitHub Flavored Markdown (GFM) tables, task lists, code blocks, and formatting shortcuts.
+            Split-pane Markdown editor with live preview, GitHub Flavored Markdown (GFM) tables, task lists, code
+            blocks, and formatting shortcuts.
           </p>
           <div style="margin-top: 1rem;">
             <gp-md-editor formControlName="readmeMd" height="280px" placeholder="Write markdown content..." />
@@ -563,8 +568,8 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
         </h2>
         <p class="doc-section-desc">
           gp-ui includes a comprehensive validation and event-driven side effect pipeline directly in
-          <code>GpEditableBase</code>. Validate synchronously, asynchronously, trigger cascading side effects,
-          and map external API errors with <code>[gpForm]</code> and <code>GpValidators</code>.
+          <code>GpEditableBase</code>. Validate synchronously, asynchronously, trigger cascading side effects, and map
+          external API errors with <code>[gpForm]</code> and <code>GpValidators</code>.
         </p>
 
         <form
@@ -674,8 +679,8 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference (Form Controls &amp; Validation)</h2>
         <p class="doc-section-desc">
-          All form controls inherit from <code>GpEditableBase</code>, providing unified data binding,
-          validation pipelines, and event hooks:
+          All form controls inherit from <code>GpEditableBase</code>, providing unified data binding, validation
+          pipelines, and event hooks:
         </p>
 
         <doc-api-table title="GpEditableBase Inputs" [properties]="commonFormProperties" />
@@ -772,8 +777,12 @@ export class MyForm {
     notifications: new FormControl(true),
     satisfaction: new FormControl(5),
     volume: new FormControl(80),
-    bioHtml: new FormControl('<h2>Executive Summary</h2><p>Senior <strong>Frontend Architect</strong> building high-performance design systems.</p>'),
-    readmeMd: new FormControl('# Project Documentation\n\nWelcome to **gp-ui** design system.\n\n- [x] Modern Angular 19+\n- [x] Zero external dependencies\n- [ ] Deploy to production\n\n| Feature | Status |\n|---|---|\n| HTML Editor | Ready |\n| MD Editor | Ready |')
+    bioHtml: new FormControl(
+      '<h2>Executive Summary</h2><p>Senior <strong>Frontend Architect</strong> building high-performance design systems.</p>'
+    ),
+    readmeMd: new FormControl(
+      '# Project Documentation\n\nWelcome to **gp-ui** design system.\n\n- [x] Modern Angular 19+\n- [x] Zero external dependencies\n- [ ] Deploy to production\n\n| Feature | Status |\n|---|---|\n| HTML Editor | Ready |\n| MD Editor | Ready |'
+    )
   });
 
   floatUsername = '';
@@ -817,15 +826,34 @@ export class MyForm {
   cities = [
     { label: 'Rome, Italy', value: 'Rome', subtext: 'Lazio • Europe', icon: 'map-pin', badge: 'Capital' },
     { label: 'Paris, France', value: 'Paris', subtext: 'Île-de-France • Europe', icon: 'map-pin', badge: 'Capital' },
-    { label: 'New York, USA', value: 'New York', subtext: 'New York State • Americas', icon: 'map-pin', badge: 'Metro' },
+    {
+      label: 'New York, USA',
+      value: 'New York',
+      subtext: 'New York State • Americas',
+      icon: 'map-pin',
+      badge: 'Metro'
+    },
     { label: 'London, UK', value: 'London', subtext: 'Greater London • Europe', icon: 'map-pin', badge: 'Capital' },
     { label: 'Tokyo, Japan', value: 'Tokyo', subtext: 'Kantō • Asia', icon: 'map-pin', badge: 'Capital' },
     { label: 'Berlin, Germany', value: 'Berlin', subtext: 'Berlin State • Europe', icon: 'map-pin', badge: 'Capital' },
-    { label: 'Madrid, Spain', value: 'Madrid', subtext: 'Community of Madrid • Europe', icon: 'map-pin', badge: 'Capital' },
-    { label: 'Sydney, Australia', value: 'Sydney', subtext: 'New South Wales • Oceania', icon: 'map-pin', badge: 'Metro' },
+    {
+      label: 'Madrid, Spain',
+      value: 'Madrid',
+      subtext: 'Community of Madrid • Europe',
+      icon: 'map-pin',
+      badge: 'Capital'
+    },
+    {
+      label: 'Sydney, Australia',
+      value: 'Sydney',
+      subtext: 'New South Wales • Oceania',
+      icon: 'map-pin',
+      badge: 'Metro'
+    },
     { label: 'Toronto, Canada', value: 'Toronto', subtext: 'Ontario • Americas', icon: 'map-pin', badge: 'Metro' },
     { label: 'Singapore', value: 'Singapore', subtext: 'Southeast Asia', icon: 'map-pin', badge: 'City-State' }
   ];
+
   filteredCities: any[] = [];
 
   deptTree = [
@@ -1035,8 +1063,7 @@ export class MyForm {
       name: 'control',
       type: 'GpEditableBase',
       default: 'null',
-      description:
-        'Reference to a GpEditableBase control instance to automatically display its validation errors.'
+      description: 'Reference to a GpEditableBase control instance to automatically display its validation errors.'
     },
     {
       name: 'errors',
@@ -1059,13 +1086,29 @@ export class MyForm {
 
   searchCities(event: any): void {
     const q = (event.query || '').toLowerCase();
-    this.filteredCities = this.cities.filter((c) =>
-      c.label.toLowerCase().includes(q) || c.subtext.toLowerCase().includes(q) || c.value.toLowerCase().includes(q)
+    this.filteredCities = this.cities.filter(
+      (c) =>
+        c.label.toLowerCase().includes(q) || c.subtext.toLowerCase().includes(q) || c.value.toLowerCase().includes(q)
     );
   }
 
   // Technologies for Multi-Select Token Typeahead
-  public techOptions = ['Angular', 'TypeScript', 'Signals', 'RxJS', 'NgRx', 'NodeJS', 'Tailwind', 'Sass', 'GraphQL', 'Docker', 'Kubernetes', 'Python', 'Go'];
+  public techOptions = [
+    'Angular',
+    'TypeScript',
+    'Signals',
+    'RxJS',
+    'NgRx',
+    'NodeJS',
+    'Tailwind',
+    'Sass',
+    'GraphQL',
+    'Docker',
+    'Kubernetes',
+    'Python',
+    'Go'
+  ];
+
   public filteredTechs: string[] = [];
 
   searchTechs(event: any): void {
@@ -1075,15 +1118,80 @@ export class MyForm {
 
   // Enterprise Customers for Advanced Search Dialog & Subscription
   public allDatabaseCustomers = [
-    { id: 101, name: 'Acme Global Enterprises', tier: 'Enterprise', location: 'New York, USA', subtext: 'New York, USA • HQ', icon: 'building', badge: 'Enterprise' },
-    { id: 102, name: 'Apex Cyber Solutions', tier: 'Enterprise', location: 'London, UK', subtext: 'London, UK • EMEA Hub', icon: 'shield', badge: 'Enterprise' },
-    { id: 103, name: 'BlueStar Logistics', tier: 'Professional', location: 'Toronto, Canada', subtext: 'Toronto, Canada • Supply Chain', icon: 'truck', badge: 'Pro' },
-    { id: 104, name: 'CloudScale Technologies', tier: 'Enterprise', location: 'San Francisco, USA', subtext: 'San Francisco, USA • Cloud Infra', icon: 'cloud', badge: 'Enterprise' },
-    { id: 105, name: 'DataCore Analytics Ltd', tier: 'Professional', location: 'Berlin, Germany', subtext: 'Berlin, Germany • AI & BI', icon: 'database', badge: 'Pro' },
-    { id: 106, name: 'EchoWave Interactive', tier: 'Standard', location: 'Sydney, Australia', subtext: 'Sydney, Australia • Digital Media', icon: 'globe', badge: 'Standard' },
-    { id: 107, name: 'FusionWorks Labs', tier: 'Enterprise', location: 'Tokyo, Japan', subtext: 'Tokyo, Japan • R&D Center', icon: 'cogs', badge: 'Enterprise' },
-    { id: 108, name: 'Global Horizon Corp', tier: 'Enterprise', location: 'Paris, France', subtext: 'Paris, France • Global Accounts', icon: 'globe', badge: 'Enterprise' }
+    {
+      id: 101,
+      name: 'Acme Global Enterprises',
+      tier: 'Enterprise',
+      location: 'New York, USA',
+      subtext: 'New York, USA • HQ',
+      icon: 'building',
+      badge: 'Enterprise'
+    },
+    {
+      id: 102,
+      name: 'Apex Cyber Solutions',
+      tier: 'Enterprise',
+      location: 'London, UK',
+      subtext: 'London, UK • EMEA Hub',
+      icon: 'shield',
+      badge: 'Enterprise'
+    },
+    {
+      id: 103,
+      name: 'BlueStar Logistics',
+      tier: 'Professional',
+      location: 'Toronto, Canada',
+      subtext: 'Toronto, Canada • Supply Chain',
+      icon: 'truck',
+      badge: 'Pro'
+    },
+    {
+      id: 104,
+      name: 'CloudScale Technologies',
+      tier: 'Enterprise',
+      location: 'San Francisco, USA',
+      subtext: 'San Francisco, USA • Cloud Infra',
+      icon: 'cloud',
+      badge: 'Enterprise'
+    },
+    {
+      id: 105,
+      name: 'DataCore Analytics Ltd',
+      tier: 'Professional',
+      location: 'Berlin, Germany',
+      subtext: 'Berlin, Germany • AI & BI',
+      icon: 'database',
+      badge: 'Pro'
+    },
+    {
+      id: 106,
+      name: 'EchoWave Interactive',
+      tier: 'Standard',
+      location: 'Sydney, Australia',
+      subtext: 'Sydney, Australia • Digital Media',
+      icon: 'globe',
+      badge: 'Standard'
+    },
+    {
+      id: 107,
+      name: 'FusionWorks Labs',
+      tier: 'Enterprise',
+      location: 'Tokyo, Japan',
+      subtext: 'Tokyo, Japan • R&D Center',
+      icon: 'cogs',
+      badge: 'Enterprise'
+    },
+    {
+      id: 108,
+      name: 'Global Horizon Corp',
+      tier: 'Enterprise',
+      location: 'Paris, France',
+      subtext: 'Paris, France • Global Accounts',
+      icon: 'globe',
+      badge: 'Enterprise'
+    }
   ];
+
   public filteredCustomers: any[] = [];
 
   // Dynamic Search Dialog Component for GpDialogService
@@ -1097,8 +1205,8 @@ export class MyForm {
 
   searchCustomers(event: any): void {
     const q = (event.query || '').toLowerCase();
-    this.filteredCustomers = this.allDatabaseCustomers.filter((c) =>
-      c.name.toLowerCase().includes(q) || String(c.id).includes(q)
+    this.filteredCustomers = this.allDatabaseCustomers.filter(
+      (c) => c.name.toLowerCase().includes(q) || String(c.id).includes(q)
     );
   }
 

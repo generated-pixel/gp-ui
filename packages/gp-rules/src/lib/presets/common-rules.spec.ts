@@ -18,16 +18,16 @@ describe('Common Business Rule Presets', () => {
       initialState: { couponCode: 'SAVE20', discountPercent: 0 },
       triggerEvent: 'keypress'
     });
-    expect(validSim.finalState.discountPercent).toBe(20);
-    expect(validSim.finalState.couponStatus).toBe('valid');
+    expect(validSim.finalState['discountPercent']).toBe(20);
+    expect(validSim.finalState['couponStatus']).toBe('valid');
 
     const invalidSim = await GpRuleSimulator.simulate({
       rules: [GP_COUPON_RULE],
       initialState: { couponCode: 'INVALID', discountPercent: 20 },
       triggerEvent: 'keypress'
     });
-    expect(invalidSim.finalState.discountPercent).toBe(0);
-    expect(invalidSim.finalState.couponStatus).toBe('none');
+    expect(invalidSim.finalState['discountPercent']).toBe(0);
+    expect(invalidSim.finalState['couponStatus']).toBe('none');
   });
 
   it('evaluates GP_ORDER_CALCULATOR_RULES pricing formulas', async () => {
@@ -36,8 +36,8 @@ describe('Common Business Rule Presets', () => {
       initialState: { quantity: 3, unitPrice: 50, discountPercent: 20, tax: 10, subtotal: 0, total: 0 },
       triggerEvent: 'change'
     });
-    expect(sim.finalState.subtotal).toBe(150);
-    expect(sim.finalState.total).toBe(130);
+    expect(sim.finalState['subtotal']).toBe(150);
+    expect(sim.finalState['total']).toBe(130);
   });
 
   it('evaluates GP_CONFIRM_FIELD_RULE match and mismatch', async () => {
@@ -66,7 +66,7 @@ describe('Common Business Rule Presets', () => {
       triggerEvent: 'keypress',
       targetField: 'password'
     });
-    expect(weakSim.finalState.passwordStrength).toBe('weak');
+    expect(weakSim.finalState['passwordStrength']).toBe('weak');
 
     const strongSim = await GpRuleSimulator.simulate({
       rules: [GP_PASSWORD_STRENGTH_RULE],
@@ -74,8 +74,8 @@ describe('Common Business Rule Presets', () => {
       triggerEvent: 'keypress',
       targetField: 'password'
     });
-    expect(strongSim.finalState.passwordStrength).toBe('strong');
-    expect(strongSim.finalState.passwordScore).toBeGreaterThanOrEqual(80);
+    expect(strongSim.finalState['passwordStrength']).toBe('strong');
+    expect(strongSim.finalState['passwordScore']).toBeGreaterThanOrEqual(80);
   });
 
   it('evaluates GP_CREDIT_CARD_TYPE_RULE for major card brands', async () => {
@@ -85,8 +85,8 @@ describe('Common Business Rule Presets', () => {
       triggerEvent: 'keypress',
       targetField: 'cardNumber'
     });
-    expect(visaSim.finalState.cardBrand).toBe('visa');
-    expect(visaSim.finalState.expectedCvvLength).toBe(3);
+    expect(visaSim.finalState['cardBrand']).toBe('visa');
+    expect(visaSim.finalState['expectedCvvLength']).toBe(3);
 
     const amexSim = await GpRuleSimulator.simulate({
       rules: [GP_CREDIT_CARD_TYPE_RULE],
@@ -94,8 +94,8 @@ describe('Common Business Rule Presets', () => {
       triggerEvent: 'keypress',
       targetField: 'cardNumber'
     });
-    expect(amexSim.finalState.cardBrand).toBe('amex');
-    expect(amexSim.finalState.expectedCvvLength).toBe(4);
+    expect(amexSim.finalState['cardBrand']).toBe('amex');
+    expect(amexSim.finalState['expectedCvvLength']).toBe(4);
   });
 
   it('evaluates GP_DATE_RANGE_RULE chronology check', async () => {
@@ -122,7 +122,7 @@ describe('Common Business Rule Presets', () => {
       triggerEvent: 'keypress',
       targetField: 'title'
     });
-    expect(sim.finalState.slug).toBe('modern-angular-19-architecture-guide');
+    expect(sim.finalState['slug']).toBe('modern-angular-19-architecture-guide');
   });
 
   it('evaluates GP_DEPENDENT_COUNTRY_RULE cascading options', async () => {
@@ -132,6 +132,6 @@ describe('Common Business Rule Presets', () => {
       triggerEvent: 'change'
     });
     expect(sim.finalState['_options_state']).toEqual(STATES_BY_COUNTRY['CA']);
-    expect(sim.finalState.state).toBe('ON');
+    expect(sim.finalState['state']).toBe('ON');
   });
 });

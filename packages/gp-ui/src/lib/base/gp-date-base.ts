@@ -9,8 +9,6 @@ import { GpAppendToTarget } from '../overlay/append-to.interface';
  */
 @Directive()
 export abstract class GpDateBase<T = any> extends GpEditableBase<T> {
-  protected translationService = inject(GpTranslationService);
-
   /** Target DOM element where picker overlay is appended */
   public appendTo = input<GpAppendToTarget>('body');
 
@@ -46,7 +44,9 @@ export abstract class GpDateBase<T = any> extends GpEditableBase<T> {
    * Helper to determine if two Date objects represent the exact same calendar day.
    */
   public isSameDay(d1: Date | null | undefined, d2: Date | null | undefined): boolean {
-    if (!d1 || !d2) return false;
+    if (!d1 || !d2) {
+      return false;
+    }
     const date1 = d1 instanceof Date ? d1 : new Date(d1);
     const date2 = d2 instanceof Date ? d2 : new Date(d2);
     return (

@@ -161,36 +161,67 @@ export class GpAppendToDirective implements OnInit, AfterViewInit, OnDestroy {
       overlay.style.maxWidth = 'min(calc(100vw - 24px), 36rem)';
     }
 
-    let top = 0;
-    let left = 0;
     const overlayWidth = overlayRect.width || (this.gpOverlayMatchWidth() ? triggerRect.width : 200);
     const overlayHeight = overlayRect.height || 100;
 
+    const spaceBelow = viewportHeight - triggerRect.bottom - offset - 16;
+    const spaceAbove = triggerRect.top - offset - 16;
+
+    let isFlipped = false;
+    let top = 0;
+    let left = 0;
+
     if (placement === 'bottom' || placement === 'auto') {
-      // Flip up if bottom overflows and top has room
-      if (
-        triggerRect.bottom + overlayHeight + offset > viewportHeight &&
-        triggerRect.top - overlayHeight - offset > 0
-      ) {
+      // Flip up if bottom overflows and top has more room
+      if (overlayHeight > spaceBelow && spaceAbove > spaceBelow) {
+        isFlipped = true;
         top = triggerRect.top + scrollY - overlayHeight - offset - targetOffsetY;
       } else {
         top = triggerRect.bottom + scrollY + offset - targetOffsetY;
       }
       left = triggerRect.left + scrollX - targetOffsetX;
     } else if (placement === 'top') {
-      top = triggerRect.top + scrollY - overlayHeight - offset - targetOffsetY;
+      if (overlayHeight > spaceAbove && spaceBelow > spaceAbove) {
+        top = triggerRect.bottom + scrollY + offset - targetOffsetY;
+      } else {
+        isFlipped = true;
+        top = triggerRect.top + scrollY - overlayHeight - offset - targetOffsetY;
+      }
       left = triggerRect.left + scrollX - targetOffsetX;
     } else if (placement === 'left') {
       top = triggerRect.top + scrollY - targetOffsetY;
       left = triggerRect.left + scrollX - overlayWidth - offset - targetOffsetX;
+      if (left < scrollX + 12 && viewportWidth - triggerRect.right - offset > triggerRect.left - offset) {
+        left = triggerRect.right + scrollX + offset - targetOffsetX;
+      }
     } else if (placement === 'right') {
       top = triggerRect.top + scrollY - targetOffsetY;
       left = triggerRect.right + scrollX + offset - targetOffsetX;
+      if (
+        left + overlayWidth > scrollX + viewportWidth - 12 &&
+        triggerRect.left - offset > viewportWidth - triggerRect.right - offset
+      ) {
+        left = triggerRect.left + scrollX - overlayWidth - offset - targetOffsetX;
+      }
     }
 
-    // Viewport horizontal boundary containment
+    // Dynamic vertical constraint: ensure dropdowns are always visible on screen
+    const availableHeight = Math.max(120, isFlipped ? spaceAbove : spaceBelow);
+    if (overlayHeight > availableHeight || overlayRect.bottom > viewportHeight - 12) {
+      overlay.style.maxHeight = `${Math.floor(availableHeight)}px`;
+      overlay.style.overflowY = 'auto';
+      if (isFlipped) {
+        const constrainedHeight = Math.min(overlayHeight, availableHeight);
+        top = triggerRect.top + scrollY - constrainedHeight - offset - targetOffsetY;
+      }
+    }
+
+    // Dynamic horizontal boundary containment
+    const maxAllowedWidth = Math.max(160, viewportWidth - 24);
+    overlay.style.maxWidth = `min(${Math.floor(maxAllowedWidth)}px, 95vw)`;
+
     if (left + overlayWidth > scrollX + viewportWidth - 12) {
-      left = Math.max(scrollX + 12, triggerRect.right + scrollX - overlayWidth - targetOffsetX);
+      left = Math.max(scrollX + 12, scrollX + viewportWidth - overlayWidth - 12);
     }
     if (left < scrollX + 12) {
       left = scrollX + 12;

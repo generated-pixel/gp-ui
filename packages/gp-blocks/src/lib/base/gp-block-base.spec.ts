@@ -29,15 +29,16 @@ describe('GpBlockBase', () => {
 
   it('should emit actionClick on onActionClick', () => {
     let clickedAction: GpFormAction | null = null;
-    component.actionClick.subscribe((act) => (clickedAction = act));
+    component.actionClick.subscribe((act: GpFormAction) => (clickedAction = act));
 
     const sampleAction: GpFormAction = {
+      id: 'submit-action',
       label: 'Submit Order',
-      actionType: 'submit',
+      type: 'submit',
       severity: 'primary'
     };
 
     component.onActionClick(sampleAction);
-    expect(clickedAction).toEqual(sampleAction);
+    expect(clickedAction as any).toEqual(sampleAction);
   });
 });

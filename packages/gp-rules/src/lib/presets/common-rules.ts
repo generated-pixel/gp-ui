@@ -146,17 +146,32 @@ export const GP_PASSWORD_STRENGTH_RULE: GpBusinessRule = {
       execute: (context) => {
         const pwd = String(context.get('password') || '');
         let score = 0;
-        if (pwd.length >= 8) score += 25;
-        if (pwd.length >= 12) score += 15;
-        if (/[A-Z]/.test(pwd)) score += 20;
-        if (/[a-z]/.test(pwd)) score += 10;
-        if (/[0-9]/.test(pwd)) score += 15;
-        if (/[^A-Za-z0-9]/.test(pwd)) score += 15;
+        if (pwd.length >= 8) {
+          score += 25;
+        }
+        if (pwd.length >= 12) {
+          score += 15;
+        }
+        if (/[A-Z]/.test(pwd)) {
+          score += 20;
+        }
+        if (/[a-z]/.test(pwd)) {
+          score += 10;
+        }
+        if (/[0-9]/.test(pwd)) {
+          score += 15;
+        }
+        if (/[^A-Za-z0-9]/.test(pwd)) {
+          score += 15;
+        }
 
         score = Math.min(100, score);
         let level = 'weak';
-        if (score >= 80) level = 'strong';
-        else if (score >= 50) level = 'medium';
+        if (score >= 80) {
+          level = 'strong';
+        } else if (score >= 50) {
+          level = 'medium';
+        }
 
         context.set('passwordScore', score);
         context.set('passwordStrength', level);
@@ -223,9 +238,7 @@ export const GP_DATE_RANGE_RULE: GpBusinessRule = {
     operator: 'isAfter',
     compareToField: 'startDate'
   },
-  actions: [
-    { type: 'clearValidationError', target: 'endDate', errorKey: 'chronologyError' }
-  ],
+  actions: [{ type: 'clearValidationError', target: 'endDate', errorKey: 'chronologyError' }],
   elseActions: [
     {
       type: 'setValidationError',

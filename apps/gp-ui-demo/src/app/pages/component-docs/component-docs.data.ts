@@ -584,7 +584,8 @@ export const componentDocs: ComponentDocDefinition[] = [
     name: 'Virtual Scroller',
     category: 'Data Presentation',
     icon: 'scroll',
-    description: 'High-performance DOM virtualization engine rendering tens of thousands of items with 60fps smooth scrolling.',
+    description:
+      'High-performance DOM virtualization engine rendering tens of thousands of items with 60fps smooth scrolling.',
     importStatement: "import { GpVirtualScroller } from '@generatedpixel/gp-ui';",
     exampleCode: `<gp-virtual-scroller [items]="largeList" [itemSize]="52" scrollHeight="320px">
   <ng-template #item let-row>
@@ -1280,20 +1281,61 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: '<gp-autocomplete [suggestions]="cities" (completeMethod)="search($event)" />',
     properties: [
       { name: 'suggestions', type: 'any[]', default: '[]', description: 'Matching results shown during typing.' },
-      { name: 'field', type: 'string', default: "''", description: 'Property name to use as the display label on object items.' },
-      { name: 'multiple', type: 'boolean', default: 'false', description: 'Enables multiple selection mode with removable token chips.' },
+      {
+        name: 'field',
+        type: 'string',
+        default: "''",
+        description: 'Property name to use as the display label on object items.'
+      },
+      {
+        name: 'multiple',
+        type: 'boolean',
+        default: 'false',
+        description: 'Enables multiple selection mode with removable token chips.'
+      },
       {
         name: 'externalSelection',
         type: 'Observable<any | any[]>',
         default: 'undefined',
-        description: 'Observable stream that automatically injects selected items from external search dialogs or subscriptions.'
+        description:
+          'Observable stream that automatically injects selected items from external search dialogs or subscriptions.'
       },
-      { name: 'showAdvancedSearch', type: 'boolean', default: 'false', description: 'Shows an Advanced Search footer action row in the overlay.' },
-      { name: 'hasMore', type: 'boolean', default: 'false', description: 'Indicates more results exist beyond the current suggestions.' },
-      { name: 'totalResults', type: 'number', default: 'undefined', description: 'Total results count displayed in the advanced search badge.' },
-      { name: 'advancedSearchLabel', type: 'string', default: "'Advanced Search...'", description: 'Label for the advanced search action button.' },
-      { name: 'showAdvancedSearchButton', type: 'boolean', default: 'false', description: 'Renders an advanced search icon button in the input wrapper.' },
-      { name: 'showClear', type: 'boolean', default: 'false', description: 'Shows a clear button when values are selected.' },
+      {
+        name: 'showAdvancedSearch',
+        type: 'boolean',
+        default: 'false',
+        description: 'Shows an Advanced Search footer action row in the overlay.'
+      },
+      {
+        name: 'hasMore',
+        type: 'boolean',
+        default: 'false',
+        description: 'Indicates more results exist beyond the current suggestions.'
+      },
+      {
+        name: 'totalResults',
+        type: 'number',
+        default: 'undefined',
+        description: 'Total results count displayed in the advanced search badge.'
+      },
+      {
+        name: 'advancedSearchLabel',
+        type: 'string',
+        default: "'Advanced Search...'",
+        description: 'Label for the advanced search action button.'
+      },
+      {
+        name: 'showAdvancedSearchButton',
+        type: 'boolean',
+        default: 'false',
+        description: 'Renders an advanced search icon button in the input wrapper.'
+      },
+      {
+        name: 'showClear',
+        type: 'boolean',
+        default: 'false',
+        description: 'Shows a clear button when values are selected.'
+      },
       { name: 'dropdown', type: 'boolean', default: 'false', description: 'Shows a dropdown arrow button.' },
       {
         name: 'minLength',
@@ -1301,7 +1343,12 @@ export const componentDocs: ComponentDocDefinition[] = [
         default: '1',
         description: 'Minimum characters before suggestions are requested.'
       },
-      { name: 'debounce', type: 'number', default: '250', description: 'Debounce delay in milliseconds before completeMethod is triggered.' }
+      {
+        name: 'debounce',
+        type: 'number',
+        default: '250',
+        description: 'Debounce delay in milliseconds before completeMethod is triggered.'
+      }
     ]
   },
   {
@@ -1762,11 +1809,26 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode: '<gp-html-editor [(ngModel)]="content" height="250px" placeholder="Write rich text..." />',
     properties: [
       { name: 'height', type: 'input<string>', default: "'240px'", description: 'Height of the editable area.' },
-      { name: 'controls', type: 'input<GpHtmlEditorControl[]>', default: 'DEFAULT_CONTROLS', description: 'Array of enabled toolbar action controls.' },
-      { name: 'showStatusBar', type: 'input<boolean>', default: 'true', description: 'Whether to show the word and character count status bar.' }
+      {
+        name: 'controls',
+        type: 'input<GpHtmlEditorControl[]>',
+        default: 'DEFAULT_CONTROLS',
+        description: 'Array of enabled toolbar action controls.'
+      },
+      {
+        name: 'showStatusBar',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Whether to show the word and character count status bar.'
+      }
     ],
     events: [
-      { name: 'onHtmlChange', type: 'output<string>', default: '-', description: 'Emitted whenever the HTML content changes.' }
+      {
+        name: 'onHtmlChange',
+        type: 'output<string>',
+        default: '-',
+        description: 'Emitted whenever the HTML content changes.'
+      }
     ]
   },
   {
@@ -1779,13 +1841,38 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: "import { GpMdEditor } from '@generatedpixel/gp-ui';",
     exampleCode: '<gp-md-editor [(ngModel)]="markdown" height="300px" placeholder="Write markdown..." />',
     properties: [
-      { name: 'height', type: 'input<string>', default: "'320px'", description: 'Height of the editor and preview pane.' },
-      { name: 'viewMode', type: "signal<'split' | 'edit' | 'preview'>", default: "'split'", description: 'Current view display mode.' },
-      { name: 'showStatusBar', type: 'input<boolean>', default: 'true', description: 'Whether to display lines, words, and character counts.' }
+      {
+        name: 'height',
+        type: 'input<string>',
+        default: "'320px'",
+        description: 'Height of the editor and preview pane.'
+      },
+      {
+        name: 'viewMode',
+        type: "signal<'split' | 'edit' | 'preview'>",
+        default: "'split'",
+        description: 'Current view display mode.'
+      },
+      {
+        name: 'showStatusBar',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Whether to display lines, words, and character counts.'
+      }
     ],
     events: [
-      { name: 'onMarkdownChange', type: 'output<string>', default: '-', description: 'Emitted whenever markdown text changes.' },
-      { name: 'onViewModeChange', type: "output<'split' | 'edit' | 'preview'>", default: '-', description: 'Emitted when view mode switches.' }
+      {
+        name: 'onMarkdownChange',
+        type: 'output<string>',
+        default: '-',
+        description: 'Emitted whenever markdown text changes.'
+      },
+      {
+        name: 'onViewModeChange',
+        type: "output<'split' | 'edit' | 'preview'>",
+        default: '-',
+        description: 'Emitted when view mode switches.'
+      }
     ]
   }
 ];

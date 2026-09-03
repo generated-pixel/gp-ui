@@ -5,6 +5,7 @@
   width: 100%;
 }
 
+.gp-input-text,
 .gp-inputtext {
   display: block;
   width: 100%;
@@ -25,35 +26,44 @@
   box-sizing: border-box;
 }
 
+.gp-input-text::placeholder,
 .gp-inputtext::placeholder {
   color: var(--gp-text-color-muted, #94a3b8);
   opacity: 1;
 }
 
+.gp-input-text:hover:not(:disabled):not([readonly]),
 .gp-inputtext:hover:not(:disabled):not([readonly]) {
   border-color: var(--gp-input-border-hover, var(--gp-primary-hover, #4f46e5));
 }
 
+.gp-input-text:focus,
 .gp-inputtext:focus,
+.gp-input-text:focus-visible,
 .gp-inputtext:focus-visible {
   border-color: var(--gp-input-border-focus, var(--gp-primary, #6366f1));
   box-shadow: var(--gp-focus-ring, 0 0 0 3px rgba(99, 102, 241, 0.2));
 }
 
+.gp-input-text--sm,
 .gp-inputtext-sm {
   font-size: var(--gp-font-size-xs, 0.75rem);
   padding: 0.35rem 0.6rem;
   min-height: 2rem;
 }
 
+.gp-input-text--lg,
 .gp-inputtext-lg {
   font-size: var(--gp-font-size-base, 1rem);
   padding: 0.75rem 1rem;
   min-height: 3rem;
 }
 
+.gp-input--disabled,
 .gp-input-disabled,
+.gp-input-text:disabled,
 .gp-inputtext:disabled,
+.gp-input-text[disabled],
 .gp-inputtext[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
@@ -61,17 +71,21 @@
 }
 
 .gp-input-invalid,
+.gp-input-text.gp-input-invalid,
 .gp-inputtext.gp-input-invalid {
   border-color: var(--gp-danger, #ef4444);
 }
 
 .gp-input-invalid:focus,
+.gp-input-text.gp-input-invalid:focus,
 .gp-inputtext.gp-input-invalid:focus,
+.gp-input-text.gp-input-invalid:focus-visible,
 .gp-inputtext.gp-input-invalid:focus-visible {
   border-color: var(--gp-danger, #ef4444);
   box-shadow: var(--gp-focus-ring-danger, 0 0 0 3px rgba(239, 68, 68, 0.2));
 }
 
+.gp-input__icon,
 .gp-input-icon {
   position: absolute;
   color: var(--gp-text-color-muted, #94a3b8);
@@ -82,22 +96,27 @@
   justify-content: center;
 }
 
+.gp-input-icon--left,
 .gp-input-icon-left {
   left: 0.75rem;
 }
 
+.gp-input-icon--right,
 .gp-input-icon-right {
   right: 0.75rem;
 }
 
+.gp-input--with-prefix .gp-input-text,
 .gp-input-with-prefix .gp-inputtext {
   padding-left: 2.25rem;
 }
 
+.gp-input--with-suffix .gp-input-text,
 .gp-input-with-suffix .gp-inputtext {
   padding-right: 2.25rem;
 }
 
+.gp-input-wrapper__clear-btn,
 .gp-input-clear-btn {
   position: absolute;
   right: 0.75rem;
@@ -112,6 +131,7 @@
   border-radius: 50%;
 }
 
+.gp-input-wrapper__clear-btn:hover,
 .gp-input-clear-btn:hover {
   color: var(--gp-text-color, #1e293b);
 }

@@ -6,14 +6,7 @@
 import { GpRuleContext } from './context.types';
 
 export type GpTransformType =
-  | 'uppercase'
-  | 'lowercase'
-  | 'trim'
-  | 'titlecase'
-  | 'capitalize'
-  | 'slugify'
-  | 'currency'
-  | 'phone';
+  'uppercase' | 'lowercase' | 'trim' | 'titlecase' | 'capitalize' | 'slugify' | 'currency' | 'phone';
 
 export type GpRuleActionType =
   | 'setValue'

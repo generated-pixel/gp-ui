@@ -6,6 +6,7 @@
   margin: 0;
   width: 100%;
 }
+.gp-fieldset__legend,
 .gp-fieldset-legend {
   padding: 0.4rem 0.75rem;
   border: 1px solid var(--gp-surface-border);
@@ -18,17 +19,21 @@
   align-items: center;
   gap: 0.5rem;
 }
+.gp-fieldset--toggleable,
 .gp-fieldset-toggleable {
   cursor: pointer;
   user-select: none;
   transition: background var(--gp-transition-duration);
 }
+.gp-fieldset--toggleable:hover,
 .gp-fieldset-toggleable:hover {
   background: var(--gp-surface-hover);
 }
+.gp-fieldset__toggler,
 .gp-fieldset-toggler {
   color: var(--gp-text-color-muted);
 }
+.gp-fieldset__content,
 .gp-fieldset-content {
   padding-top: 0.5rem;
   color: var(--gp-text-color);

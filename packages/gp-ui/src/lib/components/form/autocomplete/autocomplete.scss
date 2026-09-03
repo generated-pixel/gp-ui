@@ -367,7 +367,11 @@
   justify-content: space-between;
   margin: 0.4rem 0.5rem 0.2rem 0.5rem;
   padding: 0.65rem 0.85rem;
-  background: linear-gradient(135deg, var(--gp-surface-section, rgba(99, 102, 241, 0.05)), var(--gp-surface-card, #ffffff));
+  background: linear-gradient(
+    135deg,
+    var(--gp-surface-section, rgba(99, 102, 241, 0.05)),
+    var(--gp-surface-card, #ffffff)
+  );
   border: 1px solid var(--gp-surface-border, rgba(99, 102, 241, 0.15));
   border-radius: var(--gp-border-radius, 8px);
   cursor: pointer;
@@ -443,7 +447,9 @@
 
 .gp-autocomplete-adv-arrow {
   color: var(--gp-text-color-secondary, #94a3b8);
-  transition: transform 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
 }
 
 /* Slots */

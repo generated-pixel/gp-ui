@@ -10,27 +10,14 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpButton,
-  GpIcon,
-  GpInputText,
-  GpSelect,
-  GpTextarea
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpIcon, GpInputText, GpSelect, GpTextarea } from '@generatedpixel/gp-ui';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-form-contact-feedback',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpButton,
-    GpIcon,
-    GpInputText,
-    GpSelect,
-    GpTextarea
-  ],
+  imports: [CommonModule, GpButton, GpIcon, GpInputText, GpSelect, GpTextarea],
   templateUrl: './form-contact-feedback.html',
   styleUrl: './form-contact-feedback.scss'
 })

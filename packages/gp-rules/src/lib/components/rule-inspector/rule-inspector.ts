@@ -1,4 +1,13 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, inject, signal, computed } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  input,
+  output,
+  inject,
+  signal,
+  computed
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GpButton, GpBadge, GpIcon } from '@generatedpixel/gp-ui';

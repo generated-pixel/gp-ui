@@ -1,9 +1,9 @@
 <div class="gp-dashboard-finance-root">
   <!-- Optional Top Action Bar / Slot -->
   @if (contentHeaderActions()) {
-    <div class="dashboard-top-slot">
-      <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
-    </div>
+  <div class="dashboard-top-slot">
+    <ng-container *ngTemplateOutlet="contentHeaderActions()!" />
+  </div>
   }
   <ng-content select="[actions], [slot=actions]" />
 
@@ -20,118 +20,103 @@
     <ng-template #widgetTemplate let-item>
       <!-- Custom User-Defined Template per Item or Widget Slot -->
       @if (effectiveWidgetTemplate()) {
-        <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
+      <ng-container *ngTemplateOutlet="effectiveWidgetTemplate()!; context: { $implicit: item }" />
       } @else {
-        <!-- 1. Treasury Balance Banner Widget -->
-        @if (item.id === 'balance-banner') {
-          @if (contentBalance()) {
-            <ng-container *ngTemplateOutlet="contentBalance()!" />
-          } @else {
-            @if (balanceAmount()) {
-              <div class="balance-hero-banner">
-                <div class="balance-left">
-                  <span class="bal-label">{{ balanceLabel() }}</span>
-                  <div class="bal-amt">{{ balanceAmount() }}</div>
-                  @if (balanceMeta()) {
-                    <span class="bal-meta">{{ balanceMeta() }}</span>
-                  }
-                </div>
-                <div class="balance-right">
-                  <gp-button variant="outlined" severity="secondary" (onClickEvent)="exportClick.emit()">{{
-                    exportBtnLabel()
-                  }}</gp-button>
-                  <gp-button severity="primary" (onClickEvent)="sendPayoutClick.emit()">{{
-                    sendPayoutBtnLabel()
-                  }}</gp-button>
-                </div>
-              </div>
-            }
+      <!-- 1. Treasury Balance Banner Widget -->
+      @if (item.id === 'balance-banner') { @if (contentBalance()) {
+      <ng-container *ngTemplateOutlet="contentBalance()!" />
+      } @else { @if (balanceAmount()) {
+      <div class="balance-hero-banner">
+        <div class="balance-left">
+          <span class="bal-label">{{ balanceLabel() }}</span>
+          <div class="bal-amt">{{ balanceAmount() }}</div>
+          @if (balanceMeta()) {
+          <span class="bal-meta">{{ balanceMeta() }}</span>
           }
-        }
-        <!-- 2. Transactions Ledger Widget -->
-        @if (item.id === 'ledger') {
-          @if (contentLedger()) {
-            <ng-container *ngTemplateOutlet="contentLedger()!" />
-          } @else {
-            @if (ledger() && ledger().length > 0) {
-              <div class="fin-card" style="height: 100%">
-                <div class="card-head">
-                  <h3 class="head-title">{{ ledgerTitle() }}</h3>
-                  @if (ledgerBadge()) {
-                    <gp-badge [value]="ledgerBadge()" severity="primary" />
-                  }
-                </div>
-                <div class="ledger-list">
-                  @for (item of ledger(); track item) {
-                    <div class="ledger-item" (click)="ledgerItemClick.emit(item)" style="cursor: pointer">
-                      <div class="item-icon-box" [class.in]="item.type === 'in'" [class.out]="item.type === 'out'">
-                        <gp-icon [name]="item.type === 'in' ? 'chevron-down' : 'chevron-up'" size="0.9em" />
-                      </div>
-                      <div class="item-desc">
-                        <span class="desc-main">{{ item.desc }}</span>
-                        <span class="desc-date">{{ item.date }}</span>
-                      </div>
-                      <span class="item-amt" [class.amt-in]="item.type === 'in'" [class.amt-out]="item.type === 'out'">
-                        {{ item.amount }}
-                      </span>
-                    </div>
-                  }
-                </div>
-              </div>
-            }
+        </div>
+        <div class="balance-right">
+          <gp-button variant="outlined" severity="secondary" (onClickEvent)="exportClick.emit()"
+            >{{ exportBtnLabel() }}</gp-button
+          >
+          <gp-button severity="primary" (onClickEvent)="sendPayoutClick.emit()">{{ sendPayoutBtnLabel() }}</gp-button>
+        </div>
+      </div>
+      } } }
+      <!-- 2. Transactions Ledger Widget -->
+      @if (item.id === 'ledger') { @if (contentLedger()) {
+      <ng-container *ngTemplateOutlet="contentLedger()!" />
+      } @else { @if (ledger() && ledger().length > 0) {
+      <div class="fin-card" style="height: 100%">
+        <div class="card-head">
+          <h3 class="head-title">{{ ledgerTitle() }}</h3>
+          @if (ledgerBadge()) {
+          <gp-badge [value]="ledgerBadge()" severity="primary" />
           }
-        }
-        <!-- 3. Invoices Widget -->
-        @if (item.id === 'invoices') {
-          @if (contentInvoices()) {
-            <ng-container *ngTemplateOutlet="contentInvoices()!" />
-          } @else {
-            @if (invoices() && invoices().length > 0) {
-              <div class="fin-card" style="height: 100%">
-                <div class="card-head">
-                  <h3 class="head-title">{{ invoicesTitle() }}</h3>
-                  <gp-button variant="text" severity="primary" (onClickEvent)="createInvoiceClick.emit()">{{
-                    createInvoiceBtnLabel()
-                  }}</gp-button>
-                </div>
-                <table class="invoices-table">
-                  <thead>
-                    <tr>
-                      <th>Invoice ID</th>
-                      <th>Client</th>
-                      <th>Due Date</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (inv of invoices(); track inv) {
-                      <tr (click)="invoiceClick.emit(inv)" style="cursor: pointer">
-                        <td>
-                          <span class="inv-id">{{ inv.id }}</span>
-                        </td>
-                        <td>{{ inv.client }}</td>
-                        <td>{{ inv.due }}</td>
-                        <td>
-                          <strong>{{ inv.amount }}</strong>
-                        </td>
-                        <td>
-                          <gp-badge
-                            [value]="inv.status"
-                            [severity]="
+        </div>
+        <div class="ledger-list">
+          @for (item of ledger(); track item) {
+          <div class="ledger-item" (click)="ledgerItemClick.emit(item)" style="cursor: pointer">
+            <div class="item-icon-box" [class.in]="item.type === 'in'" [class.out]="item.type === 'out'">
+              <gp-icon [name]="item.type === 'in' ? 'chevron-down' : 'chevron-up'" size="0.9em" />
+            </div>
+            <div class="item-desc">
+              <span class="desc-main">{{ item.desc }}</span>
+              <span class="desc-date">{{ item.date }}</span>
+            </div>
+            <span class="item-amt" [class.amt-in]="item.type === 'in'" [class.amt-out]="item.type === 'out'">
+              {{ item.amount }}
+            </span>
+          </div>
+          }
+        </div>
+      </div>
+      } } }
+      <!-- 3. Invoices Widget -->
+      @if (item.id === 'invoices') { @if (contentInvoices()) {
+      <ng-container *ngTemplateOutlet="contentInvoices()!" />
+      } @else { @if (invoices() && invoices().length > 0) {
+      <div class="fin-card" style="height: 100%">
+        <div class="card-head">
+          <h3 class="head-title">{{ invoicesTitle() }}</h3>
+          <gp-button variant="text" severity="primary" (onClickEvent)="createInvoiceClick.emit()"
+            >{{ createInvoiceBtnLabel() }}</gp-button
+          >
+        </div>
+        <table class="invoices-table">
+          <thead>
+            <tr>
+              <th>Invoice ID</th>
+              <th>Client</th>
+              <th>Due Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (inv of invoices(); track inv) {
+            <tr (click)="invoiceClick.emit(inv)" style="cursor: pointer">
+              <td>
+                <span class="inv-id">{{ inv.id }}</span>
+              </td>
+              <td>{{ inv.client }}</td>
+              <td>{{ inv.due }}</td>
+              <td>
+                <strong>{{ inv.amount }}</strong>
+              </td>
+              <td>
+                <gp-badge
+                  [value]="inv.status"
+                  [severity]="
                               inv.status === 'Paid' ? 'success' : inv.status === 'Pending' ? 'warning' : 'danger'
                             "
-                          />
-                        </td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
+                />
+              </td>
+            </tr>
             }
-          }
-        }
-      }
+          </tbody>
+        </table>
+      </div>
+      } } } }
     </ng-template>
   </gp-grid>
 </div>

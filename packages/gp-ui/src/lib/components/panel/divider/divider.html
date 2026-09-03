@@ -1,10 +1,10 @@
 <div
   class="gp-divider"
-  [class]="'gp-divider-' + layout() + ' gp-divider-' + type() + ' gp-divider-align-' + align()"
+  [class]="'gp-divider--' + layout() + ' gp-divider-' + layout() + ' gp-divider--' + type() + ' gp-divider-' + type() + ' gp-divider--align-' + align() + ' gp-divider-align-' + align()"
   role="separator"
   [attr.aria-orientation]="layout()"
 >
-  <div class="gp-divider-content">
+  <div class="gp-divider__content gp-divider-content">
     <ng-content />
   </div>
 </div>

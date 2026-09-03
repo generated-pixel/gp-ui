@@ -1,9 +1,11 @@
+.gp-tree-table__toggler-container,
 .gp-treetable-toggler-container {
   display: flex;
   align-items: center;
   gap: var(--gp-spacing-sm, 0.5rem);
 }
 
+.gp-tree-table__icon,
 .gp-treetable-icon {
   color: var(--gp-tree-table-icon-color, var(--gp-primary, #6366f1));
   display: inline-flex;

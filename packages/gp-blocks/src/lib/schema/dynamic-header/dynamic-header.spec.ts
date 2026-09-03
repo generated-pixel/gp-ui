@@ -29,8 +29,8 @@ describe('GpDynamicHeader', () => {
     fixture.componentRef.setInput('schema', schema);
     fixture.detectChanges();
 
-    const titleEl = fixture.nativeElement.querySelector('.gp-dyn-header-title');
-    const subtitleEl = fixture.nativeElement.querySelector('.gp-dyn-header-subtitle');
+    const titleEl = fixture.nativeElement.querySelector('.header-title');
+    const subtitleEl = fixture.nativeElement.querySelector('.header-subtitle');
 
     expect(titleEl.textContent).toContain('Dashboard Overview');
     expect(subtitleEl.textContent).toContain('Real-time telemetry');

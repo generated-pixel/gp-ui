@@ -9,13 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpAvatar,
-  GpBadge,
-  GpButton,
-  GpIcon,
-  GpBadgeSeverity
-} from '@generatedpixel/gp-ui';
+import { GpAvatar, GpBadge, GpButton, GpIcon, GpBadgeSeverity } from '@generatedpixel/gp-ui';
 
 export interface GpFeedItem {
   id?: string;

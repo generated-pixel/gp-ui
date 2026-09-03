@@ -52,6 +52,7 @@ export class GpGridKpiWidget extends GpGridWidgetBase<GpKpiWidgetData> {
       this.normalizedData().meta ||
       ''
   );
+
   public effectiveTrend = computed<'pos' | 'neg' | 'neutral'>(() => {
     const raw = this.trend() || this.normalizedData().trend || this.normalizedData().trendType;
     if (raw === 'pos' || raw === 'positive') {
@@ -72,17 +73,21 @@ export class GpGridKpiWidget extends GpGridWidgetBase<GpKpiWidgetData> {
     }
     return 'neutral';
   });
+
   public effectiveIcon = computed(() => this.icon() || this.normalizedData().icon || this.item()?.icon || 'chart-line');
   public effectiveIconBg = computed(
     () => this.iconBg() || this.normalizedData().iconBg || 'var(--gp-primary-light, rgba(99, 102, 241, 0.1))'
   );
+
   public effectiveIconColor = computed(
     () => this.iconColor() || this.normalizedData().iconColor || 'var(--gp-primary, #6366f1)'
   );
+
   public effectiveSubtitle = computed(() => this.subtitle() || this.normalizedData().subtitle || '');
   public effectiveRouterLink = computed(
     () => this.routerLink() || this.normalizedData().routerLink || this.item()?.routerLink
   );
+
   public effectiveQueryParams = computed(
     () => this.queryParams() || this.normalizedData().queryParams || this.item()?.queryParams
   );

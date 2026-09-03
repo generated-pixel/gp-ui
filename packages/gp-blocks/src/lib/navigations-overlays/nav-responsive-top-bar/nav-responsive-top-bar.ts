@@ -10,15 +10,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpAvatar,
-  GpButton,
-  GpIcon,
-  GpInputText,
-  GpMenubar,
-  GpMenubarItem,
-  GpToolbar
-} from '@generatedpixel/gp-ui';
+import { GpAvatar, GpButton, GpIcon, GpInputText, GpMenubar, GpMenubarItem, GpToolbar } from '@generatedpixel/gp-ui';
 
 export interface GpTopBarNavLink {
   id?: string;
@@ -31,15 +23,7 @@ export interface GpTopBarNavLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-nav-responsive-top-bar',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpAvatar,
-    GpButton,
-    GpIcon,
-    GpInputText,
-    GpMenubar,
-    GpToolbar
-  ],
+  imports: [CommonModule, GpAvatar, GpButton, GpIcon, GpInputText, GpMenubar, GpToolbar],
   host: { class: 'gp-nav-responsive-topbar-host' },
   templateUrl: './nav-responsive-top-bar.html',
   styleUrl: './nav-responsive-top-bar.scss',

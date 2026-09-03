@@ -73,14 +73,19 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
   public characterCount = computed(() => (this.internalValue() || '').length);
 
   public wordCount = computed(() => {
-    const text = (this.internalValue() || '').trim();
-    if (!text) return 0;
-    return text.split(/\s+/).filter(Boolean).length;
+    const raw = (this.internalValue() || '').trim();
+    if (!raw) {
+      return 0;
+    }
+    const clean = raw.replace(/^#+\s+/gm, '').replace(/[*_~`]/g, '');
+    return clean.split(/\s+/).filter(Boolean).length;
   });
 
   public lineCount = computed(() => {
     const text = this.internalValue() || '';
-    if (!text) return 1;
+    if (!text) {
+      return 1;
+    }
     return text.split('\n').length;
   });
 
@@ -116,10 +121,14 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
   }
 
   public insertFormatting(type: GpMdEditorControl): void {
-    if (this.isEffectivelyDisabled() || this.readonly()) return;
+    if (this.isEffectivelyDisabled() || this.readonly()) {
+      return;
+    }
 
     const textarea = this.textareaRef?.nativeElement;
-    if (!textarea) return;
+    if (!textarea) {
+      return;
+    }
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -192,8 +201,7 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
         replacement = `![${selectedText || 'alt text'}](https://example.com/image.png)`;
         break;
       case 'table':
-        replacement =
-          '| Column 1 | Column 2 | Column 3 |\n| --- | --- | --- |\n| Data 1 | Data 2 | Data 3 |\n';
+        replacement = '| Column 1 | Column 2 | Column 3 |\n| --- | --- | --- |\n| Data 1 | Data 2 | Data 3 |\n';
         break;
       case 'hr':
         replacement = '\n---\n';
@@ -214,7 +222,9 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
   }
 
   public onKeyDown(event: KeyboardEvent): void {
-    if (this.isEffectivelyDisabled() || this.readonly()) return;
+    if (this.isEffectivelyDisabled() || this.readonly()) {
+      return;
+    }
 
     if (event.ctrlKey || event.metaKey) {
       if (event.key === 'b' || event.key === 'B') {
@@ -230,7 +240,9 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
     } else if (event.key === 'Tab') {
       event.preventDefault();
       const textarea = this.textareaRef?.nativeElement;
-      if (!textarea) return;
+      if (!textarea) {
+        return;
+      }
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
       const text = textarea.value;
@@ -246,13 +258,12 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
    * Safe, zero-dependency Markdown parser converting GFM to sanitized HTML.
    */
   public parseMarkdown(md: string): string {
-    if (!md) return '';
+    if (!md) {
+      return '';
+    }
 
     // 1. Sanitize raw HTML tags to prevent XSS
-    let html = md
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    let html = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
     // 2. Fenced Code Blocks (```lang ... ```)
     html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (_, lang, code) => {
@@ -264,40 +275,43 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
     // 4. Tables
-    html = html.replace(
-      /((?:\|[^\n]+\|\r?\n)+)/g,
-      (tableMatch) => {
-        const rows = tableMatch.trim().split('\n').map((r) => r.trim());
-        if (rows.length < 2) return tableMatch;
-
-        let tableHtml = '<table class="gp-md-table">';
-        let isHeader = true;
-
-        for (let i = 0; i < rows.length; i++) {
-          const row = rows[i];
-          if (/^\|[\s-:]+\|\s*$/.test(row) || /^\|(?:\s*:?-+:?\s*\|)+$/.test(row)) {
-            // Divider row
-            isHeader = false;
-            continue;
-          }
-
-          const cells = row
-            .replace(/^\|/, '')
-            .replace(/\|$/, '')
-            .split('|')
-            .map((c) => c.trim());
-
-          const tag = isHeader ? 'th' : 'td';
-          tableHtml += '<tr>';
-          for (const cell of cells) {
-            tableHtml += `<${tag}>${cell}</${tag}>`;
-          }
-          tableHtml += '</tr>';
-        }
-        tableHtml += '</table>';
-        return tableHtml;
+    html = html.replace(/(?:\|[^\n]+\|(?:\r?\n|$))+/g, (tableMatch) => {
+      const rows = tableMatch
+        .trim()
+        .split('\n')
+        .map((r) => r.trim())
+        .filter(Boolean);
+      if (rows.length < 2) {
+        return tableMatch;
       }
-    );
+
+      let tableHtml = '<table class="gp-md-table">';
+      let isHeader = true;
+
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        if (/^\|[\s-:]+\|\s*$/.test(row) || /^\|(?:\s*:?-+:?\s*\|)+$/.test(row)) {
+          // Divider row
+          isHeader = false;
+          continue;
+        }
+
+        const cells = row
+          .replace(/^\|/, '')
+          .replace(/\|$/, '')
+          .split('|')
+          .map((c) => c.trim());
+
+        const tag = isHeader ? 'th' : 'td';
+        tableHtml += '<tr>';
+        for (const cell of cells) {
+          tableHtml += `<${tag}>${cell}</${tag}>`;
+        }
+        tableHtml += '</tr>';
+      }
+      tableHtml += '</table>';
+      return tableHtml;
+    });
 
     // 5. Blockquotes (> quote)
     html = html.replace(/^(&gt;|>)\s?(.*)$/gm, '<blockquote>$2</blockquote>');
@@ -338,10 +352,7 @@ export class GpMdEditor extends GpEditableBase<string> implements ControlValueAc
     html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
 
     // 12. Images (![alt](url))
-    html = html.replace(
-      /!\[([^\]]*)\]\(([^)]+)\)/g,
-      '<img src="$2" alt="$1" class="gp-md-image" />'
-    );
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="gp-md-image" />');
 
     // 13. Links ([text](url))
     html = html.replace(

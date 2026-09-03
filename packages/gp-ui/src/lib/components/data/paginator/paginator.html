@@ -1,11 +1,11 @@
 <div class="gp-paginator" role="navigation" aria-label="Pagination">
   @if (showCurrentPageReport()) {
-    <span class="gp-paginator-report">{{ pageReport() }}</span>
+  <span class="gp-paginator__report gp-paginator-report">{{ pageReport() }}</span>
   }
 
   <button
     type="button"
-    class="gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-first"
     [disabled]="isFirstPage()"
     (click)="changePage(0)"
     [attr.aria-label]="translationService.get('pagination')?.firstPage || 'First Page'"
@@ -15,7 +15,7 @@
 
   <button
     type="button"
-    class="gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-prev"
     [disabled]="isFirstPage()"
     (click)="changePage(page() - 1)"
     [attr.aria-label]="translationService.get('pagination')?.prevPage || 'Previous Page'"
@@ -23,23 +23,25 @@
     <gp-icon name="chevron-left" size="0.85em" />
   </button>
 
-  <div class="gp-paginator-pages">
+  <div class="gp-paginator__pages gp-paginator-pages">
     @for (p of visiblePages(); track p) {
-      <button
-        type="button"
-        class="gp-paginator-page"
-        [class.gp-paginator-page-active]="p === page()"
-        (click)="changePage(p)"
-        [attr.aria-current]="p === page() ? 'page' : null"
-      >
-        {{ p + 1 }}
-      </button>
+    <button
+      type="button"
+      class="gp-paginator__page gp-paginator-page"
+      [class.gp-paginator__page--active]="p === page()"
+      [class.gp-paginator-page-active]="p === page()"
+      (click)="changePage(p)"
+      [attr.aria-label]="'Page ' + (p + 1)"
+      [attr.aria-current]="p === page() ? 'page' : null"
+    >
+      {{ p + 1 }}
+    </button>
     }
   </div>
 
   <button
     type="button"
-    class="gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-next"
     [disabled]="isLastPage()"
     (click)="changePage(page() + 1)"
     [attr.aria-label]="translationService.get('pagination')?.nextPage || 'Next Page'"
@@ -49,7 +51,7 @@
 
   <button
     type="button"
-    class="gp-paginator-btn"
+    class="gp-paginator__btn gp-paginator-btn gp-paginator-last"
     [disabled]="isLastPage()"
     (click)="changePage(pageCount() - 1)"
     [attr.aria-label]="translationService.get('pagination')?.lastPage || 'Last Page'"
@@ -58,17 +60,17 @@
   </button>
 
   @if (rowsPerPageOptions() && rowsPerPageOptions().length > 0) {
-    <div class="gp-paginator-rpp">
-      <select
-        [value]="internalRows()"
-        (change)="onRppChange($event)"
-        class="gp-paginator-rpp-select"
-        aria-label="Rows per page"
-      >
-        @for (opt of rowsPerPageOptions(); track opt) {
-          <option [value]="opt">{{ opt }} / page</option>
-        }
-      </select>
-    </div>
+  <div class="gp-paginator-rpp">
+    <select
+      [value]="internalRows()"
+      (change)="onRppChange($event)"
+      class="gp-paginator__rpp-select gp-paginator-rpp-select"
+      aria-label="Rows per page"
+    >
+      @for (opt of rowsPerPageOptions(); track opt) {
+      <option [value]="opt">{{ opt }} / page</option>
+      }
+    </select>
+  </div>
   }
 </div>

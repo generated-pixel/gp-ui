@@ -1,11 +1,5 @@
 import { Component, output, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import {
-  GpButton,
-  GpBadge,
-  GpAvatar,
-  GpBreadcrumb,
-  GpIcon
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpBadge, GpAvatar, GpBreadcrumb, GpIcon } from '@generatedpixel/gp-ui';
 import { GpBlockBase } from '../../base/gp-block-base';
 import { GpHeaderSchema } from '../schema.types';
 

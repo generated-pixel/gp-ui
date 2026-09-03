@@ -7,9 +7,7 @@ import { provideRouter } from '@angular/router';
 @Component({
   standalone: true,
   imports: [GpTieredMenu],
-  template: `
-    <gp-tiered-menu [model]="items" />
-  `
+  template: ' <gp-tiered-menu [model]="items" /> '
 })
 class TestHostComponent {
   items: GpMenubarItem[] = [
@@ -36,6 +34,6 @@ describe('GpTieredMenu', () => {
   it('should instantiate tiered menu component', () => {
     const tiered = fixture.debugElement.children[0].componentInstance as GpTieredMenu;
     expect(tiered).toBeTruthy();
-    expect(tiered.popup()).toBeFalse();
+    expect(tiered.popup()).toBe(false);
   });
 });

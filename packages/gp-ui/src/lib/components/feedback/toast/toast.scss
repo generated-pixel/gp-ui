@@ -9,33 +9,40 @@
   z-index: 1200;
 }
 
+.gp-toast--top-right,
 .gp-toast-top-right {
   top: 1.5rem;
   right: 1.5rem;
 }
+.gp-toast--top-left,
 .gp-toast-top-left {
   top: 1.5rem;
   left: 1.5rem;
 }
+.gp-toast--bottom-right,
 .gp-toast-bottom-right {
   bottom: 1.5rem;
   right: 1.5rem;
 }
+.gp-toast--bottom-left,
 .gp-toast-bottom-left {
   bottom: 1.5rem;
   left: 1.5rem;
 }
+.gp-toast--top-center,
 .gp-toast-top-center {
   top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
 }
+.gp-toast--bottom-center,
 .gp-toast-bottom-center {
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
 }
 
+.gp-toast__message,
 .gp-toast-message {
   pointer-events: auto;
   display: flex;
@@ -51,6 +58,7 @@
   backdrop-filter: blur(12px);
 }
 
+.gp-toast__message--success,
 .gp-toast-message-success {
   background:
     linear-gradient(
@@ -62,10 +70,12 @@
   border-color: var(--gp-success-border, var(--gp-success));
   border-left: 4px solid var(--gp-success);
 }
+.gp-toast__message--success .gp-toast__icon,
 .gp-toast-message-success .gp-toast-icon {
   color: var(--gp-success);
 }
 
+.gp-toast__message--info,
 .gp-toast-message-info {
   background:
     linear-gradient(
@@ -77,10 +87,12 @@
   border-color: var(--gp-info-border, var(--gp-info));
   border-left: 4px solid var(--gp-info);
 }
+.gp-toast__message--info .gp-toast__icon,
 .gp-toast-message-info .gp-toast-icon {
   color: var(--gp-info);
 }
 
+.gp-toast__message--warn,
 .gp-toast-message-warning {
   background:
     linear-gradient(
@@ -92,10 +104,12 @@
   border-color: var(--gp-warning-border, var(--gp-warning));
   border-left: 4px solid var(--gp-warning);
 }
+.gp-toast__message--warn .gp-toast__icon,
 .gp-toast-message-warning .gp-toast-icon {
   color: var(--gp-warning);
 }
 
+.gp-toast__message--error,
 .gp-toast-message-error {
   background:
     linear-gradient(
@@ -107,10 +121,12 @@
   border-color: var(--gp-danger-border, var(--gp-danger));
   border-left: 4px solid var(--gp-danger);
 }
+.gp-toast__message--error .gp-toast__icon,
 .gp-toast-message-error .gp-toast-icon {
   color: var(--gp-danger);
 }
 
+.gp-toast__message--secondary,
 .gp-toast-message-secondary {
   background:
     linear-gradient(
@@ -123,6 +139,7 @@
   border-left: 4px solid var(--gp-secondary);
 }
 
+.gp-toast__message--contrast,
 .gp-toast-message-contrast {
   background: var(--gp-contrast);
   border-color: var(--gp-contrast);
@@ -130,6 +147,7 @@
   color: var(--gp-contrast-text);
 }
 
+.gp-toast__message-text,
 .gp-toast-message-text {
   flex: 1;
   display: flex;
@@ -137,12 +155,14 @@
   gap: 0.25rem;
 }
 
+.gp-toast__summary,
 .gp-toast-summary {
   font-weight: 700;
   font-size: var(--gp-font-size-sm, 0.875rem);
   color: var(--gp-text-color, inherit);
 }
 
+.gp-toast__detail,
 .gp-toast-detail {
   font-size: var(--gp-font-size-xs, 0.75rem);
   color: var(--gp-text-color-secondary, inherit);
@@ -150,6 +170,7 @@
   line-height: 1.4;
 }
 
+.gp-toast__close-btn,
 .gp-toast-close-btn {
   background: transparent;
   border: none;
@@ -164,6 +185,7 @@
   transition: all var(--gp-transition-duration, 150ms) ease;
 }
 
+.gp-toast__close-btn:hover,
 .gp-toast-close-btn:hover {
   opacity: 1;
   background: var(--gp-surface-hover, rgba(0, 0, 0, 0.06));

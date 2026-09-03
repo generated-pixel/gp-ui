@@ -5,13 +5,13 @@
   role="toolbar"
   [attr.aria-label]="ariaLabel() || null"
 >
-  <div class="gp-toolbar-start">
+  <div class="gp-toolbar__start gp-toolbar-start">
     <ng-content select="[start]" />
   </div>
-  <div class="gp-toolbar-center">
+  <div class="gp-toolbar__center gp-toolbar-center">
     <ng-content select="[center]" />
   </div>
-  <div class="gp-toolbar-end">
+  <div class="gp-toolbar__end gp-toolbar-end">
     <ng-content select="[end]" />
   </div>
 </div>

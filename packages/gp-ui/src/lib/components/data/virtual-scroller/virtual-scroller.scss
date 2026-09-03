@@ -13,10 +13,12 @@
   }
 }
 
+.gp-virtual-scroller__spacer,
 .gp-virtual-scroller-spacer {
   width: 100%;
 }
 
+.gp-virtual-scroller__content,
 .gp-virtual-scroller-content {
   position: absolute;
   top: 0;
@@ -24,6 +26,7 @@
   width: 100%;
 }
 
+.gp-virtual-scroller__item,
 .gp-virtual-scroller-item {
   box-sizing: border-box;
   display: flex;
@@ -35,6 +38,7 @@
   }
 }
 
+.gp-virtual-scroller__default-item,
 .gp-virtual-scroller-default-item {
   display: flex;
   align-items: center;

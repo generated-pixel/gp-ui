@@ -19,8 +19,8 @@ module.exports = [
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
       curly: ['error', 'all'],
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'off'
+      'brace-style': ['error', '1tbs'],
+      'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }]
     }
   },
   {
@@ -32,7 +32,9 @@ module.exports = [
     rules: {
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
-      curly: ['error', 'all']
+      curly: ['error', 'all'],
+      'brace-style': ['error', '1tbs'],
+      'padding-line-between-statements': ['error', { blankLine: 'always', prev: '*', next: 'return' }]
     }
   }
 ];

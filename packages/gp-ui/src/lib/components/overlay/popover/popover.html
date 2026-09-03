@@ -1,14 +1,14 @@
 @if (visible()) {
-  <div
-    [id]="id()"
-    [class]="'gp-popover ' + styleClass()"
-    [style]="style()"
-    [style.top.px]="top()"
-    [style.left.px]="left()"
-    [gpAppendTo]="appendTo()"
-    [attr.aria-label]="ariaLabel() || null"
-    (click)="$event.stopPropagation()"
-  >
-    <ng-content />
-  </div>
+<div
+  [id]="id()"
+  [class]="'gp-popover ' + styleClass()"
+  [style]="style()"
+  [style.top.px]="top()"
+  [style.left.px]="left()"
+  [gpAppendTo]="appendTo()"
+  [attr.aria-label]="ariaLabel() || null"
+  (click)="$event.stopPropagation()"
+>
+  <ng-content />
+</div>
 }

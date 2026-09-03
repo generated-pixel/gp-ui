@@ -1,3 +1,4 @@
+.gp-org-chart,
 .gp-orgchart {
   display: flex;
   justify-content: center;
@@ -7,6 +8,7 @@
   width: 100%;
 }
 
+.gp-org-chart__table,
 .gp-orgchart-table {
   border-spacing: 0;
   border-collapse: separate;
@@ -14,12 +16,14 @@
   text-align: center;
 }
 
+.gp-org-chart__node-cell,
 .gp-orgchart-node-cell {
   text-align: center;
   padding: 0 0.5rem;
   vertical-align: top;
 }
 
+.gp-org-chart__node,
 .gp-orgchart-node {
   display: inline-block;
   position: relative;
@@ -39,6 +43,7 @@
     background var(--gp-transition-duration);
 }
 
+.gp-org-chart__node--selectable,
 .gp-orgchart-node-selectable {
   cursor: pointer;
 
@@ -49,16 +54,19 @@
   }
 }
 
+.gp-org-chart__node--selected,
 .gp-orgchart-node-selected {
   border-color: var(--gp-primary) !important;
   background: var(--gp-primary-light, rgba(59, 130, 246, 0.08)) !important;
   box-shadow: 0 0 0 2px var(--gp-primary, #3b82f6) !important;
 
+  .gp-org-chart__node-label,
   .gp-orgchart-node-label {
     color: var(--gp-primary);
   }
 }
 
+.gp-org-chart__node-content,
 .gp-orgchart-node-content {
   display: flex;
   flex-direction: column;
@@ -66,6 +74,7 @@
   gap: 0.35rem;
 }
 
+.gp-org-chart__node-icon-wrap,
 .gp-orgchart-node-icon-wrap {
   width: 2.25rem;
   height: 2.25rem;
@@ -78,6 +87,7 @@
   margin-bottom: 0.15rem;
 }
 
+.gp-org-chart__node-label,
 .gp-orgchart-node-label {
   font-weight: 700;
   font-size: var(--gp-font-size-sm, 0.875rem);
@@ -85,12 +95,14 @@
   line-height: 1.3;
 }
 
+.gp-org-chart__node-title,
 .gp-orgchart-node-title {
   font-size: var(--gp-font-size-xs, 0.775rem);
   font-weight: 500;
   color: var(--gp-text-color-secondary);
 }
 
+.gp-org-chart__node-dept,
 .gp-orgchart-node-dept {
   display: inline-block;
   margin-top: 0.2rem;
@@ -102,6 +114,7 @@
   border-radius: var(--gp-border-radius-full, 9999px);
 }
 
+.gp-org-chart__toggler,
 .gp-orgchart-toggler {
   position: absolute;
   bottom: -0.75rem;
@@ -134,10 +147,12 @@
 }
 
 /* Connector Lines Geometry */
+.gp-org-chart__lines,
 .gp-orgchart-lines {
   height: 1.25rem;
 }
 
+.gp-org-chart__line-cell,
 .gp-orgchart-line-cell {
   height: 1.25rem;
   padding: 0;
@@ -145,6 +160,7 @@
   vertical-align: top;
 }
 
+.gp-org-chart__line-down,
 .gp-orgchart-line-down {
   height: 1.25rem;
   width: 2px;
@@ -152,22 +168,27 @@
   margin: 0 auto;
 }
 
+.gp-org-chart__line-top,
 .gp-orgchart-line-top {
   border-top: 2px solid var(--gp-surface-border, #cbd5e1);
 }
 
+.gp-org-chart__line-left-half,
 .gp-orgchart-line-left-half {
   border-right: 2px solid var(--gp-surface-border, #cbd5e1);
 }
 
+.gp-org-chart__line-right-half,
 .gp-orgchart-line-right-half {
   /* right half column cell */
 }
 
+.gp-org-chart__nodes-row,
 .gp-orgchart-nodes-row {
   vertical-align: top;
 }
 
+.gp-org-chart__child-cell,
 .gp-orgchart-child-cell {
   padding: 0 0.5rem;
   vertical-align: top;

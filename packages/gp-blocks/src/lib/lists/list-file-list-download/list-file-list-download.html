@@ -1,50 +1,46 @@
 <div class="gp-file-list-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <div class="card-head">
-        <h3 class="head-title">{{ title() }}</h3>
-        <gp-button severity="primary" size="sm" (onClickEvent)="uploadClick.emit()">
-          <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem" />
-          {{ uploadBtnLabel() }}
-        </gp-button>
-      </div>
-    }
-  }
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <div class="card-head">
+    <h3 class="head-title">{{ title() }}</h3>
+    <gp-button severity="primary" size="sm" (onClickEvent)="uploadClick.emit()">
+      <gp-icon name="upload" size="0.85em" style="margin-right: 0.35rem" />
+      {{ uploadBtnLabel() }}
+    </gp-button>
+  </div>
+  } }
 
   <!-- Files List Body -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[files], [slot=files]" />
-    @if (files() && files().length > 0) {
-      <div class="file-items-list">
-        @for (f of files(); track f) {
-          @if (effectiveFileTemplate()) {
-            <ng-container *ngTemplateOutlet="effectiveFileTemplate()!; context: { $implicit: f }" />
-          } @else {
-            <div class="file-row">
-              <div class="file-info-group">
-                <div class="file-icon-box">
-                  <gp-icon name="file-text" size="1.1em" />
-                </div>
-                <div class="file-meta">
-                  <span class="f-name">{{ f.name }}</span>
-                  <span class="f-sub">{{ f.size }} &bull; Uploaded {{ f.date }} by {{ f.by }}</span>
-                </div>
-              </div>
-              <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadFile.emit(f)">
-                <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem" />
-                Download
-              </gp-button>
-            </div>
-          }
-        }
+  <ng-content select="[files], [slot=files]" />
+  @if (files() && files().length > 0) {
+  <div class="file-items-list">
+    @for (f of files(); track f) { @if (effectiveFileTemplate()) {
+    <ng-container *ngTemplateOutlet="effectiveFileTemplate()!; context: { $implicit: f }" />
+    } @else {
+    <div class="file-row">
+      <div class="file-info-group">
+        <div class="file-icon-box">
+          <gp-icon name="file-text" size="1.1em" />
+        </div>
+        <div class="file-meta">
+          <span class="f-name">{{ f.name }}</span>
+          <span class="f-sub">{{ f.size }} &bull; Uploaded {{ f.date }} by {{ f.by }}</span>
+        </div>
       </div>
-    }
-  }
+      <gp-button variant="outlined" severity="secondary" size="sm" (onClickEvent)="downloadFile.emit(f)">
+        <gp-icon name="download" size="0.85em" style="margin-right: 0.35rem" />
+        Download
+      </gp-button>
+    </div>
+    } }
+  </div>
+  } }
   <ng-content />
 </div>

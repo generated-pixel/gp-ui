@@ -23,7 +23,6 @@ import { GpCheckableBase } from '../../../base/gp-checkable-base';
   styleUrl: './checkbox.scss'
 })
 export class GpCheckbox extends GpCheckableBase implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('chk_'));
   public label = input<string>('');
   public checkedInput = input<boolean | undefined>(undefined, { alias: 'checked' });
 
@@ -78,6 +77,7 @@ export class GpCheckbox extends GpCheckableBase implements ControlValueAccessor 
     }
 
     this.updateValue(nextValue);
+    this.checked.set(this.isChecked());
     this.onChange.emit({ checked: this.isChecked(), originalEvent: event });
     this.onClickEvent.emit(event);
   }

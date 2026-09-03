@@ -1,75 +1,73 @@
 <div class="gp-dynamic-stats-wrap">
   @if (schema()?.title || schema()?.subtitle) {
-    <div class="stats-header">
-      @if (schema()?.title) {
-        <h3 class="stats-title">{{ schema()?.title }}</h3>
-      }
-      @if (schema()?.subtitle) {
-        <p class="stats-subtitle">{{ schema()?.subtitle }}</p>
-      }
-    </div>
+  <div class="stats-header">
+    @if (schema()?.title) {
+    <h3 class="stats-title">{{ schema()?.title }}</h3>
+    } @if (schema()?.subtitle) {
+    <p class="stats-subtitle">{{ schema()?.subtitle }}</p>
+    }
+  </div>
   }
 
   <div class="gp-stats-grid" [style.gridTemplateColumns]="'repeat(' + (schema()?.columns || 4) + ', minmax(0, 1fr))'">
     @for (item of schema()?.items; track item) {
-      <div class="gp-stat-card">
-        <div class="stat-card-top">
-          <span class="stat-label">{{ item.label }}</span>
-          @if (item.icon) {
-            <div
-              class="stat-icon-wrap"
-              [style.backgroundColor]="item.iconBackground || 'rgba(59, 130, 246, 0.1)'"
-              [style.color]="item.iconColor || 'var(--gp-primary)'"
-            >
-              <gp-icon [name]="item.icon" size="1.15em" />
-            </div>
-          }
-          @if (item.badge) {
-            <gp-badge [value]="item.badge" severity="info" />
-          }
+    <div class="gp-stat-card">
+      <div class="stat-card-top">
+        <span class="stat-label">{{ item.label }}</span>
+        @if (item.icon) {
+        <div
+          class="stat-icon-wrap"
+          [style.backgroundColor]="item.iconBackground || 'rgba(59, 130, 246, 0.1)'"
+          [style.color]="item.iconColor || 'var(--gp-primary)'"
+        >
+          <gp-icon [name]="item.icon" size="1.15em" />
         </div>
-        <div class="stat-value-row">
-          @if (item.prefix) {
-            <span class="stat-affix">{{ item.prefix }}</span>
-          }
-          <span class="stat-value">{{ item.value }}</span>
-          @if (item.suffix) {
-            <span class="stat-affix">{{ item.suffix }}</span>
-          }
-        </div>
-        <!-- Trend Indicator -->
-        @if (item.change) {
-          <div class="stat-trend-row">
-            <span
-              class="stat-trend-badge"
-              [class.trend-up]="item.changeDirection === 'up'"
-              [class.trend-down]="item.changeDirection === 'down'"
-              [class.trend-neutral]="item.changeDirection === 'neutral'"
-            >
-              <gp-icon
-                [name]="
+        } @if (item.badge) {
+        <gp-badge [value]="item.badge" severity="info" />
+        }
+      </div>
+      <div class="stat-value-row">
+        @if (item.prefix) {
+        <span class="stat-affix">{{ item.prefix }}</span>
+        }
+        <span class="stat-value">{{ item.value }}</span>
+        @if (item.suffix) {
+        <span class="stat-affix">{{ item.suffix }}</span>
+        }
+      </div>
+      <!-- Trend Indicator -->
+      @if (item.change) {
+      <div class="stat-trend-row">
+        <span
+          class="stat-trend-badge"
+          [class.trend-up]="item.changeDirection === 'up'"
+          [class.trend-down]="item.changeDirection === 'down'"
+          [class.trend-neutral]="item.changeDirection === 'neutral'"
+        >
+          <gp-icon
+            [name]="
                   item.changeDirection === 'up'
                     ? 'chevron-up'
                     : item.changeDirection === 'down'
                       ? 'chevron-down'
                       : 'minus'
                 "
-                size="0.8em"
-              />
-              {{ item.change }}
-            </span>
-            @if (item.changeLabel) {
-              <span class="stat-change-label">{{ item.changeLabel }}</span>
-            }
-          </div>
-        }
-        <!-- Progress Bar if present -->
-        @if (item.progress !== undefined) {
-          <div class="stat-progress-wrap">
-            <gp-progress-bar [value]="item.progress" [showValue]="false" />
-          </div>
+            size="0.8em"
+          />
+          {{ item.change }}
+        </span>
+        @if (item.changeLabel) {
+        <span class="stat-change-label">{{ item.changeLabel }}</span>
         }
       </div>
+      }
+      <!-- Progress Bar if present -->
+      @if (item.progress !== undefined) {
+      <div class="stat-progress-wrap">
+        <gp-progress-bar [value]="item.progress" [showValue]="false" />
+      </div>
+      }
+    </div>
     }
   </div>
 </div>

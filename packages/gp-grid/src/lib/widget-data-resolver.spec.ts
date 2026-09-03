@@ -1,5 +1,6 @@
 import { signal } from '@angular/core';
 import { BehaviorSubject, Subject, of, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import {
   normalizeKpiWidgetData,
   normalizeChartWidgetData,
@@ -87,7 +88,7 @@ describe('GpWidgetDataResolver & Type Normalizers', () => {
   describe('executeWidgetNavigation', () => {
     it('should invoke router.navigate when routerLink is provided', () => {
       const routerSpy = {
-        navigate: jasmine.createSpy('navigate')
+        navigate: vi.fn()
       };
       const navConfig = {
         routerLink: ['/dashboard', 'finance'],

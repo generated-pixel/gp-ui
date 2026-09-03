@@ -47,11 +47,13 @@ export class GpGridChartWidget extends GpGridWidgetBase<GpChartWidgetData> {
   public effectiveTitle = computed(
     () => this.title() || this.normalizedData().title || this.item()?.title || 'Revenue & Performance'
   );
+
   public effectiveSubtitle = computed(() => this.subtitle() || this.normalizedData().subtitle || '');
   public effectiveBadge = computed(() => this.badge() || this.normalizedData().badge || '');
   public effectiveBadgeSeverity = computed<GpBadgeSeverity>(
     () => this.badgeSeverity() || this.normalizedData().badgeSeverity || 'success'
   );
+
   public effectiveRanges = computed(
     () => this.timeRangeOptions() || this.normalizedData().timeRangeOptions || ['7D', '30D', '90D', '1Y']
   );

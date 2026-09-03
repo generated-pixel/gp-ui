@@ -22,6 +22,7 @@ gp-badge {
   box-sizing: border-box;
 }
 
+.gp-badge__text,
 .gp-badge-text {
   white-space: nowrap;
   overflow: hidden;
@@ -30,6 +31,7 @@ gp-badge {
   max-width: 100%;
 }
 
+.gp-badge--dot,
 .gp-badge-dot {
   width: 0.65rem;
   height: 0.65rem;
@@ -37,6 +39,7 @@ gp-badge {
   padding: 0;
 }
 
+.gp-badge--sm,
 .gp-badge-sm {
   font-size: 0.65rem;
   height: 1rem;
@@ -44,6 +47,7 @@ gp-badge {
   padding: 0.15rem 0.35rem;
 }
 
+.gp-badge--lg,
 .gp-badge-lg {
   font-size: var(--gp-font-size-sm);
   height: 1.75rem;
@@ -51,36 +55,43 @@ gp-badge {
   padding: 0.35rem 0.65rem;
 }
 
+.gp-badge--primary,
 .gp-badge-primary {
   background: var(--gp-primary);
   color: var(--gp-primary-text);
 }
 
+.gp-badge--secondary,
 .gp-badge-secondary {
   background: var(--gp-secondary);
   color: var(--gp-secondary-text);
 }
 
+.gp-badge--success,
 .gp-badge-success {
   background: var(--gp-success);
   color: var(--gp-success-text);
 }
 
+.gp-badge--info,
 .gp-badge-info {
   background: var(--gp-info);
   color: var(--gp-info-text);
 }
 
+.gp-badge--warning,
 .gp-badge-warning {
   background: var(--gp-warning);
   color: var(--gp-warning-text);
 }
 
+.gp-badge--danger,
 .gp-badge-danger {
   background: var(--gp-danger);
   color: var(--gp-danger-text);
 }
 
+.gp-badge--contrast,
 .gp-badge-contrast {
   background: var(--gp-contrast);
   color: var(--gp-contrast-text);

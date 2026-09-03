@@ -57,11 +57,8 @@ export interface GpAutoCompleteAdvancedSearchEvent {
   templateUrl: './autocomplete.html',
   styleUrl: './autocomplete.scss'
 })
-export class GpAutoComplete
-  extends GpEditableBase
-  implements ControlValueAccessor, OnInit, OnDestroy
-{
-  public inputId = input<string>(UniqueId.generate('ac_'));
+export class GpAutoComplete extends GpEditableBase implements ControlValueAccessor, OnInit, OnDestroy {
+  public listboxId = computed<string>(() => this.inputId() + '_listbox');
   public appendTo = input<GpAppendToTarget>('body');
   public suggestions = input<any[]>([]);
   public field = input<string>('');
@@ -172,7 +169,10 @@ export class GpAutoComplete
   });
 
   public showAdvancedSearchRow = computed(
-    () => this.showAdvancedSearch() || this.hasMore() || (this.totalResults() ?? 0) > (this.visibleSuggestions()?.length || 0)
+    () =>
+      this.showAdvancedSearch() ||
+      this.hasMore() ||
+      (this.totalResults() ?? 0) > (this.visibleSuggestions()?.length || 0)
   );
 
   constructor(public hostElRef: ElementRef) {

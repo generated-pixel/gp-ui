@@ -1,49 +1,54 @@
-<div class="gp-carousel" role="region" aria-roledescription="carousel">
-  <div class="gp-carousel-content">
+<div class="gp-carousel" role="region" aria-roledescription="carousel" [attr.aria-label]="ariaLabel() || 'Carousel'">
+  <div class="gp-carousel__content gp-carousel-content">
     <button
       type="button"
-      class="gp-carousel-nav-btn gp-carousel-prev"
+      class="gp-carousel__nav-btn gp-carousel-nav-btn gp-carousel__nav-btn--prev gp-carousel-prev"
       (click)="prev()"
       [disabled]="circular() ? false : activeIndex() === 0"
-      aria-label="Previous slide"
+      [attr.aria-label]="translationService.get('aria')?.previous || translationService.get('pagination')?.prevPage || 'Previous slide'"
     >
       <gp-icon name="chevron-left" size="1.2em" />
     </button>
 
-    <div class="gp-carousel-items-container">
-      <div class="gp-carousel-items-slider" [style.transform]="'translateX(-' + activeIndex() * 100 + '%)'">
+    <div class="gp-carousel__items-container gp-carousel-items-container">
+      <div
+        class="gp-carousel__items-slider gp-carousel-items-slider"
+        [style.transform]="'translateX(-' + activeIndex() * 100 + '%)'"
+      >
         @for (item of value(); track $index) {
-          <div class="gp-carousel-item" role="group" [attr.aria-label]="'Slide ' + ($index + 1)">
-            @if (itemTemplate()) {
-              <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
-            }
-          </div>
+        <div class="gp-carousel__item gp-carousel-item" role="group" [attr.aria-label]="'Slide ' + ($index + 1)">
+          @if (itemTemplate()) {
+          <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item }" />
+          }
+        </div>
         }
       </div>
     </div>
 
     <button
       type="button"
-      class="gp-carousel-nav-btn gp-carousel-next"
+      class="gp-carousel__nav-btn gp-carousel-nav-btn gp-carousel__nav-btn--next gp-carousel-next"
       (click)="next()"
       [disabled]="circular() ? false : activeIndex() >= value().length - 1"
-      aria-label="Next slide"
+      [attr.aria-label]="translationService.get('aria')?.next || translationService.get('pagination')?.nextPage || 'Next slide'"
     >
       <gp-icon name="chevron-right" size="1.2em" />
     </button>
   </div>
 
   @if (showIndicators() && value().length > 1) {
-    <div class="gp-carousel-indicators">
-      @for (item of value(); track $index) {
-        <button
-          type="button"
-          class="gp-carousel-indicator"
-          [class.gp-carousel-indicator-active]="activeIndex() === $index"
-          (click)="selectSlide($index)"
-          [attr.aria-label]="'Go to slide ' + ($index + 1)"
-        ></button>
-      }
-    </div>
+  <div class="gp-carousel__indicators gp-carousel-indicators">
+    @for (item of value(); track $index) {
+    <button
+      type="button"
+      class="gp-carousel__indicator gp-carousel-indicator"
+      [class.gp-carousel__indicator--active]="activeIndex() === $index"
+      [class.gp-carousel-indicator-active]="activeIndex() === $index"
+      (click)="selectSlide($index)"
+      [attr.aria-current]="activeIndex() === $index ? 'true' : null"
+      [attr.aria-label]="'Slide ' + ($index + 1)"
+    ></button>
+    }
+  </div>
   }
 </div>

@@ -128,8 +128,7 @@ export class GpSlider extends GpEditableBase implements ControlValueAccessor {
 
   private updateValueFromPosition(clientX: number, clientY: number, originalEvent: Event): void {
     const trackEl =
-      this.el.nativeElement.querySelector('.gp-slider-track') ||
-      this.el.nativeElement.querySelector('.gp-slider');
+      this.el.nativeElement.querySelector('.gp-slider-track') || this.el.nativeElement.querySelector('.gp-slider');
     if (!trackEl) {
       return;
     }
@@ -140,10 +139,14 @@ export class GpSlider extends GpEditableBase implements ControlValueAccessor {
 
     let pos = 0;
     if (this.orientation() === 'vertical') {
-      if (rect.height <= 0) return;
+      if (rect.height <= 0) {
+        return;
+      }
       pos = (rect.bottom - clientY) / rect.height;
     } else {
-      if (rect.width <= 0) return;
+      if (rect.width <= 0) {
+        return;
+      }
       pos = (clientX - rect.left) / rect.width;
     }
 

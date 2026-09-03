@@ -1,8 +1,9 @@
 <span
   class="gp-badge"
-  [class]="'gp-badge-' + severity() + ' gp-badge-' + size()"
+  [class]="'gp-badge--' + severity() + ' gp-badge-' + severity() + ' gp-badge--' + size() + ' gp-badge-' + size()"
+  [class.gp-badge--dot]="!value() && value() !== 0"
   [class.gp-badge-dot]="!value() && value() !== 0"
   [attr.title]="displayTitle()"
 >
-  <span class="gp-badge-text">{{ value() }}<ng-content /></span>
+  <span class="gp-badge__text gp-badge-text">{{ value() }}<ng-content /></span>
 </span>

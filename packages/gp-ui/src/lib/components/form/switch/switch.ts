@@ -21,7 +21,6 @@ import { GpCheckableBase } from '../../../base/gp-checkable-base';
   styleUrl: './switch.scss'
 })
 export class GpSwitch extends GpCheckableBase implements ControlValueAccessor {
-  public inputId = input<string>(UniqueId.generate('switch_'));
   public label = input<string>('');
 
   public toggle(event: Event): void {

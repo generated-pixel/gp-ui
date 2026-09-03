@@ -11,9 +11,6 @@ export type GpInputVariant = 'outlined' | 'filled';
  */
 @Directive()
 export abstract class GpInputBase<T = any> extends GpEditableBase<T> {
-  /** Unique HTML id attribute for the underlying input/textarea element */
-  public inputId = input<string>(UniqueId.generate('input_'));
-
   /** Input size scale */
   public size = input<GpInputSize>('md');
 

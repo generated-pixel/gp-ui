@@ -14,6 +14,7 @@ function getComponentFiles(dir) {
       results.push(fullPath);
     }
   }
+
   return results;
 }
 

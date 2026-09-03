@@ -27,6 +27,7 @@ export class GpStatCard {
   public badgeSeverity = input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'>(
     'primary'
   );
+
   public progress = input<number | undefined>(undefined);
   public progressSeverity = input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'>('primary');
   public glass = input<boolean>(false);

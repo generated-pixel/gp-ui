@@ -15,10 +15,7 @@ import {
  * integrated validation pipeline, async side effects, and ControlValueAccessor support.
  */
 @Directive()
-export abstract class GpEditableBase<T = any>
-  extends GpBase
-  implements ControlValueAccessor
-{
+export abstract class GpEditableBase<T = any> extends GpBase implements ControlValueAccessor {
   /** Initial or bound value property */
   public valueInput = input<any>(null, { alias: 'value' });
 
@@ -79,6 +76,7 @@ export abstract class GpEditableBase<T = any>
   public get value(): any {
     return this.internalValue();
   }
+
   public set value(val: any) {
     this.internalValue.set(val !== undefined ? val : null);
   }

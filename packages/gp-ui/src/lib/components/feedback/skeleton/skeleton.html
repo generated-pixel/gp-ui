@@ -1,5 +1,6 @@
 <div
   class="gp-skeleton"
+  [class.gp-skeleton--circle]="shape() === 'circle'"
   [class.gp-skeleton-circle]="shape() === 'circle'"
   [style.width]="width()"
   [style.height]="height()"

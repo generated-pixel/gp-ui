@@ -1,61 +1,55 @@
 <div class="gp-stacked-feed-card">
   <!-- Header -->
   @if (effectiveHeader()) {
-    <ng-container *ngTemplateOutlet="effectiveHeader()!" />
+  <ng-container *ngTemplateOutlet="effectiveHeader()!" />
   } @else {
-    <ng-content select="[header], [slot=header]" />
-    @if (title()) {
-      <div class="card-head">
-        <h3 class="head-title">{{ title() }}</h3>
-        @if (badgeText()) {
-          <gp-badge [value]="badgeText()" [severity]="badgeSeverity()" />
-        }
-      </div>
+  <ng-content select="[header], [slot=header]" />
+  @if (title()) {
+  <div class="card-head">
+    <h3 class="head-title">{{ title() }}</h3>
+    @if (badgeText()) {
+    <gp-badge [value]="badgeText()" [severity]="badgeSeverity()" />
     }
-  }
+  </div>
+  } }
 
   <!-- Feed Items Body -->
   @if (effectiveContent()) {
-    <ng-container *ngTemplateOutlet="effectiveContent()!" />
+  <ng-container *ngTemplateOutlet="effectiveContent()!" />
   } @else {
-    <ng-content select="[feed], [slot=feed], [items], [slot=items]" />
-    @if (feedItems() && feedItems().length > 0) {
-      <div class="feed-list">
-        @for (f of feedItems(); track f) {
-          @if (effectiveFeedItemTemplate()) {
-            <ng-container *ngTemplateOutlet="effectiveFeedItemTemplate()!; context: { $implicit: f }" />
-          } @else {
-            <div class="feed-item-row" (click)="itemClick.emit(f)" style="cursor: pointer">
-              <gp-avatar [label]="f.author.charAt(0)" size="normal" shape="circle" />
-              <div class="feed-main-col">
-                <div class="feed-action-line">
-                  <strong class="author-name">{{ f.author }}</strong>
-                  <span class="action-text">{{ f.action }}</span>
-                  <span class="target-name">{{ f.target }}</span>
-                </div>
-                @if (f.message) {
-                  <div class="feed-message-box">
-                    {{ f.message }}
-                  </div>
-                }
-                <span class="feed-time">{{ f.time }}</span>
-              </div>
-              <gp-button
-                type="button"
-                variant="text"
-                severity="secondary"
-                [iconOnly]="true"
-                styleClass="more-btn"
-                ariaLabel="Options"
-                (onClickEvent)="$event.stopPropagation(); itemOptionsClick.emit(f)"
-              >
-                <gp-icon name="more-horizontal" size="1em" />
-              </gp-button>
-            </div>
-          }
+  <ng-content select="[feed], [slot=feed], [items], [slot=items]" />
+  @if (feedItems() && feedItems().length > 0) {
+  <div class="feed-list">
+    @for (f of feedItems(); track f) { @if (effectiveFeedItemTemplate()) {
+    <ng-container *ngTemplateOutlet="effectiveFeedItemTemplate()!; context: { $implicit: f }" />
+    } @else {
+    <div class="feed-item-row" (click)="itemClick.emit(f)" style="cursor: pointer">
+      <gp-avatar [label]="f.author.charAt(0)" size="normal" shape="circle" />
+      <div class="feed-main-col">
+        <div class="feed-action-line">
+          <strong class="author-name">{{ f.author }}</strong>
+          <span class="action-text">{{ f.action }}</span>
+          <span class="target-name">{{ f.target }}</span>
+        </div>
+        @if (f.message) {
+        <div class="feed-message-box">{{ f.message }}</div>
         }
+        <span class="feed-time">{{ f.time }}</span>
       </div>
-    }
-  }
+      <gp-button
+        type="button"
+        variant="text"
+        severity="secondary"
+        [iconOnly]="true"
+        styleClass="more-btn"
+        ariaLabel="Options"
+        (onClickEvent)="$event.stopPropagation(); itemOptionsClick.emit(f)"
+      >
+        <gp-icon name="more-horizontal" size="1em" />
+      </gp-button>
+    </div>
+    } }
+  </div>
+  } }
   <ng-content />
 </div>

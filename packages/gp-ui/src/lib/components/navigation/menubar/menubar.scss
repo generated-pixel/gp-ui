@@ -9,11 +9,13 @@
   box-sizing: border-box;
 }
 
+.gp-menubar__start,
 .gp-menubar-start {
   display: flex;
   align-items: center;
 }
 
+.gp-menubar__root-list,
 .gp-menubar-root-list {
   display: flex;
   align-items: center;
@@ -24,10 +26,12 @@
   flex-wrap: wrap;
 }
 
+.gp-menubar__item,
 .gp-menubar-item {
   position: relative;
 }
 
+.gp-menubar__item-link,
 .gp-menubar-item-link {
   display: flex;
   align-items: center;
@@ -43,27 +47,34 @@
     color var(--gp-transition-duration);
 }
 
+.gp-menubar__item-link:hover,
 .gp-menubar-item-link:hover,
+.gp-menubar__root-item--active > .gp-menubar__item-link,
 .gp-menubar-item-active > .gp-menubar-item-link {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
 
+.gp-menubar__icon,
 .gp-menubar-icon {
   color: var(--gp-text-color-secondary);
   font-size: 1em;
 }
 
+.gp-menubar__item-link:hover .gp-menubar__icon,
 .gp-menubar-item-link:hover .gp-menubar-icon,
+.gp-menubar__root-item--active > .gp-menubar__item-link .gp-menubar__icon,
 .gp-menubar-item-active > .gp-menubar-item-link .gp-menubar-icon {
   color: var(--gp-primary);
 }
 
+.gp-menubar__submenu-icon,
 .gp-menubar-submenu-icon {
   color: var(--gp-text-color-muted);
   margin-left: 0.25rem;
 }
 
+.gp-menubar__submenu,
 .gp-menubar-submenu {
   position: absolute;
   top: 100%;
@@ -92,10 +103,12 @@
   }
 }
 
+.gp-menubar__subitem,
 .gp-menubar-subitem {
   position: relative;
 }
 
+.gp-menubar__subitem-link,
 .gp-menubar-subitem-link {
   display: flex;
   align-items: center;
@@ -112,21 +125,26 @@
     color var(--gp-transition-duration);
 }
 
+.gp-menubar__subitem-link:hover,
 .gp-menubar-subitem-link:hover,
+.gp-menubar__subitem--active > .gp-menubar__subitem-link,
 .gp-menubar-subitem-active > .gp-menubar-subitem-link {
   background: var(--gp-surface-hover);
   color: var(--gp-primary);
 }
 
+.gp-menubar__subitem-label,
 .gp-menubar-subitem-label {
   flex: 1;
 }
 
+.gp-menubar__nested-icon,
 .gp-menubar-nested-icon {
   margin-left: auto;
   color: var(--gp-text-color-muted);
 }
 
+.gp-menubar__nested-submenu,
 .gp-menubar-nested-submenu {
   top: 0;
   left: 100%;
@@ -134,6 +152,7 @@
   margin-left: 2px;
 }
 
+.gp-menubar__end,
 .gp-menubar-end {
   margin-left: auto;
   display: flex;

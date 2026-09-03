@@ -1,24 +1,31 @@
 <div
   class="gp-switch"
+  [class.gp-switch--checked]="checked()"
   [class.gp-switch-checked]="checked()"
+  [class.gp-switch--disabled]="isEffectivelyDisabled()"
   [class.gp-switch-disabled]="isEffectivelyDisabled()"
   [class.gp-input-invalid]="isInvalid()"
   (click)="toggle($event)"
 >
   <div
-    class="gp-switch-slider"
+    class="gp-switch__slider gp-switch-slider"
     role="switch"
+    [attr.id]="inputId()"
     [attr.aria-checked]="checked()"
     [attr.aria-disabled]="isEffectivelyDisabled()"
-    [attr.aria-label]="ariaLabel() || placeholder() || null"
-    tabindex="0"
+    [attr.aria-required]="required()"
+    [attr.aria-invalid]="isInvalid()"
+    [attr.aria-label]="ariaLabel() || label() || placeholder() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.tabindex]="isEffectivelyDisabled() ? -1 : (tabindex() !== undefined ? tabindex() : 0)"
     (keydown.enter)="$event.preventDefault(); toggle($event)"
     (keydown.space)="$event.preventDefault(); toggle($event)"
   >
-    <span class="gp-switch-handle"></span>
+    <span class="gp-switch__handle gp-switch-handle"></span>
   </div>
 
   @if (label()) {
-    <span class="gp-switch-label">{{ label() }}</span>
+  <span class="gp-switch__label gp-switch-label">{{ label() }}</span>
   }
 </div>

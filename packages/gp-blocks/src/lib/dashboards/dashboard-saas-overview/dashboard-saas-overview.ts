@@ -10,13 +10,7 @@ import {
   computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  GpAvatar,
-  GpBadge,
-  GpButton,
-  GpIcon,
-  GpProgressBar
-} from '@generatedpixel/gp-ui';
+import { GpAvatar, GpBadge, GpButton, GpIcon, GpProgressBar } from '@generatedpixel/gp-ui';
 import { GpGrid, GpGridItem } from '@generatedpixel/gp-grid';
 
 export interface GpSaasKpi {
@@ -57,15 +51,7 @@ export interface GpSaasSignupRow {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'gp-dashboard-saas-overview',
   standalone: true,
-  imports: [
-    CommonModule,
-    GpAvatar,
-    GpBadge,
-    GpButton,
-    GpIcon,
-    GpProgressBar,
-    GpGrid
-  ],
+  imports: [CommonModule, GpAvatar, GpBadge, GpButton, GpIcon, GpProgressBar, GpGrid],
   templateUrl: './dashboard-saas-overview.html',
   styleUrl: './dashboard-saas-overview.scss'
 })

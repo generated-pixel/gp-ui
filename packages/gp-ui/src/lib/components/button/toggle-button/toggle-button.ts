@@ -57,8 +57,8 @@ export class GpToggleButton extends GpEditableBase implements ControlValueAccess
       'gp-toggle-button',
       `gp-button-${this.size()}`,
       `gp-button-${this.severity()}`,
-      this.checked() ? 'gp-toggle-button-checked' : '',
-      this.isEffectivelyDisabled() ? 'gp-button-disabled' : '',
+      this.checked() ? 'gp-toggle-button--checked gp-toggle-button-checked' : '',
+      this.isEffectivelyDisabled() ? 'gp-button--disabled gp-button-disabled' : '',
       this.styleClass()
     ]
       .filter(Boolean)
