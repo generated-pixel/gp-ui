@@ -10,8 +10,10 @@ function runSuite(name, callback) {
   console.log(name);
   try {
     callback();
-  } catch {
+  } catch (err) {
     failedSuites++;
+    console.error(`✖ ${name}`);
+    console.error(err);
   }
 }
 
