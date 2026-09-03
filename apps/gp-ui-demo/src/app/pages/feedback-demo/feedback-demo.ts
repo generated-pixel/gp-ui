@@ -13,6 +13,7 @@ import {
 } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-feedback-demo',
@@ -119,8 +120,20 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpMessage Properties (Inputs)" [properties]="messageProperties" />
-        <doc-api-table title="GpProgressBar Properties (Inputs)" [properties]="progressBarProperties" />
+        <doc-api-table title="GpMessage Properties &amp; Signal Inputs" [properties]="messageProperties" />
+        <doc-api-table title="GpProgressBar Properties &amp; Signal Inputs" [properties]="progressBarProperties" />
+        <doc-api-table
+          title="GpProgressSpinner Properties &amp; Signal Inputs"
+          [properties]="progressSpinnerProperties"
+        />
+        <doc-api-table title="GpToast Properties &amp; Signal Inputs" [properties]="toastProperties" />
+        <doc-api-table title="GpTag Properties &amp; Signal Inputs" [properties]="tagProperties" />
+        <doc-api-table title="GpBadge Properties &amp; Signal Inputs" [properties]="badgeProperties" />
+        <doc-api-table title="GpSkeleton Properties &amp; Signal Inputs" [properties]="skeletonProperties" />
+        <doc-api-table
+          title="GpAnnouncementBar Properties &amp; Signal Inputs"
+          [properties]="announcementBarProperties"
+        />
       </div>
     </div>
   `
@@ -177,24 +190,12 @@ export class My {
     this.toastService.error('Error', 'An unexpected error occurred.');
   }
 
-  messageProperties: DocApiProperty[] = [
-    {
-      name: 'severity',
-      type: "'success' | 'info' | 'warning' | 'error'",
-      default: "'info'",
-      description: 'Semantic color severity.'
-    },
-    { name: 'text', type: 'string', default: "''", description: 'Message body text.' },
-    { name: 'closable', type: 'boolean', default: 'false', description: 'Renders a close dismissal icon.' }
-  ];
-
-  progressBarProperties: DocApiProperty[] = [
-    { name: 'value', type: 'number', default: '0', description: 'Percentage completion (0 to 100).' },
-    {
-      name: 'mode',
-      type: "'determinate' | 'indeterminate'",
-      default: "'determinate'",
-      description: 'Animation behavior.'
-    }
-  ];
+  messageProperties: DocApiProperty[] = getComponentDoc('message')?.properties ?? [];
+  progressBarProperties: DocApiProperty[] = getComponentDoc('progress-bar')?.properties ?? [];
+  progressSpinnerProperties: DocApiProperty[] = getComponentDoc('progress-spinner')?.properties ?? [];
+  toastProperties: DocApiProperty[] = getComponentDoc('toast')?.properties ?? [];
+  tagProperties: DocApiProperty[] = getComponentDoc('tag')?.properties ?? [];
+  badgeProperties: DocApiProperty[] = getComponentDoc('badge')?.properties ?? [];
+  skeletonProperties: DocApiProperty[] = getComponentDoc('skeleton')?.properties ?? [];
+  announcementBarProperties: DocApiProperty[] = getComponentDoc('announcement-bar')?.properties ?? [];
 }

@@ -21,6 +21,7 @@ import {
 } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-navigation-demo',
@@ -206,8 +207,13 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpTabs Properties (Inputs)" [properties]="tabsProperties" />
-        <doc-api-table title="GpStepper Properties (Inputs)" [properties]="stepperProperties" />
+        <doc-api-table title="GpTabs Properties &amp; Signal Inputs" [properties]="tabsProperties" />
+        <doc-api-table title="GpStepper Properties &amp; Signal Inputs" [properties]="stepperProperties" />
+        <doc-api-table title="GpPanelMenu Properties &amp; Signal Inputs" [properties]="panelMenuProperties" />
+        <doc-api-table title="GpMenubar Properties &amp; Signal Inputs" [properties]="menubarProperties" />
+        <doc-api-table title="GpBreadcrumb Properties &amp; Signal Inputs" [properties]="breadcrumbProperties" />
+        <doc-api-table title="GpDock Properties &amp; Signal Inputs" [properties]="dockProperties" />
+        <doc-api-table title="GpToolbar Properties &amp; Signal Inputs" [properties]="toolbarProperties" />
       </div>
     </div>
   `
@@ -484,39 +490,11 @@ export class NavigationDemo {
     { icon: 'sliders', label: 'Settings' }
   ];
 
-  tabsProperties: DocApiProperty[] = [
-    {
-      name: 'activeIndex',
-      type: 'model<number>',
-      default: '0',
-      description: 'Zero-based index model of the currently active tab.'
-    },
-    {
-      name: 'styleClass',
-      type: 'input<string>',
-      default: "''",
-      description: 'Custom CSS classes applied to tab wrapper.'
-    }
-  ];
-
-  stepperProperties: DocApiProperty[] = [
-    {
-      name: 'activeStep',
-      type: 'model<number>',
-      default: '0',
-      description: 'Zero-based index model of the active step.'
-    },
-    {
-      name: 'orientation',
-      type: "input<'horizontal' | 'vertical'>",
-      default: "'horizontal'",
-      description: 'Layout orientation of the stepper.'
-    },
-    {
-      name: 'linear',
-      type: 'input<boolean>',
-      default: 'false',
-      description: 'Enforces strictly sequential forward progression.'
-    }
-  ];
+  tabsProperties: DocApiProperty[] = getComponentDoc('tabs')?.properties ?? [];
+  stepperProperties: DocApiProperty[] = getComponentDoc('stepper')?.properties ?? [];
+  panelMenuProperties: DocApiProperty[] = getComponentDoc('panel-menu')?.properties ?? [];
+  menubarProperties: DocApiProperty[] = getComponentDoc('menubar')?.properties ?? [];
+  breadcrumbProperties: DocApiProperty[] = getComponentDoc('breadcrumb')?.properties ?? [];
+  dockProperties: DocApiProperty[] = getComponentDoc('dock')?.properties ?? [];
+  toolbarProperties: DocApiProperty[] = getComponentDoc('toolbar')?.properties ?? [];
 }

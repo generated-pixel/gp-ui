@@ -13,6 +13,7 @@ import {
 } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-panels-demo',
@@ -125,8 +126,12 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpCard Properties (Inputs)" [properties]="cardProperties" />
-        <doc-api-table title="GpAccordion Properties (Inputs)" [properties]="accordionProperties" />
+        <doc-api-table title="GpCard Properties &amp; Signal Inputs" [properties]="cardProperties" />
+        <doc-api-table title="GpPanel Properties &amp; Signal Inputs" [properties]="panelProperties" />
+        <doc-api-table title="GpAccordion Properties &amp; Signal Inputs" [properties]="accordionProperties" />
+        <doc-api-table title="GpFieldset Properties &amp; Signal Inputs" [properties]="fieldsetProperties" />
+        <doc-api-table title="GpDivider Properties &amp; Signal Inputs" [properties]="dividerProperties" />
+        <doc-api-table title="GpSplitter Properties &amp; Signal Inputs" [properties]="splitterProperties" />
       </div>
     </div>
   `
@@ -163,25 +168,10 @@ export class PanelsDemo {
   <gp-splitter-panel [size]="60">Right</gp-splitter-panel>
 </gp-splitter>`;
 
-  cardProperties: DocApiProperty[] = [
-    { name: 'header', type: 'string', default: "''", description: 'Main title displayed in the card header.' },
-    { name: 'subheader', type: 'string', default: "''", description: 'Subtitle text displayed beneath the header.' },
-    {
-      name: 'hoverable',
-      type: 'boolean',
-      default: 'false',
-      description: 'Applies interactive elevation shadow on hover.'
-    },
-    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS classes for the card.' }
-  ];
-
-  accordionProperties: DocApiProperty[] = [
-    {
-      name: 'multiple',
-      type: 'boolean',
-      default: 'false',
-      description: 'Allows multiple accordion tabs to be opened simultaneously.'
-    },
-    { name: 'styleClass', type: 'string', default: "''", description: 'Custom CSS class for the accordion wrapper.' }
-  ];
+  cardProperties: DocApiProperty[] = getComponentDoc('card')?.properties ?? [];
+  panelProperties: DocApiProperty[] = getComponentDoc('panel')?.properties ?? [];
+  accordionProperties: DocApiProperty[] = getComponentDoc('accordion')?.properties ?? [];
+  fieldsetProperties: DocApiProperty[] = getComponentDoc('fieldset')?.properties ?? [];
+  dividerProperties: DocApiProperty[] = getComponentDoc('divider')?.properties ?? [];
+  splitterProperties: DocApiProperty[] = getComponentDoc('splitter')?.properties ?? [];
 }

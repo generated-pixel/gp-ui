@@ -20,6 +20,12 @@ const baseComponentProperties: DocApiProperty[] = [
     description: 'Unique element identifier signal attached to the component host.'
   },
   {
+    name: 'inputId',
+    type: 'input<string>',
+    default: "UniqueId.generate('gp_input_')",
+    description: 'Unique input identifier for native form controls, labels, and ARIA associations.'
+  },
+  {
     name: 'styleClass',
     type: 'input<string>',
     default: "''",
@@ -38,6 +44,18 @@ const baseComponentProperties: DocApiProperty[] = [
     description: 'Accessible label signal used for screen readers.'
   },
   {
+    name: 'ariaLabelledBy',
+    type: 'input<string>',
+    default: "''",
+    description: 'Accessible labelledby ID for screen readers.'
+  },
+  {
+    name: 'ariaDescribedBy',
+    type: 'input<string>',
+    default: "''",
+    description: 'Accessible describedby ID for screen readers.'
+  },
+  {
     name: 'disabled',
     type: 'input<boolean>',
     default: 'false',
@@ -48,7 +66,7 @@ const baseComponentProperties: DocApiProperty[] = [
 const editableBaseProperties: DocApiProperty[] = [
   {
     name: 'value',
-    type: 'input<T | null> / model<T>',
+    type: 'input<any> / model<any>',
     default: 'null',
     description: 'Current value signal bound to the control.'
   },
@@ -56,7 +74,7 @@ const editableBaseProperties: DocApiProperty[] = [
     name: 'name',
     type: 'input<string>',
     default: "''",
-    description: 'Form field name signal used by the surrounding form APIs.'
+    description: 'Form field name signal used by surrounding form APIs.'
   },
   {
     name: 'placeholder',
@@ -64,8 +82,18 @@ const editableBaseProperties: DocApiProperty[] = [
     default: "''",
     description: 'Placeholder text signal shown when the field is empty.'
   },
-  { name: 'required', type: 'input<boolean>', default: 'false', description: 'Signal marking the field as required.' },
-  { name: 'readonly', type: 'input<boolean>', default: 'false', description: 'Signal making the control read-only.' },
+  {
+    name: 'required',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Signal marking the field as required.'
+  },
+  {
+    name: 'readonly',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Signal making the control read-only.'
+  },
   {
     name: 'invalid',
     type: 'input<boolean>',
@@ -115,7 +143,11 @@ const editableBaseEvents: DocApiProperty[] = [
     type: 'output<GpValidationState<T>>()',
     description: 'Emitted after validation completes with the current validation state.'
   },
-  { name: 'onValid', type: 'output<T>()', description: 'Emitted when the field passes validation.' },
+  {
+    name: 'onValid',
+    type: 'output<T>()',
+    description: 'Emitted when the field passes validation.'
+  },
   {
     name: 'onInvalid',
     type: 'output<GpValidationError[]>()',
@@ -139,8 +171,8 @@ const buttonBaseProperties: DocApiProperty[] = [
   },
   {
     name: 'variant',
-    type: "input<'solid' | 'outlined' | 'text' | 'link'>",
-    default: "'solid'",
+    type: "input<'filled' | 'solid' | 'outlined' | 'text' | 'link'>",
+    default: "'filled'",
     description: 'Visual button variant style signal.'
   },
   {
@@ -152,7 +184,22 @@ const buttonBaseProperties: DocApiProperty[] = [
   { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Size scale of the button.' },
   { name: 'rounded', type: 'input<boolean>', default: 'false', description: 'Fully rounded pill border radius flag.' },
   { name: 'raised', type: 'input<boolean>', default: 'false', description: 'Elevated box shadow styling flag.' },
+  {
+    name: 'outlined',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Outlined border styling shorthand flag.'
+  },
+  { name: 'text', type: 'input<boolean>', default: 'false', description: 'Text-only button styling shorthand flag.' },
+  { name: 'link', type: 'input<boolean>', default: 'false', description: 'Link styling shorthand flag.' },
+  { name: 'plain', type: 'input<boolean>', default: 'false', description: 'Plain text styling shorthand flag.' },
   { name: 'fluid', type: 'input<boolean>', default: 'false', description: 'Full 100% width button layout flag.' },
+  {
+    name: 'iconOnly',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Optimizes sizing for icon-only buttons.'
+  },
   {
     name: 'loading',
     type: 'input<boolean>',
@@ -160,10 +207,42 @@ const buttonBaseProperties: DocApiProperty[] = [
     description: 'Displays an animated spinner indicator and disables clicking.'
   },
   {
+    name: 'loadingIcon',
+    type: 'input<string>',
+    default: "'spinner'",
+    description: 'Icon name used for the loading indicator.'
+  },
+  {
     name: 'badge',
     type: 'input<string>',
     default: "''",
     description: 'Badge counter or tag text rendered on the button.'
+  },
+  {
+    name: 'badgeSeverity',
+    type: 'input<GpButtonSeverity>',
+    default: "'danger'",
+    description: 'Severity color of the badge indicator.'
+  },
+  {
+    name: 'type',
+    type: "input<'button' | 'submit' | 'reset'>",
+    default: "'button'",
+    description: 'Native HTML button type attribute.'
+  },
+  { name: 'autofocus', type: 'input<boolean>', default: 'false', description: 'Auto-focuses the button on render.' },
+  {
+    name: 'tabindex',
+    type: 'input<number | undefined>',
+    default: 'undefined',
+    description: 'HTML tabindex attribute.'
+  },
+  { name: 'ariaHasPopup', type: 'input<string | null>', default: 'null', description: 'ARIA haspopup attribute.' },
+  {
+    name: 'ariaExpanded',
+    type: 'input<boolean | null>',
+    default: 'null',
+    description: 'ARIA expanded state attribute.'
   }
 ];
 
@@ -179,12 +258,6 @@ const buttonBaseEvents: DocApiProperty[] = [
 ];
 
 const inputBaseProperties: DocApiProperty[] = [
-  {
-    name: 'inputId',
-    type: 'input<string>',
-    default: "UniqueId.generate('input_')",
-    description: 'HTML id attribute attached to the underlying input.'
-  },
   { name: 'size', type: "input<'sm' | 'md' | 'lg'>", default: "'md'", description: 'Size scale of the input.' },
   {
     name: 'variant',
@@ -206,7 +279,26 @@ const inputBaseProperties: DocApiProperty[] = [
     default: 'undefined',
     description: 'Maximum character limit allowed.'
   },
-  { name: 'autocomplete', type: 'input<string>', default: "'off'", description: 'Browser autocomplete attribute.' }
+  {
+    name: 'minlength',
+    type: 'input<number | undefined>',
+    default: 'undefined',
+    description: 'Minimum character limit required.'
+  },
+  { name: 'autocomplete', type: 'input<string>', default: "'off'", description: 'Browser autocomplete attribute.' },
+  {
+    name: 'iconLeft',
+    type: 'input<string>',
+    default: "''",
+    description: 'Icon displayed on the left side of the input.'
+  },
+  {
+    name: 'iconRight',
+    type: 'input<string>',
+    default: "''",
+    description: 'Icon displayed on the right side of the input.'
+  },
+  { name: 'fluid', type: 'input<boolean>', default: 'false', description: 'Full 100% width input layout flag.' }
 ];
 
 const inputBaseEvents: DocApiProperty[] = [
@@ -215,7 +307,169 @@ const inputBaseEvents: DocApiProperty[] = [
   { name: 'onBlurEvent', type: 'output<FocusEvent>()', description: 'Emitted when input loses focus.' },
   { name: 'onKeyDownEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keydown.' },
   { name: 'onKeyUpEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keyup.' },
-  { name: 'onClearEvent', type: 'output<void>()', description: 'Emitted when user clears the input.' }
+  { name: 'onClearEvent', type: 'output<void>()', description: 'Emitted when user clears the input.' },
+  { name: 'onChangeEvent', type: 'output<Event>()', description: 'Emitted on native change event.' }
+];
+
+const checkableBaseProperties: DocApiProperty[] = [
+  {
+    name: 'binary',
+    type: 'input<boolean>',
+    default: 'true',
+    description: 'Whether the value is a boolean true/false or matches bound option value.'
+  },
+  {
+    name: 'size',
+    type: "input<'sm' | 'md' | 'lg'>",
+    default: "'md'",
+    description: 'Size scale of the checkable control.'
+  },
+  {
+    name: 'severity',
+    type: "input<'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger'>",
+    default: "'primary'",
+    description: 'Semantic color accent when checked.'
+  },
+  { name: 'autofocus', type: 'input<boolean>', default: 'false', description: 'Auto-focuses the control on render.' },
+  { name: 'tabindex', type: 'input<number | undefined>', default: 'undefined', description: 'HTML tabindex attribute.' }
+];
+
+const checkableBaseEvents: DocApiProperty[] = [
+  {
+    name: 'onChange',
+    type: 'output<{ checked: boolean; originalEvent: Event }>()',
+    description: 'Emitted when checked state toggles.'
+  },
+  {
+    name: 'onClickEvent',
+    type: 'output<Event>()',
+    description: 'Emitted on click or keyboard Space/Enter activation.'
+  },
+  { name: 'onFocusEvent', type: 'output<FocusEvent>()', description: 'Emitted when control receives focus.' },
+  { name: 'onBlurEvent', type: 'output<FocusEvent>()', description: 'Emitted when control loses focus.' },
+  { name: 'onKeyDownEvent', type: 'output<KeyboardEvent>()', description: 'Emitted on keydown.' }
+];
+
+const selectBaseProperties: DocApiProperty[] = [
+  {
+    name: 'options',
+    type: 'input<(GpSelectItem | any)[]>',
+    default: '[]',
+    description: 'Array of selectable option objects or primitive values.'
+  },
+  {
+    name: 'optionLabel',
+    type: 'input<string>',
+    default: "'label'",
+    description: 'Property name to display as the option label.'
+  },
+  {
+    name: 'optionValue',
+    type: 'input<string>',
+    default: "'value'",
+    description: 'Property name to extract as the option value.'
+  },
+  {
+    name: 'optionDisabled',
+    type: 'input<string>',
+    default: "'disabled'",
+    description: 'Property name determining if an option is disabled.'
+  },
+  {
+    name: 'filter',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Enables an inline search filter inside the overlay dropdown.'
+  },
+  {
+    name: 'filterPlaceholder',
+    type: 'input<string>',
+    default: "'Search...'",
+    description: 'Placeholder text for the search filter input.'
+  },
+  {
+    name: 'emptyFilterMessage',
+    type: 'input<string>',
+    default: "'No results found'",
+    description: 'Text displayed when filtering yields no matches.'
+  },
+  {
+    name: 'showClear',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Displays a clear button to reset the selected value.'
+  },
+  {
+    name: 'size',
+    type: "input<'sm' | 'md' | 'lg'>",
+    default: "'md'",
+    description: 'Size scale of the select control.'
+  },
+  {
+    name: 'variant',
+    type: "input<'outlined' | 'filled'>",
+    default: "'outlined'",
+    description: 'Visual appearance variant.'
+  },
+  { name: 'fluid', type: 'input<boolean>', default: 'false', description: 'Full 100% width select layout flag.' },
+  {
+    name: 'autofocus',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Auto-focuses the select control on render.'
+  },
+  {
+    name: 'tabindex',
+    type: 'input<number | undefined>',
+    default: 'undefined',
+    description: 'HTML tabindex attribute.'
+  },
+  {
+    name: 'appendTo',
+    type: 'input<GpAppendToTarget>',
+    default: "'body'",
+    description: 'Target element where the dropdown overlay is attached.'
+  }
+];
+
+const selectBaseEvents: DocApiProperty[] = [
+  {
+    name: 'onChange',
+    type: 'output<{ value: any; originalEvent?: Event }>()',
+    description: 'Emitted when the selected value changes.'
+  },
+  {
+    name: 'onFilter',
+    type: 'output<{ query: string }>()',
+    description: 'Emitted when user types in the filter search box.'
+  },
+  { name: 'onOpen', type: 'output<void>()', description: 'Emitted when the dropdown overlay opens.' },
+  { name: 'onClose', type: 'output<void>()', description: 'Emitted when the dropdown overlay closes.' },
+  { name: 'onClear', type: 'output<void>()', description: 'Emitted when the clear button is clicked.' },
+  { name: 'onFocusEvent', type: 'output<FocusEvent>()', description: 'Emitted when control receives focus.' },
+  { name: 'onBlurEvent', type: 'output<FocusEvent>()', description: 'Emitted when control loses focus.' }
+];
+
+const dateBaseProperties: DocApiProperty[] = [
+  {
+    name: 'appendTo',
+    type: 'input<GpAppendToTarget>',
+    default: "'body'",
+    description: 'Target element where calendar overlay is attached.'
+  },
+  {
+    name: 'dateFormat',
+    type: 'input<string>',
+    default: "'mm/dd/yy'",
+    description: 'Date format string for parsing and display.'
+  },
+  { name: 'icon', type: 'input<string>', default: "'calendar'", description: 'Calendar trigger icon name.' },
+  {
+    name: 'inline',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Renders the calendar directly in the page without an overlay.'
+  }
 ];
 
 const menuBaseProperties: DocApiProperty[] = [
@@ -231,6 +485,18 @@ const menuBaseProperties: DocApiProperty[] = [
     type: 'input<boolean>',
     default: 'true',
     description: 'Automatically manage elevation z-index layer.'
+  },
+  {
+    name: 'baseZIndex',
+    type: 'input<number>',
+    default: '1100',
+    description: 'Base z-index elevation value for popup overlays.'
+  },
+  {
+    name: 'appendTo',
+    type: 'input<GpAppendToTarget>',
+    default: "'body'",
+    description: 'Target element where popup overlay is attached.'
   }
 ];
 
@@ -238,7 +504,7 @@ const menuBaseEvents: DocApiProperty[] = [
   {
     name: 'onItemClickEvent',
     type: 'output<{ originalEvent: Event; item: T }>()',
-    description: 'Emitted when a menu item is clicked.'
+    description: 'Emitted when any menu item is clicked.'
   },
   { name: 'onShow', type: 'output<void>()', description: 'Emitted when popup overlay opens.' },
   { name: 'onHide', type: 'output<void>()', description: 'Emitted when popup overlay closes.' }
@@ -280,6 +546,12 @@ const overlayBaseProperties: DocApiProperty[] = [
     type: 'model<boolean>',
     default: 'false',
     description: 'Two-way bound signal controlling overlay visibility [(visible)].'
+  },
+  {
+    name: 'appendTo',
+    type: 'input<GpAppendToTarget>',
+    default: "'body'",
+    description: 'Target element where overlay is attached.'
   }
 ];
 
@@ -310,6 +582,43 @@ const panelBaseEvents: DocApiProperty[] = [
   { name: 'onCollapse', type: 'output<void>()', description: 'Emitted when panel collapses.' }
 ];
 
+const feedbackBaseProperties: DocApiProperty[] = [
+  {
+    name: 'severity',
+    type: "input<'info' | 'success' | 'warning' | 'danger' | 'secondary' | 'contrast'>",
+    default: "'info'",
+    description: 'Semantic color severity accent.'
+  },
+  {
+    name: 'size',
+    type: "input<'sm' | 'md' | 'lg'>",
+    default: "'md'",
+    description: 'Size scale of the feedback component.'
+  },
+  {
+    name: 'icon',
+    type: 'input<string>',
+    default: "''",
+    description: 'Custom icon name displayed in the feedback component.'
+  },
+  {
+    name: 'value',
+    type: 'input<string | number | undefined>',
+    default: 'undefined',
+    description: 'Value or label text rendered in the feedback element.'
+  },
+  {
+    name: 'closable',
+    type: 'input<boolean>',
+    default: 'false',
+    description: 'Whether the feedback element can be dismissed.'
+  }
+];
+
+const feedbackBaseEvents: DocApiProperty[] = [
+  { name: 'onClose', type: 'output<void>()', description: 'Emitted when the feedback element is dismissed.' }
+];
+
 const buttonDocSlugs = new Set<string>(['button', 'split-button', 'speed-dial', 'toggle-button']);
 const inputDocSlugs = new Set<string>([
   'input-text',
@@ -319,6 +628,9 @@ const inputDocSlugs = new Set<string>([
   'input-mask',
   'autocomplete'
 ]);
+const checkableDocSlugs = new Set<string>(['checkbox', 'radio-button', 'switch']);
+const selectDocSlugs = new Set<string>(['select', 'multi-select', 'listbox', 'cascade-select', 'tree-select']);
+const dateDocSlugs = new Set<string>(['date-picker', 'date-range-picker', 'time-picker']);
 const menuDocSlugs = new Set<string>([
   'menu',
   'menubar',
@@ -329,8 +641,25 @@ const menuDocSlugs = new Set<string>([
   'dock',
   'breadcrumb'
 ]);
-const overlayDocSlugs = new Set<string>(['dialog', 'drawer', 'confirm-dialog', 'popover']);
-const panelDocSlugs = new Set<string>(['panel', 'card', 'fieldset']);
+const overlayDocSlugs = new Set<string>([
+  'dialog',
+  'drawer',
+  'confirm-dialog',
+  'popover',
+  'bottom-sheet',
+  'command-palette'
+]);
+const panelDocSlugs = new Set<string>(['panel', 'card', 'fieldset', 'accordion']);
+const feedbackDocSlugs = new Set<string>([
+  'badge',
+  'tag',
+  'message',
+  'toast',
+  'skeleton',
+  'progress-bar',
+  'progress-spinner',
+  'announcement-bar'
+]);
 
 const editableDocSlugs = new Set<string>([
   'input-text',
@@ -360,9 +689,13 @@ function withInheritedApi(doc: ComponentDocDefinition): ComponentDocDefinition {
   const isEditable = editableDocSlugs.has(doc.slug);
   const isButton = buttonDocSlugs.has(doc.slug);
   const isInput = inputDocSlugs.has(doc.slug);
+  const isCheckable = checkableDocSlugs.has(doc.slug);
+  const isSelect = selectDocSlugs.has(doc.slug);
+  const isDate = dateDocSlugs.has(doc.slug);
   const isMenu = menuDocSlugs.has(doc.slug);
   const isOverlay = overlayDocSlugs.has(doc.slug);
   const isPanel = panelDocSlugs.has(doc.slug);
+  const isFeedback = feedbackDocSlugs.has(doc.slug);
 
   const extraProps: DocApiProperty[] = [];
   const extraEvents: DocApiProperty[] = [];
@@ -371,29 +704,44 @@ function withInheritedApi(doc: ComponentDocDefinition): ComponentDocDefinition {
     extraProps.push(...editableBaseProperties);
     extraEvents.push(...editableBaseEvents);
   }
-  if (isButton && doc.slug !== 'button') {
+  if (isButton) {
     extraProps.push(...buttonBaseProperties);
     extraEvents.push(...buttonBaseEvents);
   }
-  if (isInput && doc.slug !== 'input-text') {
+  if (isInput) {
     extraProps.push(...inputBaseProperties);
     extraEvents.push(...inputBaseEvents);
   }
-  if (isMenu && doc.slug !== 'menu') {
+  if (isCheckable) {
+    extraProps.push(...checkableBaseProperties);
+    extraEvents.push(...checkableBaseEvents);
+  }
+  if (isSelect) {
+    extraProps.push(...selectBaseProperties);
+    extraEvents.push(...selectBaseEvents);
+  }
+  if (isDate) {
+    extraProps.push(...dateBaseProperties);
+  }
+  if (isMenu) {
     extraProps.push(...menuBaseProperties);
     extraEvents.push(...menuBaseEvents);
   }
-  if (isOverlay && doc.slug !== 'dialog') {
+  if (isOverlay) {
     extraProps.push(...overlayBaseProperties);
     extraEvents.push(...overlayBaseEvents);
   }
-  if (isPanel && doc.slug !== 'panel') {
+  if (isPanel) {
     extraProps.push(...panelBaseProperties);
     extraEvents.push(...panelBaseEvents);
   }
+  if (isFeedback) {
+    extraProps.push(...feedbackBaseProperties);
+    extraEvents.push(...feedbackBaseEvents);
+  }
 
-  // Deduplicate properties by name
-  const allProps = [...baseComponentProperties, ...extraProps, ...doc.properties];
+  // Deduplicate properties by name (component-specific overrides inherited base)
+  const allProps = [...doc.properties, ...extraProps, ...baseComponentProperties];
   const uniqueProps: DocApiProperty[] = [];
   const seenProps = new Set<string>();
   for (const p of allProps) {
@@ -403,7 +751,7 @@ function withInheritedApi(doc: ComponentDocDefinition): ComponentDocDefinition {
     }
   }
 
-  const allEvents = [...extraEvents, ...(doc.events ?? [])];
+  const allEvents = [...(doc.events ?? []), ...extraEvents];
   const uniqueEvents: DocApiProperty[] = [];
   const seenEvents = new Set<string>();
   for (const e of allEvents) {
@@ -549,6 +897,42 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: "import { GpColumn } from '@generatedpixel/gp-ui';",
     exampleCode: '<gp-column field="name" header="Name" />',
     properties: [
+      {
+        name: 'sortable',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Enables interactive click-to-sort column ordering.'
+      },
+      {
+        name: 'filterable',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Enables filtering inputs inside the column header.'
+      },
+      {
+        name: 'filterMatchMode',
+        type: 'input<string>',
+        default: "'contains'",
+        description: 'Comparison matching mode (contains, startsWith, equals).'
+      },
+      {
+        name: 'width',
+        type: 'input<string>',
+        default: "''",
+        description: 'Explicit CSS column width (e.g. 200px or 25%).'
+      },
+      {
+        name: 'frozen',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Pins this column to the left side during horizontal scrolling.'
+      },
+      {
+        name: 'align',
+        type: "input<'left' | 'center' | 'right'>",
+        default: "'left'",
+        description: 'Text and cell content horizontal alignment.'
+      },
       { name: 'field', type: 'string', default: "''", description: 'Data key used for the column value.' },
       { name: 'header', type: 'string', default: "''", description: 'Header label displayed for the column.' }
     ]
@@ -717,6 +1101,12 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: "import { GpPanelMenu } from '@generatedpixel/gp-ui';",
     exampleCode: '<gp-panel-menu [model]="panelItems" />',
     properties: [
+      {
+        name: 'multiple',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Allows multiple panel sections or submenus to be expanded simultaneously.'
+      },
       { name: 'model', type: 'GpMenuItem[]', default: '[]', description: 'Menu data for panel-style navigation.' }
     ]
   },
@@ -1456,6 +1846,72 @@ export const componentDocs: ComponentDocDefinition[] = [
     exampleCode:
       '<gp-table [value]="rows">\n  <gp-column field="name" header="Name" />\n  <gp-column field="status" header="Status" />\n</gp-table>',
     properties: [
+      {
+        name: 'stripedRows',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Applies alternating zebra striping colors to table rows.'
+      },
+      {
+        name: 'showGridlines',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Renders explicit cell borders around all columns and rows.'
+      },
+      {
+        name: 'size',
+        type: "input<'sm' | 'md' | 'lg'>",
+        default: "'md'",
+        description: 'Size scale of the table rows and cells.'
+      },
+      {
+        name: 'scrollHeight',
+        type: 'input<string>',
+        default: "''",
+        description: 'Max scrollable body height enabling vertical table scrolling.'
+      },
+      {
+        name: 'selectionMode',
+        type: "input<'single' | 'multiple'>",
+        default: "''",
+        description: 'Row selection mode allowing single or multi-row picking.'
+      },
+      {
+        name: 'selection',
+        type: 'model<any>',
+        default: 'null',
+        description: 'Two-way bound selected row data or array of selected rows [(selection)].'
+      },
+      {
+        name: 'dataKey',
+        type: 'input<string>',
+        default: "''",
+        description: 'Unique row identifier field name used for tracking and selection.'
+      },
+      {
+        name: 'rowExpansion',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Enables expandable child subrow templates.'
+      },
+      {
+        name: 'globalFilterFields',
+        type: 'input<string[]>',
+        default: '[]',
+        description: 'Array of data fields inspected during global keyword filtering.'
+      },
+      {
+        name: 'globalFilterPlaceholder',
+        type: 'input<string>',
+        default: "'Search...'",
+        description: 'Placeholder text for the search filter input.'
+      },
+      {
+        name: 'captionTemplate',
+        type: 'input<TemplateRef<any>>',
+        default: 'undefined',
+        description: 'Custom template rendered above the table header.'
+      },
       { name: 'value', type: 'any[]', default: '[]', description: 'Rows displayed in the table.' },
       { name: 'striped', type: 'boolean', default: 'false', description: 'Alternates row shading for readability.' },
       { name: 'paginator', type: 'boolean', default: 'false', description: 'Enables paginator controls.' },
@@ -1874,10 +2330,328 @@ export const componentDocs: ComponentDocDefinition[] = [
         description: 'Emitted when view mode switches.'
       }
     ]
+  },
+  {
+    slug: 'panel',
+    name: 'Panel',
+    category: 'Panels & Layout',
+    icon: 'layout',
+    description:
+      'Collapsible container card with customizable header, subheader, actions, toggle animation, and optional footer bar.',
+    importStatement: "import { GpPanel } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-panel header="Account Information" subheader="Personal details" [toggleable]="true">\n  <p>Panel body content...</p>\n</gp-panel>',
+    properties: [
+      {
+        name: 'showFooter',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Whether to display the bottom footer action section.'
+      },
+      {
+        name: 'collapsed',
+        type: 'model<boolean>',
+        default: 'false',
+        description: 'Two-way bound collapsed state signal [(collapsed)].'
+      }
+    ],
+    events: [
+      {
+        name: 'onToggle',
+        type: 'output<{ collapsed: boolean }>()',
+        default: '-',
+        description: 'Emitted when panel toggles expanded or collapsed state.'
+      },
+      { name: 'onExpand', type: 'output<void>()', default: '-', description: 'Emitted when panel expands.' },
+      { name: 'onCollapse', type: 'output<void>()', default: '-', description: 'Emitted when panel collapses.' }
+    ]
+  },
+  {
+    slug: 'stat-card',
+    name: 'Stat Card',
+    category: 'Display & Data',
+    icon: 'bar-chart',
+    description:
+      'Executive metric KPI card with numeric value, trend percentage change indicator, accent icon badge, and progress bar.',
+    importStatement: "import { GpStatCard } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-stat-card title="Total Revenue" value="$84,250" [change]="12.4" changePeriod="vs last month" icon="dollar-sign" />',
+    properties: [
+      { name: 'title', type: 'input<string>', default: "''", description: 'Metric card title label.' },
+      {
+        name: 'value',
+        type: 'input<string | number>',
+        default: "''",
+        description: 'Primary KPI metric numeric or formatted text value.'
+      },
+      {
+        name: 'change',
+        type: 'input<number | undefined>',
+        default: 'undefined',
+        description: 'Percentage change number displayed in trend badge.'
+      },
+      {
+        name: 'changePeriod',
+        type: 'input<string>',
+        default: "''",
+        description: 'Comparison period text (e.g. vs last week).'
+      },
+      {
+        name: 'changeType',
+        type: "input<'increase' | 'decrease' | 'neutral' | 'none'>",
+        default: "'increase'",
+        description: 'Directional indicator determining green positive or red negative badge colors.'
+      },
+      {
+        name: 'icon',
+        type: 'input<string>',
+        default: "''",
+        description: 'Icon name rendered inside the accent corner badge.'
+      },
+      { name: 'iconColor', type: 'input<string>', default: "''", description: 'Custom CSS color for the corner icon.' },
+      {
+        name: 'iconBg',
+        type: 'input<string>',
+        default: "''",
+        description: 'Custom CSS background color for the corner icon container.'
+      },
+      { name: 'badge', type: 'input<string>', default: "''", description: 'Optional secondary text badge label.' },
+      {
+        name: 'badgeSeverity',
+        type: 'input<string>',
+        default: "'primary'",
+        description: 'Severity accent color for the secondary badge.'
+      },
+      {
+        name: 'progress',
+        type: 'input<number | undefined>',
+        default: 'undefined',
+        description: 'Optional target progress percentage bar (0-100).'
+      },
+      {
+        name: 'progressColor',
+        type: 'input<string>',
+        default: "''",
+        description: 'Custom color accent for the progress bar.'
+      },
+      {
+        name: 'footerText',
+        type: 'input<string>',
+        default: "''",
+        description: 'Explanatory footer text displayed at bottom of card.'
+      },
+      {
+        name: 'clickable',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Adds hover elevation lift and pointer cursor.'
+      },
+      {
+        name: 'loading',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Renders skeleton placeholder shimmer while loading.'
+      }
+    ],
+    events: [
+      {
+        name: 'onClick',
+        type: 'output<MouseEvent>()',
+        default: '-',
+        description: 'Emitted when clickable stat card is pressed.'
+      }
+    ]
+  },
+  {
+    slug: 'announcement-bar',
+    name: 'Announcement Bar',
+    category: 'Feedback & Overlays',
+    icon: 'bell',
+    description:
+      'Promotional site-wide notification bar with dismiss actions, action buttons, icon accents, and persistent localStorage memory.',
+    importStatement: "import { GpAnnouncementBar } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-announcement-bar message="New major version released! Try it now." actionLabel="Learn More" [closable]="true" />',
+    properties: [
+      { name: 'message', type: 'input<string>', default: "''", description: 'Primary announcement banner message.' },
+      {
+        name: 'title',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Optional bold prefix title.'
+      },
+      {
+        name: 'badge',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Optional tag badge text label.'
+      },
+      {
+        name: 'dismissible',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Shows an interactive close button to dismiss the banner.'
+      },
+      {
+        name: 'sticky',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Pins banner to top of viewport during scrolling.'
+      },
+      {
+        name: 'storageKey',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'LocalStorage key used to persist dismissed state across visits.'
+      },
+      {
+        name: 'actions',
+        type: 'input<GpBannerAction[] | undefined>',
+        default: 'undefined',
+        description: 'Array of custom action buttons.'
+      }
+    ],
+    events: [
+      {
+        name: 'onDismiss',
+        type: 'output<void>()',
+        default: '-',
+        description: 'Emitted when user dismisses the announcement bar.'
+      },
+      {
+        name: 'onAction',
+        type: 'output<GpBannerAction>()',
+        default: '-',
+        description: 'Emitted when an action button inside the banner is clicked.'
+      }
+    ]
+  },
+  {
+    slug: 'bottom-sheet',
+    name: 'Bottom Sheet',
+    category: 'Feedback & Overlays',
+    icon: 'layers',
+    description:
+      'Mobile-first swipeable bottom sheet dialog with backdrop dimming, drag handle, and responsive viewport clamping.',
+    importStatement: "import { GpBottomSheet } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-bottom-sheet [(visible)]="showSheet" title="Share Options">\n  <p>Bottom sheet contents...</p>\n</gp-bottom-sheet>',
+    properties: [
+      {
+        name: 'title',
+        type: 'input<string | undefined>',
+        default: 'undefined',
+        description: 'Header title text displayed at top of the sheet.'
+      },
+      {
+        name: 'showDragHandle',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Displays the touch grab handle pill bar at top of sheet.'
+      },
+      {
+        name: 'dismissable',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Allows closing by tapping the background backdrop.'
+      },
+      {
+        name: 'maxHeight',
+        type: 'input<string>',
+        default: "'85vh'",
+        description: 'Maximum vertical height constraint for the sheet.'
+      }
+    ],
+    events: [
+      {
+        name: 'onDismiss',
+        type: 'output<void>()',
+        default: '-',
+        description: 'Emitted when the bottom sheet is closed or swiped away.'
+      }
+    ]
+  },
+  {
+    slug: 'command-palette',
+    name: 'Command Palette',
+    category: 'Feedback & Overlays',
+    icon: 'terminal',
+    description:
+      'Spotlight keyboard-driven quick launcher (Ctrl/Cmd+K) with fuzzy search, action categories, keyboard navigation, and recent items.',
+    importStatement: "import { GpCommandPalette } from '@generatedpixel/gp-ui';",
+    exampleCode: '<gp-command-palette [items]="commands" shortcut="meta.k, ctrl.k" (onSelect)="runAction($event)" />',
+    properties: [
+      {
+        name: 'items',
+        type: 'input<GpCommandItem[]>',
+        default: '[]',
+        description: 'Array of searchable command actions.'
+      },
+      {
+        name: 'shortcut',
+        type: 'input<string>',
+        default: "'ctrl.k, meta.k'",
+        description: 'Global keyboard shortcut hotkey listener.'
+      },
+      {
+        name: 'placeholder',
+        type: 'input<string>',
+        default: "'Type a command or search...'",
+        description: 'Search input placeholder text.'
+      },
+      {
+        name: 'emptyMessage',
+        type: 'input<string>',
+        default: "'No commands found'",
+        description: 'Text shown when search yields no matches.'
+      }
+    ],
+    events: [
+      {
+        name: 'onSelect',
+        type: 'output<GpCommandItem>()',
+        default: '-',
+        description: 'Emitted when user selects a command action.'
+      }
+    ]
+  },
+  {
+    slug: 'avatar-group',
+    name: 'Avatar Group',
+    category: 'Display & Data',
+    icon: 'users',
+    description: 'Overlapping stack of user avatars with automated excess count indicator badge (+N) and size scaling.',
+    importStatement: "import { GpAvatarGroup, GpAvatar } from '@generatedpixel/gp-ui';",
+    exampleCode:
+      '<gp-avatar-group [max]="3">\n  <gp-avatar image="/user1.jpg" />\n  <gp-avatar image="/user2.jpg" />\n  <gp-avatar image="/user3.jpg" />\n</gp-avatar-group>',
+    properties: [
+      {
+        name: 'max',
+        type: 'input<number | undefined>',
+        default: 'undefined',
+        description: 'Maximum visible avatars before collapsing into +N count badge.'
+      },
+      {
+        name: 'shape',
+        type: "input<'circle' | 'square'>",
+        default: "'circle'",
+        description: 'Shape geometry applied to child avatars.'
+      },
+      {
+        name: 'size',
+        type: "input<'sm' | 'md' | 'lg' | 'xl'>",
+        default: "'md'",
+        description: 'Size scale applied to grouped avatars.'
+      }
+    ]
   }
 ];
 
 export function getComponentDoc(slug: string): ComponentDocDefinition | undefined {
   const doc = componentDocs.find((item) => item.slug === slug);
   return doc ? withInheritedApi(doc) : undefined;
+}
+
+export function getAllComponentDocs(): ComponentDocDefinition[] {
+  return componentDocs.map(withInheritedApi);
 }

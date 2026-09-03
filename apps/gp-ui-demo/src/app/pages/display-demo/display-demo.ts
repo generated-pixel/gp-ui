@@ -17,6 +17,7 @@ import {
 } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-display-demo',
@@ -192,8 +193,15 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpAvatar Properties (Inputs)" [properties]="avatarProperties" />
-        <doc-api-table title="GpImage Properties (Inputs)" [properties]="imageProperties" />
+        <doc-api-table title="GpAvatar Properties &amp; Signal Inputs" [properties]="avatarProperties" />
+        <doc-api-table title="GpAvatarGroup Properties &amp; Signal Inputs" [properties]="avatarGroupProperties" />
+        <doc-api-table title="GpImage Properties &amp; Signal Inputs" [properties]="imageProperties" />
+        <doc-api-table title="GpChip Properties &amp; Signal Inputs" [properties]="chipProperties" />
+        <doc-api-table title="GpTimeline Properties &amp; Signal Inputs" [properties]="timelineProperties" />
+        <doc-api-table title="GpMeterGroup Properties &amp; Signal Inputs" [properties]="meterGroupProperties" />
+        <doc-api-table title="GpEmptyState Properties &amp; Signal Inputs" [properties]="emptyStateProperties" />
+        <doc-api-table title="GpStatCard Properties &amp; Signal Inputs" [properties]="statCardProperties" />
+        <doc-api-table title="GpCarousel Properties &amp; Signal Inputs" [properties]="carouselProperties" />
       </div>
     </div>
   `
@@ -247,22 +255,13 @@ export class DisplayDemo {
     { status: 'Delivered', date: '17/10/2026 16:20', icon: 'check-circle', color: '#10b981' }
   ];
 
-  avatarProperties: DocApiProperty[] = [
-    { name: 'label', type: 'string', default: "''", description: 'Initials or text displayed inside the avatar.' },
-    { name: 'image', type: 'string', default: "''", description: 'URL of the profile picture image.' },
-    { name: 'icon', type: 'string', default: "''", description: 'Built-in SVG icon identifier.' },
-    { name: 'shape', type: "'square' | 'circle'", default: "'square'", description: 'Shape geometry.' },
-    { name: 'size', type: "'normal' | 'large' | 'xlarge'", default: "'normal'", description: 'Preset size dimensions.' }
-  ];
-
-  imageProperties: DocApiProperty[] = [
-    { name: 'src', type: 'string', default: "''", description: 'Source image URL.' },
-    { name: 'alt', type: 'string', default: "''", description: 'Alternative accessible text.' },
-    {
-      name: 'preview',
-      type: 'boolean',
-      default: 'false',
-      description: 'Enables click-to-open full screen lightbox viewer.'
-    }
-  ];
+  avatarProperties: DocApiProperty[] = getComponentDoc('avatar')?.properties ?? [];
+  avatarGroupProperties: DocApiProperty[] = getComponentDoc('avatar-group')?.properties ?? [];
+  imageProperties: DocApiProperty[] = getComponentDoc('image')?.properties ?? [];
+  chipProperties: DocApiProperty[] = getComponentDoc('chip')?.properties ?? [];
+  timelineProperties: DocApiProperty[] = getComponentDoc('timeline')?.properties ?? [];
+  meterGroupProperties: DocApiProperty[] = getComponentDoc('meter-group')?.properties ?? [];
+  emptyStateProperties: DocApiProperty[] = getComponentDoc('empty-state')?.properties ?? [];
+  statCardProperties: DocApiProperty[] = getComponentDoc('stat-card')?.properties ?? [];
+  carouselProperties: DocApiProperty[] = getComponentDoc('carousel')?.properties ?? [];
 }
