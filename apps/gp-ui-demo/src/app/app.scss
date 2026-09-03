@@ -492,26 +492,52 @@
     width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
     background-color var(--gp-transition-duration, 150ms) ease,
     border-color var(--gp-transition-duration, 150ms) ease;
+
+  &.app-sidebar--transitioning {
+    overflow: hidden !important;
+
+    .sidebar-expanded-content,
+    .sidebar-rail {
+      pointer-events: none !important;
+    }
+  }
 }
 
 .sidebar-expanded-content {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  width: 18rem;
+  min-width: 18rem;
+  white-space: nowrap;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.12s ease,
+    visibility 0.12s ease;
 }
 
 .sidebar-rail {
   display: none;
+  width: 4.5rem;
+  min-width: 4.5rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.12s ease,
+    visibility 0.12s ease;
 }
 
 @media (min-width: 901px) {
   .app-sidebar.app-sidebar-collapsed {
     width: 4.5rem !important;
     min-width: 4.5rem !important;
-    overflow-y: auto;
-    overflow-x: hidden;
 
     .sidebar-expanded-content {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
       display: none !important;
     }
 
@@ -521,7 +547,40 @@
       align-items: center;
       gap: 0.3rem;
       padding: 0.5rem 0.25rem 1.5rem;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
+  }
+
+  /* During transition between collapsed and expanded: fade content so it never looks weird */
+  .app-sidebar.app-sidebar--transitioning {
+    overflow: hidden !important;
+
+    &.app-sidebar-collapsed .sidebar-expanded-content {
+      display: flex !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    &:not(.app-sidebar-collapsed) .sidebar-rail {
+      display: flex !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    &:not(.app-sidebar-collapsed) .sidebar-expanded-content {
+      opacity: 0;
+      animation: gp-sidebar-fade-in 0.14s ease 0.08s forwards;
+    }
+  }
+}
+
+@keyframes gp-sidebar-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

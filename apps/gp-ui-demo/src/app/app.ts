@@ -55,6 +55,8 @@ export class App {
   protected activeThemeId = signal<string>('default');
   protected sidebarOpen = signal<boolean>(false);
   protected sidebarCollapsed = signal<boolean>(false);
+  protected sidebarTransitioning = signal<boolean>(false);
+  private transitionTimer: any = null;
   protected activeFlyoutCategory = signal<string | null>(null);
   protected flyoutTop = signal<number>(80);
   private flyoutTimer: any = null;
@@ -362,7 +364,14 @@ export class App {
     if (typeof window !== 'undefined' && window.innerWidth <= 900) {
       this.sidebarOpen.update((v) => !v);
     } else {
+      this.sidebarTransitioning.set(true);
+      if (this.transitionTimer) {
+        clearTimeout(this.transitionTimer);
+      }
       this.sidebarCollapsed.update((v) => !v);
+      this.transitionTimer = setTimeout(() => {
+        this.sidebarTransitioning.set(false);
+      }, 260);
     }
   }
 
