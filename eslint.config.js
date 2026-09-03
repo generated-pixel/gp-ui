@@ -19,7 +19,7 @@ module.exports = [
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
       curly: ['error', 'all'],
-      'brace-style': 'off', // Turn off so Prettier's newline brace doesn't fail linting
+      'brace-style': ['error', '1tbs'],
       'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }]
     }
   },

@@ -15,13 +15,9 @@ import {
 import { UniqueId } from '../utils/unique-id';
 import { GpTranslationService } from '../config/gp-config.service';
 
-/**
- * Base Component for all gp-ui UI components.
- * Provides consistent id generation, custom styling hooks, accessibility, and disabled state.
- */
-@Directive()
-export abstract class GpBase
-  implements
+/** Lifecycle hook contract for GpBase */
+export interface GpLifecycle
+  extends
     OnInit,
     OnChanges,
     DoCheck,
@@ -29,8 +25,14 @@ export abstract class GpBase
     AfterContentChecked,
     AfterViewInit,
     AfterViewChecked,
-    OnDestroy
-{
+    OnDestroy {}
+
+/**
+ * Base Component for all gp-ui UI components.
+ * Provides consistent id generation, custom styling hooks, accessibility, and disabled state.
+ */
+@Directive()
+export abstract class GpBase implements GpLifecycle {
   /** Injected translation service for centralized i18n / localization */
   public translationService = inject(GpTranslationService);
   /** Unique element identifier */
