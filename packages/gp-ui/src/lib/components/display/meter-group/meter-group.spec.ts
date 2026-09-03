@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpMeterGroup],
-  template: ` <gp-meter-group [value]="meters" [max]="100" /> `
+  template: ' <gp-meter-group [value]="meters" [max]="100" /> '
 })
 class TestHostComponent {
   meters: GpMeterItem[] = [

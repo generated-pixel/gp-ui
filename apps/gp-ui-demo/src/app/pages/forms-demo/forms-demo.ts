@@ -1108,6 +1108,7 @@ export class MyForm {
     'Python',
     'Go'
   ];
+
   public filteredTechs: string[] = [];
 
   searchTechs(event: any): void {

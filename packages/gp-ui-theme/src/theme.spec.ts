@@ -228,6 +228,28 @@ describe('TypeScript & JSON Theme Architecture', () => {
       expect(retrieved.light.components?.button?.height).toBe('2.5rem');
     });
 
+    it('should only inject the base theme up front and load the active preset on demand', () => {
+      document.head.innerHTML = '';
+
+      GpThemeManager.initSystemTheme('default', 'light');
+
+      const initialIds = [...document.querySelectorAll('style[data-gp-theme-id]')].map((style) =>
+        style.getAttribute('data-gp-theme-id')
+      );
+
+      expect(initialIds).toContain('default');
+      expect(initialIds).not.toContain('ocean');
+
+      GpThemeManager.setTheme('ocean', false);
+
+      const loadedIds = [...document.querySelectorAll('style[data-gp-theme-id]')].map((style) =>
+        style.getAttribute('data-gp-theme-id')
+      );
+
+      expect(loadedIds).toContain('default');
+      expect(loadedIds).toContain('ocean');
+    });
+
     it('should switch mode and notify subscribers', () => {
       let stateSnapshot: any = null;
       const unsub = GpThemeManager.onChange((s) => {

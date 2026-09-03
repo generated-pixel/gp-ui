@@ -6,7 +6,7 @@ import { provideRouter } from '@angular/router';
 @Component({
   standalone: true,
   imports: [GpMegaMenu],
-  template: ` <gp-mega-menu [model]="items" orientation="horizontal" /> `
+  template: ' <gp-mega-menu [model]="items" orientation="horizontal" /> '
 })
 class TestHostComponent {
   items: GpMegaMenuItem[] = [

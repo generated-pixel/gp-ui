@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 @Component({
   standalone: true,
   imports: [GpCommandPalette],
-  template: ` <gp-command-palette [items]="commands" [visible]="isOpen" /> `
+  template: ' <gp-command-palette [items]="commands" [visible]="isOpen" /> '
 })
 class TestHostComponent {
   isOpen = false;

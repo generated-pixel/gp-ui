@@ -47,7 +47,7 @@ export class GpThemeManager {
 
   /**
    * Initializes theme manager, detecting OS system color-scheme preference,
-   * injecting theme styles directly into <head>, and listening for real-time OS preference changes.
+   * injecting the base/default theme stylesheet, and listening for real-time OS preference changes.
    */
   public static initSystemTheme(defaultThemeName = 'default', defaultMode: GpThemeMode = 'system'): GpThemeMode {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
@@ -93,8 +93,7 @@ export class GpThemeManager {
       GpThemeManager.currentMode = defaultMode;
     }
 
-    // Inject all built-in themes into <head> so sub-trees with data-gp-theme also work
-    GpThemeManager.injectAllThemes();
+    GpThemeManager.injectTheme(GpThemeManager.getThemeDefinition(defaultThemeName));
 
     GpThemeManager.applyDomTheme();
     GpThemeManager.initialized = true;
@@ -188,15 +187,18 @@ export class GpThemeManager {
   }
 
   /**
-   * Injects compiled CSS for all registered and built-in themes into document <head>.
+   * Injects the base/default theme immediately and loads additional presets only when selected.
    */
   public static injectAllThemes(): void {
     if (typeof document === 'undefined') {
       return;
     }
-    GpThemeManager.registeredDefinitions.forEach((def) => {
-      GpThemeManager.injectTheme(def);
-    });
+
+    GpThemeManager.injectTheme(defaultTheme);
+    const activeTheme = GpThemeManager.getThemeDefinition(GpThemeManager.currentTheme);
+    if (activeTheme.id !== defaultTheme.id) {
+      GpThemeManager.injectTheme(activeTheme);
+    }
   }
 
   /**
@@ -352,8 +354,10 @@ export class GpThemeManager {
     const effectiveMode = GpThemeManager.getActiveMode();
     const legacyTheme = effectiveMode === 'dark' ? 'gp-dark' : 'gp-light';
 
-    // Ensure the theme's CSS is injected in <head>
-    GpThemeManager.injectTheme(theme);
+    // Ensure the base theme is always present, then lazy-load the active preset.
+    GpThemeManager.injectTheme(defaultTheme);
+    const resolvedTheme = GpThemeManager.getThemeDefinition(theme);
+    GpThemeManager.injectTheme(resolvedTheme);
 
     const root = document.documentElement;
     root.setAttribute('data-gp-theme', theme);
