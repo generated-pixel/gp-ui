@@ -18,12 +18,8 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
-      "gp-analytics": [
-        "projects/gp-analytics/src/public-api.ts"
-      ],
-      "@generatedpixel/gp-analytics": [
-        "projects/gp-analytics/src/public-api.ts"
-      ]
+      "gp-analytics": ["packages/gp-analytics/src/public-api.ts"],
+      "@generatedpixel/gp-analytics": ["packages/gp-analytics/src/public-api.ts"]
     }
   },
   "angularCompilerOptions": {

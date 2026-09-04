@@ -1,0 +1,42 @@
+<main class="catalogue">
+  <header class="page-header">
+    <p class="eyebrow">gp-analytics foundation</p>
+    <h1>{{ i18n.translate('metadataCatalogue') }}</h1>
+    <p class="intro">{{ i18n.translate('foundationIntro') }}</p>
+    <label class="locale-picker">
+      <span>{{ i18n.translate('language') }}</span>
+      <gp-select
+        [options]="localeOptions()"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="i18n.locale()"
+        [attr.aria-label]="i18n.translate('language')"
+        (ngModelChange)="setLocale($event)" />
+    </label>
+  </header>
+
+  <section
+    class="catalogue-panel"
+    aria-labelledby="catalogue-title">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">{{ i18n.translate('schemaExplorer') }}</p>
+        <h2 id="catalogue-title">{{ i18n.translate('browseMetadata') }}</h2>
+      </div>
+      <span class="hint">{{ i18n.translate('expandInstructions') }}</span>
+    </div>
+    <gp-metadata-tree [groupings]="[grouping]" />
+  </section>
+
+  <section
+    class="value-example"
+    aria-labelledby="value-title">
+    <p class="eyebrow">{{ i18n.translate('valueSeparation') }}</p>
+    <h2 id="value-title">{{ i18n.translate('oneValueManyDisplays') }}</h2>
+    <div class="value-grid">
+      <div><span>{{ i18n.translate('storedValue') }}</span><strong>{{ sampleValue.value }}</strong></div>
+      <div><span>{{ i18n.translate('english') }}</span><strong>{{ sampleValue.displayValue['en'] }}</strong></div>
+      <div><span>{{ i18n.translate('french') }}</span><strong>{{ sampleValue.displayValue['fr'] }}</strong></div>
+    </div>
+  </section>
+</main>

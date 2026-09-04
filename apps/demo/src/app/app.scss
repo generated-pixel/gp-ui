@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+
+.catalogue {
+  width: min(1120px, calc(100% - 3rem));
+  margin: 0 auto;
+  padding: 4rem 0 6rem;
+}
+
+.page-header {
+  max-width: 680px;
+  margin-bottom: 3rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--gp-primary-600, #4f46e5);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1, h2, h3, h4, p { margin-top: 0; }
+h1 { margin-bottom: 1rem; font-size: clamp(2.5rem, 7vw, 5.5rem); line-height: 0.95; }
+h2 { margin-bottom: 0; font-size: 1.5rem; }
+h3 { margin-bottom: 0; font-size: 1.2rem; }
+h4 { margin-bottom: 0.85rem; color: var(--gp-text-color-secondary, #64748b); font-size: 0.85rem; text-transform: uppercase; }
+.intro { color: var(--gp-text-color-secondary, #64748b); font-size: 1.15rem; line-height: 1.6; }
+
+.locale-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  color: var(--gp-text-color-secondary, #64748b);
+  font-size: 0.78rem;
+
+  select {
+    border: 1px solid var(--gp-surface-border, #e2e8f0);
+    border-radius: 0.4rem;
+    padding: 0.45rem 0.65rem;
+    background: var(--gp-surface-card, #fff);
+    color: var(--gp-text-color, #172033);
+  }
+}
+
+.catalogue-panel { border-top: 1px solid var(--gp-surface-border, #e2e8f0); padding-top: 1.5rem; }
+.panel-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.hint { color: var(--gp-text-color-secondary, #64748b); font-size: 0.78rem; }
+.value-example { margin-top: 4rem; }
+.value-example h2 { margin-bottom: 1.25rem; }
+.value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gp-surface-border, #e2e8f0); border: 1px solid var(--gp-surface-border, #e2e8f0); }
+.value-grid div { display: flex; flex-direction: column; gap: 0.4rem; padding: 1.25rem; background: var(--gp-surface-card, #fff); }
+.value-grid span { color: var(--gp-text-color-secondary, #64748b); font-size: 0.78rem; }
+
+@media (max-width: 720px) {
+  .catalogue { width: min(100% - 2rem, 1120px); padding-top: 2.5rem; }
+  .value-grid { grid-template-columns: 1fr; }
+}

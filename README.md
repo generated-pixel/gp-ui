@@ -6,8 +6,8 @@ Angular monorepo containing the **`gp-analytics`** npm package and its interacti
 
 | Project | Type | Description |
 | :--- | :--- | :--- |
-| [`gp-analytics`](projects/gp-analytics) | Library | High-performance analytics, telemetry, and rule-driven monitoring engine for Angular. |
-| [`demo`](projects/demo) | Application | Interactive cockpit showcasing real-time metric tracking, `gp-rules` anomaly detection, `gp-ui` components, `gp-theme` styling, and `gp-css` utilities. |
+| [`gp-analytics`](packages/gp-analytics) | Library | High-performance analytics, telemetry, and rule-driven monitoring engine for Angular. |
+| [`demo`](apps/demo) | Application | Interactive cockpit showcasing real-time metric tracking, `gp-rules` anomaly detection, `gp-ui` components, `gp-theme` styling, and `gp-css` utilities. |
 
 ## Ecosystem Integration
 

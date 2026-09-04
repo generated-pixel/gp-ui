@@ -1,5 +1,5 @@
 /** @type {import('@generatedpixel/gp-css').GpCssUserConfig} */
 export default {
-  content: ['./projects/demo/src/**/*.{html,ts}'],
-  output: './projects/demo/src/gp-css-generated.css',
+  content: ['./apps/demo/src/**/*.{html,ts}'],
+  output: './apps/demo/src/gp-css-generated.css'
 };

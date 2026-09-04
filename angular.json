@@ -5,25 +5,25 @@
     "packageManager": "npm",
     "analytics": false
   },
-  "newProjectRoot": "projects",
+  "newProjectRoot": "apps",
   "projects": {
     "gp-analytics": {
       "projectType": "library",
-      "root": "projects/gp-analytics",
-      "sourceRoot": "projects/gp-analytics/src",
+      "root": "packages/gp-analytics",
+      "sourceRoot": "packages/gp-analytics/src",
       "prefix": "gp",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "options": {
-            "project": "projects/gp-analytics/ng-package.json"
+            "project": "packages/gp-analytics/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/gp-analytics/tsconfig.lib.prod.json"
+              "tsConfig": "packages/gp-analytics/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/gp-analytics/tsconfig.lib.json"
+              "tsConfig": "packages/gp-analytics/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -31,7 +31,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/gp-analytics/tsconfig.spec.json"
+            "tsConfig": "packages/gp-analytics/tsconfig.spec.json"
           }
         }
       }
@@ -39,28 +39,28 @@
     "demo": {
       "projectType": "application",
       "schematics": {},
-      "root": "projects/demo",
-      "sourceRoot": "projects/demo/src",
+      "root": "apps/demo",
+      "sourceRoot": "apps/demo/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/demo",
-            "index": "projects/demo/src/index.html",
-            "browser": "projects/demo/src/main.ts",
-            "tsConfig": "projects/demo/tsconfig.app.json",
+            "index": "apps/demo/src/index.html",
+            "browser": "apps/demo/src/main.ts",
+            "tsConfig": "apps/demo/tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/demo/public"
+                "input": "apps/demo/public"
               }
             ],
             "styles": [
               "node_modules/@generatedpixel/gp-ui-theme/src/index.css",
               "node_modules/@generatedpixel/gp-ui-theme/src/themes/all.css",
-              "projects/demo/src/gp-css-generated.css",
-              "projects/demo/src/styles.css"
+              "apps/demo/src/gp-css-generated.css",
+              "apps/demo/src/styles.scss"
             ]
           },
           "configurations": {
@@ -102,7 +102,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/demo/tsconfig.spec.json"
+            "tsConfig": "apps/demo/tsconfig.spec.json"
           }
         }
       }
