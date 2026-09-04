@@ -1,0 +1,43 @@
+/* Global Styles & Reset */
+:root {
+  --app-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --app-font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--app-font-sans);
+  color: var(--gp-text-color, #0f172a);
+  background-color: var(--gp-surface-ground, #f8fafc);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gp-surface-100, #f1f5f9);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gp-surface-300, #cbd5e1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gp-surface-400, #94a3b8);
+}
+
+code, pre {
+  font-family: var(--app-font-mono);
+}

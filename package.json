@@ -1,0 +1,42 @@
+{
+  "name": "gp-analytics-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "npm run build:css && ng serve demo",
+    "build": "npm run build:lib && npm run build:demo",
+    "build:lib": "ng build gp-analytics",
+    "build:css": "gp-css build",
+    "build:demo": "npm run build:css && ng build demo",
+    "watch": "ng build gp-analytics --watch --configuration development",
+    "test": "ng test gp-analytics --watch=false"
+  },
+  "packageManager": "npm@11.12.1",
+  "dependencies": {
+    "@angular/cdk": "^21.2.3",
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@generatedpixel/gp-css": "^1.0.2",
+    "@generatedpixel/gp-rules": "^1.0.2",
+    "@generatedpixel/gp-ui": "^1.0.2",
+    "@generatedpixel/gp-ui-icons": "^1.0.2",
+    "@generatedpixel/gp-ui-theme": "^1.0.2",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.3",
+    "@angular/cli": "^21.2.3",
+    "@angular/compiler-cli": "^21.2.0",
+    "jsdom": "^28.0.0",
+    "ng-packagr": "^21.2.0",
+    "prettier": "^3.8.1",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}
