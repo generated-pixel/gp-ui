@@ -30,7 +30,7 @@
   user-select: none;
 }
 
-.gp-date-range__input-wrap:hover:not(.gp-date-range--disabled) {
+.gp-date-range:not(.gp-date-range--disabled) .gp-date-range__input-wrap:hover {
   border-color: var(--gp-input-border-hover, var(--gp-primary, #6366f1));
 }
 
