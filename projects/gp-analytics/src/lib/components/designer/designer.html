@@ -1,0 +1,276 @@
+<div class="gp-designer-container">
+  <!-- Top Config Header -->
+  <div class="gp-designer-header">
+    <div class="designer-meta-inputs">
+      <input
+        type="text"
+        class="designer-title-input"
+        [ngModel]="reportTitle()"
+        (ngModelChange)="reportTitle.set($event)"
+        placeholder="Enter Report or Widget Title..."
+      />
+      <input
+        type="text"
+        class="designer-desc-input"
+        [ngModel]="reportDescription()"
+        (ngModelChange)="reportDescription.set($event)"
+        placeholder="Optional report description or subtitle..."
+      />
+    </div>
+
+    <!-- Artifact Type Pill Selectors -->
+    <div class="designer-type-pills">
+      <button
+        type="button"
+        class="type-pill-btn"
+        [class.active]="selectedArtifactType() === 'tabular'"
+        (click)="setArtifactType('tabular')"
+      >
+        <span>📊 Tabular Report</span>
+      </button>
+      <button
+        type="button"
+        class="type-pill-btn"
+        [class.active]="selectedArtifactType() === 'graph'"
+        (click)="setArtifactType('graph')"
+      >
+        <span>📈 Visual Graph</span>
+      </button>
+      <button
+        type="button"
+        class="type-pill-btn"
+        [class.active]="selectedArtifactType() === 'kpi'"
+        (click)="setArtifactType('kpi')"
+      >
+        <span>⚡ Executive KPI</span>
+      </button>
+    </div>
+
+    <!-- Graph Type Sub-selector if Graph is active -->
+    @if (selectedArtifactType() === 'graph') {
+      <div class="designer-graph-select">
+        <label for="graphType">Visualization:</label>
+        <select
+          id="graphType"
+          class="designer-select"
+          [value]="selectedGraphType()"
+          (change)="setGraphType($any($event.target).value)"
+        >
+          <option value="bar">Bar Chart</option>
+          <option value="column">Column Chart</option>
+          <option value="stacked-bar">Stacked Bar</option>
+          <option value="pie">Pie Chart</option>
+          <option value="radial">Radial Meter</option>
+        </select>
+      </div>
+    }
+  </div>
+
+  <!-- Main 3-Column Workspace -->
+  <div class="gp-designer-workspace">
+    <!-- COLUMN 1: AVAILABLE FIELDS -->
+    <div class="designer-col available-col">
+      <div class="col-header">
+        <h4>Dataset Fields</h4>
+        <span class="col-hint">Click + to add</span>
+      </div>
+
+      <div class="field-search-box">
+        <input
+          type="text"
+          class="search-input"
+          [ngModel]="fieldSearch()"
+          (ngModelChange)="fieldSearch.set($event)"
+          placeholder="Filter fields..."
+        />
+      </div>
+
+      <div class="folders-list">
+        @for (folder of folders(); track folder.id) {
+          <div class="folder-group">
+            <div class="folder-header" (click)="toggleFolder(folder.id)">
+              <span class="folder-chevron">{{ expandedFolders().has(folder.id) ? '▼' : '▶' }}</span>
+              <span class="folder-name">{{ folder.name }}</span>
+              <span class="folder-count">({{ folder.fields.length }})</span>
+            </div>
+
+            @if (expandedFolders().has(folder.id)) {
+              <div class="fields-list">
+                @for (f of folder.fields; track f.name) {
+                  <div
+                    class="field-pill-item"
+                    [class.is-selected]="isFieldSelected(f.name)"
+                    (click)="addField(f)"
+                  >
+                    <div class="field-pill-left">
+                      <span class="type-tag" [attr.data-type]="f.dataType">{{ f.dataType.slice(0, 3) }}</span>
+                      <span class="field-label">{{ f.label }}</span>
+                    </div>
+                    <span class="field-add-icon">{{ isFieldSelected(f.name) ? '✓' : '+' }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- COLUMN 2: REPORT BUILDER SPECIFICATION -->
+    <div class="designer-col config-col">
+      <div class="col-header">
+        <h4>Selected Dimensions & Measures</h4>
+        <span class="col-count">{{ selectedFields().length }} fields selected</span>
+      </div>
+
+      <!-- Dimensions Dropzone / List -->
+      <div class="spec-section">
+        <div class="spec-section-header">
+          <span class="spec-title">Group By Dimensions (Rows/Categories)</span>
+          <span class="spec-count">{{ dimensions().length }}</span>
+        </div>
+
+        <div class="spec-fields-list">
+          @for (f of dimensions(); track f.field.name) {
+            <div class="configured-field-card">
+              <div class="field-card-main">
+                <span class="type-tag" [attr.data-type]="f.field.dataType">{{ f.field.dataType.slice(0, 3) }}</span>
+                <span class="field-name">{{ f.field.label }}</span>
+              </div>
+
+              <div class="field-card-controls">
+                <select
+                  class="mini-select"
+                  [value]="f.sortDirection || ''"
+                  (change)="updateSort(f.field.name, $any($event.target).value || undefined)"
+                  title="Sort Order"
+                >
+                  <option value="">No Sort</option>
+                  <option value="asc">Asc (A-Z)</option>
+                  <option value="desc">Desc (Z-A)</option>
+                </select>
+                <button
+                  type="button"
+                  class="remove-field-btn"
+                  (click)="removeField(f.field.name)"
+                  title="Remove field"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          }
+          @empty {
+            <div class="spec-empty-drop">
+              Click dimensions from the left panel to group your data.
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Measures Dropzone / List -->
+      <div class="spec-section">
+        <div class="spec-section-header">
+          <span class="spec-title">Aggregated Measures (Values/Metrics)</span>
+          <span class="spec-count">{{ measures().length }}</span>
+        </div>
+
+        <div class="spec-fields-list">
+          @for (f of measures(); track f.field.name) {
+            <div class="configured-field-card">
+              <div class="field-card-main">
+                <span class="type-tag" [attr.data-type]="f.field.dataType">{{ f.field.dataType.slice(0, 3) }}</span>
+                <span class="field-name">{{ f.field.label }}</span>
+              </div>
+
+              <div class="field-card-controls">
+                <!-- Aggregation Selector -->
+                <select
+                  class="mini-select"
+                  [value]="f.aggregation"
+                  (change)="updateAggregation(f.field.name, $any($event.target).value)"
+                  title="Aggregation Formula"
+                >
+                  <option value="sum">Sum</option>
+                  <option value="avg">Avg</option>
+                  <option value="count">Count</option>
+                  <option value="countDistinct">Distinct</option>
+                  <option value="min">Min</option>
+                  <option value="max">Max</option>
+                </select>
+
+                <!-- Format Selector -->
+                <select
+                  class="mini-select"
+                  [value]="f.columnFormat || 'default'"
+                  (change)="updateFormat(f.field.name, $any($event.target).value)"
+                  title="Display Format"
+                >
+                  <option value="default">Default</option>
+                  <option value="currency">Currency ($)</option>
+                  <option value="percent">Percent (%)</option>
+                  <option value="number-0">Integer</option>
+                  <option value="number-2">Decimals (.00)</option>
+                </select>
+
+                <button
+                  type="button"
+                  class="remove-field-btn"
+                  (click)="removeField(f.field.name)"
+                  title="Remove measure"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          }
+          @empty {
+            <div class="spec-empty-drop">
+              Click numeric measures from the left panel to aggregate and calculate totals.
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Validation Warnings / Rules -->
+      @if (validationErrors().length > 0) {
+        <div class="validation-box">
+          <div class="validation-title">⚠️ Design Requirements:</div>
+          <ul>
+            @for (err of validationErrors(); track $index) {
+              <li>{{ err }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    <!-- COLUMN 3: LIVE REPORT PREVIEW & EXPORT -->
+    <div class="designer-col preview-col">
+      <div class="col-header preview-header">
+        <h4>Live Report Output Preview</h4>
+        @if (previewReport()) {
+          <button
+            type="button"
+            class="save-report-btn"
+            (click)="emitSaveReport()"
+          >
+            💾 Add to Dashboard
+          </button>
+        }
+      </div>
+
+      <div class="preview-stage">
+        @if (previewReport(); as report) {
+          <gp-report-viewer [report]="report" [showToolbar]="true" />
+        } @else {
+          <div class="preview-empty">
+            <div class="empty-icon">📊</div>
+            <h4>Report Preview Pending</h4>
+            <p>Select fields in the middle column to compile and preview the generated report.</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

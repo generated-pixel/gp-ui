@@ -75,3 +75,30 @@ export interface GpAnalyticsConfig {
     darkTheme?: boolean;
   };
 }
+
+export interface AnalyticsGridWidget {
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  minW?: number;
+  minH?: number;
+  maxW?: number;
+  maxH?: number;
+  title: string;
+  subtitle?: string;
+  icon?: string;
+  widgetType?: 'kpi' | 'chart' | 'table' | 'feed' | 'custom';
+  metricId?: string;
+  locked?: boolean;
+  fixed?: boolean;
+  customData?: Record<string, unknown>;
+}
+
+export interface AnalyticsDashboardLayout {
+  id: string;
+  name: string;
+  columns: number;
+  widgets: AnalyticsGridWidget[];
+}

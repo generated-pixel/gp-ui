@@ -11,11 +11,12 @@ Angular monorepo containing the **`gp-analytics`** npm package and its interacti
 
 ## Ecosystem Integration
 
-This workspace integrates:
+This workspace integrates the Generated Pixel **v1.0.3** ecosystem:
 - **`@generatedpixel/gp-ui`**: Enterprise UI components (`gp-button`, `gp-icon`, `gp-tag`, `gp-badge`, `gp-switch`).
 - **`@generatedpixel/gp-ui-theme`**: Multi-theme system (Default, Ocean, Emerald, Amethyst, Sunset, Cyberpunk, Nord) and dark/light modes.
 - **`@generatedpixel/gp-css`**: Utility-first CSS engine custom built for Generated Pixel.
 - **`@generatedpixel/gp-rules`**: Business rules engine and live execution audit inspector (`gp-rule-inspector`).
+- **`@generatedpixel/gp-grid`**: High-performance dynamic grid and draggable/resizable widget layout engine (`gp-grid`).
 
 ## Available Scripts
 

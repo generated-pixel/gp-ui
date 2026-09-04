@@ -207,8 +207,9 @@ body {
 .sticky { position: sticky; }
 .relative { position: relative; }
 .absolute { position: absolute; }
-.grid { display: grid; }
 .transform { transform: translate(var(--gp-translate-x, 0), var(--gp-translate-y, 0)) rotate(var(--gp-rotate, 0)) scaleX(var(--gp-scale-x, 1)) scaleY(var(--gp-scale-y, 1)); }
+.grid { display: grid; }
 .uppercase { text-transform: uppercase; }
 .hidden { display: none; }
 .inline-flex { display: inline-flex; }
+.gp-grid { display: grid; }
