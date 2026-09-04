@@ -11,50 +11,12 @@
           <span>gp-analytics</span>
           <gp-tag [severity]="'info'" [rounded]="true">v0.1.0</gp-tag>
         </div>
-        <div class="brand-subtitle">Real-time Telemetry & Rule Engine Cockpit</div>
+        <div class="brand-subtitle">Analytics Designer & Report Generator Showcase</div>
       </div>
     </div>
 
-    <!-- Center Status Indicator -->
-    <div class="header-status">
-      <div class="status-pill" [attr.data-status]="systemStatus()">
-        <span class="status-dot"></span>
-        <span class="status-label">
-          @if (systemStatus() === 'healthy') { System Nominal }
-          @else if (systemStatus() === 'warning') { Elevated Errors }
-          @else { Latency Critical }
-        </span>
-      </div>
-
-      <!-- Time Range Selector -->
-      <div class="time-range-group">
-        @for (range of timeRanges; track range) {
-          <button
-            type="button"
-            class="range-btn"
-            [class.active]="analytics.activeTimeRange() === range"
-            (click)="setTimeRange(range)"
-          >
-            {{ range }}
-          </button>
-        }
-      </div>
-    </div>
-
-    <!-- Header Actions (Theme, Mode, Auto-Sim) -->
+    <!-- Header Actions (Theme, Mode) -->
     <div class="header-actions">
-      <!-- Auto Sim Toggle -->
-      <button
-        type="button"
-        class="action-pill-btn"
-        [class.active]="isAutoSimulating()"
-        (click)="toggleAutoSimulator()"
-        title="Toggle automated traffic generation"
-      >
-        <span class="dot" [class.pulsing]="isAutoSimulating()"></span>
-        <span>Auto-Sim: {{ isAutoSimulating() ? 'ON' : 'OFF' }}</span>
-      </button>
-
       <!-- Theme Switcher -->
       <div class="theme-picker">
         <label for="themeSelect" class="theme-label">Theme:</label>
@@ -86,33 +48,6 @@
     </div>
   </header>
 
-  <!-- Active Alert Banner (if any alerts) -->
-  @if (analytics.activeAlertsCount() > 0) {
-    <div class="alert-banner" [class.critical]="systemStatus() === 'critical'">
-      <div class="alert-content">
-        <span class="alert-icon">⚠️</span>
-        <div class="alert-text">
-          <strong>Rule Alert Triggered:</strong>
-          {{ analytics.alerts()[0].message }}
-        </div>
-      </div>
-      <div class="alert-actions">
-        <gp-button
-          label="Acknowledge"
-          severity="secondary"
-          size="sm"
-          (click)="analytics.acknowledgeAlert(analytics.alerts()[0].id)"
-        />
-        <gp-button
-          label="Clear All"
-          severity="contrast"
-          size="sm"
-          (click)="clearAllAlerts()"
-        />
-      </div>
-    </div>
-  }
-
   <!-- Main Content Layout -->
   <main class="cockpit-main">
     <!-- Report Added Notification Toast -->
@@ -120,14 +55,34 @@
       <div class="toast-notification">
         <div class="toast-content">
           <span class="toast-icon">✨</span>
-          <span>Report <strong>"{{ title }}"</strong> generated and added to your GpGrid Dashboard!</span>
+          <span>Report <strong>"{{ title }}"</strong> successfully compiled and placed in your Dashboard!</span>
         </div>
         <button type="button" class="toast-close" (click)="lastAddedReportTitle.set(null)">✕</button>
       </div>
     }
 
-    <!-- View Navigation Tabs -->
+    <!-- 3 Core Navigation Tabs: Dashboard, Report, Designer ONLY -->
     <nav class="view-tabs">
+      <button
+        type="button"
+        class="tab-btn"
+        [class.active]="activeTab() === 'dashboard'"
+        (click)="activeTab.set('dashboard')"
+      >
+        <gp-icon name="layout-dashboard" size="1rem" />
+        <span>Example Dashboard (gp-grid)</span>
+      </button>
+
+      <button
+        type="button"
+        class="tab-btn"
+        [class.active]="activeTab() === 'report'"
+        (click)="activeTab.set('report')"
+      >
+        <gp-icon name="file-text" size="1rem" />
+        <span>Example Report</span>
+      </button>
+
       <button
         type="button"
         class="tab-btn designer-nav-tab"
@@ -135,62 +90,26 @@
         (click)="activeTab.set('designer')"
       >
         <gp-icon name="sliders" size="1rem" />
-        <span>Analytics Designer & Generator</span>
-      </button>
-      <button
-        type="button"
-        class="tab-btn"
-        [class.active]="activeTab() === 'overview'"
-        (click)="activeTab.set('overview')"
-      >
-        <gp-icon name="layout-dashboard" size="1rem" />
-        <span>Grid Dashboard (gp-grid)</span>
-      </button>
-      <button
-        type="button"
-        class="tab-btn"
-        [class.active]="activeTab() === 'simulator'"
-        (click)="activeTab.set('simulator')"
-      >
-        <gp-icon name="zap" size="1rem" />
-        <span>Live Simulator</span>
-      </button>
-      <button
-        type="button"
-        class="tab-btn"
-        [class.active]="activeTab() === 'rules'"
-        (click)="activeTab.set('rules')"
-      >
-        <gp-icon name="shield-alert" size="1rem" />
-        <span>Rules Engine (gp-rules)</span>
-      </button>
-      <button
-        type="button"
-        class="tab-btn"
-        [class.active]="activeTab() === 'events'"
-        (click)="activeTab.set('events')"
-      >
-        <gp-icon name="list" size="1rem" />
-        <span>Event Stream ({{ analytics.totalEventsCount() }})</span>
+        <span>The Designer</span>
       </button>
     </nav>
 
-    <!-- TAB 1: OVERVIEW (Powered by gp-grid layout system) -->
-    @if (activeTab() === 'overview') {
+    <!-- TAB 1: EXAMPLE DASHBOARD (Powered by gp-grid layout system) -->
+    @if (activeTab() === 'dashboard') {
       <div class="tab-content overview-content">
         <!-- Grid Toolbar -->
         <div class="grid-toolbar">
           <div class="grid-toolbar-left">
             <span class="grid-tag">
               <gp-icon name="layout-grid" size="0.9rem" />
-              <span>Reactive Layout Engine</span>
+              <span>Interactive 12-Column Grid</span>
             </span>
-            <gp-tag [severity]="'secondary'" [rounded]="true">12 Columns</gp-tag>
-            <span class="grid-hint">Drag any widget header to reposition • Drag bottom-right corner to resize</span>
+            <gp-tag [severity]="'secondary'" [rounded]="true">Dynamic Widgets</gp-tag>
+            <span class="grid-hint">Drag widget header to reposition • Drag bottom-right handle to resize</span>
           </div>
           <div class="grid-toolbar-right">
             <gp-button
-              label="Design Report"
+              label="Design New Report"
               icon="plus"
               severity="primary"
               size="sm"
@@ -226,7 +145,7 @@
             [items]="gridItems()"
             (itemsChange)="gridItems.set($event)"
             [columns]="12"
-            [rowHeight]="125"
+            [rowHeight]="130"
             [gap]="16"
             [animate]="true"
             [showGridLines]="showGridLines()"
@@ -234,223 +153,14 @@
             (layoutChanged)="onLayoutChange($event)"
           >
             <ng-template #widgetTemplate let-item>
-              <!-- Saved Reports (Tabular Matrix, Visual Charts, KPI Cards) -->
               @if (getSavedReport(item.id); as rep) {
                 <div class="widget-report-body">
                   <gp-report-viewer [report]="rep" [showToolbar]="true" />
                 </div>
-              }
-
-              <!-- KPI 1: Ingestion Rate -->
-              @if (item.id === 'kpi_ingestion') {
-                @if (analytics.metrics().get('ingestion_rate'); as metric) {
-                  <div class="widget-kpi-body">
-                    <div class="kpi-value-row">
-                      <span class="kpi-value">{{ metric.value | number }}</span>
-                      <span class="kpi-unit">{{ metric.unit }}</span>
-                      <span class="kpi-trend up">↑ {{ metric.changePercentage }}%</span>
-                    </div>
-                    @if (metric.sparkline && metric.sparkline.length > 0) {
-                      <div class="sparkline-bar-group">
-                        @for (val of metric.sparkline; track $index) {
-                          <div
-                            class="sparkline-bar"
-                            [style.height.%]="((val / metric.value) * 60) > 100 ? 100 : ((val / metric.value) * 60)"
-                          ></div>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-              }
-
-              <!-- KPI 2: Latency -->
-              @if (item.id === 'kpi_latency') {
-                @if (analytics.metrics().get('p99_latency'); as metric) {
-                  <div class="widget-kpi-body">
-                    <div class="kpi-value-row">
-                      <span class="kpi-value" [class.val-danger]="metric.value > 250">{{ metric.value }}</span>
-                      <span class="kpi-unit">{{ metric.unit }}</span>
-                      <span class="kpi-trend" [class.down]="metric.value > 250" [class.up]="metric.value <= 250">
-                        {{ metric.value > 250 ? 'CRITICAL' : 'OK' }}
-                      </span>
-                    </div>
-                    @if (metric.sparkline && metric.sparkline.length > 0) {
-                      <div class="sparkline-bar-group">
-                        @for (val of metric.sparkline; track $index) {
-                          <div
-                            class="sparkline-bar"
-                            [class.bar-danger]="val > 250"
-                            [style.height.%]="((val / 300) * 80) > 100 ? 100 : ((val / 300) * 80)"
-                          ></div>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-              }
-
-              <!-- KPI 3: Error Rate -->
-              @if (item.id === 'kpi_error') {
-                @if (analytics.metrics().get('error_rate'); as metric) {
-                  <div class="widget-kpi-body">
-                    <div class="kpi-value-row">
-                      <span class="kpi-value" [class.val-warning]="metric.value > 3.0">{{ metric.value | number: '1.2-2' }}</span>
-                      <span class="kpi-unit">{{ metric.unit }}</span>
-                      <span class="kpi-trend" [class.down]="metric.value > 3.0" [class.up]="metric.value <= 3.0">
-                        {{ metric.value > 3.0 ? 'ELEVATED' : 'NOMINAL' }}
-                      </span>
-                    </div>
-                    @if (metric.sparkline && metric.sparkline.length > 0) {
-                      <div class="sparkline-bar-group">
-                        @for (val of metric.sparkline; track $index) {
-                          <div
-                            class="sparkline-bar"
-                            [class.bar-warning]="val > 3.0"
-                            [style.height.%]="((val / 10) * 90) > 100 ? 100 : ((val / 10) * 90)"
-                          ></div>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-              }
-
-              <!-- KPI 4: Sessions -->
-              @if (item.id === 'kpi_sessions') {
-                @if (analytics.metrics().get('active_sessions'); as metric) {
-                  <div class="widget-kpi-body">
-                    <div class="kpi-value-row">
-                      <span class="kpi-value">{{ metric.value | number }}</span>
-                      <span class="kpi-unit">{{ metric.unit }}</span>
-                      <span class="kpi-trend up">↑ {{ metric.changePercentage }}%</span>
-                    </div>
-                    @if (metric.sparkline && metric.sparkline.length > 0) {
-                      <div class="sparkline-bar-group">
-                        @for (val of metric.sparkline; track $index) {
-                          <div
-                            class="sparkline-bar"
-                            [style.height.%]="((val / metric.value) * 60) > 100 ? 100 : ((val / metric.value) * 60)"
-                          ></div>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-              }
-
-              <!-- Simulator Widget -->
-              @if (item.id === 'simulator_widget') {
-                <div class="widget-inner-panel">
-                  <p class="widget-hint">Simulate real-time ingestion traffic and evaluate mitigation rules.</p>
-                  <div class="simulator-actions-row">
-                    <gp-button
-                      label="Event"
-                      icon="plus"
-                      severity="primary"
-                      size="sm"
-                      (click)="simulateNormalEvent()"
-                    />
-                    <gp-button
-                      label="Spike Latency (>250ms)"
-                      icon="zap"
-                      severity="danger"
-                      size="sm"
-                      (click)="simulateLatencySpike()"
-                    />
-                    <gp-button
-                      label="Recover Latency"
-                      icon="check"
-                      severity="success"
-                      size="sm"
-                      (click)="simulateLatencyRecovery()"
-                    />
-                    <gp-button
-                      label="Burst Errors (>3%)"
-                      icon="alert-triangle"
-                      severity="warning"
-                      size="sm"
-                      (click)="simulateErrorBurst()"
-                    />
-                    <gp-button
-                      label="Checkout"
-                      icon="shopping-cart"
-                      severity="contrast"
-                      size="sm"
-                      (click)="simulateConversion()"
-                    />
-                  </div>
-                </div>
-              }
-
-              <!-- Rules Widget -->
-              @if (item.id === 'rules_widget') {
-                <div class="widget-inner-panel">
-                  <div class="mini-rules-list">
-                    <div class="mini-rule-row">
-                      <div class="rule-info">
-                        <strong>Latency Throttle</strong>
-                        <span>Trigger: p99_latency > 250ms</span>
-                      </div>
-                      <span
-                        class="rule-eval-badge"
-                        [class.triggered]="(analytics.metrics().get('p99_latency')?.value ?? 0) > 250"
-                      >
-                        {{ (analytics.metrics().get('p99_latency')?.value ?? 0) > 250 ? 'TRIGGERED' : 'OK' }}
-                      </span>
-                    </div>
-                    <div class="mini-rule-row">
-                      <div class="rule-info">
-                        <strong>Error Rate Alert</strong>
-                        <span>Trigger: error_rate > 3.0%</span>
-                      </div>
-                      <span
-                        class="rule-eval-badge"
-                        [class.triggered]="(analytics.metrics().get('error_rate')?.value ?? 0) > 3.0"
-                      >
-                        {{ (analytics.metrics().get('error_rate')?.value ?? 0) > 3.0 ? 'TRIGGERED' : 'OK' }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              }
-
-              <!-- Events Table Widget -->
-              @if (item.id === 'events_widget') {
-                <div class="widget-table-container">
-                  <table class="cockpit-table">
-                    <thead>
-                      <tr>
-                        <th>Time</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Severity</th>
-                        <th>Payload</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @for (evt of analytics.events().slice(0, 5); track evt.id) {
-                        <tr (click)="selectEvent(evt)" class="table-row-clickable">
-                          <td class="cell-mono">{{ evt.timestamp | date: 'HH:mm:ss.SSS' }}</td>
-                          <td class="cell-strong">{{ evt.name }}</td>
-                          <td><span class="category-pill">{{ evt.category }}</span></td>
-                          <td>
-                            <gp-badge
-                              [severity]="evt.severity === 'critical' ? 'danger' : evt.severity === 'error' ? 'danger' : evt.severity === 'warning' ? 'warning' : 'info'"
-                            >
-                              {{ evt.severity || 'info' }}
-                            </gp-badge>
-                          </td>
-                          <td class="cell-mono cell-muted">{{ evt.properties | json }}</td>
-                        </tr>
-                      }
-                      @empty {
-                        <tr>
-                          <td colspan="5" class="empty-state-cell">No events recorded.</td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
+              } @else {
+                <div class="widget-placeholder">
+                  <gp-icon [name]="item.icon || 'file'" size="1.5rem" />
+                  <span>{{ item.title }}</span>
                 </div>
               }
             </ng-template>
@@ -459,29 +169,81 @@
       </div>
     }
 
-    <!-- TAB: ANALYTICS DESIGNER & REPORT GENERATOR -->
+    <!-- TAB 2: EXAMPLE REPORT (Dedicated Report Viewer Showcase) -->
+    @if (activeTab() === 'report') {
+      <div class="tab-content report-tab-content">
+        <!-- Standalone Report Header Bar -->
+        <div class="report-header-bar">
+          <div class="report-selector-left">
+            <label for="reportPicker" class="report-picker-label">Select Report View:</label>
+            <select
+              id="reportPicker"
+              class="report-picker-select"
+              [ngModel]="selectedStandaloneReportId()"
+              (ngModelChange)="selectedStandaloneReportId.set($event)"
+            >
+              @for (rep of standaloneReportsList; track rep.id) {
+                <option [value]="rep.id">{{ rep.label }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="report-header-right">
+            <gp-button
+              label="Open in Designer"
+              icon="sliders"
+              severity="secondary"
+              size="sm"
+              (click)="activeTab.set('designer')"
+            />
+            <gp-button
+              label="View in Dashboard"
+              icon="layout-dashboard"
+              severity="primary"
+              size="sm"
+              (click)="activeTab.set('dashboard')"
+            />
+          </div>
+        </div>
+
+        <!-- Standalone Report Viewer Container -->
+        <div class="standalone-report-container">
+          @if (activeStandaloneReport(); as rep) {
+            <gp-report-viewer [report]="rep" [showToolbar]="true" />
+          } @else {
+            <div class="report-empty-state">
+              <gp-icon name="file-text" size="3rem" />
+              <h3>No Report Selected</h3>
+              <p>Select a report above or build a customized one in The Designer.</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- TAB 3: THE DESIGNER (Analytics Designer & Report Generator Studio) -->
     @if (activeTab() === 'designer') {
       <div class="tab-content designer-tab-content">
         <div class="designer-hero-banner">
           <div class="hero-left">
             <div class="hero-badge">
               <span class="hero-dot"></span>
-              <span>Self-Service BI & Analytics Studio</span>
+              <span>Self-Service Analytics Designer</span>
             </div>
             <h2>Enterprise Analytics Designer & Report Generator</h2>
             <p>
-              Assemble dimensions, aggregate numeric measures, apply mathematical functions, and compile
-              real-time Tabular Reports, Interactive Bar Charts, or Executive KPI summaries. Click
-              <strong>"Add to Dashboard"</strong> to project your generated report directly into the 12-column GpGrid layout.
+              Drag dataset fields into <strong>Group By Dimensions</strong>, <strong>Aggregated Measures</strong>,
+              or <strong>Localized Filters</strong>. Toggle languages in real-time to preview localized labels and display values,
+              then click <strong>"Add to Dashboard"</strong> to project your generated report directly into GpGrid.
             </p>
           </div>
           <div class="hero-actions">
             <gp-button
-              label="Switch to Dashboard (GpGrid)"
+              label="View Dashboard (GpGrid)"
               icon="layout-dashboard"
               severity="secondary"
               size="sm"
-              (click)="activeTab.set('overview')"
+              (click)="activeTab.set('dashboard')"
             />
           </div>
         </div>
@@ -491,234 +253,6 @@
           [dataset]="datasetRows"
           (reportGenerated)="onReportSaved($event)"
         />
-      </div>
-    }
-
-    <!-- TAB 2: SIMULATOR -->
-    @if (activeTab() === 'simulator') {
-      <div class="tab-content simulator-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <h3>Interactive Telemetry Generator</h3>
-            <span class="panel-subtitle">Simulate high volume user traffic, anomalies, and verify reactive updates</span>
-          </div>
-
-          <div class="sim-grid">
-            <div class="sim-control-box">
-              <h4>1. Automated Background Traffic</h4>
-              <p>Generates page views, interaction telemetry, and updates ingestion rate every 1.8 seconds.</p>
-              <gp-button
-                [label]="isAutoSimulating() ? 'Stop Automation' : 'Start Automated Traffic'"
-                [severity]="isAutoSimulating() ? 'danger' : 'primary'"
-                (click)="toggleAutoSimulator()"
-              />
-            </div>
-
-            <div class="sim-control-box">
-              <h4>2. Latency Anomaly Injection</h4>
-              <p>Forces P99 pipeline latency above the 250ms threshold to trigger gp-rules automated mitigation.</p>
-              <div class="btn-group">
-                <gp-button
-                  label="Inject Spike (350ms+)"
-                  severity="danger"
-                  (click)="simulateLatencySpike()"
-                />
-                <gp-button
-                  label="Reset to Nominal (80ms)"
-                  severity="success"
-                  (click)="simulateLatencyRecovery()"
-                />
-              </div>
-            </div>
-
-            <div class="sim-control-box">
-              <h4>3. Ingestion Error Burst</h4>
-              <p>Simulates downstream network timeouts causing error rate to exceed 3%.</p>
-              <gp-button
-                label="Inject Error Burst"
-                severity="warning"
-                (click)="simulateErrorBurst()"
-              />
-            </div>
-
-            <div class="sim-control-box">
-              <h4>4. E-commerce Conversion Events</h4>
-              <p>Simulates customer checkouts with randomized cart totals and unique order IDs.</p>
-              <gp-button
-                label="Emit Checkout Event"
-                severity="contrast"
-                (click)="simulateConversion()"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- TAB 3: RULES ENGINE (gp-rules) -->
-    @if (activeTab() === 'rules') {
-      <div class="tab-content rules-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title-group">
-              <h3>⚡ Business Rules Engine Integration</h3>
-              <gp-tag [severity]="'success'" [rounded]="true">@generatedpixel/gp-rules</gp-tag>
-            </div>
-            <span class="panel-subtitle">
-              Reactive rules dynamically monitor analytics streams and execute actions on telemetry thresholds
-            </span>
-          </div>
-
-          <!-- Active Rules Cards -->
-          <div class="rules-cards-grid">
-            <div class="rule-card">
-              <div class="rule-card-header">
-                <span class="rule-name">High Latency Throttle Rule</span>
-                <gp-tag [severity]="'danger'" [rounded]="true">Threshold: > 250ms</gp-tag>
-              </div>
-              <p class="rule-desc">
-                When <code>p99_latency</code> exceeds 250ms, flags a critical alert in gp-analytics and executes state action.
-              </p>
-              <div class="rule-meta">
-                <span>Current P99: <strong>{{ analytics.metrics().get('p99_latency')?.value }} ms</strong></span>
-                <span
-                  class="rule-eval-badge"
-                  [class.triggered]="(analytics.metrics().get('p99_latency')?.value ?? 0) > 250"
-                >
-                  {{ (analytics.metrics().get('p99_latency')?.value ?? 0) > 250 ? 'TRIGGERED (CRITICAL)' : 'OK (NOMINAL)' }}
-                </span>
-              </div>
-            </div>
-
-            <div class="rule-card">
-              <div class="rule-card-header">
-                <span class="rule-name">Error Burst Monitor</span>
-                <gp-tag [severity]="'warning'" [rounded]="true">Threshold: > 3.0%</gp-tag>
-              </div>
-              <p class="rule-desc">
-                When <code>error_rate</code> spikes past 3%, alerts DevOps team and highlights the status cockpit.
-              </p>
-              <div class="rule-meta">
-                <span>Current Error Rate: <strong>{{ analytics.metrics().get('error_rate')?.value }}%</strong></span>
-                <span
-                  class="rule-eval-badge"
-                  [class.triggered]="(analytics.metrics().get('error_rate')?.value ?? 0) > 3.0"
-                >
-                  {{ (analytics.metrics().get('error_rate')?.value ?? 0) > 3.0 ? 'TRIGGERED (WARNING)' : 'OK (NOMINAL)' }}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Embedded gp-rule-inspector component from @generatedpixel/gp-rules -->
-          <div class="inspector-section">
-            <h4 class="inspector-heading">Live gp-rule-inspector</h4>
-            <gp-rule-inspector
-              title="Analytics Engine Rule Audit Trail"
-              [showStats]="true"
-              [maxLogs]="30"
-            />
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- TAB 4: EVENT STREAM -->
-    @if (activeTab() === 'events') {
-      <div class="tab-content events-content">
-        <div class="events-layout">
-          <!-- Event List -->
-          <div class="events-panel card-panel">
-            <div class="panel-header">
-              <h3>Recorded Telemetry Buffer</h3>
-              <div class="panel-controls">
-                <gp-button
-                  label="Emit New Event"
-                  icon="plus"
-                  size="sm"
-                  (click)="simulateNormalEvent()"
-                />
-                <gp-button
-                  label="Clear"
-                  severity="secondary"
-                  size="sm"
-                  (click)="clearAllEvents()"
-                />
-              </div>
-            </div>
-
-            <div class="stream-list">
-              @for (evt of analytics.events(); track evt.id) {
-                <div
-                  class="stream-item"
-                  [class.selected]="selectedEvent()?.id === evt.id"
-                  (click)="selectEvent(evt)"
-                >
-                  <div class="stream-item-top">
-                    <span class="stream-name">{{ evt.name }}</span>
-                    <span class="stream-time">{{ evt.timestamp | date: 'HH:mm:ss.SSS' }}</span>
-                  </div>
-                  <div class="stream-item-bottom">
-                    <span class="category-pill">{{ evt.category }}</span>
-                    <gp-badge
-                      [severity]="evt.severity === 'critical' || evt.severity === 'error' ? 'danger' : evt.severity === 'warning' ? 'warning' : 'info'"
-                    >
-                      {{ evt.severity || 'info' }}
-                    </gp-badge>
-                  </div>
-                </div>
-              }
-              @empty {
-                <div class="stream-empty">No events in buffer.</div>
-              }
-            </div>
-          </div>
-
-          <!-- Event Detail Inspector -->
-          <div class="event-detail-panel card-panel">
-            <div class="panel-header">
-              <h3>Event Details</h3>
-              @if (selectedEvent()) {
-                <gp-tag [severity]="'info'" [rounded]="true">{{ selectedEvent()?.id }}</gp-tag>
-              }
-            </div>
-
-            @if (selectedEvent(); as current) {
-              <div class="detail-body">
-                <div class="detail-field">
-                  <span class="detail-label">Event Name:</span>
-                  <span class="detail-val font-strong">{{ current.name }}</span>
-                </div>
-                <div class="detail-field">
-                  <span class="detail-label">Category:</span>
-                  <span class="detail-val">{{ current.category }}</span>
-                </div>
-                <div class="detail-field">
-                  <span class="detail-label">Severity:</span>
-                  <gp-badge
-                    [severity]="current.severity === 'critical' || current.severity === 'error' ? 'danger' : current.severity === 'warning' ? 'warning' : 'info'"
-                  >
-                    {{ current.severity || 'info' }}
-                  </gp-badge>
-                </div>
-                <div class="detail-field">
-                  <span class="detail-label">Timestamp:</span>
-                  <span class="detail-val">{{ current.timestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS' }}</span>
-                </div>
-
-                <div class="detail-json-section">
-                  <span class="detail-label">JSON Properties Payload:</span>
-                  <pre class="json-code"><code>{{ current.properties | json }}</code></pre>
-                </div>
-              </div>
-            } @else {
-              <div class="detail-placeholder">
-                <gp-icon name="info" size="2rem" />
-                <p>Click on any event from the stream list to inspect its full payload</p>
-              </div>
-            }
-          </div>
-        </div>
       </div>
     }
   </main>

@@ -11,30 +11,45 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  DragDropModule,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
+import {
   AggregationType,
   ColumnFormat,
   DatasetFolder,
   DesignerArtifactType,
   DesignerSelectionState,
   Field,
+  FieldFilter,
+  FilterMatchTarget,
+  FilterOperator,
   GeneratedReport,
   GraphVisualizationType,
+  resolveFieldDescription,
+  resolveFieldLabel,
+  resolveFolderName,
   SelectedField,
   SortDirection,
-} from '../../models/designer.models';
+} from '../../models';
+import { LocalizationService } from '../../services/localization.service';
 import { ReportGeneratorService } from '../../services/report-generator.service';
 import { GpReportViewer } from '../report-viewer/report-viewer';
 
 @Component({
   selector: 'gp-analytics-designer',
   standalone: true,
-  imports: [CommonModule, FormsModule, GpReportViewer],
+  imports: [CommonModule, FormsModule, DragDropModule, GpReportViewer],
   templateUrl: './designer.html',
   styleUrl: './designer.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GpAnalyticsDesigner implements OnInit {
-  private readonly generator = inject(ReportGeneratorService);
+  protected readonly generator = inject(ReportGeneratorService);
+  protected readonly localization = inject(LocalizationService);
 
   readonly folders = input.required<DatasetFolder[]>();
   readonly dataset = input.required<Record<string, unknown>[]>();
@@ -43,16 +58,28 @@ export class GpAnalyticsDesigner implements OnInit {
   readonly reportGenerated = output<GeneratedReport>();
   readonly stateChanged = output<DesignerSelectionState>();
 
+  // Available locales for live designer preview
+  readonly availableLocales = [
+    { code: 'en-US', label: '🇺🇸 English' },
+    { code: 'fr-FR', label: '🇫🇷 Français' },
+    { code: 'de-DE', label: '🇩🇪 Deutsch' },
+    { code: 'es-ES', label: '🇪🇸 Español' },
+  ];
+
   // Designer State
   protected readonly reportTitle = signal<string>('Custom Analytics Report');
   protected readonly reportDescription = signal<string>('');
   protected readonly selectedArtifactType = signal<DesignerArtifactType>('tabular');
   protected readonly selectedGraphType = signal<GraphVisualizationType>('bar');
   protected readonly selectedFields = signal<SelectedField[]>([]);
+  protected readonly filters = signal<FieldFilter[]>([]);
 
   // Search filter for available fields
   protected readonly fieldSearch = signal<string>('');
   protected readonly expandedFolders = signal<Set<string>>(new Set());
+
+  // Active locale signal from service
+  protected readonly currentLocale = this.localization.activeLocale;
 
   // Computed Dimensions and Measures
   protected readonly dimensions = computed(() => this.selectedFields().filter((f) => f.groupBy));
@@ -65,7 +92,7 @@ export class GpAnalyticsDesigner implements OnInit {
     const type = this.selectedArtifactType();
 
     if (fields.length === 0) {
-      errors.push('Select at least one field to generate a report.');
+      errors.push('Select or drag at least one field to generate a report.');
       return errors;
     }
 
@@ -91,6 +118,8 @@ export class GpAnalyticsDesigner implements OnInit {
     artifactType: this.selectedArtifactType(),
     graphType: this.selectedGraphType(),
     fields: this.selectedFields(),
+    filters: this.filters(),
+    locale: this.currentLocale(),
   }));
 
   // Computed Real-Time Live Preview Report
@@ -108,6 +137,24 @@ export class GpAnalyticsDesigner implements OnInit {
     this.expandedFolders.set(allFolderIds);
   }
 
+  // Localization Helpers for Template
+  protected resolveFolderName(folder: DatasetFolder): string {
+    return resolveFolderName(folder, this.currentLocale());
+  }
+
+  protected resolveFieldLabel(field: Field): string {
+    return resolveFieldLabel(field, this.currentLocale());
+  }
+
+  protected resolveFieldDescription(field: Field): string {
+    return resolveFieldDescription(field, this.currentLocale());
+  }
+
+  protected setLocale(locale: string): void {
+    this.localization.setLocale(locale);
+    this.stateChanged.emit(this.currentState());
+  }
+
   // Folder accordion toggle
   protected toggleFolder(folderId: string): void {
     this.expandedFolders.update((current) => {
@@ -122,11 +169,15 @@ export class GpAnalyticsDesigner implements OnInit {
   }
 
   // Field selection actions
-  protected addField(field: Field, asDimension = false): void {
+  protected addField(field: Field, asDimension?: boolean): void {
     const existing = this.selectedFields().find((f) => f.field.name === field.name);
     if (existing) return;
 
-    const isDim = asDimension || field.dataType === 'string' || field.dataType === 'date';
+    const isDim =
+      asDimension !== undefined
+        ? asDimension
+        : field.dataType === 'string' || field.dataType === 'date';
+
     const newField: SelectedField = {
       field,
       aggregation: isDim ? 'none' : field.defaultAggregation ?? 'sum',
@@ -183,5 +234,99 @@ export class GpAnalyticsDesigner implements OnInit {
 
   protected isFieldSelected(fieldName: string): boolean {
     return this.selectedFields().some((f) => f.field.name === fieldName);
+  }
+
+  // --- Drag and Drop Handlers ---
+  protected onDropDimension(event: CdkDragDrop<Field | SelectedField | unknown>): void {
+    const itemData = event.item.data as Field | SelectedField;
+    if (!itemData) return;
+
+    // Check if dragging an already selected field or new available field
+    if ('groupBy' in itemData) {
+      // Reordering within dimensions
+      const dims = [...this.dimensions()];
+      moveItemInArray(dims, event.previousIndex, event.currentIndex);
+      const otherFields = this.measures();
+      this.selectedFields.set([...dims, ...otherFields]);
+    } else {
+      // Dragged from available fields into dimensions
+      this.addField(itemData, true);
+    }
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected onDropMeasure(event: CdkDragDrop<Field | SelectedField | unknown>): void {
+    const itemData = event.item.data as Field | SelectedField;
+    if (!itemData) return;
+
+    if ('groupBy' in itemData) {
+      // Reordering within measures
+      const ms = [...this.measures()];
+      moveItemInArray(ms, event.previousIndex, event.currentIndex);
+      const otherFields = this.dimensions();
+      this.selectedFields.set([...otherFields, ...ms]);
+    } else {
+      // Dragged from available fields into measures
+      this.addField(itemData, false);
+    }
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected onDropFilter(event: CdkDragDrop<Field | unknown>): void {
+    const field = event.item.data as Field;
+    if (!field || !('name' in field)) return;
+    this.addFilter(field);
+  }
+
+  // --- Filter Management ---
+  protected addFilter(field: Field): void {
+    const newFilter: FieldFilter = {
+      id: `flt-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
+      fieldName: field.name,
+      operator: field.dataType === 'number' ? 'gte' : 'contains',
+      value: '',
+      matchTarget: 'both',
+      locale: this.currentLocale(),
+    };
+    this.filters.update((current) => [...current, newFilter]);
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected removeFilter(filterId: string | undefined): void {
+    if (!filterId) return;
+    this.filters.update((current) => current.filter((f) => f.id !== filterId));
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected updateFilterOperator(filterId: string | undefined, op: FilterOperator): void {
+    if (!filterId) return;
+    this.filters.update((current) =>
+      current.map((f) => (f.id === filterId ? { ...f, operator: op } : f)),
+    );
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected updateFilterValue(filterId: string | undefined, value: unknown): void {
+    if (!filterId) return;
+    this.filters.update((current) =>
+      current.map((f) => (f.id === filterId ? { ...f, value } : f)),
+    );
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected updateFilterTarget(filterId: string | undefined, target: FilterMatchTarget): void {
+    if (!filterId) return;
+    this.filters.update((current) =>
+      current.map((f) => (f.id === filterId ? { ...f, matchTarget: target } : f)),
+    );
+    this.stateChanged.emit(this.currentState());
+  }
+
+  protected getFieldByName(fieldName: string): Field | undefined {
+    for (const folder of this.folders()) {
+      const found = folder.fields.find((f) => f.name === fieldName);
+      if (found) return found;
+    }
+    return undefined;
   }
 }

@@ -1,18 +1,26 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ColumnFormat,
   DesignerSelectionState,
+  evaluateFieldFilter,
+  Field,
+  FieldFilter,
   GeneratedReport,
   ReportColumn,
   ReportDataPoint,
   ReportRow,
+  resolveFieldLabel,
+  resolveLocalizedText,
   SelectedField,
-} from '../models/designer.models';
+} from '../models';
+import { LocalizationService } from './localization.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportGeneratorService {
+  private readonly localization = inject(LocalizationService);
+
   /**
    * Generates a complete report artifact from a designer specification and dataset.
    */
@@ -22,38 +30,51 @@ export class ReportGeneratorService {
   ): GeneratedReport {
     const reportId = `rep-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const selected = definition.fields;
+    const activeLocale = definition.locale || this.localization.activeLocale();
 
     // 1. Separate GroupBy dimensions and Aggregation measures
     const dimensions = selected.filter((f) => f.groupBy);
     const measures = selected.filter((f) => !f.groupBy);
 
     // 2. Define Output Columns
-    const columns: ReportColumn[] = selected.map((f) => ({
-      key: f.alias ?? f.field.name,
-      label: f.alias ?? f.field.label ?? f.field.name,
-      dataType: f.field.dataType,
-      format: f.columnFormat ?? f.field.defaultFormat ?? 'default',
-      aggregation: f.aggregation,
-    }));
+    const columns: ReportColumn[] = selected.map((f) => {
+      const aliasKey = f.alias ? resolveLocalizedText(f.alias, activeLocale) : undefined;
+      return {
+        key: aliasKey ?? f.field.name,
+        label: aliasKey ?? resolveFieldLabel(f.field, activeLocale),
+        dataType: f.field.dataType,
+        format: f.columnFormat ?? f.field.defaultFormat ?? 'default',
+        aggregation: f.aggregation,
+        field: f.field,
+      };
+    });
 
-    // 3. Process Rows (Grouping & Aggregation)
+    // 3. Process Rows (Grouping & Aggregation with Filter Evaluation)
     let processedRows: ReportRow[] = [];
 
     if (dimensions.length > 0) {
       // Grouping map
-      const groups = new Map<string, { keyRecord: Record<string, unknown>; items: Record<string, unknown>[] }>();
+      const groups = new Map<
+        string,
+        { keyRecord: Record<string, unknown>; items: Record<string, unknown>[] }
+      >();
 
       for (const record of rawRecords) {
-        // Evaluate filter if specified
-        if (!this.matchesFilters(record, selected)) {
+        // Evaluate filter if specified (locale-aware)
+        if (!this.matchesFilters(record, selected, definition.filters, activeLocale)) {
           continue;
         }
 
-        const groupKey = dimensions.map((d) => String(record[d.field.name] ?? '')).join('|||');
+        const groupKey = dimensions
+          .map((d) => String(record[d.field.name] ?? ''))
+          .join('|||');
+
         if (!groups.has(groupKey)) {
           const keyRecord: Record<string, unknown> = {};
           dimensions.forEach((d) => {
-            const outKey = d.alias ?? d.field.name;
+            const outKey = d.alias
+              ? resolveLocalizedText(d.alias, activeLocale)
+              : d.field.name;
             keyRecord[outKey] = record[d.field.name];
           });
           groups.set(groupKey, { keyRecord, items: [] });
@@ -66,7 +87,9 @@ export class ReportGeneratorService {
         const row: ReportRow = { ...keyRecord };
 
         for (const m of measures) {
-          const outKey = m.alias ?? m.field.name;
+          const outKey = m.alias
+            ? resolveLocalizedText(m.alias, activeLocale)
+            : m.field.name;
           row[outKey] = this.computeAggregation(items, m.field.name, m.aggregation);
         }
 
@@ -74,12 +97,16 @@ export class ReportGeneratorService {
       });
     } else {
       // No group by dimensions: aggregate entire dataset or output flat rows
-      const filtered = rawRecords.filter((r) => this.matchesFilters(r, selected));
+      const filtered = rawRecords.filter((r) =>
+        this.matchesFilters(r, selected, definition.filters, activeLocale),
+      );
 
       if (measures.length > 0 && measures.some((m) => m.aggregation !== 'none')) {
         const summaryRow: ReportRow = {};
         for (const m of measures) {
-          const outKey = m.alias ?? m.field.name;
+          const outKey = m.alias
+            ? resolveLocalizedText(m.alias, activeLocale)
+            : m.field.name;
           summaryRow[outKey] = this.computeAggregation(filtered, m.field.name, m.aggregation);
         }
         processedRows.push(summaryRow);
@@ -87,7 +114,9 @@ export class ReportGeneratorService {
         processedRows = filtered.map((r) => {
           const row: ReportRow = {};
           for (const f of selected) {
-            const outKey = f.alias ?? f.field.name;
+            const outKey = f.alias
+              ? resolveLocalizedText(f.alias, activeLocale)
+              : f.field.name;
             row[outKey] = r[f.field.name];
           }
           return row;
@@ -98,7 +127,9 @@ export class ReportGeneratorService {
     // 4. Apply Sorting
     const sortField = selected.find((f) => f.sortDirection);
     if (sortField) {
-      const sortKey = sortField.alias ?? sortField.field.name;
+      const sortKey = sortField.alias
+        ? resolveLocalizedText(sortField.alias, activeLocale)
+        : sortField.field.name;
       const isAsc = sortField.sortDirection === 'asc';
       processedRows.sort((a, b) => {
         const valA = a[sortKey];
@@ -113,21 +144,28 @@ export class ReportGeneratorService {
     }
 
     // 5. Generate Data Points for Graphs and KPI Cards
-    const dataPoints: ReportDataPoint[] = this.buildDataPoints(definition, processedRows, columns);
+    const dataPoints: ReportDataPoint[] = this.buildDataPoints(
+      definition,
+      processedRows,
+      columns,
+      activeLocale,
+    );
 
     // 6. Metrics Summary
     const metricsSummary: Record<string, number | string> = {};
     measures.forEach((m) => {
-      const outKey = m.alias ?? m.field.name;
+      const outKey = m.alias
+        ? resolveLocalizedText(m.alias, activeLocale)
+        : m.field.name;
       const values = processedRows.map((r) => Number(r[outKey]) || 0);
       const total = values.reduce((sum, v) => sum + v, 0);
-      metricsSummary[outKey] = this.formatValue(total, m.columnFormat);
+      metricsSummary[outKey] = this.formatValue(total, m.columnFormat, m.field, activeLocale);
     });
 
     return {
       id: reportId,
-      title: definition.title || 'Untitled Report',
-      description: definition.description,
+      title: resolveLocalizedText(definition.title, activeLocale, 'Untitled Report'),
+      description: resolveLocalizedText(definition.description, activeLocale, ''),
       artifactType: definition.artifactType,
       graphType: definition.graphType,
       generatedAt: new Date(),
@@ -138,54 +176,69 @@ export class ReportGeneratorService {
         totalRows: processedRows.length,
         metricsSummary,
       },
-      rawDefinition: definition,
+      locale: activeLocale,
     };
   }
 
   /**
-   * Evaluates if a record satisfies all configured field filters.
+   * Evaluates if a record satisfies all configured field filters,
+   * taking into account localized display values and active locale.
    */
-  private matchesFilters(record: Record<string, unknown>, fields: SelectedField[]): boolean {
+  matchesFilters(
+    record: Record<string, unknown>,
+    fields: SelectedField[],
+    customFilters: FieldFilter[] | undefined,
+    locale: string,
+  ): boolean {
+    // 1. Evaluate selected field inline filters
     for (const f of fields) {
       if (f.filterValue === undefined || f.filterValue === null || f.filterValue === '') {
         continue;
       }
+      const rawVal = record[f.field.name];
+      const satisfies = evaluateFieldFilter(
+        rawVal,
+        {
+          fieldName: f.field.name,
+          operator: f.filterOperator ?? 'eq',
+          value: f.filterValue,
+          matchTarget: f.filterMatchTarget ?? 'both',
+          locale,
+        },
+        {
+          mapping: f.field.valueMapping,
+          customResolver: f.field.getDisplayValue,
+          activeLocale: locale,
+        },
+      );
+      if (!satisfies) return false;
+    }
 
-      const val = record[f.field.name];
-      const op = f.filterOperator ?? 'eq';
-      const target = f.filterValue;
-
-      switch (op) {
-        case 'eq':
-          if (String(val).toLowerCase() !== String(target).toLowerCase()) return false;
-          break;
-        case 'neq':
-          if (String(val).toLowerCase() === String(target).toLowerCase()) return false;
-          break;
-        case 'contains':
-          if (!String(val).toLowerCase().includes(String(target).toLowerCase())) return false;
-          break;
-        case 'gt':
-          if (Number(val) <= Number(target)) return false;
-          break;
-        case 'lt':
-          if (Number(val) >= Number(target)) return false;
-          break;
-        case 'gte':
-          if (Number(val) < Number(target)) return false;
-          break;
-        case 'lte':
-          if (Number(val) > Number(target)) return false;
-          break;
+    // 2. Evaluate explicit definition filters if any
+    if (customFilters && customFilters.length > 0) {
+      for (const filter of customFilters) {
+        const rawVal = record[filter.fieldName];
+        const fieldDef = fields.find((s) => s.field.name === filter.fieldName)?.field;
+        const satisfies = evaluateFieldFilter(rawVal, filter, {
+          mapping: fieldDef?.valueMapping,
+          customResolver: fieldDef?.getDisplayValue,
+          activeLocale: locale,
+        });
+        if (!satisfies) return false;
       }
     }
+
     return true;
   }
 
   /**
    * Computes an aggregation for a numeric or distinct field.
    */
-  private computeAggregation(items: Record<string, unknown>[], fieldName: string, type: SelectedField['aggregation']): number {
+  computeAggregation(
+    items: Record<string, unknown>[],
+    fieldName: string,
+    type: SelectedField['aggregation'],
+  ): number {
     if (items.length === 0) return 0;
 
     switch (type) {
@@ -210,33 +263,65 @@ export class ReportGeneratorService {
   }
 
   /**
-   * Constructs visualization data points.
+   * Builds chart/KPI data points from aggregated rows.
    */
   private buildDataPoints(
     definition: DesignerSelectionState,
     rows: ReportRow[],
     columns: ReportColumn[],
+    locale: string,
   ): ReportDataPoint[] {
-    const points: ReportDataPoint[] = [];
-    const dimCol = columns.find((c) => c.dataType === 'string' || c.dataType === 'date') ?? columns[0];
-    const measureCol = columns.find((c) => c.dataType === 'number') ?? columns[1] ?? columns[0];
+    const dimCol = columns.find((c) =>
+      definition.fields.some((f) => f.groupBy && (f.alias ?? f.field.name) === c.key),
+    );
+    const measureCol = columns.find((c) =>
+      definition.fields.some((f) => !f.groupBy && (f.alias ?? f.field.name) === c.key),
+    );
 
-    if (!dimCol || !measureCol) return points;
+    if (!measureCol) {
+      return [];
+    }
 
     const colors = [
-      '#38bdf8', '#818cf8', '#34d399', '#f472b6',
-      '#fb923c', '#a78bfa', '#facc15', '#4ade80'
+      '#3b82f6',
+      '#10b981',
+      '#8b5cf6',
+      '#f59e0b',
+      '#ec4899',
+      '#06b6d4',
+      '#f97316',
+      '#6366f1',
     ];
 
+    if (!dimCol) {
+      // Single overall metric (e.g. Executive KPI card)
+      const primaryValue = rows.length > 0 ? rows[0][measureCol.key] : 0;
+      const numVal = typeof primaryValue === 'number' ? primaryValue : Number(primaryValue) || 0;
+      return [
+        {
+          key: 'primary',
+          label: measureCol.label,
+          value: numVal,
+          formattedValue: this.formatValue(numVal, measureCol.format, measureCol.field, locale),
+          color: colors[0],
+        },
+      ];
+    }
+
+    const points: ReportDataPoint[] = [];
     rows.forEach((row, idx) => {
-      const label = String(row[dimCol.key] ?? `Row ${idx + 1}`);
-      const rawVal = row[measureCol.key];
-      const numVal = Number(rawVal) || 0;
+      const rawVal = row[dimCol.key];
+      const label = dimCol.field
+        ? this.localization.resolveDisplayValue(rawVal, dimCol.field)
+        : String(rawVal ?? '');
+      const numVal = Number(row[measureCol.key]) || 0;
+
       points.push({
         key: `pt-${idx}`,
         label,
         value: numVal,
-        formattedValue: this.formatValue(numVal, measureCol.format),
+        displayValue: label,
+        formattedValue: this.formatValue(numVal, measureCol.format, measureCol.field, locale),
         color: colors[idx % colors.length],
       });
     });
@@ -245,37 +330,27 @@ export class ReportGeneratorService {
   }
 
   /**
-   * Formats a raw value based on ColumnFormat.
+   * Formats a raw value based on ColumnFormat and active locale.
    */
-  formatValue(value: unknown, format?: ColumnFormat): string {
-    if (value === null || value === undefined) return '-';
-    const num = Number(value);
-
-    switch (format) {
-      case 'currency':
-        return isNaN(num)
-          ? String(value)
-          : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
-      case 'percent':
-        return isNaN(num)
-          ? String(value)
-          : `${(num * (num <= 1 ? 100 : 1)).toFixed(1)}%`;
-      case 'number-0':
-        return isNaN(num) ? String(value) : Math.round(num).toLocaleString();
-      case 'number-2':
-        return isNaN(num) ? String(value) : num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      case 'date-short':
-        return new Date(String(value)).toLocaleDateString();
-      case 'date-long':
-        return new Date(String(value)).toLocaleDateString(undefined, { dateStyle: 'long' });
-      case 'default':
-      default:
-        return typeof value === 'number' ? value.toLocaleString() : String(value);
+  formatValue(
+    value: unknown,
+    format?: ColumnFormat,
+    field?: Field,
+    locale?: string,
+  ): string {
+    if (locale && locale !== this.localization.activeLocale()) {
+      // Temporarily override locale or use Intl directly
+      const prev = this.localization.activeLocale();
+      this.localization.setLocale(locale);
+      const res = this.localization.formatValue(value, format, field);
+      this.localization.setLocale(prev);
+      return res;
     }
+    return this.localization.formatValue(value, format, field);
   }
 
   /**
-   * Exports report to CSV string.
+   * Exports report to formatted CSV string.
    */
   exportToCsv(report: GeneratedReport): string {
     const header = report.columns.map((c) => `"${c.label.replace(/"/g, '""')}"`).join(',');
@@ -283,7 +358,7 @@ export class ReportGeneratorService {
       report.columns
         .map((c) => {
           const val = r[c.key];
-          const formatted = this.formatValue(val, c.format);
+          const formatted = this.formatValue(val, c.format, c.field, report.locale);
           return `"${String(formatted).replace(/"/g, '""')}"`;
         })
         .join(','),
@@ -300,6 +375,7 @@ export class ReportGeneratorService {
         id: report.id,
         title: report.title,
         generatedAt: report.generatedAt,
+        locale: report.locale,
         summary: report.summary,
         columns: report.columns.map((c) => ({ key: c.key, label: c.label, format: c.format })),
         rows: report.rows,

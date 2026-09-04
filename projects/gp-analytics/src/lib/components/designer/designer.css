@@ -56,6 +56,21 @@
   outline: none;
 }
 
+.designer-header-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.designer-locale-select {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
 .designer-type-pills {
   display: flex;
   background: var(--gp-surface-100, rgba(255, 255, 255, 0.04));
@@ -112,12 +127,12 @@
 /* 3-Column Workspace */
 .gp-designer-workspace {
   display: grid;
-  grid-template-columns: 280px 340px 1fr;
+  grid-template-columns: 280px 360px 1fr;
   gap: 1.25rem;
-  min-height: 540px;
+  min-height: 560px;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1200px) {
   .gp-designer-workspace {
     grid-template-columns: 260px 1fr;
   }
@@ -185,7 +200,7 @@
   flex-direction: column;
   gap: 0.6rem;
   overflow-y: auto;
-  max-height: 460px;
+  max-height: 480px;
 }
 
 .folder-group {
@@ -239,8 +254,13 @@
   border: 1px solid var(--gp-surface-border, rgba(255, 255, 255, 0.06));
   border-radius: 0.4rem;
   padding: 0.35rem 0.6rem;
-  cursor: pointer;
+  cursor: grab;
+  user-select: none;
   transition: all 0.15s ease;
+}
+
+.field-pill-item:active {
+  cursor: grabbing;
 }
 
 .field-pill-item:hover {
@@ -259,6 +279,13 @@
   align-items: center;
   gap: 0.45rem;
   overflow: hidden;
+  flex: 1;
+}
+
+.drag-grip-icon {
+  font-size: 0.75rem;
+  color: var(--gp-text-color-secondary, #64748b);
+  cursor: grab;
 }
 
 .field-label {
@@ -269,10 +296,24 @@
   text-overflow: ellipsis;
 }
 
-.field-add-icon {
-  font-size: 0.85rem;
+.field-pill-actions {
+  display: flex;
+  align-items: center;
+}
+
+.field-add-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--gp-primary-400, #60a5fa);
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+}
+
+.field-add-btn:hover {
+  background: rgba(59, 130, 246, 0.2);
 }
 
 .type-tag {
@@ -305,7 +346,32 @@
   color: #86efac;
 }
 
-/* Config Column */
+/* Drag Preview & Placeholders */
+.drag-preview-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gp-surface-card, #1e293b);
+  border: 1px solid var(--gp-primary-500, #3b82f6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 10000;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  border: 2px dashed var(--gp-primary-500, #3b82f6) !important;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Config Column & Dropzones */
 .spec-section {
   display: flex;
   flex-direction: column;
@@ -328,11 +394,18 @@
   font-size: 0.7rem;
 }
 
-.spec-fields-list {
+.dropzone-area {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   min-height: 60px;
+  border-radius: 0.5rem;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.dropzone-area.cdk-drop-list-receiving {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px dashed var(--gp-primary-500, #3b82f6);
 }
 
 .spec-empty-drop {
@@ -343,6 +416,14 @@
   color: var(--gp-text-color-secondary, #94a3b8);
   text-align: center;
   background: var(--gp-surface-100, rgba(255, 255, 255, 0.01));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.drop-hint-icon {
+  font-size: 1rem;
 }
 
 .configured-field-card {
@@ -353,6 +434,11 @@
   border: 1px solid var(--gp-surface-border, #334155);
   border-radius: 0.5rem;
   padding: 0.5rem 0.65rem;
+  cursor: grab;
+}
+
+.configured-field-card:active {
+  cursor: grabbing;
 }
 
 .field-card-main {
@@ -396,6 +482,66 @@
 .remove-field-btn:hover {
   background: #ef4444;
   color: white;
+}
+
+/* Filter Card */
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--gp-surface-100, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--gp-surface-border, #334155);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.65rem;
+}
+
+.filter-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-field-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gp-primary-400, #60a5fa);
+}
+
+.filter-card-body {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.filter-val-input {
+  flex: 1;
+  background: var(--gp-surface-100, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--gp-surface-border, #334155);
+  border-radius: 0.35rem;
+  color: var(--gp-text-color, #f8fafc);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.4rem;
+  outline: none;
+}
+
+.filter-val-input:focus {
+  border-color: var(--gp-primary-500, #3b82f6);
+}
+
+.filter-match-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--gp-text-color-secondary, #94a3b8);
+}
+
+.match-label {
+  white-space: nowrap;
+}
+
+.match-select {
+  font-size: 0.68rem;
 }
 
 /* Validation Box */
@@ -446,7 +592,7 @@
 .preview-stage {
   flex: 1;
   display: flex;
-  min-height: 380px;
+  min-height: 400px;
 }
 
 .preview-empty {

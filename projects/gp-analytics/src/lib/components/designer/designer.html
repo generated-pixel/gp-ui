@@ -18,61 +18,79 @@
       />
     </div>
 
-    <!-- Artifact Type Pill Selectors -->
-    <div class="designer-type-pills">
-      <button
-        type="button"
-        class="type-pill-btn"
-        [class.active]="selectedArtifactType() === 'tabular'"
-        (click)="setArtifactType('tabular')"
-      >
-        <span>📊 Tabular Report</span>
-      </button>
-      <button
-        type="button"
-        class="type-pill-btn"
-        [class.active]="selectedArtifactType() === 'graph'"
-        (click)="setArtifactType('graph')"
-      >
-        <span>📈 Visual Graph</span>
-      </button>
-      <button
-        type="button"
-        class="type-pill-btn"
-        [class.active]="selectedArtifactType() === 'kpi'"
-        (click)="setArtifactType('kpi')"
-      >
-        <span>⚡ Executive KPI</span>
-      </button>
-    </div>
-
-    <!-- Graph Type Sub-selector if Graph is active -->
-    @if (selectedArtifactType() === 'graph') {
-      <div class="designer-graph-select">
-        <label for="graphType">Visualization:</label>
+    <!-- Right Controls: Language Selector, Artifact Type Pills, Graph Selector -->
+    <div class="designer-header-right">
+      <!-- Language / Locale Switcher -->
+      <div class="designer-locale-select">
+        <label for="localeSelect">Language:</label>
         <select
-          id="graphType"
+          id="localeSelect"
           class="designer-select"
-          [value]="selectedGraphType()"
-          (change)="setGraphType($any($event.target).value)"
+          [value]="currentLocale()"
+          (change)="setLocale($any($event.target).value)"
         >
-          <option value="bar">Bar Chart</option>
-          <option value="column">Column Chart</option>
-          <option value="stacked-bar">Stacked Bar</option>
-          <option value="pie">Pie Chart</option>
-          <option value="radial">Radial Meter</option>
+          @for (loc of availableLocales; track loc.code) {
+            <option [value]="loc.code">{{ loc.label }}</option>
+          }
         </select>
       </div>
-    }
+
+      <!-- Artifact Type Pill Selectors -->
+      <div class="designer-type-pills">
+        <button
+          type="button"
+          class="type-pill-btn"
+          [class.active]="selectedArtifactType() === 'tabular'"
+          (click)="setArtifactType('tabular')"
+        >
+          <span>📊 Tabular Report</span>
+        </button>
+        <button
+          type="button"
+          class="type-pill-btn"
+          [class.active]="selectedArtifactType() === 'graph'"
+          (click)="setArtifactType('graph')"
+        >
+          <span>📈 Visual Graph</span>
+        </button>
+        <button
+          type="button"
+          class="type-pill-btn"
+          [class.active]="selectedArtifactType() === 'kpi'"
+          (click)="setArtifactType('kpi')"
+        >
+          <span>⚡ Executive KPI</span>
+        </button>
+      </div>
+
+      <!-- Graph Type Sub-selector if Graph is active -->
+      @if (selectedArtifactType() === 'graph') {
+        <div class="designer-graph-select">
+          <label for="graphType">Visualization:</label>
+          <select
+            id="graphType"
+            class="designer-select"
+            [value]="selectedGraphType()"
+            (change)="setGraphType($any($event.target).value)"
+          >
+            <option value="bar">Bar Chart</option>
+            <option value="column">Column Chart</option>
+            <option value="stacked-bar">Stacked Bar</option>
+            <option value="pie">Pie Chart</option>
+            <option value="radial">Radial Meter</option>
+          </select>
+        </div>
+      }
+    </div>
   </div>
 
   <!-- Main 3-Column Workspace -->
-  <div class="gp-designer-workspace">
+  <div class="gp-designer-workspace" cdkDropListGroup>
     <!-- COLUMN 1: AVAILABLE FIELDS -->
     <div class="designer-col available-col">
       <div class="col-header">
         <h4>Dataset Fields</h4>
-        <span class="col-hint">Click + to add</span>
+        <span class="col-hint">Drag & drop or click +</span>
       </div>
 
       <div class="field-search-box">
@@ -90,7 +108,7 @@
           <div class="folder-group">
             <div class="folder-header" (click)="toggleFolder(folder.id)">
               <span class="folder-chevron">{{ expandedFolders().has(folder.id) ? '▼' : '▶' }}</span>
-              <span class="folder-name">{{ folder.name }}</span>
+              <span class="folder-name">{{ resolveFolderName(folder) }}</span>
               <span class="folder-count">({{ folder.fields.length }})</span>
             </div>
 
@@ -100,13 +118,30 @@
                   <div
                     class="field-pill-item"
                     [class.is-selected]="isFieldSelected(f.name)"
-                    (click)="addField(f)"
+                    cdkDrag
+                    [cdkDragData]="f"
                   >
-                    <div class="field-pill-left">
+                    <div class="field-pill-left" (click)="addField(f)">
+                      <span class="drag-grip-icon" title="Drag to Dropzone">⋮⋮</span>
                       <span class="type-tag" [attr.data-type]="f.dataType">{{ f.dataType.slice(0, 3) }}</span>
-                      <span class="field-label">{{ f.label }}</span>
+                      <span class="field-label" [title]="resolveFieldDescription(f)">{{ resolveFieldLabel(f) }}</span>
                     </div>
-                    <span class="field-add-icon">{{ isFieldSelected(f.name) ? '✓' : '+' }}</span>
+                    <div class="field-pill-actions">
+                      <button
+                        type="button"
+                        class="field-add-btn"
+                        (click)="addField(f); $event.stopPropagation()"
+                        [title]="isFieldSelected(f.name) ? 'Selected' : 'Add to Report'"
+                      >
+                        {{ isFieldSelected(f.name) ? '✓' : '+' }}
+                      </button>
+                    </div>
+
+                    <!-- Drag Preview Placeholder -->
+                    <div *cdkDragPreview class="drag-preview-pill">
+                      <span class="type-tag" [attr.data-type]="f.dataType">{{ f.dataType.slice(0, 3) }}</span>
+                      <span>{{ resolveFieldLabel(f) }}</span>
+                    </div>
                   </div>
                 }
               </div>
@@ -119,23 +154,29 @@
     <!-- COLUMN 2: REPORT BUILDER SPECIFICATION -->
     <div class="designer-col config-col">
       <div class="col-header">
-        <h4>Selected Dimensions & Measures</h4>
+        <h4>Report Specification</h4>
         <span class="col-count">{{ selectedFields().length }} fields selected</span>
       </div>
 
       <!-- Dimensions Dropzone / List -->
       <div class="spec-section">
         <div class="spec-section-header">
-          <span class="spec-title">Group By Dimensions (Rows/Categories)</span>
+          <span class="spec-title">📂 Group By Dimensions (Rows/Categories)</span>
           <span class="spec-count">{{ dimensions().length }}</span>
         </div>
 
-        <div class="spec-fields-list">
+        <div
+          class="spec-fields-list dropzone-area"
+          cdkDropList
+          id="dimensionsDropList"
+          (cdkDropListDropped)="onDropDimension($event)"
+        >
           @for (f of dimensions(); track f.field.name) {
-            <div class="configured-field-card">
+            <div class="configured-field-card" cdkDrag [cdkDragData]="f">
               <div class="field-card-main">
+                <span class="drag-grip-icon">⋮⋮</span>
                 <span class="type-tag" [attr.data-type]="f.field.dataType">{{ f.field.dataType.slice(0, 3) }}</span>
-                <span class="field-name">{{ f.field.label }}</span>
+                <span class="field-name">{{ resolveFieldLabel(f.field) }}</span>
               </div>
 
               <div class="field-card-controls">
@@ -162,7 +203,8 @@
           }
           @empty {
             <div class="spec-empty-drop">
-              Click dimensions from the left panel to group your data.
+              <span class="drop-hint-icon">📥</span>
+              <span>Drag dimensions here to group your data</span>
             </div>
           }
         </div>
@@ -171,16 +213,22 @@
       <!-- Measures Dropzone / List -->
       <div class="spec-section">
         <div class="spec-section-header">
-          <span class="spec-title">Aggregated Measures (Values/Metrics)</span>
+          <span class="spec-title">📊 Aggregated Measures (Values/Metrics)</span>
           <span class="spec-count">{{ measures().length }}</span>
         </div>
 
-        <div class="spec-fields-list">
+        <div
+          class="spec-fields-list dropzone-area"
+          cdkDropList
+          id="measuresDropList"
+          (cdkDropListDropped)="onDropMeasure($event)"
+        >
           @for (f of measures(); track f.field.name) {
-            <div class="configured-field-card">
+            <div class="configured-field-card" cdkDrag [cdkDragData]="f">
               <div class="field-card-main">
+                <span class="drag-grip-icon">⋮⋮</span>
                 <span class="type-tag" [attr.data-type]="f.field.dataType">{{ f.field.dataType.slice(0, 3) }}</span>
-                <span class="field-name">{{ f.field.label }}</span>
+                <span class="field-name">{{ resolveFieldLabel(f.field) }}</span>
               </div>
 
               <div class="field-card-controls">
@@ -226,7 +274,89 @@
           }
           @empty {
             <div class="spec-empty-drop">
-              Click numeric measures from the left panel to aggregate and calculate totals.
+              <span class="drop-hint-icon">📥</span>
+              <span>Drag numeric measures here to calculate metrics</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Filters Dropzone / List -->
+      <div class="spec-section">
+        <div class="spec-section-header">
+          <span class="spec-title">🔍 Localized Report Filters</span>
+          <span class="spec-count">{{ filters().length }}</span>
+        </div>
+
+        <div
+          class="spec-fields-list dropzone-area"
+          cdkDropList
+          id="filtersDropList"
+          (cdkDropListDropped)="onDropFilter($event)"
+        >
+          @for (flt of filters(); track flt.id) {
+            <div class="filter-card">
+              <div class="filter-card-header">
+                <span class="filter-field-name">
+                  {{ getFieldByName(flt.fieldName) ? resolveFieldLabel(getFieldByName(flt.fieldName)!) : flt.fieldName }}
+                </span>
+                <button
+                  type="button"
+                  class="remove-field-btn"
+                  (click)="removeFilter(flt.id)"
+                  title="Remove filter"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div class="filter-card-body">
+                <!-- Operator -->
+                <select
+                  class="mini-select"
+                  [value]="flt.operator"
+                  (change)="updateFilterOperator(flt.id, $any($event.target).value)"
+                >
+                  <option value="eq">Equals (=)</option>
+                  <option value="neq">Not Equals (≠)</option>
+                  <option value="contains">Contains text</option>
+                  <option value="startsWith">Starts with</option>
+                  <option value="gte">Greater or Equal (≥)</option>
+                  <option value="lte">Less or Equal (≤)</option>
+                  <option value="gt">Greater than (&gt;)</option>
+                  <option value="lt">Less than (&lt;)</option>
+                </select>
+
+                <!-- Value Input -->
+                <input
+                  type="text"
+                  class="filter-val-input"
+                  [value]="flt.value"
+                  (input)="updateFilterValue(flt.id, $any($event.target).value)"
+                  placeholder="Filter query..."
+                />
+              </div>
+
+              <!-- Match Mode: Raw value vs Localized display value -->
+              <div class="filter-match-row">
+                <span class="match-label">Match on:</span>
+                <select
+                  class="mini-select match-select"
+                  [value]="flt.matchTarget || 'both'"
+                  (change)="updateFilterTarget(flt.id, $any($event.target).value)"
+                  title="Evaluation target"
+                >
+                  <option value="both">Both (Raw & Localized)</option>
+                  <option value="display">Localized Display Only</option>
+                  <option value="raw">Raw Value Only</option>
+                </select>
+              </div>
+            </div>
+          }
+          @empty {
+            <div class="spec-empty-drop">
+              <span class="drop-hint-icon">🎯</span>
+              <span>Drag fields here to filter by raw value or translated display text</span>
             </div>
           }
         </div>
@@ -267,7 +397,7 @@
           <div class="preview-empty">
             <div class="empty-icon">📊</div>
             <h4>Report Preview Pending</h4>
-            <p>Select fields in the middle column to compile and preview the generated report.</p>
+            <p>Select or drag fields into dimensions and measures to compile your real-time report.</p>
           </div>
         }
       </div>
