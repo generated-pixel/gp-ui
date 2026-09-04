@@ -476,6 +476,9 @@
 .app-body {
   display: flex;
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .app-sidebar {
@@ -909,9 +912,12 @@
 
 .app-main-docs {
   flex: 1;
-  padding: 2rem 2.5rem;
+  min-width: 0;
   max-width: 1200px;
+  width: 100%;
+  padding: 2rem 2.5rem;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .site-footer {

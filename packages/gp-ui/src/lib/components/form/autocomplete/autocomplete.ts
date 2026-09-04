@@ -177,6 +177,7 @@ export class GpAutoComplete extends GpEditableBase implements ControlValueAccess
 
   constructor(public hostElRef: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_autocomplete_'));
 
     // Setup reactive effect to handle externalSelection Observable
     effect(() => {

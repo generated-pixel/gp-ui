@@ -17,6 +17,7 @@ import { GpIcon } from '../../../icons/icon';
 import { GpButton } from '../../button/button/button';
 import { GpDateRange, GpDateRangePreset } from './date-range-picker.interface';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-date-range-picker',
@@ -37,6 +38,11 @@ import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 export class GpDateRangePicker extends GpDateBase<GpDateRange> implements ControlValueAccessor {
   public hostElRef = inject(ElementRef);
   public override placeholder = input<string>('Select date range (e.g. Jan 1 - Jan 15)');
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_daterangepicker_'));
+  }
 
   public presets = input<GpDateRangePreset[]>([
     {
@@ -84,6 +90,7 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
   ]);
 
   public onRangeChange = output<GpDateRange>();
+  public rangeChange = output<GpDateRange>();
 
   protected hoverDate = signal<Date | null>(null);
 
@@ -103,7 +110,7 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
   }
 
   public override writeValue(obj: GpDateRange | null): void {
-    this.internalValue.set(obj);
+    this.internalValue.set(obj ?? null);
     if (obj?.start) {
       this.viewDate.set(new Date(obj.start));
     }
@@ -115,9 +122,11 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
 
   public clear(event: MouseEvent): void {
     event.stopPropagation();
-    this.updateValue({ start: null as any, end: null as any });
+    const emptyRange: GpDateRange = { start: null as any, end: null as any };
+    this.updateValue(emptyRange);
     this.handleControlBlur();
-    this.onRangeChange.emit({ start: null, end: null });
+    this.onRangeChange.emit(emptyRange);
+    this.rangeChange.emit(emptyRange);
   }
 
   public selectPreset(preset: GpDateRangePreset): void {
@@ -125,6 +134,7 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
     this.updateValue(range);
     this.handleControlBlur();
     this.onRangeChange.emit(range);
+    this.rangeChange.emit(range);
     this.closeOverlay();
   }
 
@@ -147,6 +157,7 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
       this.updateValue(completeRange);
       this.handleControlBlur();
       this.onRangeChange.emit(completeRange);
+      this.rangeChange.emit(completeRange);
     }
   }
 
@@ -196,6 +207,14 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
     return cells;
   });
 
+  private toMidnight(d: Date | null | undefined): number {
+    if (!d) {
+      return 0;
+    }
+    const date = d instanceof Date ? d : new Date(d);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+  }
+
   protected isStartDate(date: Date): boolean {
     const v = this.internalValue();
     return !!(v?.start && this.isSameDay(v.start, date));
@@ -211,7 +230,10 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
     if (!v?.start || !v?.end) {
       return false;
     }
-    return date > v.start && date < v.end;
+    const t = this.toMidnight(date);
+    const startT = this.toMidnight(v.start);
+    const endT = this.toMidnight(v.end);
+    return t > startT && t < endT;
   }
 
   protected isHoverRange(date: Date): boolean {
@@ -220,8 +242,10 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
     if (!v?.start || v.end || !h) {
       return false;
     }
-    const start = v.start;
-    return (date > start && date <= h) || (date < start && date >= h);
+    const t = this.toMidnight(date);
+    const startT = this.toMidnight(v.start);
+    const hoverT = this.toMidnight(h);
+    return (t > startT && t <= hoverT) || (t < startT && t >= hoverT);
   }
 
   public formatDate(d: Date | null): string {

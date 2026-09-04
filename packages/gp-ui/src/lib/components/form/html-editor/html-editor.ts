@@ -16,6 +16,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpEditableBase } from '../../../base/gp-editable-base';
 import { GpIcon } from '../../../icons/icon';
+import { UniqueId } from '../../../utils/unique-id';
 import { GpHtmlEditorControl, GpHtmlEditorCustomAction } from './html-editor.interface';
 
 const DEFAULT_CONTROLS: GpHtmlEditorControl[] = [
@@ -116,6 +117,7 @@ export class GpHtmlEditor extends GpEditableBase<string> implements ControlValue
 
   constructor(private el: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_htmleditor_'));
   }
 
   public override onInit(): void {

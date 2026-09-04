@@ -11,6 +11,7 @@ import {
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-rating',
@@ -38,6 +39,11 @@ export class GpRating extends GpEditableBase implements ControlValueAccessor {
 
   public onRate = output<{ value: number }>();
   public onCancel = output<void>();
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_rating_'));
+  }
 
   protected effectiveStars = computed(() => this.max() ?? this.stars());
   protected starsArray = computed(() => Array.from({ length: this.effectiveStars() }));

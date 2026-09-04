@@ -11,6 +11,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
 import { GpInputBase } from '../../../base/gp-input-base';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-password',
@@ -34,6 +35,11 @@ export class GpPassword extends GpInputBase<string> implements ControlValueAcces
 
   public showPassword = signal<boolean>(false);
   public focused = signal<boolean>(false);
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_password_'));
+  }
 
   public strengthScore = computed(() => {
     const val = this.internalValue() as string;

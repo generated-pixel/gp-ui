@@ -57,6 +57,7 @@ export class GpCascadeSelect extends GpEditableBase implements ControlValueAcces
 
   constructor(public hostElRef: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_cascadeselect_'));
   }
 
   @HostListener('document:click', ['$event'])

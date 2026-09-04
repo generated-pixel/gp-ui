@@ -3,6 +3,7 @@ import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRe
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
 import { GpInputBase } from '../../../base/gp-input-base';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-input-text',
@@ -22,6 +23,11 @@ import { GpInputBase } from '../../../base/gp-input-base';
 })
 export class GpInputText extends GpInputBase<string> implements ControlValueAccessor {
   public type = input<string>('text');
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_inputtext_'));
+  }
 
   public override writeValue(value: any): void {
     const str = value != null ? String(value) : '';

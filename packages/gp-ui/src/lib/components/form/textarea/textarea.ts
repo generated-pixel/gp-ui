@@ -2,6 +2,7 @@ import { Component, input, ChangeDetectionStrategy, ViewEncapsulation, forwardRe
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpInputBase } from '../../../base/gp-input-base';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-textarea',
@@ -24,6 +25,11 @@ export class GpTextarea extends GpInputBase<string> implements ControlValueAcces
   public cols = input<number>(30);
   public autoResize = input<boolean>(false);
   public showCounter = input<boolean>(true);
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_textarea_'));
+  }
 
   public override writeValue(value: any): void {
     const str = value != null ? String(value) : '';

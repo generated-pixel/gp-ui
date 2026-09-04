@@ -2,6 +2,7 @@ import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, f
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpInputBase } from '../../../base/gp-input-base';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-input-mask',
@@ -24,6 +25,11 @@ export class GpInputMask extends GpInputBase<string> implements ControlValueAcce
   public slotChar = input<string>('_');
 
   public onComplete = output<string>();
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_inputmask_'));
+  }
 
   public override writeValue(value: any): void {
     const formatted = value ? this.format(value) : '';

@@ -1,6 +1,8 @@
 import {
   Directive,
   input,
+  signal,
+  computed,
   inject,
   OnInit,
   OnChanges,
@@ -38,8 +40,30 @@ export abstract class GpBase implements GpLifecycle {
   /** Unique element identifier */
   public id = input<string>(UniqueId.generate('gp_'));
 
+  /** Input signal for consumer-provided input identifier */
+  public inputIdInput = input<string>('', { alias: 'inputId' });
+
+  /** Component-level generated default input identifier */
+  public defaultInputId = signal<string>('');
+
+  /** Lazy fallback input identifier if not specified at component level or consumer level */
+  private fallbackInputId: string | null = null;
+
   /** Unique input identifier for native form controls, labels, and aria associations */
-  public inputId = input<string>(UniqueId.generate('gp_input_'));
+  public inputId = computed<string>(() => {
+    const custom = this.inputIdInput();
+    if (custom) {
+      return custom;
+    }
+    const compDefault = this.defaultInputId();
+    if (compDefault) {
+      return compDefault;
+    }
+    if (!this.fallbackInputId) {
+      this.fallbackInputId = UniqueId.generate('gp_input_');
+    }
+    return this.fallbackInputId;
+  });
 
   /** Custom CSS classes applied to host or root container */
   public styleClass = input<string>('');

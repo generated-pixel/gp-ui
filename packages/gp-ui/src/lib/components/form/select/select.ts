@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
 import { ObjectUtils } from '../../../utils/object-utils';
+import { UniqueId } from '../../../utils/unique-id';
 import { GpSelectBase, GpSelectItem } from '../../../base/gp-select-base';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 
@@ -34,6 +35,11 @@ export { GpSelectItem };
 })
 export class GpSelect extends GpSelectBase<any> implements ControlValueAccessor {
   public itemTemplate = contentChild<TemplateRef<any>>('item');
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_select_'));
+  }
 
   public selectedItem = computed<GpSelectItem | undefined>(() => {
     const val = this.internalValue();

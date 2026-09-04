@@ -11,6 +11,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
 import { GpInputBase } from '../../../base/gp-input-base';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-input-number',
@@ -40,6 +41,11 @@ export class GpInputNumber extends GpInputBase<number> implements ControlValueAc
   public suffix = input<string>('');
 
   public onValueChange = output<number | null>();
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_inputnumber_'));
+  }
 
   public displayValue = computed(() => {
     const val = this.internalValue();
