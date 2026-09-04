@@ -23,6 +23,11 @@ import { GpCheckableBase } from '../../../base/gp-checkable-base';
 export class GpSwitch extends GpCheckableBase implements ControlValueAccessor {
   public label = input<string>('');
 
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_switch_'));
+  }
+
   public toggle(event: Event): void {
     this.handleToggle(event);
   }

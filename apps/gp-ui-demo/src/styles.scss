@@ -1,4 +1,10 @@
 /* Demo Application Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --gp-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --app-sidebar-width: 280px;

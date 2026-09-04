@@ -412,24 +412,93 @@ import { DocCode } from '../../shared/doc-code';
 
               <div class="simulator-layout">
                 <div class="sim-input-col">
-                  <label class="sim-lbl">Initial Mock State (JSON):</label>
-                  <textarea
-                    class="sim-textarea"
-                    rows="8"
-                    [ngModel]="simStateJson()"
-                    (ngModelChange)="simStateJson.set($event)"
-                  ></textarea>
+                  <div class="sim-editor-toolbar">
+                    <div class="sim-editor-title-wrap">
+                      <label class="sim-lbl" for="sim-state-editor">Initial Mock State (JSON):</label>
+                      @if (simJsonError()) {
+                        <span class="sim-status-badge sim-status-badge--error">
+                          <gp-icon name="exclamation-triangle" size="0.75em" />
+                          Invalid JSON
+                        </span>
+                      } @else {
+                        <span class="sim-status-badge sim-status-badge--success">
+                          <gp-icon name="check-circle" size="0.75em" />
+                          Valid JSON
+                        </span>
+                      }
+                    </div>
+
+                    <div class="sim-editor-actions">
+                      <gp-button
+                        variant="text"
+                        severity="secondary"
+                        size="sm"
+                        title="Format JSON (Indent 2 spaces)"
+                        [disabled]="isSimulating() || !!simJsonError()"
+                        (onClickEvent)="formatSimulatorJson()"
+                      >
+                        <gp-icon name="code" size="0.85em" style="margin-right: 0.35rem" />
+                        Format JSON
+                      </gp-button>
+                      <gp-button
+                        variant="text"
+                        severity="secondary"
+                        size="sm"
+                        title="Reset to default mock state"
+                        [disabled]="isSimulating()"
+                        (onClickEvent)="resetSimulatorJson()"
+                      >
+                        <gp-icon name="refresh" size="0.85em" style="margin-right: 0.35rem" />
+                        Reset
+                      </gp-button>
+                    </div>
+                  </div>
+
+                  <div class="sim-textarea-wrapper" [class.is-invalid]="!!simJsonError()">
+                    <textarea
+                      id="sim-state-editor"
+                      class="sim-textarea"
+                      rows="10"
+                      spellcheck="false"
+                      [value]="simStateJson()"
+                      (input)="onSimStateChange($any($event.target).value)"
+                      (keydown)="onSimStateKeydown($event)"
+                      placeholder="Enter valid JSON mock state..."
+                    ></textarea>
+                  </div>
+
+                  @if (simJsonError(); as err) {
+                    <div class="sim-json-error">
+                      <gp-icon name="exclamation-triangle" size="0.85em" />
+                      <span>{{ err }}</span>
+                    </div>
+                  }
 
                   <div class="sim-btn-row">
-                    <gp-button severity="primary" (onClickEvent)="runSimulation()">
-                      <gp-icon name="play" size="0.9em" style="margin-right: 0.35rem" />
-                      Run Simulation
+                    <gp-button
+                      severity="primary"
+                      size="md"
+                      [loading]="isSimulating()"
+                      [disabled]="isSimulating() || !!simJsonError()"
+                      (onClickEvent)="runSimulation()"
+                    >
+                      <gp-icon name="play" size="0.9em" style="margin-right: 0.4rem" />
+                      {{ isSimulating() ? 'Simulating Rules...' : 'Run Simulation' }}
                     </gp-button>
+
+                    <span class="sim-run-hint">
+                      <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run
+                    </span>
                   </div>
                 </div>
 
                 <div class="sim-output-col">
-                  <label class="sim-lbl">Simulation Output & Diff:</label>
+                  <div class="sim-output-header">
+                    <label class="sim-lbl">Simulation Output & Diff:</label>
+                    @if (simulationResult(); as res) {
+                      <gp-badge [value]="res.matchedRules.length + ' matched'" severity="success" />
+                    }
+                  </div>
                   @if (simulationResult(); as res) {
                     <div class="sim-result-box">
                       <div class="sim-meta-row">
@@ -469,6 +538,20 @@ import { DocCode } from '../../shared/doc-code';
       <!-- TAB 3: API & Operator Reference -->
       @if (activeTab() === 'api') {
         <div class="api-docs-container">
+          <!-- Installation Section -->
+          <div class="doc-card">
+            <div class="doc-card-header">
+              <gp-icon name="download" size="1em" />
+              <span>Package Installation</span>
+            </div>
+            <div class="doc-card-body">
+              <p style="margin-top: 0; color: var(--gp-text-color-secondary); font-size: var(--gp-font-size-sm);">
+                Install <code>@generatedpixel/gp-rules</code> into your Angular 19+ application:
+              </p>
+              <doc-code code="npm install @generatedpixel/gp-rules" language="bash" />
+            </div>
+          </div>
+
           <!-- Triggers Section -->
           <div class="doc-card">
             <div class="doc-card-header">
@@ -811,6 +894,14 @@ import { DocCode } from '../../shared/doc-code';
         color: var(--gp-text-color, #1e293b);
       }
 
+      .doc-card-body {
+        padding: 1.25rem 1.5rem;
+      }
+
+      .doc-card-body:has(> .doc-table) {
+        padding: 0;
+      }
+
       .showcase-grid {
         display: grid;
         grid-template-columns: 1.35fr 1fr;
@@ -1041,21 +1132,135 @@ import { DocCode } from '../../shared/doc-code';
         font-size: 0.8125rem;
         font-weight: 700;
         color: var(--gp-text-color, #334155);
-        margin-bottom: 0.4rem;
+        margin: 0;
+      }
+
+      .sim-editor-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        min-height: 32px;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .sim-editor-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .sim-status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.725rem;
+        font-weight: 600;
+        padding: 0.15rem 0.5rem;
+        border-radius: 9999px;
+      }
+
+      .sim-status-badge--success {
+        background: var(--gp-success-light, #dcfce7);
+        color: var(--gp-success, #16a34a);
+      }
+
+      .sim-status-badge--error {
+        background: var(--gp-danger-light, #fee2e2);
+        color: var(--gp-danger, #dc2626);
+      }
+
+      .sim-editor-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .sim-textarea-wrapper {
+        border-radius: var(--gp-border-radius, 8px);
+        border: 1px solid var(--gp-surface-border, #cbd5e1);
+        background: var(--gp-surface-card, #ffffff);
+        overflow: hidden;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .sim-textarea-wrapper:focus-within {
+        border-color: var(--gp-primary, #6366f1);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+      }
+
+      .sim-textarea-wrapper.is-invalid {
+        border-color: var(--gp-danger, #ef4444);
+      }
+
+      .sim-textarea-wrapper.is-invalid:focus-within {
+        border-color: var(--gp-danger, #ef4444);
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
       }
 
       .sim-textarea {
         width: 100%;
-        padding: 0.75rem;
-        font-family: monospace;
+        padding: 0.875rem 1rem;
+        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
         font-size: 0.8125rem;
-        border-radius: var(--gp-border-radius, 8px);
-        border: 1px solid var(--gp-surface-border, #cbd5e1);
+        line-height: 1.6;
+        tab-size: 2;
+        color: var(--gp-text-color, #0f172a);
+        background: transparent;
+        border: none;
+        outline: none;
+        resize: vertical;
         box-sizing: border-box;
+        display: block;
+        min-height: 210px;
+      }
+
+      .sim-json-error {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--gp-danger-light, #fef2f2);
+        color: var(--gp-danger, #dc2626);
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        border-radius: var(--gp-border-radius, 6px);
+        border: 1px solid var(--gp-danger-border, #fecaca);
+        margin-top: 0.5rem;
+      }
+
+      .sim-output-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        min-height: 32px;
       }
 
       .sim-btn-row {
-        margin-top: 0.75rem;
+        margin-top: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        flex-wrap: wrap;
+      }
+
+      .sim-run-hint {
+        font-size: 0.75rem;
+        color: var(--gp-text-color-secondary, #64748b);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .sim-run-hint kbd {
+        background: var(--gp-surface-ground, #f1f5f9);
+        border: 1px solid var(--gp-surface-border, #cbd5e1);
+        border-radius: 4px;
+        padding: 0.15rem 0.4rem;
+        font-size: 0.7rem;
+        font-family: inherit;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
       }
 
       .sim-result-box {
@@ -1211,21 +1416,18 @@ export class RulesDemo implements OnInit {
   public stateOptions = signal<Array<{ label: string; value: string }>>(STATES_BY_COUNTRY['US'] || []);
 
   // Simulator tab state
-  public simStateJson = signal<string>(
-    JSON.stringify(
-      {
-        quantity: 5,
-        unitPrice: 40,
-        couponCode: 'SAVE20',
-        discountPercent: 0,
-        subtotal: 0,
-        total: 0
-      },
-      null,
-      2
-    )
-  );
+  private readonly defaultSimState = {
+    quantity: 5,
+    unitPrice: 40,
+    couponCode: 'SAVE20',
+    discountPercent: 0,
+    subtotal: 0,
+    total: 0
+  };
 
+  public simStateJson = signal<string>(JSON.stringify(this.defaultSimState, null, 2));
+  public simJsonError = signal<string | null>(null);
+  public isSimulating = signal<boolean>(false);
   public simulationResult = signal<GpRuleSimulationResult | null>(null);
 
   // Preset Rules
@@ -1410,9 +1612,79 @@ export const advancedPricingRule: GpBusinessRule = {
     this.toastService.success('Rule Registered', `Successfully registered rule "${rule.name || rule.id}"`);
   }
 
+  public onSimStateChange(value: string): void {
+    this.simStateJson.set(value);
+    this.validateSimJson(value);
+  }
+
+  public onSimStateKeydown(event: KeyboardEvent): void {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+      event.preventDefault();
+      if (!this.simJsonError() && !this.isSimulating()) {
+        this.runSimulation();
+      }
+      return;
+    }
+
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      const textarea = event.target as HTMLTextAreaElement;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const val = textarea.value;
+      const newVal = val.substring(0, start) + '  ' + val.substring(end);
+      this.simStateJson.set(newVal);
+      this.validateSimJson(newVal);
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 2;
+      });
+    }
+  }
+
+  public formatSimulatorJson(): void {
+    try {
+      const parsed = JSON.parse(this.simStateJson());
+      this.simStateJson.set(JSON.stringify(parsed, null, 2));
+      this.simJsonError.set(null);
+      this.toastService.success('Formatted', 'JSON state formatted cleanly with 2-space indentation.');
+    } catch (err: any) {
+      this.simJsonError.set(err?.message || 'Invalid JSON format');
+      this.toastService.error('Format Error', 'Unable to format invalid JSON. Please correct syntax errors.');
+    }
+  }
+
+  public resetSimulatorJson(): void {
+    this.simStateJson.set(JSON.stringify(this.defaultSimState, null, 2));
+    this.simJsonError.set(null);
+    this.toastService.info('Reset', 'Mock state restored to default payload.');
+  }
+
+  private validateSimJson(val: string): boolean {
+    if (!val || !val.trim()) {
+      this.simJsonError.set('Initial state JSON cannot be empty.');
+      return false;
+    }
+    try {
+      JSON.parse(val);
+      this.simJsonError.set(null);
+      return true;
+    } catch (err: any) {
+      this.simJsonError.set(err?.message || 'Invalid JSON format');
+      return false;
+    }
+  }
+
   public async runSimulation(): Promise<void> {
+    if (!this.validateSimJson(this.simStateJson())) {
+      this.toastService.error('Simulation Error', 'Please fix JSON syntax errors before running simulation.');
+      return;
+    }
+
+    this.isSimulating.set(true);
     try {
       const mockState = JSON.parse(this.simStateJson());
+      // Brief pause to provide visible feedback for the user
+      await new Promise((resolve) => setTimeout(resolve, 150));
       const result = await GpRuleSimulator.simulate({
         rules: this.engine.rules(),
         initialState: mockState,
@@ -1425,6 +1697,8 @@ export const advancedPricingRule: GpBusinessRule = {
       );
     } catch (err: any) {
       this.toastService.error('Simulation Error', `Invalid JSON or execution error: ${err?.message || err}`);
+    } finally {
+      this.isSimulating.set(false);
     }
   }
 }

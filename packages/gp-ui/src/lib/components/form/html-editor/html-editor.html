@@ -389,6 +389,7 @@
     @if (!isSourceMode()) {
     <div
       #contentArea
+      [id]="inputId()"
       class="gp-html-editor__content"
       [attr.contenteditable]="!readonly()"
       [attr.placeholder]="placeholder() || 'Start typing...'"
@@ -402,6 +403,7 @@
     } @else {
     <textarea
       #sourceTextarea
+      [id]="inputId()"
       class="gp-html-editor__source"
       [style.min-height]="height()"
       [ngModel]="internalValue() || ''"

@@ -4,6 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 import { GpIcon } from '../../../icons/icon';
 import { GpSelectBase, GpSelectItem } from '../../../base/gp-select-base';
 import { ObjectUtils } from '../../../utils/object-utils';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-listbox',
@@ -24,6 +25,11 @@ import { ObjectUtils } from '../../../utils/object-utils';
 export class GpListbox extends GpSelectBase<any> implements ControlValueAccessor {
   public multiple = input<boolean>(false);
   public override filter = input<boolean>(true);
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_listbox_'));
+  }
 
   public isSelected(opt: GpSelectItem): boolean {
     const current = this.internalValue();

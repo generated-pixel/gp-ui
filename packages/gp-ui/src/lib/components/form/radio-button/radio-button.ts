@@ -24,6 +24,11 @@ import { GpCheckableBase } from '../../../base/gp-checkable-base';
 export class GpRadioButton extends GpCheckableBase implements ControlValueAccessor {
   public label = input<string>('');
 
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_radio_'));
+  }
+
   public override onInit(): void {
     // For radio button, valueInput is the radio's own option value, not the selected group value.
     const optVal = this.valueInput();

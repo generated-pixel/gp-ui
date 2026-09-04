@@ -14,6 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpIcon } from '../../../icons/icon';
 import { GpRippleDirective } from '../../../directives/ripple.directive';
 import { GpButtonSeverity, GpButtonSize, GpIconPosition } from '../../../base/gp-button-base';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-toggle-button',
@@ -41,6 +42,11 @@ export class GpToggleButton extends GpEditableBase implements ControlValueAccess
   public severity = input<GpButtonSeverity>('primary');
   public autofocus = input<boolean>(false);
   public tabindex = input<number | undefined>(undefined);
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_togglebutton_'));
+  }
 
   public onChange = output<{ checked: boolean; originalEvent: Event }>();
   public onClickEvent = output<MouseEvent>();

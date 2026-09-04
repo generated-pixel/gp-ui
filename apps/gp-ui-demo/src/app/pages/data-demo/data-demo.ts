@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { GpTable, GpColumn, GpButton, GpTag, GpDataView, GpExportService } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-data-demo',
@@ -112,8 +113,15 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpTable Properties (Inputs)" [properties]="tableProperties" />
-        <doc-api-table title="GpColumn Properties (Inputs)" [properties]="columnProperties" />
+        <doc-api-table title="GpTable Properties &amp; Signal Inputs" [properties]="tableProperties" />
+        <doc-api-table title="GpColumn Properties &amp; Signal Inputs" [properties]="columnProperties" />
+        <doc-api-table title="GpDataView Properties &amp; Signal Inputs" [properties]="dataViewProperties" />
+        <doc-api-table title="GpPaginator Properties &amp; Signal Inputs" [properties]="paginatorProperties" />
+        <doc-api-table title="GpTreeTable Properties &amp; Signal Inputs" [properties]="treeTableProperties" />
+        <doc-api-table
+          title="GpVirtualScroller Properties &amp; Signal Inputs"
+          [properties]="virtualScrollerProperties"
+        />
       </div>
     </div>
   `,
@@ -240,50 +248,10 @@ export class DataDemo {
     { name: 'Gold Phone Case', category: 'Accessories', price: 24, inventoryStatus: 'INSTOCK' }
   ];
 
-  tableProperties: DocApiProperty[] = [
-    { name: 'value', type: 'any[]', default: '[]', description: 'Array of data records to display.' },
-    {
-      name: 'paginator',
-      type: 'boolean',
-      default: 'false',
-      description: 'Enables built-in paginator at the bottom of the table.'
-    },
-    { name: 'rows', type: 'number', default: '10', description: 'Number of rows shown per page.' },
-    {
-      name: 'rowsPerPageOptions',
-      type: 'number[]',
-      default: '[5, 10, 20]',
-      description: 'Options for rows-per-page dropdown selector.'
-    },
-    {
-      name: 'stripedRows',
-      type: 'boolean',
-      default: 'false',
-      description: 'Applies alternating zebra-stripe background colors to rows.'
-    },
-    {
-      name: 'selectionMode',
-      type: "'single' | 'multiple' | null",
-      default: 'null',
-      description: 'Specifies row selection mode.'
-    },
-    {
-      name: 'selection',
-      type: 'any | any[]',
-      default: 'null',
-      description: 'Currently selected item or array of selected items.'
-    }
-  ];
-
-  columnProperties: DocApiProperty[] = [
-    { name: 'field', type: 'string', default: "''", description: 'Property key name from each data object.' },
-    { name: 'header', type: 'string', default: "''", description: 'Header column title.' },
-    {
-      name: 'sortable',
-      type: 'boolean',
-      default: 'false',
-      description: 'Enables interactive header sort click sorting.'
-    },
-    { name: 'width', type: 'string', default: "''", description: 'Custom CSS width for the column (e.g. "8rem").' }
-  ];
+  tableProperties: DocApiProperty[] = getComponentDoc('table')?.properties ?? [];
+  columnProperties: DocApiProperty[] = getComponentDoc('column')?.properties ?? [];
+  dataViewProperties: DocApiProperty[] = getComponentDoc('data-view')?.properties ?? [];
+  paginatorProperties: DocApiProperty[] = getComponentDoc('paginator')?.properties ?? [];
+  treeTableProperties: DocApiProperty[] = getComponentDoc('tree-table')?.properties ?? [];
+  virtualScrollerProperties: DocApiProperty[] = getComponentDoc('virtual-scroller')?.properties ?? [];
 }

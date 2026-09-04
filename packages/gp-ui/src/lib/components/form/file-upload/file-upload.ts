@@ -3,6 +3,7 @@ import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, s
 
 import { GpIcon } from '../../../icons/icon';
 import { GpButton } from '../../button/button/button';
+import { UniqueId } from '../../../utils/unique-id';
 
 export interface GpFileItem {
   file: File;
@@ -30,6 +31,11 @@ export class GpFileUpload extends GpEditableBase {
   public uploadLabel = input<string>('Upload');
   public cancelLabel = input<string>('Clear');
   public icon = input<string>('upload');
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_fileupload_'));
+  }
 
   public onSelect = output<{ files: File[] }>();
   public onUpload = output<{ files: File[] }>();

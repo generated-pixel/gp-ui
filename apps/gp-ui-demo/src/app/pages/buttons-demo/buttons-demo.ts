@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, GpMenuItem } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-buttons-demo',
@@ -103,8 +104,11 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpButton Properties (Inputs)" [properties]="buttonProperties" />
-        <doc-api-table title="GpButton Events (Outputs)" [properties]="buttonEvents" [hasDefaults]="false" />
+        <doc-api-table title="GpButton Properties &amp; Signal Inputs" [properties]="buttonProperties" />
+        <doc-api-table title="GpButton Events &amp; Outputs" [properties]="buttonEvents" [hasDefaults]="false" />
+        <doc-api-table title="GpSplitButton Properties &amp; Signal Inputs" [properties]="splitButtonProperties" />
+        <doc-api-table title="GpSpeedDial Properties &amp; Signal Inputs" [properties]="speedDialProperties" />
+        <doc-api-table title="GpToggleButton Properties &amp; Signal Inputs" [properties]="toggleButtonProperties" />
       </div>
     </div>
   `
@@ -161,66 +165,9 @@ export class ButtonsDemo {
     { label: 'Delete', icon: 'trash' }
   ];
 
-  buttonProperties: DocApiProperty[] = [
-    { name: 'label', type: 'string', default: "''", description: 'Text label displayed on the button.' },
-    { name: 'icon', type: 'string', default: "''", description: 'Icon name from the built-in SVG icon registry.' },
-    {
-      name: 'iconPos',
-      type: "'left' | 'right' | 'top' | 'bottom'",
-      default: "'left'",
-      description: 'Position of the icon relative to the label.'
-    },
-    {
-      name: 'severity',
-      type: "'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast'",
-      default: "'primary'",
-      description: 'Semantic color scheme.'
-    },
-    {
-      name: 'variant',
-      type: "'filled' | 'outlined' | 'text' | 'tonal' | 'elevated' | 'link'",
-      default: "'filled'",
-      description: 'Visual style variant.'
-    },
-    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Button size dimensions.' },
-    {
-      name: 'rounded',
-      type: 'boolean',
-      default: 'false',
-      description: 'Renders the button with fully pill-rounded borders.'
-    },
-    {
-      name: 'iconOnly',
-      type: 'boolean',
-      default: 'false',
-      description: 'Renders a square/circle button without text margins.'
-    },
-    {
-      name: 'disabled',
-      type: 'boolean',
-      default: 'false',
-      description: 'Disables user interactions and applies disabled styling.'
-    },
-    {
-      name: 'loading',
-      type: 'boolean',
-      default: 'false',
-      description: 'Displays a spinning loading indicator and prevents click events.'
-    },
-    { name: 'badge', type: 'string', default: "''", description: 'Optional badge value displayed inside the button.' },
-    {
-      name: 'styleClass',
-      type: 'string',
-      default: "''",
-      description: 'Custom CSS class attached to the root container.'
-    }
-  ];
-
-  buttonEvents: DocApiProperty[] = [
-    {
-      name: 'onClickEvent',
-      type: 'EventEmitter<MouseEvent>',
-      description: 'Fires when the button is clicked and not in disabled/loading state.'
-    }
-  ];
+  buttonProperties: DocApiProperty[] = getComponentDoc('button')?.properties ?? [];
+  buttonEvents: DocApiProperty[] = getComponentDoc('button')?.events ?? [];
+  splitButtonProperties: DocApiProperty[] = getComponentDoc('split-button')?.properties ?? [];
+  speedDialProperties: DocApiProperty[] = getComponentDoc('speed-dial')?.properties ?? [];
+  toggleButtonProperties: DocApiProperty[] = getComponentDoc('toggle-button')?.properties ?? [];
 }

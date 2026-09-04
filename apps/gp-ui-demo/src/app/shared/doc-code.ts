@@ -33,6 +33,9 @@ import { GpButton } from 'gp-ui';
         overflow: hidden;
         margin: 1rem 0;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
       }
       .doc-code-header {
         display: flex;
@@ -41,6 +44,7 @@ import { GpButton } from 'gp-ui';
         padding: 0.5rem 1rem;
         background: rgba(255, 255, 255, 0.05);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-sizing: border-box;
       }
       .doc-code-lang {
         font-family: 'JetBrains Mono', monospace;
@@ -78,6 +82,10 @@ import { GpButton } from 'gp-ui';
         font-size: 0.85rem;
         line-height: 1.6;
         color: #e2e8f0;
+        max-width: 100%;
+        box-sizing: border-box;
+        white-space: pre-wrap;
+        word-break: break-word;
       }
       .doc-code-pre code {
         background: transparent;

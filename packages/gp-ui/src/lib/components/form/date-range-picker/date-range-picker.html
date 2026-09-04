@@ -1,7 +1,8 @@
-<div class="gp-date-range" [class.gp-date-range--open]="isOpen()" [class.gp-date-range--disabled]="disabled()">
+<div class="gp-date-range" [class.gp-date-range--open]="isOpen()" [class.gp-date-range--disabled]="isEffectivelyDisabled()">
   <!-- Input Trigger Display -->
   <div
     class="gp-date-range__input-wrap"
+    [id]="inputId()"
     role="button"
     tabindex="0"
     [attr.aria-haspopup]="'dialog'"
@@ -12,8 +13,13 @@
     (keydown.space)="$event.preventDefault(); toggleOpen()"
   >
     <gp-icon name="calendar" class="gp-date-range__icon" />
-    <span class="gp-date-range__display-text">{{ formattedRange() || placeholder() }}</span>
-    @if (value()?.start && !disabled()) {
+    <span
+      class="gp-date-range__display-text"
+      [class.gp-date-range__display-text--placeholder]="!formattedRange()"
+    >
+      {{ formattedRange() || placeholder() }}
+    </span>
+    @if (internalValue()?.start && !isEffectivelyDisabled()) {
     <button type="button" class="gp-date-range__clear-btn" (click)="clear($event)" aria-label="Clear date range">
       <gp-icon name="times" size="0.8em" />
     </button>
@@ -27,6 +33,7 @@
     class="gp-date-range__overlay"
     role="dialog"
     aria-label="Date Range Picker"
+    (click)="$event.stopPropagation()"
     [gpAppendTo]="appendTo()"
     [gpConnectedTo]="hostElRef"
   >
@@ -56,7 +63,7 @@
 
       <!-- Weekday Header Row -->
       <div class="gp-date-range__weekdays">
-        @for (day of ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; track day) {
+        @for (day of weekDayNames(); track day) {
         <span>{{ day }}</span>
         }
       </div>
@@ -85,11 +92,11 @@
       <!-- Bottom Actions -->
       <div class="gp-date-range__footer">
         <span class="gp-date-range__selection-status">
-          {{ value()?.start ? formatDate(value()!.start) : 'Select start date' }} @if (value()?.end) {
-          <span> &rarr; {{ formatDate(value()!.end) }}</span>
+          {{ internalValue()?.start ? formatDate(internalValue()!.start) : 'Select start date' }} @if (internalValue()?.end) {
+          <span> &rarr; {{ formatDate(internalValue()!.end) }}</span>
           }
         </span>
-        <gp-button label="Done" size="sm" severity="primary" (onClickEvent)="isOpen.set(false)" />
+        <gp-button label="Done" size="sm" severity="primary" (onClickEvent)="closeOverlay()" />
       </div>
     </div>
   </div>

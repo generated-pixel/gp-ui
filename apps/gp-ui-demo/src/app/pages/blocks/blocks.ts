@@ -246,6 +246,10 @@ export interface BlockItem {
               <gp-icon name="sparkles" size="1em" />
               <span>Interactive JSON Schema Playground</span>
             </a>
+            <div class="hero-install-code">
+              <gp-icon name="download" size="0.9em" />
+              <code>npm install @generatedpixel/gp-blocks</code>
+            </div>
           </div>
         </div>
       </div>
@@ -1067,6 +1071,28 @@ export interface BlockItem {
 
       .hero-actions {
         margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .hero-install-code {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--gp-surface-ground);
+        border: 1px solid var(--gp-surface-border);
+        border-radius: 8px;
+        padding: 0.6rem 1rem;
+        color: var(--gp-text-color);
+        font-size: 0.875rem;
+      }
+
+      .hero-install-code code {
+        color: var(--gp-primary);
+        font-weight: 600;
+        font-family: monospace;
       }
 
       .btn-playground {

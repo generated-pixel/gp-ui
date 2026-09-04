@@ -48,6 +48,7 @@ export class GpDatePicker extends GpDateBase implements ControlValueAccessor {
 
   constructor(public hostElRef: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_datepicker_'));
   }
 
   @HostListener('document:click', ['$event'])

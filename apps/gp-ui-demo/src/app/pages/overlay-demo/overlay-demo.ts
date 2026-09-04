@@ -15,6 +15,7 @@ import {
 } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
+import { getComponentDoc } from '../component-docs/component-docs.data';
 
 @Component({
   selector: 'app-overlay-demo',
@@ -175,10 +176,15 @@ import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
       <!-- API Reference -->
       <div class="doc-section">
         <h2 class="doc-section-title">API Reference</h2>
-        <doc-api-table title="GpCommandPalette Properties (Inputs)" [properties]="commandPaletteProperties" />
-        <doc-api-table title="GpBottomSheet Properties (Inputs)" [properties]="bottomSheetProperties" />
-        <doc-api-table title="GpDialog Properties (Inputs)" [properties]="dialogProperties" />
-        <doc-api-table title="GpDrawer Properties (Inputs)" [properties]="drawerProperties" />
+        <doc-api-table title="GpDialog Properties &amp; Signal Inputs" [properties]="dialogProperties" />
+        <doc-api-table title="GpDrawer Properties &amp; Signal Inputs" [properties]="drawerProperties" />
+        <doc-api-table
+          title="GpCommandPalette Properties &amp; Signal Inputs"
+          [properties]="commandPaletteProperties"
+        />
+        <doc-api-table title="GpBottomSheet Properties &amp; Signal Inputs" [properties]="bottomSheetProperties" />
+        <doc-api-table title="GpConfirmDialog Properties &amp; Signal Inputs" [properties]="confirmDialogProperties" />
+        <doc-api-table title="GpPopover Properties &amp; Signal Inputs" [properties]="popoverProperties" />
       </div>
     </div>
   `
@@ -297,67 +303,10 @@ export class OverlayDemo {
     alert(`Command Executed: ${item.title}`);
   }
 
-  commandPaletteProperties: DocApiProperty[] = [
-    { name: 'items', type: 'GpCommandItem[]', default: '[]', description: 'List of command items and nested actions.' },
-    {
-      name: 'shortcut',
-      type: 'string',
-      default: "'meta.k, ctrl.k'",
-      description: 'Global shortcut to toggle command palette.'
-    },
-    {
-      name: 'placeholder',
-      type: 'string',
-      default: "'Type a command...'",
-      description: 'Placeholder for omnibar search input.'
-    },
-    { name: 'visible', type: 'boolean', default: 'false', description: 'Two-way binding for palette visibility.' }
-  ];
-
-  bottomSheetProperties: DocApiProperty[] = [
-    { name: 'visible', type: 'boolean', default: 'false', description: 'Controls bottom sheet open/close state.' },
-    { name: 'title', type: 'string', default: 'undefined', description: 'Header title text.' },
-    {
-      name: 'showDragHandle',
-      type: 'boolean',
-      default: 'true',
-      description: 'Displays top drag bar for touch gestures.'
-    },
-    {
-      name: 'dismissable',
-      type: 'boolean',
-      default: 'true',
-      description: 'Allows backdrop touch and swipe-down dismissal.'
-    },
-    { name: 'maxHeight', type: 'string', default: "'80vh'", description: 'Maximum height of sheet in viewport.' }
-  ];
-
-  dialogProperties: DocApiProperty[] = [
-    { name: 'header', type: 'string', default: "''", description: 'Title text in dialog header bar.' },
-    { name: 'visible', type: 'boolean', default: 'false', description: 'Controls modal open/close state.' },
-    {
-      name: 'modal',
-      type: 'boolean',
-      default: 'true',
-      description: 'Renders a backdrop overlay mask behind the dialog.'
-    },
-    { name: 'closable', type: 'boolean', default: 'true', description: 'Renders a top-right close icon button.' },
-    {
-      name: 'maximizable',
-      type: 'boolean',
-      default: 'false',
-      description: 'Renders a maximize/restore viewport toggle.'
-    }
-  ];
-
-  drawerProperties: DocApiProperty[] = [
-    { name: 'header', type: 'string', default: "''", description: 'Header title text.' },
-    {
-      name: 'position',
-      type: "'left' | 'right' | 'top' | 'bottom'",
-      default: "'left'",
-      description: 'Sliding origin side.'
-    },
-    { name: 'visible', type: 'boolean', default: 'false', description: 'Controls drawer open/close visibility.' }
-  ];
+  commandPaletteProperties: DocApiProperty[] = getComponentDoc('command-palette')?.properties ?? [];
+  bottomSheetProperties: DocApiProperty[] = getComponentDoc('bottom-sheet')?.properties ?? [];
+  dialogProperties: DocApiProperty[] = getComponentDoc('dialog')?.properties ?? [];
+  drawerProperties: DocApiProperty[] = getComponentDoc('drawer')?.properties ?? [];
+  confirmDialogProperties: DocApiProperty[] = getComponentDoc('confirm-dialog')?.properties ?? [];
+  popoverProperties: DocApiProperty[] = getComponentDoc('popover')?.properties ?? [];
 }

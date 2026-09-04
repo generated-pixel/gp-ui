@@ -14,6 +14,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 import { GpAppendToTarget } from '../../../overlay/append-to.interface';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-color-picker',
@@ -60,6 +61,7 @@ export class GpColorPicker extends GpEditableBase implements ControlValueAccesso
 
   constructor(public hostElementRef: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_colorpicker_'));
   }
 
   @HostListener('document:click', ['$event'])

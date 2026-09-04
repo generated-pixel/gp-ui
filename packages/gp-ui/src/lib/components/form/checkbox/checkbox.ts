@@ -28,6 +28,7 @@ export class GpCheckbox extends GpCheckableBase implements ControlValueAccessor 
 
   constructor() {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_checkbox_'));
     effect(() => {
       const isChecked = this.checkedInput();
       if (isChecked !== undefined) {

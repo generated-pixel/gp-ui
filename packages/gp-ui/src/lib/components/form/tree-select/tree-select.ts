@@ -51,6 +51,7 @@ export class GpTreeSelect extends GpEditableBase implements ControlValueAccessor
 
   constructor(public el: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_treeselect_'));
   }
 
   @HostListener('document:click', ['$event'])

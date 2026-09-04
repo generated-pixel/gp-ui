@@ -1,30 +1,44 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .gp-date-range {
   position: relative;
-  display: inline-block;
+  display: block;
   width: 100%;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .gp-date-range__input-wrap {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--gp-surface-card, #ffffff);
-  border: 1px solid var(--gp-surface-border, #cbd5e1);
+  gap: 0.625rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--gp-input-bg, var(--gp-surface-card, #ffffff));
+  border: 1px solid var(--gp-input-border, var(--gp-surface-border, #cbd5e1));
   border-radius: var(--gp-border-radius, 6px);
   color: var(--gp-text-color, #1e293b);
   cursor: pointer;
-  min-height: 2.5rem;
+  min-height: var(--gp-input-height, 2.5rem);
+  box-sizing: border-box;
+  width: 100%;
   transition:
     border-color 150ms ease,
     box-shadow 150ms ease;
+  user-select: none;
+}
+
+.gp-date-range:not(.gp-date-range--disabled) .gp-date-range__input-wrap:hover {
+  border-color: var(--gp-input-border-hover, var(--gp-primary, #6366f1));
 }
 
 .gp-date-range--open .gp-date-range__input-wrap,
-.gp-date-range__input-wrap:focus-within {
+.gp-date-range__input-wrap:focus-visible {
   border-color: var(--gp-primary, #6366f1);
-  box-shadow: var(--gp-focus-ring);
+  box-shadow: var(--gp-focus-ring, 0 0 0 2px rgba(99, 102, 241, 0.2));
+  outline: none;
 }
 
 .gp-date-range--disabled {
@@ -34,11 +48,20 @@
 
 .gp-date-range__icon {
   color: var(--gp-text-color-secondary, #64748b);
+  flex-shrink: 0;
 }
 
 .gp-date-range__display-text {
   flex: 1;
   font-size: var(--gp-font-size-sm, 0.875rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.gp-date-range__display-text--placeholder {
+  color: var(--gp-text-color-muted, #94a3b8);
 }
 
 .gp-date-range__clear-btn {
@@ -48,6 +71,10 @@
   cursor: pointer;
   padding: 0.125rem;
   border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 .gp-date-range__clear-btn:hover {
   color: var(--gp-text-color, #1e293b);
@@ -55,6 +82,7 @@
 
 .gp-date-range__chevron {
   color: var(--gp-text-color-muted, #94a3b8);
+  flex-shrink: 0;
 }
 
 .gp-date-range__overlay {
@@ -63,12 +91,13 @@
   left: 0;
   z-index: 1100;
   display: flex;
-  background: var(--gp-surface-overlay, #ffffff);
+  background: var(--gp-surface-overlay, var(--gp-surface-card, #ffffff));
+  color: var(--gp-text-color, #1e293b);
   border: 1px solid var(--gp-surface-border, #e2e8f0);
   border-radius: var(--gp-border-radius-md, 8px);
-  box-shadow: var(--gp-shadow-lg);
+  box-shadow: var(--gp-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
   overflow: hidden;
-  min-width: 320px;
+  min-width: 340px;
 }
 
 .gp-date-range__presets {
@@ -90,7 +119,8 @@
   font-size: 0.8125rem;
   color: var(--gp-text-color, #1e293b);
   cursor: pointer;
-  transition: background 150ms ease;
+  transition: background 150ms ease, color 150ms ease;
+  white-space: nowrap;
 }
 .gp-date-range__preset-btn:hover {
   background: var(--gp-primary-light, rgba(99, 102, 241, 0.1));
@@ -100,6 +130,7 @@
 .gp-date-range__calendar-section {
   padding: 0.875rem;
   flex: 1;
+  min-width: 250px;
 }
 
 .gp-date-range__cal-header {
@@ -122,6 +153,7 @@
   padding: 0.25rem 0.5rem;
   color: var(--gp-text-color, #1e293b);
   cursor: pointer;
+  transition: background 120ms ease;
 }
 .gp-date-range__nav-btn:hover {
   background: var(--gp-surface-section, #f1f5f9);
@@ -155,6 +187,7 @@
   cursor: pointer;
   border-radius: 4px;
   transition: background 120ms ease;
+  outline: none;
 }
 .gp-date-range__day-cell:hover {
   background: var(--gp-surface-section, #f1f5f9);
@@ -168,6 +201,16 @@
   background: var(--gp-primary, #6366f1) !important;
   color: var(--gp-primary-text, #ffffff) !important;
   font-weight: 700;
+}
+
+.gp-date-range__day-cell--start:not(.gp-date-range__day-cell--end) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.gp-date-range__day-cell--end:not(.gp-date-range__day-cell--start) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .gp-date-range__day-cell--in-range,
@@ -188,4 +231,20 @@
 .gp-date-range__selection-status {
   font-size: 0.75rem;
   color: var(--gp-text-color-secondary, #64748b);
+}
+
+@media (max-width: 520px) {
+  .gp-date-range__overlay {
+    flex-direction: column;
+    min-width: 280px;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .gp-date-range__presets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: none;
+    border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
+    min-width: unset;
+  }
 }

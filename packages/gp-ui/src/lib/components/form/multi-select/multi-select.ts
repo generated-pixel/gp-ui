@@ -5,6 +5,7 @@ import { GpCheckbox } from '../checkbox/checkbox';
 import { GpSelectBase, GpSelectItem } from '../../../base/gp-select-base';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
 import { ObjectUtils } from '../../../utils/object-utils';
+import { UniqueId } from '../../../utils/unique-id';
 
 export type GpMultiSelectDisplay = 'comma' | 'chip';
 
@@ -34,6 +35,11 @@ export class GpMultiSelect extends GpSelectBase<any[]> implements ControlValueAc
   public showSelectAll = input<boolean>(true);
 
   public override filter = input<boolean>(true);
+
+  constructor() {
+    super();
+    this.defaultInputId.set(UniqueId.generate('gp_multiselect_'));
+  }
 
   public get characterLimit(): number | undefined {
     return this.maxSelectedCharacters() ?? this.maxCharacters() ?? this.maxSelectedTextLength();

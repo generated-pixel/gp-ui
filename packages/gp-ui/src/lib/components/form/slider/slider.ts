@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-slider',
@@ -44,6 +45,7 @@ export class GpSlider extends GpEditableBase implements ControlValueAccessor {
 
   constructor(private el: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_slider_'));
   }
 
   public override onInit(): void {

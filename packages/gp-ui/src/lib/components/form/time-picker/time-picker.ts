@@ -57,6 +57,7 @@ export class GpTimePicker extends GpEditableBase implements ControlValueAccessor
 
   constructor(public el: ElementRef) {
     super();
+    this.defaultInputId.set(UniqueId.generate('gp_timepicker_'));
   }
 
   public override onInit(): void {
