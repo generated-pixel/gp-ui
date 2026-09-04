@@ -46,8 +46,8 @@ export abstract class GpBase implements GpLifecycle {
   /** Component-level generated default input identifier */
   public defaultInputId = signal<string>('');
 
-  /** Lazy fallback input identifier if not specified at component level or consumer level */
-  private fallbackInputId: string | null = null;
+  /** Fallback input identifier if not specified at component level or consumer level */
+  private readonly fallbackInputId: string = UniqueId.generate('gp_input_');
 
   /** Unique input identifier for native form controls, labels, and aria associations */
   public inputId = computed<string>(() => {
@@ -58,9 +58,6 @@ export abstract class GpBase implements GpLifecycle {
     const compDefault = this.defaultInputId();
     if (compDefault) {
       return compDefault;
-    }
-    if (!this.fallbackInputId) {
-      this.fallbackInputId = UniqueId.generate('gp_input_');
     }
     return this.fallbackInputId;
   });
