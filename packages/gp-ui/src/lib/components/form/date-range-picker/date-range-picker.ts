@@ -90,7 +90,6 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
   ]);
 
   public onRangeChange = output<GpDateRange>();
-  public rangeChange = output<GpDateRange>();
 
   protected hoverDate = signal<Date | null>(null);
 
@@ -126,7 +125,6 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
     this.updateValue(emptyRange);
     this.handleControlBlur();
     this.onRangeChange.emit(emptyRange);
-    this.rangeChange.emit(emptyRange);
   }
 
   public selectPreset(preset: GpDateRangePreset): void {
@@ -134,7 +132,6 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
     this.updateValue(range);
     this.handleControlBlur();
     this.onRangeChange.emit(range);
-    this.rangeChange.emit(range);
     this.closeOverlay();
   }
 
@@ -157,7 +154,6 @@ export class GpDateRangePicker extends GpDateBase<GpDateRange> implements Contro
       this.updateValue(completeRange);
       this.handleControlBlur();
       this.onRangeChange.emit(completeRange);
-      this.rangeChange.emit(completeRange);
     }
   }
 
