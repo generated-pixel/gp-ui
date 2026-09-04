@@ -1,59 +1,28 @@
-<div class="metadata-tree" role="tree" [attr.aria-label]="i18n.translate('metadataTree')">
+<div
+  class="metadata-tree"
+  role="tree"
+  [attr.aria-label]="i18n.translate('metadataTree')">
   <gp-accordion [multiple]="true">
-  @for (grouping of groupings(); track grouping.groupingId) {
-  <gp-accordion-tab
-    [header]="grouping.groupingName"
-    [selected]="isGroupingExpanded(grouping.groupingId)"
-    (selectedChange)="setGroupingExpanded(grouping.groupingId, $event)"
-    role="treeitem"
-    [attr.aria-expanded]="isGroupingExpanded(grouping.groupingId)">
-    <div class="group-meta">{{ i18n.translate('tableCount', { count: grouping.tables.length }) }}</div>
-    <div
-      class="group-children"
-      [id]="'group-' + grouping.groupingId"
-      role="group">
-      @for (table of grouping.tables; track table.tableId) {
-      <div
-        class="table-node"
-        role="treeitem"
-        [attr.aria-expanded]="isTableExpanded(table.tableId)">
-        <gp-button
-          class="table-toggle"
-          [label]="table.tableName"
-          icon="table"
-          variant="text"
-          [fluid]="true"
-          [ariaExpanded]="isTableExpanded(table.tableId)"
-          [badge]="i18n.translate('visibleFieldCount', { count: visibleFields(table).length })"
-          (onClickEvent)="toggleTable(table.tableId)" />
-
-        @if (isTableExpanded(table.tableId)) {
-        <div
-          class="field-children"
-          [id]="'table-' + table.tableId"
-          role="group">
-          @for (field of visibleFields(table); track field.fieldId) {
-          <div
-            class="field-node"
-            role="treeitem">
-            <span class="field-mark">•</span>
-            <span class="field-copy">
-              <strong>{{ displayName(field) }}</strong>
-              <small>{{ field.fieldName }}</small>
-            </span>
-            <span class="field-type">{{ field.dataType }}</span>
-          </div>
-          } @empty {
-          <p class="empty-state">{{ i18n.translate('noVisibleFields') }}</p>
-          }
-        </div>
-        }
-      </div>
+    @for (grouping of groupings(); track grouping.groupingId) {
+    <gp-accordion-tab
+      [header]="grouping.groupingName"
+      [selected]="isGroupingExpanded(grouping.groupingId)"
+      (selectedChange)="setGroupingExpanded(grouping.groupingId, $event)"
+      role="treeitem"
+      [attr.aria-expanded]="isGroupingExpanded(grouping.groupingId)">
+      @if (showTableCounts()) {
+      <div class="group-meta">{{ i18n.translate('tableCount', { count: grouping.tables.length }) }}</div>
       }
-    </div>
-  </gp-accordion-tab>
-  } @empty {
-  <p class="empty-state">{{ i18n.translate('noMetadataGroups') }}</p>
-  }
+      <gp-tree
+        [value]="treeNodes(grouping.groupingId)"
+        [filter]="false"
+        [emptyMessage]="i18n.translate('noVisibleFields')"
+        (onNodeExpand)="onTreeNodeExpand($event)"
+        (onNodeCollapse)="onTreeNodeCollapse($event)"
+        [attr.aria-label]="i18n.translate('metadataTree')" />
+    </gp-accordion-tab>
+    } @empty {
+    <p class="empty-state">{{ i18n.translate('noMetadataGroups') }}</p>
+    }
   </gp-accordion>
 </div>

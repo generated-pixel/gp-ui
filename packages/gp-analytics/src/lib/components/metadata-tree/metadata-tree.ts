@@ -1,26 +1,49 @@
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
-import { GpAccordion, GpAccordionTab, GpButton } from '@generatedpixel/gp-ui';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { GpAccordion, GpAccordionTab, GpTree, GpTreeNode } from '@generatedpixel/gp-ui';
+import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { Field, Grouping, Table } from '../../models';
-import { GpTranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'gp-metadata-tree',
   standalone: true,
-  imports: [GpAccordion, GpAccordionTab, GpButton],
+  imports: [GpAccordion, GpAccordionTab, GpTree],
   templateUrl: './metadata-tree.html',
   styleUrl: './metadata-tree.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GpMetadataTree {
-  protected readonly i18n = inject(GpTranslationService);
+export class GpMetadataTree extends GpAnalyticsComponent {
   readonly groupings = input.required<Grouping[]>();
+  readonly showTableCounts = input(true);
+  readonly showVisibleFieldCounts = input(true);
 
   protected readonly expandedGroupingIds = signal<Set<string>>(new Set());
-  protected readonly expandedTableIds = signal<Set<string>>(new Set());
+  protected readonly expandedTreeNodeKeys = signal<Set<string>>(new Set());
+  protected readonly treeNodesByGrouping = computed(() => {
+    const locale = this.i18n.locale();
+    const showVisibleFieldCounts = this.showVisibleFieldCounts();
+    const expandedKeys = this.expandedTreeNodeKeys();
 
-  protected toggleGrouping(groupingId: string): void {
-    this.toggle(this.expandedGroupingIds, groupingId);
-  }
+    return new Map(
+      this.groupings().map((grouping) => [
+        grouping.groupingId,
+        grouping.tables.map((table) => ({
+          key: table.tableId,
+          expanded: expandedKeys.has(table.tableId),
+          label: showVisibleFieldCounts
+            ? `${table.tableName} (${this.i18n.translate('visibleFieldCount', { count: this.visibleFields(table).length })})`
+            : table.tableName,
+          icon: 'table',
+          children: this.visibleFields(table).map((field) => ({
+            key: field.fieldId,
+            label: field.fieldDisplayName.displayValue[locale] ?? String(field.fieldDisplayName.value),
+            data: field,
+            icon: 'circle-small',
+            leaf: true,
+          })),
+        })),
+      ]),
+    );
+  });
 
   protected setGroupingExpanded(groupingId: string, expanded: boolean): void {
     this.expandedGroupingIds.update((current) => {
@@ -30,37 +53,39 @@ export class GpMetadataTree {
     });
   }
 
-  protected toggleTable(tableId: string): void {
-    this.toggle(this.expandedTableIds, tableId);
-  }
-
   protected isGroupingExpanded(groupingId: string): boolean {
     return this.expandedGroupingIds().has(groupingId);
-  }
-
-  protected isTableExpanded(tableId: string): boolean {
-    return this.expandedTableIds().has(tableId);
   }
 
   protected visibleFields(table: Table): Field[] {
     return table.fields.flatMap((fieldGrouping) => fieldGrouping.fields).filter((field) => field.visible);
   }
 
+  protected treeNodes(groupingId: string): GpTreeNode[] {
+    return this.treeNodesByGrouping().get(groupingId) ?? [];
+  }
+
+  protected onTreeNodeExpand(event: { node: GpTreeNode }): void {
+    this.setTreeNodeExpanded(event.node, true);
+  }
+
+  protected onTreeNodeCollapse(event: { node: GpTreeNode }): void {
+    this.setTreeNodeExpanded(event.node, false);
+  }
+
+  private setTreeNodeExpanded(node: GpTreeNode, expanded: boolean): void {
+    if (!node.key) {
+      return;
+    }
+    this.expandedTreeNodeKeys.update((current) => {
+      const next = new Set(current);
+      expanded ? next.add(node.key!) : next.delete(node.key!);
+      return next;
+    });
+  }
+
   protected displayName(field: Field): string {
     return field.fieldDisplayName.displayValue[this.i18n.locale()] ?? String(field.fieldDisplayName.value);
   }
 
-  private toggle(target: typeof this.expandedGroupingIds, id: string): void;
-  private toggle(target: typeof this.expandedTableIds, id: string): void;
-  private toggle(target: typeof this.expandedGroupingIds | typeof this.expandedTableIds, id: string): void {
-    target.update((current) => {
-      const next = new Set(current);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  }
 }
