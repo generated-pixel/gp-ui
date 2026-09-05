@@ -10,9 +10,6 @@
       (selectedChange)="setGroupingExpanded(grouping.groupingId, $event)"
       role="treeitem"
       [attr.aria-expanded]="isGroupingExpanded(grouping.groupingId)">
-      @if (showTableCounts()) {
-      <div class="group-meta">{{ i18n.translate('tableCount', { count: grouping.tables.length }) }}</div>
-      }
       <gp-tree
         [value]="treeNodes(grouping.groupingId)"
         [filter]="false"

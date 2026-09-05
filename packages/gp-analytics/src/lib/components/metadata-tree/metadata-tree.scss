@@ -5,7 +5,7 @@
 .metadata-tree {
   overflow: hidden;
   border: 1px solid var(--gp-surface-border, #dbe3ef);
-  border-radius: 0.75rem;
+  border-radius: var(--gp-border-radius-lg, 0.75rem);
   background: var(--gp-surface-card, #ffffff);
   box-shadow: var(--gp-shadow-md, 0 4px 16px #17203314);
   text-align: left;
@@ -22,93 +22,56 @@
   text-align: left;
 }
 
-.group-meta {
-  padding: 0 1.25rem 0.75rem;
-  color: var(--gp-text-color-secondary, #64748b);
-  font-size: 0.76rem;
+:host ::ng-deep .gp-tree {
+  padding: 0.65rem;
+  background: transparent;
 }
 
-.chevron {
-  width: 1rem;
-  color: var(--gp-primary, #4f46e5);
-  font-size: 1.5rem;
-  line-height: 0.7;
-  transform: rotate(0deg);
-  transition: transform 160ms ease;
+:host ::ng-deep .gp-tree-node-content {
+  min-height: 2.9rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--gp-border-radius-md, 0.5rem);
+  color: var(--gp-text-color, #172033);
+  transition: background-color var(--gp-transition-duration, 150ms) ease;
 }
 
-.chevron.expanded {
-  transform: rotate(90deg);
-}
-
-.node-icon {
-  display: grid;
-  width: 1.65rem;
-  height: 1.65rem;
-  place-items: center;
-  border-radius: 0.4rem;
+:host ::ng-deep .gp-tree-node-content--selected,
+:host ::ng-deep .gp-tree-node-selected {
   background: var(--gp-primary-light, #eef2ff);
   color: var(--gp-primary-700, #4338ca);
-  font-size: 0.68rem;
-  font-weight: 850;
 }
 
-.table-icon {
-  background: var(--gp-info-light, #e0f2fe);
-  color: var(--gp-info, #0284c7);
+:host ::ng-deep .gp-tree-node-content:hover,
+:host ::ng-deep .gp-tree-node-content:focus-visible {
+  background: var(--gp-surface-hover, #f4f7fb);
+  outline: none;
 }
 
-.count {
-  color: var(--gp-text-color-secondary, #64748b);
-  font-size: 0.76rem;
-  font-weight: 500;
+:host ::ng-deep .gp-tree-node-label {
+  font-size: var(--gp-font-size-sm, 0.875rem);
 }
 
-.group-children {
-  padding-bottom: 0.5rem;
-}
-
-.table-node + .table-node {
-  border-top: 1px solid var(--gp-surface-border, #dbe3ef);
-}
-
-.field-children {
-  margin: 0 1rem 0.75rem 4.45rem;
+:host ::ng-deep .gp-tree-sub-tree {
+  margin-left: 0.85rem;
   border-left: 1px solid var(--gp-surface-border, #dbe3ef);
 }
 
-.field-node {
+:host ::ng-deep .gp-accordion-header {
+  min-height: 3.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--gp-surface-section, #f1f5f9);
+  color: var(--gp-text-color, #172033);
+  font-weight: 700;
+}
+
+.group-meta {
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  min-height: 2.8rem;
-  padding: 0.5rem 0.75rem;
+  justify-content: flex-start;
+  padding: 0.15rem 1.25rem 0.8rem;
+  color: var(--gp-text-color-secondary, #64748b);
+  font-size: 0.76rem;
 }
 
-.field-node:hover {
-  background: var(--gp-surface-hover, #f4f7fb);
-}
-
-.field-mark {
-  color: var(--gp-primary, #4f46e5);
-}
-
-.field-copy {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 0.12rem;
-}
-
-.field-copy strong {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.field-copy small,
-.field-type,
 .empty-state {
   color: var(--gp-text-color-secondary, #64748b);
   font-size: 0.76rem;
@@ -124,11 +87,7 @@
 }
 
 @media (max-width: 560px) {
-  .count {
-    display: none;
-  }
-
-  .field-children {
-    margin-left: 2.75rem;
+  :host ::ng-deep .gp-tree-node-content {
+    min-height: 2.5rem;
   }
 }

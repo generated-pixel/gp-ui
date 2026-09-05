@@ -13,14 +13,11 @@ import { Field, Grouping, Table } from '../../models';
 })
 export class GpMetadataTree extends GpAnalyticsComponent {
   readonly groupings = input.required<Grouping[]>();
-  readonly showTableCounts = input(true);
-  readonly showVisibleFieldCounts = input(true);
 
   protected readonly expandedGroupingIds = signal<Set<string>>(new Set());
   protected readonly expandedTreeNodeKeys = signal<Set<string>>(new Set());
   protected readonly treeNodesByGrouping = computed(() => {
     const locale = this.i18n.locale();
-    const showVisibleFieldCounts = this.showVisibleFieldCounts();
     const expandedKeys = this.expandedTreeNodeKeys();
 
     return new Map(
@@ -29,9 +26,7 @@ export class GpMetadataTree extends GpAnalyticsComponent {
         grouping.tables.map((table) => ({
           key: table.tableId,
           expanded: expandedKeys.has(table.tableId),
-          label: showVisibleFieldCounts
-            ? `${table.tableName} (${this.i18n.translate('visibleFieldCount', { count: this.visibleFields(table).length })})`
-            : table.tableName,
+          label: table.tableName,
           icon: 'table',
           children: this.visibleFields(table).map((field) => ({
             key: field.fieldId,
