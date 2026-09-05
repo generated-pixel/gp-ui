@@ -1,5 +1,5 @@
 import { AggregationType } from './aggregation-type.model';
-import { DataType } from './data-type.model';
+import { DataType, FieldType } from './data-type.model';
 import { LocalizedValue } from './localized-value.model';
 
 export interface Field {
@@ -9,7 +9,8 @@ export interface Field {
   fieldName: string;
   fieldDisplayName: LocalizedValue;
   description?: string;
-  dataType: DataType;
+  dataType: DataType | `${DataType}`;
+  fieldType?: FieldType | `${FieldType}`;
   visible: boolean;
   isPrimaryKey: boolean;
   isIndex: boolean;

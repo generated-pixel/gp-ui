@@ -1,11 +1,7 @@
-import { FieldType } from './field-type.model';
-
-export { FieldType };
-
 /**
- * DataType enum matching FieldType values.
+ * Field types representing supported data formats in the analytical schema.
  */
-export enum DataType {
+export enum FieldType {
   String = 'string',
   Integer = 'integer',
   Decimal = 'decimal',

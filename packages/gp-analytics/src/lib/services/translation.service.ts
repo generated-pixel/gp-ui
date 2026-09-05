@@ -7,8 +7,6 @@ export type TranslationKey =
   | 'browseMetadata'
   | 'expandInstructions'
   | 'grouping'
-  | 'tableCount'
-  | 'visibleFieldCount'
   | 'metadataTree'
   | 'noVisibleFields'
   | 'noMetadataGroups'
@@ -29,8 +27,6 @@ const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {
     browseMetadata: 'Browse your metadata',
     expandInstructions: 'Expand a group, then a table',
     grouping: 'Grouping',
-    tableCount: '{count} tables',
-    visibleFieldCount: '{count} visible fields',
     metadataTree: 'Metadata catalogue',
     noVisibleFields: 'No visible fields',
     noMetadataGroups: 'No metadata groups available.',
@@ -48,8 +44,6 @@ const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {
     browseMetadata: 'Parcourir vos métadonnées',
     expandInstructions: 'Développez un groupe, puis une table',
     grouping: 'Groupe',
-    tableCount: '{count} tables',
-    visibleFieldCount: '{count} champs visibles',
     metadataTree: 'Catalogue de métadonnées',
     noVisibleFields: 'Aucun champ visible',
     noMetadataGroups: 'Aucun groupe de métadonnées disponible.',

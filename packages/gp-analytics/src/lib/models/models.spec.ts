@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { Grouping, Relationship, FieldValue } from './index';
+import {
+  Grouping,
+  Relationship,
+  FieldValue,
+  JoinType,
+  FieldType,
+  DataType,
+  RelationshipCardinality,
+} from './index';
 
 describe('metadata models', () => {
   it('supports grouped tables and localized field values', () => {
@@ -18,7 +26,7 @@ describe('metadata models', () => {
     expect(value.displayValue['fr']).toBe('Client');
   });
 
-  it('supports one-to-many join relationships', () => {
+  it('supports one-to-many join relationships with JoinType and RelationshipCardinality enums', () => {
     const relationship: Relationship = {
       relationshipId: 'customer-orders',
       name: 'Customer orders',
@@ -26,9 +34,32 @@ describe('metadata models', () => {
       sourceFieldId: 'customer-id',
       targetTableId: 'orders',
       targetFieldId: 'order-customer-id',
-      cardinality: 'one-to-many',
+      cardinality: RelationshipCardinality.OneToMany,
+      joinType: JoinType.Inner,
     };
 
     expect(relationship.cardinality).toBe('one-to-many');
+    expect(relationship.joinType).toBe('inner');
+    expect(JoinType.Left).toBe('left');
+    expect(JoinType.Right).toBe('right');
+    expect(JoinType.Full).toBe('full');
+    expect(JoinType.Cross).toBe('cross');
+  });
+
+  it('supports FieldType and DataType enums', () => {
+    expect(FieldType.String).toBe('string');
+    expect(FieldType.Integer).toBe('integer');
+    expect(FieldType.Decimal).toBe('decimal');
+    expect(FieldType.Number).toBe('number');
+    expect(FieldType.Currency).toBe('currency');
+    expect(FieldType.Boolean).toBe('boolean');
+    expect(FieldType.Date).toBe('date');
+    expect(FieldType.Time).toBe('time');
+    expect(FieldType.DateTime).toBe('datetime');
+    expect(FieldType.Guid).toBe('guid');
+    expect(FieldType.Json).toBe('json');
+
+    expect(DataType.String).toBe('string');
+    expect(DataType.Currency).toBe('currency');
   });
 });

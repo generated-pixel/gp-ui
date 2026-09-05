@@ -1,4 +1,13 @@
-export type RelationshipCardinality = 'one-to-one' | 'one-to-many';
+import { JoinType } from './join-type.model';
+
+export { JoinType };
+
+export enum RelationshipCardinality {
+  OneToOne = 'one-to-one',
+  OneToMany = 'one-to-many',
+  ManyToOne = 'many-to-one',
+  ManyToMany = 'many-to-many',
+}
 
 export interface Relationship {
   relationshipId: string;
@@ -7,5 +16,6 @@ export interface Relationship {
   sourceFieldId: string;
   targetTableId: string;
   targetFieldId: string;
-  cardinality: RelationshipCardinality;
+  cardinality: RelationshipCardinality | `${RelationshipCardinality}`;
+  joinType?: JoinType | `${JoinType}`;
 }
