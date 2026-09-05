@@ -1,36 +1,165 @@
 <main class="catalogue">
-  <header class="page-header">
-    <p class="eyebrow">gp-analytics foundation</p>
-    <h1>{{ i18n.translate('metadataCatalogue') }}</h1>
-    <p class="intro">{{ i18n.translate('foundationIntro') }}</p>
-    <label class="locale-picker">
-      <span>{{ i18n.translate('language') }}</span>
-      <gp-select
-        [options]="localeOptions()"
-        optionLabel="label"
-        optionValue="value"
-        [ngModel]="i18n.locale()"
-        [attr.aria-label]="i18n.translate('language')"
-        (ngModelChange)="setLocale($event)" />
-    </label>
-  </header>
-
-  <section
-    class="catalogue-panel"
-    aria-labelledby="catalogue-title">
-    <div class="panel-heading">
-      <div>
-        <p class="eyebrow">{{ i18n.translate('schemaExplorer') }}</p>
-        <h2 id="catalogue-title">{{ i18n.translate('browseMetadata') }}</h2>
+  <!-- Top Navigation & Toolbar -->
+  <gp-toolbar class="page-toolbar">
+    <div start class="toolbar-brand">
+      <div class="brand-badge-row">
+        <p class="eyebrow">gp-analytics engine</p>
+        <gp-tag severity="info" [rounded]="true">v2.0 Architecture</gp-tag>
       </div>
-      <span class="hint">{{ i18n.translate('expandInstructions') }}</span>
+      <h1>Dataset Builder</h1>
+      <p class="intro">
+        Compose high-performance analytical datasets from relational enterprise schemas with automatic join validation, dynamic aggregation labeling, and real-time tabular preview.
+      </p>
     </div>
-    <gp-metadata-tree [groupings]="[grouping]" />
-  </section>
 
-  <section
-    class="value-example"
-    aria-labelledby="value-title">
+    <div end class="toolbar-actions">
+      <!-- Quick Demo Presets -->
+      <div class="preset-buttons">
+        <button
+          type="button"
+          class="btn-demo-action btn-load"
+          (click)="loadSampleDataset()">
+          ⚡ Load Sample Dataset
+        </button>
+        <button
+          type="button"
+          class="btn-demo-action btn-reset"
+          (click)="resetDataset()">
+          ↺ Reset
+        </button>
+      </div>
+
+      <!-- Locale Selector -->
+      <div class="locale-picker">
+        <span class="locale-label">{{ i18n.translate('language') }}</span>
+        <gp-select
+          [options]="localeOptions()"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="i18n.locale()"
+          [attr.aria-label]="i18n.translate('language')"
+          (ngModelChange)="setLocale($event)" />
+      </div>
+    </div>
+  </gp-toolbar>
+
+  <!-- Navigation View Tabs -->
+  <nav class="view-tabs" role="tablist">
+    <button
+      type="button"
+      class="view-tab"
+      [class.active]="activeTab() === 'workbench'"
+      (click)="activeTab.set('workbench')"
+      role="tab"
+      [attr.aria-selected]="activeTab() === 'workbench'">
+      <span>🛠 Interactive Dataset Builder</span>
+    </button>
+    <button
+      type="button"
+      class="view-tab"
+      [class.active]="activeTab() === 'standalone'"
+      (click)="activeTab.set('standalone')"
+      role="tab"
+      [attr.aria-selected]="activeTab() === 'standalone'">
+      <span>🧩 Modular Standalone Components</span>
+    </button>
+    <button
+      type="button"
+      class="view-tab"
+      [class.active]="activeTab() === 'legacy'"
+      (click)="activeTab.set('legacy')"
+      role="tab"
+      [attr.aria-selected]="activeTab() === 'legacy'">
+      <span>📁 Legacy Tree Comparison</span>
+    </button>
+  </nav>
+
+  <!-- ================= TAB 1: WORKBENCH ================= -->
+  @if (activeTab() === 'workbench') {
+    <section class="workbench-section" aria-label="Dataset Builder Workbench">
+      <!-- Relationship Guidelines Card -->
+      <div class="relationship-guide-card">
+        <div class="guide-item">
+          <span class="guide-icon">⇄</span>
+          <div>
+            <strong>Active Relationship Graph</strong>
+            <p>Selecting a field from <em>Customers</em> automatically enables directly related <em>Orders</em>. Unrelated tables (e.g. <em>Employees</em>) are safely disabled.</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <span class="guide-icon">∑</span>
+          <div>
+            <strong>Dynamic Aggregations</strong>
+            <p>Applying aggregations dynamically changes field display labels (e.g. <code>Order total (SUM)</code>) while preserving base display labels.</p>
+          </div>
+        </div>
+        <div class="guide-item">
+          <span class="guide-icon">🔒</span>
+          <div>
+            <strong>Capability Invariants</strong>
+            <p>Fields not sortable/filterable in the underlying schema can never be sortable/filterable in the dataset model.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Integrated Component -->
+      <gp-dataset-builder
+        [groupings]="groupings"
+        [additionalRelationships]="additionalRelationships"
+        [(dataset)]="activeDataset" />
+    </section>
+  }
+
+  <!-- ================= TAB 2: STANDALONE ================= -->
+  @if (activeTab() === 'standalone') {
+    <section class="standalone-section" aria-label="Modular Components">
+      <div class="standalone-grid-3col">
+        <!-- 1. Left: Available Fields (Schema Catalogue) -->
+        <div class="standalone-col">
+          <h3 class="col-title">1. Available Fields (Left)</h3>
+          <p class="col-desc">Drag or click + to add fields.</p>
+          <gp-schema-catalogue
+            [groupings]="groupings"
+            [activeDatasetFields]="activeDataset().fields"
+            (fieldSelect)="addStandaloneField($event)" />
+        </div>
+
+        <!-- 2. Middle: Dataset View (Preview Table) -->
+        <div class="standalone-col standalone-dataset-col">
+          <h3 class="col-title">2. Dataset View (Middle)</h3>
+          <p class="col-desc">Live preview of selected dataset fields with dynamic headers.</p>
+          <gp-dataset-preview [fields]="activeDataset().fields" [datasetName]="activeDataset().name" />
+        </div>
+
+        <!-- 3. Right: Selected Fields & Properties (Field Selector) -->
+        <div class="standalone-col">
+          <h3 class="col-title">3. Selected Fields (Right)</h3>
+          <p class="col-desc">List on top, properties panel on bottom.</p>
+          <gp-dataset-field-selector
+            [fields]="activeDataset().fields"
+            (fieldsChange)="updateStandaloneFields($event)" />
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- ================= TAB 3: LEGACY COMPARISON ================= -->
+  @if (activeTab() === 'legacy') {
+    <section class="legacy-panel" aria-label="Legacy Metadata Tree">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Previous Implementation</p>
+          <h2>Legacy gp-metadata-tree</h2>
+        </div>
+        <gp-tag severity="danger" [rounded]="true">Replaced by Schema Catalogue</gp-tag>
+      </div>
+      <gp-divider />
+      <gp-metadata-tree [groupings]="groupings" />
+    </section>
+  }
+
+  <!-- Localized Value Demonstration Card -->
+  <gp-card class="value-example" aria-labelledby="value-title">
     <p class="eyebrow">{{ i18n.translate('valueSeparation') }}</p>
     <h2 id="value-title">{{ i18n.translate('oneValueManyDisplays') }}</h2>
     <div class="value-grid">
@@ -38,5 +167,5 @@
       <div><span>{{ i18n.translate('english') }}</span><strong>{{ sampleValue.displayValue['en'] }}</strong></div>
       <div><span>{{ i18n.translate('french') }}</span><strong>{{ sampleValue.displayValue['fr'] }}</strong></div>
     </div>
-  </section>
+  </gp-card>
 </main>
