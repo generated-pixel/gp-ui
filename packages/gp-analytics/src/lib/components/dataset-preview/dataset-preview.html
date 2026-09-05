@@ -1,0 +1,141 @@
+<div class="dataset-preview" role="region" [attr.aria-label]="i18n.translate('datasetPreview')">
+  <!-- Table Header Bar -->
+  <header class="preview-header">
+    <div class="header-left">
+      <span class="preview-icon" aria-hidden="true">📊</span>
+      <div>
+        <h3 class="preview-title">{{ datasetName() }}</h3>
+        <p class="preview-subtitle">{{ i18n.translate('simulatedData') }}</p>
+      </div>
+      <span class="columns-pill">
+        {{ columns().length }} {{ columns().length === 1 ? 'column' : 'columns' }}
+      </span>
+    </div>
+
+    <div class="header-right">
+      <!-- Automagic Grouping State Badge -->
+      @if (hasActiveGrouping()) {
+        <span class="auto-group-badge" [title]="'Automagically grouped by ' + primaryGroupColumn()?.header">
+          <span class="badge-icon">⊞</span>
+          <span>Grouped by {{ primaryGroupColumn()?.header }}</span>
+        </span>
+      } @else {
+        <span class="flat-table-badge" title="Flat table (no dimension selected for grouping)">
+          <span class="badge-icon">≡</span>
+          <span>Flat Table</span>
+        </span>
+      }
+
+      <div class="row-count-selector">
+        <span>Rows:</span>
+        <button
+          type="button"
+          class="count-btn"
+          [class.active]="rowCount() === 5"
+          (click)="setRowCount(5)">
+          5
+        </button>
+        <button
+          type="button"
+          class="count-btn"
+          [class.active]="rowCount() === 10"
+          (click)="setRowCount(10)">
+          10
+        </button>
+        <button
+          type="button"
+          class="count-btn"
+          [class.active]="rowCount() === 20"
+          (click)="setRowCount(20)">
+          20
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="refresh-btn"
+        (click)="refreshData()"
+        title="Regenerate simulated records">
+        ↻ Refresh
+      </button>
+    </div>
+  </header>
+
+  <!-- Table View -->
+  <div class="table-scroll-container">
+    @if (columns().length > 0) {
+      <table class="preview-table">
+        <thead>
+          <tr>
+            <th class="col-index">#</th>
+            @for (col of columns(); track col.datasetFieldId) {
+              <th
+                class="col-header"
+                [class.sortable]="col.sortable"
+                [class.col-is-grouped]="col.isGrouped"
+                (click)="onHeaderClick(col)"
+                [title]="col.sortable ? 'Click to sort' : ''">
+                <div class="col-header-content">
+                  <span class="col-type" [attr.data-type]="col.dataType">
+                    {{ getDataTypeIcon(col.dataType) }}
+                  </span>
+                  <span class="col-name">{{ col.header }}</span>
+
+                  @if (col.isGrouped) {
+                    <span class="group-col-tag" title="Grouped Dimension">⊞ Group By</span>
+                  }
+
+                  @if (col.aggregationType && col.aggregationType !== 'none') {
+                    <span class="agg-tag">{{ col.aggregationType }}</span>
+                  }
+
+                  @if (col.sortable) {
+                    <span class="sort-icon" aria-hidden="true">
+                      @if (sortColumn() === col.datasetFieldId) {
+                        {{ sortOrder() === 1 ? '▲' : '▼' }}
+                      } @else {
+                        ⇅
+                      }
+                    </span>
+                  }
+                </div>
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (section of groupedRowSections(); track section.groupKey) {
+            @if (showGroupingView() && section.groupValue) {
+              <tr class="group-header-row">
+                <td [attr.colspan]="columns().length + 1" class="group-header-cell">
+                  <div class="group-bar-content">
+                    <span class="group-bar-icon">📁</span>
+                    <strong class="group-bar-val">{{ section.groupValue }}</strong>
+                    <span class="group-bar-badge">{{ section.count }} {{ section.count === 1 ? 'record' : 'records' }}</span>
+                  </div>
+                </td>
+              </tr>
+            }
+
+            @for (row of section.rows; track row['_id']; let idx = $index) {
+              <tr class="preview-row" [class.in-group]="showGroupingView() && section.groupValue">
+                <td class="cell-index">{{ idx + 1 }}</td>
+                @for (col of columns(); track col.datasetFieldId) {
+                  <td class="preview-cell" [attr.data-type]="col.dataType" [class.cell-grouped]="col.isGrouped">
+                    {{ row[col.datasetFieldId] }}
+                  </td>
+                }
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    } @else {
+      <div class="preview-empty">
+        <span class="empty-icon" aria-hidden="true">📋</span>
+        <h4 class="empty-title">{{ i18n.translate('noFieldsSelected') }}</h4>
+        <p class="empty-hint">{{ i18n.translate('dragFieldsHere') }}</p>
+      </div>
+    }
+  </div>
+</div>
