@@ -1,0 +1,186 @@
+<div class="schema-catalogue" role="region" [attr.aria-label]="i18n.translate('schemaExplorer')">
+  <!-- Top Bar: Search & Group Filter -->
+  <div class="catalogue-toolbar">
+    <div class="search-box">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input
+        type="search"
+        class="search-input"
+        [placeholder]="i18n.translate('searchFieldsOrTables')"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        aria-label="Search tables and fields" />
+      @if (searchQuery()) {
+        <button
+          type="button"
+          class="clear-search-btn"
+          (click)="searchQuery.set('')"
+          aria-label="Clear search">
+          ✕
+        </button>
+      }
+    </div>
+
+    @if (groupings().length > 1) {
+      <div class="group-filter-pills" role="tablist">
+        <button
+          type="button"
+          class="filter-pill"
+          [class.active]="selectedGroupingId() === null"
+          (click)="selectedGroupingId.set(null)"
+          role="tab"
+          [attr.aria-selected]="selectedGroupingId() === null">
+          {{ i18n.translate('allGroups') }}
+        </button>
+        @for (group of groupings(); track group.groupingId) {
+          <button
+            type="button"
+            class="filter-pill"
+            [class.active]="selectedGroupingId() === group.groupingId"
+            (click)="selectedGroupingId.set(group.groupingId)"
+            role="tab"
+            [attr.aria-selected]="selectedGroupingId() === group.groupingId">
+            {{ group.groupingName }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Groupings & Tables List -->
+  <div class="catalogue-content">
+    @for (group of filteredGroupings(); track group.groupingId) {
+      <section class="group-section">
+        <header class="group-header">
+          <div class="group-title-wrap">
+            <span class="group-icon" aria-hidden="true">📁</span>
+            <h3 class="group-name">{{ group.groupingName }}</h3>
+          </div>
+          <gp-tag severity="secondary" [rounded]="true">
+            {{ group.tables.length }} {{ group.tables.length === 1 ? 'table' : 'tables' }}
+          </gp-tag>
+        </header>
+
+        <div class="tables-grid">
+          @for (table of group.tables; track table.tableId) {
+            @let eligible = isTableEligible(table.tableId);
+            @let inDataset = isTableInDataset(table.tableId);
+            @let linkedNames = getTableLinkedNames(table);
+            @let collapsed = isTableCollapsed(table.tableId);
+
+            <article
+              class="table-card"
+              [class.in-dataset]="inDataset"
+              [class.is-eligible]="eligible"
+              [class.is-ineligible]="!eligible"
+              [class.is-collapsed]="collapsed">
+              
+              <!-- Table Header -->
+              <header class="table-header" (click)="toggleTableCollapse(table.tableId)">
+                <div class="table-header-left">
+                  <span class="collapse-icon" [class.rotated]="collapsed" aria-hidden="true">▾</span>
+                  <span class="table-icon" aria-hidden="true">⊞</span>
+                  <div class="table-title-meta">
+                    <span class="table-name">{{ table.tableName }}</span>
+                    @if (linkedNames.length > 0) {
+                      <span class="table-links" [title]="'Linked to: ' + linkedNames.join(', ')">
+                        ⇄ {{ linkedNames.join(', ') }}
+                      </span>
+                    }
+                  </div>
+                </div>
+
+                <div class="table-header-right" (click)="$event.stopPropagation()">
+                  @if (inDataset) {
+                    <gp-tag severity="success" [rounded]="true">{{ i18n.translate('inDataset') }}</gp-tag>
+                  } @else if (!eligible) {
+                    <gp-tag severity="danger" [rounded]="true" [title]="i18n.translate('tableNotRelated')">
+                      🔒 {{ i18n.translate('tableNotRelated') }}
+                    </gp-tag>
+                  }
+                  <span class="field-count-pill">{{ table.matchingFields.length }}</span>
+                </div>
+              </header>
+
+              <!-- Table Fields List -->
+              @if (!collapsed) {
+                <div class="fields-list">
+                  @for (field of table.matchingFields; track field.fieldId) {
+                    @let status = checkFieldSelectable(field);
+                    @let inDs = isFieldInDataset(field.fieldId);
+                    @let count = getFieldOccurrenceCount(field.fieldId);
+
+                    <div
+                      class="field-item"
+                      [class.field-disabled]="!status.selectable"
+                      [class.field-in-dataset]="inDs"
+                      [draggable]="status.selectable"
+                      (dragstart)="onDragStart($event, field)"
+                      (dragend)="onDragEnd()"
+                      [title]="status.selectable ? 'Drag or click + to add to dataset' : (status.message ?? 'Disabled')">
+                      
+                      <div class="field-info">
+                        <!-- Drag Handle & Type Indicator -->
+                        <span
+                          class="drag-handle"
+                          [class.disabled]="!status.selectable"
+                          [attr.aria-grabbed]="draggedField() === field"
+                          title="Drag to add">
+                          ⋮⋮
+                        </span>
+
+                        <span class="datatype-badge" [attr.data-type]="field.dataType">
+                          {{ getDataTypeIcon(field.dataType) }}
+                        </span>
+
+                        <div class="field-labels">
+                          <span class="field-display-name">{{ getFieldDisplayName(field) }}</span>
+                          <span class="field-raw-name">{{ field.fieldName }}</span>
+                        </div>
+
+                        <!-- Metadata Badges -->
+                        <div class="field-badges">
+                          @if (field.isPrimaryKey) {
+                            <span class="badge badge-pk" title="Primary Key">PK</span>
+                          }
+                          @if (field.isJoinField) {
+                            <span class="badge badge-fk" title="Join Field">FK</span>
+                          }
+                          @if (field.isIndex) {
+                            <span class="badge badge-idx" title="Index">IDX</span>
+                          }
+                          @if (inDs) {
+                            <span class="badge badge-added" [title]="'Already in dataset (' + count + ')'">
+                              ✓ {{ count > 1 ? count : '' }}
+                            </span>
+                          }
+                        </div>
+                      </div>
+
+                      <!-- Action Button -->
+                      <button
+                        type="button"
+                        class="add-field-btn"
+                        [disabled]="!status.selectable"
+                        (click)="onAddField(field); $event.stopPropagation()"
+                        [attr.aria-label]="i18n.translate('addField') + ': ' + getFieldDisplayName(field)">
+                        +
+                      </button>
+                    </div>
+                  } @empty {
+                    <p class="empty-fields-message">{{ i18n.translate('noVisibleFields') }}</p>
+                  }
+                </div>
+              }
+            </article>
+          }
+        </div>
+      </section>
+    } @empty {
+      <div class="catalogue-empty">
+        <span class="empty-icon" aria-hidden="true">🔎</span>
+        <p>{{ i18n.translate('noMetadataGroups') }}</p>
+      </div>
+    }
+  </div>
+</div>
