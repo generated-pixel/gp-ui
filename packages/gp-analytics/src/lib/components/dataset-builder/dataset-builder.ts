@@ -1,0 +1,120 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+  signal,
+} from '@angular/core';
+import { GpAnalyticsComponent } from '../base/gp-analytics-component';
+import {
+  createDatasetField,
+  createEmptyDataset,
+  Dataset,
+  DatasetField,
+  Field,
+  Grouping,
+  Relationship,
+} from '../../models';
+import { GpSchemaCatalogue } from '../schema-catalogue/schema-catalogue';
+import { GpDatasetFieldSelector } from '../dataset-field-selector/dataset-field-selector';
+import { GpDatasetPreview } from '../dataset-preview/dataset-preview';
+
+@Component({
+  selector: 'gp-dataset-builder',
+  standalone: true,
+  imports: [GpSchemaCatalogue, GpDatasetFieldSelector, GpDatasetPreview],
+  templateUrl: './dataset-builder.html',
+  styleUrl: './dataset-builder.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class GpDatasetBuilder extends GpAnalyticsComponent {
+  /**
+   * Groupings representing metadata schema.
+   */
+  readonly groupings = input.required<Grouping[]>();
+
+  /**
+   * Optional relationships across groupings.
+   */
+  readonly additionalRelationships = input<Relationship[]>([]);
+
+  /**
+   * Dataset model being built. Two-way bindable via [(dataset)].
+   */
+  readonly dataset = model<Dataset>(createEmptyDataset());
+
+  /**
+   * Currently active field ID in the field selector.
+   */
+  readonly selectedFieldId = model<string | null>(null);
+
+  /**
+   * Emitted whenever the dataset changes.
+   */
+  readonly datasetChange = output<Dataset>();
+
+  /**
+   * Computed list of visible dataset fields.
+   */
+  readonly datasetFields = computed(() =>
+    (this.dataset().fields ?? []).filter(
+      (f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true),
+    ),
+  );
+
+  /**
+   * Handles adding a field from the schema catalogue (via click or drag drop).
+   */
+  protected onAddField(field: Field): void {
+    if (!field.visible) {
+      return;
+    }
+    const newDatasetField = createDatasetField(field);
+    const currentFields = this.datasetFields();
+
+    const updatedDataset: Dataset = {
+      ...this.dataset(),
+      fields: [...currentFields, newDatasetField],
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.dataset.set(updatedDataset);
+    this.datasetChange.emit(updatedDataset);
+
+    // Focus the newly added field in the properties panel
+    this.selectedFieldId.set(newDatasetField.datasetFieldId);
+  }
+
+  /**
+   * Handles changes from the dataset-field-selector component.
+   */
+  protected onFieldsChange(fields: DatasetField[]): void {
+    const updatedDataset: Dataset = {
+      ...this.dataset(),
+      fields,
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.dataset.set(updatedDataset);
+    this.datasetChange.emit(updatedDataset);
+  }
+
+  /**
+   * Handles removing a single field.
+   */
+  protected onFieldRemove(datasetFieldId: string): void {
+    const currentFields = this.datasetFields();
+    const updatedFields = currentFields.filter((f) => f.datasetFieldId !== datasetFieldId);
+
+    const updatedDataset: Dataset = {
+      ...this.dataset(),
+      fields: updatedFields,
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.dataset.set(updatedDataset);
+    this.datasetChange.emit(updatedDataset);
+  }
+}

@@ -1,0 +1,30 @@
+<div class="gp-dataset-builder" role="application">
+  <!-- 3-Column Workbench: Available Fields (Left) | Dataset View (Middle) | Selected Fields (Right) -->
+  <div class="builder-workbench-layout">
+    <!-- Left Panel: Available fields (Schema Catalogue) -->
+    <div class="workbench-panel panel-catalogue">
+      <gp-schema-catalogue
+        [groupings]="groupings()"
+        [additionalRelationships]="additionalRelationships()"
+        [activeDatasetFields]="datasetFields()"
+        (fieldSelect)="onAddField($event)" />
+    </div>
+
+    <!-- Middle Panel: Dataset View (Preview Table) -->
+    <div class="workbench-panel panel-dataset-view">
+      <gp-dataset-preview
+        [fields]="datasetFields()"
+        [datasetName]="dataset().name" />
+    </div>
+
+    <!-- Right Panel: Selected Fields & Properties (Field Selector) -->
+    <div class="workbench-panel panel-fields">
+      <gp-dataset-field-selector
+        [fields]="datasetFields()"
+        [(selectedFieldId)]="selectedFieldId"
+        (fieldsChange)="onFieldsChange($event)"
+        (fieldDrop)="onAddField($event)"
+        (fieldRemove)="onFieldRemove($event)" />
+    </div>
+  </div>
+</div>
