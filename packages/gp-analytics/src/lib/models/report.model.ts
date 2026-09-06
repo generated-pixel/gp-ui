@@ -1,44 +1,14 @@
-import { GpMeasureQuery } from './query.model';
+export * from '../types/gp-report-type.type';
+export * from '../interfaces/gp-tabular-report-config.interface';
+export * from '../interfaces/gp-pivot-report-config.interface';
+export * from '../interfaces/gp-chart-report-config.interface';
+export * from '../interfaces/gp-report-config.interface';
 
-export type GpReportType = 'tabular' | 'pivot' | 'chart';
-
-export interface GpTabularReportConfig {
-  title: string;
-  subtitle?: string;
-  dimensions: string[];
-  measures: GpMeasureQuery[];
-  showSubtotals?: boolean;
-  showGrandTotal?: boolean;
-}
-
-export interface GpPivotReportConfig {
-  title: string;
-  subtitle?: string;
-  rowDimension: string;
-  colDimension: string;
-  measure: GpMeasureQuery;
-}
-
-export interface GpChartReportConfig {
-  title: string;
-  subtitle?: string;
-  chartType: 'bar' | 'donut' | 'line';
-  dimension: string;
-  measure: GpMeasureQuery;
-  sortOrder?: 'asc' | 'desc';
-  limit?: number;
-}
-
-export interface GpReportConfig {
-  id: string;
-  name: string;
-  description?: string;
-  type: GpReportType;
-  datasetId?: string;
-  config: GpTabularReportConfig | GpPivotReportConfig | GpChartReportConfig;
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { GpReportType } from '../types/gp-report-type.type';
+import { GpTabularReportConfig } from '../interfaces/gp-tabular-report-config.interface';
+import { GpPivotReportConfig } from '../interfaces/gp-pivot-report-config.interface';
+import { GpChartReportConfig } from '../interfaces/gp-chart-report-config.interface';
+import { GpReportConfig } from '../interfaces/gp-report-config.interface';
 
 export function createReportConfig(
   type: GpReportType,

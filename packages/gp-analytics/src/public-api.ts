@@ -1,5 +1,8 @@
 /* Public API surface of gp-analytics. */
 
+export * from './lib/enums';
+export * from './lib/types';
+export * from './lib/interfaces';
 export * from './lib/models';
 export * from './lib/components/base/gp-analytics-component';
 export * from './lib/components/schema-catalogue/schema-catalogue';

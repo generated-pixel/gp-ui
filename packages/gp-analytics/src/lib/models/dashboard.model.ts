@@ -1,101 +1,22 @@
-import { GpFilterCondition, GpMeasureQuery } from './query.model';
+export * from '../types/gp-dashboard-widget-type.type';
+export * from '../interfaces/gp-dashboard-grid-position.interface';
+export * from '../interfaces/gp-dashboard-widget-base.interface';
+export * from '../interfaces/gp-kpi-widget-config.interface';
+export * from '../interfaces/gp-chart-widget-config.interface';
+export * from '../interfaces/gp-table-widget-config.interface';
+export * from '../interfaces/gp-pivot-widget-config.interface';
+export * from '../interfaces/gp-custom-widget-config.interface';
+export * from '../types/gp-dashboard-widget-config.type';
+export * from '../interfaces/gp-dashboard-filter-field.interface';
+export * from '../interfaces/gp-dashboard-quick-preset.interface';
+export * from '../interfaces/gp-dashboard-config.interface';
 
-export type GpDashboardWidgetType = 'kpi' | 'chart' | 'table' | 'pivot' | 'custom';
-
-export interface GpDashboardGridPosition {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  minW?: number;
-  minH?: number;
-  maxW?: number;
-  maxH?: number;
-  fixed?: boolean;
-  locked?: boolean;
-  draggable?: boolean;
-  resizable?: boolean;
-}
-
-export interface GpDashboardWidgetBase {
-  id: string;
-  type: GpDashboardWidgetType;
-  title: string;
-  subtitle?: string;
-  icon?: string;
-  badge?: string;
-  badgeSeverity?: 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  grid: GpDashboardGridPosition;
-}
-
-export interface GpKpiWidgetConfig extends GpDashboardWidgetBase {
-  type: 'kpi';
-  measure: GpMeasureQuery;
-  targetValue?: number;
-  targetLabel?: string;
-  formatCurrency?: boolean;
-  unit?: string;
-  comparePrevious?: boolean;
-  severity?: 'success' | 'danger' | 'info' | 'warning';
-}
-
-export interface GpChartWidgetConfig extends GpDashboardWidgetBase {
-  type: 'chart';
-  chartType: 'bar' | 'donut' | 'line';
-  dimension: string;
-  measure: GpMeasureQuery;
-  sortOrder?: 'asc' | 'desc';
-  limit?: number;
-}
-
-export interface GpTableWidgetConfig extends GpDashboardWidgetBase {
-  type: 'table';
-  dimensions: string[];
-  measures: GpMeasureQuery[];
-  showSubtotals?: boolean;
-  showGrandTotal?: boolean;
-}
-
-export interface GpPivotWidgetConfig extends GpDashboardWidgetBase {
-  type: 'pivot';
-  rowDimension: string;
-  colDimension: string;
-  measure: GpMeasureQuery;
-}
-
-export interface GpCustomWidgetConfig extends GpDashboardWidgetBase {
-  type: 'custom';
-  content?: string;
-}
-
-export type GpDashboardWidgetConfig =
-  GpKpiWidgetConfig | GpChartWidgetConfig | GpTableWidgetConfig | GpPivotWidgetConfig | GpCustomWidgetConfig;
-
-export interface GpDashboardFilterField {
-  fieldId: string;
-  label: string;
-}
-
-export interface GpDashboardQuickPreset {
-  label: string;
-  condition: GpFilterCondition;
-}
-
-export interface GpDashboardConfig {
-  id: string;
-  title: string;
-  subtitle?: string;
-  columns?: number;
-  rowHeight?: number;
-  gap?: number;
-  compactType?: 'vertical' | 'none';
-  allowMove?: boolean;
-  allowResize?: boolean;
-  filters?: GpFilterCondition[];
-  filterFields?: GpDashboardFilterField[];
-  quickPresets?: GpDashboardQuickPreset[];
-  widgets: GpDashboardWidgetConfig[];
-}
+import { GpDashboardConfig } from '../interfaces/gp-dashboard-config.interface';
+import { GpDashboardWidgetConfig } from '../types/gp-dashboard-widget-config.type';
+import { GpKpiWidgetConfig } from '../interfaces/gp-kpi-widget-config.interface';
+import { GpChartWidgetConfig } from '../interfaces/gp-chart-widget-config.interface';
+import { GpTableWidgetConfig } from '../interfaces/gp-table-widget-config.interface';
+import { GpPivotWidgetConfig } from '../interfaces/gp-pivot-widget-config.interface';
 
 /**
  * Creates the default executive dashboard configuration.

@@ -54,4 +54,9 @@ describe('metadata models', () => {
     expect(DataType.String).toBe('string');
     expect(DataType.Currency).toBe('currency');
   });
+
+  it('supports package, report, and query interfaces across dedicated files', () => {
+    expect(JoinType.Cross).toBe('cross');
+    expect(RelationshipCardinality.ManyToMany).toBe('many-to-many');
+  });
 });

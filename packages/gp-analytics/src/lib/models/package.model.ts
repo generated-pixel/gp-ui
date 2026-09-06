@@ -1,66 +1,12 @@
-import { Dataset } from './dataset.model';
-import { GpDashboardConfig } from './dashboard.model';
-import { GpReportConfig } from './report.model';
+export * from '../types/gp-package-import-mode.type';
+export * from '../interfaces/gp-package-item-counts.interface';
+export * from '../interfaces/gp-package-metadata.interface';
+export * from '../interfaces/gp-package-theme-config.interface';
+export * from '../interfaces/gp-analytics-package.interface';
+export * from '../interfaces/gp-package-validation-result.interface';
+export * from '../interfaces/gp-distribution-payload.interface';
 
-export type GpPackageImportMode = 'merge' | 'replace' | 'copy';
-
-export interface GpPackageItemCounts {
-  datasets: number;
-  dashboards: number;
-  reports: number;
-}
-
-export interface GpPackageMetadata {
-  id: string;
-  name: string;
-  description?: string;
-  exportedAt: string;
-  exportedBy?: string;
-  organization?: string;
-  environment?: 'development' | 'staging' | 'production' | string;
-  checksum?: string;
-  tags?: string[];
-  itemCounts?: GpPackageItemCounts;
-}
-
-export interface GpPackageThemeConfig {
-  primaryColor?: string;
-  mode?: 'light' | 'dark' | 'auto';
-  themeId?: string;
-}
-
-export interface GpAnalyticsPackage {
-  $schema?: string;
-  format: 'gp-analytics-package';
-  version: string; // e.g. '1.0.0'
-  metadata: GpPackageMetadata;
-  datasets: Dataset[];
-  dashboards: GpDashboardConfig[];
-  reports: GpReportConfig[];
-  theme?: GpPackageThemeConfig;
-  extensions?: Record<string, unknown>;
-}
-
-export interface GpPackageValidationResult {
-  isValid: boolean;
-  formatMatch: boolean;
-  version: string;
-  errors: string[];
-  warnings: string[];
-  itemCounts: GpPackageItemCounts;
-  metadata?: GpPackageMetadata;
-}
-
-export interface GpDistributionPayload {
-  packageId: string;
-  name: string;
-  version: string;
-  payloadSizeBytes: number;
-  checksum: string;
-  exportedAt: string;
-  targetEndpoint?: string;
-  package: GpAnalyticsPackage;
-}
+import { GpAnalyticsPackage } from '../interfaces/gp-analytics-package.interface';
 
 export function computePackageChecksum(data: unknown): string {
   const str = typeof data === 'string' ? data : JSON.stringify(data);

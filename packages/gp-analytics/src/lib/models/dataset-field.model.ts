@@ -1,68 +1,7 @@
-import { AggregationType } from './aggregation-type.model';
-import { DataType, FieldType } from './data-type.model';
-import { Field } from './field.model';
-import { FieldValue } from './field-value.model';
-import { LocalizedValue } from './localized-value.model';
+export * from '../interfaces/dataset-field.interface';
 
-/**
- * DatasetField represents a field configured as part of a user-defined dataset.
- * It is decoupled from the base Field schema, storing custom aggregation,
- * filterable, sortable, and groupable flags restricted by base capabilities.
- */
-export interface DatasetField {
-  datasetFieldId: string;
-  fieldId: string;
-  tableId: string;
-  fieldName: string;
-  fieldDisplayName: LocalizedValue;
-  dataType: DataType | `${DataType}`;
-  fieldType?: FieldType | `${FieldType}`;
-  format?: string;
-
-  /**
-   * Predefined or discrete list of values with localized display names.
-   */
-  lookupValues?: FieldValue<string>[];
-
-  /**
-   * Visibility flag inherited from base Field schema.
-   */
-  visible: boolean;
-
-  /**
-   * Aggregation type selected for this dataset field.
-   */
-  aggregationType: AggregationType;
-
-  /**
-   * Whether this dataset field can be filtered.
-   * Can only be true if baseField.filterable is true.
-   */
-  filterable: boolean;
-
-  /**
-   * Whether this dataset field can be sorted.
-   * Can only be true if baseField.sortable is true.
-   */
-  sortable: boolean;
-
-  /**
-   * Whether this dataset field can be grouped.
-   * Can only be true if baseField.groupable is true.
-   */
-  groupable: boolean;
-
-  /**
-   * Whether this dataset field is actively marked as a grouped dimension (Group By).
-   * Can only be true if baseField.groupable is true.
-   */
-  isGrouped?: boolean;
-
-  /**
-   * Reference to the base Field schema for capability validation.
-   */
-  baseField: Field;
-}
+import { DatasetField } from '../interfaces/dataset-field.interface';
+import { Field } from '../interfaces/field.interface';
 
 /**
  * Creates a new DatasetField instance from a base Field schema.

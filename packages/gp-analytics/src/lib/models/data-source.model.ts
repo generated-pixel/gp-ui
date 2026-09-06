@@ -1,28 +1,4 @@
-import { DatasetField } from './dataset-field.model';
-
-export type DatasetDataSourceType = 'simulated' | 'file' | 'api' | 'json' | 'custom';
-
-export interface DatasetDataSourceConfig {
-  type: DatasetDataSourceType;
-  file?: File;
-  fileName?: string;
-  url?: string;
-  headers?: Record<string, string>;
-  rawJson?: string;
-  dataPath?: string; // Optional dot-path to target array (e.g. 'data.items' or 'value')
-}
-
-export interface LoadedDataResult {
-  sourceType: DatasetDataSourceType;
-  sourceName: string;
-  records: Record<string, any>[];
-  totalRecords: number;
-  matchedFields: string[];
-  unmatchedFields: string[];
-  timestamp: string;
-}
-
-export type CustomDataLoaderFn = (
-  config: DatasetDataSourceConfig,
-  context: { fields: DatasetField[] }
-) => Promise<Record<string, any>[] | LoadedDataResult>;
+export * from '../types/dataset-data-source-type.type';
+export * from '../interfaces/dataset-data-source-config.interface';
+export * from '../interfaces/loaded-data-result.interface';
+export * from '../types/custom-data-loader-fn.type';

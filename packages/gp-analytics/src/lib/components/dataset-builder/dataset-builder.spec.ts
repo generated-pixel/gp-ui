@@ -51,7 +51,7 @@ describe('GpDatasetBuilder', () => {
     fixture.detectChanges();
 
     let emittedDataset: Dataset | null = null;
-    component.datasetChange.subscribe((ds) => (emittedDataset = ds));
+    component.dataset.subscribe((ds: Dataset) => (emittedDataset = ds));
 
     component['onAddField'](sampleField);
 

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Field, Grouping, Relationship } from '../models';
 
-export interface FieldSelectability {
-  selectable: boolean;
-  reason?: 'not-visible' | 'not-usable-in-reports' | 'table-not-related';
-  message?: string;
-}
+export type { FieldSelectability } from '../interfaces/field-selectability.interface';
+import type { FieldSelectability } from '../interfaces/field-selectability.interface';
 
 @Injectable({ providedIn: 'root' })
 export class GpRelationshipGraphService {

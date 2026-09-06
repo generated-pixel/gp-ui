@@ -14,19 +14,8 @@ import { Dataset } from '../models/dataset.model';
 import { GpDashboardConfig } from '../models/dashboard.model';
 import { GpReportConfig } from '../models/report.model';
 
-export interface CreatePackageOptions {
-  name?: string;
-  description?: string;
-  datasets?: Dataset[];
-  dashboards?: GpDashboardConfig[];
-  reports?: GpReportConfig[];
-  exportedBy?: string;
-  organization?: string;
-  environment?: 'development' | 'staging' | 'production' | string;
-  tags?: string[];
-  theme?: GpPackageThemeConfig;
-  extensions?: Record<string, unknown>;
-}
+export type { CreatePackageOptions } from '../interfaces/create-package-options.interface';
+import type { CreatePackageOptions } from '../interfaces/create-package-options.interface';
 
 @Injectable({
   providedIn: 'root'

@@ -1,33 +1,4 @@
-import { Grouping } from './grouping.model';
-import { Relationship } from './relationship.model';
-
-export type SchemaSourceType = 'file' | 'api' | 'json' | 'preset';
-
-export interface SchemaSourceConfig {
-  type: SchemaSourceType;
-  file?: File;
-  fileName?: string;
-  url?: string;
-  headers?: Record<string, string>;
-  rawJson?: string;
-  presetId?: string;
-  dataPath?: string;
-}
-
-export interface SchemaPreset {
-  id: string;
-  name: string;
-  description: string;
-  icon?: string;
-  groupings: Grouping[];
-  relationships?: Relationship[];
-}
-
-export interface LoadedSchemaResult {
-  groupings: Grouping[];
-  relationships?: Relationship[];
-  sourceType: SchemaSourceType;
-  sourceName: string;
-  totalTables: number;
-  totalFields: number;
-}
+export * from '../types/schema-source-type.type';
+export * from '../interfaces/schema-source-config.interface';
+export * from '../interfaces/schema-preset.interface';
+export * from '../interfaces/loaded-schema-result.interface';

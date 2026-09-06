@@ -11,14 +11,11 @@ import {
   getLookupValueDisplayLabel
 } from '../../models';
 
-export type ListGroupingMode = 'none' | 'table' | 'role';
+export type { ListGroupingMode } from '../../types/list-grouping-mode.type';
+export type { FieldListSection } from '../../interfaces/field-list-section.interface';
 
-export interface FieldListSection {
-  id: string;
-  title: string;
-  icon: string;
-  fields: { field: DatasetField; globalIndex: number }[];
-}
+import type { ListGroupingMode } from '../../types/list-grouping-mode.type';
+import type { FieldListSection } from '../../interfaces/field-list-section.interface';
 
 import { GpSwitch } from '@generatedpixel/gp-ui';
 

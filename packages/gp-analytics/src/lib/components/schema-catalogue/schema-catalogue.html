@@ -300,12 +300,10 @@
                     }}
                   </span>
                   <span class="meta-sep">·</span>
-                  <span class="meta-item">
-                    <strong>{{ preset.groupings[0]?.tables?.length || 0 }}</strong> tables
-                  </span>
+                  <span class="meta-item"> <strong>{{ preset.groupings[0]?.tables.length || 0 }}</strong> tables </span>
                   @if (preset.relationships?.length) {
                   <span class="meta-sep">·</span>
-                  <span class="meta-item"> <strong>{{ preset.relationships?.length }}</strong> joins </span>
+                  <span class="meta-item"> <strong>{{ preset.relationships.length }}</strong> joins </span>
                   }
                 </div>
               </div>

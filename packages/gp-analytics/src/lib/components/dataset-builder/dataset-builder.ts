@@ -68,11 +68,6 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
   readonly dataSourceConfig = input<DatasetDataSourceConfig | null>(null);
 
   /**
-   * Emitted whenever the dataset changes.
-   */
-  readonly datasetChange = output<Dataset>();
-
-  /**
    * Emitted when custom data is loaded from a source.
    */
   readonly dataSourceLoaded = output<LoadedDataResult>();
@@ -108,7 +103,6 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     };
 
     this.dataset.set(updatedDataset);
-    this.datasetChange.emit(updatedDataset);
 
     // Focus the newly added field in the properties panel
     this.selectedFieldId.set(newDatasetField.datasetFieldId);
@@ -125,7 +119,6 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     };
 
     this.dataset.set(updatedDataset);
-    this.datasetChange.emit(updatedDataset);
   }
 
   /**
@@ -142,7 +135,6 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     };
 
     this.dataset.set(updatedDataset);
-    this.datasetChange.emit(updatedDataset);
   }
 
   /**
@@ -181,7 +173,6 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     };
 
     this.dataset.set(updatedDataset);
-    this.datasetChange.emit(updatedDataset);
   }
 
   /**

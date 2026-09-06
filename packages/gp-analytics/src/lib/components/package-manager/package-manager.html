@@ -267,7 +267,7 @@
                 <strong>{{ val.isValid ? 'Schema Validation Passed' : 'Schema Validation Failed' }}</strong>
                 <p class="validation-summary-text">
                   Detected: {{ val.itemCounts.datasets }} Datasets, {{ val.itemCounts.dashboards }} Dashboards, {{
-                  val.itemCounts.reports }} Reports @if (val.metadata?.name) { • Package: "{{ val.metadata?.name }}" }
+                  val.itemCounts.reports }} Reports @if (val.metadata?.name) { • Package: "{{ val.metadata.name }}" }
                 </p>
               </div>
             </div>

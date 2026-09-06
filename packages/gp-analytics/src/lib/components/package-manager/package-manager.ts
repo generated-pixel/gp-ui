@@ -13,26 +13,13 @@ import { GpDashboardConfig } from '../../models/dashboard.model';
 import { GpReportConfig } from '../../models/report.model';
 import { GpButton, GpTag, GpSwitch, GpSelect, GpRadioButton, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
-export interface PackageImportEvent {
-  package: GpAnalyticsPackage;
-  mode: GpPackageImportMode;
-}
+export type { PackageImportEvent } from '../../interfaces/package-import-event.interface';
+export type { DistributionTransmitEvent } from '../../interfaces/distribution-transmit-event.interface';
+export type { GpPackageSnapshot } from '../../interfaces/gp-package-snapshot.interface';
 
-export interface DistributionTransmitEvent {
-  payload: GpDistributionPayload;
-  endpoint: string;
-  environment: string;
-}
-
-export interface GpPackageSnapshot {
-  id: string;
-  timestamp: string;
-  action: 'export' | 'import' | 'distribution';
-  name: string;
-  environment?: string;
-  itemCounts: { datasets: number; dashboards: number; reports: number };
-  jsonPayload: string;
-}
+import type { PackageImportEvent } from '../../interfaces/package-import-event.interface';
+import type { DistributionTransmitEvent } from '../../interfaces/distribution-transmit-event.interface';
+import type { GpPackageSnapshot } from '../../interfaces/gp-package-snapshot.interface';
 
 @Component({
   selector: 'gp-package-manager',

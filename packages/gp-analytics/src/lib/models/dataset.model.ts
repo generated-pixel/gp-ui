@@ -1,15 +1,6 @@
-import { DatasetField } from './dataset-field.model';
-import { GpFilterCondition } from './query.model';
+export * from '../interfaces/dataset.interface';
 
-export interface Dataset {
-  datasetId: string;
-  name: string;
-  description?: string;
-  fields: DatasetField[];
-  filters?: GpFilterCondition[];
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { Dataset } from '../interfaces/dataset.interface';
 
 export function createEmptyDataset(name: string = 'New Dataset'): Dataset {
   return {
