@@ -224,4 +224,37 @@ describe('GpDashboardDesigner', () => {
     expect(savedWidget.grid.x).toBe(8);
     expect(savedWidget.grid.y).toBe(4);
   });
+
+  it('manages undo and redo history stacks properly', () => {
+    const { fixture, component } = createComponent();
+    fixture.detectChanges();
+
+    const initialCount = component.config().widgets.length;
+    expect(component.canUndo()).toBe(false);
+    expect(component.canRedo()).toBe(false);
+
+    // Add a widget -> pushes to undo stack
+    component.addWidget('kpi');
+    fixture.detectChanges();
+
+    expect(component.config().widgets.length).toBe(initialCount + 1);
+    expect(component.canUndo()).toBe(true);
+    expect(component.canRedo()).toBe(false);
+
+    // Undo -> reverts widget count
+    component.undo();
+    fixture.detectChanges();
+
+    expect(component.config().widgets.length).toBe(initialCount);
+    expect(component.canUndo()).toBe(false);
+    expect(component.canRedo()).toBe(true);
+
+    // Redo -> restores added widget
+    component.redo();
+    fixture.detectChanges();
+
+    expect(component.config().widgets.length).toBe(initialCount + 1);
+    expect(component.canUndo()).toBe(true);
+    expect(component.canRedo()).toBe(false);
+  });
 });

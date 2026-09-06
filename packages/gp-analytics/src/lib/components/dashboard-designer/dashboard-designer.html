@@ -139,6 +139,22 @@
     <!-- Right Actions using gp-button -->
     <div class="topbar-right">
       <gp-button
+        label="Undo"
+        icon="undo"
+        size="sm"
+        [outlined]="true"
+        [disabled]="!canUndo()"
+        title="Undo change (Ctrl+Z)"
+        (click)="undo()" />
+      <gp-button
+        label="Redo"
+        icon="redo"
+        size="sm"
+        [outlined]="true"
+        [disabled]="!canRedo()"
+        title="Redo change (Ctrl+Y)"
+        (click)="redo()" />
+      <gp-button
         label="Settings"
         icon="cog"
         [outlined]="true"

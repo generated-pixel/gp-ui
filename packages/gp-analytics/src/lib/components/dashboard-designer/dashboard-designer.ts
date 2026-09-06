@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   input,
   model,
   output,
@@ -123,6 +124,67 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
   readonly jsonBuffer = signal<string>('');
   readonly jsonError = signal<string | null>(null);
   readonly saveNotification = signal<string | null>(null);
+
+  // History state stacks for undo / redo
+  readonly undoStack = signal<GpDashboardConfig[]>([]);
+  readonly redoStack = signal<GpDashboardConfig[]>([]);
+  readonly canUndo = computed<boolean>(() => this.undoStack().length > 0);
+  readonly canRedo = computed<boolean>(() => this.redoStack().length > 0);
+
+  /**
+   * Pushes a deep clone of previous config state onto the undo stack.
+   */
+  pushHistory(prevConfig: GpDashboardConfig): void {
+    const cloned: GpDashboardConfig = JSON.parse(JSON.stringify(prevConfig));
+    this.undoStack.update((stack) => [...stack.slice(-25), cloned]);
+    this.redoStack.set([]);
+  }
+
+  /**
+   * Reverts to the previous state on the undo stack.
+   */
+  undo(): void {
+    const stack = this.undoStack();
+    if (stack.length === 0) return;
+    const prev = stack[stack.length - 1];
+    this.undoStack.set(stack.slice(0, -1));
+    const current: GpDashboardConfig = JSON.parse(JSON.stringify(this.config()));
+    this.redoStack.update((r) => [...r, current]);
+    this.config.set(prev);
+    this.selectedWidgetId.set(null);
+  }
+
+  /**
+   * Re-applies the next state on the redo stack.
+   */
+  redo(): void {
+    const stack = this.redoStack();
+    if (stack.length === 0) return;
+    const next = stack[stack.length - 1];
+    this.redoStack.set(stack.slice(0, -1));
+    const current: GpDashboardConfig = JSON.parse(JSON.stringify(this.config()));
+    this.undoStack.update((u) => [...u, current]);
+    this.config.set(next);
+    this.selectedWidgetId.set(null);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardUndoRedo(event: KeyboardEvent): void {
+    if (this.activeMode() !== 'design') return;
+    const isCtrl = event.ctrlKey || event.metaKey;
+    if (isCtrl && event.key.toLowerCase() === 'z') {
+      if (event.shiftKey) {
+        event.preventDefault();
+        this.redo();
+      } else {
+        event.preventDefault();
+        this.undo();
+      }
+    } else if (isCtrl && event.key.toLowerCase() === 'y') {
+      event.preventDefault();
+      this.redo();
+    }
+  }
 
   /**
    * Currently inspected widget object.
@@ -329,6 +391,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
       }
     }
 
+    this.pushHistory(this.config());
     const updatedConfig: GpDashboardConfig = {
       ...this.config(),
       widgets: [...currentWidgets, newWidget],
@@ -340,6 +403,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
 
   // Duplicate Widget
   duplicateWidget(w: GpDashboardWidgetConfig): void {
+    this.pushHistory(this.config());
     const currentWidgets = this.config().widgets;
     const cloned: GpDashboardWidgetConfig = JSON.parse(JSON.stringify(w));
     cloned.id = `widget-${w.type}-${Date.now().toString(36)}`;
@@ -357,6 +421,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
 
   // Delete Widget
   deleteWidget(id: string): void {
+    this.pushHistory(this.config());
     const currentWidgets = this.config().widgets;
     const updated = currentWidgets.filter((w) => w.id !== id);
     this.config.set({
@@ -400,6 +465,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
     });
 
     if (modified) {
+      this.pushHistory(this.config());
       this.config.set({
         ...this.config(),
         widgets: updatedWidgets,
@@ -416,6 +482,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
     const currentWidgets = this.config().widgets;
     const index = currentWidgets.findIndex((w) => w.id === updated.id);
     if (index >= 0) {
+      this.pushHistory(this.config());
       const copy = [...currentWidgets];
       copy[index] = updated;
       this.config.set({
@@ -452,6 +519,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
 
   // Load Presets
   loadTemplate(templateKey: 'executive' | 'operations' | 'blank'): void {
+    this.pushHistory(this.config());
     if (templateKey === 'executive') {
       this.config.set(createDefaultDashboardConfig());
     } else if (templateKey === 'operations') {
@@ -473,6 +541,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
   }
 
   updateDashboardSettings(patch: Partial<GpDashboardConfig>): void {
+    this.pushHistory(this.config());
     this.config.set({
       ...this.config(),
       ...patch,
