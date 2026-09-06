@@ -9,8 +9,10 @@ export type GpFilterOperator =
   | 'lte'
   | 'between'
   | 'in'
+  | 'not_in'
   | 'contains'
   | 'startsWith'
+  | 'endsWith'
   | 'isNull'
   | 'isNotNull';
 

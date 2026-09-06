@@ -60,6 +60,56 @@ describe('GpDataEngineService', () => {
       expect(result.rows[0]['rev']).toBe(4500);
     });
 
+    it('evaluates advanced filter operators (between, in, not_in, startsWith, endsWith)', () => {
+      // Between: total between 1200 and 2500 -> Northwind (2000), Acme Corp (1500)
+      const betweenSpec: GpAnalyticalQuerySpec = {
+        dimensions: ['customer'],
+        measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
+        filters: [{ fieldId: 'total', operator: 'between', value: 1200, secondValue: 2500 }],
+      };
+      const bRes = service.executeQuery(mockRecords, betweenSpec);
+      expect(bRes.totalCount).toBe(2);
+
+      // In: region in ['EMEA', 'APAC'] -> Northwind (2), Starlight (1)
+      const inSpec: GpAnalyticalQuerySpec = {
+        dimensions: ['customer'],
+        measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
+        filters: [{ fieldId: 'region', operator: 'in', value: ['EMEA', 'APAC'] }],
+      };
+      const inRes = service.executeQuery(mockRecords, inSpec);
+      expect(inRes.totalCount).toBe(2);
+
+      // Not in: region not in ['EMEA', 'APAC'] -> Acme Corp
+      const notInSpec: GpAnalyticalQuerySpec = {
+        dimensions: ['customer'],
+        measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
+        filters: [{ fieldId: 'region', operator: 'not_in', value: ['EMEA', 'APAC'] }],
+      };
+      const notInRes = service.executeQuery(mockRecords, notInSpec);
+      expect(notInRes.totalCount).toBe(1);
+      expect(notInRes.rows[0]['customer']).toBe('Acme Corp');
+
+      // StartsWith: customer starts with 'North'
+      const startsSpec: GpAnalyticalQuerySpec = {
+        dimensions: ['customer'],
+        measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
+        filters: [{ fieldId: 'customer', operator: 'startsWith', value: 'North' }],
+      };
+      const startsRes = service.executeQuery(mockRecords, startsSpec);
+      expect(startsRes.totalCount).toBe(1);
+      expect(startsRes.rows[0]['customer']).toBe('Northwind');
+
+      // EndsWith: customer ends with 'Corp'
+      const endsSpec: GpAnalyticalQuerySpec = {
+        dimensions: ['customer'],
+        measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
+        filters: [{ fieldId: 'customer', operator: 'endsWith', value: 'Corp' }],
+      };
+      const endsRes = service.executeQuery(mockRecords, endsSpec);
+      expect(endsRes.totalCount).toBe(1);
+      expect(endsRes.rows[0]['customer']).toBe('Acme Corp');
+    });
+
     it('sorts aggregated rows by measure descending', () => {
       const spec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],

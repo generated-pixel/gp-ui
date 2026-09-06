@@ -384,14 +384,30 @@ export class GpDataEngineService {
         return Number(val) < Number(filter.value);
       case 'lte':
         return Number(val) <= Number(filter.value);
-      case 'between':
-        return Number(val) >= Number(filter.value) && Number(val) <= Number(filter.secondValue);
-      case 'in':
-        return Array.isArray(filter.value) && filter.value.map(String).includes(String(val));
+      case 'between': {
+        const numVal = Number(val);
+        const numLow = Number(filter.value);
+        const numHigh = Number(filter.secondValue);
+        if (!isNaN(numVal) && !isNaN(numLow) && !isNaN(numHigh)) {
+          return numVal >= numLow && numVal <= numHigh;
+        }
+        const strVal = String(val ?? '');
+        return strVal >= String(filter.value ?? '') && strVal <= String(filter.secondValue ?? '');
+      }
+      case 'in': {
+        const list = Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim());
+        return list.map(String).includes(String(val));
+      }
+      case 'not_in': {
+        const list = Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim());
+        return !list.map(String).includes(String(val));
+      }
       case 'contains':
         return String(val ?? '').toLowerCase().includes(String(filter.value ?? '').toLowerCase());
       case 'startsWith':
         return String(val ?? '').toLowerCase().startsWith(String(filter.value ?? '').toLowerCase());
+      case 'endsWith':
+        return String(val ?? '').toLowerCase().endsWith(String(filter.value ?? '').toLowerCase());
       case 'isNull':
         return val == null;
       case 'isNotNull':
@@ -553,13 +569,23 @@ export class GpDataEngineService {
       case 'between':
         return `${f} BETWEEN ${filter.value} AND ${filter.secondValue}`;
       case 'in': {
-        const inVals = (Array.isArray(filter.value) ? filter.value : [filter.value])
+        const inVals = (Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim()))
           .map((v) => `'${v}'`)
           .join(', ');
         return `${f} IN (${inVals})`;
       }
+      case 'not_in': {
+        const inVals = (Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim()))
+          .map((v) => `'${v}'`)
+          .join(', ');
+        return `${f} NOT IN (${inVals})`;
+      }
       case 'contains':
         return `${f} ILIKE '%${filter.value}%'`;
+      case 'startsWith':
+        return `${f} ILIKE '${filter.value}%'`;
+      case 'endsWith':
+        return `${f} ILIKE '%${filter.value}'`;
       case 'isNull':
         return `${f} IS NULL`;
       case 'isNotNull':
