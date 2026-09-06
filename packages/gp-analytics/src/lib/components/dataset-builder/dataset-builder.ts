@@ -16,6 +16,9 @@ import {
   Field,
   Grouping,
   Relationship,
+  DatasetDataSourceConfig,
+  LoadedDataResult,
+  CustomDataLoaderFn,
 } from '../../models';
 import { GpSchemaCatalogue } from '../schema-catalogue/schema-catalogue';
 import { GpDatasetFieldSelector } from '../dataset-field-selector/dataset-field-selector';
@@ -51,9 +54,34 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
   readonly selectedFieldId = model<string | null>(null);
 
   /**
+   * Optional custom records passed directly to preview.
+   */
+  readonly customData = input<Record<string, any>[] | null>(null);
+
+  /**
+   * Optional custom data loader function for specialized or authenticated fetching.
+   */
+  readonly customDataLoader = input<CustomDataLoaderFn | null>(null);
+
+  /**
+   * Optional initial data source configuration.
+   */
+  readonly dataSourceConfig = input<DatasetDataSourceConfig | null>(null);
+
+  /**
    * Emitted whenever the dataset changes.
    */
   readonly datasetChange = output<Dataset>();
+
+  /**
+   * Emitted when custom data is loaded from a source.
+   */
+  readonly dataSourceLoaded = output<LoadedDataResult>();
+
+  /**
+   * Emitted when preview is reset to simulated data.
+   */
+  readonly dataSourceReset = output<void>();
 
   /**
    * Computed list of visible dataset fields.

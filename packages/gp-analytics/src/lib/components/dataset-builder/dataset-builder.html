@@ -14,7 +14,12 @@
     <div class="workbench-panel panel-dataset-view">
       <gp-dataset-preview
         [fields]="datasetFields()"
-        [datasetName]="dataset().name" />
+        [datasetName]="dataset().name"
+        [customData]="customData()"
+        [customDataLoader]="customDataLoader()"
+        [dataSourceConfig]="dataSourceConfig()"
+        (dataSourceLoaded)="dataSourceLoaded.emit($event)"
+        (dataSourceReset)="dataSourceReset.emit()" />
     </div>
 
     <!-- Right Panel: Selected Fields & Properties (Field Selector) -->
