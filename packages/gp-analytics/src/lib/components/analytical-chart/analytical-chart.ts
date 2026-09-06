@@ -8,9 +8,12 @@ import {
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpCategoricalChartData } from '../../models/query.model';
 
+import { GpTag } from '@generatedpixel/gp-ui';
+
 @Component({
   selector: 'gp-analytical-chart',
   standalone: true,
+  imports: [GpTag],
   templateUrl: './analytical-chart.html',
   styleUrl: './analytical-chart.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,10 +23,12 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
   readonly subtitle = input<string>('');
   readonly type = input<'bar' | 'donut' | 'line'>('bar');
   readonly data = input<GpCategoricalChartData | null>(null);
+  readonly stacked = input<boolean>(false);
 
   protected readonly hoveredIndex = signal<number | null>(null);
+  readonly hiddenSeries = signal<Set<string>>(new Set());
 
-  protected readonly palette = [
+  readonly palette = [
     '#4f46e5', // Primary Indigo
     '#0ea5e9', // Sky Blue
     '#10b981', // Emerald Green
@@ -32,8 +37,69 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
     '#8b5cf6', // Purple
   ];
 
+  toggleSeries(seriesName: string): void {
+    const current = new Set(this.hiddenSeries());
+    if (current.has(seriesName)) {
+      current.delete(seriesName);
+    } else {
+      current.add(seriesName);
+    }
+    this.hiddenSeries.set(current);
+  }
+
+  readonly activeSeries = computed(() => {
+    const d = this.data();
+    if (!d || !d.series) return [];
+    return d.series.filter((s) => !this.hiddenSeries().has(s.name));
+  });
+
   /**
-   * Bar Chart Calculations
+   * Multi-series bar groupings per category.
+   */
+  readonly barCategories = computed(() => {
+    const d = this.data();
+    if (!d || !d.categories || d.categories.length === 0) return [];
+    const active = this.activeSeries();
+    if (active.length === 0) return [];
+
+    const isStacked = this.stacked();
+
+    // Compute max for scale
+    let maxScale = 1;
+    if (isStacked) {
+      for (let i = 0; i < d.categories.length; i++) {
+        const catSum = active.reduce((acc, s) => acc + (s.data[i] ?? 0), 0);
+        if (catSum > maxScale) maxScale = catSum;
+      }
+    } else {
+      for (const s of active) {
+        const sMax = Math.max(...s.data, 0);
+        if (sMax > maxScale) maxScale = sMax;
+      }
+    }
+
+    return d.categories.map((cat, catIdx) => {
+      const seriesBars = active.map((s, sIdx) => {
+        const val = s.data[catIdx] ?? 0;
+        const heightPct = Math.max(2, Number(((val / maxScale) * 100).toFixed(1)));
+        const color = this.palette[sIdx % this.palette.length];
+        return {
+          seriesName: s.name,
+          value: val,
+          heightPct,
+          color,
+        };
+      });
+
+      return {
+        category: cat,
+        seriesBars,
+      };
+    });
+  });
+
+  /**
+   * Bar Chart Calculations (Single primary series fallback)
    */
   readonly barItems = computed(() => {
     const d = this.data();
@@ -41,7 +107,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
       return [];
     }
 
-    const primarySeries = d.series[0];
+    const primarySeries = this.activeSeries()[0] || d.series[0];
     const maxVal = Math.max(...primarySeries.data, 1);
 
     return d.categories.map((cat, idx) => {

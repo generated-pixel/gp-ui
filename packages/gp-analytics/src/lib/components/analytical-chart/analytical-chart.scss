@@ -18,6 +18,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chart-series-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+
+  .legend-tag {
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: opacity 0.2s ease;
+
+    .legend-color-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+  }
 }
 
 .chart-title {
@@ -65,10 +89,16 @@
 }
 
 .bar-track {
-  width: 32px;
+  width: 36px;
   height: 100%;
   display: flex;
   align-items: flex-end;
+  gap: 2px;
+
+  &.stacked-track {
+    flex-direction: column-reverse;
+    gap: 0;
+  }
 }
 
 .bar-fill {

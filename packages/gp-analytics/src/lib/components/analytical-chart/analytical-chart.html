@@ -7,6 +7,23 @@
         <p class="chart-subtitle">{{ subtitle() }}</p>
       }
     </div>
+
+    <!-- Multi-series Legend -->
+    @if ((data()?.series?.length ?? 0) > 1) {
+      <div class="chart-series-legend">
+        @for (s of data()!.series; track s.name; let sIdx = $index) {
+          <gp-tag
+            [severity]="hiddenSeries().has(s.name) ? 'secondary' : 'primary'"
+            size="sm"
+            class="legend-tag"
+            (click)="toggleSeries(s.name)"
+            [title]="'Toggle ' + s.name">
+            <span class="legend-color-dot" [style.background-color]="palette[sIdx % palette.length]"></span>
+            {{ s.name }}
+          </gp-tag>
+        }
+      </div>
+    }
   </header>
 
   <div class="chart-body">
@@ -14,29 +31,32 @@
     @if (type() === 'bar') {
       <div class="bar-chart-container">
         <div class="bar-plot-area">
-          @for (bar of barItems(); track bar.label; let idx = $index) {
+          @for (catItem of barCategories(); track catItem.category; let idx = $index) {
             <div
               class="bar-col"
+              [class.stacked-col]="stacked()"
               (mouseenter)="hoveredIndex.set(idx)"
               (mouseleave)="hoveredIndex.set(null)">
-              <div class="bar-track">
-                <div
-                  class="bar-fill"
-                  [style.height.%]="bar.heightPct"
-                  [style.background-color]="bar.color">
-                  @if (hoveredIndex() === idx) {
-                    <div class="bar-tooltip">
-                      <strong>{{ bar.label }}</strong>: {{ bar.value.toLocaleString('en-US') }}
-                    </div>
-                  }
-                </div>
+              <div class="bar-track" [class.stacked-track]="stacked()">
+                @for (bar of catItem.seriesBars; track bar.seriesName) {
+                  <div
+                    class="bar-fill"
+                    [style.height.%]="bar.heightPct"
+                    [style.background-color]="bar.color">
+                    @if (hoveredIndex() === idx) {
+                      <div class="bar-tooltip">
+                        <strong>{{ catItem.category }}</strong> ({{ bar.seriesName }}): {{ bar.value.toLocaleString('en-US') }}
+                      </div>
+                    }
+                  </div>
+                }
               </div>
             </div>
           }
         </div>
         <div class="bar-axis-row">
-          @for (bar of barItems(); track bar.label) {
-            <span class="bar-axis-label" [title]="bar.label">{{ bar.label }}</span>
+          @for (catItem of barCategories(); track catItem.category) {
+            <span class="bar-axis-label" [title]="catItem.category">{{ catItem.category }}</span>
           }
         </div>
       </div>

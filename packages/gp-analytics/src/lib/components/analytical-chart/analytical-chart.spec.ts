@@ -60,4 +60,30 @@ describe('GpAnalyticalChart', () => {
     expect(line.path).toContain('M ');
     expect(line.area).toContain(' Z');
   });
+
+  it('computes multi-series bar categories and handles series toggling', () => {
+    const multiData = {
+      categories: ['Q1', 'Q2'],
+      series: [
+        { name: 'Actual', data: [100, 200] },
+        { name: 'Target', data: [150, 180] },
+      ],
+    };
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('type', 'bar');
+    fixture.componentRef.setInput('data', multiData);
+    fixture.detectChanges();
+
+    const cats = component.barCategories();
+    expect(cats).toHaveLength(2);
+    expect(cats[0].seriesBars).toHaveLength(2); // Actual and Target
+
+    // Toggle out 'Target'
+    component.toggleSeries('Target');
+    fixture.detectChanges();
+
+    expect(component.hiddenSeries().has('Target')).toBe(true);
+    expect(component.activeSeries()).toHaveLength(1);
+    expect(component.barCategories()[0].seriesBars).toHaveLength(1);
+  });
 });
