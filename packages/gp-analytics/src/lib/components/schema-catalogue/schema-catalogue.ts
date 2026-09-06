@@ -10,8 +10,9 @@ import {
 import { FormsModule } from '@angular/forms';
 import { GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
-import { DatasetField, Field, Grouping, Relationship, Table } from '../../models';
+import { DatasetField, Field, Grouping, LoadedSchemaResult, Relationship, Table } from '../../models';
 import { GpRelationshipGraphService } from '../../services/relationship-graph.service';
+import { GpSchemaDataLoaderService } from '../../services/schema-data-loader.service';
 
 @Component({
   selector: 'gp-schema-catalogue',
@@ -23,6 +24,7 @@ import { GpRelationshipGraphService } from '../../services/relationship-graph.se
 })
 export class GpSchemaCatalogue extends GpAnalyticsComponent {
   private readonly graphService = inject(GpRelationshipGraphService);
+  protected readonly schemaDataLoader = inject(GpSchemaDataLoaderService);
 
   /**
    * Groupings containing tables, fields, and internal relationships.
@@ -30,9 +32,24 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
   readonly groupings = input.required<Grouping[]>();
 
   /**
+   * Emitted when groupings are updated via external source or preset loading.
+   */
+  readonly groupingsChange = output<Grouping[]>();
+
+  /**
    * Optional relationships across groupings.
    */
   readonly additionalRelationships = input<Relationship[]>([]);
+
+  /**
+   * Emitted when relationships are updated via external source or preset loading.
+   */
+  readonly additionalRelationshipsChange = output<Relationship[]>();
+
+  /**
+   * Emitted when metadata schema is loaded from preset, file, API, or JSON.
+   */
+  readonly schemaLoad = output<LoadedSchemaResult>();
 
   /**
    * The list of fields currently present in the active dataset.
@@ -44,6 +61,25 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
    * Emitted when a user chooses to add a field (via + button or drag start).
    */
   readonly fieldSelect = output<Field>();
+
+  /**
+   * Schema Loader modal state
+   */
+  protected readonly isSourceModalOpen = signal<boolean>(false);
+  protected readonly activeTab = signal<'presets' | 'file' | 'api' | 'json'>('presets');
+  protected readonly selectedPresetId = signal<string>('commerce');
+  protected readonly selectedFile = signal<File | null>(null);
+  protected readonly apiUrlInput = signal<string>('');
+  protected readonly rawJsonInput = signal<string>('');
+  protected readonly dataPathInput = signal<string>('');
+  protected readonly isLoadingSource = signal<boolean>(false);
+  protected readonly sourceError = signal<string | null>(null);
+  protected readonly loadedSchemaResult = signal<LoadedSchemaResult | null>(null);
+
+  /**
+   * Domain presets available for selection
+   */
+  protected readonly presets = this.schemaDataLoader.getPresetSchemas();
 
   /**
    * Search query to filter tables and fields.
@@ -267,6 +303,125 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
         return '🔑';
       default:
         return 'Aa';
+    }
+  }
+
+  // Schema Loader Modal actions
+  protected openSourceModal(): void {
+    this.sourceError.set(null);
+    this.isSourceModalOpen.set(true);
+  }
+
+  protected closeSourceModal(): void {
+    this.isSourceModalOpen.set(false);
+    this.sourceError.set(null);
+  }
+
+  protected setTab(tab: 'presets' | 'file' | 'api' | 'json'): void {
+    this.activeTab.set(tab);
+    this.sourceError.set(null);
+  }
+
+  protected selectPreset(id: string): void {
+    this.selectedPresetId.set(id);
+  }
+
+  protected onFileSelected(event: Event): void {
+    const inputEl = event.target as HTMLInputElement;
+    if (inputEl.files && inputEl.files.length > 0) {
+      this.selectedFile.set(inputEl.files[0]);
+      this.sourceError.set(null);
+    }
+  }
+
+  protected onFileDropped(event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      if (file.name.endsWith('.json') || file.type === 'application/json') {
+        this.selectedFile.set(file);
+        this.sourceError.set(null);
+      } else {
+        this.sourceError.set('Please drop a valid JSON file');
+      }
+    }
+  }
+
+  protected onModalDragOver(event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'copy';
+    }
+  }
+
+  protected onApiUrlChange(val: string): void {
+    this.apiUrlInput.set(val);
+  }
+
+  protected onRawJsonChange(val: string): void {
+    this.rawJsonInput.set(val);
+  }
+
+  protected onDataPathChange(val: string): void {
+    this.dataPathInput.set(val);
+  }
+
+  protected async loadSourceSchema(): Promise<void> {
+    this.isLoadingSource.set(true);
+    this.sourceError.set(null);
+
+    try {
+      let result: LoadedSchemaResult;
+      const tab = this.activeTab();
+
+      if (tab === 'presets') {
+        result = await this.schemaDataLoader.loadSchema({
+          type: 'preset',
+          presetId: this.selectedPresetId(),
+        });
+      } else if (tab === 'file') {
+        const file = this.selectedFile();
+        if (!file) {
+          throw new Error(this.i18n.translate('noFileSelected'));
+        }
+        result = await this.schemaDataLoader.loadSchema({
+          type: 'file',
+          file,
+          dataPath: this.dataPathInput().trim() || undefined,
+        });
+      } else if (tab === 'api') {
+        const url = this.apiUrlInput().trim();
+        if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
+          throw new Error(this.i18n.translate('enterValidUrl'));
+        }
+        result = await this.schemaDataLoader.loadSchema({
+          type: 'api',
+          url,
+          dataPath: this.dataPathInput().trim() || undefined,
+        });
+      } else {
+        const json = this.rawJsonInput().trim();
+        if (!json) {
+          throw new Error(this.i18n.translate('enterValidJson'));
+        }
+        result = await this.schemaDataLoader.loadSchema({
+          type: 'json',
+          rawJson: json,
+          dataPath: this.dataPathInput().trim() || undefined,
+        });
+      }
+
+      this.loadedSchemaResult.set(result);
+      this.groupingsChange.emit(result.groupings);
+      if (result.relationships) {
+        this.additionalRelationshipsChange.emit(result.relationships);
+      }
+      this.schemaLoad.emit(result);
+      this.closeSourceModal();
+    } catch (err: any) {
+      this.sourceError.set(err.message || 'Failed to load schema');
+    } finally {
+      this.isLoadingSource.set(false);
     }
   }
 }

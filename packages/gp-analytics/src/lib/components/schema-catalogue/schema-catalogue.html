@@ -1,25 +1,43 @@
 <div class="schema-catalogue" role="region" [attr.aria-label]="i18n.translate('schemaExplorer')">
   <!-- Top Bar: Search & Group Filter -->
   <div class="catalogue-toolbar">
-    <div class="search-box">
-      <span class="search-icon" aria-hidden="true">🔍</span>
-      <input
-        type="search"
-        class="search-input"
-        [placeholder]="i18n.translate('searchFieldsOrTables')"
-        [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
-        aria-label="Search tables and fields" />
-      @if (searchQuery()) {
-        <button
-          type="button"
-          class="clear-search-btn"
-          (click)="searchQuery.set('')"
-          aria-label="Clear search">
-          ✕
-        </button>
-      }
+    <div class="toolbar-header-row">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          class="search-input"
+          [placeholder]="i18n.translate('searchFieldsOrTables')"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          aria-label="Search tables and fields" />
+        @if (searchQuery()) {
+          <button
+            type="button"
+            class="clear-search-btn"
+            (click)="searchQuery.set('')"
+            aria-label="Clear search">
+            ✕
+          </button>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="load-schema-btn"
+        (click)="openSourceModal()"
+        [title]="i18n.translate('loadSchemaTitle')">
+        <span class="btn-icon">⚡</span>
+        <span>{{ i18n.translate('loadSchema') }}</span>
+      </button>
     </div>
+
+    @if (loadedSchemaResult(); as res) {
+      <div class="schema-active-banner">
+        <span class="banner-badge">✓ {{ res.sourceName }}</span>
+        <span class="banner-details">{{ res.totalTables }} tables · {{ res.totalFields }} fields</span>
+      </div>
+    }
 
     @if (groupings().length > 1) {
       <div class="group-filter-pills" role="tablist">
@@ -183,4 +201,242 @@
       </div>
     }
   </div>
+
+  <!-- Schema Loader Modal -->
+  @if (isSourceModalOpen()) {
+    <div
+      class="modal-backdrop"
+      (click)="closeSourceModal()"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="i18n.translate('loadSchemaTitle')">
+      <div class="modal-dialog schema-loader-dialog" (click)="$event.stopPropagation()">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div class="header-title-group">
+            <span class="header-icon" aria-hidden="true">⚡</span>
+            <div>
+              <h3 class="modal-title">{{ i18n.translate('loadSchemaTitle') }}</h3>
+              <p class="modal-subtitle">Load table, field, and grouping metadata from presets, files, or endpoints</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="modal-close-btn"
+            (click)="closeSourceModal()"
+            aria-label="Close modal">
+            ✕
+          </button>
+        </div>
+
+        <!-- Source Tabs -->
+        <div class="source-tabs" role="tablist">
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab() === 'presets'"
+            (click)="setTab('presets')"
+            role="tab">
+            <span>✨</span>
+            <span>{{ i18n.translate('presetSchema') }}</span>
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab() === 'file'"
+            (click)="setTab('file')"
+            role="tab">
+            <span>📁</span>
+            <span>{{ i18n.translate('fileDataSource') }}</span>
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab() === 'api'"
+            (click)="setTab('api')"
+            role="tab">
+            <span>🌐</span>
+            <span>{{ i18n.translate('apiDataSource') }}</span>
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            [class.active]="activeTab() === 'json'"
+            (click)="setTab('json')"
+            role="tab">
+            <span>📋</span>
+            <span>{{ i18n.translate('rawJsonDataSource') }}</span>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          @if (sourceError()) {
+            <div class="error-alert" role="alert">
+              <span class="alert-icon">⚠️</span>
+              <span class="alert-msg">{{ sourceError() }}</span>
+            </div>
+          }
+
+          <!-- TAB 1: Curated Presets -->
+          @if (activeTab() === 'presets') {
+            <div class="tab-panel presets-panel">
+              <p class="panel-intro">Choose an industry-standard metadata schema with pre-configured tables, fields, and relationships:</p>
+              <div class="presets-grid">
+                @for (preset of presets; track preset.id) {
+                  <div
+                    class="preset-card"
+                    [class.selected]="selectedPresetId() === preset.id"
+                    (click)="selectPreset(preset.id)">
+                    <div class="preset-icon">{{ preset.icon || '📦' }}</div>
+                    <div class="preset-content">
+                      <h4 class="preset-name">{{ preset.name }}</h4>
+                      <p class="preset-desc">{{ preset.description }}</p>
+                      <div class="preset-meta">
+                        <span class="meta-item">
+                          <strong>{{ preset.groupings.length }}</strong> {{ preset.groupings.length === 1 ? 'group' : 'groups' }}
+                        </span>
+                        <span class="meta-sep">·</span>
+                        <span class="meta-item">
+                          <strong>{{ preset.groupings[0]?.tables?.length || 0 }}</strong> tables
+                        </span>
+                        @if (preset.relationships?.length) {
+                          <span class="meta-sep">·</span>
+                          <span class="meta-item">
+                            <strong>{{ preset.relationships?.length }}</strong> joins
+                          </span>
+                        }
+                      </div>
+                    </div>
+                    <div class="preset-check">
+                      @if (selectedPresetId() === preset.id) {
+                        <span>✓</span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- TAB 2: JSON File -->
+          @if (activeTab() === 'file') {
+            <div class="tab-panel">
+              <div
+                class="file-dropzone"
+                (drop)="onFileDropped($event)"
+                (dragover)="onModalDragOver($event)">
+                <input
+                  #schemaFileInput
+                  type="file"
+                  accept=".json,application/json"
+                  class="hidden-file-input"
+                  (change)="onFileSelected($event)" />
+                <span class="drop-icon">📤</span>
+                <p class="drop-text">{{ i18n.translate('dragDropJsonFile') }}</p>
+                <button
+                  type="button"
+                  class="browse-btn"
+                  (click)="schemaFileInput.click()">
+                  Browse Schema File
+                </button>
+                @if (selectedFile(); as file) {
+                  <div class="selected-file-badge">
+                    <span>📄 <strong>{{ file.name }}</strong> ({{ (file.size / 1024).toFixed(1) }} KB)</span>
+                  </div>
+                }
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="schemaFileDataPath">{{ i18n.translate('dataPath') }}</label>
+                <input
+                  id="schemaFileDataPath"
+                  type="text"
+                  class="form-input"
+                  [placeholder]="i18n.translate('dataPathPlaceholder')"
+                  [value]="dataPathInput()"
+                  (input)="onDataPathChange($any($event.target).value)" />
+              </div>
+            </div>
+          }
+
+          <!-- TAB 3: REST API -->
+          @if (activeTab() === 'api') {
+            <div class="tab-panel">
+              <div class="form-group">
+                <label class="form-label" for="schemaApiUrlInput">{{ i18n.translate('apiUrl') }}</label>
+                <input
+                  id="schemaApiUrlInput"
+                  type="url"
+                  class="form-input"
+                  [placeholder]="i18n.translate('apiUrlPlaceholder')"
+                  [value]="apiUrlInput()"
+                  (input)="onApiUrlChange($any($event.target).value)" />
+                <span class="form-hint">Enter an HTTP or HTTPS endpoint returning schema metadata (groupings or tables).</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="schemaApiDataPath">{{ i18n.translate('dataPath') }}</label>
+                <input
+                  id="schemaApiDataPath"
+                  type="text"
+                  class="form-input"
+                  [placeholder]="i18n.translate('dataPathPlaceholder')"
+                  [value]="dataPathInput()"
+                  (input)="onDataPathChange($any($event.target).value)" />
+                <span class="form-hint">Optional path if schema is nested within the response JSON.</span>
+              </div>
+            </div>
+          }
+
+          <!-- TAB 4: Raw JSON -->
+          @if (activeTab() === 'json') {
+            <div class="tab-panel">
+              <div class="form-group">
+                <label class="form-label" for="schemaRawJsonTextarea">JSON Schema Payload</label>
+                <textarea
+                  id="schemaRawJsonTextarea"
+                  class="form-textarea"
+                  rows="7"
+                  [placeholder]="i18n.translate('rawJsonSchemaPlaceholder')"
+                  [value]="rawJsonInput()"
+                  (input)="onRawJsonChange($any($event.target).value)"></textarea>
+                <span class="form-hint">Supports {{ '{ groupings: [...] }' }}, {{ '{ tables: [...] }' }}, Grouping[], or Table[] structures.</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="schemaJsonDataPath">{{ i18n.translate('dataPath') }}</label>
+                <input
+                  id="schemaJsonDataPath"
+                  type="text"
+                  class="form-input"
+                  [placeholder]="i18n.translate('dataPathPlaceholder')"
+                  [value]="dataPathInput()"
+                  (input)="onDataPathChange($any($event.target).value)" />
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="closeSourceModal()">
+            {{ i18n.translate('close') }}
+          </button>
+          <button
+            type="button"
+            class="btn-load"
+            [disabled]="isLoadingSource()"
+            (click)="loadSourceSchema()">
+            @if (isLoadingSource()) {
+              <span class="spinner"></span>
+              <span>{{ i18n.translate('loading') }}</span>
+            } @else {
+              <span>⚡ {{ i18n.translate('loadSchema') }}</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

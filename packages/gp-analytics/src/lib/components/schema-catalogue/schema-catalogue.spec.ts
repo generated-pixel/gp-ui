@@ -165,4 +165,49 @@ describe('GpSchemaCatalogue', () => {
     component['onAddField'](mockField2);
     expect(emittedField).toBe(mockField2);
   });
+
+  it('manages schema loader modal state and tabs', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('groupings', [mockGrouping]);
+    fixture.detectChanges();
+
+    expect(component['isSourceModalOpen']()).toBe(false);
+    component['openSourceModal']();
+    expect(component['isSourceModalOpen']()).toBe(true);
+
+    component['setTab']('api');
+    expect(component['activeTab']()).toBe('api');
+
+    component['closeSourceModal']();
+    expect(component['isSourceModalOpen']()).toBe(false);
+  });
+
+  it('loads healthcare preset and emits groupingsChange and schemaLoad', async () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('groupings', [mockGrouping]);
+    fixture.detectChanges();
+
+    component['openSourceModal']();
+    component['selectPreset']('healthcare');
+
+    let loadedGroupings: Grouping[] = [];
+    component.groupingsChange.subscribe((g) => {
+      loadedGroupings = g;
+    });
+
+    let schemaResult: any = null;
+    component.schemaLoad.subscribe((res) => {
+      schemaResult = res;
+    });
+
+    await component['loadSourceSchema']();
+
+    expect(component['isSourceModalOpen']()).toBe(false);
+    expect(loadedGroupings.length).toBeGreaterThan(0);
+    expect(loadedGroupings[0].tables.length).toBe(3); // patients, encounters, diagnoses
+    expect(schemaResult).not.toBeNull();
+    expect(schemaResult.sourceName).toBe('Healthcare & Clinical');
+    expect(schemaResult.totalTables).toBe(3);
+    expect(schemaResult.totalFields).toBe(11);
+  });
 });
