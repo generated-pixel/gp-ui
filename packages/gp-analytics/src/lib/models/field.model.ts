@@ -1,5 +1,6 @@
 import { AggregationType } from './aggregation-type.model';
 import { DataType, FieldType } from './data-type.model';
+import { FieldValue } from './field-value.model';
 import { LocalizedValue } from './localized-value.model';
 
 export interface Field {
@@ -21,4 +22,8 @@ export interface Field {
   groupable: boolean;
   format?: string;
   aggregationType?: AggregationType;
+  /**
+   * Predefined or discrete list of values with localized display names for filtering and selection.
+   */
+  lookupValues?: FieldValue<string>[];
 }

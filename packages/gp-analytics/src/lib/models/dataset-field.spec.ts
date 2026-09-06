@@ -4,6 +4,7 @@ import {
   canModifyFieldCapability,
   createDatasetField,
   getDatasetFieldDisplayLabel,
+  getLookupValueDisplayLabel,
 } from './dataset-field.model';
 
 describe('dataset-field model', () => {
@@ -76,5 +77,34 @@ describe('dataset-field model', () => {
 
     expect(canModifyFieldCapability(nonSortableField, 'sortable')).toBe(false);
     expect(canModifyFieldCapability(nonSortableField, 'filterable')).toBe(false);
+  });
+
+  it('inherits lookupValues and resolves localized display label for values', () => {
+    const statusField: Field = {
+      ...sampleBaseField,
+      fieldId: 'order-status',
+      fieldName: 'status',
+      lookupValues: [
+        { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
+        { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } },
+        { value: 'shipped', displayValue: { en: 'Shipped', fr: 'Expédié' } },
+      ],
+    };
+
+    const df = createDatasetField(statusField);
+    expect(df.lookupValues).toBeDefined();
+    expect(df.lookupValues!.length).toBe(3);
+
+    // English resolution
+    expect(getLookupValueDisplayLabel(df, 'completed', 'en')).toBe('Completed');
+    expect(getLookupValueDisplayLabel(df, 'processing', 'en')).toBe('Processing');
+
+    // French resolution
+    expect(getLookupValueDisplayLabel(df, 'completed', 'fr')).toBe('Complété');
+    expect(getLookupValueDisplayLabel(df, 'processing', 'fr')).toBe('En traitement');
+
+    // Unmatched value fallback
+    expect(getLookupValueDisplayLabel(df, 'unknown', 'en')).toBe('unknown');
+    expect(getLookupValueDisplayLabel(undefined, 'custom', 'en')).toBe('custom');
   });
 });

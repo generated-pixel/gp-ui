@@ -1,6 +1,7 @@
 import { AggregationType } from './aggregation-type.model';
 import { DataType, FieldType } from './data-type.model';
 import { Field } from './field.model';
+import { FieldValue } from './field-value.model';
 import { LocalizedValue } from './localized-value.model';
 
 /**
@@ -17,6 +18,11 @@ export interface DatasetField {
   dataType: DataType | `${DataType}`;
   fieldType?: FieldType | `${FieldType}`;
   format?: string;
+
+  /**
+   * Predefined or discrete list of values with localized display names.
+   */
+  lookupValues?: FieldValue<string>[];
 
   /**
    * Visibility flag inherited from base Field schema.
@@ -81,8 +87,31 @@ export function createDatasetField(baseField: Field, customId?: string): Dataset
     sortable: baseField.sortable,
     groupable: baseField.groupable,
     isGrouped: false,
+    lookupValues: baseField.lookupValues ? [...baseField.lookupValues] : undefined,
     baseField,
   };
+}
+
+/**
+ * Resolves the localized display value for a lookup list item.
+ * If the field has lookupValues matching the given value, returns the translated string in the given locale.
+ * Otherwise falls back to String(val).
+ */
+export function getLookupValueDisplayLabel(
+  field: DatasetField | Field | undefined,
+  val: any,
+  locale: string = 'en',
+): string {
+  if (val == null) return '';
+  if (field?.lookupValues && field.lookupValues.length > 0) {
+    const match = field.lookupValues.find(
+      (item) => item.value === val || String(item.value) === String(val),
+    );
+    if (match) {
+      return match.displayValue?.[locale] ?? match.displayValue?.['en'] ?? String(match.value);
+    }
+  }
+  return String(val);
 }
 
 /**

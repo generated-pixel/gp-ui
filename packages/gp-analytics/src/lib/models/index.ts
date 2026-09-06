@@ -9,5 +9,8 @@ export * from './dataset.model';
 export * from './grouping.model';
 export * from './join-type.model';
 export * from './localized-value.model';
+export * from './data-source.model';
 export * from './relationship.model';
 export * from './table.model';
+export * from './query.model';
+export * from './schema-data-source.model';
