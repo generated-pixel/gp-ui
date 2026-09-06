@@ -12,11 +12,15 @@ import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import {
   DatasetField,
   getDatasetFieldDisplayLabel,
+  getLookupValueDisplayLabel,
   DatasetDataSourceConfig,
   LoadedDataResult,
   CustomDataLoaderFn,
+  GpFilterCondition,
+  GpFilterOperator,
 } from '../../models';
 import { GpDatasetDataLoaderService } from '../../services/dataset-data-loader.service';
+import { GpDataEngineService } from '../../services/data-engine.service';
 
 export interface PreviewColumn {
   fieldId: string;
@@ -73,6 +77,11 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
   readonly dataSourceConfig = input<DatasetDataSourceConfig | null>(null);
 
   /**
+   * Dataset-level filters applied to records in preview.
+   */
+  readonly filters = input<GpFilterCondition[]>([]);
+
+  /**
    * Event emitted when custom data is loaded from a source.
    */
   readonly dataSourceLoaded = output<LoadedDataResult>();
@@ -81,6 +90,18 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
    * Event emitted when the preview is reset to simulated data.
    */
   readonly dataSourceReset = output<void>();
+
+  /**
+   * Event emitted when a filter chip is removed.
+   */
+  readonly filterRemove = output<number>();
+
+  /**
+   * Event emitted when all filters are cleared.
+   */
+  readonly filtersClear = output<void>();
+
+  protected readonly dataEngine = inject(GpDataEngineService);
 
   /**
    * Number of preview rows to simulate.
@@ -231,10 +252,19 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
   });
 
   /**
+   * Filtered rows: applies dataset filters to the active (simulated or custom) rows.
+   */
+  readonly filteredRows = computed<Record<string, any>[]>(() => {
+    const all = this.rows();
+    const f = this.filters();
+    return this.dataEngine.applyFilters(all, f);
+  });
+
+  /**
    * Groups rows into sections based on the primary grouped column.
    */
   readonly groupedRowSections = computed<RowGroupSection[]>(() => {
-    const allRows = this.rows();
+    const allRows = this.filteredRows();
     const primaryCol = this.primaryGroupColumn();
 
     // Automagic: if nothing is selected for grouping, show flat table
@@ -494,6 +524,12 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     ).toLowerCase();
     const textAll = `${idLower} ${tableLower} ${nameLower} ${displayLower}`;
 
+    // If field defines lookup values, pick deterministically from lookupValues
+    if (field.lookupValues && field.lookupValues.length > 0) {
+      const idx = (profileIdx + subOrderIdx) % field.lookupValues.length;
+      return field.lookupValues[idx].value;
+    }
+
     // Aggregations formatting
     if (field.aggregationType && field.aggregationType !== 'none') {
       if (field.aggregationType === 'count' || field.aggregationType === 'count-distinct') {
@@ -599,5 +635,84 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
       default:
         return 'Aa';
     }
+  }
+
+  formatCellValue(col: PreviewColumn, val: any): string {
+    if (val == null) {
+      return '-';
+    }
+    const field = this.fields().find(
+      (f) => f.datasetFieldId === col.datasetFieldId || f.fieldId === col.fieldId,
+    );
+    if (field?.lookupValues && field.lookupValues.length > 0) {
+      return getLookupValueDisplayLabel(field, val, this.i18n.locale());
+    }
+    return String(val);
+  }
+
+  getFilterFieldLabel(fieldId: string): string {
+    const f = this.fields().find(
+      (item) =>
+        item.datasetFieldId === fieldId ||
+        item.fieldId === fieldId ||
+        item.fieldName === fieldId,
+    );
+    return f ? getDatasetFieldDisplayLabel(f, this.i18n.locale()) : fieldId;
+  }
+
+  getFilterOperatorLabel(operator: GpFilterOperator): string {
+    switch (operator) {
+      case 'eq':
+        return '=';
+      case 'neq':
+        return '!=';
+      case 'gt':
+        return '>';
+      case 'gte':
+        return '>=';
+      case 'lt':
+        return '<';
+      case 'lte':
+        return '<=';
+      case 'in':
+        return this.i18n.translate('inList');
+      case 'contains':
+        return this.i18n.translate('contains');
+      case 'startsWith':
+        return this.i18n.translate('startsWith');
+      case 'isNull':
+        return this.i18n.translate('isNull');
+      case 'isNotNull':
+        return this.i18n.translate('isNotNull');
+      default:
+        return operator;
+    }
+  }
+
+  getFilterValueDisplay(condition: GpFilterCondition): string {
+    if (condition.operator === 'isNull' || condition.operator === 'isNotNull') {
+      return '';
+    }
+    const field = this.fields().find(
+      (f) =>
+        f.datasetFieldId === condition.fieldId ||
+        f.fieldId === condition.fieldId ||
+        f.fieldName === condition.fieldId,
+    );
+    const locale = this.i18n.locale();
+    if (Array.isArray(condition.value)) {
+      return condition.value
+        .map((v) => getLookupValueDisplayLabel(field, v, locale))
+        .join(', ');
+    }
+    return getLookupValueDisplayLabel(field, condition.value, locale);
+  }
+
+  removeFilter(index: number): void {
+    this.filterRemove.emit(index);
+  }
+
+  clearAllFilters(): void {
+    this.filtersClear.emit();
   }
 }

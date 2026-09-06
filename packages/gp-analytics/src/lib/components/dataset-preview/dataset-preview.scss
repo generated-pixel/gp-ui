@@ -112,6 +112,114 @@
   }
 }
 
+/* Active Filters Strip */
+.active-filters-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--gp-color-primary-light, #f8faff);
+  border-bottom: 1px solid var(--gp-color-primary-light, #c7d2fe);
+  flex-wrap: wrap;
+}
+
+.filter-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-bar-icon {
+  font-size: 0.9rem;
+  color: var(--gp-color-primary, #4f46e5);
+}
+
+.filter-bar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gp-color-primary-dark, #3730a3);
+}
+
+.filter-chips-list {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.active-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--gp-color-surface-card, #ffffff);
+  border: 1px solid var(--gp-color-primary-light, #c7d2fe);
+  border-radius: var(--gp-radius-full, 9999px);
+  font-size: 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.filter-chip-field {
+  color: var(--gp-color-text-primary, #1e293b);
+}
+
+.filter-chip-op {
+  font-weight: 700;
+  color: var(--gp-color-primary, #4f46e5);
+  font-family: monospace;
+}
+
+.filter-chip-val {
+  font-weight: 600;
+  color: var(--gp-color-primary-dark, #312e81);
+}
+
+.filter-chip-remove {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--gp-color-text-muted, #94a3b8);
+  cursor: pointer;
+  padding: 0 0.15rem;
+  border-radius: 50%;
+  line-height: 1;
+
+  &:hover {
+    color: var(--gp-color-danger, #ef4444);
+    background: #fee2e2;
+  }
+}
+
+.filter-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.filter-row-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gp-color-text-secondary, #64748b);
+}
+
+.btn-clear-filters {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gp-color-danger, #ef4444);
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+  border-radius: var(--gp-radius-sm, 0.25rem);
+
+  &:hover {
+    background: #fee2e2;
+  }
+}
+
 /* Table Area */
 .table-scroll-container {
   flex: 1;

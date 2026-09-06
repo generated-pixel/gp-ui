@@ -245,4 +245,51 @@ describe('GpDatasetPreview', () => {
     expect(component.isCustomSourceActive()).toBe(false);
     expect(resetEmitted).toBe(true);
   });
+
+  it('filters preview records and formats lookup values with active locale', () => {
+    const { fixture, component } = createComponent();
+    const statusField: Field = {
+      ...sampleField1,
+      fieldId: 'f-status',
+      fieldName: 'status',
+      lookupValues: [
+        { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
+        { value: 'pending', displayValue: { en: 'Pending', fr: 'En attente' } },
+      ],
+    };
+
+    const dfStatus = createDatasetField(statusField, 'df_status');
+    fixture.componentRef.setInput('fields', [dfStatus]);
+
+    const customRecords = [
+      { df_status: 'completed' },
+      { df_status: 'pending' },
+      { df_status: 'completed' },
+    ];
+    fixture.componentRef.setInput('customData', customRecords);
+    fixture.detectChanges();
+
+    // Verify unfiltered count
+    expect(component.rows().length).toBe(3);
+    expect(component.filteredRows().length).toBe(3);
+
+    // Apply filter: status == 'completed'
+    fixture.componentRef.setInput('filters', [
+      { fieldId: 'df_status', operator: 'eq', value: 'completed' },
+    ]);
+    fixture.detectChanges();
+
+    expect(component.filteredRows().length).toBe(2);
+
+    // Verify cell formatting in English
+    const col = component.columns()[0];
+    expect(component.formatCellValue(col, 'completed')).toBe('Completed');
+    expect(component.formatCellValue(col, 'pending')).toBe('Pending');
+
+    // Switch to French and verify translated cell values
+    const i18n = TestBed.inject(GpTranslationService);
+    i18n.setLocale('fr');
+    expect(component.formatCellValue(col, 'completed')).toBe('Complété');
+    expect(component.formatCellValue(col, 'pending')).toBe('En attente');
+  });
 });

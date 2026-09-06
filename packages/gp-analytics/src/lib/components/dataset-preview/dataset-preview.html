@@ -111,6 +111,47 @@
     </div>
   }
 
+  <!-- Active Filters Strip -->
+  @if (filters().length > 0) {
+    <div class="active-filters-bar">
+      <div class="filter-bar-left">
+        <span class="filter-bar-icon" aria-hidden="true">🔍</span>
+        <span class="filter-bar-title">{{ i18n.translate('activeFilters') }}:</span>
+        <div class="filter-chips-list">
+          @for (f of filters(); track $index; let idx = $index) {
+            <span class="active-filter-chip">
+              <strong class="filter-chip-field">{{ getFilterFieldLabel(f.fieldId) }}</strong>
+              <span class="filter-chip-op">{{ getFilterOperatorLabel(f.operator) }}</span>
+              @if (f.operator !== 'isNull' && f.operator !== 'isNotNull') {
+                <span class="filter-chip-val">{{ getFilterValueDisplay(f) }}</span>
+              }
+              <button
+                type="button"
+                class="filter-chip-remove"
+                (click)="removeFilter(idx)"
+                title="Remove filter">
+                ✕
+              </button>
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="filter-bar-right">
+        <span class="filter-row-count">
+          {{ i18n.translate('filteredCount', { count: filteredRows().length, total: rows().length }) }}
+        </span>
+        <button
+          type="button"
+          class="btn-clear-filters"
+          (click)="clearAllFilters()"
+          [title]="i18n.translate('clearAllFilters')">
+          {{ i18n.translate('clearAll') }}
+        </button>
+      </div>
+    </div>
+  }
+
   <!-- Table View -->
   <div class="table-scroll-container">
     @if (columns().length > 0) {
@@ -172,7 +213,7 @@
                 <td class="cell-index">{{ idx + 1 }}</td>
                 @for (col of columns(); track col.datasetFieldId) {
                   <td class="preview-cell" [attr.data-type]="col.dataType" [class.cell-grouped]="col.isGrouped">
-                    {{ row[col.datasetFieldId] }}
+                    {{ formatCellValue(col, row[col.datasetFieldId]) }}
                   </td>
                 }
               </tr>
