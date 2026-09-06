@@ -4,14 +4,15 @@ Angular monorepo containing the **`gp-analytics`** npm package and its interacti
 
 ## Packages & Projects
 
-| Project | Type | Description |
-| :--- | :--- | :--- |
-| [`gp-analytics`](packages/gp-analytics) | Library | High-performance analytics, telemetry, and rule-driven monitoring engine for Angular. |
-| [`demo`](apps/demo) | Application | Interactive cockpit showcasing real-time metric tracking, `gp-rules` anomaly detection, `gp-ui` components, `gp-theme` styling, and `gp-css` utilities. |
+| Project                                 | Type        | Description                                                                                                                                             |
+| :-------------------------------------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [`gp-analytics`](packages/gp-analytics) | Library     | High-performance analytics, telemetry, and rule-driven monitoring engine for Angular.                                                                   |
+| [`demo`](apps/demo)                     | Application | Interactive cockpit showcasing real-time metric tracking, `gp-rules` anomaly detection, `gp-ui` components, `gp-theme` styling, and `gp-css` utilities. |
 
 ## Ecosystem Integration
 
 This workspace integrates the Generated Pixel **v1.0.3** ecosystem:
+
 - **`@generatedpixel/gp-ui`**: Enterprise UI components (`gp-button`, `gp-icon`, `gp-tag`, `gp-badge`, `gp-switch`).
 - **`@generatedpixel/gp-ui-theme`**: Multi-theme system (Default, Ocean, Emerald, Amethyst, Sunset, Cyberpunk, Nord) and dark/light modes.
 - **`@generatedpixel/gp-css`**: Utility-first CSS engine custom built for Generated Pixel.

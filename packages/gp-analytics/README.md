@@ -29,7 +29,7 @@ import { Grouping } from 'gp-analytics';
 const commerce: Grouping = {
   groupingId: 'commerce',
   groupingName: 'Commerce',
-  tables: [],
+  tables: []
 };
 ```
 
