@@ -13,6 +13,7 @@ import {
 } from '../../models';
 import { GpDatasetDataLoaderService } from '../../services/dataset-data-loader.service';
 import { GpDataEngineService } from '../../services/data-engine.service';
+import { GpLocaleFormatterService } from '../../services/locale-formatter.service';
 
 export interface PreviewColumn {
   fieldId: string;
@@ -55,6 +56,7 @@ export interface ColumnSummaryStats {
 })
 export class GpDatasetPreview extends GpAnalyticsComponent {
   protected readonly dataLoader = inject(GpDatasetDataLoaderService);
+  protected readonly localeFormatter = inject(GpLocaleFormatterService);
 
   readonly showSummaryStats = input<boolean>(true);
   readonly isStatsExpanded = signal<boolean>(false);
@@ -690,7 +692,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     }
   }
 
-  formatCellValue(col: PreviewColumn, val: any): string {
+  formatCellValue(col: PreviewColumn, val: any, row?: Record<string, any>): string {
     if (val == null) {
       return '-';
     }
@@ -698,6 +700,36 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     if (field?.lookupValues && field.lookupValues.length > 0) {
       return getLookupValueDisplayLabel(field, val, this.i18n.locale());
     }
+
+    // Currency formatting with per-row/per-table resolution
+    if (col.dataType === 'currency' || field?.dataType === 'currency') {
+      const num = Number(val);
+      if (!isNaN(num)) {
+        let currencyCode = field?.currencyCode;
+        if (field?.currencyField && row && row[field.currencyField]) {
+          currencyCode = String(row[field.currencyField]);
+        } else if (row && row['currency']) {
+          currencyCode = String(row['currency']);
+        } else if (row && row['currencyCode']) {
+          currencyCode = String(row['currencyCode']);
+        }
+        return this.localeFormatter.formatCurrency(num, currencyCode);
+      }
+    }
+
+    // Standard number / decimal / integer formatting
+    if (col.dataType === 'number' || col.dataType === 'decimal' || col.dataType === 'integer') {
+      const num = Number(val);
+      if (!isNaN(num)) {
+        return this.localeFormatter.formatNumber(num);
+      }
+    }
+
+    // Date / Datetime formatting
+    if (col.dataType === 'date' || col.dataType === 'datetime') {
+      return this.localeFormatter.formatDate(val);
+    }
+
     return String(val);
   }
 

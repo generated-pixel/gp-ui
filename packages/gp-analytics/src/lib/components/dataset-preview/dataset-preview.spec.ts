@@ -315,4 +315,29 @@ describe('GpDatasetPreview', () => {
     component.toggleStatsExpanded();
     expect(component.isStatsExpanded()).toBe(true);
   });
+
+  it('formats currency cells with per-field and per-row currency codes', () => {
+    const { fixture, component } = createComponent();
+    const currencyField: Field = {
+      ...sampleField2,
+      fieldId: 'f-curr',
+      fieldName: 'revenue',
+      dataType: 'currency',
+      currencyCode: 'EUR'
+    };
+    const dfCurr = createDatasetField(currencyField, 'df_curr');
+    fixture.componentRef.setInput('fields', [dfCurr]);
+    fixture.detectChanges();
+
+    const col = component.columns()[0];
+    // Uses field currencyCode EUR
+    const eurVal = component.formatCellValue(col, 500);
+    expect(eurVal).toContain('€');
+    expect(eurVal).toContain('500');
+
+    // Overrides with row currencyCode JPY
+    const jpyVal = component.formatCellValue(col, 1500, { currency: 'JPY' });
+    expect(jpyVal).toContain('¥');
+    expect(jpyVal).toContain('1,500');
+  });
 });

@@ -10,4 +10,6 @@ export interface Table {
   description?: LocalizedValue;
   primaryKey?: string[];
   allowCustomFields?: boolean;
+  currencyCode?: string;
+  currencyField?: string;
 }

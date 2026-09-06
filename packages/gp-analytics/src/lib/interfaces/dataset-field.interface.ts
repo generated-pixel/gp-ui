@@ -21,5 +21,7 @@ export interface DatasetField {
   sortable: boolean;
   groupable: boolean;
   isGrouped?: boolean;
+  currencyCode?: string;
+  currencyField?: string;
   baseField: Field;
 }

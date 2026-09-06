@@ -229,7 +229,7 @@
           <td class="cell-index">{{ idx + 1 }}</td>
           @for (col of columns(); track col.datasetFieldId) {
           <td class="preview-cell" [attr.data-type]="col.dataType" [class.cell-grouped]="col.isGrouped">
-            {{ formatCellValue(col, row[col.datasetFieldId]) }}
+            {{ formatCellValue(col, row[col.datasetFieldId], row) }}
           </td>
           }
         </tr>

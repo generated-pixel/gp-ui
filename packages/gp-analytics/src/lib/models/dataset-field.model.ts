@@ -26,6 +26,8 @@ export function createDatasetField(baseField: Field, customId?: string): Dataset
     groupable: baseField.groupable,
     isGrouped: false,
     lookupValues: baseField.lookupValues ? [...baseField.lookupValues] : undefined,
+    currencyCode: baseField.currencyCode,
+    currencyField: baseField.currencyField,
     baseField
   };
 }

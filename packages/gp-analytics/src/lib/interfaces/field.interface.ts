@@ -24,4 +24,6 @@ export interface Field {
   format?: string;
   aggregationType?: AggregationType;
   lookupValues?: FieldValue<string>[];
+  currencyCode?: string;
+  currencyField?: string;
 }
