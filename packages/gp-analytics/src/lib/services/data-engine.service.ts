@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { GpQueryCacheService } from './query-cache.service';
 import {
   GpAnalyticalQuerySpec,
   GpAggregationResult,
@@ -12,12 +13,45 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class GpDataEngineService {
+  protected readonly queryCache: GpQueryCacheService;
+
+  constructor(queryCache?: GpQueryCacheService) {
+    if (queryCache) {
+      this.queryCache = queryCache;
+    } else {
+      try {
+        this.queryCache = inject(GpQueryCacheService);
+      } catch {
+        this.queryCache = new GpQueryCacheService();
+      }
+    }
+  }
+
   /**
    * Executes an analytical query against an in-memory dataset of records.
    * Performs filtering, multi-dimensional grouping, measure aggregation,
    * subtotal rollups, grand totals, and sorting.
    */
-  executeQuery(records: Record<string, any>[], spec: GpAnalyticalQuerySpec): GpAggregationResult {
+  executeQuery(
+    records: Record<string, any>[],
+    spec: GpAnalyticalQuerySpec,
+    useCache: boolean = true
+  ): GpAggregationResult {
+    const cacheKey = useCache
+      ? this.queryCache.buildKey('query', {
+          count: records ? records.length : 0,
+          firstId: records && records[0] ? records[0]['_id'] || records[0]['id'] : null,
+          spec
+        })
+      : null;
+
+    if (cacheKey) {
+      const cached = this.queryCache.get<GpAggregationResult>(cacheKey);
+      if (cached) {
+        return cached;
+      }
+    }
+
     const startTime = performance.now();
 
     if (!records || records.length === 0) {
@@ -138,7 +172,7 @@ export class GpDataEngineService {
 
     const executionTimeMs = Number((performance.now() - startTime).toFixed(2));
 
-    return {
+    const result: GpAggregationResult = {
       rows: paginatedRows,
       totalCount,
       subtotals,
@@ -146,6 +180,12 @@ export class GpDataEngineService {
       querySpec: spec,
       executionTimeMs
     };
+
+    if (cacheKey) {
+      this.queryCache.set(cacheKey, result);
+    }
+
+    return result;
   }
 
   /**
@@ -677,5 +717,19 @@ export class GpDataEngineService {
       default:
         return `${y}-${pad(m)}-${pad(d)}`;
     }
+  }
+
+  /**
+   * Clears or invalidates analytical query calculation cache.
+   */
+  clearQueryCache(prefix?: string): void {
+    this.queryCache.invalidate(prefix);
+  }
+
+  /**
+   * Retrieves query cache metrics and hit ratio.
+   */
+  getQueryCacheStats() {
+    return this.queryCache.getStats();
   }
 }

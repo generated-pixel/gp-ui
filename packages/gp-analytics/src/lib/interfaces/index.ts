@@ -35,6 +35,8 @@ export * from './gp-package-validation-result.interface';
 export * from './gp-pivot-matrix.interface';
 export * from './gp-pivot-report-config.interface';
 export * from './gp-pivot-widget-config.interface';
+export * from './gp-query-cache-entry.interface';
+export * from './gp-query-cache-stats.interface';
 export * from './gp-report-config.interface';
 export * from './gp-sort-spec.interface';
 export * from './gp-table-widget-config.interface';

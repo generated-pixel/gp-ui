@@ -24,3 +24,4 @@ export * from './lib/services/dataset-data-loader.service';
 export * from './lib/services/data-engine.service';
 export * from './lib/services/schema-data-loader.service';
 export * from './lib/services/export-import.service';
+export * from './lib/services/query-cache.service';
