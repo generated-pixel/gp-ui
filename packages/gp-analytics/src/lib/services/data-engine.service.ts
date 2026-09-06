@@ -7,6 +7,7 @@ import {
   GpMeasureQuery,
   GpPivotMatrix,
   GpSortSpec,
+  GpTimeGrain,
 } from '../models/query.model';
 
 @Injectable({ providedIn: 'root' })
@@ -42,6 +43,20 @@ export class GpDataEngineService {
           enriched[calc.id] = this.evaluateExpression(calc.expression, enriched);
         }
         return enriched;
+      });
+    }
+
+    // 0.1 Temporal Date-Grain Bucketing
+    if (spec.timeGrain && spec.timeFieldId) {
+      preparedRecords = preparedRecords.map((rec) => {
+        const rawDate = rec[spec.timeFieldId!];
+        if (rawDate != null) {
+          return {
+            ...rec,
+            [spec.timeFieldId!]: this.bucketDateToGrain(rawDate, spec.timeGrain!),
+          };
+        }
+        return rec;
       });
     }
 
@@ -576,6 +591,41 @@ export class GpDataEngineService {
       return isFinite(result) && !isNaN(result) ? Number(result.toFixed(4)) : 0;
     } catch {
       return 0;
+    }
+  }
+
+  /**
+   * Buckets a date value into the specified temporal grain.
+   */
+  bucketDateToGrain(val: any, grain: GpTimeGrain): string {
+    if (!val) return 'N/A';
+    const date = new Date(val);
+    if (isNaN(date.getTime())) return String(val);
+
+    const y = date.getUTCFullYear();
+    const m = date.getUTCMonth() + 1;
+    const d = date.getUTCDate();
+    const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+
+    switch (grain) {
+      case 'year':
+        return `${y}`;
+      case 'quarter': {
+        const q = Math.ceil(m / 3);
+        return `${y}-Q${q}`;
+      }
+      case 'month':
+        return `${y}-${pad(m)}`;
+      case 'week': {
+        // Start of week (Monday)
+        const dayOfWeek = date.getUTCDay() || 7;
+        const startOfWeek = new Date(date);
+        startOfWeek.setUTCDate(date.getUTCDate() - dayOfWeek + 1);
+        return `${startOfWeek.getUTCFullYear()}-${pad(startOfWeek.getUTCMonth() + 1)}-${pad(startOfWeek.getUTCDate())}`;
+      }
+      case 'day':
+      default:
+        return `${y}-${pad(m)}-${pad(d)}`;
     }
   }
 }

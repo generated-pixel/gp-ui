@@ -132,6 +132,33 @@ describe('GpDataEngineService', () => {
       const starlight = result.rows.find((r) => r['customer'] === 'Starlight');
       expect(starlight!['avg_unit_price']).toBe(250);
     });
+
+    it('groups records using temporal date-grain rollups (month & quarter)', () => {
+      // dates in mockRecords:
+      // '2026-01-01', '2026-01-02', '2026-01-03', '2026-01-04', '2026-01-05'
+      // all in month '2026-01' and quarter '2026-Q1'
+      const monthlySpec: GpAnalyticalQuerySpec = {
+        dimensions: ['date'],
+        timeGrain: 'month',
+        timeFieldId: 'date',
+        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'month_total' }],
+      };
+
+      const monthResult = service.executeQuery(mockRecords, monthlySpec);
+      expect(monthResult.rows).toHaveLength(1);
+      expect(monthResult.rows[0]['date']).toBe('2026-01');
+      expect(monthResult.rows[0]['month_total']).toBe(8000);
+
+      const quarterSpec: GpAnalyticalQuerySpec = {
+        dimensions: ['date'],
+        timeGrain: 'quarter',
+        timeFieldId: 'date',
+        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'q_total' }],
+      };
+      const qResult = service.executeQuery(mockRecords, quarterSpec);
+      expect(qResult.rows[0]['date']).toBe('2026-Q1');
+      expect(qResult.rows[0]['q_total']).toBe(8000);
+    });
   });
 
   describe('computeKpiMetric', () => {
