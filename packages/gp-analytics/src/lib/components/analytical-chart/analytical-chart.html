@@ -1,0 +1,113 @@
+<div class="gp-analytical-chart" role="region" [attr.aria-label]="title()">
+  <!-- Header -->
+  <header class="chart-header">
+    <div>
+      <h4 class="chart-title">{{ title() }}</h4>
+      @if (subtitle()) {
+        <p class="chart-subtitle">{{ subtitle() }}</p>
+      }
+    </div>
+  </header>
+
+  <div class="chart-body">
+    <!-- MODE 1: BAR CHART -->
+    @if (type() === 'bar') {
+      <div class="bar-chart-container">
+        <div class="bar-plot-area">
+          @for (bar of barItems(); track bar.label; let idx = $index) {
+            <div
+              class="bar-col"
+              (mouseenter)="hoveredIndex.set(idx)"
+              (mouseleave)="hoveredIndex.set(null)">
+              <div class="bar-track">
+                <div
+                  class="bar-fill"
+                  [style.height.%]="bar.heightPct"
+                  [style.background-color]="bar.color">
+                  @if (hoveredIndex() === idx) {
+                    <div class="bar-tooltip">
+                      <strong>{{ bar.label }}</strong>: {{ bar.value.toLocaleString('en-US') }}
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="bar-axis-row">
+          @for (bar of barItems(); track bar.label) {
+            <span class="bar-axis-label" [title]="bar.label">{{ bar.label }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- MODE 2: DONUT CHART -->
+    @if (type() === 'donut') {
+      <div class="donut-chart-container">
+        <div class="donut-stage">
+          <svg class="donut-svg" viewBox="0 0 100 100" aria-hidden="true">
+            @for (slice of donutSlices().slices; track slice.label; let idx = $index) {
+              <path
+                [attr.d]="slice.path"
+                [attr.fill]="slice.color"
+                class="donut-slice"
+                [class.active]="hoveredIndex() === idx"
+                (mouseenter)="hoveredIndex.set(idx)"
+                (mouseleave)="hoveredIndex.set(null)" />
+            }
+          </svg>
+          <div class="donut-center-readout">
+            <span class="center-total">{{ donutSlices().total.toLocaleString('en-US') }}</span>
+            <span class="center-label">Total</span>
+          </div>
+        </div>
+
+        <div class="donut-legend">
+          @for (slice of donutSlices().slices; track slice.label; let idx = $index) {
+            <div
+              class="legend-item"
+              [class.active]="hoveredIndex() === idx"
+              (mouseenter)="hoveredIndex.set(idx)"
+              (mouseleave)="hoveredIndex.set(null)">
+              <span class="legend-swatch" [style.background-color]="slice.color"></span>
+              <span class="legend-text">{{ slice.label }}</span>
+              <strong class="legend-pct">{{ slice.percentage }}%</strong>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- MODE 3: LINE / AREA CHART -->
+    @if (type() === 'line') {
+      <div class="line-chart-container">
+        <svg class="line-svg" viewBox="0 0 300 120" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.3" />
+              <stop offset="100%" stop-color="#4f46e5" stop-opacity="0.0" />
+            </linearGradient>
+          </defs>
+          <path [attr.d]="lineSvg().area" fill="url(#areaGrad)" />
+          <path [attr.d]="lineSvg().path" fill="none" stroke="#4f46e5" stroke-width="2.5" />
+          @for (pt of lineSvg().points; track pt.label; let idx = $index) {
+            <circle
+              [attr.cx]="pt.x"
+              [attr.cy]="pt.y"
+              r="3.5"
+              class="line-point"
+              (mouseenter)="hoveredIndex.set(idx)"
+              (mouseleave)="hoveredIndex.set(null)" />
+          }
+        </svg>
+
+        <div class="line-x-axis">
+          @for (pt of lineSvg().points; track pt.label) {
+            <span class="axis-label">{{ pt.label }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
