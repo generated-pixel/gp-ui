@@ -106,6 +106,45 @@
           />
         </div>
 
+        <!-- Global Currency Selector -->
+        <div class="setting-item currency-picker">
+          <span class="setting-label">{{ i18n.translate('currency') }}</span>
+          <gp-select
+            [options]="currencyOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="config.currency()"
+            [attr.aria-label]="i18n.translate('currency')"
+            (ngModelChange)="setCurrency($event)"
+          />
+        </div>
+
+        <!-- Date Format Selector -->
+        <div class="setting-item date-format-picker">
+          <span class="setting-label">{{ i18n.translate('dateFormat') }}</span>
+          <gp-select
+            [options]="dateFormatOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="config.dateFormat()"
+            [attr.aria-label]="i18n.translate('dateFormat')"
+            (ngModelChange)="setDateFormat($event)"
+          />
+        </div>
+
+        <!-- Number Format Selector -->
+        <div class="setting-item number-format-picker">
+          <span class="setting-label">{{ i18n.translate('numberFormat') }}</span>
+          <gp-select
+            [options]="numberFormatOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedNumberFormat()"
+            [attr.aria-label]="i18n.translate('numberFormat')"
+            (ngModelChange)="setNumberFormat($event)"
+          />
+        </div>
+
         <!-- Package Distribution Button -->
         <div class="setting-item pkg-btn-item">
           <gp-button label="Packages & API" icon="box" size="sm" severity="primary" (click)="openPackageManager()" />

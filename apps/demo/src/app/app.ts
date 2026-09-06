@@ -32,6 +32,9 @@ import {
   Relationship,
   RelationshipCardinality,
   SupportedLocale,
+  SupportedCurrency,
+  SupportedDateFormat,
+  GpAnalyticsConfigService,
   GpSchemaDataLoaderService
 } from 'gp-analytics';
 
@@ -62,6 +65,7 @@ import {
 })
 export class App {
   protected readonly i18n = inject(GpTranslationService);
+  protected readonly config = inject(GpAnalyticsConfigService);
   protected readonly themeService = inject(DemoThemeService);
   protected readonly schemaDataLoader = inject(GpSchemaDataLoaderService);
 
@@ -134,8 +138,9 @@ export class App {
   protected readonly designerAvailableFields = computed(() => [
     { fieldId: 'customer_name', label: 'Customer Name', type: 'string' },
     { fieldId: 'region', label: 'Sales Region', type: 'string' },
+    { fieldId: 'currency', label: 'Currency', type: 'string' },
     { fieldId: 'status', label: 'Order Status', type: 'string' },
-    { fieldId: 'total', label: 'Total Revenue ($)', type: 'number' },
+    { fieldId: 'total', label: 'Total Revenue', type: 'currency' },
     { fieldId: 'quantity', label: 'Order Units (Qty)', type: 'number' },
     { fieldId: 'date', label: 'Order Date', type: 'date' }
   ]);
@@ -204,6 +209,7 @@ export class App {
       customer_name: 'Northwind Trading',
       region: 'EMEA',
       status: 'Completed',
+      currency: 'GBP',
       total: 18450,
       quantity: 14,
       date: '2026-02-14'
@@ -212,6 +218,7 @@ export class App {
       customer_name: 'Northwind Trading',
       region: 'EMEA',
       status: 'Processing',
+      currency: 'EUR',
       total: 6200,
       quantity: 4,
       date: '2026-02-18'
@@ -220,6 +227,7 @@ export class App {
       customer_name: 'Acme Industrial Corp',
       region: 'AMER',
       status: 'Completed',
+      currency: 'USD',
       total: 34500,
       quantity: 28,
       date: '2026-02-15'
@@ -228,6 +236,7 @@ export class App {
       customer_name: 'Acme Industrial Corp',
       region: 'AMER',
       status: 'Delivered',
+      currency: 'USD',
       total: 12100,
       quantity: 9,
       date: '2026-02-22'
@@ -236,7 +245,8 @@ export class App {
       customer_name: 'Starlight Solutions',
       region: 'APAC',
       status: 'Completed',
-      total: 22800,
+      currency: 'JPY',
+      total: 2280000,
       quantity: 18,
       date: '2026-02-19'
     },
@@ -244,7 +254,8 @@ export class App {
       customer_name: 'Starlight Solutions',
       region: 'APAC',
       status: 'Pending',
-      total: 8400,
+      currency: 'JPY',
+      total: 840000,
       quantity: 6,
       date: '2026-02-24'
     },
@@ -252,6 +263,7 @@ export class App {
       customer_name: 'Helios Technologies',
       region: 'EMEA',
       status: 'Delivered',
+      currency: 'EUR',
       total: 15900,
       quantity: 12,
       date: '2026-02-20'
@@ -260,6 +272,7 @@ export class App {
       customer_name: 'Apex Logistics',
       region: 'AMER',
       status: 'Completed',
+      currency: 'USD',
       total: 27300,
       quantity: 21,
       date: '2026-02-23'
@@ -267,13 +280,73 @@ export class App {
   ];
 
   protected readonly localeOptions = computed(() => [
-    { value: 'en', label: this.i18n.translate('english') },
-    { value: 'fr', label: this.i18n.translate('french') }
+    { value: 'en', label: `🇬🇧 ${this.i18n.translate('english')}` },
+    { value: 'fr', label: `🇫🇷 ${this.i18n.translate('french')}` },
+    { value: 'de', label: `🇩🇪 ${this.i18n.translate('german')}` },
+    { value: 'es', label: `🇪🇸 ${this.i18n.translate('spanish')}` },
+    { value: 'ja', label: `🇯🇵 ${this.i18n.translate('japanese')}` }
   ]);
 
   protected setLocale(locale: string): void {
-    if (locale === 'en' || locale === 'fr') {
-      this.i18n.setLocale(locale as SupportedLocale);
+    this.i18n.setLocale(locale as SupportedLocale);
+  }
+
+  protected readonly currencyOptions = [
+    { value: 'USD', label: '$ USD (US Dollar)' },
+    { value: 'EUR', label: '€ EUR (Euro)' },
+    { value: 'GBP', label: '£ GBP (British Pound)' },
+    { value: 'JPY', label: '¥ JPY (Japanese Yen)' },
+    { value: 'CAD', label: 'CA$ CAD (Canadian Dollar)' },
+    { value: 'AUD', label: 'A$ AUD (Australian Dollar)' },
+    { value: 'CHF', label: 'CHF (Swiss Franc)' }
+  ];
+
+  protected setCurrency(curr: string): void {
+    this.config.updateConfig({ currency: curr as SupportedCurrency });
+  }
+
+  protected readonly dateFormatOptions = [
+    { value: 'YYYY-MM-DD', label: 'YYYY-MM-DD (ISO)' },
+    { value: 'DD/MM/YYYY', label: 'DD/MM/YYYY (UK/EU)' },
+    { value: 'MM/DD/YYYY', label: 'MM/DD/YYYY (US)' },
+    { value: 'DD.MM.YYYY', label: 'DD.MM.YYYY (DE)' },
+    { value: 'YYYY/MM/DD', label: 'YYYY/MM/DD (JP)' }
+  ];
+
+  protected setDateFormat(df: string): void {
+    this.config.updateConfig({ dateFormat: df as SupportedDateFormat });
+  }
+
+  protected readonly numberFormatOptions = [
+    { value: 'comma-dot', label: '1,234.56 (US/UK)' },
+    { value: 'dot-comma', label: '1.234,56 (EU/DE)' },
+    { value: 'space-comma', label: '1 234,56 (ISO/FR)' }
+  ];
+
+  protected readonly selectedNumberFormat = computed<string>(() => {
+    const nf = this.config.numberFormat();
+    if (nf.thousandSeparator === '.' && nf.decimalSeparator === ',') {
+      return 'dot-comma';
+    }
+    if (nf.thousandSeparator === ' ' && nf.decimalSeparator === ',') {
+      return 'space-comma';
+    }
+    return 'comma-dot';
+  });
+
+  protected setNumberFormat(formatKey: string): void {
+    if (formatKey === 'dot-comma') {
+      this.config.updateConfig({
+        numberFormat: { thousandSeparator: '.', decimalSeparator: ',', precision: 2 }
+      });
+    } else if (formatKey === 'space-comma') {
+      this.config.updateConfig({
+        numberFormat: { thousandSeparator: ' ', decimalSeparator: ',', precision: 2 }
+      });
+    } else {
+      this.config.updateConfig({
+        numberFormat: { thousandSeparator: ',', decimalSeparator: '.', precision: 2 }
+      });
     }
   }
 
@@ -396,6 +469,8 @@ export class App {
           tableId: 'table-orders',
           tableName: 'Orders',
           groupingId: 'group-commerce',
+          currencyCode: 'USD',
+          currencyField: 'currency',
           fields: [
             {
               fieldGroupingId: 'order-main-group',
@@ -473,6 +548,49 @@ export class App {
                   ]
                 },
                 {
+                  fieldId: 'order-currency',
+                  tableId: 'table-orders',
+                  fieldGroupingId: 'order-main-group',
+                  fieldName: 'currency',
+                  fieldDisplayName: {
+                    value: 'Currency',
+                    displayValue: {
+                      en: 'Currency',
+                      fr: 'Devise',
+                      de: 'Währung',
+                      es: 'Moneda',
+                      ja: '通貨'
+                    }
+                  },
+                  dataType: 'string',
+                  visible: true,
+                  isPrimaryKey: false,
+                  isIndex: false,
+                  isJoinField: false,
+                  usableInReports: true,
+                  filterable: true,
+                  sortable: true,
+                  groupable: true,
+                  lookupValues: [
+                    {
+                      value: 'USD',
+                      displayValue: { en: 'USD ($)', fr: 'USD ($)', de: 'USD ($)', es: 'USD ($)', ja: 'USD ($)' }
+                    },
+                    {
+                      value: 'EUR',
+                      displayValue: { en: 'EUR (€)', fr: 'EUR (€)', de: 'EUR (€)', es: 'EUR (€)', ja: 'EUR (€)' }
+                    },
+                    {
+                      value: 'GBP',
+                      displayValue: { en: 'GBP (£)', fr: 'GBP (£)', de: 'GBP (£)', es: 'GBP (£)', ja: 'GBP (£)' }
+                    },
+                    {
+                      value: 'JPY',
+                      displayValue: { en: 'JPY (¥)', fr: 'JPY (¥)', de: 'JPY (¥)', es: 'JPY (¥)', ja: 'JPY (¥)' }
+                    }
+                  ]
+                },
+                {
                   fieldId: 'order-total',
                   tableId: 'table-orders',
                   fieldGroupingId: 'order-main-group',
@@ -482,6 +600,7 @@ export class App {
                     displayValue: { en: 'Order total', fr: 'Total de la commande' }
                   },
                   dataType: 'currency',
+                  currencyField: 'currency',
                   visible: true,
                   isPrimaryKey: false,
                   isIndex: false,
@@ -700,15 +819,18 @@ export class App {
     const itemsTable = currentGroupings[0].tables[2] || ordersTable;
 
     const custName = custTable.fields[0]?.fields[2] || custTable.fields[0]?.fields[0];
-    const orderStatus = ordersTable.fields[0]?.fields[3];
-    const orderDate = ordersTable.fields[0]?.fields[2] || ordersTable.fields[0]?.fields[1];
-    const orderTotal = ordersTable.fields[0]?.fields[4] || ordersTable.fields[0]?.fields[2];
-    const itemProduct = itemsTable.fields[0]?.fields[2] || itemsTable.fields[0]?.fields[0];
-    const itemQuantity = itemsTable.fields[0]?.fields[3] || itemsTable.fields[0]?.fields[1];
+    const orderCurrency = ordersTable.fields[0]?.fields.find((f) => f.fieldName === 'currency');
+    const orderStatus = ordersTable.fields[0]?.fields.find((f) => f.fieldName === 'status');
+    const orderDate = ordersTable.fields[0]?.fields.find((f) => f.fieldName === 'order_date');
+    const orderTotal = ordersTable.fields[0]?.fields.find((f) => f.fieldName === 'total');
+    const itemProduct = itemsTable.fields[0]?.fields.find((f) => f.fieldName === 'product_name');
+    const itemQuantity = itemsTable.fields[0]?.fields.find((f) => f.fieldName === 'quantity');
 
     if (!custName) return;
 
-    const fieldsToAdd = [custName, orderStatus, orderDate, orderTotal, itemProduct, itemQuantity].filter(Boolean);
+    const fieldsToAdd = [custName, orderCurrency, orderStatus, orderDate, orderTotal, itemProduct, itemQuantity].filter(
+      Boolean
+    ) as any[];
     const datasetFields = fieldsToAdd.map((f, idx) => {
       const df = createDatasetField(f);
       if (idx === 0 && df.groupable) {
