@@ -10,9 +10,31 @@
     </div>
 
     <div class="report-actions">
+      <!-- Live Search Input -->
+      <div class="table-search-group">
+        <input
+          type="text"
+          gpInputText
+          class="table-search-input"
+          placeholder="Search table rows..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)" />
+        @if (searchQuery()) {
+          <button
+            type="button"
+            class="btn-clear-search"
+            (click)="searchQuery.set('')"
+            title="Clear search">✕</button>
+        }
+      </div>
+
       @if (queryResult(); as res) {
         <gp-tag severity="info" size="sm">
-          {{ res.totalCount }} {{ res.totalCount === 1 ? 'group' : 'groups' }} ({{ res.executionTimeMs }}ms)
+          @if (searchQuery()) {
+            {{ filteredRows().length }} of {{ res.totalCount }} groups
+          } @else {
+            {{ res.totalCount }} {{ res.totalCount === 1 ? 'group' : 'groups' }} ({{ res.executionTimeMs }}ms)
+          }
         </gp-tag>
       }
 
@@ -29,7 +51,7 @@
   <!-- Table View -->
   <div class="table-scroll-wrap">
     @if (queryResult(); as res) {
-      @if (res.rows.length > 0) {
+      @if (filteredRows().length > 0) {
         <table class="report-table">
           <thead>
             <tr>
@@ -51,7 +73,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (row of res.rows; track row['_id']; let idx = $index) {
+            @for (row of filteredRows(); track row['_id']; let idx = $index) {
               <tr class="report-tr">
                 <td class="td-num">{{ idx + 1 }}</td>
                 @for (col of columns(); track col.key) {

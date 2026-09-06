@@ -10,12 +10,13 @@ import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpAnalyticalQuerySpec, GpMeasureQuery } from '../../models/query.model';
 
-import { GpButton, GpTag } from '@generatedpixel/gp-ui';
+import { FormsModule } from '@angular/forms';
+import { GpButton, GpInputTextDirective, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-tabular-report',
   standalone: true,
-  imports: [GpButton, GpTag],
+  imports: [FormsModule, GpButton, GpInputTextDirective, GpTag],
   templateUrl: './tabular-report.html',
   styleUrl: './tabular-report.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,6 +32,7 @@ export class GpTabularReport extends GpAnalyticsComponent {
   readonly showSubtotals = input<boolean>(true);
   readonly showGrandTotal = input<boolean>(true);
 
+  readonly searchQuery = signal<string>('');
   protected readonly sortColumn = signal<string | null>(null);
   protected readonly sortOrder = signal<'asc' | 'desc'>('desc');
 
@@ -82,6 +84,21 @@ export class GpTabularReport extends GpAnalyticsComponent {
     };
 
     return this.engine.executeQuery(raw, spec);
+  });
+
+  /**
+   * Computed list of rows filtered by the active search query.
+   */
+  readonly filteredRows = computed(() => {
+    const res = this.queryResult();
+    if (!res) return [];
+    const q = this.searchQuery().trim().toLowerCase();
+    if (!q) return res.rows;
+    return res.rows.filter((row) =>
+      this.columns().some((col) =>
+        String(row[col.key] ?? '').toLowerCase().includes(q)
+      )
+    );
   });
 
   protected onSort(columnKey: string): void {

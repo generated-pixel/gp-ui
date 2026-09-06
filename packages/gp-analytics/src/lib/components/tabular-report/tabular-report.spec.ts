@@ -54,4 +54,26 @@ describe('GpTabularReport', () => {
     expect(cols[1].isMeasure).toBe(true);
     expect(cols[1].header).toBe('Revenue (SUM)');
   });
+
+  it('filters rows based on searchQuery signal', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('records', mockData);
+    fixture.componentRef.setInput('dimensions', ['customer']);
+    fixture.componentRef.setInput('measures', [{ fieldId: 'revenue', aggregation: 'sum' }]);
+    fixture.detectChanges();
+
+    expect(component.filteredRows()).toHaveLength(2);
+
+    // Search for 'Acme'
+    component.searchQuery.set('Acme');
+    fixture.detectChanges();
+
+    expect(component.filteredRows()).toHaveLength(1);
+    expect(component.filteredRows()[0]['customer']).toBe('Acme');
+
+    // Search for non-existent term
+    component.searchQuery.set('XYZ');
+    fixture.detectChanges();
+    expect(component.filteredRows()).toHaveLength(0);
+  });
 });
