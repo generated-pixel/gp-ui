@@ -1,0 +1,120 @@
+<div class="gp-analytics-dashboard" role="region" [attr.aria-label]="title()">
+  <!-- Top Banner & Controls -->
+  <header class="dashboard-header">
+    <div class="header-brand">
+      <span class="brand-icon">📈</span>
+      <div>
+        <h2 class="dashboard-title">{{ title() }}</h2>
+        <p class="dashboard-subtitle">{{ subtitle() }}</p>
+      </div>
+    </div>
+
+    <!-- Live Status Indicator -->
+    <div class="live-pulse-badge">
+      <span class="pulse-dot"></span>
+      <span>Real-Time Pulse</span>
+    </div>
+  </header>
+
+  <!-- Filter Bar -->
+  <div class="dashboard-filters">
+    <gp-filter-bar
+      [availableFields]="[
+        { fieldId: 'customer_name', label: 'Customer Name' },
+        { fieldId: 'status', label: 'Order Status' }
+      ]"
+      [quickPresets]="[
+        { label: 'Completed Orders', condition: { fieldId: 'status', operator: 'eq', value: 'Completed' } }
+      ]"
+      [filters]="filters()"
+      (filterChange)="onFiltersChange($event)" />
+  </div>
+
+  <!-- Dynamic Responsive Dashboard Grid Canvas powered by gp-grid -->
+  <div class="dashboard-canvas">
+    <gp-grid
+      [(items)]="gridItems"
+      [columns]="12"
+      [rowHeight]="95"
+      [gap]="16"
+      [compactType]="'vertical'">
+      <!-- Custom Widget Template projected into gp-grid items -->
+      <ng-template #widgetTemplate let-item>
+        @switch (item.id) {
+          @case ('kpi-1') {
+            <gp-kpi-card
+              [title]="kpiRevenue().title"
+              [formattedValue]="kpiRevenue().formattedCurrentValue"
+              [variancePercentage]="kpiRevenue().variancePercentage ?? null"
+              [trend]="kpiRevenue().trend"
+              [severity]="kpiRevenue().trendSeverity"
+              [targetValue]="kpiRevenue().targetValue ?? null"
+              [targetProgress]="kpiRevenue().targetProgressPercentage ?? null"
+              [sparklinePoints]="kpiRevenue().sparklinePoints"
+              icon="💰" />
+          }
+          @case ('kpi-2') {
+            <gp-kpi-card
+              [title]="kpiOrders().title"
+              [formattedValue]="kpiOrders().formattedCurrentValue"
+              [variancePercentage]="kpiOrders().variancePercentage ?? null"
+              [trend]="kpiOrders().trend"
+              [severity]="kpiOrders().trendSeverity"
+              [targetValue]="kpiOrders().targetValue ?? null"
+              [targetProgress]="kpiOrders().targetProgressPercentage ?? null"
+              [sparklinePoints]="kpiOrders().sparklinePoints"
+              icon="📦" />
+          }
+          @case ('kpi-3') {
+            <gp-kpi-card
+              [title]="kpiAvgOrder().title"
+              [formattedValue]="kpiAvgOrder().formattedCurrentValue"
+              [variancePercentage]="kpiAvgOrder().variancePercentage ?? null"
+              [trend]="kpiAvgOrder().trend"
+              [severity]="kpiAvgOrder().trendSeverity"
+              [sparklinePoints]="kpiAvgOrder().sparklinePoints"
+              icon="💳" />
+          }
+          @case ('chart-bar') {
+            <gp-analytical-chart
+              title="Revenue by Customer"
+              subtitle="Top contributing customer accounts"
+              type="bar"
+              [data]="customerBreakdownChart()" />
+          }
+          @case ('chart-donut') {
+            <gp-analytical-chart
+              title="Account Share Distribution"
+              subtitle="Relative contribution percentage"
+              type="donut"
+              [data]="customerBreakdownChart()" />
+          }
+          @case ('report-table') {
+            <gp-tabular-report
+              title="Enterprise Revenue Rollup"
+              subtitle="Aggregated by Customer Account and Status"
+              [records]="activeRecords()"
+              [dimensions]="['customer_name', 'status']"
+              [measures]="[
+                { fieldId: 'total', aggregation: 'sum', alias: 'total_revenue' },
+                { fieldId: 'total', aggregation: 'count', alias: 'order_count' }
+              ]" />
+          }
+          @case ('pivot-matrix') {
+            <gp-pivot-grid
+              title="2D Matrix: Customer by Status"
+              [records]="activeRecords()"
+              rowDimension="customer_name"
+              colDimension="status"
+              [measure]="{ fieldId: 'total', aggregation: 'sum' }" />
+          }
+          @default {
+            <div class="empty-widget">
+              <p>Widget: {{ item.id }}</p>
+            </div>
+          }
+        }
+      </ng-template>
+    </gp-grid>
+  </div>
+</div>
