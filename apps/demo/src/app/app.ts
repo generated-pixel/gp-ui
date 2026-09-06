@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GpCard, GpSelect, GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpCard, GpSelect, GpTag } from '@generatedpixel/gp-ui';
 import { DemoThemeMode, DemoThemeService, DEMO_THEMES } from './services/theme.service';
 import {
   createDatasetField,
@@ -21,6 +21,11 @@ import {
   GpDashboardDesigner,
   GpDashboardConfig,
   createDefaultDashboardConfig,
+  createOperationsDashboardConfig,
+  GpPackageManager,
+  GpReportConfig,
+  createReportConfig,
+  PackageImportEvent,
   Grouping,
   JoinType,
   LoadedSchemaResult,
@@ -37,6 +42,7 @@ import {
   styleUrl: './app.scss',
   imports: [
     FormsModule,
+    GpButton,
     GpCard,
     GpSchemaCatalogue,
     GpDatasetFieldSelector,
@@ -48,6 +54,7 @@ import {
     GpAnalyticalChart,
     GpAnalyticsDashboard,
     GpDashboardDesigner,
+    GpPackageManager,
     GpSelect,
     GpTag,
   ],
@@ -122,6 +129,65 @@ export class App {
     { fieldId: 'quantity', label: 'Order Units (Qty)', type: 'number' },
     { fieldId: 'date', label: 'Order Date', type: 'date' },
   ]);
+
+  // Package Distribution Manager State
+  protected readonly isPackageManagerOpen = signal<boolean>(false);
+  protected readonly packageToast = signal<string | null>(null);
+
+  protected readonly availableReports = computed<GpReportConfig[]>(() => [
+    createReportConfig('tabular', 'Enterprise Revenue Rollup with Subtotals', {
+      title: 'Enterprise Revenue Rollup with Subtotals',
+      subtitle: 'Hierarchically aggregated by Region, Customer, and Status',
+      dimensions: ['region', 'customer_name', 'status'],
+      measures: [
+        { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
+        { fieldId: 'quantity', aggregation: 'sum', alias: 'total_units' },
+        { fieldId: 'total', aggregation: 'count', alias: 'order_count' },
+      ],
+      showSubtotals: true,
+      showGrandTotal: true,
+    }),
+    createReportConfig('pivot', 'Cross-Tabulation Matrix: Customer by Region', {
+      title: 'Cross-Tabulation Matrix: Customer by Region',
+      rowDimension: 'customer_name',
+      colDimension: 'region',
+      measure: { fieldId: 'total', aggregation: 'sum' },
+    }),
+    createReportConfig('chart', 'Revenue by Customer', {
+      title: 'Revenue by Customer',
+      subtitle: 'Top contributing enterprise accounts',
+      chartType: 'bar',
+      dimension: 'customer_name',
+      measure: { fieldId: 'total', aggregation: 'sum' },
+    }),
+    createReportConfig('chart', 'Geographic Revenue Share', {
+      title: 'Geographic Revenue Share',
+      subtitle: 'Global market distribution',
+      chartType: 'donut',
+      dimension: 'region',
+      measure: { fieldId: 'total', aggregation: 'sum' },
+    }),
+  ]);
+
+  protected openPackageManager(): void {
+    this.isPackageManagerOpen.set(true);
+  }
+
+  protected onPackageImported(event: PackageImportEvent): void {
+    const pkg = event.package;
+    if (pkg.datasets && pkg.datasets.length > 0) {
+      this.activeDataset.set(pkg.datasets[0]);
+    }
+    if (pkg.dashboards && pkg.dashboards.length > 0) {
+      this.designerDashboardConfig.set(pkg.dashboards[0]);
+    }
+    this.packageToast.set(
+      `✓ Successfully imported ${pkg.metadata.name} (${pkg.metadata.itemCounts?.datasets || 0} datasets, ${pkg.metadata.itemCounts?.dashboards || 0} dashboards, ${pkg.metadata.itemCounts?.reports || 0} reports)`
+    );
+    setTimeout(() => {
+      this.packageToast.set(null);
+    }, 5000);
+  }
 
   protected readonly demoAnalyticsData = [
     { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Completed', total: 18450, quantity: 14, date: '2026-02-14' },

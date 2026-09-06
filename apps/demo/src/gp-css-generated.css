@@ -214,3 +214,4 @@ body {
 .fixed { position: fixed; }
 .inline { display: inline; }
 .gp-grid { display: grid; }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }

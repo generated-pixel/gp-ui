@@ -14,18 +14,18 @@
       <!-- Quick Demo Presets (Visible on Workbench and Standalone) -->
       @if (activeTab() === 'workbench' || activeTab() === 'standalone') {
         <div class="preset-buttons">
-          <button
-            type="button"
-            class="btn-demo-action btn-load"
-            (click)="loadSampleDataset()">
-            ⚡ Load Sample Dataset
-          </button>
-          <button
-            type="button"
-            class="btn-demo-action btn-reset"
-            (click)="resetDataset()">
-            ↺ Reset
-          </button>
+          <gp-button
+            label="Load Sample Dataset"
+            icon="bolt"
+            size="sm"
+            severity="primary"
+            (click)="loadSampleDataset()" />
+          <gp-button
+            label="Reset"
+            icon="refresh"
+            size="sm"
+            [outlined]="true"
+            (click)="resetDataset()" />
         </div>
       }
 
@@ -108,6 +108,16 @@
             [ngModel]="i18n.locale()"
             [attr.aria-label]="i18n.translate('language')"
             (ngModelChange)="setLocale($event)" />
+        </div>
+
+        <!-- Package Distribution Button -->
+        <div class="setting-item pkg-btn-item">
+          <gp-button
+            label="Packages & API"
+            icon="box"
+            size="sm"
+            severity="primary"
+            (click)="openPackageManager()" />
         </div>
       </div>
     </div>
@@ -350,5 +360,21 @@
         </div>
       </gp-card>
     </section>
+  }
+
+  <!-- Package Distribution Manager Dialog -->
+  <gp-package-manager
+    [visible]="isPackageManagerOpen()"
+    (visibleChange)="isPackageManagerOpen.set($event)"
+    [datasets]="[activeDataset()]"
+    [dashboards]="[designerDashboardConfig()]"
+    [reports]="availableReports()"
+    (packageImported)="onPackageImported($event)" />
+
+  <!-- Global Demo Notification Toast -->
+  @if (packageToast()) {
+    <div class="demo-global-toast">
+      <span>{{ packageToast() }}</span>
+    </div>
   }
 </main>

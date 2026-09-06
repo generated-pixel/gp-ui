@@ -467,3 +467,29 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+.pkg-btn-item {
+  display: flex;
+  align-items: flex-end;
+}
+
+.demo-global-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--gp-contrast, #0f172a);
+  color: var(--gp-contrast-text, #ffffff);
+  border-radius: var(--gp-radius-lg, 0.5rem);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: demoToastIn 0.2s ease;
+}
+
+@keyframes demoToastIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
