@@ -15,3 +15,5 @@ export * from './table.model';
 export * from './query.model';
 export * from './schema-data-source.model';
 export * from './dashboard.model';
+export * from './report.model';
+export * from './package.model';
