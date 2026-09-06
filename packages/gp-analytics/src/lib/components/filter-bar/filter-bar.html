@@ -7,12 +7,11 @@
     @if (quickPresets().length > 0) {
       <div class="preset-pills">
         @for (p of quickPresets(); track p.label) {
-          <button
-            type="button"
-            class="preset-pill-btn"
-            (click)="applyQuickPreset(p)">
-            {{ p.label }}
-          </button>
+          <gp-button
+            [label]="p.label"
+            size="sm"
+            [outlined]="true"
+            (click)="applyQuickPreset(p)" />
         }
       </div>
     }
@@ -37,20 +36,21 @@
   </div>
 
   <div class="filter-right">
-    <button
-      type="button"
-      class="btn-add-filter"
-      (click)="openAddModal()">
-      + Add Filter
-    </button>
+    <gp-button
+      label="Add Filter"
+      icon="plus"
+      size="sm"
+      severity="primary"
+      (click)="openAddModal()" />
 
     @if (filters().length > 0) {
-      <button
-        type="button"
-        class="btn-clear-filters"
-        (click)="clearAllFilters()">
-        Clear All ({{ filters().length }})
-      </button>
+      <gp-button
+        [label]="'Clear All (' + filters().length + ')'"
+        icon="trash"
+        size="sm"
+        [outlined]="true"
+        severity="danger"
+        (click)="clearAllFilters()" />
     }
   </div>
 
@@ -63,38 +63,48 @@
         <div class="dialog-form">
           <div class="form-group">
             <label>Field</label>
-            <select class="form-select" [value]="selectedField()" (change)="selectedField.set($any($event.target).value)">
-              @for (field of availableFields(); track field.fieldId) {
-                <option [value]="field.fieldId">{{ field.label }}</option>
-              }
-            </select>
+            <gp-select
+              [options]="fieldOptions()"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="selectedField()"
+              (ngModelChange)="selectedField.set($event)" />
           </div>
 
           <div class="form-group">
             <label>Condition</label>
-            <select class="form-select" [value]="selectedOperator()" (change)="selectedOperator.set($any($event.target).value)">
-              <option value="eq">Equals (=)</option>
-              <option value="neq">Does not equal (≠)</option>
-              <option value="gt">Greater than (&gt;)</option>
-              <option value="lt">Less than (&lt;)</option>
-              <option value="contains">Contains</option>
-            </select>
+            <gp-select
+              [options]="operatorOptions"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="selectedOperator()"
+              (ngModelChange)="selectedOperator.set($event)" />
           </div>
 
           <div class="form-group">
             <label>Value</label>
             <input
               type="text"
+              gpInputText
               class="form-input"
               placeholder="e.g. AMER, 1000..."
-              [value]="filterValue()"
-              (input)="filterValue.set($any($event.target).value)" />
+              [ngModel]="filterValue()"
+              (ngModelChange)="filterValue.set($event)" />
           </div>
         </div>
 
         <div class="dialog-footer">
-          <button type="button" class="btn-cancel" (click)="isAddingCondition.set(false)">Cancel</button>
-          <button type="button" class="btn-apply" (click)="addCondition()">Apply Rule</button>
+          <gp-button
+            label="Cancel"
+            [outlined]="true"
+            size="sm"
+            (click)="isAddingCondition.set(false)" />
+          <gp-button
+            label="Apply Rule"
+            icon="check"
+            size="sm"
+            severity="primary"
+            (click)="addCondition()" />
         </div>
       </div>
     </div>

@@ -1,17 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
   model,
   output,
   signal,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { GpButton, GpInputTextDirective, GpSelect } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpFilterCondition } from '../../models/query.model';
 
 @Component({
   selector: 'gp-filter-bar',
   standalone: true,
+  imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect],
   templateUrl: './filter-bar.html',
   styleUrl: './filter-bar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +31,18 @@ export class GpFilterBar extends GpAnalyticsComponent {
   protected readonly selectedField = signal<string>('');
   protected readonly selectedOperator = signal<string>('eq');
   protected readonly filterValue = signal<string>('');
+
+  protected readonly fieldOptions = computed(() =>
+    this.availableFields().map((f) => ({ label: f.label, value: f.fieldId }))
+  );
+
+  protected readonly operatorOptions = [
+    { label: 'Equals (=)', value: 'eq' },
+    { label: 'Does not equal (≠)', value: 'neq' },
+    { label: 'Greater than (>)', value: 'gt' },
+    { label: 'Less than (<)', value: 'lt' },
+    { label: 'Contains', value: 'contains' },
+  ];
 
   protected applyQuickPreset(preset: { label: string; condition: GpFilterCondition }): void {
     const current = this.filters();
