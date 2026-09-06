@@ -11,18 +11,18 @@
 
     <div class="report-actions">
       @if (queryResult(); as res) {
-        <span class="record-count-badge">
+        <gp-tag severity="info" size="sm">
           {{ res.totalCount }} {{ res.totalCount === 1 ? 'group' : 'groups' }} ({{ res.executionTimeMs }}ms)
-        </span>
+        </gp-tag>
       }
 
-      <button
-        type="button"
-        class="btn-export-csv"
+      <gp-button
+        label="Export CSV"
+        icon="download"
+        size="sm"
+        [outlined]="true"
         (click)="exportToCsv()"
-        title="Export current table to CSV">
-        📥 Export CSV
-      </button>
+        title="Export current table to CSV" />
     </div>
   </header>
 

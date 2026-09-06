@@ -10,9 +10,12 @@ import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpAnalyticalQuerySpec, GpMeasureQuery } from '../../models/query.model';
 
+import { GpButton, GpTag } from '@generatedpixel/gp-ui';
+
 @Component({
   selector: 'gp-tabular-report',
   standalone: true,
+  imports: [GpButton, GpTag],
   templateUrl: './tabular-report.html',
   styleUrl: './tabular-report.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
