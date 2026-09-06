@@ -11,12 +11,12 @@ import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpAnalyticalQuerySpec, GpMeasureQuery } from '../../models/query.model';
 
 import { FormsModule } from '@angular/forms';
-import { GpButton, GpInputTextDirective, GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpInputTextDirective, GpSelect, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-tabular-report',
   standalone: true,
-  imports: [FormsModule, GpButton, GpInputTextDirective, GpTag],
+  imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect, GpTag],
   templateUrl: './tabular-report.html',
   styleUrl: './tabular-report.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,8 +33,18 @@ export class GpTabularReport extends GpAnalyticsComponent {
   readonly showGrandTotal = input<boolean>(true);
 
   readonly searchQuery = signal<string>('');
+  readonly currentPage = signal<number>(1);
+  readonly pageSize = signal<number>(10);
+  readonly pageSizeOptions = [
+    { label: '5 per page', value: 5 },
+    { label: '10 per page', value: 10 },
+    { label: '25 per page', value: 25 },
+    { label: 'All rows', value: 999999 },
+  ];
+
   protected readonly sortColumn = signal<string | null>(null);
   protected readonly sortOrder = signal<'asc' | 'desc'>('desc');
+  protected readonly Math = Math;
 
   /**
    * Computed column metadata.
@@ -100,6 +110,32 @@ export class GpTabularReport extends GpAnalyticsComponent {
       )
     );
   });
+
+  /**
+   * Computed total number of pages based on filtered records.
+   */
+  readonly totalPages = computed(() => {
+    const total = this.filteredRows().length;
+    return Math.max(1, Math.ceil(total / this.pageSize()));
+  });
+
+  /**
+   * Computed rows for the active page.
+   */
+  readonly paginatedRows = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.filteredRows().slice(start, start + this.pageSize());
+  });
+
+  goToPage(page: number): void {
+    const clamped = Math.max(1, Math.min(page, this.totalPages()));
+    this.currentPage.set(clamped);
+  }
+
+  setPageSize(size: number): void {
+    this.pageSize.set(size);
+    this.currentPage.set(1);
+  }
 
   protected onSort(columnKey: string): void {
     if (this.sortColumn() === columnKey) {

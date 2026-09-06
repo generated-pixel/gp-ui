@@ -73,9 +73,9 @@
             </tr>
           </thead>
           <tbody>
-            @for (row of filteredRows(); track row['_id']; let idx = $index) {
+            @for (row of paginatedRows(); track row['_id']; let idx = $index) {
               <tr class="report-tr">
-                <td class="td-num">{{ idx + 1 }}</td>
+                <td class="td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
                 @for (col of columns(); track col.key) {
                   <td
                     class="report-td"
@@ -114,6 +114,58 @@
             </tfoot>
           }
         </table>
+
+        <!-- Interactive Pagination Bar -->
+        @if (filteredRows().length > pageSizeOptions[0].value) {
+          <footer class="report-pagination-bar">
+            <div class="pagination-left">
+              <span class="pagination-count-label">
+                Showing {{ (currentPage() - 1) * pageSize() + 1 }}–{{ Math.min(currentPage() * pageSize(), filteredRows().length) }} of {{ filteredRows().length }} rows
+              </span>
+              <div class="page-size-selector">
+                <span class="size-label">Rows per page:</span>
+                <gp-select
+                  [options]="pageSizeOptions"
+                  optionLabel="label"
+                  optionValue="value"
+                  [ngModel]="pageSize()"
+                  (ngModelChange)="setPageSize($event)" />
+              </div>
+            </div>
+
+            <div class="pagination-controls">
+              <gp-button
+                label="« First"
+                size="sm"
+                [outlined]="true"
+                [disabled]="currentPage() === 1"
+                (click)="goToPage(1)" />
+              <gp-button
+                label="‹ Prev"
+                size="sm"
+                [outlined]="true"
+                [disabled]="currentPage() === 1"
+                (click)="goToPage(currentPage() - 1)" />
+
+              <span class="page-indicator">
+                Page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong>
+              </span>
+
+              <gp-button
+                label="Next ›"
+                size="sm"
+                [outlined]="true"
+                [disabled]="currentPage() >= totalPages()"
+                (click)="goToPage(currentPage() + 1)" />
+              <gp-button
+                label="Last »"
+                size="sm"
+                [outlined]="true"
+                [disabled]="currentPage() >= totalPages()"
+                (click)="goToPage(totalPages())" />
+            </div>
+          </footer>
+        }
       } @else {
         <div class="empty-state">
           <span class="empty-icon">📋</span>

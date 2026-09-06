@@ -76,4 +76,25 @@ describe('GpTabularReport', () => {
     fixture.detectChanges();
     expect(component.filteredRows()).toHaveLength(0);
   });
+
+  it('paginates rows when pageSize is smaller than total rows', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('records', mockData);
+    fixture.componentRef.setInput('dimensions', ['customer']);
+    fixture.componentRef.setInput('measures', [{ fieldId: 'revenue', aggregation: 'sum' }]);
+    fixture.detectChanges();
+
+    // Total 2 groups: Northwind, Acme. Set pageSize to 1
+    component.setPageSize(1);
+    fixture.detectChanges();
+
+    expect(component.totalPages()).toBe(2);
+    expect(component.paginatedRows()).toHaveLength(1);
+
+    // Page 2
+    component.goToPage(2);
+    fixture.detectChanges();
+    expect(component.currentPage()).toBe(2);
+    expect(component.paginatedRows()).toHaveLength(1);
+  });
 });
