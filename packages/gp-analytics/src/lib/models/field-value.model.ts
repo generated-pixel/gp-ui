@@ -1,3 +1,1 @@
-import { LocalizedValue } from './localized-value.model';
-
-export type FieldValue<T = unknown> = LocalizedValue<T>;
+export * from '../types/field-value.type';
