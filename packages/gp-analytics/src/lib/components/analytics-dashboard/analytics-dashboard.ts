@@ -12,6 +12,7 @@ import {
 import { GpGrid, GpGridItem, GpGridChangeEvent } from '@generatedpixel/gp-grid';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
+import { GpAnalyticsConfigService } from '../../services/analytics-config.service';
 import { GpKpiCard } from '../kpi-card/kpi-card';
 import { GpTabularReport } from '../tabular-report/tabular-report';
 import { GpPivotGrid } from '../pivot-grid/pivot-grid';
@@ -45,6 +46,7 @@ import {
 })
 export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
+  protected readonly analyticsConfig = inject(GpAnalyticsConfigService, { optional: true });
 
   // Optional dashboard configuration; defaults to default executive layout
   readonly config = input<GpDashboardConfig | null>(null);
@@ -164,7 +166,8 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
         const res = this.engine.computeKpiMetric(records, kpiWidget.measure, kpiWidget.title, {
           previousRecords: prev,
           targetValue: kpiWidget.targetValue,
-          formatCurrency: kpiWidget.formatCurrency
+          formatCurrency: kpiWidget.formatCurrency ?? (kpiWidget.unit === '$' || kpiWidget.unit === 'currency'),
+          currencyCode: (kpiWidget as any).currency || this.analyticsConfig?.currency()
         });
 
         // Override severity if explicitly configured

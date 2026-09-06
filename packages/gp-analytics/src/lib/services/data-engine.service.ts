@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { GpQueryCacheService } from './query-cache.service';
+import { GpLocaleFormatterService } from './locale-formatter.service';
 import {
   GpAnalyticalQuerySpec,
   GpAggregationResult,
@@ -14,8 +15,9 @@ import {
 @Injectable({ providedIn: 'root' })
 export class GpDataEngineService {
   protected readonly queryCache: GpQueryCacheService;
+  protected readonly localeFormatter?: GpLocaleFormatterService;
 
-  constructor(queryCache?: GpQueryCacheService) {
+  constructor(queryCache?: GpQueryCacheService, localeFormatter?: GpLocaleFormatterService) {
     if (queryCache) {
       this.queryCache = queryCache;
     } else {
@@ -23,6 +25,16 @@ export class GpDataEngineService {
         this.queryCache = inject(GpQueryCacheService);
       } catch {
         this.queryCache = new GpQueryCacheService();
+      }
+    }
+
+    if (localeFormatter) {
+      this.localeFormatter = localeFormatter;
+    } else {
+      try {
+        this.localeFormatter = inject(GpLocaleFormatterService);
+      } catch {
+        this.localeFormatter = new GpLocaleFormatterService();
       }
     }
   }
@@ -200,6 +212,7 @@ export class GpDataEngineService {
       targetValue?: number;
       timeFieldId?: string;
       formatCurrency?: boolean;
+      currencyCode?: string;
     }
   ): GpKpiMetricResult {
     const currentVal = this.computeMeasure(records, measure);
@@ -236,8 +249,8 @@ export class GpDataEngineService {
     const sparklinePoints = this.generateSparklinePoints(records, measure, options?.timeFieldId);
 
     const formattedCurrentValue = options?.formatCurrency
-      ? `$${currentVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-      : currentVal.toLocaleString('en-US');
+      ? (this.localeFormatter?.formatCurrency(currentVal, options?.currencyCode) ?? `$${currentVal.toFixed(2)}`)
+      : (this.localeFormatter?.formatNumber(currentVal) ?? String(currentVal));
 
     return {
       metricId: `kpi_${measure.fieldId}_${measure.aggregation}`,

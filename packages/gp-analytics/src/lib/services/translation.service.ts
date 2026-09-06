@@ -20,7 +20,7 @@ export type { TranslationParams } from '../types/translation-params.type';
  */
 @Injectable({ providedIn: 'root' })
 export class GpTranslationService {
-  private readonly configService = inject(GpAnalyticsConfigService, { optional: true });
+  private readonly configService?: GpAnalyticsConfigService;
 
   readonly locale = signal<SupportedLocale>('en');
 
@@ -29,7 +29,17 @@ export class GpTranslationService {
    */
   private readonly registry = new Map<string, Record<TranslationKey, string>>();
 
-  constructor() {
+  constructor(@Optional() configService?: GpAnalyticsConfigService) {
+    if (configService) {
+      this.configService = configService;
+    } else {
+      try {
+        this.configService = inject(GpAnalyticsConfigService, { optional: true }) || undefined;
+      } catch {
+        this.configService = undefined;
+      }
+    }
+
     // 1. Establish English baseline
     this.registry.set('en', { ...DEFAULT_ENGLISH_TRANSLATIONS });
 

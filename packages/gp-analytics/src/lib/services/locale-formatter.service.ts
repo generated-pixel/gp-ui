@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Optional, inject } from '@angular/core';
 import { GpAnalyticsConfigService } from './analytics-config.service';
 import { GpNumberFormatConfig } from '../interfaces/gp-number-format-config.interface';
 import { SupportedCurrency } from '../types/supported-currency.type';
@@ -22,7 +22,19 @@ const CURRENCY_SYMBOLS: Record<string, string> = {
  */
 @Injectable({ providedIn: 'root' })
 export class GpLocaleFormatterService {
-  private readonly configService = inject(GpAnalyticsConfigService, { optional: true });
+  private readonly configService?: GpAnalyticsConfigService;
+
+  constructor(@Optional() configService?: GpAnalyticsConfigService) {
+    if (configService) {
+      this.configService = configService;
+    } else {
+      try {
+        this.configService = inject(GpAnalyticsConfigService, { optional: true }) || undefined;
+      } catch {
+        this.configService = undefined;
+      }
+    }
+  }
 
   /**
    * Resolves the currency symbol for an ISO 4217 currency code.
