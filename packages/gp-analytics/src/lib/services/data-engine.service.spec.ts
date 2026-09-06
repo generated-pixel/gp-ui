@@ -108,6 +108,30 @@ describe('GpDataEngineService', () => {
       expect(result.rows[0]['var']).toBe(740000);
       expect(result.rows[0]['std']).toBe(860.23);
     });
+
+    it('evaluates calculated formula fields dynamically across records', () => {
+      // records: { total: 1000, quantity: 5 } -> unit_price = 1000 / 5 = 200
+      // { total: 2000, quantity: 10 } -> 200
+      // { total: 3000, quantity: 15 } -> 200
+      // { total: 1500, quantity: 8 } -> 187.5
+      // { total: 500, quantity: 2 } -> 250
+      const spec: GpAnalyticalQuerySpec = {
+        dimensions: ['customer'],
+        calculatedFields: [
+          { id: 'unit_price', expression: 'total / quantity' },
+        ],
+        measures: [
+          { fieldId: 'unit_price', aggregation: 'avg', alias: 'avg_unit_price' },
+        ],
+      };
+
+      const result = service.executeQuery(mockRecords, spec);
+      const northwind = result.rows.find((r) => r['customer'] === 'Northwind');
+      expect(northwind!['avg_unit_price']).toBe(200);
+
+      const starlight = result.rows.find((r) => r['customer'] === 'Starlight');
+      expect(starlight!['avg_unit_price']).toBe(250);
+    });
   });
 
   describe('computeKpiMetric', () => {

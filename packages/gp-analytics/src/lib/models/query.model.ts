@@ -45,10 +45,16 @@ export interface GpSortSpec {
 
 export type GpTimeGrain = 'day' | 'week' | 'month' | 'quarter' | 'year';
 
+export interface GpCalculatedField {
+  id: string;
+  expression: string;
+}
+
 export interface GpAnalyticalQuerySpec {
   datasetId?: string;
   dimensions: string[]; // Field IDs used for grouping
   measures: GpMeasureQuery[];
+  calculatedFields?: GpCalculatedField[];
   filters?: GpFilterCondition[];
   sorts?: GpSortSpec[];
   timeGrain?: GpTimeGrain;

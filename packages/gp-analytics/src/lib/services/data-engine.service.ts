@@ -33,8 +33,20 @@ export class GpDataEngineService {
       };
     }
 
+    // 0. Calculated Fields Evaluation
+    let preparedRecords = records;
+    if (spec.calculatedFields && spec.calculatedFields.length > 0) {
+      preparedRecords = records.map((rec) => {
+        const enriched = { ...rec };
+        for (const calc of spec.calculatedFields!) {
+          enriched[calc.id] = this.evaluateExpression(calc.expression, enriched);
+        }
+        return enriched;
+      });
+    }
+
     // 1. Filter Records
-    let filtered = this.applyFilters(records, spec.filters);
+    let filtered = this.applyFilters(preparedRecords, spec.filters);
 
     // 2. Grouping & Aggregations
     let aggregatedRows: Record<string, any>[];
@@ -539,6 +551,31 @@ export class GpDataEngineService {
         return `${f} IS NOT NULL`;
       default:
         return '1 = 1';
+    }
+  }
+
+  /**
+   * Safely evaluates an arithmetic expression for a record.
+   */
+  private evaluateExpression(expr: string, record: Record<string, any>): number {
+    if (!expr || typeof expr !== 'string') return 0;
+
+    // Substitute identifier tokens with their numeric values
+    const sanitized = expr.replace(/[a-zA-Z_][a-zA-Z0-9_]*/g, (match) => {
+      const val = Number(record[match] ?? 0);
+      return isNaN(val) ? '0' : String(val);
+    });
+
+    // Guard against anything other than digits, arithmetic operators, parentheses, and spaces
+    if (!/^[0-9\s\+\-\*\/\%\(\)\.]+$/.test(sanitized)) {
+      return 0;
+    }
+
+    try {
+      const result = new Function(`"use strict"; return (${sanitized});`)();
+      return isFinite(result) && !isNaN(result) ? Number(result.toFixed(4)) : 0;
+    } catch {
+      return 0;
     }
   }
 }
