@@ -1,119 +1,155 @@
-<div class="gp-analytics-dashboard" role="region" [attr.aria-label]="title()">
+<div class="gp-analytics-dashboard" [class.is-designer-mode]="editable()" role="region" [attr.aria-label]="effectiveTitle()">
   <!-- Top Banner & Controls -->
   <header class="dashboard-header">
     <div class="header-brand">
       <span class="brand-icon">📈</span>
       <div>
-        <h2 class="dashboard-title">{{ title() }}</h2>
-        <p class="dashboard-subtitle">{{ subtitle() }}</p>
+        <h2 class="dashboard-title">{{ effectiveTitle() }}</h2>
+        <p class="dashboard-subtitle">{{ effectiveSubtitle() }}</p>
       </div>
     </div>
 
     <!-- Live Status Indicator -->
     <div class="live-pulse-badge">
       <span class="pulse-dot"></span>
-      <span>Real-Time Pulse</span>
+      <span>{{ editable() ? 'Designer Canvas' : 'Live Real-Time' }}</span>
     </div>
   </header>
 
-  <!-- Filter Bar -->
-  <div class="dashboard-filters">
-    <gp-filter-bar
-      [availableFields]="[
-        { fieldId: 'customer_name', label: 'Customer Name' },
-        { fieldId: 'status', label: 'Order Status' }
-      ]"
-      [quickPresets]="[
-        { label: 'Completed Orders', condition: { fieldId: 'status', operator: 'eq', value: 'Completed' } }
-      ]"
-      [filters]="filters()"
-      (filterChange)="onFiltersChange($event)" />
-  </div>
+  <!-- Filter Bar (Only rendered when not empty or in view mode) -->
+  @if (filterFields().length > 0) {
+    <div class="dashboard-filters">
+      <gp-filter-bar
+        [availableFields]="filterFields()"
+        [quickPresets]="quickPresets()"
+        [filters]="filters()"
+        (filterChange)="onFiltersChange($event)" />
+    </div>
+  }
 
   <!-- Dynamic Responsive Dashboard Grid Canvas powered by gp-grid -->
   <div class="dashboard-canvas">
     <gp-grid
       [(items)]="gridItems"
-      [columns]="12"
-      [rowHeight]="95"
-      [gap]="16"
-      [compactType]="'vertical'">
+      [columns]="columns()"
+      [rowHeight]="rowHeight()"
+      [gap]="gap()"
+      [compactType]="compactType()"
+      [readonly]="!editable()"
+      [showGridLines]="editable()"
+      (itemMoved)="onGridItemChange()"
+      (itemResized)="onGridItemChange()">
       <!-- Custom Widget Template projected into gp-grid items -->
       <ng-template #widgetTemplate let-item>
-        @switch (item.id) {
-          @case ('kpi-1') {
-            <gp-kpi-card
-              [title]="kpiRevenue().title"
-              [formattedValue]="kpiRevenue().formattedCurrentValue"
-              [variancePercentage]="kpiRevenue().variancePercentage ?? null"
-              [trend]="kpiRevenue().trend"
-              [severity]="kpiRevenue().trendSeverity"
-              [targetValue]="kpiRevenue().targetValue ?? null"
-              [targetProgress]="kpiRevenue().targetProgressPercentage ?? null"
-              [sparklinePoints]="kpiRevenue().sparklinePoints"
-              icon="💰" />
-          }
-          @case ('kpi-2') {
-            <gp-kpi-card
-              [title]="kpiOrders().title"
-              [formattedValue]="kpiOrders().formattedCurrentValue"
-              [variancePercentage]="kpiOrders().variancePercentage ?? null"
-              [trend]="kpiOrders().trend"
-              [severity]="kpiOrders().trendSeverity"
-              [targetValue]="kpiOrders().targetValue ?? null"
-              [targetProgress]="kpiOrders().targetProgressPercentage ?? null"
-              [sparklinePoints]="kpiOrders().sparklinePoints"
-              icon="📦" />
-          }
-          @case ('kpi-3') {
-            <gp-kpi-card
-              [title]="kpiAvgOrder().title"
-              [formattedValue]="kpiAvgOrder().formattedCurrentValue"
-              [variancePercentage]="kpiAvgOrder().variancePercentage ?? null"
-              [trend]="kpiAvgOrder().trend"
-              [severity]="kpiAvgOrder().trendSeverity"
-              [sparklinePoints]="kpiAvgOrder().sparklinePoints"
-              icon="💳" />
-          }
-          @case ('chart-bar') {
-            <gp-analytical-chart
-              title="Revenue by Customer"
-              subtitle="Top contributing customer accounts"
-              type="bar"
-              [data]="customerBreakdownChart()" />
-          }
-          @case ('chart-donut') {
-            <gp-analytical-chart
-              title="Account Share Distribution"
-              subtitle="Relative contribution percentage"
-              type="donut"
-              [data]="customerBreakdownChart()" />
-          }
-          @case ('report-table') {
-            <gp-tabular-report
-              title="Enterprise Revenue Rollup"
-              subtitle="Aggregated by Customer Account and Status"
-              [records]="activeRecords()"
-              [dimensions]="['customer_name', 'status']"
-              [measures]="[
-                { fieldId: 'total', aggregation: 'sum', alias: 'total_revenue' },
-                { fieldId: 'total', aggregation: 'count', alias: 'order_count' }
-              ]" />
-          }
-          @case ('pivot-matrix') {
-            <gp-pivot-grid
-              title="2D Matrix: Customer by Status"
-              [records]="activeRecords()"
-              rowDimension="customer_name"
-              colDimension="status"
-              [measure]="{ fieldId: 'total', aggregation: 'sum' }" />
-          }
-          @default {
-            <div class="empty-widget">
-              <p>Widget: {{ item.id }}</p>
+        @let w = getWidget(item.id);
+        <div
+          class="widget-container"
+          [class.is-selected]="selectedWidgetId() === item.id"
+          [class.has-designer-chrome]="editable()"
+          (click)="w ? onSelect(w, $event) : null">
+          
+          <!-- Designer Header Overlay Actions (Visible in Edit Mode) -->
+          @if (editable() && w) {
+            <div class="widget-designer-toolbar" (click)="$event.stopPropagation()">
+              <div class="widget-type-badge">
+                @switch (w.type) {
+                  @case ('kpi') { <span>📈 KPI</span> }
+                  @case ('chart') { <span>📊 Chart</span> }
+                  @case ('table') { <span>📑 Table</span> }
+                  @case ('pivot') { <span>🔲 Pivot</span> }
+                  @default { <span>🧩 Custom</span> }
+                }
+              </div>
+              <div class="widget-actions-cluster">
+                <button
+                  type="button"
+                  class="btn-widget-action btn-config"
+                  title="Configure Widget"
+                  (click)="onEdit(w, $event)">
+                  ⚙️
+                </button>
+                <button
+                  type="button"
+                  class="btn-widget-action btn-dup"
+                  title="Duplicate Widget"
+                  (click)="onDuplicate(w, $event)">
+                  📋
+                </button>
+                <button
+                  type="button"
+                  class="btn-widget-action btn-del"
+                  title="Delete Widget"
+                  (click)="onDelete(w, $event)">
+                  ✕
+                </button>
+              </div>
             </div>
           }
-        }
+
+          <!-- Widget Dynamic Content by Type -->
+          <div class="widget-content-body">
+            @if (asKpi(w); as kpi) {
+              @let metric = kpiMetricsMap().get(kpi.id);
+              @if (metric) {
+                <gp-kpi-card
+                  [title]="kpi.title"
+                  [formattedValue]="metric.formattedCurrentValue"
+                  [variancePercentage]="metric.variancePercentage ?? null"
+                  [trend]="metric.trend"
+                  [severity]="metric.trendSeverity"
+                  [targetValue]="metric.targetValue ?? null"
+                  [targetProgress]="metric.targetProgressPercentage ?? null"
+                  [sparklinePoints]="metric.sparklinePoints"
+                  [unit]="kpi.unit || ''"
+                  [icon]="kpi.icon || '📊'" />
+              } @else {
+                <gp-kpi-card
+                  [title]="kpi.title"
+                  formattedValue="--"
+                  icon="📊" />
+              }
+            } @else if (asChart(w); as chart) {
+              <gp-analytical-chart
+                [title]="chart.title"
+                [subtitle]="chart.subtitle || ''"
+                [type]="chart.chartType"
+                [data]="chartDataMap().get(chart.id) || null" />
+            } @else if (asTable(w); as table) {
+              <gp-tabular-report
+                [title]="table.title"
+                [subtitle]="table.subtitle || ''"
+                [records]="activeRecords()"
+                [dimensions]="table.dimensions"
+                [measures]="table.measures"
+                [showSubtotals]="table.showSubtotals ?? true"
+                [showGrandTotal]="table.showGrandTotal ?? true" />
+            } @else if (asPivot(w); as pivot) {
+              <gp-pivot-grid
+                [title]="pivot.title"
+                [records]="activeRecords()"
+                [rowDimension]="pivot.rowDimension"
+                [colDimension]="pivot.colDimension"
+                [measure]="pivot.measure" />
+            } @else if (asCustom(w); as custom) {
+              <div class="custom-widget-card">
+                <div class="custom-widget-header">
+                  <span class="custom-icon">{{ custom.icon || '🧩' }}</span>
+                  <h4 class="custom-title">{{ custom.title }}</h4>
+                </div>
+                @if (custom.subtitle) {
+                  <p class="custom-subtitle">{{ custom.subtitle }}</p>
+                }
+                <div class="custom-widget-content">
+                  {{ custom.content || 'Custom Analytical Content' }}
+                </div>
+              </div>
+            } @else {
+              <div class="empty-widget">
+                <p>Widget: {{ item.id }}</p>
+              </div>
+            }
+          </div>
+        </div>
       </ng-template>
     </gp-grid>
   </div>
