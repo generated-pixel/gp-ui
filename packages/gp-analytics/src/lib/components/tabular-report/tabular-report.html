@@ -1,0 +1,108 @@
+<div class="gp-tabular-report" role="region" [attr.aria-label]="title()">
+  <!-- Header Bar -->
+  <header class="report-header">
+    <div class="report-title-group">
+      <span class="report-icon">📑</span>
+      <div>
+        <h3 class="report-title">{{ title() }}</h3>
+        <p class="report-subtitle">{{ subtitle() }}</p>
+      </div>
+    </div>
+
+    <div class="report-actions">
+      @if (queryResult(); as res) {
+        <span class="record-count-badge">
+          {{ res.totalCount }} {{ res.totalCount === 1 ? 'group' : 'groups' }} ({{ res.executionTimeMs }}ms)
+        </span>
+      }
+
+      <button
+        type="button"
+        class="btn-export-csv"
+        (click)="exportToCsv()"
+        title="Export current table to CSV">
+        📥 Export CSV
+      </button>
+    </div>
+  </header>
+
+  <!-- Table View -->
+  <div class="table-scroll-wrap">
+    @if (queryResult(); as res) {
+      @if (res.rows.length > 0) {
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              @for (col of columns(); track col.key) {
+                <th
+                  class="report-th"
+                  [class.th-measure]="col.isMeasure"
+                  [class.th-dimension]="col.isDimension"
+                  (click)="onSort(col.key)">
+                  <div class="th-content">
+                    <span class="th-label">{{ col.header }}</span>
+                    @if (sortColumn() === col.key) {
+                      <span class="th-sort-icon">{{ sortOrder() === 'asc' ? '▲' : '▼' }}</span>
+                    }
+                  </div>
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of res.rows; track row['_id']; let idx = $index) {
+              <tr class="report-tr">
+                <td class="td-num">{{ idx + 1 }}</td>
+                @for (col of columns(); track col.key) {
+                  <td
+                    class="report-td"
+                    [class.td-measure]="col.isMeasure"
+                    [class.td-dimension]="col.isDimension">
+                    @if (col.isMeasure && typeof row[col.key] === 'number') {
+                      {{ row[col.key].toLocaleString('en-US') }}
+                    } @else {
+                      {{ row[col.key] ?? 'N/A' }}
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+
+          <!-- Grand Total Footer -->
+          @if (showGrandTotal() && res.grandTotal) {
+            <tfoot class="report-tfoot">
+              <tr class="tfoot-tr">
+                <td class="td-num">∑</td>
+                @for (col of columns(); track col.key; let cIdx = $index) {
+                  <td
+                    class="report-td tfoot-td"
+                    [class.td-measure]="col.isMeasure">
+                    @if (cIdx === 0) {
+                      <strong>Grand Total</strong>
+                    } @else if (col.isMeasure && res.grandTotal[col.key] != null) {
+                      <strong>{{ res.grandTotal[col.key].toLocaleString('en-US') }}</strong>
+                    } @else {
+                      —
+                    }
+                  </td>
+                }
+              </tr>
+            </tfoot>
+          }
+        </table>
+      } @else {
+        <div class="empty-state">
+          <span class="empty-icon">📋</span>
+          <p class="empty-text">No records match the report criteria.</p>
+        </div>
+      }
+    } @else {
+      <div class="empty-state">
+        <span class="empty-icon">⏳</span>
+        <p class="empty-text">Awaiting dataset records to generate report...</p>
+      </div>
+    }
+  </div>
+</div>
