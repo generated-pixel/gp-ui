@@ -18,24 +18,18 @@
           class="table-search-input"
           placeholder="Search table rows..."
           [ngModel]="searchQuery()"
-          (ngModelChange)="searchQuery.set($event)" />
+          (ngModelChange)="searchQuery.set($event)"
+        />
         @if (searchQuery()) {
-          <button
-            type="button"
-            class="btn-clear-search"
-            (click)="searchQuery.set('')"
-            title="Clear search">✕</button>
+        <button type="button" class="btn-clear-search" (click)="searchQuery.set('')" title="Clear search">✕</button>
         }
       </div>
 
       @if (queryResult(); as res) {
-        <gp-tag severity="info" size="sm">
-          @if (searchQuery()) {
-            {{ filteredRows().length }} of {{ res.totalCount }} groups
-          } @else {
-            {{ res.totalCount }} {{ res.totalCount === 1 ? 'group' : 'groups' }} ({{ res.executionTimeMs }}ms)
-          }
-        </gp-tag>
+      <gp-tag severity="info" size="sm">
+        @if (searchQuery()) { {{ filteredRows().length }} of {{ res.totalCount }} groups } @else { {{ res.totalCount }}
+        {{ res.totalCount === 1 ? 'group' : 'groups' }} ({{ res.executionTimeMs }}ms) }
+      </gp-tag>
       }
 
       <gp-button
@@ -44,139 +38,128 @@
         size="sm"
         [outlined]="true"
         (click)="exportToCsv()"
-        title="Export current table to CSV" />
+        title="Export current table to CSV"
+      />
     </div>
   </header>
 
   <!-- Table View -->
   <div class="table-scroll-wrap">
-    @if (queryResult(); as res) {
-      @if (filteredRows().length > 0) {
-        <table class="report-table">
-          <thead>
-            <tr>
-              <th class="col-num">#</th>
-              @for (col of columns(); track col.key) {
-                <th
-                  class="report-th"
-                  [class.th-measure]="col.isMeasure"
-                  [class.th-dimension]="col.isDimension"
-                  (click)="onSort(col.key)">
-                  <div class="th-content">
-                    <span class="th-label">{{ col.header }}</span>
-                    @if (sortColumn() === col.key) {
-                      <span class="th-sort-icon">{{ sortOrder() === 'asc' ? '▲' : '▼' }}</span>
-                    }
-                  </div>
-                </th>
+    @if (queryResult(); as res) { @if (filteredRows().length > 0) {
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          @for (col of columns(); track col.key) {
+          <th
+            class="report-th"
+            [class.th-measure]="col.isMeasure"
+            [class.th-dimension]="col.isDimension"
+            (click)="onSort(col.key)"
+          >
+            <div class="th-content">
+              <span class="th-label">{{ col.header }}</span>
+              @if (sortColumn() === col.key) {
+              <span class="th-sort-icon">{{ sortOrder() === 'asc' ? '▲' : '▼' }}</span>
               }
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of paginatedRows(); track row['_id']; let idx = $index) {
-              <tr class="report-tr">
-                <td class="td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
-                @for (col of columns(); track col.key) {
-                  <td
-                    class="report-td"
-                    [class.td-measure]="col.isMeasure"
-                    [class.td-dimension]="col.isDimension">
-                    @if (col.isMeasure && typeof row[col.key] === 'number') {
-                      {{ row[col.key].toLocaleString('en-US') }}
-                    } @else {
-                      {{ row[col.key] ?? 'N/A' }}
-                    }
-                  </td>
-                }
-              </tr>
-            }
-          </tbody>
-
-          <!-- Grand Total Footer -->
-          @if (showGrandTotal() && res.grandTotal) {
-            <tfoot class="report-tfoot">
-              <tr class="tfoot-tr">
-                <td class="td-num">∑</td>
-                @for (col of columns(); track col.key; let cIdx = $index) {
-                  <td
-                    class="report-td tfoot-td"
-                    [class.td-measure]="col.isMeasure">
-                    @if (cIdx === 0) {
-                      <strong>Grand Total</strong>
-                    } @else if (col.isMeasure && res.grandTotal[col.key] != null) {
-                      <strong>{{ res.grandTotal[col.key].toLocaleString('en-US') }}</strong>
-                    } @else {
-                      —
-                    }
-                  </td>
-                }
-              </tr>
-            </tfoot>
+            </div>
+          </th>
           }
-        </table>
-
-        <!-- Interactive Pagination Bar -->
-        @if (filteredRows().length > pageSizeOptions[0].value) {
-          <footer class="report-pagination-bar">
-            <div class="pagination-left">
-              <span class="pagination-count-label">
-                Showing {{ (currentPage() - 1) * pageSize() + 1 }}–{{ Math.min(currentPage() * pageSize(), filteredRows().length) }} of {{ filteredRows().length }} rows
-              </span>
-              <div class="page-size-selector">
-                <span class="size-label">Rows per page:</span>
-                <gp-select
-                  [options]="pageSizeOptions"
-                  optionLabel="label"
-                  optionValue="value"
-                  [ngModel]="pageSize()"
-                  (ngModelChange)="setPageSize($event)" />
-              </div>
-            </div>
-
-            <div class="pagination-controls">
-              <gp-button
-                label="« First"
-                size="sm"
-                [outlined]="true"
-                [disabled]="currentPage() === 1"
-                (click)="goToPage(1)" />
-              <gp-button
-                label="‹ Prev"
-                size="sm"
-                [outlined]="true"
-                [disabled]="currentPage() === 1"
-                (click)="goToPage(currentPage() - 1)" />
-
-              <span class="page-indicator">
-                Page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong>
-              </span>
-
-              <gp-button
-                label="Next ›"
-                size="sm"
-                [outlined]="true"
-                [disabled]="currentPage() >= totalPages()"
-                (click)="goToPage(currentPage() + 1)" />
-              <gp-button
-                label="Last »"
-                size="sm"
-                [outlined]="true"
-                [disabled]="currentPage() >= totalPages()"
-                (click)="goToPage(totalPages())" />
-            </div>
-          </footer>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of paginatedRows(); track row['_id']; let idx = $index) {
+        <tr class="report-tr">
+          <td class="td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
+          @for (col of columns(); track col.key) {
+          <td class="report-td" [class.td-measure]="col.isMeasure" [class.td-dimension]="col.isDimension">
+            @if (col.isMeasure && typeof row[col.key] === 'number') { {{ row[col.key].toLocaleString('en-US') }} } @else
+            { {{ row[col.key] ?? 'N/A' }} }
+          </td>
+          }
+        </tr>
         }
-      } @else {
-        <div class="empty-state">
-          <span class="empty-icon">📋</span>
-          <p class="empty-text">No records match the report criteria.</p>
-        </div>
+      </tbody>
+
+      <!-- Grand Total Footer -->
+      @if (showGrandTotal() && res.grandTotal) {
+      <tfoot class="report-tfoot">
+        <tr class="tfoot-tr">
+          <td class="td-num">∑</td>
+          @for (col of columns(); track col.key; let cIdx = $index) {
+          <td class="report-td tfoot-td" [class.td-measure]="col.isMeasure">
+            @if (cIdx === 0) {
+            <strong>Grand Total</strong>
+            } @else if (col.isMeasure && res.grandTotal[col.key] != null) {
+            <strong>{{ res.grandTotal[col.key].toLocaleString('en-US') }}</strong>
+            } @else { — }
+          </td>
+          }
+        </tr>
+      </tfoot>
       }
-    } @else {
-      <div class="empty-state">
-        <span class="empty-icon">⏳</span>
-        <p class="empty-text">Awaiting dataset records to generate report...</p>
+    </table>
+
+    <!-- Interactive Pagination Bar -->
+    @if (filteredRows().length > pageSizeOptions[0].value) {
+    <footer class="report-pagination-bar">
+      <div class="pagination-left">
+        <span class="pagination-count-label">
+          Showing {{ (currentPage() - 1) * pageSize() + 1 }}–{{ Math.min(currentPage() * pageSize(),
+          filteredRows().length) }} of {{ filteredRows().length }} rows
+        </span>
+        <div class="page-size-selector">
+          <span class="size-label">Rows per page:</span>
+          <gp-select
+            [options]="pageSizeOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="pageSize()"
+            (ngModelChange)="setPageSize($event)"
+          />
+        </div>
       </div>
+
+      <div class="pagination-controls">
+        <gp-button label="« First" size="sm" [outlined]="true" [disabled]="currentPage() === 1" (click)="goToPage(1)" />
+        <gp-button
+          label="‹ Prev"
+          size="sm"
+          [outlined]="true"
+          [disabled]="currentPage() === 1"
+          (click)="goToPage(currentPage() - 1)"
+        />
+
+        <span class="page-indicator">
+          Page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong>
+        </span>
+
+        <gp-button
+          label="Next ›"
+          size="sm"
+          [outlined]="true"
+          [disabled]="currentPage() >= totalPages()"
+          (click)="goToPage(currentPage() + 1)"
+        />
+        <gp-button
+          label="Last »"
+          size="sm"
+          [outlined]="true"
+          [disabled]="currentPage() >= totalPages()"
+          (click)="goToPage(totalPages())"
+        />
+      </div>
+    </footer>
+    } } @else {
+    <div class="empty-state">
+      <span class="empty-icon">📋</span>
+      <p class="empty-text">No records match the report criteria.</p>
+    </div>
+    } } @else {
+    <div class="empty-state">
+      <span class="empty-icon">⏳</span>
+      <p class="empty-text">Awaiting dataset records to generate report...</p>
+    </div>
     }
   </div>
 </div>

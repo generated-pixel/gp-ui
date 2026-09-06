@@ -70,8 +70,7 @@ export interface DatasetField {
  */
 export function createDatasetField(baseField: Field, customId?: string): DatasetField {
   const uid =
-    customId ??
-    `df_${baseField.fieldId}_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 7)}`;
+    customId ?? `df_${baseField.fieldId}_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 7)}`;
 
   return {
     datasetFieldId: uid,
@@ -88,7 +87,7 @@ export function createDatasetField(baseField: Field, customId?: string): Dataset
     groupable: baseField.groupable,
     isGrouped: false,
     lookupValues: baseField.lookupValues ? [...baseField.lookupValues] : undefined,
-    baseField,
+    baseField
   };
 }
 
@@ -100,13 +99,11 @@ export function createDatasetField(baseField: Field, customId?: string): Dataset
 export function getLookupValueDisplayLabel(
   field: DatasetField | Field | undefined,
   val: any,
-  locale: string = 'en',
+  locale: string = 'en'
 ): string {
   if (val == null) return '';
   if (field?.lookupValues && field.lookupValues.length > 0) {
-    const match = field.lookupValues.find(
-      (item) => item.value === val || String(item.value) === String(val),
-    );
+    const match = field.lookupValues.find((item) => item.value === val || String(item.value) === String(val));
     if (match) {
       return match.displayValue?.[locale] ?? match.displayValue?.['en'] ?? String(match.value);
     }
@@ -122,7 +119,7 @@ export function getLookupValueDisplayLabel(
  */
 export function getDatasetFieldDisplayLabel(
   field: Pick<DatasetField, 'fieldDisplayName' | 'aggregationType'>,
-  locale: string = 'en',
+  locale: string = 'en'
 ): string {
   const baseLabel =
     field.fieldDisplayName?.displayValue?.[locale] ??
@@ -142,7 +139,7 @@ export function getDatasetFieldDisplayLabel(
  */
 export function canModifyFieldCapability(
   baseField: Field,
-  capability: 'filterable' | 'sortable' | 'groupable',
+  capability: 'filterable' | 'sortable' | 'groupable'
 ): boolean {
   return Boolean(baseField?.[capability]);
 }

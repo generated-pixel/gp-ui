@@ -13,7 +13,7 @@ describe('GpRelationshipGraphService', () => {
       sourceFieldId: 'customer-id',
       targetTableId: 'table-orders',
       targetFieldId: 'order-customer-id',
-      cardinality: 'one-to-many',
+      cardinality: 'one-to-many'
     },
     {
       relationshipId: 'rel-orders-items',
@@ -22,8 +22,8 @@ describe('GpRelationshipGraphService', () => {
       sourceFieldId: 'order-id',
       targetTableId: 'table-order-items',
       targetFieldId: 'item-order-id',
-      cardinality: 'one-to-many',
-    },
+      cardinality: 'one-to-many'
+    }
   ];
 
   it('allows all tables when active dataset tables are empty', () => {
@@ -76,7 +76,7 @@ describe('GpRelationshipGraphService', () => {
       usableInReports: true,
       filterable: true,
       sortable: true,
-      groupable: true,
+      groupable: true
     };
 
     // When empty dataset, valid field is selectable
@@ -109,14 +109,14 @@ describe('GpRelationshipGraphService', () => {
         groupingId: 'g1',
         groupingName: 'Group 1',
         tables: [],
-        relationships: [mockRelationships[0]],
+        relationships: [mockRelationships[0]]
       },
       {
         groupingId: 'g2',
         groupingName: 'Group 2',
         tables: [],
-        relationships: [mockRelationships[1]],
-      },
+        relationships: [mockRelationships[1]]
+      }
     ];
 
     const collected = service.collectRelationships(groupings);

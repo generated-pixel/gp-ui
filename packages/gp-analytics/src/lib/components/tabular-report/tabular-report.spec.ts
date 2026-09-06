@@ -8,13 +8,13 @@ describe('GpTabularReport', () => {
   const mockData = [
     { customer: 'Northwind', revenue: 1200 },
     { customer: 'Northwind', revenue: 800 },
-    { customer: 'Acme', revenue: 3000 },
+    { customer: 'Acme', revenue: 3000 }
   ];
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpTabularReport],
-      providers: [GpDataEngineService, GpTranslationService],
+      providers: [GpDataEngineService, GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpTabularReport);
     const component = fixture.componentInstance;

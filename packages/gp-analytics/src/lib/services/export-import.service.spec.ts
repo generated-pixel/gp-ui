@@ -24,7 +24,7 @@ describe('GpExportImportService', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: false,
+    groupable: false
   };
 
   const mockDataset: Dataset = {
@@ -32,7 +32,7 @@ describe('GpExportImportService', () => {
     name: 'Sales Invoices',
     description: 'Commercial invoice records',
     fields: [createDatasetField(mockBaseField, 'df_total_1')],
-    filters: [],
+    filters: []
   };
 
   const mockDashboard: GpDashboardConfig = createDefaultDashboardConfig();
@@ -46,14 +46,14 @@ describe('GpExportImportService', () => {
       dimensions: ['region'],
       measures: [{ fieldId: 'total', aggregation: 'sum' }],
       showSubtotals: true,
-      showGrandTotal: true,
+      showGrandTotal: true
     },
-    'ds_test',
+    'ds_test'
   );
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GpExportImportService],
+      providers: [GpExportImportService]
     });
     service = TestBed.inject(GpExportImportService);
   });
@@ -69,7 +69,7 @@ describe('GpExportImportService', () => {
       exportedBy: 'Admin',
       datasets: [mockDataset],
       dashboards: [mockDashboard],
-      reports: [mockReport],
+      reports: [mockReport]
     });
 
     expect(pkg.format).toBe('gp-analytics-package');
@@ -79,7 +79,7 @@ describe('GpExportImportService', () => {
     expect(pkg.metadata.itemCounts).toEqual({
       datasets: 1,
       dashboards: 1,
-      reports: 1,
+      reports: 1
     });
     expect(pkg.metadata.checksum).toBeDefined();
     expect(pkg.metadata.checksum?.length).toBe(8);
@@ -88,7 +88,7 @@ describe('GpExportImportService', () => {
   it('should serialize package to valid JSON', () => {
     const pkg = service.createPackage({
       name: 'JSON Test',
-      datasets: [mockDataset],
+      datasets: [mockDataset]
     });
 
     const json = service.exportPackageToJson(pkg, true);
@@ -104,7 +104,7 @@ describe('GpExportImportService', () => {
       name: 'Validation Test',
       datasets: [mockDataset],
       dashboards: [mockDashboard],
-      reports: [mockReport],
+      reports: [mockReport]
     });
 
     const json = service.exportPackageToJson(pkg);
@@ -116,7 +116,7 @@ describe('GpExportImportService', () => {
     expect(result.itemCounts).toEqual({
       datasets: 1,
       dashboards: 1,
-      reports: 1,
+      reports: 1
     });
   });
 
@@ -130,7 +130,7 @@ describe('GpExportImportService', () => {
     const invalidFormat = JSON.stringify({
       format: 'unknown-format',
       version: '1.0.0',
-      metadata: { id: '123' },
+      metadata: { id: '123' }
     });
 
     const result = service.validatePackage(invalidFormat);
@@ -141,7 +141,7 @@ describe('GpExportImportService', () => {
   it('should warn on tampered checksum', () => {
     const pkg = service.createPackage({
       name: 'Tamper Test',
-      datasets: [mockDataset],
+      datasets: [mockDataset]
     });
 
     // Alter content without updating checksum
@@ -156,7 +156,7 @@ describe('GpExportImportService', () => {
     const pkg = service.createPackage({
       name: 'Merge Import',
       datasets: [mockDataset],
-      dashboards: [mockDashboard],
+      dashboards: [mockDashboard]
     });
 
     const json = service.exportPackageToJson(pkg);
@@ -171,7 +171,7 @@ describe('GpExportImportService', () => {
       name: 'Copy Import',
       datasets: [mockDataset],
       dashboards: [mockDashboard],
-      reports: [mockReport],
+      reports: [mockReport]
     });
 
     const json = service.exportPackageToJson(pkg);
@@ -188,13 +188,10 @@ describe('GpExportImportService', () => {
     const pkg = service.createPackage({
       name: 'Remote Distribution Test',
       datasets: [mockDataset],
-      dashboards: [mockDashboard],
+      dashboards: [mockDashboard]
     });
 
-    const payload = service.prepareDistributionPayload(
-      pkg,
-      'https://api.enterprise.com/v1/analytics/distribution',
-    );
+    const payload = service.prepareDistributionPayload(pkg, 'https://api.enterprise.com/v1/analytics/distribution');
 
     expect(payload.packageId).toBe(pkg.metadata.id);
     expect(payload.targetEndpoint).toBe('https://api.enterprise.com/v1/analytics/distribution');

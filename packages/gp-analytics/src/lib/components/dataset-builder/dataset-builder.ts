@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  model,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import {
   createDatasetField,
@@ -20,7 +12,7 @@ import {
   CustomDataLoaderFn,
   LoadedDataResult,
   LoadedSchemaResult,
-  GpFilterCondition,
+  GpFilterCondition
 } from '../../models';
 import { GpSchemaCatalogue } from '../schema-catalogue/schema-catalogue';
 import { GpDatasetFieldSelector } from '../dataset-field-selector/dataset-field-selector';
@@ -32,7 +24,7 @@ import { GpDatasetPreview } from '../dataset-preview/dataset-preview';
   imports: [GpSchemaCatalogue, GpDatasetFieldSelector, GpDatasetPreview],
   templateUrl: './dataset-builder.html',
   styleUrl: './dataset-builder.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpDatasetBuilder extends GpAnalyticsComponent {
   /**
@@ -95,8 +87,8 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
    */
   readonly datasetFields = computed(() =>
     (this.dataset().fields ?? []).filter(
-      (f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true),
-    ),
+      (f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true)
+    )
   );
 
   /**
@@ -112,7 +104,7 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     const updatedDataset: Dataset = {
       ...this.dataset(),
       fields: [...currentFields, newDatasetField],
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     this.dataset.set(updatedDataset);
@@ -129,7 +121,7 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     const updatedDataset: Dataset = {
       ...this.dataset(),
       fields,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     this.dataset.set(updatedDataset);
@@ -146,7 +138,7 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     const updatedDataset: Dataset = {
       ...this.dataset(),
       fields: updatedFields,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     this.dataset.set(updatedDataset);
@@ -185,7 +177,7 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
     const updatedDataset: Dataset = {
       ...this.dataset(),
       filters,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     this.dataset.set(updatedDataset);

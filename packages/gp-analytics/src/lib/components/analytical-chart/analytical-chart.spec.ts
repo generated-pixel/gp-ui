@@ -6,13 +6,13 @@ import { GpTranslationService } from '../../services/translation.service';
 describe('GpAnalyticalChart', () => {
   const sampleData = {
     categories: ['EMEA', 'AMER', 'APAC'],
-    series: [{ name: 'Revenue', data: [3000, 4500, 1500] }],
+    series: [{ name: 'Revenue', data: [3000, 4500, 1500] }]
   };
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpAnalyticalChart],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpAnalyticalChart);
     const component = fixture.componentInstance;
@@ -66,8 +66,8 @@ describe('GpAnalyticalChart', () => {
       categories: ['Q1', 'Q2'],
       series: [
         { name: 'Actual', data: [100, 200] },
-        { name: 'Target', data: [150, 180] },
-      ],
+        { name: 'Target', data: [150, 180] }
+      ]
     };
     const { fixture, component } = createComponent();
     fixture.componentRef.setInput('type', 'bar');

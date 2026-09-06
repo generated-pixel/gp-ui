@@ -7,7 +7,7 @@ import {
   GpMeasureQuery,
   GpPivotMatrix,
   GpSortSpec,
-  GpTimeGrain,
+  GpTimeGrain
 } from '../models/query.model';
 
 @Injectable({ providedIn: 'root' })
@@ -17,10 +17,7 @@ export class GpDataEngineService {
    * Performs filtering, multi-dimensional grouping, measure aggregation,
    * subtotal rollups, grand totals, and sorting.
    */
-  executeQuery(
-    records: Record<string, any>[],
-    spec: GpAnalyticalQuerySpec,
-  ): GpAggregationResult {
+  executeQuery(records: Record<string, any>[], spec: GpAnalyticalQuerySpec): GpAggregationResult {
     const startTime = performance.now();
 
     if (!records || records.length === 0) {
@@ -30,7 +27,7 @@ export class GpDataEngineService {
         subtotals: [],
         grandTotal: {},
         querySpec: spec,
-        executionTimeMs: 0,
+        executionTimeMs: 0
       };
     }
 
@@ -53,7 +50,7 @@ export class GpDataEngineService {
         if (rawDate != null) {
           return {
             ...rec,
-            [spec.timeFieldId!]: this.bucketDateToGrain(rawDate, spec.timeGrain!),
+            [spec.timeFieldId!]: this.bucketDateToGrain(rawDate, spec.timeGrain!)
           };
         }
         return rec;
@@ -82,7 +79,7 @@ export class GpDataEngineService {
       for (const [key, groupRows] of groupedMap.entries()) {
         const row: Record<string, any> = {
           _id: `group-${key}`,
-          _count: groupRows.length,
+          _count: groupRows.length
         };
 
         // Populate dimension values from the first record
@@ -107,7 +104,7 @@ export class GpDataEngineService {
       // No dimensions -> Aggregate entire dataset into single row
       const singleRow: Record<string, any> = {
         _id: 'summary-row',
-        _count: filtered.length,
+        _count: filtered.length
       };
       for (const measure of spec.measures) {
         const alias = measure.alias || `${measure.fieldId}_${measure.aggregation}`;
@@ -119,7 +116,7 @@ export class GpDataEngineService {
     // 3. Compute Grand Total
     const grandTotal: Record<string, any> = {
       _id: 'grand-total',
-      _count: filtered.length,
+      _count: filtered.length
     };
     for (const measure of spec.measures) {
       const alias = measure.alias || `${measure.fieldId}_${measure.aggregation}`;
@@ -147,7 +144,7 @@ export class GpDataEngineService {
       subtotals,
       grandTotal,
       querySpec: spec,
-      executionTimeMs,
+      executionTimeMs
     };
   }
 
@@ -163,7 +160,7 @@ export class GpDataEngineService {
       targetValue?: number;
       timeFieldId?: string;
       formatCurrency?: boolean;
-    },
+    }
   ): GpKpiMetricResult {
     const currentVal = this.computeMeasure(records, measure);
     let prevVal: number | undefined = undefined;
@@ -214,7 +211,7 @@ export class GpDataEngineService {
       trendSeverity,
       targetValue: options?.targetValue,
       targetProgressPercentage: targetProgress,
-      sparklinePoints,
+      sparklinePoints
     };
   }
 
@@ -225,7 +222,7 @@ export class GpDataEngineService {
     records: Record<string, any>[],
     rowDim: string,
     colDim: string,
-    measure: GpMeasureQuery,
+    measure: GpMeasureQuery
   ): GpPivotMatrix {
     const rowKeysSet = new Set<string>();
     const colKeysSet = new Set<string>();
@@ -298,7 +295,7 @@ export class GpDataEngineService {
       matrix,
       rowTotals,
       colTotals,
-      grandTotal: Number(grandTotalSum.toFixed(2)),
+      grandTotal: Number(grandTotalSum.toFixed(2))
     };
   }
 
@@ -356,7 +353,10 @@ export class GpDataEngineService {
         if (val === undefined) {
           const lower = filter.fieldId.toLowerCase();
           const altKey = Object.keys(rec).find(
-            (k) => k.toLowerCase() === lower || k.toLowerCase().endsWith('.' + lower) || lower.endsWith('.' + k.toLowerCase())
+            (k) =>
+              k.toLowerCase() === lower ||
+              k.toLowerCase().endsWith('.' + lower) ||
+              lower.endsWith('.' + k.toLowerCase())
           );
           if (altKey) {
             val = rec[altKey];
@@ -395,19 +395,33 @@ export class GpDataEngineService {
         return strVal >= String(filter.value ?? '') && strVal <= String(filter.secondValue ?? '');
       }
       case 'in': {
-        const list = Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim());
+        const list = Array.isArray(filter.value)
+          ? filter.value
+          : String(filter.value)
+              .split(',')
+              .map((s) => s.trim());
         return list.map(String).includes(String(val));
       }
       case 'not_in': {
-        const list = Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim());
+        const list = Array.isArray(filter.value)
+          ? filter.value
+          : String(filter.value)
+              .split(',')
+              .map((s) => s.trim());
         return !list.map(String).includes(String(val));
       }
       case 'contains':
-        return String(val ?? '').toLowerCase().includes(String(filter.value ?? '').toLowerCase());
+        return String(val ?? '')
+          .toLowerCase()
+          .includes(String(filter.value ?? '').toLowerCase());
       case 'startsWith':
-        return String(val ?? '').toLowerCase().startsWith(String(filter.value ?? '').toLowerCase());
+        return String(val ?? '')
+          .toLowerCase()
+          .startsWith(String(filter.value ?? '').toLowerCase());
       case 'endsWith':
-        return String(val ?? '').toLowerCase().endsWith(String(filter.value ?? '').toLowerCase());
+        return String(val ?? '')
+          .toLowerCase()
+          .endsWith(String(filter.value ?? '').toLowerCase());
       case 'isNull':
         return val == null;
       case 'isNotNull':
@@ -434,9 +448,7 @@ export class GpDataEngineService {
       return set.size;
     }
 
-    const numbers = records
-      .map((r) => Number(r[measure.fieldId]))
-      .filter((n) => !isNaN(n));
+    const numbers = records.map((r) => Number(r[measure.fieldId])).filter((n) => !isNaN(n));
 
     if (numbers.length === 0) {
       return 0;
@@ -491,7 +503,7 @@ export class GpDataEngineService {
       const subtotalRow: Record<string, any> = {
         _isSubtotal: true,
         [primaryDim]: key,
-        _count: rows.length,
+        _count: rows.length
       };
 
       for (const measure of spec.measures) {
@@ -533,7 +545,7 @@ export class GpDataEngineService {
   private generateSparklinePoints(
     records: Record<string, any>[],
     measure: GpMeasureQuery,
-    timeFieldId?: string,
+    timeFieldId?: string
   ): number[] {
     if (!records || records.length === 0) {
       return [0, 0, 0, 0, 0];
@@ -569,13 +581,25 @@ export class GpDataEngineService {
       case 'between':
         return `${f} BETWEEN ${filter.value} AND ${filter.secondValue}`;
       case 'in': {
-        const inVals = (Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim()))
+        const inVals = (
+          Array.isArray(filter.value)
+            ? filter.value
+            : String(filter.value)
+                .split(',')
+                .map((s) => s.trim())
+        )
           .map((v) => `'${v}'`)
           .join(', ');
         return `${f} IN (${inVals})`;
       }
       case 'not_in': {
-        const inVals = (Array.isArray(filter.value) ? filter.value : String(filter.value).split(',').map((s) => s.trim()))
+        const inVals = (
+          Array.isArray(filter.value)
+            ? filter.value
+            : String(filter.value)
+                .split(',')
+                .map((s) => s.trim())
+        )
           .map((v) => `'${v}'`)
           .join(', ');
         return `${f} NOT IN (${inVals})`;

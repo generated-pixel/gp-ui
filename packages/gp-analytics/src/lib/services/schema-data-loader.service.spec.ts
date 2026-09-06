@@ -37,14 +37,14 @@ describe('GpSchemaDataLoaderService', () => {
                     fieldDisplayName: { value: 'Field One', displayValue: { en: 'Field One' } },
                     dataType: 'string',
                     visible: true,
-                    isPrimaryKey: true,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
+                    isPrimaryKey: true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ]);
 
     const result = service.parseJson(json);
@@ -65,15 +65,15 @@ describe('GpSchemaDataLoaderService', () => {
             fieldId: 'user_id',
             displayName: 'User ID',
             type: 'string',
-            primaryKey: true,
+            primaryKey: true
           },
           {
             fieldId: 'email',
             displayName: 'Email Address',
-            type: 'string',
-          },
-        ],
-      },
+            type: 'string'
+          }
+        ]
+      }
     ]);
 
     const result = service.parseJson(json);
@@ -98,11 +98,11 @@ describe('GpSchemaDataLoaderService', () => {
             {
               tableId: 'accounts',
               name: 'Accounts',
-              fields: [{ id: 'acc_id', name: 'Account ID' }],
-            },
-          ],
-        },
-      },
+              fields: [{ id: 'acc_id', name: 'Account ID' }]
+            }
+          ]
+        }
+      }
     });
 
     const result = service.parseJson(json, 'metadata.catalogue');
@@ -113,7 +113,7 @@ describe('GpSchemaDataLoaderService', () => {
   it('should load preset schema via loadSchema', async () => {
     const res = await service.loadSchema({
       type: 'preset',
-      presetId: 'healthcare',
+      presetId: 'healthcare'
     });
 
     expect(res.sourceType).toBe('preset');
@@ -133,16 +133,16 @@ describe('GpSchemaDataLoaderService', () => {
             {
               id: 'items',
               name: 'Inventory Items',
-              fields: [{ id: 'item_code', label: 'Item Code', type: 'string' }],
-            },
-          ],
-        },
-      ],
+              fields: [{ id: 'item_code', label: 'Item Code', type: 'string' }]
+            }
+          ]
+        }
+      ]
     });
 
     const res = await service.loadSchema({
       type: 'json',
-      rawJson: raw,
+      rawJson: raw
     });
 
     expect(res.sourceType).toBe('json');
@@ -164,13 +164,13 @@ describe('GpSchemaDataLoaderService', () => {
       {
         tableId: 'remote_table',
         tableName: 'Remote Table',
-        fields: [{ fieldId: 'r1', fieldName: 'remote_field' }],
-      },
+        fields: [{ fieldId: 'r1', fieldName: 'remote_field' }]
+      }
     ];
 
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       ok: true,
-      json: async () => mockData,
+      json: async () => mockData
     } as any);
 
     const res = await service.fetchFromUrl('https://api.example.com/schema');

@@ -1,24 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import {
-  Grouping,
-  Relationship,
-  FieldValue,
-  JoinType,
-  FieldType,
-  DataType,
-  RelationshipCardinality,
-} from './index';
+import { Grouping, Relationship, FieldValue, JoinType, FieldType, DataType, RelationshipCardinality } from './index';
 
 describe('metadata models', () => {
   it('supports grouped tables and localized field values', () => {
     const grouping: Grouping = {
       groupingId: 'group-a',
       groupingName: 'Commerce',
-      tables: [],
+      tables: []
     };
     const value: FieldValue<string> = {
       value: 'customer-001',
-      displayValue: { en: 'Customer', fr: 'Client' },
+      displayValue: { en: 'Customer', fr: 'Client' }
     };
 
     expect(grouping.groupingName).toBe('Commerce');
@@ -35,7 +27,7 @@ describe('metadata models', () => {
       targetTableId: 'orders',
       targetFieldId: 'order-customer-id',
       cardinality: RelationshipCardinality.OneToMany,
-      joinType: JoinType.Inner,
+      joinType: JoinType.Inner
     };
 
     expect(relationship.cardinality).toBe('one-to-many');

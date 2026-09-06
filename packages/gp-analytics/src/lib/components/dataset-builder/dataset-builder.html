@@ -10,7 +10,8 @@
         (groupingsChange)="onGroupingsChange($event)"
         (additionalRelationshipsChange)="onRelationshipsChange($event)"
         (schemaLoad)="onSchemaLoad($event)"
-        (fieldSelect)="onAddField($event)" />
+        (fieldSelect)="onAddField($event)"
+      />
     </div>
 
     <!-- Middle Panel: Dataset View (Preview Table) -->
@@ -25,7 +26,8 @@
         (filterRemove)="onFilterRemove($event)"
         (filtersClear)="onFiltersClear()"
         (dataSourceLoaded)="dataSourceLoaded.emit($event)"
-        (dataSourceReset)="dataSourceReset.emit()" />
+        (dataSourceReset)="dataSourceReset.emit()"
+      />
     </div>
 
     <!-- Right Panel: Selected Fields & Properties (Field Selector) -->
@@ -37,7 +39,8 @@
         (fieldsChange)="onFieldsChange($event)"
         (filtersChange)="onFiltersChange($event)"
         (fieldDrop)="onAddField($event)"
-        (fieldRemove)="onFieldRemove($event)" />
+        (fieldRemove)="onFieldRemove($event)"
+      />
     </div>
   </div>
 </div>

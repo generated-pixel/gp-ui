@@ -7,7 +7,7 @@ describe('GpFilterBar', () => {
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpFilterBar],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpFilterBar);
     const component = fixture.componentInstance;
@@ -18,7 +18,7 @@ describe('GpFilterBar', () => {
     const { fixture, component } = createComponent();
     const preset = {
       label: 'AMER Region',
-      condition: { fieldId: 'region', operator: 'eq' as const, value: 'AMER' },
+      condition: { fieldId: 'region', operator: 'eq' as const, value: 'AMER' }
     };
     fixture.componentRef.setInput('quickPresets', [preset]);
     fixture.detectChanges();
@@ -38,7 +38,7 @@ describe('GpFilterBar', () => {
     const { fixture, component } = createComponent();
     component.filters.set([
       { fieldId: 'region', operator: 'eq', value: 'EMEA' },
-      { fieldId: 'status', operator: 'eq', value: 'Active' },
+      { fieldId: 'status', operator: 'eq', value: 'Active' }
     ]);
     fixture.detectChanges();
 
@@ -71,9 +71,7 @@ describe('GpFilterBar', () => {
 
   it('adds between range filter rule with dual start/end values', () => {
     const { fixture, component } = createComponent();
-    fixture.componentRef.setInput('availableFields', [
-      { fieldId: 'amount', label: 'Amount' },
-    ]);
+    fixture.componentRef.setInput('availableFields', [{ fieldId: 'amount', label: 'Amount' }]);
     fixture.detectChanges();
 
     component['openAddModal']();
@@ -89,7 +87,7 @@ describe('GpFilterBar', () => {
     expect(component.filters()[0]).toEqual({
       fieldId: 'amount',
       operator: 'between',
-      value: ['100', '500'],
+      value: ['100', '500']
     });
   });
 });

@@ -88,11 +88,11 @@ export function createEmptyPackage(name = 'Analytics Distribution Package'): GpA
       itemCounts: {
         datasets: 0,
         dashboards: 0,
-        reports: 0,
-      },
+        reports: 0
+      }
     },
     datasets: [],
     dashboards: [],
-    reports: [],
+    reports: []
   };
 }

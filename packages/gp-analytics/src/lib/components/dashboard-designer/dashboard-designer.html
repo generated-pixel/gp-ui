@@ -2,7 +2,8 @@
   class="gp-dashboard-designer"
   [class.mode-design]="activeMode() === 'design'"
   [class.mode-preview]="activeMode() === 'preview'"
-  [class.fullscreen-mode]="isFullscreen()">
+  [class.fullscreen-mode]="isFullscreen()"
+>
   <!-- Top Designer Toolbar & Control Bar -->
   <header class="designer-topbar">
     <div class="topbar-left">
@@ -12,11 +13,7 @@
           <div class="title-row">
             <h2 class="designer-title">{{ config().title }}</h2>
             <gp-tag severity="info" [rounded]="true">v2.0 Designer</gp-tag>
-            <button
-              type="button"
-              class="btn-icon-mini"
-              title="Edit Dashboard Settings"
-              (click)="openSettingsModal()">
+            <button type="button" class="btn-icon-mini" title="Edit Dashboard Settings" (click)="openSettingsModal()">
               ✏️
             </button>
           </div>
@@ -34,7 +31,8 @@
           class="mode-toggle-btn"
           [class.active]="activeMode() === 'design'"
           (click)="setMode('design')"
-          title="Switch to Design Mode">
+          title="Switch to Design Mode"
+        >
           ✏️ Design Mode
         </button>
         <button
@@ -42,101 +40,87 @@
           class="mode-toggle-btn"
           [class.active]="activeMode() === 'preview'"
           (click)="setMode('preview')"
-          title="Switch to Live Preview Mode">
+          title="Switch to Live Preview Mode"
+        >
           👁️ Live Preview
         </button>
       </div>
 
       <!-- Add Widget Palette (Only in Design Mode) -->
       @if (activeMode() === 'design') {
-        <div class="add-widget-dropdown">
-          <button
-            type="button"
-            class="btn-primary-action btn-add-widget"
-            (click)="toggleAddMenu()">
-            <span>➕ Add Widget</span>
-            <span class="arrow-indicator">▾</span>
+      <div class="add-widget-dropdown">
+        <button type="button" class="btn-primary-action btn-add-widget" (click)="toggleAddMenu()">
+          <span>➕ Add Widget</span>
+          <span class="arrow-indicator">▾</span>
+        </button>
+
+        @if (isAddMenuOpen()) {
+        <div class="add-menu-popover">
+          <div class="menu-group-label">Analytical Visualizations</div>
+          <button type="button" class="menu-item" (click)="addWidget('kpi')">
+            <span class="item-icon">📈</span>
+            <div>
+              <strong>KPI Metric Card</strong>
+              <p>Single value with variance & sparkline</p>
+            </div>
+          </button>
+          <button type="button" class="menu-item" (click)="addWidget('chart', 'bar')">
+            <span class="item-icon">📊</span>
+            <div>
+              <strong>Bar Chart</strong>
+              <p>Categorical revenue or volume breakdown</p>
+            </div>
+          </button>
+          <button type="button" class="menu-item" (click)="addWidget('chart', 'donut')">
+            <span class="item-icon">🍩</span>
+            <div>
+              <strong>Donut Chart</strong>
+              <p>Proportional and share distribution</p>
+            </div>
+          </button>
+          <button type="button" class="menu-item" (click)="addWidget('chart', 'line')">
+            <span class="item-icon">📉</span>
+            <div>
+              <strong>Line Trend Chart</strong>
+              <p>Continuous trend over time or categories</p>
+            </div>
           </button>
 
-          @if (isAddMenuOpen()) {
-            <div class="add-menu-popover">
-              <div class="menu-group-label">Analytical Visualizations</div>
-              <button type="button" class="menu-item" (click)="addWidget('kpi')">
-                <span class="item-icon">📈</span>
-                <div>
-                  <strong>KPI Metric Card</strong>
-                  <p>Single value with variance & sparkline</p>
-                </div>
-              </button>
-              <button type="button" class="menu-item" (click)="addWidget('chart', 'bar')">
-                <span class="item-icon">📊</span>
-                <div>
-                  <strong>Bar Chart</strong>
-                  <p>Categorical revenue or volume breakdown</p>
-                </div>
-              </button>
-              <button type="button" class="menu-item" (click)="addWidget('chart', 'donut')">
-                <span class="item-icon">🍩</span>
-                <div>
-                  <strong>Donut Chart</strong>
-                  <p>Proportional and share distribution</p>
-                </div>
-              </button>
-              <button type="button" class="menu-item" (click)="addWidget('chart', 'line')">
-                <span class="item-icon">📉</span>
-                <div>
-                  <strong>Line Trend Chart</strong>
-                  <p>Continuous trend over time or categories</p>
-                </div>
-              </button>
-
-              <div class="menu-group-label">Enterprise Reporting</div>
-              <button type="button" class="menu-item" (click)="addWidget('table')">
-                <span class="item-icon">📑</span>
-                <div>
-                  <strong>Tabular Report</strong>
-                  <p>Hierarchical grouping with subtotal rollups</p>
-                </div>
-              </button>
-              <button type="button" class="menu-item" (click)="addWidget('pivot')">
-                <span class="item-icon">🔲</span>
-                <div>
-                  <strong>2D Pivot Matrix</strong>
-                  <p>Cross-tabulation with heatmap shading</p>
-                </div>
-              </button>
-
-              <div class="menu-group-label">Custom & Annotations</div>
-              <button type="button" class="menu-item" (click)="addWidget('custom')">
-                <span class="item-icon">💡</span>
-                <div>
-                  <strong>Custom Information Card</strong>
-                  <p>Notes, executive summary, or links</p>
-                </div>
-              </button>
+          <div class="menu-group-label">Enterprise Reporting</div>
+          <button type="button" class="menu-item" (click)="addWidget('table')">
+            <span class="item-icon">📑</span>
+            <div>
+              <strong>Tabular Report</strong>
+              <p>Hierarchical grouping with subtotal rollups</p>
             </div>
-          }
-        </div>
+          </button>
+          <button type="button" class="menu-item" (click)="addWidget('pivot')">
+            <span class="item-icon">🔲</span>
+            <div>
+              <strong>2D Pivot Matrix</strong>
+              <p>Cross-tabulation with heatmap shading</p>
+            </div>
+          </button>
 
-        <!-- Template Presets Selector using gp-button -->
-        <div class="template-presets">
-          <span class="template-label">Templates:</span>
-          <gp-button
-            label="Executive"
-            size="sm"
-            [outlined]="true"
-            (click)="loadTemplate('executive')" />
-          <gp-button
-            label="Operations"
-            size="sm"
-            [outlined]="true"
-            (click)="loadTemplate('operations')" />
-          <gp-button
-            label="Blank"
-            size="sm"
-            [outlined]="true"
-            (click)="loadTemplate('blank')" />
+          <div class="menu-group-label">Custom & Annotations</div>
+          <button type="button" class="menu-item" (click)="addWidget('custom')">
+            <span class="item-icon">💡</span>
+            <div>
+              <strong>Custom Information Card</strong>
+              <p>Notes, executive summary, or links</p>
+            </div>
+          </button>
         </div>
+        }
+      </div>
+
+      <!-- Template Presets Selector using gp-button -->
+      <div class="template-presets">
+        <span class="template-label">Templates:</span>
+        <gp-button label="Executive" size="sm" [outlined]="true" (click)="loadTemplate('executive')" />
+        <gp-button label="Operations" size="sm" [outlined]="true" (click)="loadTemplate('operations')" />
+        <gp-button label="Blank" size="sm" [outlined]="true" (click)="loadTemplate('blank')" />
+      </div>
       }
     </div>
 
@@ -145,10 +129,10 @@
       <!-- Live Auto-Refresh Controls -->
       <div class="auto-refresh-cluster">
         @if (autoRefreshInterval() > 0) {
-          <gp-tag severity="success" class="live-indicator-tag">
-            <span class="live-pulse-dot"></span>
-            LIVE ({{ autoRefreshInterval() }}s)
-          </gp-tag>
+        <gp-tag severity="success" class="live-indicator-tag">
+          <span class="live-pulse-dot"></span>
+          LIVE ({{ autoRefreshInterval() }}s)
+        </gp-tag>
         }
         <gp-select
           [options]="autoRefreshOptions"
@@ -157,14 +141,16 @@
           size="sm"
           [ngModel]="autoRefreshInterval()"
           (ngModelChange)="setAutoRefresh($event)"
-          title="Auto-refresh interval" />
+          title="Auto-refresh interval"
+        />
         <gp-button
           icon="sync"
           size="sm"
           [outlined]="true"
           [disabled]="isRefreshing()"
           title="Manual Refresh"
-          (click)="triggerRefresh()" />
+          (click)="triggerRefresh()"
+        />
       </div>
 
       <gp-button
@@ -174,7 +160,8 @@
         [outlined]="true"
         [disabled]="!canUndo()"
         title="Undo change (Ctrl+Z)"
-        (click)="undo()" />
+        (click)="undo()"
+      />
       <gp-button
         label="Redo"
         icon="redo"
@@ -182,37 +169,27 @@
         [outlined]="true"
         [disabled]="!canRedo()"
         title="Redo change (Ctrl+Y)"
-        (click)="redo()" />
+        (click)="redo()"
+      />
       <gp-button
         [label]="isFullscreen() ? 'Exit Presentation' : 'Presentation'"
         [icon]="isFullscreen() ? 'compress' : 'expand'"
         size="sm"
         [outlined]="true"
         title="Distraction-free presentation mode (Esc to exit)"
-        (click)="toggleFullscreen()" />
-      <gp-button
-        label="Settings"
-        icon="cog"
-        [outlined]="true"
-        (click)="openSettingsModal()" />
-      <gp-button
-        label="JSON"
-        icon="code"
-        [outlined]="true"
-        (click)="openJsonModal('export')" />
-      <gp-button
-        label="Save Dashboard"
-        icon="check"
-        severity="success"
-        (click)="saveDashboard()" />
+        (click)="toggleFullscreen()"
+      />
+      <gp-button label="Settings" icon="cog" [outlined]="true" (click)="openSettingsModal()" />
+      <gp-button label="JSON" icon="code" [outlined]="true" (click)="openJsonModal('export')" />
+      <gp-button label="Save Dashboard" icon="check" severity="success" (click)="saveDashboard()" />
     </div>
   </header>
 
   <!-- Notification Toast -->
   @if (saveNotification()) {
-    <div class="designer-toast">
-      <span>{{ saveNotification() }}</span>
-    </div>
+  <div class="designer-toast">
+    <span>{{ saveNotification() }}</span>
+  </div>
   }
 
   <!-- Main Workspace Area -->
@@ -228,602 +205,626 @@
         (widgetEdit)="openWidgetInspector($event)"
         (widgetDuplicate)="duplicateWidget($event)"
         (widgetDelete)="deleteWidget($event.id)"
-        (layoutChange)="onLayoutChange($event)" />
+        (layoutChange)="onLayoutChange($event)"
+      />
     </div>
 
     <!-- Slide-Out Widget Property Inspector -->
     @if (isInspectorOpen() && selectedWidget(); as w) {
-      <aside class="designer-inspector" aria-label="Widget Properties Inspector">
-        <div class="inspector-header">
-          <div class="inspector-title-cluster">
-            <span class="inspector-icon">{{ w.icon || '⚙️' }}</span>
-            <div>
-              <h3 class="inspector-title">{{ w.title || 'Configure Widget' }}</h3>
-              <gp-tag severity="primary" [rounded]="true">{{ w.type | uppercase }}</gp-tag>
-            </div>
+    <aside class="designer-inspector" aria-label="Widget Properties Inspector">
+      <div class="inspector-header">
+        <div class="inspector-title-cluster">
+          <span class="inspector-icon">{{ w.icon || '⚙️' }}</span>
+          <div>
+            <h3 class="inspector-title">{{ w.title || 'Configure Widget' }}</h3>
+            <gp-tag severity="primary" [rounded]="true">{{ w.type | uppercase }}</gp-tag>
           </div>
-          <button
-            type="button"
-            class="btn-close-inspector"
-            title="Close Inspector"
-            (click)="closeWidgetInspector()">
-            ✕
-          </button>
+        </div>
+        <button type="button" class="btn-close-inspector" title="Close Inspector" (click)="closeWidgetInspector()">
+          ✕
+        </button>
+      </div>
+
+      <div class="inspector-body">
+        <!-- Section 1: General Info -->
+        <div class="inspector-section">
+          <h4 class="section-title">General Appearance</h4>
+          <div class="form-group">
+            <label class="form-label" for="widget-title-input">Widget Title</label>
+            <input
+              id="widget-title-input"
+              type="text"
+              gpInputText
+              class="form-control"
+              [ngModel]="w.title"
+              (ngModelChange)="updateSelectedWidget({ title: $event })"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="widget-sub-input">Subtitle / Description</label>
+            <input
+              id="widget-sub-input"
+              type="text"
+              gpInputText
+              class="form-control"
+              [ngModel]="w.subtitle || ''"
+              (ngModelChange)="updateSelectedWidget({ subtitle: $event })"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="widget-icon-input">Icon Emoji</label>
+            <input
+              id="widget-icon-input"
+              type="text"
+              gpInputText
+              class="form-control"
+              [ngModel]="w.icon || ''"
+              (ngModelChange)="updateSelectedWidget({ icon: $event })"
+            />
+          </div>
         </div>
 
-        <div class="inspector-body">
-          <!-- Section 1: General Info -->
-          <div class="inspector-section">
-            <h4 class="section-title">General Appearance</h4>
+        <!-- Section 2: Layout & Sizing -->
+        <div class="inspector-section">
+          <h4 class="section-title">Grid Layout & Movement</h4>
+          <div class="form-row-2col">
             <div class="form-group">
-              <label class="form-label" for="widget-title-input">Widget Title</label>
+              <label class="form-label" for="widget-col-width">Columns Width (1-12)</label>
               <input
-                id="widget-title-input"
-                type="text"
+                id="widget-col-width"
+                type="number"
+                min="1"
+                max="12"
                 gpInputText
                 class="form-control"
-                [ngModel]="w.title"
-                (ngModelChange)="updateSelectedWidget({ title: $event })" />
+                [ngModel]="w.grid.w"
+                (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, w: +$event } })"
+              />
             </div>
-
             <div class="form-group">
-              <label class="form-label" for="widget-sub-input">Subtitle / Description</label>
+              <label class="form-label" for="widget-row-height">Rows Height (1-10)</label>
               <input
-                id="widget-sub-input"
-                type="text"
+                id="widget-row-height"
+                type="number"
+                min="1"
+                max="10"
                 gpInputText
                 class="form-control"
-                [ngModel]="w.subtitle || ''"
-                (ngModelChange)="updateSelectedWidget({ subtitle: $event })" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="widget-icon-input">Icon Emoji</label>
-              <input
-                id="widget-icon-input"
-                type="text"
-                gpInputText
-                class="form-control"
-                [ngModel]="w.icon || ''"
-                (ngModelChange)="updateSelectedWidget({ icon: $event })" />
+                [ngModel]="w.grid.h"
+                (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, h: +$event } })"
+              />
             </div>
           </div>
 
-          <!-- Section 2: Layout & Sizing -->
-          <div class="inspector-section">
-            <h4 class="section-title">Grid Layout & Movement</h4>
-            <div class="form-row-2col">
-              <div class="form-group">
-                <label class="form-label" for="widget-col-width">Columns Width (1-12)</label>
-                <input
-                  id="widget-col-width"
-                  type="number"
-                  min="1"
-                  max="12"
-                  gpInputText
-                  class="form-control"
-                  [ngModel]="w.grid.w"
-                  (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, w: +$event } })" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="widget-row-height">Rows Height (1-10)</label>
-                <input
-                  id="widget-row-height"
-                  type="number"
-                  min="1"
-                  max="10"
-                  gpInputText
-                  class="form-control"
-                  [ngModel]="w.grid.h"
-                  (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, h: +$event } })" />
-              </div>
+          <!-- Enhanced gp-switch toggle items -->
+          <div class="switch-grid">
+            <div class="switch-item">
+              <span class="switch-label">Allow Drag & Move in Grid</span>
+              <gp-switch
+                [ngModel]="w.grid.draggable !== false"
+                (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, draggable: $event } })"
+              />
             </div>
-
-            <!-- Enhanced gp-switch toggle items -->
-            <div class="switch-grid">
-              <div class="switch-item">
-                <span class="switch-label">Allow Drag & Move in Grid</span>
-                <gp-switch
-                  [ngModel]="w.grid.draggable !== false"
-                  (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, draggable: $event } })" />
-              </div>
-              <div class="switch-item">
-                <span class="switch-label">Allow Resizing in Grid</span>
-                <gp-switch
-                  [ngModel]="w.grid.resizable !== false"
-                  (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, resizable: $event } })" />
-              </div>
-              <div class="switch-item">
-                <span class="switch-label">🔒 Lock in Place</span>
-                <gp-switch
-                  [ngModel]="w.grid.locked ?? false"
-                  (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, locked: $event } })" />
-              </div>
-              <div class="switch-item">
-                <span class="switch-label">📌 Fixed Position</span>
-                <gp-switch
-                  [ngModel]="w.grid.fixed ?? false"
-                  (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, fixed: $event } })" />
-              </div>
+            <div class="switch-item">
+              <span class="switch-label">Allow Resizing in Grid</span>
+              <gp-switch
+                [ngModel]="w.grid.resizable !== false"
+                (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, resizable: $event } })"
+              />
+            </div>
+            <div class="switch-item">
+              <span class="switch-label">🔒 Lock in Place</span>
+              <gp-switch
+                [ngModel]="w.grid.locked ?? false"
+                (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, locked: $event } })"
+              />
+            </div>
+            <div class="switch-item">
+              <span class="switch-label">📌 Fixed Position</span>
+              <gp-switch
+                [ngModel]="w.grid.fixed ?? false"
+                (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, fixed: $event } })"
+              />
             </div>
           </div>
+        </div>
 
-          <!-- Section 3: Context-Specific Data Settings -->
-          <!-- KPI Settings -->
-          @if (asKpi(w); as kpi) {
-            <div class="inspector-section">
-              <h4 class="section-title">KPI Metric Settings</h4>
-              <div class="form-group">
-                <label class="form-label" for="kpi-measure-field">Metric Field</label>
-                <select
-                  id="kpi-measure-field"
-                  class="form-select"
-                  [ngModel]="kpi.measure.fieldId"
-                  (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, fieldId: $event } })">
-                  @for (field of numericFields(); track field.fieldId) {
-                    <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
-                  }
-                </select>
-              </div>
+        <!-- Section 3: Context-Specific Data Settings -->
+        <!-- KPI Settings -->
+        @if (asKpi(w); as kpi) {
+        <div class="inspector-section">
+          <h4 class="section-title">KPI Metric Settings</h4>
+          <div class="form-group">
+            <label class="form-label" for="kpi-measure-field">Metric Field</label>
+            <select
+              id="kpi-measure-field"
+              class="form-select"
+              [ngModel]="kpi.measure.fieldId"
+              (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, fieldId: $event } })"
+            >
+              @for (field of numericFields(); track field.fieldId) {
+              <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
+              }
+            </select>
+          </div>
 
-              <div class="form-group">
-                <label class="form-label" for="kpi-aggregation">Aggregation</label>
-                <gp-select
-                  id="kpi-aggregation"
-                  [options]="aggregationOptions"
-                  optionLabel="label"
-                  optionValue="value"
-                  [ngModel]="kpi.measure.aggregation"
-                  (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, aggregation: $event } })" />
-              </div>
+          <div class="form-group">
+            <label class="form-label" for="kpi-aggregation">Aggregation</label>
+            <gp-select
+              id="kpi-aggregation"
+              [options]="aggregationOptions"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="kpi.measure.aggregation"
+              (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, aggregation: $event } })"
+            />
+          </div>
 
-              <div class="form-group">
-                <label class="form-label" for="kpi-target-val">Target Goal Value</label>
-                <input
-                  id="kpi-target-val"
-                  type="number"
-                  gpInputText
-                  class="form-control"
-                  [ngModel]="kpi.targetValue ?? null"
-                  (ngModelChange)="updateSelectedWidget({ targetValue: $event ? +$event : undefined })" />
-              </div>
+          <div class="form-group">
+            <label class="form-label" for="kpi-target-val">Target Goal Value</label>
+            <input
+              id="kpi-target-val"
+              type="number"
+              gpInputText
+              class="form-control"
+              [ngModel]="kpi.targetValue ?? null"
+              (ngModelChange)="updateSelectedWidget({ targetValue: $event ? +$event : undefined })"
+            />
+          </div>
 
-              <div class="form-group">
-                <label class="form-label" for="kpi-severity">Accent Severity</label>
-                <gp-select
-                  id="kpi-severity"
-                  [options]="severityOptions"
-                  optionLabel="label"
-                  optionValue="value"
-                  [ngModel]="kpi.severity || 'info'"
-                  (ngModelChange)="updateSelectedWidget({ severity: $event })" />
-              </div>
+          <div class="form-group">
+            <label class="form-label" for="kpi-severity">Accent Severity</label>
+            <gp-select
+              id="kpi-severity"
+              [options]="severityOptions"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="kpi.severity || 'info'"
+              (ngModelChange)="updateSelectedWidget({ severity: $event })"
+            />
+          </div>
 
-              <div class="switch-grid">
-                <div class="switch-item">
-                  <span class="switch-label">Format as Currency ($)</span>
-                  <gp-switch
-                    [ngModel]="kpi.formatCurrency ?? false"
-                    (ngModelChange)="updateSelectedWidget({ formatCurrency: $event })" />
-                </div>
-                <div class="switch-item">
-                  <span class="switch-label">Compare to Previous Period</span>
-                  <gp-switch
-                    [ngModel]="kpi.comparePrevious ?? false"
-                    (ngModelChange)="updateSelectedWidget({ comparePrevious: $event })" />
-                </div>
-              </div>
+          <div class="switch-grid">
+            <div class="switch-item">
+              <span class="switch-label">Format as Currency ($)</span>
+              <gp-switch
+                [ngModel]="kpi.formatCurrency ?? false"
+                (ngModelChange)="updateSelectedWidget({ formatCurrency: $event })"
+              />
             </div>
-          }
-
-          <!-- Chart Settings -->
-          @if (asChart(w); as chart) {
-            <div class="inspector-section">
-              <h4 class="section-title">Chart Visualization Settings</h4>
-              <div class="form-group">
-                <label class="form-label" for="chart-type-select">Chart Type</label>
-                <gp-select
-                  id="chart-type-select"
-                  [options]="chartTypeOptions"
-                  optionLabel="label"
-                  optionValue="value"
-                  [ngModel]="chart.chartType"
-                  (ngModelChange)="updateSelectedWidget({ chartType: $event })" />
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="chart-dim-select">Category Dimension</label>
-                <select
-                  id="chart-dim-select"
-                  class="form-select"
-                  [ngModel]="chart.dimension"
-                  (ngModelChange)="updateSelectedWidget({ dimension: $event })">
-                  @for (field of effectiveFields(); track field.fieldId) {
-                    <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
-                  }
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="chart-measure-field">Measure Metric</label>
-                <select
-                  id="chart-measure-field"
-                  class="form-select"
-                  [ngModel]="chart.measure.fieldId"
-                  (ngModelChange)="updateSelectedWidget({ measure: { ...chart.measure, fieldId: $event } })">
-                  @for (field of numericFields(); track field.fieldId) {
-                    <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
-                  }
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="chart-aggregation">Aggregation</label>
-                <select
-                  id="chart-aggregation"
-                  class="form-select"
-                  [ngModel]="chart.measure.aggregation"
-                  (ngModelChange)="updateSelectedWidget({ measure: { ...chart.measure, aggregation: $event } })">
-                  <option value="sum">Sum</option>
-                  <option value="avg">Average</option>
-                  <option value="count">Count</option>
-                  <option value="min">Minimum</option>
-                  <option value="max">Maximum</option>
-                </select>
-              </div>
-
-              <div class="form-row-2col">
-                <div class="form-group">
-                  <label class="form-label" for="chart-sort-order">Sort Order</label>
-                  <gp-select
-                    id="chart-sort-order"
-                    [options]="sortOrderOptions"
-                    optionLabel="label"
-                    optionValue="value"
-                    [ngModel]="chart.sortOrder || 'desc'"
-                    (ngModelChange)="updateSelectedWidget({ sortOrder: $event })" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="chart-limit">Top Categories</label>
-                  <input
-                    id="chart-limit"
-                    type="number"
-                    min="3"
-                    max="50"
-                    gpInputText
-                    class="form-control"
-                    [ngModel]="chart.limit || 8"
-                    (ngModelChange)="updateSelectedWidget({ limit: +$event })" />
-                </div>
-              </div>
+            <div class="switch-item">
+              <span class="switch-label">Compare to Previous Period</span>
+              <gp-switch
+                [ngModel]="kpi.comparePrevious ?? false"
+                (ngModelChange)="updateSelectedWidget({ comparePrevious: $event })"
+              />
             </div>
-          }
+          </div>
+        </div>
+        }
 
-          <!-- Table Settings -->
-          @if (asTable(w); as tbl) {
-            <div class="inspector-section">
-              <h4 class="section-title">Tabular Rollup Settings</h4>
-              <div class="form-group">
-                <label class="form-label" for="table-dims">Group Dimensions (comma-separated)</label>
-                <input
-                  id="table-dims"
-                  type="text"
-                  class="form-control"
-                  [ngModel]="tbl.dimensions.join(', ')"
-                  (ngModelChange)="updateTableDimensions($event)" />
-                <span class="field-hint">Available: {{ availableFieldNames() }}</span>
-              </div>
+        <!-- Chart Settings -->
+        @if (asChart(w); as chart) {
+        <div class="inspector-section">
+          <h4 class="section-title">Chart Visualization Settings</h4>
+          <div class="form-group">
+            <label class="form-label" for="chart-type-select">Chart Type</label>
+            <gp-select
+              id="chart-type-select"
+              [options]="chartTypeOptions"
+              optionLabel="label"
+              optionValue="value"
+              [ngModel]="chart.chartType"
+              (ngModelChange)="updateSelectedWidget({ chartType: $event })"
+            />
+          </div>
 
-              <div class="form-group">
-                <div class="measures-header-row">
-                  <label class="form-label">Measures</label>
-                  <button type="button" class="btn-link-action" (click)="addTableMeasure()">
-                    + Add Measure
-                  </button>
-                </div>
-                @for (m of tbl.measures; track $index) {
-                  <div class="measure-config-row">
-                    <select
-                      class="form-select form-select-sm"
-                      [ngModel]="m.fieldId"
-                      (ngModelChange)="updateMeasureField(m, $event)">
-                      @for (f of numericFields(); track f.fieldId) {
-                        <option [value]="f.fieldId">{{ f.label }}</option>
-                      }
-                    </select>
-                    <select
-                      class="form-select form-select-sm"
-                      [ngModel]="m.aggregation"
-                      (ngModelChange)="updateMeasureAggregation(m, $event)">
-                      <option value="sum">Sum</option>
-                      <option value="count">Count</option>
-                      <option value="avg">Avg</option>
-                    </select>
-                    <button
-                      type="button"
-                      class="btn-icon-mini-del"
-                      title="Remove Measure"
-                      (click)="removeTableMeasure($index)">
-                      ✕
-                    </button>
-                  </div>
+          <div class="form-group">
+            <label class="form-label" for="chart-dim-select">Category Dimension</label>
+            <select
+              id="chart-dim-select"
+              class="form-select"
+              [ngModel]="chart.dimension"
+              (ngModelChange)="updateSelectedWidget({ dimension: $event })"
+            >
+              @for (field of effectiveFields(); track field.fieldId) {
+              <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="chart-measure-field">Measure Metric</label>
+            <select
+              id="chart-measure-field"
+              class="form-select"
+              [ngModel]="chart.measure.fieldId"
+              (ngModelChange)="updateSelectedWidget({ measure: { ...chart.measure, fieldId: $event } })"
+            >
+              @for (field of numericFields(); track field.fieldId) {
+              <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="chart-aggregation">Aggregation</label>
+            <select
+              id="chart-aggregation"
+              class="form-select"
+              [ngModel]="chart.measure.aggregation"
+              (ngModelChange)="updateSelectedWidget({ measure: { ...chart.measure, aggregation: $event } })"
+            >
+              <option value="sum">Sum</option>
+              <option value="avg">Average</option>
+              <option value="count">Count</option>
+              <option value="min">Minimum</option>
+              <option value="max">Maximum</option>
+            </select>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label class="form-label" for="chart-sort-order">Sort Order</label>
+              <gp-select
+                id="chart-sort-order"
+                [options]="sortOrderOptions"
+                optionLabel="label"
+                optionValue="value"
+                [ngModel]="chart.sortOrder || 'desc'"
+                (ngModelChange)="updateSelectedWidget({ sortOrder: $event })"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="chart-limit">Top Categories</label>
+              <input
+                id="chart-limit"
+                type="number"
+                min="3"
+                max="50"
+                gpInputText
+                class="form-control"
+                [ngModel]="chart.limit || 8"
+                (ngModelChange)="updateSelectedWidget({ limit: +$event })"
+              />
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Table Settings -->
+        @if (asTable(w); as tbl) {
+        <div class="inspector-section">
+          <h4 class="section-title">Tabular Rollup Settings</h4>
+          <div class="form-group">
+            <label class="form-label" for="table-dims">Group Dimensions (comma-separated)</label>
+            <input
+              id="table-dims"
+              type="text"
+              class="form-control"
+              [ngModel]="tbl.dimensions.join(', ')"
+              (ngModelChange)="updateTableDimensions($event)"
+            />
+            <span class="field-hint">Available: {{ availableFieldNames() }}</span>
+          </div>
+
+          <div class="form-group">
+            <div class="measures-header-row">
+              <label class="form-label">Measures</label>
+              <button type="button" class="btn-link-action" (click)="addTableMeasure()">+ Add Measure</button>
+            </div>
+            @for (m of tbl.measures; track $index) {
+            <div class="measure-config-row">
+              <select
+                class="form-select form-select-sm"
+                [ngModel]="m.fieldId"
+                (ngModelChange)="updateMeasureField(m, $event)"
+              >
+                @for (f of numericFields(); track f.fieldId) {
+                <option [value]="f.fieldId">{{ f.label }}</option>
                 }
-              </div>
-
-              <div class="switch-grid">
-                <div class="switch-item">
-                  <span class="switch-label">Show Subtotal Rollups</span>
-                  <gp-switch
-                    [ngModel]="tbl.showSubtotals ?? true"
-                    (ngModelChange)="updateSelectedWidget({ showSubtotals: $event })" />
-                </div>
-                <div class="switch-item">
-                  <span class="switch-label">Show Grand Total Row</span>
-                  <gp-switch
-                    [ngModel]="tbl.showGrandTotal ?? true"
-                    (ngModelChange)="updateSelectedWidget({ showGrandTotal: $event })" />
-                </div>
-              </div>
+              </select>
+              <select
+                class="form-select form-select-sm"
+                [ngModel]="m.aggregation"
+                (ngModelChange)="updateMeasureAggregation(m, $event)"
+              >
+                <option value="sum">Sum</option>
+                <option value="count">Count</option>
+                <option value="avg">Avg</option>
+              </select>
+              <button
+                type="button"
+                class="btn-icon-mini-del"
+                title="Remove Measure"
+                (click)="removeTableMeasure($index)"
+              >
+                ✕
+              </button>
             </div>
-          }
+            }
+          </div>
 
-          <!-- Pivot Grid Settings -->
-          @if (asPivot(w); as pvt) {
-            <div class="inspector-section">
-              <h4 class="section-title">Pivot Matrix Settings</h4>
-              <div class="form-group">
-                <label class="form-label" for="pivot-row-dim">Row Dimension</label>
-                <select
-                  id="pivot-row-dim"
-                  class="form-select"
-                  [ngModel]="pvt.rowDimension"
-                  (ngModelChange)="updateSelectedWidget({ rowDimension: $event })">
-                  @for (f of effectiveFields(); track f.fieldId) {
-                    <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
-                  }
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="pivot-col-dim">Column Dimension</label>
-                <select
-                  id="pivot-col-dim"
-                  class="form-select"
-                  [ngModel]="pvt.colDimension"
-                  (ngModelChange)="updateSelectedWidget({ colDimension: $event })">
-                  @for (f of effectiveFields(); track f.fieldId) {
-                    <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
-                  }
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="pivot-measure-field">Matrix Value Measure</label>
-                <select
-                  id="pivot-measure-field"
-                  class="form-select"
-                  [ngModel]="pvt.measure.fieldId"
-                  (ngModelChange)="updateSelectedWidget({ measure: { ...pvt.measure, fieldId: $event } })">
-                  @for (f of numericFields(); track f.fieldId) {
-                    <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
-                  }
-                </select>
-              </div>
+          <div class="switch-grid">
+            <div class="switch-item">
+              <span class="switch-label">Show Subtotal Rollups</span>
+              <gp-switch
+                [ngModel]="tbl.showSubtotals ?? true"
+                (ngModelChange)="updateSelectedWidget({ showSubtotals: $event })"
+              />
             </div>
-          }
-
-          <!-- Custom Card Settings -->
-          @if (asCustom(w); as cstm) {
-            <div class="inspector-section">
-              <h4 class="section-title">Content</h4>
-              <div class="form-group">
-                <label class="form-label" for="custom-content-area">Notes / Instructions</label>
-                <textarea
-                  id="custom-content-area"
-                  rows="4"
-                  class="form-control"
-                  [ngModel]="cstm.content || ''"
-                  (ngModelChange)="updateSelectedWidget({ content: $event })"></textarea>
-              </div>
+            <div class="switch-item">
+              <span class="switch-label">Show Grand Total Row</span>
+              <gp-switch
+                [ngModel]="tbl.showGrandTotal ?? true"
+                (ngModelChange)="updateSelectedWidget({ showGrandTotal: $event })"
+              />
             </div>
-          }
-
-          <!-- Widget Actions using gp-button -->
-          <div class="inspector-actions-footer">
-            <gp-button
-              label="Duplicate Widget"
-              icon="copy"
-              [outlined]="true"
-              [fluid]="true"
-              (click)="duplicateWidget(w)" />
-            <gp-button
-              label="Delete Widget"
-              icon="trash"
-              severity="danger"
-              [outlined]="true"
-              [fluid]="true"
-              (click)="deleteWidget(w.id)" />
           </div>
         </div>
-      </aside>
+        }
+
+        <!-- Pivot Grid Settings -->
+        @if (asPivot(w); as pvt) {
+        <div class="inspector-section">
+          <h4 class="section-title">Pivot Matrix Settings</h4>
+          <div class="form-group">
+            <label class="form-label" for="pivot-row-dim">Row Dimension</label>
+            <select
+              id="pivot-row-dim"
+              class="form-select"
+              [ngModel]="pvt.rowDimension"
+              (ngModelChange)="updateSelectedWidget({ rowDimension: $event })"
+            >
+              @for (f of effectiveFields(); track f.fieldId) {
+              <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pivot-col-dim">Column Dimension</label>
+            <select
+              id="pivot-col-dim"
+              class="form-select"
+              [ngModel]="pvt.colDimension"
+              (ngModelChange)="updateSelectedWidget({ colDimension: $event })"
+            >
+              @for (f of effectiveFields(); track f.fieldId) {
+              <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="pivot-measure-field">Matrix Value Measure</label>
+            <select
+              id="pivot-measure-field"
+              class="form-select"
+              [ngModel]="pvt.measure.fieldId"
+              (ngModelChange)="updateSelectedWidget({ measure: { ...pvt.measure, fieldId: $event } })"
+            >
+              @for (f of numericFields(); track f.fieldId) {
+              <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
+              }
+            </select>
+          </div>
+        </div>
+        }
+
+        <!-- Custom Card Settings -->
+        @if (asCustom(w); as cstm) {
+        <div class="inspector-section">
+          <h4 class="section-title">Content</h4>
+          <div class="form-group">
+            <label class="form-label" for="custom-content-area">Notes / Instructions</label>
+            <textarea
+              id="custom-content-area"
+              rows="4"
+              class="form-control"
+              [ngModel]="cstm.content || ''"
+              (ngModelChange)="updateSelectedWidget({ content: $event })"
+            ></textarea>
+          </div>
+        </div>
+        }
+
+        <!-- Widget Actions using gp-button -->
+        <div class="inspector-actions-footer">
+          <gp-button
+            label="Duplicate Widget"
+            icon="copy"
+            [outlined]="true"
+            [fluid]="true"
+            (click)="duplicateWidget(w)"
+          />
+          <gp-button
+            label="Delete Widget"
+            icon="trash"
+            severity="danger"
+            [outlined]="true"
+            [fluid]="true"
+            (click)="deleteWidget(w.id)"
+          />
+        </div>
+      </div>
+    </aside>
     }
   </div>
 
   <!-- Dashboard Settings Modal -->
   @if (isSettingsModalOpen()) {
-    <div class="designer-modal-overlay" (click)="closeSettingsModal()">
-      <div class="designer-modal-box" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <div class="modal-title-cluster">
-            <span class="modal-icon">⚙️</span>
-            <h3>Dashboard Settings</h3>
-          </div>
-          <button type="button" class="btn-modal-close" (click)="closeSettingsModal()">✕</button>
+  <div class="designer-modal-overlay" (click)="closeSettingsModal()">
+    <div class="designer-modal-box" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-cluster">
+          <span class="modal-icon">⚙️</span>
+          <h3>Dashboard Settings</h3>
+        </div>
+        <button type="button" class="btn-modal-close" (click)="closeSettingsModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="dash-title-input">Dashboard Title</label>
+          <input
+            id="dash-title-input"
+            type="text"
+            gpInputText
+            class="form-control"
+            [ngModel]="config().title"
+            (ngModelChange)="updateDashboardSettings({ title: $event })"
+          />
         </div>
 
-        <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="dash-subtitle-input">Dashboard Subtitle</label>
+          <input
+            id="dash-subtitle-input"
+            type="text"
+            gpInputText
+            class="form-control"
+            [ngModel]="config().subtitle || ''"
+            (ngModelChange)="updateDashboardSettings({ subtitle: $event })"
+          />
+        </div>
+
+        <div class="form-row-3col">
           <div class="form-group">
-            <label class="form-label" for="dash-title-input">Dashboard Title</label>
+            <label class="form-label" for="dash-cols">Grid Columns</label>
             <input
-              id="dash-title-input"
-              type="text"
+              id="dash-cols"
+              type="number"
+              min="6"
+              max="24"
               gpInputText
               class="form-control"
-              [ngModel]="config().title"
-              (ngModelChange)="updateDashboardSettings({ title: $event })" />
+              [ngModel]="config().columns || 12"
+              (ngModelChange)="updateDashboardSettings({ columns: +$event })"
+            />
           </div>
-
           <div class="form-group">
-            <label class="form-label" for="dash-subtitle-input">Dashboard Subtitle</label>
+            <label class="form-label" for="dash-row-h">Row Height (px)</label>
             <input
-              id="dash-subtitle-input"
-              type="text"
+              id="dash-row-h"
+              type="number"
+              min="50"
+              max="200"
               gpInputText
               class="form-control"
-              [ngModel]="config().subtitle || ''"
-              (ngModelChange)="updateDashboardSettings({ subtitle: $event })" />
+              [ngModel]="config().rowHeight || 95"
+              (ngModelChange)="updateDashboardSettings({ rowHeight: +$event })"
+            />
           </div>
-
-          <div class="form-row-3col">
-            <div class="form-group">
-              <label class="form-label" for="dash-cols">Grid Columns</label>
-              <input
-                id="dash-cols"
-                type="number"
-                min="6"
-                max="24"
-                gpInputText
-                class="form-control"
-                [ngModel]="config().columns || 12"
-                (ngModelChange)="updateDashboardSettings({ columns: +$event })" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="dash-row-h">Row Height (px)</label>
-              <input
-                id="dash-row-h"
-                type="number"
-                min="50"
-                max="200"
-                gpInputText
-                class="form-control"
-                [ngModel]="config().rowHeight || 95"
-                (ngModelChange)="updateDashboardSettings({ rowHeight: +$event })" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="dash-gap">Gap Spacing (px)</label>
-              <input
-                id="dash-gap"
-                type="number"
-                min="4"
-                max="40"
-                gpInputText
-                class="form-control"
-                [ngModel]="config().gap || 16"
-                (ngModelChange)="updateDashboardSettings({ gap: +$event })" />
-            </div>
-          </div>
-
           <div class="form-group">
-            <label class="form-label" for="dash-compact-type">Grid Compaction Placement Mode</label>
-            <gp-select
-              id="dash-compact-type"
-              [options]="compactTypeOptions"
-              optionLabel="label"
-              optionValue="value"
-              [ngModel]="config().compactType || 'vertical'"
-              (ngModelChange)="updateDashboardSettings({ compactType: $event })" />
-          </div>
-
-          <!-- Enhanced gp-switch toggle items in Settings Modal -->
-          <div class="switch-grid">
-            <div class="switch-item">
-              <span class="switch-label">Allow Users to Move / Reorder</span>
-              <gp-switch
-                [ngModel]="config().allowMove ?? true"
-                (ngModelChange)="updateDashboardSettings({ allowMove: $event })" />
-            </div>
-            <div class="switch-item">
-              <span class="switch-label">Allow Users to Resize Widgets</span>
-              <gp-switch
-                [ngModel]="config().allowResize ?? true"
-                (ngModelChange)="updateDashboardSettings({ allowResize: $event })" />
-            </div>
+            <label class="form-label" for="dash-gap">Gap Spacing (px)</label>
+            <input
+              id="dash-gap"
+              type="number"
+              min="4"
+              max="40"
+              gpInputText
+              class="form-control"
+              [ngModel]="config().gap || 16"
+              (ngModelChange)="updateDashboardSettings({ gap: +$event })"
+            />
           </div>
         </div>
 
-        <div class="modal-footer">
-          <gp-button label="Done" severity="primary" (click)="closeSettingsModal()" />
+        <div class="form-group">
+          <label class="form-label" for="dash-compact-type">Grid Compaction Placement Mode</label>
+          <gp-select
+            id="dash-compact-type"
+            [options]="compactTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="config().compactType || 'vertical'"
+            (ngModelChange)="updateDashboardSettings({ compactType: $event })"
+          />
+        </div>
+
+        <!-- Enhanced gp-switch toggle items in Settings Modal -->
+        <div class="switch-grid">
+          <div class="switch-item">
+            <span class="switch-label">Allow Users to Move / Reorder</span>
+            <gp-switch
+              [ngModel]="config().allowMove ?? true"
+              (ngModelChange)="updateDashboardSettings({ allowMove: $event })"
+            />
+          </div>
+          <div class="switch-item">
+            <span class="switch-label">Allow Users to Resize Widgets</span>
+            <gp-switch
+              [ngModel]="config().allowResize ?? true"
+              (ngModelChange)="updateDashboardSettings({ allowResize: $event })"
+            />
+          </div>
         </div>
       </div>
+
+      <div class="modal-footer">
+        <gp-button label="Done" severity="primary" (click)="closeSettingsModal()" />
+      </div>
     </div>
+  </div>
   }
 
   <!-- JSON Export / Import Modal -->
   @if (isJsonModalOpen()) {
-    <div class="designer-modal-overlay" (click)="closeJsonModal()">
-      <div class="designer-modal-box modal-wide" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <div class="modal-title-cluster">
-            <span class="modal-icon">📋</span>
-            <h3>Dashboard Configuration (JSON)</h3>
-          </div>
-          <button type="button" class="btn-modal-close" (click)="closeJsonModal()">✕</button>
+  <div class="designer-modal-overlay" (click)="closeJsonModal()">
+    <div class="designer-modal-box modal-wide" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-cluster">
+          <span class="modal-icon">📋</span>
+          <h3>Dashboard Configuration (JSON)</h3>
         </div>
+        <button type="button" class="btn-modal-close" (click)="closeJsonModal()">✕</button>
+      </div>
 
-        <div class="modal-tabs">
-          <button
-            type="button"
-            class="modal-tab-btn"
-            [class.active]="jsonModalTab() === 'export'"
-            (click)="openJsonModal('export')">
-            Export JSON
-          </button>
-          <button
-            type="button"
-            class="modal-tab-btn"
-            [class.active]="jsonModalTab() === 'import'"
-            (click)="openJsonModal('import')">
-            Import JSON
-          </button>
-        </div>
+      <div class="modal-tabs">
+        <button
+          type="button"
+          class="modal-tab-btn"
+          [class.active]="jsonModalTab() === 'export'"
+          (click)="openJsonModal('export')"
+        >
+          Export JSON
+        </button>
+        <button
+          type="button"
+          class="modal-tab-btn"
+          [class.active]="jsonModalTab() === 'import'"
+          (click)="openJsonModal('import')"
+        >
+          Import JSON
+        </button>
+      </div>
 
-        <div class="modal-body">
-          @if (jsonError()) {
-            <div class="json-error-banner">
-              ⚠️ {{ jsonError() }}
-            </div>
-          }
+      <div class="modal-body">
+        @if (jsonError()) {
+        <div class="json-error-banner">⚠️ {{ jsonError() }}</div>
+        }
 
-          <textarea
-            class="json-textarea"
-            rows="15"
-            [readonly]="jsonModalTab() === 'export'"
-            [(ngModel)]="jsonBuffer"></textarea>
-        </div>
+        <textarea
+          class="json-textarea"
+          rows="15"
+          [readonly]="jsonModalTab() === 'export'"
+          [(ngModel)]="jsonBuffer"
+        ></textarea>
+      </div>
 
-        <div class="modal-footer">
-          @if (jsonModalTab() === 'export') {
-            <gp-button
-              label="Copy to Clipboard"
-              icon="copy"
-              [outlined]="true"
-              (click)="copyJsonToClipboard()" />
-            <gp-button
-              label="Close"
-              (click)="closeJsonModal()" />
-          } @else {
-            <gp-button
-              label="Cancel"
-              [outlined]="true"
-              (click)="closeJsonModal()" />
-            <gp-button
-              label="Apply & Load Dashboard"
-              icon="check"
-              severity="primary"
-              (click)="applyImportedJson()" />
-          }
-        </div>
+      <div class="modal-footer">
+        @if (jsonModalTab() === 'export') {
+        <gp-button label="Copy to Clipboard" icon="copy" [outlined]="true" (click)="copyJsonToClipboard()" />
+        <gp-button label="Close" (click)="closeJsonModal()" />
+        } @else {
+        <gp-button label="Cancel" [outlined]="true" (click)="closeJsonModal()" />
+        <gp-button label="Apply & Load Dashboard" icon="check" severity="primary" (click)="applyImportedJson()" />
+        }
       </div>
     </div>
+  </div>
   }
 </div>

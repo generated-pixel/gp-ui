@@ -7,7 +7,7 @@ describe('GpKpiCard', () => {
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpKpiCard],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpKpiCard);
     const component = fixture.componentInstance;

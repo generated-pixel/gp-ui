@@ -19,7 +19,7 @@ describe('GpSchemaCatalogue', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: true,
+    groupable: true
   };
 
   const mockField2: Field = {
@@ -36,7 +36,7 @@ describe('GpSchemaCatalogue', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: true,
+    groupable: true
   };
 
   const mockOrdersField: Field = {
@@ -53,7 +53,7 @@ describe('GpSchemaCatalogue', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: false,
+    groupable: false
   };
 
   const mockEmployeesField: Field = {
@@ -70,7 +70,7 @@ describe('GpSchemaCatalogue', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: true,
+    groupable: true
   };
 
   const mockGrouping: Grouping = {
@@ -84,35 +84,46 @@ describe('GpSchemaCatalogue', () => {
         sourceFieldId: 'cust-id',
         targetTableId: 'orders',
         targetFieldId: 'order-cust-id',
-        cardinality: 'one-to-many',
-      },
+        cardinality: 'one-to-many'
+      }
     ],
     tables: [
       {
         tableId: 'customers',
         tableName: 'Customers',
         groupingId: 'commerce',
-        fields: [{ fieldGroupingId: 'cust-main', fieldGroupingName: 'Main', tableId: 'customers', fields: [mockField1, mockField2] }],
+        fields: [
+          {
+            fieldGroupingId: 'cust-main',
+            fieldGroupingName: 'Main',
+            tableId: 'customers',
+            fields: [mockField1, mockField2]
+          }
+        ]
       },
       {
         tableId: 'orders',
         tableName: 'Orders',
         groupingId: 'commerce',
-        fields: [{ fieldGroupingId: 'ord-main', fieldGroupingName: 'Main', tableId: 'orders', fields: [mockOrdersField] }],
+        fields: [
+          { fieldGroupingId: 'ord-main', fieldGroupingName: 'Main', tableId: 'orders', fields: [mockOrdersField] }
+        ]
       },
       {
         tableId: 'employees',
         tableName: 'Employees',
         groupingId: 'commerce',
-        fields: [{ fieldGroupingId: 'emp-main', fieldGroupingName: 'Main', tableId: 'employees', fields: [mockEmployeesField] }],
-      },
-    ],
+        fields: [
+          { fieldGroupingId: 'emp-main', fieldGroupingName: 'Main', tableId: 'employees', fields: [mockEmployeesField] }
+        ]
+      }
+    ]
   };
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpSchemaCatalogue],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpSchemaCatalogue);
     const component = fixture.componentInstance;

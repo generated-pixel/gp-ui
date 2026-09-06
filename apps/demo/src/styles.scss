@@ -27,16 +27,19 @@
   --gp-color-danger: var(--gp-danger);
 }
 
-[data-gp-mode="dark"],
+[data-gp-mode='dark'],
 .gp-dark {
   color-scheme: dark;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   min-height: 100%;
@@ -45,7 +48,9 @@ html, body {
   background-color: var(--gp-surface-ground, #f8fafc);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 /* Custom Scrollbars */
@@ -67,6 +72,7 @@ html, body {
   background: var(--gp-text-color-muted, #94a3b8);
 }
 
-code, pre {
+code,
+pre {
   font-family: var(--app-font-mono);
 }

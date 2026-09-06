@@ -4,7 +4,7 @@ import {
   canModifyFieldCapability,
   createDatasetField,
   getDatasetFieldDisplayLabel,
-  getLookupValueDisplayLabel,
+  getLookupValueDisplayLabel
 } from './dataset-field.model';
 
 describe('dataset-field model', () => {
@@ -15,7 +15,7 @@ describe('dataset-field model', () => {
     fieldName: 'total',
     fieldDisplayName: {
       value: 'Order total',
-      displayValue: { en: 'Order total', fr: 'Total de la commande' },
+      displayValue: { en: 'Order total', fr: 'Total de la commande' }
     },
     dataType: 'currency',
     visible: true,
@@ -26,7 +26,7 @@ describe('dataset-field model', () => {
     filterable: true,
     sortable: true,
     groupable: false,
-    aggregationType: 'sum',
+    aggregationType: 'sum'
   };
 
   it('creates dataset field inheriting base properties and default aggregation', () => {
@@ -72,7 +72,7 @@ describe('dataset-field model', () => {
     const nonSortableField: Field = {
       ...sampleBaseField,
       sortable: false,
-      filterable: false,
+      filterable: false
     };
 
     expect(canModifyFieldCapability(nonSortableField, 'sortable')).toBe(false);
@@ -87,8 +87,8 @@ describe('dataset-field model', () => {
       lookupValues: [
         { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
         { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } },
-        { value: 'shipped', displayValue: { en: 'Shipped', fr: 'Expédié' } },
-      ],
+        { value: 'shipped', displayValue: { en: 'Shipped', fr: 'Expédié' } }
+      ]
     };
 
     const df = createDatasetField(statusField);

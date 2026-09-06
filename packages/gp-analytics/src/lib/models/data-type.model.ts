@@ -16,5 +16,5 @@ export enum DataType {
   Time = 'time',
   DateTime = 'datetime',
   Guid = 'guid',
-  Json = 'json',
+  Json = 'json'
 }

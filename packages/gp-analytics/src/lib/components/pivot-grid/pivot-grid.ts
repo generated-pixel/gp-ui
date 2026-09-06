@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpMeasureQuery, GpPivotMatrix } from '../../models/query.model';
@@ -19,7 +12,7 @@ import { GpButton, GpSelect } from '@generatedpixel/gp-ui';
   imports: [FormsModule, GpButton, GpSelect],
   templateUrl: './pivot-grid.html',
   styleUrl: './pivot-grid.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpPivotGrid extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
@@ -35,7 +28,7 @@ export class GpPivotGrid extends GpAnalyticsComponent {
     { label: 'Heatmap: Primary', value: 'primary' },
     { label: 'Heatmap: Emerald', value: 'emerald' },
     { label: 'Heatmap: Amber', value: 'amber' },
-    { label: 'No Heatmap', value: 'none' },
+    { label: 'No Heatmap', value: 'none' }
   ];
 
   // Interactive axis override

@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  model,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import {
@@ -16,7 +8,7 @@ import {
   GpFilterCondition,
   GpFilterOperator,
   getDatasetFieldDisplayLabel,
-  getLookupValueDisplayLabel,
+  getLookupValueDisplayLabel
 } from '../../models';
 
 export type ListGroupingMode = 'none' | 'table' | 'role';
@@ -36,7 +28,7 @@ import { GpSwitch } from '@generatedpixel/gp-ui';
   imports: [FormsModule, GpSwitch],
   templateUrl: './dataset-field-selector.html',
   styleUrl: './dataset-field-selector.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpDatasetFieldSelector extends GpAnalyticsComponent {
   /**
@@ -122,9 +114,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
    * Filtered dataset fields ensuring only visible fields are available.
    */
   readonly visibleFields = computed<DatasetField[]>(() => {
-    return this.fields().filter(
-      (f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true),
-    );
+    return this.fields().filter((f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true));
   });
 
   /**
@@ -140,8 +130,8 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
           id: 'all',
           title: '',
           icon: '',
-          fields: list.map((field, globalIndex) => ({ field, globalIndex })),
-        },
+          fields: list.map((field, globalIndex) => ({ field, globalIndex }))
+        }
       ];
     }
 
@@ -164,7 +154,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
           id: `table-${tableId}`,
           title: capitalized,
           icon: '📁',
-          fields: items,
+          fields: items
         };
       });
     }
@@ -188,7 +178,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
           id: 'role-dimensions',
           title: this.i18n.translate('dimensions'),
           icon: '📊',
-          fields: dimensions,
+          fields: dimensions
         });
       }
       if (measures.length > 0) {
@@ -196,7 +186,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
           id: 'role-measures',
           title: this.i18n.translate('measures'),
           icon: '📈',
-          fields: measures,
+          fields: measures
         });
       }
       return sections;
@@ -233,7 +223,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
       { value: 'min', labelKey: 'min' },
       { value: 'max', labelKey: 'max' },
       { value: 'count', labelKey: 'count' },
-      { value: 'count-distinct', labelKey: 'countDistinct' },
+      { value: 'count-distinct', labelKey: 'countDistinct' }
     ];
 
     const numericTypes = ['currency', 'number', 'integer', 'decimal'];
@@ -247,7 +237,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
 
     return allowed.map((opt) => ({
       value: opt.value,
-      label: this.i18n.translate(opt.labelKey as any),
+      label: this.i18n.translate(opt.labelKey as any)
     }));
   });
 
@@ -256,7 +246,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
    */
   readonly filterableFields = computed<DatasetField[]>(() => {
     return this.visibleFields().filter(
-      (f) => f.filterable !== false && (f.baseField ? f.baseField.filterable !== false : true),
+      (f) => f.filterable !== false && (f.baseField ? f.baseField.filterable !== false : true)
     );
   });
 
@@ -266,10 +256,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
   readonly selectedFilterField = computed<DatasetField | null>(() => {
     const id = this.newFilterFieldId();
     if (!id) return null;
-    return (
-      this.fields().find((f) => f.datasetFieldId === id || f.fieldId === id || f.fieldName === id) ??
-      null
-    );
+    return this.fields().find((f) => f.datasetFieldId === id || f.fieldId === id || f.fieldName === id) ?? null;
   });
 
   /**
@@ -290,7 +277,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
       return [
         { value: 'eq', label: this.i18n.translate('equals') },
         { value: 'neq', label: this.i18n.translate('notEquals') },
-        { value: 'in', label: this.i18n.translate('inList') },
+        { value: 'in', label: this.i18n.translate('inList') }
       ];
     }
 
@@ -307,7 +294,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
         { value: 'lt', label: this.i18n.translate('lessThan') },
         { value: 'lte', label: this.i18n.translate('lessOrEqual') },
         { value: 'isNull', label: this.i18n.translate('isNull') },
-        { value: 'isNotNull', label: this.i18n.translate('isNotNull') },
+        { value: 'isNotNull', label: this.i18n.translate('isNotNull') }
       ];
     }
 
@@ -318,7 +305,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
       { value: 'startsWith', label: this.i18n.translate('startsWith') },
       { value: 'in', label: this.i18n.translate('inList') },
       { value: 'isNull', label: this.i18n.translate('isNull') },
-      { value: 'isNotNull', label: this.i18n.translate('isNotNull') },
+      { value: 'isNotNull', label: this.i18n.translate('isNotNull') }
     ];
   });
 
@@ -339,7 +326,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
             (f) =>
               f.datasetFieldId === preselectedFieldId ||
               f.fieldId === preselectedFieldId ||
-              f.fieldName === preselectedFieldId,
+              f.fieldName === preselectedFieldId
           )
         : null) ?? fields[0];
 
@@ -402,7 +389,10 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
       if (field?.lookupValues && field.lookupValues.length > 0) {
         val = this.newFilterSelectedItems();
       } else if (typeof val === 'string') {
-        val = val.split(',').map((s) => s.trim()).filter(Boolean);
+        val = val
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
       }
       if (!Array.isArray(val) || val.length === 0) {
         return;
@@ -420,7 +410,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
     const condition: GpFilterCondition = {
       fieldId,
       operator: op,
-      value: val,
+      value: val
     };
 
     const updated = [...this.filters(), condition];
@@ -444,7 +434,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
 
   getFilterFieldDisplayLabel(fieldId: string): string {
     const field = this.fields().find(
-      (f) => f.datasetFieldId === fieldId || f.fieldId === fieldId || f.fieldName === fieldId,
+      (f) => f.datasetFieldId === fieldId || f.fieldId === fieldId || f.fieldName === fieldId
     );
     if (!field) return fieldId;
     return getDatasetFieldDisplayLabel(field, this.i18n.locale());
@@ -486,17 +476,13 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
 
     const field = this.fields().find(
       (f) =>
-        f.datasetFieldId === condition.fieldId ||
-        f.fieldId === condition.fieldId ||
-        f.fieldName === condition.fieldId,
+        f.datasetFieldId === condition.fieldId || f.fieldId === condition.fieldId || f.fieldName === condition.fieldId
     );
 
     const locale = this.i18n.locale();
 
     if (Array.isArray(condition.value)) {
-      return condition.value
-        .map((v) => getLookupValueDisplayLabel(field, v, locale))
-        .join(', ');
+      return condition.value.map((v) => getLookupValueDisplayLabel(field, v, locale)).join(', ');
     }
 
     return getLookupValueDisplayLabel(field, condition.value, locale);
@@ -594,7 +580,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
     }
     this.updateFieldProperty(field.datasetFieldId, {
       groupable: checked,
-      isGrouped: checked ? field.isGrouped : false,
+      isGrouped: checked ? field.isGrouped : false
     });
   }
 
@@ -650,10 +636,7 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
     return this.collapsedGroups().has(groupId);
   }
 
-  private updateFieldProperty(
-    datasetFieldId: string,
-    changes: Partial<DatasetField>,
-  ): void {
+  private updateFieldProperty(datasetFieldId: string, changes: Partial<DatasetField>): void {
     const updated = this.fields().map((f) => {
       if (f.datasetFieldId === datasetFieldId) {
         return { ...f, ...changes };

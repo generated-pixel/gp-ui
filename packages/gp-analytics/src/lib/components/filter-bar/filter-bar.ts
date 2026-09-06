@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  model,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GpButton, GpInputTextDirective, GpSelect } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
@@ -18,7 +10,7 @@ import { GpFilterCondition } from '../../models/query.model';
   imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect],
   templateUrl: './filter-bar.html',
   styleUrl: './filter-bar.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpFilterBar extends GpAnalyticsComponent {
   readonly availableFields = input<{ fieldId: string; label: string }[]>([]);
@@ -49,7 +41,7 @@ export class GpFilterBar extends GpAnalyticsComponent {
     { label: 'Between Range (from / to)', value: 'between' },
     { label: 'Contains', value: 'contains' },
     { label: 'Starts with', value: 'startsWith' },
-    { label: 'In List (comma separated)', value: 'in' },
+    { label: 'In List (comma separated)', value: 'in' }
   ];
 
   /**
@@ -147,13 +139,16 @@ export class GpFilterBar extends GpAnalyticsComponent {
       if (!valTo) return;
       finalVal = [val, valTo];
     } else if (op === 'in') {
-      finalVal = val.split(',').map((s) => s.trim()).filter(Boolean);
+      finalVal = val
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
     }
 
     const condition: GpFilterCondition = {
       fieldId,
       operator: op,
-      value: finalVal,
+      value: finalVal
     };
 
     const updated = [...this.filters(), condition];

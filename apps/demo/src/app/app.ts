@@ -32,7 +32,7 @@ import {
   Relationship,
   RelationshipCardinality,
   SupportedLocale,
-  GpSchemaDataLoaderService,
+  GpSchemaDataLoaderService
 } from 'gp-analytics';
 
 @Component({
@@ -56,9 +56,9 @@ import {
     GpDashboardDesigner,
     GpPackageManager,
     GpSelect,
-    GpTag,
+    GpTag
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
   protected readonly i18n = inject(GpTranslationService);
@@ -70,8 +70,8 @@ export class App {
   protected readonly schemaPresetOptions = computed(() =>
     this.schemaDataLoader.presets.map((p) => ({
       value: p.id,
-      label: `${p.icon || '📦'} ${p.name}`,
-    })),
+      label: `${p.icon || '📦'} ${p.name}`
+    }))
   );
 
   // Theme and Mode state backed by DemoThemeService
@@ -82,7 +82,7 @@ export class App {
   protected readonly themeOptions = DEMO_THEMES.map((t) => ({
     value: t.id,
     label: t.name,
-    color: t.primaryColor,
+    color: t.primaryColor
   }));
 
   protected selectTheme(themeId: string): void {
@@ -101,21 +101,31 @@ export class App {
 
   protected readonly currentTitle = computed(() => {
     switch (this.activeTab()) {
-      case 'workbench': return 'Interactive Dataset Builder';
-      case 'dashboard': return 'Executive Analytics Dashboard';
-      case 'designer': return 'Visual Dashboard Designer';
-      case 'reports': return 'Tabular & Pivot Reports';
-      case 'standalone': return 'Modular Standalone Components';
+      case 'workbench':
+        return 'Interactive Dataset Builder';
+      case 'dashboard':
+        return 'Executive Analytics Dashboard';
+      case 'designer':
+        return 'Visual Dashboard Designer';
+      case 'reports':
+        return 'Tabular & Pivot Reports';
+      case 'standalone':
+        return 'Modular Standalone Components';
     }
   });
 
   protected readonly currentSubtitle = computed(() => {
     switch (this.activeTab()) {
-      case 'workbench': return 'Compose high-performance analytical datasets from relational enterprise schemas with automatic join validation, dynamic aggregation labeling, and real-time tabular preview.';
-      case 'dashboard': return 'Interactive executive dashboard powered by @generatedpixel/gp-grid with responsive widget layout, real-time KPI scorecards, and cross-metric charts.';
-      case 'designer': return 'Interactively build, customize, and configure dashboards for users with live drag & drop layout, widget palette, property inspector, and JSON export/import.';
-      case 'reports': return 'Advanced data reporting engine supporting multi-dimensional grouping, subtotal calculations, ad-hoc column aggregation, and 2D pivot matrices.';
-      case 'standalone': return 'Modular, independently embeddable components with zero lock-in: Schema Catalogue, Field Selector, Preview Grid, KPI Cards, and Analytical Charts.';
+      case 'workbench':
+        return 'Compose high-performance analytical datasets from relational enterprise schemas with automatic join validation, dynamic aggregation labeling, and real-time tabular preview.';
+      case 'dashboard':
+        return 'Interactive executive dashboard powered by @generatedpixel/gp-grid with responsive widget layout, real-time KPI scorecards, and cross-metric charts.';
+      case 'designer':
+        return 'Interactively build, customize, and configure dashboards for users with live drag & drop layout, widget palette, property inspector, and JSON export/import.';
+      case 'reports':
+        return 'Advanced data reporting engine supporting multi-dimensional grouping, subtotal calculations, ad-hoc column aggregation, and 2D pivot matrices.';
+      case 'standalone':
+        return 'Modular, independently embeddable components with zero lock-in: Schema Catalogue, Field Selector, Preview Grid, KPI Cards, and Analytical Charts.';
     }
   });
 
@@ -127,7 +137,7 @@ export class App {
     { fieldId: 'status', label: 'Order Status', type: 'string' },
     { fieldId: 'total', label: 'Total Revenue ($)', type: 'number' },
     { fieldId: 'quantity', label: 'Order Units (Qty)', type: 'number' },
-    { fieldId: 'date', label: 'Order Date', type: 'date' },
+    { fieldId: 'date', label: 'Order Date', type: 'date' }
   ]);
 
   // Package Distribution Manager State
@@ -142,31 +152,31 @@ export class App {
       measures: [
         { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
         { fieldId: 'quantity', aggregation: 'sum', alias: 'total_units' },
-        { fieldId: 'total', aggregation: 'count', alias: 'order_count' },
+        { fieldId: 'total', aggregation: 'count', alias: 'order_count' }
       ],
       showSubtotals: true,
-      showGrandTotal: true,
+      showGrandTotal: true
     }),
     createReportConfig('pivot', 'Cross-Tabulation Matrix: Customer by Region', {
       title: 'Cross-Tabulation Matrix: Customer by Region',
       rowDimension: 'customer_name',
       colDimension: 'region',
-      measure: { fieldId: 'total', aggregation: 'sum' },
+      measure: { fieldId: 'total', aggregation: 'sum' }
     }),
     createReportConfig('chart', 'Revenue by Customer', {
       title: 'Revenue by Customer',
       subtitle: 'Top contributing enterprise accounts',
       chartType: 'bar',
       dimension: 'customer_name',
-      measure: { fieldId: 'total', aggregation: 'sum' },
+      measure: { fieldId: 'total', aggregation: 'sum' }
     }),
     createReportConfig('chart', 'Geographic Revenue Share', {
       title: 'Geographic Revenue Share',
       subtitle: 'Global market distribution',
       chartType: 'donut',
       dimension: 'region',
-      measure: { fieldId: 'total', aggregation: 'sum' },
-    }),
+      measure: { fieldId: 'total', aggregation: 'sum' }
+    })
   ]);
 
   protected openPackageManager(): void {
@@ -190,19 +200,75 @@ export class App {
   }
 
   protected readonly demoAnalyticsData = [
-    { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Completed', total: 18450, quantity: 14, date: '2026-02-14' },
-    { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Processing', total: 6200, quantity: 4, date: '2026-02-18' },
-    { customer_name: 'Acme Industrial Corp', region: 'AMER', status: 'Completed', total: 34500, quantity: 28, date: '2026-02-15' },
-    { customer_name: 'Acme Industrial Corp', region: 'AMER', status: 'Delivered', total: 12100, quantity: 9, date: '2026-02-22' },
-    { customer_name: 'Starlight Solutions', region: 'APAC', status: 'Completed', total: 22800, quantity: 18, date: '2026-02-19' },
-    { customer_name: 'Starlight Solutions', region: 'APAC', status: 'Pending', total: 8400, quantity: 6, date: '2026-02-24' },
-    { customer_name: 'Helios Technologies', region: 'EMEA', status: 'Delivered', total: 15900, quantity: 12, date: '2026-02-20' },
-    { customer_name: 'Apex Logistics', region: 'AMER', status: 'Completed', total: 27300, quantity: 21, date: '2026-02-23' },
+    {
+      customer_name: 'Northwind Trading',
+      region: 'EMEA',
+      status: 'Completed',
+      total: 18450,
+      quantity: 14,
+      date: '2026-02-14'
+    },
+    {
+      customer_name: 'Northwind Trading',
+      region: 'EMEA',
+      status: 'Processing',
+      total: 6200,
+      quantity: 4,
+      date: '2026-02-18'
+    },
+    {
+      customer_name: 'Acme Industrial Corp',
+      region: 'AMER',
+      status: 'Completed',
+      total: 34500,
+      quantity: 28,
+      date: '2026-02-15'
+    },
+    {
+      customer_name: 'Acme Industrial Corp',
+      region: 'AMER',
+      status: 'Delivered',
+      total: 12100,
+      quantity: 9,
+      date: '2026-02-22'
+    },
+    {
+      customer_name: 'Starlight Solutions',
+      region: 'APAC',
+      status: 'Completed',
+      total: 22800,
+      quantity: 18,
+      date: '2026-02-19'
+    },
+    {
+      customer_name: 'Starlight Solutions',
+      region: 'APAC',
+      status: 'Pending',
+      total: 8400,
+      quantity: 6,
+      date: '2026-02-24'
+    },
+    {
+      customer_name: 'Helios Technologies',
+      region: 'EMEA',
+      status: 'Delivered',
+      total: 15900,
+      quantity: 12,
+      date: '2026-02-20'
+    },
+    {
+      customer_name: 'Apex Logistics',
+      region: 'AMER',
+      status: 'Completed',
+      total: 27300,
+      quantity: 21,
+      date: '2026-02-23'
+    }
   ];
 
   protected readonly localeOptions = computed(() => [
     { value: 'en', label: this.i18n.translate('english') },
-    { value: 'fr', label: this.i18n.translate('french') },
+    { value: 'fr', label: this.i18n.translate('french') }
   ]);
 
   protected setLocale(locale: string): void {
@@ -225,7 +291,7 @@ export class App {
           targetTableId: 'table-orders',
           targetFieldId: 'order-customer-id',
           cardinality: RelationshipCardinality.OneToMany,
-          joinType: JoinType.Inner,
+          joinType: JoinType.Inner
         },
         {
           relationshipId: 'rel-orders-items',
@@ -235,8 +301,8 @@ export class App {
           targetTableId: 'table-order-items',
           targetFieldId: 'item-order-id',
           cardinality: RelationshipCardinality.OneToMany,
-          joinType: JoinType.Left,
-        },
+          joinType: JoinType.Left
+        }
       ],
       tables: [
         {
@@ -254,7 +320,10 @@ export class App {
                   tableId: 'table-customers',
                   fieldGroupingId: 'cust-id-group',
                   fieldName: 'customer_id',
-                  fieldDisplayName: { value: 'Customer ID', displayValue: { en: 'Customer ID', fr: 'Identifiant client' } },
+                  fieldDisplayName: {
+                    value: 'Customer ID',
+                    displayValue: { en: 'Customer ID', fr: 'Identifiant client' }
+                  },
                   dataType: 'guid',
                   visible: false,
                   isPrimaryKey: true,
@@ -263,14 +332,17 @@ export class App {
                   usableInReports: false,
                   filterable: false,
                   sortable: false,
-                  groupable: false,
+                  groupable: false
                 },
                 {
                   fieldId: 'customer-code',
                   tableId: 'table-customers',
                   fieldGroupingId: 'cust-id-group',
                   fieldName: 'customer_code',
-                  fieldDisplayName: { value: 'Customer code', displayValue: { en: 'Customer code', fr: 'Code client' } },
+                  fieldDisplayName: {
+                    value: 'Customer code',
+                    displayValue: { en: 'Customer code', fr: 'Code client' }
+                  },
                   dataType: 'string',
                   visible: true,
                   isPrimaryKey: false,
@@ -279,14 +351,17 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
+                  groupable: true
                 },
                 {
                   fieldId: 'customer-name',
                   tableId: 'table-customers',
                   fieldGroupingId: 'cust-id-group',
                   fieldName: 'name',
-                  fieldDisplayName: { value: 'Customer name', displayValue: { en: 'Customer name', fr: 'Nom du client' } },
+                  fieldDisplayName: {
+                    value: 'Customer name',
+                    displayValue: { en: 'Customer name', fr: 'Nom du client' }
+                  },
                   dataType: 'string',
                   visible: true,
                   isPrimaryKey: false,
@@ -295,7 +370,7 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
+                  groupable: true
                 },
                 {
                   fieldId: 'customer-city',
@@ -311,11 +386,11 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
-                },
-              ],
-            },
-          ],
+                  groupable: true
+                }
+              ]
+            }
+          ]
         },
         {
           tableId: 'table-orders',
@@ -341,7 +416,7 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: false,
+                  groupable: false
                 },
                 {
                   fieldId: 'order-customer-id',
@@ -357,7 +432,7 @@ export class App {
                   usableInReports: false,
                   filterable: true,
                   sortable: false,
-                  groupable: false,
+                  groupable: false
                 },
                 {
                   fieldId: 'order-date',
@@ -373,7 +448,7 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
+                  groupable: true
                 },
                 {
                   fieldId: 'order-status',
@@ -394,15 +469,18 @@ export class App {
                     { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
                     { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } },
                     { value: 'shipped', displayValue: { en: 'Shipped', fr: 'Expédié' } },
-                    { value: 'cancelled', displayValue: { en: 'Cancelled', fr: 'Annulé' } },
-                  ],
+                    { value: 'cancelled', displayValue: { en: 'Cancelled', fr: 'Annulé' } }
+                  ]
                 },
                 {
                   fieldId: 'order-total',
                   tableId: 'table-orders',
                   fieldGroupingId: 'order-main-group',
                   fieldName: 'total',
-                  fieldDisplayName: { value: 'Order total', displayValue: { en: 'Order total', fr: 'Total de la commande' } },
+                  fieldDisplayName: {
+                    value: 'Order total',
+                    displayValue: { en: 'Order total', fr: 'Total de la commande' }
+                  },
                   dataType: 'currency',
                   visible: true,
                   isPrimaryKey: false,
@@ -412,11 +490,11 @@ export class App {
                   filterable: true,
                   sortable: true,
                   groupable: false,
-                  aggregationType: 'sum',
-                },
-              ],
-            },
-          ],
+                  aggregationType: 'sum'
+                }
+              ]
+            }
+          ]
         },
         {
           tableId: 'table-order-items',
@@ -442,7 +520,7 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: false,
+                  groupable: false
                 },
                 {
                   fieldId: 'item-order-id',
@@ -458,14 +536,17 @@ export class App {
                   usableInReports: false,
                   filterable: true,
                   sortable: false,
-                  groupable: false,
+                  groupable: false
                 },
                 {
                   fieldId: 'item-product-name',
                   tableId: 'table-order-items',
                   fieldGroupingId: 'item-details-group',
                   fieldName: 'product_name',
-                  fieldDisplayName: { value: 'Product name', displayValue: { en: 'Product name', fr: 'Nom du produit' } },
+                  fieldDisplayName: {
+                    value: 'Product name',
+                    displayValue: { en: 'Product name', fr: 'Nom du produit' }
+                  },
                   dataType: 'string',
                   visible: true,
                   isPrimaryKey: false,
@@ -474,7 +555,7 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
+                  groupable: true
                 },
                 {
                   fieldId: 'item-quantity',
@@ -491,7 +572,7 @@ export class App {
                   filterable: true,
                   sortable: true,
                   groupable: false,
-                  aggregationType: 'sum',
+                  aggregationType: 'sum'
                 },
                 {
                   fieldId: 'item-unit-price',
@@ -508,13 +589,13 @@ export class App {
                   filterable: true,
                   sortable: true,
                   groupable: false,
-                  aggregationType: 'average',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+                  aggregationType: 'average'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       groupingId: 'group-hr',
@@ -545,14 +626,17 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: false,
+                  groupable: false
                 },
                 {
                   fieldId: 'emp-name',
                   tableId: 'table-employees',
                   fieldGroupingId: 'emp-profile',
                   fieldName: 'employee_name',
-                  fieldDisplayName: { value: 'Employee name', displayValue: { en: 'Employee name', fr: 'Nom employé' } },
+                  fieldDisplayName: {
+                    value: 'Employee name',
+                    displayValue: { en: 'Employee name', fr: 'Nom employé' }
+                  },
                   dataType: 'string',
                   visible: true,
                   isPrimaryKey: false,
@@ -561,7 +645,7 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
+                  groupable: true
                 },
                 {
                   fieldId: 'emp-department',
@@ -577,14 +661,14 @@ export class App {
                   usableInReports: true,
                   filterable: true,
                   sortable: true,
-                  groupable: true,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+                  groupable: true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   ]);
 
   // Additional cross-group relationship (demonstrates modularity)
@@ -597,12 +681,12 @@ export class App {
     description: 'Executive quarterly sales dataset across customer segments and order totals.',
     fields: [],
     createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   });
 
   protected readonly sampleValue = {
     value: 'customer-001',
-    displayValue: { en: 'Northwind Trading', fr: 'Northwind Commerce' },
+    displayValue: { en: 'Northwind Trading', fr: 'Northwind Commerce' }
   };
 
   /**
@@ -644,7 +728,7 @@ export class App {
       ...this.activeDataset(),
       fields: datasetFields,
       filters: sampleFilters,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     });
   }
 
@@ -656,7 +740,7 @@ export class App {
       ...this.activeDataset(),
       fields: [],
       filters: [],
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     });
   }
 
@@ -668,7 +752,7 @@ export class App {
     this.activeDataset.set({
       ...this.activeDataset(),
       fields: [...this.activeDataset().fields, df],
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     });
   }
 
@@ -676,7 +760,7 @@ export class App {
     this.activeDataset.set({
       ...this.activeDataset(),
       fields,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     });
   }
 
@@ -684,7 +768,7 @@ export class App {
     this.activeDataset.set({
       ...this.activeDataset(),
       filters,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     });
   }
 
@@ -705,7 +789,7 @@ export class App {
     this.activePresetId.set(presetId);
     const result = await this.schemaDataLoader.loadSchema({
       type: 'preset',
-      presetId,
+      presetId
     });
     this.onSchemaLoaded(result);
     this.populateInitialDatasetForPreset(result);
@@ -744,7 +828,7 @@ export class App {
       description: `Analytical dataset dynamically created from ${result.sourceName} schema.`,
       fields: datasetFields,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     });
   }
 }

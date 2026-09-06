@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpExportImportService } from '../../services/export-import.service';
@@ -14,19 +6,12 @@ import {
   GpAnalyticsPackage,
   GpDistributionPayload,
   GpPackageImportMode,
-  GpPackageValidationResult,
+  GpPackageValidationResult
 } from '../../models/package.model';
 import { Dataset } from '../../models/dataset.model';
 import { GpDashboardConfig } from '../../models/dashboard.model';
 import { GpReportConfig } from '../../models/report.model';
-import {
-  GpButton,
-  GpTag,
-  GpSwitch,
-  GpSelect,
-  GpRadioButton,
-  GpInputTextDirective,
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpTag, GpSwitch, GpSelect, GpRadioButton, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
 export interface PackageImportEvent {
   package: GpAnalyticsPackage;
@@ -52,18 +37,10 @@ export interface GpPackageSnapshot {
 @Component({
   selector: 'gp-package-manager',
   standalone: true,
-  imports: [
-    FormsModule,
-    GpButton,
-    GpTag,
-    GpSwitch,
-    GpSelect,
-    GpRadioButton,
-    GpInputTextDirective,
-  ],
+  imports: [FormsModule, GpButton, GpTag, GpSwitch, GpSelect, GpRadioButton, GpInputTextDirective],
   templateUrl: './package-manager.html',
   styleUrl: './package-manager.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpPackageManager extends GpAnalyticsComponent {
   protected readonly exportImportService = inject(GpExportImportService);
@@ -71,7 +48,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
   readonly environmentOptions = [
     { label: 'Production', value: 'production' },
     { label: 'Staging', value: 'staging' },
-    { label: 'Development', value: 'development' },
+    { label: 'Development', value: 'development' }
   ];
 
   // Inputs: Source assets available for export
@@ -213,13 +190,9 @@ export class GpPackageManager extends GpAnalyticsComponent {
       ? allDs
       : allDs.filter((d) => this.selectedDatasetIds().has(d.datasetId));
 
-    const selectedDb = this.includeAllDashboards()
-      ? allDb
-      : allDb.filter((d) => this.selectedDashboardIds().has(d.id));
+    const selectedDb = this.includeAllDashboards() ? allDb : allDb.filter((d) => this.selectedDashboardIds().has(d.id));
 
-    const selectedRp = this.includeAllReports()
-      ? allRp
-      : allRp.filter((r) => this.selectedReportIds().has(r.id));
+    const selectedRp = this.includeAllReports() ? allRp : allRp.filter((r) => this.selectedReportIds().has(r.id));
 
     return this.exportImportService.createPackage({
       name: this.packageName(),
@@ -228,7 +201,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
       environment: this.packageEnvironment(),
       datasets: selectedDs,
       dashboards: selectedDb,
-      reports: selectedRp,
+      reports: selectedRp
     });
   });
 
@@ -243,10 +216,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
    * Distribution payload preview for remote API transmission.
    */
   readonly distributionPayload = computed<GpDistributionPayload>(() => {
-    return this.exportImportService.prepareDistributionPayload(
-      this.currentExportPackage(),
-      this.targetEndpoint(),
-    );
+    return this.exportImportService.prepareDistributionPayload(this.currentExportPackage(), this.targetEndpoint());
   });
 
   setTab(tab: 'export' | 'import' | 'distribution'): void {
@@ -319,7 +289,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
             : imported.dashboards,
           reports: filterRp
             ? imported.reports.filter((r: GpReportConfig) => this.selectedImportReportIds().has(r.id))
-            : imported.reports,
+            : imported.reports
         };
       }
 
@@ -327,7 +297,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
 
       this.packageImported.emit({
         package: imported,
-        mode: this.importMode(),
+        mode: this.importMode()
       });
       this.showToast(`✓ Successfully imported ${imported.metadata.name}!`);
       setTimeout(() => {
@@ -346,7 +316,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
       environment: 'production',
       datasets: this.datasets().slice(0, 1),
       dashboards: this.dashboards().slice(0, 1),
-      reports: this.reports().slice(0, 2),
+      reports: this.reports().slice(0, 2)
     });
     this.importJsonBuffer.set(this.exportImportService.exportPackageToJson(sample, true));
     this.showToast('✓ Loaded sample distribution package');
@@ -371,14 +341,14 @@ export class GpPackageManager extends GpAnalyticsComponent {
         deliveredAt: new Date().toISOString(),
         targetEndpoint: this.targetEndpoint(),
         checksum: payload.checksum,
-        message: `Package successfully ingested by distribution cluster at ${this.targetEndpoint()}`,
+        message: `Package successfully ingested by distribution cluster at ${this.targetEndpoint()}`
       };
       this.transmissionResponse.set(response);
       this.savePackageSnapshot('distribution', pkg);
       this.packageDistributed.emit({
         payload,
         endpoint: this.targetEndpoint(),
-        environment: this.packageEnvironment(),
+        environment: this.packageEnvironment()
       });
       this.showToast(`🚀 Successfully distributed package (${payload.payloadSizeBytes} bytes) to remote API!`);
     }, 800);
@@ -413,14 +383,12 @@ export class GpPackageManager extends GpAnalyticsComponent {
         itemCounts: {
           datasets: pkg.datasets?.length ?? 0,
           dashboards: pkg.dashboards?.length ?? 0,
-          reports: pkg.reports?.length ?? 0,
+          reports: pkg.reports?.length ?? 0
         },
-        jsonPayload: this.exportImportService.exportPackageToJson(pkg, true),
+        jsonPayload: this.exportImportService.exportPackageToJson(pkg, true)
       };
 
-      const filtered = this.packageHistory().filter(
-        (s) => !(s.name === snapshot.name && s.action === snapshot.action)
-      );
+      const filtered = this.packageHistory().filter((s) => !(s.name === snapshot.name && s.action === snapshot.action));
       const updated = [snapshot, ...filtered].slice(0, 8);
       this.packageHistory.set(updated);
 

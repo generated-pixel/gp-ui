@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpCategoricalChartData } from '../../models/query.model';
 import { GpButton, GpTag } from '@generatedpixel/gp-ui';
@@ -15,7 +9,7 @@ import { GpButton, GpTag } from '@generatedpixel/gp-ui';
   imports: [GpButton, GpTag],
   templateUrl: './analytical-chart.html',
   styleUrl: './analytical-chart.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpAnalyticalChart extends GpAnalyticsComponent {
   readonly title = input<string>('Analytical Visualization');
@@ -34,7 +28,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
     '#10b981', // Emerald Green
     '#f59e0b', // Amber
     '#ec4899', // Pink
-    '#8b5cf6', // Purple
+    '#8b5cf6' // Purple
   ];
 
   toggleSeries(seriesName: string): void {
@@ -87,13 +81,13 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
           seriesName: s.name,
           value: val,
           heightPct,
-          color,
+          color
         };
       });
 
       return {
         category: cat,
-        seriesBars,
+        seriesBars
       };
     });
   });
@@ -118,7 +112,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
         label: cat,
         value: val,
         heightPct,
-        color,
+        color
       };
     });
   });
@@ -153,7 +147,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
         value: val,
         percentage: Number(pct.toFixed(1)),
         path,
-        color,
+        color
       };
     });
 
@@ -185,7 +179,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
         x: Number(x.toFixed(1)),
         y: Number(y.toFixed(1)),
         val,
-        label: d.categories[idx],
+        label: d.categories[idx]
       };
     });
 
@@ -211,7 +205,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
     rOuter: number,
     rInner: number,
     startAngle: number,
-    endAngle: number,
+    endAngle: number
   ): string {
     const rad = Math.PI / 180;
     const startRad = (startAngle - 90) * rad;
@@ -241,15 +235,19 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
 
     if (chartType === 'donut') {
       const donut = this.donutSlices();
-      const slicesMarkup = donut.slices.map((s) =>
-        `<path d="${s.path}" fill="${s.color}"><title>${s.label}: ${s.value} (${s.percentage}%)</title></path>`
-      ).join('\n    ');
+      const slicesMarkup = donut.slices
+        .map(
+          (s) => `<path d="${s.path}" fill="${s.color}"><title>${s.label}: ${s.value} (${s.percentage}%)</title></path>`
+        )
+        .join('\n    ');
 
-      const legendMarkup = donut.slices.map((s, i) => {
-        const y = 300 + i * 22;
-        return `<circle cx="60" cy="${y}" r="6" fill="${s.color}"/>
+      const legendMarkup = donut.slices
+        .map((s, i) => {
+          const y = 300 + i * 22;
+          return `<circle cx="60" cy="${y}" r="6" fill="${s.color}"/>
         <text x="75" y="${y + 4}" font-family="system-ui, sans-serif" font-size="12" fill="#475569">${s.label} (${s.percentage}%)</text>`;
-      }).join('\n    ');
+        })
+        .join('\n    ');
 
       return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 520" width="500" height="520">
@@ -268,10 +266,13 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
 
     if (chartType === 'line') {
       const line = this.lineSvg();
-      const pointsMarkup = line.points.map((p) =>
-        `<circle cx="${(p.x * 1.8 + 30).toFixed(1)}" cy="${(p.y * 1.8 + 60).toFixed(1)}" r="4" fill="#4f46e5" stroke="#ffffff" stroke-width="2"/>
+      const pointsMarkup = line.points
+        .map(
+          (p) =>
+            `<circle cx="${(p.x * 1.8 + 30).toFixed(1)}" cy="${(p.y * 1.8 + 60).toFixed(1)}" r="4" fill="#4f46e5" stroke="#ffffff" stroke-width="2"/>
          <text x="${(p.x * 1.8 + 30).toFixed(1)}" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">${p.label}</text>`
-      ).join('\n    ');
+        )
+        .join('\n    ');
 
       return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" width="600" height="320">
@@ -296,19 +297,26 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
     const barCount = categories.length;
     const colWidth = barCount > 0 ? plotWidth / barCount : 0;
 
-    const barsMarkup = categories.map((cat, cIdx) => {
-      const x = padX + cIdx * colWidth + colWidth * 0.15;
-      const w = colWidth * 0.7;
-      return cat.seriesBars.map((b, bIdx) => {
-        const subW = w / (cat.seriesBars.length || 1);
-        const subX = x + bIdx * subW;
-        const bHeight = (b.heightPct / 100) * plotHeight;
-        const bY = padY + plotHeight - bHeight;
-        return `<rect x="${subX.toFixed(1)}" y="${bY.toFixed(1)}" width="${(subW * 0.9).toFixed(1)}" height="${bHeight.toFixed(1)}" fill="${b.color}" rx="3">
+    const barsMarkup = categories
+      .map((cat, cIdx) => {
+        const x = padX + cIdx * colWidth + colWidth * 0.15;
+        const w = colWidth * 0.7;
+        return (
+          cat.seriesBars
+            .map((b, bIdx) => {
+              const subW = w / (cat.seriesBars.length || 1);
+              const subX = x + bIdx * subW;
+              const bHeight = (b.heightPct / 100) * plotHeight;
+              const bY = padY + plotHeight - bHeight;
+              return `<rect x="${subX.toFixed(1)}" y="${bY.toFixed(1)}" width="${(subW * 0.9).toFixed(1)}" height="${bHeight.toFixed(1)}" fill="${b.color}" rx="3">
           <title>${cat.category} - ${b.seriesName}: ${b.value}</title>
         </rect>`;
-      }).join('\n    ') + `\n    <text x="${(x + w / 2).toFixed(1)}" y="${height - 25}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">${cat.category}</text>`;
-    }).join('\n    ');
+            })
+            .join('\n    ') +
+          `\n    <text x="${(x + w / 2).toFixed(1)}" y="${height - 25}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">${cat.category}</text>`
+        );
+      })
+      .join('\n    ');
 
     return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">

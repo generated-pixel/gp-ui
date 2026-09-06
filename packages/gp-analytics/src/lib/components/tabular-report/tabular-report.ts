@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpAnalyticalQuerySpec, GpMeasureQuery } from '../../models/query.model';
@@ -19,7 +12,7 @@ import { GpButton, GpInputTextDirective, GpSelect, GpTag } from '@generatedpixel
   imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect, GpTag],
   templateUrl: './tabular-report.html',
   styleUrl: './tabular-report.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpTabularReport extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
@@ -39,7 +32,7 @@ export class GpTabularReport extends GpAnalyticsComponent {
     { label: '5 per page', value: 5 },
     { label: '10 per page', value: 10 },
     { label: '25 per page', value: 25 },
-    { label: 'All rows', value: 999999 },
+    { label: 'All rows', value: 999999 }
   ];
 
   protected readonly sortColumn = signal<string | null>(null);
@@ -57,7 +50,7 @@ export class GpTabularReport extends GpAnalyticsComponent {
         key: dim,
         header: this.formatHeader(dim),
         isDimension: true,
-        isMeasure: false,
+        isMeasure: false
       });
     }
 
@@ -67,7 +60,7 @@ export class GpTabularReport extends GpAnalyticsComponent {
         key,
         header: `${this.formatHeader(m.fieldId)} (${m.aggregation.toUpperCase()})`,
         isDimension: false,
-        isMeasure: true,
+        isMeasure: true
       });
     }
 
@@ -83,14 +76,12 @@ export class GpTabularReport extends GpAnalyticsComponent {
       return null;
     }
 
-    const sorts = this.sortColumn()
-      ? [{ fieldId: this.sortColumn()!, order: this.sortOrder() }]
-      : undefined;
+    const sorts = this.sortColumn() ? [{ fieldId: this.sortColumn()!, order: this.sortOrder() }] : undefined;
 
     const spec: GpAnalyticalQuerySpec = {
       dimensions: this.dimensions(),
       measures: this.measures(),
-      sorts,
+      sorts
     };
 
     return this.engine.executeQuery(raw, spec);
@@ -106,7 +97,9 @@ export class GpTabularReport extends GpAnalyticsComponent {
     if (!q) return res.rows;
     return res.rows.filter((row) =>
       this.columns().some((col) =>
-        String(row[col.key] ?? '').toLowerCase().includes(q)
+        String(row[col.key] ?? '')
+          .toLowerCase()
+          .includes(q)
       )
     );
   });
@@ -168,8 +161,6 @@ export class GpTabularReport extends GpAnalyticsComponent {
   }
 
   private formatHeader(str: string): string {
-    return str
-      .replace(/[-_]/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+    return str.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   }
 }

@@ -19,7 +19,7 @@ describe('GpDatasetBuilder', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: true,
+    groupable: true
   };
 
   const sampleGrouping: Grouping = {
@@ -30,15 +30,15 @@ describe('GpDatasetBuilder', () => {
         tableId: 'customers',
         tableName: 'Customers',
         groupingId: 'grp1',
-        fields: [{ fieldGroupingId: 'fg1', fieldGroupingName: 'General', tableId: 'customers', fields: [sampleField] }],
-      },
-    ],
+        fields: [{ fieldGroupingId: 'fg1', fieldGroupingName: 'General', tableId: 'customers', fields: [sampleField] }]
+      }
+    ]
   };
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpDatasetBuilder],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpDatasetBuilder);
     const component = fixture.componentInstance;
@@ -81,7 +81,7 @@ describe('GpDatasetBuilder', () => {
     const hiddenField: Field = {
       ...sampleField,
       fieldId: 'cust-hidden',
-      visible: false,
+      visible: false
     };
 
     component['onAddField'](hiddenField);

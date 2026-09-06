@@ -128,7 +128,9 @@
   &.is-selected {
     outline: 2px solid var(--gp-color-primary, #6366f1);
     outline-offset: -2px;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    box-shadow:
+      0 0 0 4px rgba(99, 102, 241, 0.2),
+      0 10px 25px -5px rgba(15, 23, 42, 0.1);
 
     .widget-designer-toolbar {
       opacity: 1;
@@ -216,7 +218,9 @@
   user-select: none;
   touch-action: none;
   opacity: 0;
-  transition: opacity 0.15s ease, background 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    background 0.15s ease;
   z-index: 20;
 
   &:hover {

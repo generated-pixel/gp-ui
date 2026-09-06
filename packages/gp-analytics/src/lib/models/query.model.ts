@@ -24,15 +24,7 @@ export interface GpFilterCondition {
 }
 
 export type GpAggregationType =
-  | 'sum'
-  | 'avg'
-  | 'min'
-  | 'max'
-  | 'count'
-  | 'count-distinct'
-  | 'median'
-  | 'stddev'
-  | 'variance';
+  'sum' | 'avg' | 'min' | 'max' | 'count' | 'count-distinct' | 'median' | 'stddev' | 'variance';
 
 export interface GpMeasureQuery {
   fieldId: string;

@@ -44,7 +44,7 @@ export function createReportConfig(
   type: GpReportType,
   name: string,
   config: GpTabularReportConfig | GpPivotReportConfig | GpChartReportConfig,
-  datasetId?: string,
+  datasetId?: string
 ): GpReportConfig {
   const timestamp = new Date().toISOString();
   return {
@@ -54,6 +54,6 @@ export function createReportConfig(
     datasetId,
     config,
     createdAt: timestamp,
-    updatedAt: timestamp,
+    updatedAt: timestamp
   };
 }

@@ -10,7 +10,7 @@ describe('GpDataEngineService', () => {
     { customer: 'Northwind', region: 'EMEA', total: 2000, quantity: 10, date: '2026-01-02' },
     { customer: 'Acme Corp', region: 'AMER', total: 3000, quantity: 15, date: '2026-01-03' },
     { customer: 'Acme Corp', region: 'AMER', total: 1500, quantity: 8, date: '2026-01-04' },
-    { customer: 'Starlight', region: 'APAC', total: 500, quantity: 2, date: '2026-01-05' },
+    { customer: 'Starlight', region: 'APAC', total: 500, quantity: 2, date: '2026-01-05' }
   ];
 
   beforeEach(() => {
@@ -23,8 +23,8 @@ describe('GpDataEngineService', () => {
         dimensions: ['customer'],
         measures: [
           { fieldId: 'total', aggregation: 'sum', alias: 'total_revenue' },
-          { fieldId: 'total', aggregation: 'count', alias: 'order_count' },
-        ],
+          { fieldId: 'total', aggregation: 'count', alias: 'order_count' }
+        ]
       };
 
       const result = service.executeQuery(mockRecords, spec);
@@ -49,9 +49,7 @@ describe('GpDataEngineService', () => {
       const spec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'rev' }],
-        filters: [
-          { fieldId: 'region', operator: 'eq', value: 'AMER' },
-        ],
+        filters: [{ fieldId: 'region', operator: 'eq', value: 'AMER' }]
       };
 
       const result = service.executeQuery(mockRecords, spec);
@@ -65,7 +63,7 @@ describe('GpDataEngineService', () => {
       const betweenSpec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
-        filters: [{ fieldId: 'total', operator: 'between', value: 1200, secondValue: 2500 }],
+        filters: [{ fieldId: 'total', operator: 'between', value: 1200, secondValue: 2500 }]
       };
       const bRes = service.executeQuery(mockRecords, betweenSpec);
       expect(bRes.totalCount).toBe(2);
@@ -74,7 +72,7 @@ describe('GpDataEngineService', () => {
       const inSpec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
-        filters: [{ fieldId: 'region', operator: 'in', value: ['EMEA', 'APAC'] }],
+        filters: [{ fieldId: 'region', operator: 'in', value: ['EMEA', 'APAC'] }]
       };
       const inRes = service.executeQuery(mockRecords, inSpec);
       expect(inRes.totalCount).toBe(2);
@@ -83,7 +81,7 @@ describe('GpDataEngineService', () => {
       const notInSpec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
-        filters: [{ fieldId: 'region', operator: 'not_in', value: ['EMEA', 'APAC'] }],
+        filters: [{ fieldId: 'region', operator: 'not_in', value: ['EMEA', 'APAC'] }]
       };
       const notInRes = service.executeQuery(mockRecords, notInSpec);
       expect(notInRes.totalCount).toBe(1);
@@ -93,7 +91,7 @@ describe('GpDataEngineService', () => {
       const startsSpec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
-        filters: [{ fieldId: 'customer', operator: 'startsWith', value: 'North' }],
+        filters: [{ fieldId: 'customer', operator: 'startsWith', value: 'North' }]
       };
       const startsRes = service.executeQuery(mockRecords, startsSpec);
       expect(startsRes.totalCount).toBe(1);
@@ -103,7 +101,7 @@ describe('GpDataEngineService', () => {
       const endsSpec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'count', alias: 'cnt' }],
-        filters: [{ fieldId: 'customer', operator: 'endsWith', value: 'Corp' }],
+        filters: [{ fieldId: 'customer', operator: 'endsWith', value: 'Corp' }]
       };
       const endsRes = service.executeQuery(mockRecords, endsSpec);
       expect(endsRes.totalCount).toBe(1);
@@ -114,7 +112,7 @@ describe('GpDataEngineService', () => {
       const spec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
         measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'rev' }],
-        sorts: [{ fieldId: 'rev', order: 'desc' }],
+        sorts: [{ fieldId: 'rev', order: 'desc' }]
       };
 
       const result = service.executeQuery(mockRecords, spec);
@@ -126,7 +124,7 @@ describe('GpDataEngineService', () => {
     it('computes subtotals when multi-dimensional grouping is requested', () => {
       const spec: GpAnalyticalQuerySpec = {
         dimensions: ['region', 'customer'],
-        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'rev' }],
+        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'rev' }]
       };
 
       const result = service.executeQuery(mockRecords, spec);
@@ -149,8 +147,8 @@ describe('GpDataEngineService', () => {
         measures: [
           { fieldId: 'total', aggregation: 'median', alias: 'med' },
           { fieldId: 'total', aggregation: 'variance', alias: 'var' },
-          { fieldId: 'total', aggregation: 'stddev', alias: 'std' },
-        ],
+          { fieldId: 'total', aggregation: 'stddev', alias: 'std' }
+        ]
       };
 
       const result = service.executeQuery(mockRecords, spec);
@@ -167,12 +165,8 @@ describe('GpDataEngineService', () => {
       // { total: 500, quantity: 2 } -> 250
       const spec: GpAnalyticalQuerySpec = {
         dimensions: ['customer'],
-        calculatedFields: [
-          { id: 'unit_price', expression: 'total / quantity' },
-        ],
-        measures: [
-          { fieldId: 'unit_price', aggregation: 'avg', alias: 'avg_unit_price' },
-        ],
+        calculatedFields: [{ id: 'unit_price', expression: 'total / quantity' }],
+        measures: [{ fieldId: 'unit_price', aggregation: 'avg', alias: 'avg_unit_price' }]
       };
 
       const result = service.executeQuery(mockRecords, spec);
@@ -191,7 +185,7 @@ describe('GpDataEngineService', () => {
         dimensions: ['date'],
         timeGrain: 'month',
         timeFieldId: 'date',
-        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'month_total' }],
+        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'month_total' }]
       };
 
       const monthResult = service.executeQuery(mockRecords, monthlySpec);
@@ -203,7 +197,7 @@ describe('GpDataEngineService', () => {
         dimensions: ['date'],
         timeGrain: 'quarter',
         timeFieldId: 'date',
-        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'q_total' }],
+        measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'q_total' }]
       };
       const qResult = service.executeQuery(mockRecords, quarterSpec);
       expect(qResult.rows[0]['date']).toBe('2026-Q1');
@@ -213,10 +207,7 @@ describe('GpDataEngineService', () => {
 
   describe('computeKpiMetric', () => {
     it('computes current metric value, variance, and trend direction', () => {
-      const previousRecords = [
-        { total: 800 },
-        { total: 1200 },
-      ]; // previous sum = 2000
+      const previousRecords = [{ total: 800 }, { total: 1200 }]; // previous sum = 2000
 
       const kpi = service.computeKpiMetric(
         mockRecords, // current sum = 8000
@@ -225,8 +216,8 @@ describe('GpDataEngineService', () => {
         {
           previousRecords,
           targetValue: 10000,
-          formatCurrency: true,
-        },
+          formatCurrency: true
+        }
       );
 
       expect(kpi.title).toBe('Total Revenue');
@@ -244,12 +235,10 @@ describe('GpDataEngineService', () => {
 
   describe('buildPivotMatrix', () => {
     it('generates a 2D cross-tabulation matrix with row and column totals', () => {
-      const matrix = service.buildPivotMatrix(
-        mockRecords,
-        'customer',
-        'region',
-        { fieldId: 'total', aggregation: 'sum' },
-      );
+      const matrix = service.buildPivotMatrix(mockRecords, 'customer', 'region', {
+        fieldId: 'total',
+        aggregation: 'sum'
+      });
 
       expect(matrix.rowHeaders).toEqual(['Acme Corp', 'Northwind', 'Starlight']);
       expect(matrix.colHeaders).toEqual(['AMER', 'APAC', 'EMEA']);
@@ -272,7 +261,7 @@ describe('GpDataEngineService', () => {
         measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'revenue' }],
         filters: [{ fieldId: 'total', operator: 'gt', value: 100 }],
         sorts: [{ fieldId: 'revenue', order: 'desc' }],
-        pagination: { page: 1, pageSize: 20 },
+        pagination: { page: 1, pageSize: 20 }
       };
 
       const sql = service.generateSql(spec, 'orders');

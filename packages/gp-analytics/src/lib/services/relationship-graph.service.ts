@@ -12,10 +12,7 @@ export class GpRelationshipGraphService {
   /**
    * Extracts all relationships defined across groupings and optional explicit relationships.
    */
-  collectRelationships(
-    groupings: Grouping[] = [],
-    additionalRelationships: Relationship[] = [],
-  ): Relationship[] {
+  collectRelationships(groupings: Grouping[] = [], additionalRelationships: Relationship[] = []): Relationship[] {
     const relationships: Relationship[] = [...additionalRelationships];
     const seenIds = new Set<string>(additionalRelationships.map((r) => r.relationshipId));
 
@@ -43,10 +40,7 @@ export class GpRelationshipGraphService {
    *    - The active tables themselves.
    *    - Any table directly linked to ANY active table via a Relationship (bidirectional).
    */
-  getEligibleTableIds(
-    activeTableIds: Iterable<string>,
-    relationships: Relationship[],
-  ): Set<string> | null {
+  getEligibleTableIds(activeTableIds: Iterable<string>, relationships: Relationship[]): Set<string> | null {
     const activeSet = new Set(activeTableIds);
     if (activeSet.size === 0) {
       return null; // Null indicates all tables are eligible when dataset is empty
@@ -69,11 +63,7 @@ export class GpRelationshipGraphService {
   /**
    * Checks whether a specific table is eligible based on active tables and relationships.
    */
-  isTableEligible(
-    tableId: string,
-    activeTableIds: Iterable<string>,
-    relationships: Relationship[],
-  ): boolean {
+  isTableEligible(tableId: string, activeTableIds: Iterable<string>, relationships: Relationship[]): boolean {
     const eligibleSet = this.getEligibleTableIds(activeTableIds, relationships);
     if (eligibleSet === null) {
       return true;
@@ -87,13 +77,13 @@ export class GpRelationshipGraphService {
   checkFieldSelectability(
     field: Field,
     activeTableIds: Iterable<string>,
-    relationships: Relationship[],
+    relationships: Relationship[]
   ): FieldSelectability {
     if (!field.visible) {
       return {
         selectable: false,
         reason: 'not-visible',
-        message: 'Field is marked not visible',
+        message: 'Field is marked not visible'
       };
     }
 
@@ -101,7 +91,7 @@ export class GpRelationshipGraphService {
       return {
         selectable: false,
         reason: 'not-usable-in-reports',
-        message: 'Field cannot be used in reports',
+        message: 'Field cannot be used in reports'
       };
     }
 
@@ -110,7 +100,7 @@ export class GpRelationshipGraphService {
       return {
         selectable: false,
         reason: 'table-not-related',
-        message: 'Table is not directly related to currently selected tables',
+        message: 'Table is not directly related to currently selected tables'
       };
     }
 
@@ -120,15 +110,11 @@ export class GpRelationshipGraphService {
   /**
    * Finds all relationships directly connecting two tables.
    */
-  findRelationships(
-    tableIdA: string,
-    tableIdB: string,
-    relationships: Relationship[],
-  ): Relationship[] {
+  findRelationships(tableIdA: string, tableIdB: string, relationships: Relationship[]): Relationship[] {
     return relationships.filter(
       (r) =>
         (r.sourceTableId === tableIdA && r.targetTableId === tableIdB) ||
-        (r.sourceTableId === tableIdB && r.targetTableId === tableIdA),
+        (r.sourceTableId === tableIdB && r.targetTableId === tableIdA)
     );
   }
 

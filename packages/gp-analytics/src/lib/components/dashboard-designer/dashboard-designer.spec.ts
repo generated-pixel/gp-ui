@@ -9,13 +9,13 @@ describe('GpDashboardDesigner', () => {
   const mockData = [
     { customer_name: 'Northwind', status: 'Completed', total: 5000, quantity: 10, region: 'AMER' },
     { customer_name: 'Acme', status: 'Completed', total: 8000, quantity: 15, region: 'EMEA' },
-    { customer_name: 'Acme', status: 'Pending', total: 2000, quantity: 4, region: 'EMEA' },
+    { customer_name: 'Acme', status: 'Pending', total: 2000, quantity: 4, region: 'EMEA' }
   ];
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpDashboardDesigner],
-      providers: [GpDataEngineService, GpTranslationService],
+      providers: [GpDataEngineService, GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpDashboardDesigner);
     const component = fixture.componentInstance;
@@ -117,9 +117,7 @@ describe('GpDashboardDesigner', () => {
     fixture.detectChanges();
 
     const firstWidget = component.config().widgets[0];
-    const updatedGridItems = [
-      { id: firstWidget.id, x: 2, y: 3, w: 5, h: 4 },
-    ];
+    const updatedGridItems = [{ id: firstWidget.id, x: 2, y: 3, w: 5, h: 4 }];
 
     component.onLayoutChange(updatedGridItems);
     fixture.detectChanges();
@@ -173,8 +171,8 @@ describe('GpDashboardDesigner', () => {
         draggable: false,
         resizable: false,
         locked: true,
-        fixed: true,
-      },
+        fixed: true
+      }
     });
     fixture.detectChanges();
 
@@ -192,7 +190,7 @@ describe('GpDashboardDesigner', () => {
     component.updateDashboardSettings({
       allowMove: false,
       allowResize: false,
-      compactType: 'none',
+      compactType: 'none'
     });
     fixture.detectChanges();
 
@@ -212,9 +210,7 @@ describe('GpDashboardDesigner', () => {
 
     const targetWidget = component.config().widgets[0];
     // Move item on canvas
-    component.onLayoutChange([
-      { id: targetWidget.id, x: 8, y: 4, w: 4, h: 2 },
-    ]);
+    component.onLayoutChange([{ id: targetWidget.id, x: 8, y: 4, w: 4, h: 2 }]);
     fixture.detectChanges();
 
     component.saveDashboard();

@@ -113,7 +113,9 @@
   background: var(--gp-color-surface-card, #ffffff);
   color: var(--gp-color-text-primary, #1e293b);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 
   &:focus {
     border-color: var(--gp-color-primary, #4f46e5);

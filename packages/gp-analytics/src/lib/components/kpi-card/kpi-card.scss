@@ -15,7 +15,9 @@
   min-height: 155px;
   gap: 0.75rem;
   box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
 

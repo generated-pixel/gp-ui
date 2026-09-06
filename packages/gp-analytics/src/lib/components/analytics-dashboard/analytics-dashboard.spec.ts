@@ -8,13 +8,13 @@ describe('GpAnalyticsDashboard', () => {
   const mockData = [
     { customer_name: 'Northwind', status: 'Completed', total: 5000 },
     { customer_name: 'Acme', status: 'Completed', total: 8000 },
-    { customer_name: 'Acme', status: 'Pending', total: 2000 },
+    { customer_name: 'Acme', status: 'Pending', total: 2000 }
   ];
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpAnalyticsDashboard],
-      providers: [GpDataEngineService, GpTranslationService],
+      providers: [GpDataEngineService, GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpAnalyticsDashboard);
     const component = fixture.componentInstance;

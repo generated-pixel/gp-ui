@@ -18,6 +18,6 @@ export function createEmptyDataset(name: string = 'New Dataset'): Dataset {
     fields: [],
     filters: [],
     createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
 }

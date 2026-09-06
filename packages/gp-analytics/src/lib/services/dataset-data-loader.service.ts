@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DatasetField } from '../models/dataset-field.model';
-import {
-  DatasetDataSourceConfig,
-  LoadedDataResult,
-} from '../models/data-source.model';
+import { DatasetDataSourceConfig, LoadedDataResult } from '../models/data-source.model';
 
 @Injectable({ providedIn: 'root' })
 export class GpDatasetDataLoaderService {
@@ -37,11 +34,7 @@ export class GpDatasetDataLoaderService {
   /**
    * Fetches JSON records from a REST/HTTP endpoint URL.
    */
-  async fetchFromUrl(
-    url: string,
-    headers?: Record<string, string>,
-    dataPath?: string,
-  ): Promise<Record<string, any>[]> {
+  async fetchFromUrl(url: string, headers?: Record<string, string>, dataPath?: string): Promise<Record<string, any>[]> {
     if (!url || !url.trim()) {
       throw new Error('API URL is required');
     }
@@ -50,8 +43,8 @@ export class GpDatasetDataLoaderService {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        ...(headers ?? {}),
-      },
+        ...(headers ?? {})
+      }
     });
 
     if (!response.ok) {
@@ -65,10 +58,7 @@ export class GpDatasetDataLoaderService {
   /**
    * Loads data based on a generic DatasetDataSourceConfig.
    */
-  async loadData(
-    config: DatasetDataSourceConfig,
-    fields: DatasetField[] = [],
-  ): Promise<LoadedDataResult> {
+  async loadData(config: DatasetDataSourceConfig, fields: DatasetField[] = []): Promise<LoadedDataResult> {
     let rawRecords: Record<string, any>[] = [];
     let sourceName = 'Generic Source';
 
@@ -111,7 +101,7 @@ export class GpDatasetDataLoaderService {
       totalRecords: mapped.length,
       matchedFields,
       unmatchedFields,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
   }
 
@@ -119,17 +109,14 @@ export class GpDatasetDataLoaderService {
    * Maps incoming raw record properties to dataset fields.
    * Matches candidate keys: datasetFieldId, fieldId, fieldName, normalized snake/camel, and display values.
    */
-  mapRecordsToDatasetFields(
-    records: Record<string, any>[],
-    fields: DatasetField[],
-  ): Record<string, any>[] {
+  mapRecordsToDatasetFields(records: Record<string, any>[], fields: DatasetField[]): Record<string, any>[] {
     if (!records || records.length === 0 || !fields || fields.length === 0) {
       return records || [];
     }
 
     return records.map((rec, index) => {
       const mapped: Record<string, any> = {
-        _id: rec['_id'] ?? `custom-row-${index + 1}`,
+        _id: rec['_id'] ?? `custom-row-${index + 1}`
       };
 
       for (const field of fields) {
@@ -158,7 +145,7 @@ export class GpDatasetDataLoaderService {
    */
   analyzeFieldMatching(
     records: Record<string, any>[],
-    fields: DatasetField[],
+    fields: DatasetField[]
   ): { matchedFields: string[]; unmatchedFields: string[] } {
     if (!records || records.length === 0) {
       return { matchedFields: [], unmatchedFields: fields.map((f) => f.fieldName) };
@@ -199,7 +186,7 @@ export class GpDatasetDataLoaderService {
       this.normalize(field.fieldName),
       this.normalize(field.fieldId),
       this.normalize(String(field.fieldDisplayName?.value ?? '')),
-      ...displayValues.map((dv) => this.normalize(dv)),
+      ...displayValues.map((dv) => this.normalize(dv))
     ].filter(Boolean);
 
     for (const key of recKeys) {

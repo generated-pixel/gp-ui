@@ -24,5 +24,5 @@ export interface LoadedDataResult {
 
 export type CustomDataLoaderFn = (
   config: DatasetDataSourceConfig,
-  context: { fields: DatasetField[] },
+  context: { fields: DatasetField[] }
 ) => Promise<Record<string, any>[] | LoadedDataResult>;

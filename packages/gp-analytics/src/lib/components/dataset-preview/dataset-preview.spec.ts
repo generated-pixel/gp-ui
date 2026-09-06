@@ -19,7 +19,7 @@ describe('GpDatasetPreview', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: true,
+    groupable: true
   };
 
   const sampleField2: Field = {
@@ -37,13 +37,13 @@ describe('GpDatasetPreview', () => {
     filterable: true,
     sortable: true,
     groupable: false,
-    aggregationType: 'sum',
+    aggregationType: 'sum'
   };
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpDatasetPreview],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpDatasetPreview);
     const component = fixture.componentInstance;
@@ -84,7 +84,7 @@ describe('GpDatasetPreview', () => {
 
     const mockRecords = [
       { _id: '1', [df1.datasetFieldId]: 'Custom Alpha' },
-      { _id: '2', [df1.datasetFieldId]: 'Custom Beta' },
+      { _id: '2', [df1.datasetFieldId]: 'Custom Beta' }
     ];
 
     fixture.componentRef.setInput('fields', [df1]);
@@ -120,7 +120,7 @@ describe('GpDatasetPreview', () => {
       ...sampleField2,
       fieldId: 'f-hidden',
       fieldName: 'hidden_total',
-      visible: false,
+      visible: false
     };
     const hiddenDf = createDatasetField(hiddenField);
 
@@ -175,7 +175,7 @@ describe('GpDatasetPreview', () => {
     // Pass custom records using human-friendly field names
     const customRecords = [
       { customer_name: 'Custom Client Alpha', order_total: 8500 },
-      { customer_name: 'Custom Client Beta', order_total: 12400 },
+      { customer_name: 'Custom Client Beta', order_total: 12400 }
     ];
     fixture.componentRef.setInput('customData', customRecords);
     fixture.detectChanges();
@@ -198,7 +198,7 @@ describe('GpDatasetPreview', () => {
     const customRecords = [
       { customer_name: 'Alpha Corp', order_total: 100 },
       { customer_name: 'Alpha Corp', order_total: 200 },
-      { customer_name: 'Beta LLC', order_total: 300 },
+      { customer_name: 'Beta LLC', order_total: 300 }
     ];
     fixture.componentRef.setInput('customData', customRecords);
     fixture.detectChanges();
@@ -224,10 +224,7 @@ describe('GpDatasetPreview', () => {
     let emittedResult: any = null;
     component.dataSourceLoaded.subscribe((res) => (emittedResult = res));
 
-    component.loadPreset(
-      [{ customer_name: 'External Source Co' }],
-      'my-test.json',
-    );
+    component.loadPreset([{ customer_name: 'External Source Co' }], 'my-test.json');
     fixture.detectChanges();
 
     expect(component.isCustomSourceActive()).toBe(true);
@@ -254,18 +251,14 @@ describe('GpDatasetPreview', () => {
       fieldName: 'status',
       lookupValues: [
         { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
-        { value: 'pending', displayValue: { en: 'Pending', fr: 'En attente' } },
-      ],
+        { value: 'pending', displayValue: { en: 'Pending', fr: 'En attente' } }
+      ]
     };
 
     const dfStatus = createDatasetField(statusField, 'df_status');
     fixture.componentRef.setInput('fields', [dfStatus]);
 
-    const customRecords = [
-      { df_status: 'completed' },
-      { df_status: 'pending' },
-      { df_status: 'completed' },
-    ];
+    const customRecords = [{ df_status: 'completed' }, { df_status: 'pending' }, { df_status: 'completed' }];
     fixture.componentRef.setInput('customData', customRecords);
     fixture.detectChanges();
 
@@ -274,9 +267,7 @@ describe('GpDatasetPreview', () => {
     expect(component.filteredRows().length).toBe(3);
 
     // Apply filter: status == 'completed'
-    fixture.componentRef.setInput('filters', [
-      { fieldId: 'df_status', operator: 'eq', value: 'completed' },
-    ]);
+    fixture.componentRef.setInput('filters', [{ fieldId: 'df_status', operator: 'eq', value: 'completed' }]);
     fixture.detectChanges();
 
     expect(component.filteredRows().length).toBe(2);
@@ -299,17 +290,12 @@ describe('GpDatasetPreview', () => {
       ...sampleField2,
       fieldId: 'f-amount',
       fieldName: 'amount',
-      dataType: 'currency',
+      dataType: 'currency'
     };
     const dfAmount = createDatasetField(numField, 'df_amount');
     fixture.componentRef.setInput('fields', [dfAmount]);
 
-    const records = [
-      { df_amount: 100 },
-      { df_amount: 200 },
-      { df_amount: 300 },
-      { df_amount: 200 },
-    ];
+    const records = [{ df_amount: 100 }, { df_amount: 200 }, { df_amount: 300 }, { df_amount: 200 }];
     fixture.componentRef.setInput('customData', records);
     fixture.detectChanges();
 

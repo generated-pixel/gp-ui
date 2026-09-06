@@ -20,7 +20,7 @@ describe('GpDatasetFieldSelector', () => {
     filterable: true,
     sortable: true,
     groupable: true,
-    aggregationType: 'none',
+    aggregationType: 'none'
   };
 
   const restrictedField: Field = {
@@ -36,14 +36,14 @@ describe('GpDatasetFieldSelector', () => {
     isJoinField: false,
     usableInReports: true,
     filterable: false, // NOT filterable in base!
-    sortable: false,   // NOT sortable in base!
-    groupable: false,  // NOT groupable in base!
+    sortable: false, // NOT sortable in base!
+    groupable: false // NOT groupable in base!
   };
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpDatasetFieldSelector],
-      providers: [GpTranslationService],
+      providers: [GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpDatasetFieldSelector);
     const component = fixture.componentInstance;
@@ -147,7 +147,7 @@ describe('GpDatasetFieldSelector', () => {
       ...sortableField,
       fieldId: 'f-hidden',
       fieldName: 'internal_secret',
-      visible: false,
+      visible: false
     };
     const hiddenDf = createDatasetField(hiddenBaseField);
 
@@ -170,14 +170,14 @@ describe('GpDatasetFieldSelector', () => {
     const hiddenBaseField: Field = {
       ...sortableField,
       fieldId: 'f-hidden',
-      visible: false,
+      visible: false
     };
 
     const mockDropEvent = {
       preventDefault: () => {},
       dataTransfer: {
-        getData: (type: string) => (type === 'application/json' ? JSON.stringify(hiddenBaseField) : ''),
-      },
+        getData: (type: string) => (type === 'application/json' ? JSON.stringify(hiddenBaseField) : '')
+      }
     } as unknown as DragEvent;
 
     component['onDrop'](mockDropEvent);
@@ -205,19 +205,16 @@ describe('GpDatasetFieldSelector', () => {
       },
       getData(key: string) {
         return this.data[key] ?? '';
-      },
+      }
     };
 
     // Drag df1 (index 0)
-    component['onListDragStart'](
-      { dataTransfer: mockDataTransfer } as unknown as DragEvent,
-      0,
-    );
+    component['onListDragStart']({ dataTransfer: mockDataTransfer } as unknown as DragEvent, 0);
     expect(component['draggedIndex']()).toBe(0);
 
     // Drag over df3 (index 2) positioned 'after'
     const mockTarget = {
-      getBoundingClientRect: () => ({ top: 100, height: 40 }),
+      getBoundingClientRect: () => ({ top: 100, height: 40 })
     } as unknown as HTMLElement;
 
     component['onListDragOver'](
@@ -226,9 +223,9 @@ describe('GpDatasetFieldSelector', () => {
         stopPropagation: () => {},
         dataTransfer: mockDataTransfer,
         currentTarget: mockTarget,
-        clientY: 130, // > 100 + 20 -> 'after'
+        clientY: 130 // > 100 + 20 -> 'after'
       } as unknown as DragEvent,
-      2,
+      2
     );
     expect(component['dropTargetIndex']()).toBe(2);
     expect(component['dropPosition']()).toBe('after');
@@ -237,9 +234,9 @@ describe('GpDatasetFieldSelector', () => {
     component['onListDrop'](
       {
         preventDefault: () => {},
-        stopPropagation: () => {},
+        stopPropagation: () => {}
       } as unknown as DragEvent,
-      2,
+      2
     );
 
     expect(reordered.length).toBe(3);
@@ -348,8 +345,8 @@ describe('GpDatasetFieldSelector', () => {
       fieldName: 'status',
       lookupValues: [
         { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
-        { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } },
-      ],
+        { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } }
+      ]
     };
 
     const dfLookup = createDatasetField(lookupField);

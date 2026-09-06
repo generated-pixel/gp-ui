@@ -5,8 +5,8 @@
   (dragover)="onDragOver($event)"
   (dragleave)="onDragLeave($event)"
   (drop)="onDrop($event)"
-  [attr.aria-label]="i18n.translate('selectDatasetFields')">
-  
+  [attr.aria-label]="i18n.translate('selectDatasetFields')"
+>
   <!-- ================= TOP SECTION: WORKBENCH TABS & PANELS ================= -->
   <div class="workbench-tabs-bar" role="tablist">
     <button
@@ -15,7 +15,8 @@
       class="tab-btn"
       [class.active]="activeTab() === 'fields'"
       (click)="setActiveTab('fields')"
-      [attr.aria-selected]="activeTab() === 'fields'">
+      [attr.aria-selected]="activeTab() === 'fields'"
+    >
       <span class="tab-icon">📋</span>
       <span class="tab-title">{{ i18n.translate('datasetFields') }}</span>
       <span class="tab-badge">{{ visibleFields().length }}</span>
@@ -26,7 +27,8 @@
       class="tab-btn"
       [class.active]="activeTab() === 'filters'"
       (click)="setActiveTab('filters')"
-      [attr.aria-selected]="activeTab() === 'filters'">
+      [attr.aria-selected]="activeTab() === 'filters'"
+    >
       <span class="tab-icon">🔍</span>
       <span class="tab-title">{{ i18n.translate('filters') }}</span>
       <span class="tab-badge" [class.has-filters]="filters().length > 0">{{ filters().length }}</span>
@@ -34,356 +36,340 @@
   </div>
 
   @if (activeTab() === 'fields') {
-    <section class="fields-section">
-      <header class="section-header">
-        <div class="header-title-group">
-          <span class="header-icon" aria-hidden="true">📋</span>
-          <h3 class="section-title">{{ i18n.translate('datasetFields') }}</h3>
-          <span class="count-badge">{{ visibleFields().length }}</span>
-        </div>
-
-        <!-- Grouping Mode Switcher -->
-        <div class="grouping-toggle-group" role="group" [attr.aria-label]="i18n.translate('groupBy')">
-          <button
-            type="button"
-            class="grouping-mode-pill"
-            [class.active]="listGrouping() === 'none'"
-            (click)="setGroupingMode('none')"
-            [title]="i18n.translate('groupByNone')">
-            {{ i18n.translate('groupByNone') }}
-          </button>
-          <button
-            type="button"
-            class="grouping-mode-pill"
-            [class.active]="listGrouping() === 'table'"
-            (click)="setGroupingMode('table')"
-            [title]="i18n.translate('groupByTable')">
-            {{ i18n.translate('groupByTable') }}
-          </button>
-          <button
-            type="button"
-            class="grouping-mode-pill"
-            [class.active]="listGrouping() === 'role'"
-            (click)="setGroupingMode('role')"
-            [title]="i18n.translate('groupByRole')">
-            {{ i18n.translate('groupByRole') }}
-          </button>
-        </div>
-
-        @if (visibleFields().length > 0) {
-          <button
-            type="button"
-            class="clear-all-btn"
-            (click)="clearAllFields()"
-            [title]="i18n.translate('clearAll')">
-            {{ i18n.translate('clearAll') }}
-          </button>
-        }
-      </header>
-
-      <!-- Fields Container with Grouping Support -->
-      <div class="fields-list-container">
-        @for (section of groupedSections(); track section.id) {
-          @if (section.title) {
-            <div
-              class="list-group-header"
-              (click)="toggleGroupCollapse(section.id)"
-              role="button"
-              tabindex="0"
-              (keydown.enter)="toggleGroupCollapse(section.id)"
-              (keydown.space)="toggleGroupCollapse(section.id)"
-              [attr.aria-expanded]="!isGroupCollapsed(section.id)">
-              <div class="group-header-info">
-                <span class="collapse-chevron" [class.collapsed]="isGroupCollapsed(section.id)">▼</span>
-                <span class="group-icon">{{ section.icon }}</span>
-                <strong class="group-title">{{ section.title }}</strong>
-              </div>
-              <span class="group-count-badge">{{ section.fields.length }}</span>
-            </div>
-          }
-
-          @if (!section.title || !isGroupCollapsed(section.id)) {
-            <div class="group-items-wrapper">
-              @for (item of section.fields; track item.field.datasetFieldId) {
-                @let field = item.field;
-                @let idx = item.globalIndex;
-                @let isActive = activeField()?.datasetFieldId === field.datasetFieldId;
-                @let displayLabel = getDisplayLabel(field);
-
-                <div
-                  class="dataset-field-chip"
-                  [class.active]="isActive"
-                  [class.is-dragging]="draggedIndex() === idx"
-                  [class.drop-before]="dropTargetIndex() === idx && dropPosition() === 'before'"
-                  [class.drop-after]="dropTargetIndex() === idx && dropPosition() === 'after'"
-                  (click)="selectField(field.datasetFieldId)"
-                  draggable="true"
-                  (dragstart)="onListDragStart($event, idx)"
-                  (dragover)="onListDragOver($event, idx)"
-                  (dragleave)="onListDragLeave($event, idx)"
-                  (drop)="onListDrop($event, idx)"
-                  (dragend)="onListDragEnd()"
-                  role="button"
-                  tabindex="0"
-                  (keydown.enter)="selectField(field.datasetFieldId)"
-                  (keydown.space)="selectField(field.datasetFieldId)"
-                  [attr.aria-pressed]="isActive"
-                  title="Drag to reorder or click to configure properties">
-                  
-                  <!-- Reorder & Type -->
-                  <div class="chip-left">
-                    <span class="chip-drag-handle" title="Drag to reorder">⋮⋮</span>
-                    <span class="chip-type-icon" [attr.data-type]="field.dataType">
-                      {{ getDataTypeIcon(field.dataType) }}
-                    </span>
-                    <div class="chip-label-group">
-                      <strong class="chip-display-label">{{ displayLabel }}</strong>
-                      <small class="chip-source">{{ field.fieldName }}</small>
-                    </div>
-                  </div>
-
-                  <!-- Modifiers & Actions -->
-                  <div class="chip-right">
-                    <!-- Inline Group By Toggle -->
-                    <button
-                      type="button"
-                      class="chip-group-btn"
-                      [class.is-grouped]="field.isGrouped"
-                      [class.disabled-group]="!field.baseField.groupable"
-                      [disabled]="!field.baseField.groupable"
-                      (click)="toggleFieldGroupBy(field.datasetFieldId, $event)"
-                      [title]="!field.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : i18n.translate('toggleGroupBy')">
-                      <span class="group-btn-icon">{{ field.isGrouped ? '✓' : '⊞' }}</span>
-                      <span class="group-btn-text">Group By</span>
-                    </button>
-
-                    @if (field.aggregationType && field.aggregationType !== 'none') {
-                      <span class="chip-agg-badge">{{ field.aggregationType }}</span>
-                    }
-
-                    <div class="reorder-actions" (click)="$event.stopPropagation()">
-                      <button
-                        type="button"
-                        class="btn-arrow"
-                        [disabled]="idx === 0"
-                        (click)="moveItem(idx, 'up', $event)"
-                        aria-label="Move field up">
-                        ▲
-                      </button>
-                      <button
-                        type="button"
-                        class="btn-arrow"
-                        [disabled]="idx === visibleFields().length - 1"
-                        (click)="moveItem(idx, 'down', $event)"
-                        aria-label="Move field down">
-                        ▼
-                      </button>
-                    </div>
-
-                    <button
-                      type="button"
-                      class="btn-remove"
-                      (click)="removeField(field.datasetFieldId, $event)"
-                      [attr.aria-label]="i18n.translate('removeField') + ': ' + displayLabel">
-                      ✕
-                    </button>
-                  </div>
-                </div>
-              }
-            </div>
-          }
-        } @empty {
-          <div class="empty-drop-state">
-            <span class="drop-icon" aria-hidden="true">📥</span>
-            <p class="drop-title">{{ i18n.translate('noFieldsSelected') }}</p>
-            <p class="drop-subtitle">{{ i18n.translate('dragFieldsHere') }}</p>
-          </div>
-        }
+  <section class="fields-section">
+    <header class="section-header">
+      <div class="header-title-group">
+        <span class="header-icon" aria-hidden="true">📋</span>
+        <h3 class="section-title">{{ i18n.translate('datasetFields') }}</h3>
+        <span class="count-badge">{{ visibleFields().length }}</span>
       </div>
-    </section>
-  } @else {
-    <!-- ================= FILTERS TAB SECTION ================= -->
-    <section class="filters-section">
-      <header class="section-header">
-        <div class="header-title-group">
-          <span class="header-icon" aria-hidden="true">🔍</span>
-          <h3 class="section-title">{{ i18n.translate('datasetFilters') }}</h3>
-          <span class="count-badge">{{ filters().length }}</span>
-        </div>
 
-        <div class="header-actions">
-          @if (!isAddingFilter()) {
-            <button
-              type="button"
-              class="add-filter-btn"
-              (click)="startAddFilter()"
-              [disabled]="filterableFields().length === 0"
-              [title]="i18n.translate('addFilter')">
-              + {{ i18n.translate('addFilter') }}
-            </button>
-          }
-          @if (filters().length > 0) {
-            <button
-              type="button"
-              class="clear-all-btn"
-              (click)="clearAllFilters()"
-              [title]="i18n.translate('clearAllFilters')">
-              {{ i18n.translate('clearAll') }}
-            </button>
-          }
-        </div>
-      </header>
+      <!-- Grouping Mode Switcher -->
+      <div class="grouping-toggle-group" role="group" [attr.aria-label]="i18n.translate('groupBy')">
+        <button
+          type="button"
+          class="grouping-mode-pill"
+          [class.active]="listGrouping() === 'none'"
+          (click)="setGroupingMode('none')"
+          [title]="i18n.translate('groupByNone')"
+        >
+          {{ i18n.translate('groupByNone') }}
+        </button>
+        <button
+          type="button"
+          class="grouping-mode-pill"
+          [class.active]="listGrouping() === 'table'"
+          (click)="setGroupingMode('table')"
+          [title]="i18n.translate('groupByTable')"
+        >
+          {{ i18n.translate('groupByTable') }}
+        </button>
+        <button
+          type="button"
+          class="grouping-mode-pill"
+          [class.active]="listGrouping() === 'role'"
+          (click)="setGroupingMode('role')"
+          [title]="i18n.translate('groupByRole')"
+        >
+          {{ i18n.translate('groupByRole') }}
+        </button>
+      </div>
 
-      <!-- Inline Filter Builder Card -->
-      @if (isAddingFilter()) {
-        <div class="filter-builder-card">
-          <div class="filter-builder-title">
-            <span class="builder-icon">➕</span>
-            <strong>{{ i18n.translate('addFilter') }}</strong>
-          </div>
-
-          <div class="filter-builder-grid">
-            <!-- Field Selection -->
-            <div class="filter-input-group">
-              <label class="filter-input-label">{{ i18n.translate('selectFilterField') }}</label>
-              <select
-                class="filter-select"
-                [ngModel]="newFilterFieldId()"
-                (ngModelChange)="onFilterFieldChange($event)">
-                @for (f of filterableFields(); track f.datasetFieldId) {
-                  <option [value]="f.datasetFieldId">
-                    {{ getDisplayLabel(f) }} ({{ f.fieldName }})
-                  </option>
-                }
-              </select>
-            </div>
-
-            <!-- Operator Selection -->
-            <div class="filter-input-group">
-              <label class="filter-input-label">{{ i18n.translate('operator') }}</label>
-              <select
-                class="filter-select"
-                [ngModel]="newFilterOperator()"
-                (ngModelChange)="newFilterOperator.set($event)">
-                @for (op of availableFilterOperators(); track op.value) {
-                  <option [value]="op.value">{{ op.label }}</option>
-                }
-              </select>
-            </div>
-          </div>
-
-          <!-- Value / Lookup List Selection -->
-          <div class="filter-builder-value-row">
-            @if (newFilterOperator() === 'isNull' || newFilterOperator() === 'isNotNull') {
-              <div class="filter-null-hint">
-                <em>{{ i18n.translate(newFilterOperator() === 'isNull' ? 'isNull' : 'isNotNull') }}</em>
-              </div>
-            } @else if (filterFieldLookupValues().length > 0) {
-              <!-- Localized Lookup Options -->
-              <div class="filter-lookup-selection">
-                <div class="lookup-selection-header">
-                  <label class="filter-input-label">{{ i18n.translate('translatedList') }}</label>
-                  <span class="lookup-count-badge">{{ filterFieldLookupValues().length }} options</span>
-                </div>
-
-                @if (newFilterOperator() === 'in') {
-                  <!-- Multi-selection pills -->
-                  <div class="lookup-multi-chips">
-                    @for (item of filterFieldLookupValues(); track item.value) {
-                      @let isSelected = newFilterSelectedItems().includes(item.value);
-                      <button
-                        type="button"
-                        class="lookup-multi-pill"
-                        [class.selected]="isSelected"
-                        (click)="toggleMultiSelectValue(item.value)">
-                        <span class="check-icon">{{ isSelected ? '✓' : '+' }}</span>
-                        <span class="pill-label">{{ item.displayValue[i18n.locale()] }}</span>
-                        <code class="pill-code">{{ item.value }}</code>
-                      </button>
-                    }
-                  </div>
-                } @else {
-                  <!-- Single selection select -->
-                  <select
-                    class="filter-select lookup-select"
-                    [ngModel]="newFilterValue()"
-                    (ngModelChange)="newFilterValue.set($event)">
-                    @for (item of filterFieldLookupValues(); track item.value) {
-                      <option [value]="item.value">
-                        {{ item.displayValue[i18n.locale()] }} [{{ item.value }}]
-                      </option>
-                    }
-                  </select>
-                }
-              </div>
-            } @else {
-              <!-- Free Text / Number Input -->
-              <div class="filter-input-group full-width">
-                <label class="filter-input-label">{{ i18n.translate('filterValue') }}</label>
-                <input
-                  type="text"
-                  class="filter-text-input"
-                  [placeholder]="i18n.translate('filterValue')"
-                  [ngModel]="newFilterValue()"
-                  (ngModelChange)="newFilterValue.set($event)"
-                  (keydown.enter)="applyNewFilter()" />
-              </div>
-            }
-          </div>
-
-          <!-- Builder Actions -->
-          <div class="filter-builder-actions">
-            <button type="button" class="btn-cancel-filter" (click)="cancelAddFilter()">
-              {{ i18n.translate('cancel') }}
-            </button>
-            <button type="button" class="btn-apply-filter" (click)="applyNewFilter()">
-              {{ i18n.translate('applyFilter') }}
-            </button>
-          </div>
-        </div>
+      @if (visibleFields().length > 0) {
+      <button type="button" class="clear-all-btn" (click)="clearAllFields()" [title]="i18n.translate('clearAll')">
+        {{ i18n.translate('clearAll') }}
+      </button>
       }
+    </header>
 
-      <!-- Active Filters List -->
-      <div class="filters-list-container">
-        @for (cond of filters(); track $index; let idx = $index) {
-          <div class="filter-item-card">
-            <div class="filter-item-left">
-              <span class="filter-item-icon">⚡</span>
-              <div class="filter-item-info">
-                <strong class="filter-field-title">{{ getFilterFieldDisplayLabel(cond.fieldId) }}</strong>
-                <div class="filter-condition-row">
-                  <span class="filter-op-badge">{{ getFilterOperatorLabel(cond.operator) }}</span>
-                  @if (cond.operator !== 'isNull' && cond.operator !== 'isNotNull') {
-                    <span class="filter-val-text">{{ getFilterValueDisplay(cond) }}</span>
-                  }
-                </div>
-              </div>
+    <!-- Fields Container with Grouping Support -->
+    <div class="fields-list-container">
+      @for (section of groupedSections(); track section.id) { @if (section.title) {
+      <div
+        class="list-group-header"
+        (click)="toggleGroupCollapse(section.id)"
+        role="button"
+        tabindex="0"
+        (keydown.enter)="toggleGroupCollapse(section.id)"
+        (keydown.space)="toggleGroupCollapse(section.id)"
+        [attr.aria-expanded]="!isGroupCollapsed(section.id)"
+      >
+        <div class="group-header-info">
+          <span class="collapse-chevron" [class.collapsed]="isGroupCollapsed(section.id)">▼</span>
+          <span class="group-icon">{{ section.icon }}</span>
+          <strong class="group-title">{{ section.title }}</strong>
+        </div>
+        <span class="group-count-badge">{{ section.fields.length }}</span>
+      </div>
+      } @if (!section.title || !isGroupCollapsed(section.id)) {
+      <div class="group-items-wrapper">
+        @for (item of section.fields; track item.field.datasetFieldId) { @let field = item.field; @let idx =
+        item.globalIndex; @let isActive = activeField()?.datasetFieldId === field.datasetFieldId; @let displayLabel =
+        getDisplayLabel(field);
+
+        <div
+          class="dataset-field-chip"
+          [class.active]="isActive"
+          [class.is-dragging]="draggedIndex() === idx"
+          [class.drop-before]="dropTargetIndex() === idx && dropPosition() === 'before'"
+          [class.drop-after]="dropTargetIndex() === idx && dropPosition() === 'after'"
+          (click)="selectField(field.datasetFieldId)"
+          draggable="true"
+          (dragstart)="onListDragStart($event, idx)"
+          (dragover)="onListDragOver($event, idx)"
+          (dragleave)="onListDragLeave($event, idx)"
+          (drop)="onListDrop($event, idx)"
+          (dragend)="onListDragEnd()"
+          role="button"
+          tabindex="0"
+          (keydown.enter)="selectField(field.datasetFieldId)"
+          (keydown.space)="selectField(field.datasetFieldId)"
+          [attr.aria-pressed]="isActive"
+          title="Drag to reorder or click to configure properties"
+        >
+          <!-- Reorder & Type -->
+          <div class="chip-left">
+            <span class="chip-drag-handle" title="Drag to reorder">⋮⋮</span>
+            <span class="chip-type-icon" [attr.data-type]="field.dataType">
+              {{ getDataTypeIcon(field.dataType) }}
+            </span>
+            <div class="chip-label-group">
+              <strong class="chip-display-label">{{ displayLabel }}</strong>
+              <small class="chip-source">{{ field.fieldName }}</small>
+            </div>
+          </div>
+
+          <!-- Modifiers & Actions -->
+          <div class="chip-right">
+            <!-- Inline Group By Toggle -->
+            <button
+              type="button"
+              class="chip-group-btn"
+              [class.is-grouped]="field.isGrouped"
+              [class.disabled-group]="!field.baseField.groupable"
+              [disabled]="!field.baseField.groupable"
+              (click)="toggleFieldGroupBy(field.datasetFieldId, $event)"
+              [title]="!field.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : i18n.translate('toggleGroupBy')"
+            >
+              <span class="group-btn-icon">{{ field.isGrouped ? '✓' : '⊞' }}</span>
+              <span class="group-btn-text">Group By</span>
+            </button>
+
+            @if (field.aggregationType && field.aggregationType !== 'none') {
+            <span class="chip-agg-badge">{{ field.aggregationType }}</span>
+            }
+
+            <div class="reorder-actions" (click)="$event.stopPropagation()">
+              <button
+                type="button"
+                class="btn-arrow"
+                [disabled]="idx === 0"
+                (click)="moveItem(idx, 'up', $event)"
+                aria-label="Move field up"
+              >
+                ▲
+              </button>
+              <button
+                type="button"
+                class="btn-arrow"
+                [disabled]="idx === visibleFields().length - 1"
+                (click)="moveItem(idx, 'down', $event)"
+                aria-label="Move field down"
+              >
+                ▼
+              </button>
             </div>
 
             <button
               type="button"
-              class="btn-remove-filter"
-              (click)="removeFilter(idx)"
-              title="Remove filter">
+              class="btn-remove"
+              (click)="removeField(field.datasetFieldId, $event)"
+              [attr.aria-label]="i18n.translate('removeField') + ': ' + displayLabel"
+            >
               ✕
             </button>
           </div>
-        } @empty {
-          @if (!isAddingFilter()) {
-            <div class="empty-filters-state">
-              <span class="empty-icon">🔍</span>
-              <p class="empty-title">{{ i18n.translate('datasetFilters') }}</p>
-              <p class="empty-subtitle">{{ i18n.translate('noFiltersDefined') }}</p>
-              @if (filterableFields().length > 0) {
-                <button type="button" class="empty-add-btn" (click)="startAddFilter()">
-                  + {{ i18n.translate('addFilter') }}
-                </button>
-              }
-            </div>
-          }
+        </div>
         }
       </div>
-    </section>
+      } } @empty {
+      <div class="empty-drop-state">
+        <span class="drop-icon" aria-hidden="true">📥</span>
+        <p class="drop-title">{{ i18n.translate('noFieldsSelected') }}</p>
+        <p class="drop-subtitle">{{ i18n.translate('dragFieldsHere') }}</p>
+      </div>
+      }
+    </div>
+  </section>
+  } @else {
+  <!-- ================= FILTERS TAB SECTION ================= -->
+  <section class="filters-section">
+    <header class="section-header">
+      <div class="header-title-group">
+        <span class="header-icon" aria-hidden="true">🔍</span>
+        <h3 class="section-title">{{ i18n.translate('datasetFilters') }}</h3>
+        <span class="count-badge">{{ filters().length }}</span>
+      </div>
+
+      <div class="header-actions">
+        @if (!isAddingFilter()) {
+        <button
+          type="button"
+          class="add-filter-btn"
+          (click)="startAddFilter()"
+          [disabled]="filterableFields().length === 0"
+          [title]="i18n.translate('addFilter')"
+        >
+          + {{ i18n.translate('addFilter') }}
+        </button>
+        } @if (filters().length > 0) {
+        <button
+          type="button"
+          class="clear-all-btn"
+          (click)="clearAllFilters()"
+          [title]="i18n.translate('clearAllFilters')"
+        >
+          {{ i18n.translate('clearAll') }}
+        </button>
+        }
+      </div>
+    </header>
+
+    <!-- Inline Filter Builder Card -->
+    @if (isAddingFilter()) {
+    <div class="filter-builder-card">
+      <div class="filter-builder-title">
+        <span class="builder-icon">➕</span>
+        <strong>{{ i18n.translate('addFilter') }}</strong>
+      </div>
+
+      <div class="filter-builder-grid">
+        <!-- Field Selection -->
+        <div class="filter-input-group">
+          <label class="filter-input-label">{{ i18n.translate('selectFilterField') }}</label>
+          <select class="filter-select" [ngModel]="newFilterFieldId()" (ngModelChange)="onFilterFieldChange($event)">
+            @for (f of filterableFields(); track f.datasetFieldId) {
+            <option [value]="f.datasetFieldId">{{ getDisplayLabel(f) }} ({{ f.fieldName }})</option>
+            }
+          </select>
+        </div>
+
+        <!-- Operator Selection -->
+        <div class="filter-input-group">
+          <label class="filter-input-label">{{ i18n.translate('operator') }}</label>
+          <select class="filter-select" [ngModel]="newFilterOperator()" (ngModelChange)="newFilterOperator.set($event)">
+            @for (op of availableFilterOperators(); track op.value) {
+            <option [value]="op.value">{{ op.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Value / Lookup List Selection -->
+      <div class="filter-builder-value-row">
+        @if (newFilterOperator() === 'isNull' || newFilterOperator() === 'isNotNull') {
+        <div class="filter-null-hint">
+          <em>{{ i18n.translate(newFilterOperator() === 'isNull' ? 'isNull' : 'isNotNull') }}</em>
+        </div>
+        } @else if (filterFieldLookupValues().length > 0) {
+        <!-- Localized Lookup Options -->
+        <div class="filter-lookup-selection">
+          <div class="lookup-selection-header">
+            <label class="filter-input-label">{{ i18n.translate('translatedList') }}</label>
+            <span class="lookup-count-badge">{{ filterFieldLookupValues().length }} options</span>
+          </div>
+
+          @if (newFilterOperator() === 'in') {
+          <!-- Multi-selection pills -->
+          <div class="lookup-multi-chips">
+            @for (item of filterFieldLookupValues(); track item.value) { @let isSelected =
+            newFilterSelectedItems().includes(item.value);
+            <button
+              type="button"
+              class="lookup-multi-pill"
+              [class.selected]="isSelected"
+              (click)="toggleMultiSelectValue(item.value)"
+            >
+              <span class="check-icon">{{ isSelected ? '✓' : '+' }}</span>
+              <span class="pill-label">{{ item.displayValue[i18n.locale()] }}</span>
+              <code class="pill-code">{{ item.value }}</code>
+            </button>
+            }
+          </div>
+          } @else {
+          <!-- Single selection select -->
+          <select
+            class="filter-select lookup-select"
+            [ngModel]="newFilterValue()"
+            (ngModelChange)="newFilterValue.set($event)"
+          >
+            @for (item of filterFieldLookupValues(); track item.value) {
+            <option [value]="item.value">{{ item.displayValue[i18n.locale()] }} [{{ item.value }}]</option>
+            }
+          </select>
+          }
+        </div>
+        } @else {
+        <!-- Free Text / Number Input -->
+        <div class="filter-input-group full-width">
+          <label class="filter-input-label">{{ i18n.translate('filterValue') }}</label>
+          <input
+            type="text"
+            class="filter-text-input"
+            [placeholder]="i18n.translate('filterValue')"
+            [ngModel]="newFilterValue()"
+            (ngModelChange)="newFilterValue.set($event)"
+            (keydown.enter)="applyNewFilter()"
+          />
+        </div>
+        }
+      </div>
+
+      <!-- Builder Actions -->
+      <div class="filter-builder-actions">
+        <button type="button" class="btn-cancel-filter" (click)="cancelAddFilter()">
+          {{ i18n.translate('cancel') }}
+        </button>
+        <button type="button" class="btn-apply-filter" (click)="applyNewFilter()">
+          {{ i18n.translate('applyFilter') }}
+        </button>
+      </div>
+    </div>
+    }
+
+    <!-- Active Filters List -->
+    <div class="filters-list-container">
+      @for (cond of filters(); track $index; let idx = $index) {
+      <div class="filter-item-card">
+        <div class="filter-item-left">
+          <span class="filter-item-icon">⚡</span>
+          <div class="filter-item-info">
+            <strong class="filter-field-title">{{ getFilterFieldDisplayLabel(cond.fieldId) }}</strong>
+            <div class="filter-condition-row">
+              <span class="filter-op-badge">{{ getFilterOperatorLabel(cond.operator) }}</span>
+              @if (cond.operator !== 'isNull' && cond.operator !== 'isNotNull') {
+              <span class="filter-val-text">{{ getFilterValueDisplay(cond) }}</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-remove-filter" (click)="removeFilter(idx)" title="Remove filter">✕</button>
+      </div>
+      } @empty { @if (!isAddingFilter()) {
+      <div class="empty-filters-state">
+        <span class="empty-icon">🔍</span>
+        <p class="empty-title">{{ i18n.translate('datasetFilters') }}</p>
+        <p class="empty-subtitle">{{ i18n.translate('noFiltersDefined') }}</p>
+        @if (filterableFields().length > 0) {
+        <button type="button" class="empty-add-btn" (click)="startAddFilter()">
+          + {{ i18n.translate('addFilter') }}
+        </button>
+        }
+      </div>
+      } }
+    </div>
+  </section>
   }
 
   <!-- ================= BOTTOM SECTION: PROPERTIES PANEL ================= -->
@@ -394,163 +380,171 @@
         <h3 class="section-title">{{ i18n.translate('fieldProperties') }}</h3>
       </div>
       @if (activeField()) {
-        <span class="active-badge">{{ activeField()?.dataType }}</span>
+      <span class="active-badge">{{ activeField()?.dataType }}</span>
       }
     </header>
 
     @if (activeField(); as current) {
-      <div class="properties-body">
-        <!-- Dynamic Label Preview Banner -->
-        <div class="property-banner">
-          <div class="banner-label-meta">
-            <span class="meta-title">Display Name (Dynamic)</span>
-            <strong class="dynamic-name">{{ getDisplayLabel(current) }}</strong>
-          </div>
-          <small class="banner-hint">
-            Base label: <em>{{ getBaseDisplayName(current) }}</em>
-          </small>
+    <div class="properties-body">
+      <!-- Dynamic Label Preview Banner -->
+      <div class="property-banner">
+        <div class="banner-label-meta">
+          <span class="meta-title">Display Name (Dynamic)</span>
+          <strong class="dynamic-name">{{ getDisplayLabel(current) }}</strong>
         </div>
+        <small class="banner-hint"> Base label: <em>{{ getBaseDisplayName(current) }}</em> </small>
+      </div>
 
-        <!-- Localized Lookup List Section (if available) -->
-        @if (current.lookupValues && current.lookupValues.length > 0) {
-          <div class="property-group lookup-values-group">
-            <div class="lookup-header-line">
-              <span class="group-label">{{ i18n.translate('translatedList') }}</span>
-              <button
-                type="button"
-                class="btn-filter-shortcut"
-                (click)="filterByField(current)"
-                [title]="i18n.translate('filterByThisField')">
-                + {{ i18n.translate('filterByThisField') }}
-              </button>
-            </div>
-            <p class="lookup-subtitle">{{ i18n.translate('availableOptions') }} ({{ current.lookupValues.length }}):</p>
-            <div class="lookup-chips-list">
-              @for (item of current.lookupValues; track item.value) {
-                <div class="lookup-item-pill">
-                  <span class="lookup-display">{{ item.displayValue[i18n.locale()] }}</span>
-                  <code class="lookup-val">{{ item.value }}</code>
-                </div>
+      <!-- Localized Lookup List Section (if available) -->
+      @if (current.lookupValues && current.lookupValues.length > 0) {
+      <div class="property-group lookup-values-group">
+        <div class="lookup-header-line">
+          <span class="group-label">{{ i18n.translate('translatedList') }}</span>
+          <button
+            type="button"
+            class="btn-filter-shortcut"
+            (click)="filterByField(current)"
+            [title]="i18n.translate('filterByThisField')"
+          >
+            + {{ i18n.translate('filterByThisField') }}
+          </button>
+        </div>
+        <p class="lookup-subtitle">{{ i18n.translate('availableOptions') }} ({{ current.lookupValues.length }}):</p>
+        <div class="lookup-chips-list">
+          @for (item of current.lookupValues; track item.value) {
+          <div class="lookup-item-pill">
+            <span class="lookup-display">{{ item.displayValue[i18n.locale()] }}</span>
+            <code class="lookup-val">{{ item.value }}</code>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Aggregation Selector -->
+      <div class="property-group">
+        <label class="group-label" for="agg-select">{{ i18n.translate('aggregation') }}</label>
+        <div class="aggregation-pills">
+          @for (opt of availableAggregations(); track opt.value) {
+          <button
+            type="button"
+            id="agg-{{ opt.value }}"
+            class="agg-pill"
+            [class.selected]="current.aggregationType === opt.value"
+            (click)="updateAggregation(opt.value)"
+          >
+            {{ opt.label }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- Capabilities (Filterable, Sortable, Groupable) with strict base checks -->
+      <div class="property-group">
+        <span class="group-label">Dataset Capabilities</span>
+        <div class="capability-switches">
+          <!-- Filterable Switch -->
+          <div
+            class="capability-row"
+            [class.disabled-capability]="!current.baseField.filterable"
+            [title]="!current.baseField.filterable ? i18n.translate('baseFieldNotFilterable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.filterable"
+              [disabled]="!current.baseField.filterable"
+              (ngModelChange)="updateFilterable($event)"
+            />
+            <div class="capability-text">
+              <span class="cap-name">{{ i18n.translate('filterable') }}</span>
+              @if (!current.baseField.filterable) {
+              <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotFilterable') }}</small>
               }
             </div>
           </div>
-        }
 
-        <!-- Aggregation Selector -->
-        <div class="property-group">
-          <label class="group-label" for="agg-select">{{ i18n.translate('aggregation') }}</label>
-          <div class="aggregation-pills">
-            @for (opt of availableAggregations(); track opt.value) {
-              <button
-                type="button"
-                id="agg-{{ opt.value }}"
-                class="agg-pill"
-                [class.selected]="current.aggregationType === opt.value"
-                (click)="updateAggregation(opt.value)">
-                {{ opt.label }}
-              </button>
-            }
-          </div>
-        </div>
-
-        <!-- Capabilities (Filterable, Sortable, Groupable) with strict base checks -->
-        <div class="property-group">
-          <span class="group-label">Dataset Capabilities</span>
-          <div class="capability-switches">
-            <!-- Filterable Switch -->
-            <div
-              class="capability-row"
-              [class.disabled-capability]="!current.baseField.filterable"
-              [title]="!current.baseField.filterable ? i18n.translate('baseFieldNotFilterable') : ''">
-              <gp-switch
-                [ngModel]="current.filterable"
-                [disabled]="!current.baseField.filterable"
-                (ngModelChange)="updateFilterable($event)" />
-              <div class="capability-text">
-                <span class="cap-name">{{ i18n.translate('filterable') }}</span>
-                @if (!current.baseField.filterable) {
-                  <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotFilterable') }}</small>
-                }
-              </div>
-            </div>
-
-            <!-- Sortable Switch -->
-            <div
-              class="capability-row"
-              [class.disabled-capability]="!current.baseField.sortable"
-              [title]="!current.baseField.sortable ? i18n.translate('baseFieldNotSortable') : ''">
-              <gp-switch
-                [ngModel]="current.sortable"
-                [disabled]="!current.baseField.sortable"
-                (ngModelChange)="updateSortable($event)" />
-              <div class="capability-text">
-                <span class="cap-name">{{ i18n.translate('sortable') }}</span>
-                @if (!current.baseField.sortable) {
-                  <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotSortable') }}</small>
-                }
-              </div>
-            </div>
-
-            <!-- Groupable Switch -->
-            <div
-              class="capability-row"
-              [class.disabled-capability]="!current.baseField.groupable"
-              [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''">
-              <gp-switch
-                [ngModel]="current.groupable"
-                [disabled]="!current.baseField.groupable"
-                (ngModelChange)="updateGroupable($event)" />
-              <div class="capability-text">
-                <span class="cap-name">{{ i18n.translate('groupable') }}</span>
-                @if (!current.baseField.groupable) {
-                  <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small>
-                }
-              </div>
-            </div>
-
-            <!-- Active Group By Switch -->
-            <div
-              class="capability-row"
-              [class.disabled-capability]="!current.baseField.groupable"
-              [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''">
-              <gp-switch
-                [ngModel]="current.isGrouped"
-                [disabled]="!current.baseField.groupable"
-                (ngModelChange)="updateIsGrouped($event)" />
-              <div class="capability-text">
-                <span class="cap-name">{{ i18n.translate('isGrouped') }}</span>
-                @if (!current.baseField.groupable) {
-                  <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small>
-                }
-              </div>
+          <!-- Sortable Switch -->
+          <div
+            class="capability-row"
+            [class.disabled-capability]="!current.baseField.sortable"
+            [title]="!current.baseField.sortable ? i18n.translate('baseFieldNotSortable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.sortable"
+              [disabled]="!current.baseField.sortable"
+              (ngModelChange)="updateSortable($event)"
+            />
+            <div class="capability-text">
+              <span class="cap-name">{{ i18n.translate('sortable') }}</span>
+              @if (!current.baseField.sortable) {
+              <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotSortable') }}</small>
+              }
             </div>
           </div>
-        </div>
 
-        <!-- Base Schema Readonly Info -->
-        <div class="property-meta-box">
-          <div class="meta-item">
-            <span>{{ i18n.translate('dataType') }}</span>
-            <code>{{ current.dataType }}</code>
+          <!-- Groupable Switch -->
+          <div
+            class="capability-row"
+            [class.disabled-capability]="!current.baseField.groupable"
+            [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.groupable"
+              [disabled]="!current.baseField.groupable"
+              (ngModelChange)="updateGroupable($event)"
+            />
+            <div class="capability-text">
+              <span class="cap-name">{{ i18n.translate('groupable') }}</span>
+              @if (!current.baseField.groupable) {
+              <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small>
+              }
+            </div>
           </div>
-          <div class="meta-item">
-            <span>{{ i18n.translate('sourceTable') }}</span>
-            <code>{{ current.tableId }}</code>
-          </div>
-          <div class="meta-item">
-            <span>{{ i18n.translate('primaryKey') }}</span>
-            <span>{{ current.baseField.isPrimaryKey ? 'Yes' : 'No' }}</span>
-          </div>
-          <div class="meta-item">
-            <span>{{ i18n.translate('joinKey') }}</span>
-            <span>{{ current.baseField.isJoinField ? 'Yes' : 'No' }}</span>
+
+          <!-- Active Group By Switch -->
+          <div
+            class="capability-row"
+            [class.disabled-capability]="!current.baseField.groupable"
+            [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.isGrouped"
+              [disabled]="!current.baseField.groupable"
+              (ngModelChange)="updateIsGrouped($event)"
+            />
+            <div class="capability-text">
+              <span class="cap-name">{{ i18n.translate('isGrouped') }}</span>
+              @if (!current.baseField.groupable) {
+              <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small>
+              }
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Base Schema Readonly Info -->
+      <div class="property-meta-box">
+        <div class="meta-item">
+          <span>{{ i18n.translate('dataType') }}</span>
+          <code>{{ current.dataType }}</code>
+        </div>
+        <div class="meta-item">
+          <span>{{ i18n.translate('sourceTable') }}</span>
+          <code>{{ current.tableId }}</code>
+        </div>
+        <div class="meta-item">
+          <span>{{ i18n.translate('primaryKey') }}</span>
+          <span>{{ current.baseField.isPrimaryKey ? 'Yes' : 'No' }}</span>
+        </div>
+        <div class="meta-item">
+          <span>{{ i18n.translate('joinKey') }}</span>
+          <span>{{ current.baseField.isJoinField ? 'Yes' : 'No' }}</span>
+        </div>
+      </div>
+    </div>
     } @else {
-      <div class="no-active-field">
-        <p>{{ i18n.translate('selectedFieldDetails') }}</p>
-      </div>
+    <div class="no-active-field">
+      <p>{{ i18n.translate('selectedFieldDetails') }}</p>
+    </div>
     }
   </section>
 </div>

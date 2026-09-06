@@ -7,7 +7,7 @@ import {
   input,
   model,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { GpGrid, GpGridItem, GpGridChangeEvent } from '@generatedpixel/gp-grid';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
@@ -21,7 +21,7 @@ import {
   GpFilterCondition,
   GpAnalyticalQuerySpec,
   GpCategoricalChartData,
-  GpKpiMetricResult,
+  GpKpiMetricResult
 } from '../../models/query.model';
 import {
   GpDashboardConfig,
@@ -32,23 +32,16 @@ import {
   GpPivotWidgetConfig,
   GpCustomWidgetConfig,
   GpDashboardQuickPreset,
-  createDefaultDashboardConfig,
+  createDefaultDashboardConfig
 } from '../../models/dashboard.model';
 
 @Component({
   selector: 'gp-analytics-dashboard',
   standalone: true,
-  imports: [
-    GpGrid,
-    GpKpiCard,
-    GpTabularReport,
-    GpPivotGrid,
-    GpAnalyticalChart,
-    GpFilterBar,
-  ],
+  imports: [GpGrid, GpKpiCard, GpTabularReport, GpPivotGrid, GpAnalyticalChart, GpFilterBar],
   templateUrl: './analytics-dashboard.html',
   styleUrl: './analytics-dashboard.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
@@ -119,7 +112,7 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
     return [
       { fieldId: 'customer_name', label: 'Customer Name' },
       { fieldId: 'status', label: 'Order Status' },
-      { fieldId: 'region', label: 'Sales Region' },
+      { fieldId: 'region', label: 'Sales Region' }
     ];
   });
 
@@ -128,8 +121,8 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
       this.effectiveConfig().quickPresets ?? [
         {
           label: 'Completed Orders',
-          condition: { fieldId: 'status', operator: 'eq', value: 'Completed' },
-        },
+          condition: { fieldId: 'status', operator: 'eq', value: 'Completed' }
+        }
       ]
     );
   });
@@ -168,16 +161,11 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
           ? records.slice(0, Math.max(1, Math.floor(records.length / 2)))
           : undefined;
 
-        const res = this.engine.computeKpiMetric(
-          records,
-          kpiWidget.measure,
-          kpiWidget.title,
-          {
-            previousRecords: prev,
-            targetValue: kpiWidget.targetValue,
-            formatCurrency: kpiWidget.formatCurrency,
-          },
-        );
+        const res = this.engine.computeKpiMetric(records, kpiWidget.measure, kpiWidget.title, {
+          previousRecords: prev,
+          targetValue: kpiWidget.targetValue,
+          formatCurrency: kpiWidget.formatCurrency
+        });
 
         // Override severity if explicitly configured
         if (kpiWidget.severity) {
@@ -199,14 +187,15 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
     for (const w of this.effectiveConfig().widgets) {
       if (w.type === 'chart') {
         const chartWidget = w as GpChartWidgetConfig;
-        const measureKey = chartWidget.measure.alias || `${chartWidget.measure.fieldId}_${chartWidget.measure.aggregation}`;
+        const measureKey =
+          chartWidget.measure.alias || `${chartWidget.measure.fieldId}_${chartWidget.measure.aggregation}`;
 
         const spec: GpAnalyticalQuerySpec = {
           dimensions: [chartWidget.dimension],
           measures: [chartWidget.measure],
           sorts: chartWidget.sortOrder
             ? [{ fieldId: measureKey, order: chartWidget.sortOrder }]
-            : [{ fieldId: measureKey, order: 'desc' }],
+            : [{ fieldId: measureKey, order: 'desc' }]
         };
 
         const res = this.engine.executeQuery(records, spec);
@@ -218,9 +207,9 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
           series: [
             {
               name: chartWidget.title,
-              data: rows.map((r) => Number(r[measureKey] ?? 0)),
-            },
-          ],
+              data: rows.map((r) => Number(r[measureKey] ?? 0))
+            }
+          ]
         });
       }
     }
@@ -276,7 +265,7 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
           draggable: w.grid.draggable !== undefined ? w.grid.draggable : defaultMove,
           resizable: w.grid.resizable !== undefined ? w.grid.resizable : defaultResize,
           fixed: w.grid.fixed ?? false,
-          locked: w.grid.locked ?? false,
+          locked: w.grid.locked ?? false
         }));
         this.gridItems.set(items);
       }
@@ -287,45 +276,30 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   readonly kpiRevenue = computed(() => {
     const kpi = this.kpiMetricsMap().get('kpi-1');
     if (kpi) return kpi;
-    return this.engine.computeKpiMetric(
-      this.records(),
-      { fieldId: 'total', aggregation: 'sum' },
-      'Total Revenue',
-      {
-        previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 2))),
-        targetValue: 80000,
-        formatCurrency: true,
-      },
-    );
+    return this.engine.computeKpiMetric(this.records(), { fieldId: 'total', aggregation: 'sum' }, 'Total Revenue', {
+      previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 2))),
+      targetValue: 80000,
+      formatCurrency: true
+    });
   });
 
   readonly kpiOrders = computed(() => {
     const kpi = this.kpiMetricsMap().get('kpi-2');
     if (kpi) return kpi;
-    return this.engine.computeKpiMetric(
-      this.records(),
-      { fieldId: 'total', aggregation: 'count' },
-      'Total Orders',
-      {
-        previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 3))),
-        targetValue: 100,
-        formatCurrency: false,
-      },
-    );
+    return this.engine.computeKpiMetric(this.records(), { fieldId: 'total', aggregation: 'count' }, 'Total Orders', {
+      previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 3))),
+      targetValue: 100,
+      formatCurrency: false
+    });
   });
 
   readonly kpiAvgOrder = computed(() => {
     const kpi = this.kpiMetricsMap().get('kpi-3');
     if (kpi) return kpi;
-    return this.engine.computeKpiMetric(
-      this.records(),
-      { fieldId: 'total', aggregation: 'avg' },
-      'Avg Order Value',
-      {
-        previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 2))),
-        formatCurrency: true,
-      },
-    );
+    return this.engine.computeKpiMetric(this.records(), { fieldId: 'total', aggregation: 'avg' }, 'Avg Order Value', {
+      previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 2))),
+      formatCurrency: true
+    });
   });
 
   readonly customerBreakdownChart = computed(() => {
@@ -334,11 +308,11 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
     const res = this.engine.executeQuery(this.records(), {
       dimensions: ['customer_name'],
       measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'revenue' }],
-      sorts: [{ fieldId: 'revenue', order: 'desc' }],
+      sorts: [{ fieldId: 'revenue', order: 'desc' }]
     });
     return {
       categories: res.rows.map((r) => String(r['customer_name'] ?? 'Unknown')),
-      series: [{ name: 'Revenue', data: res.rows.map((r) => Number(r['revenue'] ?? 0)) }],
+      series: [{ name: 'Revenue', data: res.rows.map((r) => Number(r['revenue'] ?? 0)) }]
     };
   });
 

@@ -69,11 +69,7 @@ export interface GpCustomWidgetConfig extends GpDashboardWidgetBase {
 }
 
 export type GpDashboardWidgetConfig =
-  | GpKpiWidgetConfig
-  | GpChartWidgetConfig
-  | GpTableWidgetConfig
-  | GpPivotWidgetConfig
-  | GpCustomWidgetConfig;
+  GpKpiWidgetConfig | GpChartWidgetConfig | GpTableWidgetConfig | GpPivotWidgetConfig | GpCustomWidgetConfig;
 
 export interface GpDashboardFilterField {
   fieldId: string;
@@ -118,13 +114,13 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
     filterFields: [
       { fieldId: 'customer_name', label: 'Customer Name' },
       { fieldId: 'status', label: 'Order Status' },
-      { fieldId: 'region', label: 'Sales Region' },
+      { fieldId: 'region', label: 'Sales Region' }
     ],
     quickPresets: [
       {
         label: 'Completed Orders',
-        condition: { fieldId: 'status', operator: 'eq', value: 'Completed' },
-      },
+        condition: { fieldId: 'status', operator: 'eq', value: 'Completed' }
+      }
     ],
     widgets: [
       {
@@ -137,7 +133,7 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         targetValue: 80000,
         formatCurrency: true,
         comparePrevious: true,
-        severity: 'success',
+        severity: 'success'
       },
       {
         id: 'kpi-2',
@@ -149,7 +145,7 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         targetValue: 100,
         formatCurrency: false,
         comparePrevious: true,
-        severity: 'info',
+        severity: 'info'
       },
       {
         id: 'kpi-3',
@@ -160,7 +156,7 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         measure: { fieldId: 'total', aggregation: 'avg' },
         formatCurrency: true,
         comparePrevious: true,
-        severity: 'warning',
+        severity: 'warning'
       },
       {
         id: 'chart-bar',
@@ -172,7 +168,7 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         dimension: 'customer_name',
         measure: { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
         sortOrder: 'desc',
-        limit: 8,
+        limit: 8
       },
       {
         id: 'chart-donut',
@@ -184,7 +180,7 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         dimension: 'customer_name',
         measure: { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
         sortOrder: 'desc',
-        limit: 6,
+        limit: 6
       },
       {
         id: 'report-table',
@@ -195,10 +191,10 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         dimensions: ['customer_name', 'status'],
         measures: [
           { fieldId: 'total', aggregation: 'sum', alias: 'total_revenue' },
-          { fieldId: 'total', aggregation: 'count', alias: 'order_count' },
+          { fieldId: 'total', aggregation: 'count', alias: 'order_count' }
         ],
         showSubtotals: true,
-        showGrandTotal: true,
+        showGrandTotal: true
       },
       {
         id: 'pivot-matrix',
@@ -208,9 +204,9 @@ export function createDefaultDashboardConfig(): GpDashboardConfig {
         grid: { x: 0, y: 11, w: 12, h: 5, minW: 6, minH: 4 },
         rowDimension: 'customer_name',
         colDimension: 'status',
-        measure: { fieldId: 'total', aggregation: 'sum' },
-      },
-    ],
+        measure: { fieldId: 'total', aggregation: 'sum' }
+      }
+    ]
   };
 }
 
@@ -227,7 +223,7 @@ export function createBlankDashboardConfig(title = 'Custom Analytical Dashboard'
     gap: 16,
     compactType: 'vertical',
     filterFields: [],
-    widgets: [],
+    widgets: []
   };
 }
 
@@ -245,7 +241,7 @@ export function createOperationsDashboardConfig(): GpDashboardConfig {
     compactType: 'vertical',
     filterFields: [
       { fieldId: 'region', label: 'Region' },
-      { fieldId: 'status', label: 'Status' },
+      { fieldId: 'status', label: 'Status' }
     ],
     widgets: [
       {
@@ -257,7 +253,7 @@ export function createOperationsDashboardConfig(): GpDashboardConfig {
         measure: { fieldId: 'quantity', aggregation: 'sum' },
         targetValue: 500,
         formatCurrency: false,
-        severity: 'info',
+        severity: 'info'
       },
       {
         id: 'op-kpi-2',
@@ -268,7 +264,7 @@ export function createOperationsDashboardConfig(): GpDashboardConfig {
         measure: { fieldId: 'total', aggregation: 'count' },
         targetValue: 50,
         formatCurrency: false,
-        severity: 'success',
+        severity: 'success'
       },
       {
         id: 'op-chart-region',
@@ -279,7 +275,7 @@ export function createOperationsDashboardConfig(): GpDashboardConfig {
         grid: { x: 0, y: 2, w: 6, h: 4, minW: 4, minH: 3 },
         dimension: 'region',
         measure: { fieldId: 'quantity', aggregation: 'sum', alias: 'units' },
-        sortOrder: 'desc',
+        sortOrder: 'desc'
       },
       {
         id: 'op-chart-status',
@@ -290,7 +286,7 @@ export function createOperationsDashboardConfig(): GpDashboardConfig {
         grid: { x: 6, y: 2, w: 6, h: 4, minW: 4, minH: 3 },
         dimension: 'status',
         measure: { fieldId: 'total', aggregation: 'count', alias: 'orders' },
-        sortOrder: 'desc',
+        sortOrder: 'desc'
       },
       {
         id: 'op-table',
@@ -300,11 +296,11 @@ export function createOperationsDashboardConfig(): GpDashboardConfig {
         dimensions: ['region', 'status'],
         measures: [
           { fieldId: 'quantity', aggregation: 'sum', alias: 'units' },
-          { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
+          { fieldId: 'total', aggregation: 'sum', alias: 'revenue' }
         ],
         showSubtotals: true,
-        showGrandTotal: true,
-      },
-    ],
+        showGrandTotal: true
+      }
+    ]
   };
 }

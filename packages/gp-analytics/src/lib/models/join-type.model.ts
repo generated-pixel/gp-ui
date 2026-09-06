@@ -6,5 +6,5 @@ export enum JoinType {
   Left = 'left',
   Right = 'right',
   Full = 'full',
-  Cross = 'cross',
+  Cross = 'cross'
 }

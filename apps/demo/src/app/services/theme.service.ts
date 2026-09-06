@@ -17,7 +17,7 @@ export const DEMO_THEMES: DemoThemeOption[] = [
   { id: 'amethyst', name: 'Amethyst', primaryColor: '#9333ea', description: 'Vibrant Violet & Purple' },
   { id: 'rose', name: 'Rose', primaryColor: '#e11d48', description: 'Bold Crimson & Berry' },
   { id: 'nord', name: 'Nord', primaryColor: '#5e81ac', description: 'Cool Arctic Blue & Slate' },
-  { id: 'cyberpunk', name: 'Cyberpunk', primaryColor: '#f43f5e', description: 'High-contrast Neon & Gold' },
+  { id: 'cyberpunk', name: 'Cyberpunk', primaryColor: '#f43f5e', description: 'High-contrast Neon & Gold' }
 ];
 
 @Injectable({ providedIn: 'root' })

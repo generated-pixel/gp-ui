@@ -12,7 +12,9 @@
   border-radius: var(--gp-radius-xl, 0.75rem);
   box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
   overflow: hidden;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 
   &.drag-over {
     border-color: var(--gp-color-primary, #4f46e5);
@@ -1148,4 +1150,3 @@
     border-radius: 0.2rem;
   }
 }
-

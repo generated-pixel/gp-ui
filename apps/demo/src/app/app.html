@@ -13,20 +13,10 @@
     <div class="toolbar-actions">
       <!-- Quick Demo Presets (Visible on Workbench and Standalone) -->
       @if (activeTab() === 'workbench' || activeTab() === 'standalone') {
-        <div class="preset-buttons">
-          <gp-button
-            label="Load Sample Dataset"
-            icon="bolt"
-            size="sm"
-            severity="primary"
-            (click)="loadSampleDataset()" />
-          <gp-button
-            label="Reset"
-            icon="refresh"
-            size="sm"
-            [outlined]="true"
-            (click)="resetDataset()" />
-        </div>
+      <div class="preset-buttons">
+        <gp-button label="Load Sample Dataset" icon="bolt" size="sm" severity="primary" (click)="loadSampleDataset()" />
+        <gp-button label="Reset" icon="refresh" size="sm" [outlined]="true" (click)="resetDataset()" />
+      </div>
       }
 
       <div class="settings-bar">
@@ -35,17 +25,18 @@
           <span class="setting-label">Theme</span>
           <div class="theme-chips" role="radiogroup" aria-label="Theme Selection">
             @for (opt of themeOptions; track opt.value) {
-              <button
-                type="button"
-                class="theme-chip"
-                [class.active]="currentTheme() === opt.value"
-                [title]="opt.label"
-                (click)="selectTheme(opt.value)"
-                [attr.aria-checked]="currentTheme() === opt.value"
-                role="radio">
-                <span class="theme-color-dot" [style.background-color]="opt.color"></span>
-                <span class="theme-chip-label">{{ opt.label }}</span>
-              </button>
+            <button
+              type="button"
+              class="theme-chip"
+              [class.active]="currentTheme() === opt.value"
+              [title]="opt.label"
+              (click)="selectTheme(opt.value)"
+              [attr.aria-checked]="currentTheme() === opt.value"
+              role="radio"
+            >
+              <span class="theme-color-dot" [style.background-color]="opt.color"></span>
+              <span class="theme-chip-label">{{ opt.label }}</span>
+            </button>
             }
           </div>
         </div>
@@ -60,7 +51,8 @@
               (click)="setMode('light')"
               title="Light Mode"
               role="radio"
-              [attr.aria-checked]="currentMode() === 'light'">
+              [attr.aria-checked]="currentMode() === 'light'"
+            >
               ☀️ Light
             </button>
             <button
@@ -70,7 +62,8 @@
               (click)="setMode('dark')"
               title="Dark Mode"
               role="radio"
-              [attr.aria-checked]="currentMode() === 'dark'">
+              [attr.aria-checked]="currentMode() === 'dark'"
+            >
               🌙 Dark
             </button>
             <button
@@ -80,7 +73,8 @@
               (click)="setMode('system')"
               title="System OS Preference"
               role="radio"
-              [attr.aria-checked]="currentMode() === 'system'">
+              [attr.aria-checked]="currentMode() === 'system'"
+            >
               💻 Auto
             </button>
           </div>
@@ -95,7 +89,8 @@
             optionValue="value"
             [ngModel]="activePresetId()"
             aria-label="Select Domain Schema Preset"
-            (ngModelChange)="onSelectPreset($event)" />
+            (ngModelChange)="onSelectPreset($event)"
+          />
         </div>
 
         <!-- Locale Selector -->
@@ -107,17 +102,13 @@
             optionValue="value"
             [ngModel]="i18n.locale()"
             [attr.aria-label]="i18n.translate('language')"
-            (ngModelChange)="setLocale($event)" />
+            (ngModelChange)="setLocale($event)"
+          />
         </div>
 
         <!-- Package Distribution Button -->
         <div class="setting-item pkg-btn-item">
-          <gp-button
-            label="Packages & API"
-            icon="box"
-            size="sm"
-            severity="primary"
-            (click)="openPackageManager()" />
+          <gp-button label="Packages & API" icon="box" size="sm" severity="primary" (click)="openPackageManager()" />
         </div>
       </div>
     </div>
@@ -131,7 +122,8 @@
       [class.active]="activeTab() === 'workbench'"
       (click)="activeTab.set('workbench')"
       role="tab"
-      [attr.aria-selected]="activeTab() === 'workbench'">
+      [attr.aria-selected]="activeTab() === 'workbench'"
+    >
       <span>🛠 Interactive Dataset Builder</span>
     </button>
     <button
@@ -140,7 +132,8 @@
       [class.active]="activeTab() === 'dashboard'"
       (click)="activeTab.set('dashboard')"
       role="tab"
-      [attr.aria-selected]="activeTab() === 'dashboard'">
+      [attr.aria-selected]="activeTab() === 'dashboard'"
+    >
       <span>📈 Executive Dashboard (gp-grid)</span>
     </button>
     <button
@@ -149,7 +142,8 @@
       [class.active]="activeTab() === 'designer'"
       (click)="activeTab.set('designer')"
       role="tab"
-      [attr.aria-selected]="activeTab() === 'designer'">
+      [attr.aria-selected]="activeTab() === 'designer'"
+    >
       <span>🎨 Dashboard Designer</span>
     </button>
     <button
@@ -158,7 +152,8 @@
       [class.active]="activeTab() === 'reports'"
       (click)="activeTab.set('reports')"
       role="tab"
-      [attr.aria-selected]="activeTab() === 'reports'">
+      [attr.aria-selected]="activeTab() === 'reports'"
+    >
       <span>📑 Tabular & Pivot Reports</span>
     </button>
     <button
@@ -167,199 +162,221 @@
       [class.active]="activeTab() === 'standalone'"
       (click)="activeTab.set('standalone')"
       role="tab"
-      [attr.aria-selected]="activeTab() === 'standalone'">
+      [attr.aria-selected]="activeTab() === 'standalone'"
+    >
       <span>🧩 Modular Standalone Components</span>
     </button>
   </nav>
 
   <!-- ================= TAB 1: WORKBENCH ================= -->
   @if (activeTab() === 'workbench') {
-    <section class="workbench-section" aria-label="Dataset Builder Workbench">
-      <!-- Relationship Guidelines Card -->
-      <div class="relationship-guide-card">
-        <div class="guide-item">
-          <span class="guide-icon">⇄</span>
-          <div>
-            <strong>Active Relationship Graph</strong>
-            <p>Selecting a field from <em>Customers</em> automatically enables directly related <em>Orders</em>. Unrelated tables (e.g. <em>Employees</em>) are safely disabled.</p>
-          </div>
-        </div>
-        <div class="guide-item">
-          <span class="guide-icon">∑</span>
-          <div>
-            <strong>Dynamic Aggregations</strong>
-            <p>Applying aggregations dynamically changes field display labels (e.g. <code>Order total (SUM)</code>) while preserving base display labels.</p>
-          </div>
-        </div>
-        <div class="guide-item">
-          <span class="guide-icon">🔒</span>
-          <div>
-            <strong>Capability Invariants</strong>
-            <p>Fields not sortable/filterable in the underlying schema can never be sortable/filterable in the dataset model.</p>
-          </div>
+  <section class="workbench-section" aria-label="Dataset Builder Workbench">
+    <!-- Relationship Guidelines Card -->
+    <div class="relationship-guide-card">
+      <div class="guide-item">
+        <span class="guide-icon">⇄</span>
+        <div>
+          <strong>Active Relationship Graph</strong>
+          <p>
+            Selecting a field from <em>Customers</em> automatically enables directly related <em>Orders</em>. Unrelated
+            tables (e.g. <em>Employees</em>) are safely disabled.
+          </p>
         </div>
       </div>
+      <div class="guide-item">
+        <span class="guide-icon">∑</span>
+        <div>
+          <strong>Dynamic Aggregations</strong>
+          <p>
+            Applying aggregations dynamically changes field display labels (e.g. <code>Order total (SUM)</code>) while
+            preserving base display labels.
+          </p>
+        </div>
+      </div>
+      <div class="guide-item">
+        <span class="guide-icon">🔒</span>
+        <div>
+          <strong>Capability Invariants</strong>
+          <p>
+            Fields not sortable/filterable in the underlying schema can never be sortable/filterable in the dataset
+            model.
+          </p>
+        </div>
+      </div>
+    </div>
 
-      <!-- Main Integrated Component -->
-      <gp-dataset-builder
-        [(groupings)]="groupings"
-        [(additionalRelationships)]="additionalRelationships"
-        [(dataset)]="activeDataset"
-        (schemaLoad)="onSchemaLoaded($event)" />
-    </section>
+    <!-- Main Integrated Component -->
+    <gp-dataset-builder
+      [(groupings)]="groupings"
+      [(additionalRelationships)]="additionalRelationships"
+      [(dataset)]="activeDataset"
+      (schemaLoad)="onSchemaLoaded($event)"
+    />
+  </section>
   }
 
   <!-- ================= TAB 2: DASHBOARD ================= -->
   @if (activeTab() === 'dashboard') {
-    <section class="dashboard-section" aria-label="Executive Dashboard">
-      <gp-analytics-dashboard [records]="demoAnalyticsData" />
-    </section>
+  <section class="dashboard-section" aria-label="Executive Dashboard">
+    <gp-analytics-dashboard [records]="demoAnalyticsData" />
+  </section>
   }
 
   <!-- ================= TAB 3: DASHBOARD DESIGNER ================= -->
   @if (activeTab() === 'designer') {
-    <section class="designer-section" aria-label="Visual Dashboard Designer">
-      <gp-dashboard-designer
-        [(config)]="designerDashboardConfig"
-        [records]="demoAnalyticsData"
-        [availableFields]="designerAvailableFields()" />
-    </section>
+  <section class="designer-section" aria-label="Visual Dashboard Designer">
+    <gp-dashboard-designer
+      [(config)]="designerDashboardConfig"
+      [records]="demoAnalyticsData"
+      [availableFields]="designerAvailableFields()"
+    />
+  </section>
   }
 
   <!-- ================= TAB 3: REPORTS ================= -->
   @if (activeTab() === 'reports') {
-    <section class="reports-section" aria-label="Analytical Reports">
-      <!-- 1. KPI Cards Row -->
-      <div class="kpi-cards-grid">
-        <gp-kpi-card
-          title="Total Commerce Revenue"
-          formattedValue="$142,650.00"
-          [variancePercentage]="18.4"
-          trend="up"
-          severity="success"
-          [targetValue]="160000"
-          [targetProgress]="89.1"
-          [sparklinePoints]="[18, 24, 21, 32, 45, 52, 49, 68, 85, 94]"
-          icon="💰" />
-        <gp-kpi-card
-          title="Active Order Volume"
-          formattedValue="108 Orders"
-          [variancePercentage]="12.0"
-          trend="up"
-          severity="info"
-          [targetValue]="120"
-          [targetProgress]="90.0"
-          [sparklinePoints]="[12, 14, 11, 16, 19, 18, 22, 24, 25, 28]"
-          icon="📦" />
-        <gp-kpi-card
-          title="Average Order Value"
-          formattedValue="$1,320.83"
-          [variancePercentage]="-2.5"
-          trend="down"
-          severity="danger"
-          [sparklinePoints]="[1400, 1380, 1420, 1350, 1310, 1360, 1320]"
-          icon="💳" />
-      </div>
+  <section class="reports-section" aria-label="Analytical Reports">
+    <!-- 1. KPI Cards Row -->
+    <div class="kpi-cards-grid">
+      <gp-kpi-card
+        title="Total Commerce Revenue"
+        formattedValue="$142,650.00"
+        [variancePercentage]="18.4"
+        trend="up"
+        severity="success"
+        [targetValue]="160000"
+        [targetProgress]="89.1"
+        [sparklinePoints]="[18, 24, 21, 32, 45, 52, 49, 68, 85, 94]"
+        icon="💰"
+      />
+      <gp-kpi-card
+        title="Active Order Volume"
+        formattedValue="108 Orders"
+        [variancePercentage]="12.0"
+        trend="up"
+        severity="info"
+        [targetValue]="120"
+        [targetProgress]="90.0"
+        [sparklinePoints]="[12, 14, 11, 16, 19, 18, 22, 24, 25, 28]"
+        icon="📦"
+      />
+      <gp-kpi-card
+        title="Average Order Value"
+        formattedValue="$1,320.83"
+        [variancePercentage]="-2.5"
+        trend="down"
+        severity="danger"
+        [sparklinePoints]="[1400, 1380, 1420, 1350, 1310, 1360, 1320]"
+        icon="💳"
+      />
+    </div>
 
-      <!-- 2. Charts Row -->
-      <div class="reports-charts-grid">
-        <gp-analytical-chart
-          title="Revenue by Customer"
-          subtitle="Top contributing enterprise accounts"
-          type="bar"
-          [data]="{
+    <!-- 2. Charts Row -->
+    <div class="reports-charts-grid">
+      <gp-analytical-chart
+        title="Revenue by Customer"
+        subtitle="Top contributing enterprise accounts"
+        type="bar"
+        [data]="{
             categories: ['Acme Industrial', 'Apex Logistics', 'Starlight', 'Northwind', 'Helios'],
             series: [{ name: 'Revenue', data: [46600, 27300, 31200, 24650, 15900] }]
-          }" />
-        <gp-analytical-chart
-          title="Geographic Revenue Share"
-          subtitle="Global market distribution"
-          type="donut"
-          [data]="{
+          }"
+      />
+      <gp-analytical-chart
+        title="Geographic Revenue Share"
+        subtitle="Global market distribution"
+        type="donut"
+        [data]="{
             categories: ['AMER', 'EMEA', 'APAC'],
             series: [{ name: 'Revenue', data: [73900, 40550, 31200] }]
-          }" />
-      </div>
+          }"
+      />
+    </div>
 
-      <!-- 3. Tabular Report with Subtotals -->
-      <gp-tabular-report
-        title="Enterprise Revenue Rollup with Subtotals"
-        subtitle="Hierarchically aggregated by Region, Customer, and Status"
-        [records]="demoAnalyticsData"
-        [dimensions]="['region', 'customer_name', 'status']"
-        [measures]="[
+    <!-- 3. Tabular Report with Subtotals -->
+    <gp-tabular-report
+      title="Enterprise Revenue Rollup with Subtotals"
+      subtitle="Hierarchically aggregated by Region, Customer, and Status"
+      [records]="demoAnalyticsData"
+      [dimensions]="['region', 'customer_name', 'status']"
+      [measures]="[
           { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
           { fieldId: 'quantity', aggregation: 'sum', alias: 'total_units' },
           { fieldId: 'total', aggregation: 'count', alias: 'order_count' }
-        ]" />
+        ]"
+    />
 
-      <!-- 4. Dynamic 2D Pivot Matrix -->
-      <gp-pivot-grid
-        title="Cross-Tabulation Matrix: Customer by Region"
-        [records]="demoAnalyticsData"
-        rowDimension="customer_name"
-        colDimension="region"
-        [measure]="{ fieldId: 'total', aggregation: 'sum' }" />
-    </section>
+    <!-- 4. Dynamic 2D Pivot Matrix -->
+    <gp-pivot-grid
+      title="Cross-Tabulation Matrix: Customer by Region"
+      [records]="demoAnalyticsData"
+      rowDimension="customer_name"
+      colDimension="region"
+      [measure]="{ fieldId: 'total', aggregation: 'sum' }"
+    />
+  </section>
   }
 
   <!-- ================= TAB 4: STANDALONE ================= -->
   @if (activeTab() === 'standalone') {
-    <section class="standalone-section" aria-label="Modular Components">
-      <div class="standalone-grid-3col">
-        <!-- 1. Left: Available Fields (Schema Catalogue) -->
-        <div class="standalone-col">
-          <div class="col-header-box">
-            <h3 class="col-title">1. Available Fields (Left)</h3>
-            <p class="col-desc">Drag or click + to add fields with relationship graph enforcement.</p>
-          </div>
-          <gp-schema-catalogue
-            [(groupings)]="groupings"
-            [(additionalRelationships)]="additionalRelationships"
-            [activeDatasetFields]="activeDataset().fields"
-            (schemaLoad)="onSchemaLoaded($event)"
-            (fieldSelect)="addStandaloneField($event)" />
+  <section class="standalone-section" aria-label="Modular Components">
+    <div class="standalone-grid-3col">
+      <!-- 1. Left: Available Fields (Schema Catalogue) -->
+      <div class="standalone-col">
+        <div class="col-header-box">
+          <h3 class="col-title">1. Available Fields (Left)</h3>
+          <p class="col-desc">Drag or click + to add fields with relationship graph enforcement.</p>
         </div>
-
-        <!-- 2. Middle: Dataset View (Preview Table) -->
-        <div class="standalone-col standalone-dataset-col">
-          <div class="col-header-box">
-            <h3 class="col-title">2. Dataset View (Middle)</h3>
-            <p class="col-desc">Live preview of selected dataset fields with dynamic headers & automagic grouping.</p>
-          </div>
-          <gp-dataset-preview
-            [fields]="activeDataset().fields"
-            [filters]="activeDataset().filters || []"
-            (filterRemove)="updateStandaloneFilters(activeDataset().filters ? activeDataset().filters!.filter((_, i) => i !== $event) : [])"
-            (filtersClear)="updateStandaloneFilters([])"
-            [datasetName]="activeDataset().name" />
-        </div>
-
-        <!-- 3. Right: Selected Fields & Properties (Field Selector) -->
-        <div class="standalone-col">
-          <div class="col-header-box">
-            <h3 class="col-title">3. Selected Fields (Right)</h3>
-            <p class="col-desc">Draggable reorderable list on top, capability-enforced properties on bottom.</p>
-          </div>
-          <gp-dataset-field-selector
-            [fields]="activeDataset().fields"
-            [filters]="activeDataset().filters || []"
-            (fieldsChange)="updateStandaloneFields($event)"
-            (filtersChange)="updateStandaloneFilters($event)" />
-        </div>
+        <gp-schema-catalogue
+          [(groupings)]="groupings"
+          [(additionalRelationships)]="additionalRelationships"
+          [activeDatasetFields]="activeDataset().fields"
+          (schemaLoad)="onSchemaLoaded($event)"
+          (fieldSelect)="addStandaloneField($event)"
+        />
       </div>
 
-      <!-- Localized Value Demonstration Card -->
-      <gp-card class="value-example" aria-labelledby="value-title">
-        <p class="eyebrow">{{ i18n.translate('valueSeparation') }}</p>
-        <h2 id="value-title">{{ i18n.translate('oneValueManyDisplays') }}</h2>
-        <div class="value-grid">
-          <div><span>{{ i18n.translate('storedValue') }}</span><strong>{{ sampleValue.value }}</strong></div>
-          <div><span>{{ i18n.translate('english') }}</span><strong>{{ sampleValue.displayValue['en'] }}</strong></div>
-          <div><span>{{ i18n.translate('french') }}</span><strong>{{ sampleValue.displayValue['fr'] }}</strong></div>
+      <!-- 2. Middle: Dataset View (Preview Table) -->
+      <div class="standalone-col standalone-dataset-col">
+        <div class="col-header-box">
+          <h3 class="col-title">2. Dataset View (Middle)</h3>
+          <p class="col-desc">Live preview of selected dataset fields with dynamic headers & automagic grouping.</p>
         </div>
-      </gp-card>
-    </section>
+        <gp-dataset-preview
+          [fields]="activeDataset().fields"
+          [filters]="activeDataset().filters || []"
+          (filterRemove)="updateStandaloneFilters(activeDataset().filters ? activeDataset().filters!.filter((_, i) => i !== $event) : [])"
+          (filtersClear)="updateStandaloneFilters([])"
+          [datasetName]="activeDataset().name"
+        />
+      </div>
+
+      <!-- 3. Right: Selected Fields & Properties (Field Selector) -->
+      <div class="standalone-col">
+        <div class="col-header-box">
+          <h3 class="col-title">3. Selected Fields (Right)</h3>
+          <p class="col-desc">Draggable reorderable list on top, capability-enforced properties on bottom.</p>
+        </div>
+        <gp-dataset-field-selector
+          [fields]="activeDataset().fields"
+          [filters]="activeDataset().filters || []"
+          (fieldsChange)="updateStandaloneFields($event)"
+          (filtersChange)="updateStandaloneFilters($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Localized Value Demonstration Card -->
+    <gp-card class="value-example" aria-labelledby="value-title">
+      <p class="eyebrow">{{ i18n.translate('valueSeparation') }}</p>
+      <h2 id="value-title">{{ i18n.translate('oneValueManyDisplays') }}</h2>
+      <div class="value-grid">
+        <div><span>{{ i18n.translate('storedValue') }}</span><strong>{{ sampleValue.value }}</strong></div>
+        <div><span>{{ i18n.translate('english') }}</span><strong>{{ sampleValue.displayValue['en'] }}</strong></div>
+        <div><span>{{ i18n.translate('french') }}</span><strong>{{ sampleValue.displayValue['fr'] }}</strong></div>
+      </div>
+    </gp-card>
+  </section>
   }
 
   <!-- Package Distribution Manager Dialog -->
@@ -369,12 +386,13 @@
     [datasets]="[activeDataset()]"
     [dashboards]="[designerDashboardConfig()]"
     [reports]="availableReports()"
-    (packageImported)="onPackageImported($event)" />
+    (packageImported)="onPackageImported($event)"
+  />
 
   <!-- Global Demo Notification Toast -->
   @if (packageToast()) {
-    <div class="demo-global-toast">
-      <span>{{ packageToast() }}</span>
-    </div>
+  <div class="demo-global-toast">
+    <span>{{ packageToast() }}</span>
+  </div>
   }
 </main>

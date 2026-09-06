@@ -8,13 +8,13 @@ describe('GpPivotGrid', () => {
   const mockData = [
     { customer: 'Northwind', region: 'EMEA', revenue: 1500 },
     { customer: 'Acme', region: 'AMER', revenue: 2500 },
-    { customer: 'Acme', region: 'EMEA', revenue: 500 },
+    { customer: 'Acme', region: 'EMEA', revenue: 500 }
   ];
 
   function createComponent() {
     TestBed.configureTestingModule({
       imports: [GpPivotGrid],
-      providers: [GpDataEngineService, GpTranslationService],
+      providers: [GpDataEngineService, GpTranslationService]
     });
     const fixture = TestBed.createComponent(GpPivotGrid);
     const component = fixture.componentInstance;

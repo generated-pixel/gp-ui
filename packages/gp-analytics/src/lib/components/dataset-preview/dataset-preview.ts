@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { GpButton, GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import {
@@ -17,7 +9,7 @@ import {
   LoadedDataResult,
   CustomDataLoaderFn,
   GpFilterCondition,
-  GpFilterOperator,
+  GpFilterOperator
 } from '../../models';
 import { GpDatasetDataLoaderService } from '../../services/dataset-data-loader.service';
 import { GpDataEngineService } from '../../services/data-engine.service';
@@ -59,7 +51,7 @@ export interface ColumnSummaryStats {
   imports: [GpButton, GpTag],
   templateUrl: './dataset-preview.html',
   styleUrl: './dataset-preview.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpDatasetPreview extends GpAnalyticsComponent {
   protected readonly dataLoader = inject(GpDatasetDataLoaderService);
@@ -162,8 +154,8 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
   readonly isCustomSourceActive = computed<boolean>(() => {
     return Boolean(
       (this.customData() && this.customData()!.length > 0) ||
-        (this.internalLoadedRecords() && this.internalLoadedRecords()!.length > 0) ||
-        this.loadedSourceResult(),
+      (this.internalLoadedRecords() && this.internalLoadedRecords()!.length > 0) ||
+      this.loadedSourceResult()
     );
   });
 
@@ -171,9 +163,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
    * Filtered dataset fields ensuring only visible fields are rendered in preview.
    */
   readonly visibleFields = computed<DatasetField[]>(() => {
-    return this.fields().filter(
-      (f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true),
-    );
+    return this.fields().filter((f) => f.visible !== false && (f.baseField ? f.baseField.visible !== false : true));
   });
 
   /**
@@ -189,7 +179,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
       sortable: f.sortable,
       filterable: f.filterable,
       aggregationType: f.aggregationType,
-      isGrouped: f.isGrouped,
+      isGrouped: f.isGrouped
     }));
   });
 
@@ -222,10 +212,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     const activeRecords = provided ?? internal;
 
     if (activeRecords && activeRecords.length > 0) {
-      const mapped = this.dataLoader.mapRecordsToDatasetFields(
-        activeRecords,
-        this.visibleFields(),
-      );
+      const mapped = this.dataLoader.mapRecordsToDatasetFields(activeRecords, this.visibleFields());
       return this.applySorting(mapped);
     }
 
@@ -244,7 +231,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
       { name: 'Helios Technologies', city: 'Berlin', code: 'CUST-BER-04' },
       { name: 'Apex Logistics', city: 'Tokyo', code: 'CUST-TYO-05' },
       { name: 'Vanguard Retail', city: 'Toronto', code: 'CUST-TOR-06' },
-      { name: 'Summit Holdings', city: 'Zurich', code: 'CUST-ZUR-07' },
+      { name: 'Summit Holdings', city: 'Zurich', code: 'CUST-ZUR-07' }
     ];
 
     const clusterSizes = [2, 2, 3, 2, 3, 2, 3];
@@ -304,7 +291,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
         totalCount: values.length,
         distinctCount: distinctSet.size,
         nullCount,
-        isNumeric: isNum,
+        isNumeric: isNum
       };
 
       if (isNum && nonNulls.length > 0) {
@@ -341,8 +328,8 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
           groupValue: '',
           columnHeader: '',
           count: allRows.length,
-          rows: allRows,
-        },
+          rows: allRows
+        }
       ];
     }
 
@@ -360,7 +347,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
       groupValue: val,
       columnHeader: primaryCol.header,
       count: rows.length,
-      rows,
+      rows
     }));
   });
 
@@ -448,7 +435,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
           type: 'file',
           file,
           fileName: file.name,
-          dataPath,
+          dataPath
         };
       } else if (tab === 'api') {
         const url = this.apiUrlInput().trim();
@@ -458,7 +445,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
         config = {
           type: 'api',
           url,
-          dataPath,
+          dataPath
         };
       } else {
         const rawJson = this.rawJsonInput().trim();
@@ -468,7 +455,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
         config = {
           type: 'json',
           rawJson,
-          dataPath,
+          dataPath
         };
       }
 
@@ -488,7 +475,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
             totalRecords: mapped.length,
             matchedFields: analysis.matchedFields,
             unmatchedFields: analysis.unmatchedFields,
-            timestamp: new Date().toISOString(),
+            timestamp: new Date().toISOString()
           };
         } else {
           result = rawOrResult;
@@ -531,7 +518,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
       totalRecords: mapped.length,
       matchedFields: analysis.matchedFields,
       unmatchedFields: analysis.unmatchedFields,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     };
 
     this.internalLoadedRecords.set(result.records);
@@ -579,7 +566,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     index: number,
     profile: { name: string; city: string; code: string },
     subOrderIdx: number,
-    profileIdx: number,
+    profileIdx: number
   ): any {
     const idLower = (field.fieldId || '').toLowerCase();
     const tableLower = (field.tableId || '').toLowerCase();
@@ -606,7 +593,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
         return baseVal.toLocaleString('en-US', {
           style: field.dataType === 'currency' ? 'currency' : 'decimal',
           currency: 'USD',
-          minimumFractionDigits: 2,
+          minimumFractionDigits: 2
         });
       }
       if (field.aggregationType === 'average') {
@@ -614,7 +601,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
         return baseVal.toLocaleString('en-US', {
           style: field.dataType === 'currency' ? 'currency' : 'decimal',
           currency: 'USD',
-          minimumFractionDigits: 2,
+          minimumFractionDigits: 2
         });
       }
       if (field.aggregationType === 'min') {
@@ -644,7 +631,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
         'IoT Sensor Hub',
         'AI Recommendation Engine',
         'Security Gateway Pro',
-        'High-Speed Stream Broker',
+        'High-Speed Stream Broker'
       ];
       return mockProducts[(profileIdx * 2 + subOrderIdx) % mockProducts.length];
     }
@@ -707,9 +694,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     if (val == null) {
       return '-';
     }
-    const field = this.fields().find(
-      (f) => f.datasetFieldId === col.datasetFieldId || f.fieldId === col.fieldId,
-    );
+    const field = this.fields().find((f) => f.datasetFieldId === col.datasetFieldId || f.fieldId === col.fieldId);
     if (field?.lookupValues && field.lookupValues.length > 0) {
       return getLookupValueDisplayLabel(field, val, this.i18n.locale());
     }
@@ -718,10 +703,7 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
 
   getFilterFieldLabel(fieldId: string): string {
     const f = this.fields().find(
-      (item) =>
-        item.datasetFieldId === fieldId ||
-        item.fieldId === fieldId ||
-        item.fieldName === fieldId,
+      (item) => item.datasetFieldId === fieldId || item.fieldId === fieldId || item.fieldName === fieldId
     );
     return f ? getDatasetFieldDisplayLabel(f, this.i18n.locale()) : fieldId;
   }
@@ -761,15 +743,11 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     }
     const field = this.fields().find(
       (f) =>
-        f.datasetFieldId === condition.fieldId ||
-        f.fieldId === condition.fieldId ||
-        f.fieldName === condition.fieldId,
+        f.datasetFieldId === condition.fieldId || f.fieldId === condition.fieldId || f.fieldName === condition.fieldId
     );
     const locale = this.i18n.locale();
     if (Array.isArray(condition.value)) {
-      return condition.value
-        .map((v) => getLookupValueDisplayLabel(field, v, locale))
-        .join(', ');
+      return condition.value.map((v) => getLookupValueDisplayLabel(field, v, locale)).join(', ');
     }
     return getLookupValueDisplayLabel(field, condition.value, locale);
   }

@@ -240,7 +240,7 @@ const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {
     filteredCount: 'Filtered: {count} of {total} rows',
     activeFilters: 'Active Filters',
     clearAllFilters: 'Clear All Filters',
-    availableOptions: 'Available options (translated)',
+    availableOptions: 'Available options (translated)'
   },
   fr: {
     metadataCatalogue: 'Catalogue de métadonnées',
@@ -359,8 +359,8 @@ const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {
     filteredCount: 'Filtré : {count} sur {total} lignes',
     activeFilters: 'Filtres actifs',
     clearAllFilters: 'Effacer tous les filtres',
-    availableOptions: 'Options disponibles (traduites)',
-  },
+    availableOptions: 'Options disponibles (traduites)'
+  }
 };
 
 @Injectable({ providedIn: 'root' })

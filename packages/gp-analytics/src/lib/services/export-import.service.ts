@@ -8,7 +8,7 @@ import {
   GpPackageItemCounts,
   GpPackageMetadata,
   GpPackageThemeConfig,
-  GpPackageValidationResult,
+  GpPackageValidationResult
 } from '../models/package.model';
 import { Dataset } from '../models/dataset.model';
 import { GpDashboardConfig } from '../models/dashboard.model';
@@ -29,7 +29,7 @@ export interface CreatePackageOptions {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GpExportImportService {
   /** Current supported package schema version */
@@ -56,14 +56,14 @@ export class GpExportImportService {
     pkg.metadata.itemCounts = {
       datasets: pkg.datasets.length,
       dashboards: pkg.dashboards.length,
-      reports: pkg.reports.length,
+      reports: pkg.reports.length
     };
 
     // Calculate checksum of payloads
     pkg.metadata.checksum = computePackageChecksum({
       datasets: pkg.datasets,
       dashboards: pkg.dashboards,
-      reports: pkg.reports,
+      reports: pkg.reports
     });
 
     return pkg;
@@ -95,7 +95,7 @@ export class GpExportImportService {
           version: 'unknown',
           errors: [`Invalid JSON format: ${e.message}`],
           warnings: [],
-          itemCounts,
+          itemCounts
         };
       }
     } else if (typeof jsonOrObj === 'object' && jsonOrObj !== null) {
@@ -107,7 +107,7 @@ export class GpExportImportService {
         version: 'unknown',
         errors: ['Provided input is not a valid JSON string or object'],
         warnings: [],
-        itemCounts,
+        itemCounts
       };
     }
 
@@ -189,7 +189,7 @@ export class GpExportImportService {
       const calculated = computePackageChecksum({
         datasets: parsed.datasets || [],
         dashboards: parsed.dashboards || [],
-        reports: parsed.reports || [],
+        reports: parsed.reports || []
       });
       if (calculated !== parsed.metadata.checksum) {
         warnings.push('Package checksum mismatch: content may have been modified outside the exporter.');
@@ -203,7 +203,7 @@ export class GpExportImportService {
       errors,
       warnings,
       itemCounts,
-      metadata: parsed.metadata,
+      metadata: parsed.metadata
     };
   }
 
@@ -247,7 +247,7 @@ export class GpExportImportService {
    */
   prepareDistributionPayload(
     pkg: GpAnalyticsPackage,
-    targetEndpoint = '/api/v1/analytics/distribution/packages',
+    targetEndpoint = '/api/v1/analytics/distribution/packages'
   ): GpDistributionPayload {
     const jsonStr = this.exportPackageToJson(pkg, false);
     const payloadSizeBytes = new Blob([jsonStr]).size;
@@ -260,7 +260,7 @@ export class GpExportImportService {
       checksum: pkg.metadata.checksum || computePackageChecksum(jsonStr),
       exportedAt: pkg.metadata.exportedAt,
       targetEndpoint,
-      package: pkg,
+      package: pkg
     };
   }
 
@@ -299,7 +299,7 @@ export class GpExportImportService {
     const pkg = this.createPackage({
       name: `Dataset - ${dataset.name}`,
       description: dataset.description || `Standalone export of dataset ${dataset.name}`,
-      datasets: [dataset],
+      datasets: [dataset]
     });
     return this.exportPackageToJson(pkg, pretty);
   }
@@ -311,7 +311,7 @@ export class GpExportImportService {
     const pkg = this.createPackage({
       name: `Dashboard - ${dashboard.title}`,
       description: dashboard.subtitle || `Standalone export of dashboard ${dashboard.title}`,
-      dashboards: [dashboard],
+      dashboards: [dashboard]
     });
     return this.exportPackageToJson(pkg, pretty);
   }
@@ -323,7 +323,7 @@ export class GpExportImportService {
     const pkg = this.createPackage({
       name: `Report - ${report.name}`,
       description: report.description || `Standalone export of report ${report.name}`,
-      reports: [report],
+      reports: [report]
     });
     return this.exportPackageToJson(pkg, pretty);
   }

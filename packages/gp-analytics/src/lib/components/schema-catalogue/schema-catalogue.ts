@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
@@ -20,7 +12,7 @@ import { GpSchemaDataLoaderService } from '../../services/schema-data-loader.ser
   imports: [FormsModule, GpTag],
   templateUrl: './schema-catalogue.html',
   styleUrl: './schema-catalogue.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpSchemaCatalogue extends GpAnalyticsComponent {
   private readonly graphService = inject(GpRelationshipGraphService);
@@ -105,7 +97,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
    * All collected relationships.
    */
   readonly allRelationships = computed(() =>
-    this.graphService.collectRelationships(this.groupings(), this.additionalRelationships()),
+    this.graphService.collectRelationships(this.groupings(), this.additionalRelationships())
   );
 
   /**
@@ -115,7 +107,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
     return new Set(
       this.activeDatasetFields()
         .filter((df) => df.visible !== false && (df.baseField ? df.baseField.visible !== false : true))
-        .map((df) => df.tableId),
+        .map((df) => df.tableId)
     );
   });
 
@@ -126,7 +118,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
     return new Set(
       this.activeDatasetFields()
         .filter((df) => df.visible !== false && (df.baseField ? df.baseField.visible !== false : true))
-        .map((df) => df.fieldId),
+        .map((df) => df.fieldId)
     );
   });
 
@@ -134,10 +126,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
    * Eligible table IDs. Null if dataset is empty (all eligible).
    */
   readonly eligibleTableIds = computed(() => {
-    return this.graphService.getEligibleTableIds(
-      this.activeTableIds(),
-      this.allRelationships(),
-    );
+    return this.graphService.getEligibleTableIds(this.activeTableIds(), this.allRelationships());
   });
 
   /**
@@ -154,16 +143,13 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
         const filteredTables = group.tables
           .map((table) => {
             const tableMatches = !q || table.tableName.toLowerCase().includes(q);
-            const visibleFields = table.fields
-              .flatMap((fg) => fg.fields)
-              .filter((f) => f.visible);
+            const visibleFields = table.fields.flatMap((fg) => fg.fields).filter((f) => f.visible);
 
             const matchingFields = tableMatches
               ? visibleFields
               : visibleFields.filter((field) => {
                   const label = (
-                    field.fieldDisplayName.displayValue[locale] ??
-                    String(field.fieldDisplayName.value)
+                    field.fieldDisplayName.displayValue[locale] ?? String(field.fieldDisplayName.value)
                   ).toLowerCase();
                   const name = field.fieldName.toLowerCase();
                   return label.includes(q) || name.includes(q);
@@ -172,7 +158,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
             return {
               ...table,
               matchingFields,
-              hasMatches: tableMatches || matchingFields.length > 0,
+              hasMatches: tableMatches || matchingFields.length > 0
             };
           })
           .filter((t) => t.hasMatches);
@@ -180,7 +166,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
         return {
           ...group,
           tables: filteredTables,
-          hasMatches: filteredTables.length > 0,
+          hasMatches: filteredTables.length > 0
         };
       })
       .filter((g) => g.hasMatches);
@@ -212,7 +198,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
     const parts = text.split(regex);
     return parts.filter(Boolean).map((part) => ({
       part,
-      isMatch: part.toLowerCase() === q.toLowerCase(),
+      isMatch: part.toLowerCase() === q.toLowerCase()
     }));
   }
 
@@ -233,11 +219,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
     reason?: string;
     message?: string;
   } {
-    return this.graphService.checkFieldSelectability(
-      field,
-      this.activeTableIds(),
-      this.allRelationships(),
-    );
+    return this.graphService.checkFieldSelectability(field, this.activeTableIds(), this.allRelationships());
   }
 
   protected isFieldInDataset(fieldId: string): boolean {
@@ -293,17 +275,11 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
   }
 
   protected getFieldDisplayName(field: Field): string {
-    return (
-      field.fieldDisplayName.displayValue[this.i18n.locale()] ??
-      String(field.fieldDisplayName.value)
-    );
+    return field.fieldDisplayName.displayValue[this.i18n.locale()] ?? String(field.fieldDisplayName.value);
   }
 
   protected getTableLinkedNames(table: Table): string[] {
-    const linkedIds = this.graphService.getDirectlyLinkedTableIds(
-      table.tableId,
-      this.allRelationships(),
-    );
+    const linkedIds = this.graphService.getDirectlyLinkedTableIds(table.tableId, this.allRelationships());
     const names: string[] = [];
     for (const group of this.groupings()) {
       for (const t of group.tables) {
@@ -407,7 +383,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
       if (tab === 'presets') {
         result = await this.schemaDataLoader.loadSchema({
           type: 'preset',
-          presetId: this.selectedPresetId(),
+          presetId: this.selectedPresetId()
         });
       } else if (tab === 'file') {
         const file = this.selectedFile();
@@ -417,7 +393,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
         result = await this.schemaDataLoader.loadSchema({
           type: 'file',
           file,
-          dataPath: this.dataPathInput().trim() || undefined,
+          dataPath: this.dataPathInput().trim() || undefined
         });
       } else if (tab === 'api') {
         const url = this.apiUrlInput().trim();
@@ -427,7 +403,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
         result = await this.schemaDataLoader.loadSchema({
           type: 'api',
           url,
-          dataPath: this.dataPathInput().trim() || undefined,
+          dataPath: this.dataPathInput().trim() || undefined
         });
       } else {
         const json = this.rawJsonInput().trim();
@@ -437,7 +413,7 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
         result = await this.schemaDataLoader.loadSchema({
           type: 'json',
           rawJson: json,
-          dataPath: this.dataPathInput().trim() || undefined,
+          dataPath: this.dataPathInput().trim() || undefined
         });
       }
 

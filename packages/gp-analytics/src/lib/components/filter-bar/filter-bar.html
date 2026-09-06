@@ -5,144 +5,126 @@
 
     <!-- Quick Date Presets -->
     @if (showDatePresets()) {
-      <div class="date-presets-group">
-        <gp-button label="Today" size="sm" [outlined]="true" (click)="applyDatePreset('today')" />
-        <gp-button label="Last 7d" size="sm" [outlined]="true" (click)="applyDatePreset('last7')" />
-        <gp-button label="Last 30d" size="sm" [outlined]="true" (click)="applyDatePreset('last30')" />
-        <gp-button label="MTD" size="sm" [outlined]="true" (click)="applyDatePreset('mtd')" />
-        <gp-button label="YTD" size="sm" [outlined]="true" (click)="applyDatePreset('ytd')" />
-      </div>
+    <div class="date-presets-group">
+      <gp-button label="Today" size="sm" [outlined]="true" (click)="applyDatePreset('today')" />
+      <gp-button label="Last 7d" size="sm" [outlined]="true" (click)="applyDatePreset('last7')" />
+      <gp-button label="Last 30d" size="sm" [outlined]="true" (click)="applyDatePreset('last30')" />
+      <gp-button label="MTD" size="sm" [outlined]="true" (click)="applyDatePreset('mtd')" />
+      <gp-button label="YTD" size="sm" [outlined]="true" (click)="applyDatePreset('ytd')" />
+    </div>
     }
 
     <!-- Custom Quick Presets -->
     @if (quickPresets().length > 0) {
-      <div class="preset-pills">
-        @for (p of quickPresets(); track p.label) {
-          <gp-button
-            [label]="p.label"
-            size="sm"
-            [outlined]="true"
-            (click)="applyQuickPreset(p)" />
-        }
-      </div>
+    <div class="preset-pills">
+      @for (p of quickPresets(); track p.label) {
+      <gp-button [label]="p.label" size="sm" [outlined]="true" (click)="applyQuickPreset(p)" />
+      }
+    </div>
     }
 
     <!-- Active Filters List -->
     <div class="active-chips">
       @for (f of filters(); track $index; let idx = $index) {
-        <span class="filter-chip">
-          <strong class="chip-field">{{ f.fieldId }}</strong>
-          <span class="chip-op">{{ f.operator }}</span>
-          <span class="chip-val">{{ f.value }}</span>
-          <button
-            type="button"
-            class="chip-remove"
-            (click)="removeFilter(idx)"
-            aria-label="Remove filter">
-            ✕
-          </button>
-        </span>
+      <span class="filter-chip">
+        <strong class="chip-field">{{ f.fieldId }}</strong>
+        <span class="chip-op">{{ f.operator }}</span>
+        <span class="chip-val">{{ f.value }}</span>
+        <button type="button" class="chip-remove" (click)="removeFilter(idx)" aria-label="Remove filter">✕</button>
+      </span>
       }
     </div>
   </div>
 
   <div class="filter-right">
-    <gp-button
-      label="Add Filter"
-      icon="plus"
-      size="sm"
-      severity="primary"
-      (click)="openAddModal()" />
+    <gp-button label="Add Filter" icon="plus" size="sm" severity="primary" (click)="openAddModal()" />
 
     @if (filters().length > 0) {
-      <gp-button
-        [label]="'Clear All (' + filters().length + ')'"
-        icon="trash"
-        size="sm"
-        [outlined]="true"
-        severity="danger"
-        (click)="clearAllFilters()" />
+    <gp-button
+      [label]="'Clear All (' + filters().length + ')'"
+      icon="trash"
+      size="sm"
+      [outlined]="true"
+      severity="danger"
+      (click)="clearAllFilters()"
+    />
     }
   </div>
 
   <!-- Add Condition Dialog -->
   @if (isAddingCondition()) {
-    <div class="filter-dialog-backdrop" (click)="isAddingCondition.set(false)">
-      <div class="filter-dialog-card" (click)="$event.stopPropagation()">
-        <h4 class="dialog-title">Add Filter Rule</h4>
+  <div class="filter-dialog-backdrop" (click)="isAddingCondition.set(false)">
+    <div class="filter-dialog-card" (click)="$event.stopPropagation()">
+      <h4 class="dialog-title">Add Filter Rule</h4>
 
-        <div class="dialog-form">
-          <div class="form-group">
-            <label>Field</label>
-            <gp-select
-              [options]="fieldOptions()"
-              optionLabel="label"
-              optionValue="value"
-              [ngModel]="selectedField()"
-              (ngModelChange)="selectedField.set($event)" />
-          </div>
-
-          <div class="form-group">
-            <label>Condition</label>
-            <gp-select
-              [options]="operatorOptions"
-              optionLabel="label"
-              optionValue="value"
-              [ngModel]="selectedOperator()"
-              (ngModelChange)="selectedOperator.set($event)" />
-          </div>
-
-          @if (selectedOperator() === 'between') {
-            <div class="form-group-range">
-              <div class="form-group">
-                <label>From (Start)</label>
-                <input
-                  type="text"
-                  gpInputText
-                  class="form-input"
-                  placeholder="Start value..."
-                  [ngModel]="filterValue()"
-                  (ngModelChange)="filterValue.set($event)" />
-              </div>
-              <div class="form-group">
-                <label>To (End)</label>
-                <input
-                  type="text"
-                  gpInputText
-                  class="form-input"
-                  placeholder="End value..."
-                  [ngModel]="filterValueTo()"
-                  (ngModelChange)="filterValueTo.set($event)" />
-              </div>
-            </div>
-          } @else {
-            <div class="form-group">
-              <label>Value</label>
-              <input
-                type="text"
-                gpInputText
-                class="form-input"
-                placeholder="e.g. AMER, 1000..."
-                [ngModel]="filterValue()"
-                (ngModelChange)="filterValue.set($event)" />
-            </div>
-          }
+      <div class="dialog-form">
+        <div class="form-group">
+          <label>Field</label>
+          <gp-select
+            [options]="fieldOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedField()"
+            (ngModelChange)="selectedField.set($event)"
+          />
         </div>
 
-        <div class="dialog-footer">
-          <gp-button
-            label="Cancel"
-            [outlined]="true"
-            size="sm"
-            (click)="isAddingCondition.set(false)" />
-          <gp-button
-            label="Apply Rule"
-            icon="check"
-            size="sm"
-            severity="primary"
-            (click)="addCondition()" />
+        <div class="form-group">
+          <label>Condition</label>
+          <gp-select
+            [options]="operatorOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedOperator()"
+            (ngModelChange)="selectedOperator.set($event)"
+          />
         </div>
+
+        @if (selectedOperator() === 'between') {
+        <div class="form-group-range">
+          <div class="form-group">
+            <label>From (Start)</label>
+            <input
+              type="text"
+              gpInputText
+              class="form-input"
+              placeholder="Start value..."
+              [ngModel]="filterValue()"
+              (ngModelChange)="filterValue.set($event)"
+            />
+          </div>
+          <div class="form-group">
+            <label>To (End)</label>
+            <input
+              type="text"
+              gpInputText
+              class="form-input"
+              placeholder="End value..."
+              [ngModel]="filterValueTo()"
+              (ngModelChange)="filterValueTo.set($event)"
+            />
+          </div>
+        </div>
+        } @else {
+        <div class="form-group">
+          <label>Value</label>
+          <input
+            type="text"
+            gpInputText
+            class="form-input"
+            placeholder="e.g. AMER, 1000..."
+            [ngModel]="filterValue()"
+            (ngModelChange)="filterValue.set($event)"
+          />
+        </div>
+        }
+      </div>
+
+      <div class="dialog-footer">
+        <gp-button label="Cancel" [outlined]="true" size="sm" (click)="isAddingCondition.set(false)" />
+        <gp-button label="Apply Rule" icon="check" size="sm" severity="primary" (click)="addCondition()" />
       </div>
     </div>
+  </div>
   }
 </div>

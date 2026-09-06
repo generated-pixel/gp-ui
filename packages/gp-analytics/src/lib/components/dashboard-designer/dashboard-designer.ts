@@ -7,7 +7,7 @@ import {
   model,
   OnDestroy,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,17 +25,11 @@ import {
   GpCustomWidgetConfig,
   createDefaultDashboardConfig,
   createBlankDashboardConfig,
-  createOperationsDashboardConfig,
+  createOperationsDashboardConfig
 } from '../../models/dashboard.model';
 import { GpMeasureQuery } from '../../models/query.model';
 
-import {
-  GpButton,
-  GpTag,
-  GpSwitch,
-  GpSelect,
-  GpInputTextDirective,
-} from '@generatedpixel/gp-ui';
+import { GpButton, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-dashboard-designer',
@@ -48,11 +42,11 @@ import {
     GpTag,
     GpSwitch,
     GpSelect,
-    GpInputTextDirective,
+    GpInputTextDirective
   ],
   templateUrl: './dashboard-designer.html',
   styleUrl: './dashboard-designer.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestroy {
   readonly autoRefreshOptions = [
@@ -60,7 +54,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     { label: 'Every 5s', value: 5 },
     { label: 'Every 15s', value: 15 },
     { label: 'Every 30s', value: 30 },
-    { label: 'Every 60s', value: 60 },
+    { label: 'Every 60s', value: 60 }
   ];
 
   readonly widgetTypeOptions = [
@@ -68,7 +62,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     { label: 'Analytical Chart', value: 'chart' },
     { label: 'Tabular Report', value: 'table' },
     { label: '2D Pivot Matrix', value: 'pivot' },
-    { label: 'Custom Info Card', value: 'custom' },
+    { label: 'Custom Info Card', value: 'custom' }
   ];
 
   readonly aggregationOptions = [
@@ -76,7 +70,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     { label: 'Average', value: 'avg' },
     { label: 'Count', value: 'count' },
     { label: 'Min', value: 'min' },
-    { label: 'Max', value: 'max' },
+    { label: 'Max', value: 'max' }
   ];
 
   readonly severityOptions = [
@@ -84,23 +78,23 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     { label: 'Success (Green)', value: 'success' },
     { label: 'Info (Blue)', value: 'info' },
     { label: 'Warning (Amber)', value: 'warning' },
-    { label: 'Danger (Red)', value: 'danger' },
+    { label: 'Danger (Red)', value: 'danger' }
   ];
 
   readonly chartTypeOptions = [
     { label: 'Bar Chart', value: 'bar' },
     { label: 'Donut Chart', value: 'donut' },
-    { label: 'Line Trend Chart', value: 'line' },
+    { label: 'Line Trend Chart', value: 'line' }
   ];
 
   readonly sortOrderOptions = [
     { label: 'High to Low', value: 'desc' },
-    { label: 'Low to High', value: 'asc' },
+    { label: 'Low to High', value: 'asc' }
   ];
 
   readonly compactTypeOptions = [
     { label: 'Vertical Packing (Pack and snap upwards automatically)', value: 'vertical' },
-    { label: 'Free Placement (Items stay exactly where dropped)', value: 'none' },
+    { label: 'Free Placement (Items stay exactly where dropped)', value: 'none' }
   ];
   /**
    * Two-way bound dashboard configuration.
@@ -256,7 +250,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     if (recs && recs.length > 0) {
       return Object.keys(recs[0]).map((key) => ({
         fieldId: key,
-        label: this.formatLabel(key),
+        label: this.formatLabel(key)
       }));
     }
     return [
@@ -264,7 +258,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
       { fieldId: 'quantity', label: 'Quantity' },
       { fieldId: 'customer_name', label: 'Customer Name' },
       { fieldId: 'status', label: 'Status' },
-      { fieldId: 'region', label: 'Region' },
+      { fieldId: 'region', label: 'Region' }
     ];
   });
 
@@ -294,11 +288,16 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
    * Comma-separated list of available field IDs.
    */
   readonly availableFieldNames = computed(() => {
-    return this.effectiveFields().map((f) => f.fieldId).join(', ');
+    return this.effectiveFields()
+      .map((f) => f.fieldId)
+      .join(', ');
   });
 
   updateTableDimensions(text: string): void {
-    const dims = text.split(',').map((s) => s.trim()).filter(Boolean);
+    const dims = text
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
     this.updateSelectedWidget({ dimensions: dims });
   }
 
@@ -415,7 +414,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
           measure: { fieldId: numField, aggregation: 'sum' },
           formatCurrency: true,
           comparePrevious: true,
-          severity: 'info',
+          severity: 'info'
         };
         break;
       }
@@ -429,7 +428,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
           dimension: dimField,
           measure: { fieldId: numField, aggregation: 'sum', alias: 'val' },
           sortOrder: 'desc',
-          limit: 8,
+          limit: 8
         };
         break;
       }
@@ -443,7 +442,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
           dimensions: [dimField],
           measures: [{ fieldId: numField, aggregation: 'sum', alias: 'total_val' }],
           showSubtotals: true,
-          showGrandTotal: true,
+          showGrandTotal: true
         };
         break;
       }
@@ -457,7 +456,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
           grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
           rowDimension: dimField,
           colDimension: colField,
-          measure: { fieldId: numField, aggregation: 'sum' },
+          measure: { fieldId: numField, aggregation: 'sum' }
         };
         break;
       }
@@ -470,7 +469,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
           subtitle: 'Operational notes',
           icon: '💡',
           grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
-          content: 'Add custom insights, instructions, or operational highlights here.',
+          content: 'Add custom insights, instructions, or operational highlights here.'
         };
         break;
       }
@@ -479,7 +478,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     this.pushHistory(this.config());
     const updatedConfig: GpDashboardConfig = {
       ...this.config(),
-      widgets: [...currentWidgets, newWidget],
+      widgets: [...currentWidgets, newWidget]
     };
 
     this.config.set(updatedConfig);
@@ -542,12 +541,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
         const wy = cw.grid.y ?? 0;
         const ww = cw.grid.w ?? 1;
         const wh = cw.grid.h ?? 1;
-        return (
-          candidateX < wx + ww &&
-          candidateX + width > wx &&
-          candidateY < wy + wh &&
-          candidateY + height > wy
-        );
+        return candidateX < wx + ww && candidateX + width > wx && candidateY < wy + wh && candidateY + height > wy;
       });
 
     if (isRightFree) {
@@ -561,7 +555,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
 
     this.config.set({
       ...this.config(),
-      widgets: [...currentWidgets, cloned],
+      widgets: [...currentWidgets, cloned]
     });
 
     this.openWidgetInspector(cloned);
@@ -575,7 +569,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     const updated = currentWidgets.filter((w) => w.id !== id);
     this.config.set({
       ...this.config(),
-      widgets: updated,
+      widgets: updated
     });
     if (this.selectedWidgetId() === id) {
       this.closeWidgetInspector();
@@ -591,12 +585,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     const updatedWidgets = currentWidgets.map((w) => {
       const match = updatedItems.find((item) => item.id === w.id);
       if (match) {
-        if (
-          w.grid.x !== match.x ||
-          w.grid.y !== match.y ||
-          w.grid.w !== match.w ||
-          w.grid.h !== match.h
-        ) {
+        if (w.grid.x !== match.x || w.grid.y !== match.y || w.grid.w !== match.w || w.grid.h !== match.h) {
           modified = true;
           return {
             ...w,
@@ -605,8 +594,8 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
               x: match.x,
               y: match.y,
               w: match.w,
-              h: match.h,
-            },
+              h: match.h
+            }
           };
         }
       }
@@ -617,7 +606,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
       this.pushHistory(this.config());
       this.config.set({
         ...this.config(),
-        widgets: updatedWidgets,
+        widgets: updatedWidgets
       });
     }
   }
@@ -636,7 +625,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
       copy[index] = updated;
       this.config.set({
         ...this.config(),
-        widgets: copy,
+        widgets: copy
       });
     }
   }
@@ -650,10 +639,10 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     const newMeasure: GpMeasureQuery = {
       fieldId: numField,
       aggregation: 'sum',
-      alias: `${numField}_sum_${table.measures.length + 1}`,
+      alias: `${numField}_sum_${table.measures.length + 1}`
     };
     this.updateSelectedWidget({
-      measures: [...table.measures, newMeasure],
+      measures: [...table.measures, newMeasure]
     } as any);
   }
 
@@ -662,7 +651,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     if (!w || w.type !== 'table') return;
     const table = w as GpTableWidgetConfig;
     this.updateSelectedWidget({
-      measures: table.measures.filter((_, i) => i !== index),
+      measures: table.measures.filter((_, i) => i !== index)
     } as any);
   }
 
@@ -693,7 +682,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     this.pushHistory(this.config());
     this.config.set({
       ...this.config(),
-      ...patch,
+      ...patch
     });
   }
 
@@ -781,9 +770,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
   }
 
   private formatLabel(str: string): string {
-    return str
-      .replace(/[-_]/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+    return str.replace(/[-_]/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
   // Type-casting helpers for template

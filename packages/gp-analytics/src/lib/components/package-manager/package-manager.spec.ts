@@ -26,13 +26,13 @@ describe('GpPackageManager', () => {
     usableInReports: true,
     filterable: true,
     sortable: true,
-    groupable: false,
+    groupable: false
   };
 
   const mockDataset: Dataset = {
     datasetId: 'ds_1',
     name: 'Sales Invoices',
-    fields: [createDatasetField(mockBaseField, 'df_1')],
+    fields: [createDatasetField(mockBaseField, 'df_1')]
   };
 
   const mockDashboard: GpDashboardConfig = createDefaultDashboardConfig();
@@ -41,13 +41,13 @@ describe('GpPackageManager', () => {
     title: 'Revenue Trend',
     chartType: 'bar',
     dimension: 'region',
-    measure: { fieldId: 'total', aggregation: 'sum' },
+    measure: { fieldId: 'total', aggregation: 'sum' }
   });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [GpPackageManager],
-      providers: [GpExportImportService],
+      providers: [GpExportImportService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(GpPackageManager);
@@ -72,7 +72,7 @@ describe('GpPackageManager', () => {
     expect(pkg.metadata.itemCounts).toEqual({
       datasets: 1,
       dashboards: 1,
-      reports: 1,
+      reports: 1
     });
   });
 
@@ -112,7 +112,7 @@ describe('GpPackageManager', () => {
 
     const validPkg = service.createPackage({
       name: 'Valid Pkg',
-      datasets: [mockDataset],
+      datasets: [mockDataset]
     });
     component.importJsonBuffer.set(service.exportPackageToJson(validPkg));
     expect(component.validationResult()?.isValid).toBe(true);
@@ -125,7 +125,7 @@ describe('GpPackageManager', () => {
 
     const validPkg = service.createPackage({
       name: 'Import Me',
-      datasets: [mockDataset],
+      datasets: [mockDataset]
     });
     component.importJsonBuffer.set(service.exportPackageToJson(validPkg));
     component.importMode.set('merge');
@@ -145,7 +145,7 @@ describe('GpPackageManager', () => {
       name: 'Multi Asset Pkg',
       datasets: [mockDataset, extraDs],
       dashboards: [mockDashboard],
-      reports: [mockReport],
+      reports: [mockReport]
     });
 
     component.importJsonBuffer.set(service.exportPackageToJson(validPkg));
