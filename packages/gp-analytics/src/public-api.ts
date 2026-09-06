@@ -18,6 +18,8 @@ export * from './lib/components/filter-bar/filter-bar';
 export * from './lib/components/analytics-dashboard/analytics-dashboard';
 export * from './lib/components/dashboard-designer/dashboard-designer';
 export * from './lib/components/package-manager/package-manager';
+export * from './lib/providers';
+export * from './lib/services/analytics-config.service';
 export * from './lib/services/translation.service';
 export * from './lib/services/relationship-graph.service';
 export * from './lib/services/dataset-data-loader.service';
