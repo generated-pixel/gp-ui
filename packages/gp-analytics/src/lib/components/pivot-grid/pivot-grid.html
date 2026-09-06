@@ -12,13 +12,13 @@
       </div>
     </div>
 
-    <button
-      type="button"
-      class="btn-swap-axes"
+    <gp-button
+      label="Swap Axes"
+      icon="refresh"
+      size="sm"
+      [outlined]="true"
       (click)="swapAxes()"
-      title="Swap row and column dimensions">
-      ⇄ Swap Axes
-    </button>
+      title="Swap row and column dimensions" />
   </header>
 
   <!-- Matrix Table View -->

@@ -10,9 +10,12 @@ import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpMeasureQuery, GpPivotMatrix } from '../../models/query.model';
 
+import { GpButton } from '@generatedpixel/gp-ui';
+
 @Component({
   selector: 'gp-pivot-grid',
   standalone: true,
+  imports: [GpButton],
   templateUrl: './pivot-grid.html',
   styleUrl: './pivot-grid.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
