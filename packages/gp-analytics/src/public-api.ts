@@ -5,6 +5,7 @@ export * from './lib/types';
 export * from './lib/interfaces';
 export * from './lib/models';
 export * from './lib/components/base/gp-analytics-component';
+export * from './lib/components/base/gp-analytics-base-widget';
 export * from './lib/components/schema-catalogue/schema-catalogue';
 export * from './lib/components/dataset-field-selector/dataset-field-selector';
 export * from './lib/components/dataset-preview/dataset-preview';

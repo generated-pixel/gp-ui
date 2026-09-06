@@ -13,3 +13,4 @@ export * from './list-grouping-mode.type';
 export * from './schema-source-type.type';
 export * from './supported-locale.type';
 export * from './translation-key.type';
+export * from './translation-params.type';

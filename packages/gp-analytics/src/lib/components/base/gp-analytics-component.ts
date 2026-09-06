@@ -1,7 +1,6 @@
 import { Directive, inject } from '@angular/core';
 import { GpTranslationService, TranslationKey } from '../../services/translation.service';
-
-type TranslationParams = Record<string, number | string>;
+import { TranslationParams } from '../../types/translation-params.type';
 
 @Directive()
 export abstract class GpAnalyticsComponent {

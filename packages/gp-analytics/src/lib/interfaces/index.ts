@@ -10,6 +10,7 @@ export * from './field.interface';
 export * from './gp-aggregation-result.interface';
 export * from './gp-analytical-query-spec.interface';
 export * from './gp-analytics-package.interface';
+export * from './gp-base-widget-config.interface';
 export * from './gp-calculated-field.interface';
 export * from './gp-categorical-chart-data.interface';
 export * from './gp-chart-report-config.interface';

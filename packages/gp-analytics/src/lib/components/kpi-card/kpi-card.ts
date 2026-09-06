@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { GpTag } from '@generatedpixel/gp-ui';
-import { GpAnalyticsComponent } from '../base/gp-analytics-component';
+import { GpAnalyticsBaseWidget } from '../base/gp-analytics-base-widget';
 
 @Component({
   selector: 'gp-kpi-card',
@@ -10,8 +10,8 @@ import { GpAnalyticsComponent } from '../base/gp-analytics-component';
   styleUrl: './kpi-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GpKpiCard extends GpAnalyticsComponent {
-  readonly title = input<string>('Metric');
+export class GpKpiCard extends GpAnalyticsBaseWidget {
+  override readonly title = input<string>('Metric');
   readonly value = input<number | string>(0);
   readonly formattedValue = input<string | null>(null);
   readonly previousValue = input<number | null>(null);

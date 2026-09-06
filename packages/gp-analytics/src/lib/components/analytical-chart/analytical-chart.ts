@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { GpAnalyticsComponent } from '../base/gp-analytics-component';
+import { GpAnalyticsBaseWidget } from '../base/gp-analytics-base-widget';
 import { GpCategoricalChartData } from '../../models/query.model';
 import { GpButton, GpTag } from '@generatedpixel/gp-ui';
 
@@ -11,9 +11,9 @@ import { GpButton, GpTag } from '@generatedpixel/gp-ui';
   styleUrl: './analytical-chart.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GpAnalyticalChart extends GpAnalyticsComponent {
-  readonly title = input<string>('Analytical Visualization');
-  readonly subtitle = input<string>('');
+export class GpAnalyticalChart extends GpAnalyticsBaseWidget {
+  override readonly title = input<string>('Analytical Visualization');
+  override readonly subtitle = input<string>('');
   readonly type = input<'bar' | 'donut' | 'line'>('bar');
   readonly data = input<GpCategoricalChartData | null>(null);
   readonly stacked = input<boolean>(false);
