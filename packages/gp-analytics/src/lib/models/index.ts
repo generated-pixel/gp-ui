@@ -14,3 +14,4 @@ export * from './relationship.model';
 export * from './table.model';
 export * from './query.model';
 export * from './schema-data-source.model';
+export * from './dashboard.model';
