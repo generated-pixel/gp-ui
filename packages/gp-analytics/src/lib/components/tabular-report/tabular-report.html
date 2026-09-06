@@ -73,8 +73,7 @@
           <td class="td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
           @for (col of columns(); track col.key) {
           <td class="report-td" [class.td-measure]="col.isMeasure" [class.td-dimension]="col.isDimension">
-            @if (col.isMeasure && typeof row[col.key] === 'number') { {{ row[col.key].toLocaleString('en-US') }} } @else
-            { {{ row[col.key] ?? 'N/A' }} }
+            {{ formatCellValue(col, row[col.key]) }}
           </td>
           }
         </tr>
@@ -91,7 +90,7 @@
             @if (cIdx === 0) {
             <strong>Grand Total</strong>
             } @else if (col.isMeasure && res.grandTotal[col.key] != null) {
-            <strong>{{ res.grandTotal[col.key].toLocaleString('en-US') }}</strong>
+            <strong>{{ formatGrandTotal(res.grandTotal[col.key]) }}</strong>
             } @else { — }
           </td>
           }

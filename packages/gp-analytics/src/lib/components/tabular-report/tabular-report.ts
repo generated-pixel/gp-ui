@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
+import { GpLocaleFormatterService } from '../../services/locale-formatter.service';
 import { GpAnalyticalQuerySpec, GpMeasureQuery } from '../../models/query.model';
 
 import { FormsModule } from '@angular/forms';
@@ -16,6 +17,7 @@ import { GpButton, GpInputTextDirective, GpSelect, GpTag } from '@generatedpixel
 })
 export class GpTabularReport extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
+  protected readonly localeFormatter = inject(GpLocaleFormatterService);
 
   readonly title = input<string>('Tabular Analytical Report');
   readonly subtitle = input<string>('Aggregated enterprise reporting with subtotal rollups');
@@ -158,6 +160,22 @@ export class GpTabularReport extends GpAnalyticsComponent {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  formatCellValue(col: { key: string; isMeasure: boolean }, val: any): string {
+    if (val == null) return '—';
+    if (col.isMeasure && typeof val === 'number') {
+      return this.localeFormatter.formatNumber(val);
+    }
+    return String(val);
+  }
+
+  formatGrandTotal(val: any): string {
+    if (val == null) return '—';
+    if (typeof val === 'number') {
+      return this.localeFormatter.formatNumber(val);
+    }
+    return String(val);
   }
 
   private formatHeader(str: string): string {

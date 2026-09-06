@@ -61,15 +61,11 @@
         <tr class="pivot-row">
           <td class="row-header-cell">{{ rowH }}</td>
           @for (cell of m.matrix[rIdx]; track $index; let cIdx = $index) {
-          <td class="matrix-cell" [style.background-color]="getCellBg(cell)">
-            @if (typeof cell === 'number') { {{ cell.toLocaleString('en-US') }} } @else {
-            <span class="cell-null">—</span>
-            }
-          </td>
+          <td class="matrix-cell" [style.background-color]="getCellBg(cell)">{{ formatCellValue(cell) }}</td>
           }
           <!-- Row Total -->
           <td class="row-total-cell">
-            <strong>{{ m.rowTotals[rIdx]?.toLocaleString('en-US') ?? '—' }}</strong>
+            <strong>{{ formatCellValue(m.rowTotals[rIdx]) }}</strong>
           </td>
         </tr>
         }
@@ -79,11 +75,11 @@
           <td class="col-total-title">Total</td>
           @for (colTotal of m.colTotals; track $index) {
           <td class="col-total-cell">
-            <strong>{{ colTotal?.toLocaleString('en-US') ?? '—' }}</strong>
+            <strong>{{ formatCellValue(colTotal) }}</strong>
           </td>
           }
           <td class="grand-total-cell">
-            <strong>{{ m.grandTotal?.toLocaleString('en-US') ?? '—' }}</strong>
+            <strong>{{ formatCellValue(m.grandTotal) }}</strong>
           </td>
         </tr>
       </tfoot>

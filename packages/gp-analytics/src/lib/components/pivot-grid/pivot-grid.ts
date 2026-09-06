@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
+import { GpLocaleFormatterService } from '../../services/locale-formatter.service';
 import { GpMeasureQuery, GpPivotMatrix } from '../../models/query.model';
 
 import { FormsModule } from '@angular/forms';
@@ -16,6 +17,7 @@ import { GpButton, GpSelect } from '@generatedpixel/gp-ui';
 })
 export class GpPivotGrid extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
+  protected readonly localeFormatter = inject(GpLocaleFormatterService);
 
   readonly title = input<string>('Dynamic Pivot Matrix');
   readonly records = input<Record<string, any>[]>([]);
@@ -145,5 +147,13 @@ export class GpPivotGrid extends GpAnalyticsComponent {
     a.download = `pivot_${rDim}_by_${cDim}.csv`;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  formatCellValue(val: any): string {
+    if (val == null) return '—';
+    if (typeof val === 'number') {
+      return this.localeFormatter.formatNumber(val);
+    }
+    return String(val);
   }
 }

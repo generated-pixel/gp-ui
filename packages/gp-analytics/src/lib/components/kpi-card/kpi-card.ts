@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsBaseWidget } from '../base/gp-analytics-base-widget';
+import { GpLocaleFormatterService } from '../../services/locale-formatter.service';
 
 @Component({
   selector: 'gp-kpi-card',
@@ -11,9 +12,12 @@ import { GpAnalyticsBaseWidget } from '../base/gp-analytics-base-widget';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GpKpiCard extends GpAnalyticsBaseWidget {
+  protected readonly localeFormatter = inject(GpLocaleFormatterService);
+
   override readonly title = input<string>('Metric');
   readonly value = input<number | string>(0);
   readonly formattedValue = input<string | null>(null);
+  readonly currency = input<string | null>(null);
   readonly previousValue = input<number | null>(null);
   readonly variancePercentage = input<number | null>(null);
   readonly trend = input<'up' | 'down' | 'neutral'>('neutral');
@@ -60,7 +64,10 @@ export class GpKpiCard extends GpAnalyticsBaseWidget {
     }
     const val = this.value();
     if (typeof val === 'number') {
-      return val.toLocaleString('en-US');
+      if (this.currency() || this.unit() === '$' || this.unit() === 'currency') {
+        return this.localeFormatter.formatCurrency(val, this.currency() || undefined);
+      }
+      return this.localeFormatter.formatNumber(val);
     }
     return String(val);
   });
