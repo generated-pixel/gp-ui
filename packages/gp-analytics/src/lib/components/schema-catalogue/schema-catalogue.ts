@@ -186,6 +186,36 @@ export class GpSchemaCatalogue extends GpAnalyticsComponent {
       .filter((g) => g.hasMatches);
   });
 
+  /**
+   * Total count of matching fields across all filtered tables.
+   */
+  readonly totalMatchingFields = computed<number>(() => {
+    let count = 0;
+    for (const g of this.filteredGroupings()) {
+      for (const t of g.tables) {
+        count += t.matchingFields.length;
+      }
+    }
+    return count;
+  });
+
+  /**
+   * Splits text into segments indicating whether they match the active search query for visual highlighting.
+   */
+  highlightMatch(text: string): { part: string; isMatch: boolean }[] {
+    const q = this.searchQuery().trim();
+    if (!q || !text) {
+      return [{ part: text, isMatch: false }];
+    }
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+    const parts = text.split(regex);
+    return parts.filter(Boolean).map((part) => ({
+      part,
+      isMatch: part.toLowerCase() === q.toLowerCase(),
+    }));
+  }
+
   protected isTableEligible(tableId: string): boolean {
     const eligible = this.eligibleTableIds();
     if (eligible === null) {

@@ -30,6 +30,19 @@
   gap: 0.5rem;
 }
 
+.search-count-badge {
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.search-match {
+  background: #fef08a;
+  color: #854d0e;
+  font-weight: 700;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
 .load-schema-btn {
   display: inline-flex;
   align-items: center;

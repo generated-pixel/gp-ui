@@ -210,4 +210,24 @@ describe('GpSchemaCatalogue', () => {
     expect(schemaResult.totalTables).toBe(3);
     expect(schemaResult.totalFields).toBe(11);
   });
+
+  it('filters tables and fields with instant query highlighting and count', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('groupings', [mockGrouping]);
+    fixture.detectChanges();
+
+    expect(component.totalMatchingFields()).toBe(4);
+
+    component['searchQuery'].set('cust');
+    fixture.detectChanges();
+
+    expect(component.totalMatchingFields()).toBe(2);
+
+    // Test highlightMatch segments
+    const segments = component.highlightMatch('Customer Name');
+    expect(segments.length).toBeGreaterThan(1);
+    expect(segments[0].isMatch).toBe(true);
+    expect(segments[0].part.toLowerCase()).toBe('cust');
+    expect(segments[1].isMatch).toBe(false);
+  });
 });

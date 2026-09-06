@@ -19,6 +19,9 @@
             aria-label="Clear search">
             ✕
           </button>
+          <gp-tag severity="info" class="search-count-badge">
+            {{ totalMatchingFields() }} found
+          </gp-tag>
         }
       </div>
 
@@ -99,7 +102,15 @@
                   <span class="collapse-icon" [class.rotated]="collapsed" aria-hidden="true">▾</span>
                   <span class="table-icon" aria-hidden="true">⊞</span>
                   <div class="table-title-meta">
-                    <span class="table-name">{{ table.tableName }}</span>
+                    <span class="table-name">
+                      @for (seg of highlightMatch(table.tableName); track $index) {
+                        @if (seg.isMatch) {
+                          <mark class="search-match">{{ seg.part }}</mark>
+                        } @else {
+                          {{ seg.part }}
+                        }
+                      }
+                    </span>
                     @if (linkedNames.length > 0) {
                       <span class="table-links" [title]="'Linked to: ' + linkedNames.join(', ')">
                         ⇄ {{ linkedNames.join(', ') }}
@@ -152,8 +163,24 @@
                         </span>
 
                         <div class="field-labels">
-                          <span class="field-display-name">{{ getFieldDisplayName(field) }}</span>
-                          <span class="field-raw-name">{{ field.fieldName }}</span>
+                          <span class="field-display-name">
+                            @for (seg of highlightMatch(getFieldDisplayName(field)); track $index) {
+                              @if (seg.isMatch) {
+                                <mark class="search-match">{{ seg.part }}</mark>
+                              } @else {
+                                {{ seg.part }}
+                              }
+                            }
+                          </span>
+                          <span class="field-raw-name">
+                            @for (seg of highlightMatch(field.fieldName); track $index) {
+                              @if (seg.isMatch) {
+                                <mark class="search-match">{{ seg.part }}</mark>
+                              } @else {
+                                {{ seg.part }}
+                              }
+                            }
+                          </span>
                         </div>
 
                         <!-- Metadata Badges -->
