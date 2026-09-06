@@ -86,4 +86,32 @@ describe('GpAnalyticalChart', () => {
     expect(component.activeSeries()).toHaveLength(1);
     expect(component.barCategories()[0].seriesBars).toHaveLength(1);
   });
+
+  it('generates valid standalone SVG markup for all chart modes', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('title', 'Sales Performance');
+    fixture.componentRef.setInput('data', sampleData);
+
+    // Test Bar SVG
+    fixture.componentRef.setInput('type', 'bar');
+    fixture.detectChanges();
+    const barSvg = component.generateSvgContent();
+    expect(barSvg).toContain('<svg');
+    expect(barSvg).toContain('Sales Performance');
+    expect(barSvg).toContain('<rect');
+
+    // Test Donut SVG
+    fixture.componentRef.setInput('type', 'donut');
+    fixture.detectChanges();
+    const donutSvg = component.generateSvgContent();
+    expect(donutSvg).toContain('<svg');
+    expect(donutSvg).toContain('<path');
+
+    // Test Line SVG
+    fixture.componentRef.setInput('type', 'line');
+    fixture.detectChanges();
+    const lineSvg = component.generateSvgContent();
+    expect(lineSvg).toContain('<svg');
+    expect(lineSvg).toContain('<circle');
+  });
 });

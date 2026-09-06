@@ -7,13 +7,12 @@ import {
 } from '@angular/core';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpCategoricalChartData } from '../../models/query.model';
-
-import { GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-analytical-chart',
   standalone: true,
-  imports: [GpTag],
+  imports: [GpButton, GpTag],
   templateUrl: './analytical-chart.html',
   styleUrl: './analytical-chart.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +23,7 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
   readonly type = input<'bar' | 'donut' | 'line'>('bar');
   readonly data = input<GpCategoricalChartData | null>(null);
   readonly stacked = input<boolean>(false);
+  readonly enableSvgExport = input<boolean>(true);
 
   protected readonly hoveredIndex = signal<number | null>(null);
   readonly hiddenSeries = signal<Set<string>>(new Set());
@@ -230,5 +230,112 @@ export class GpAnalyticalChart extends GpAnalyticsComponent {
     const largeArc = endAngle - startAngle > 180 ? 1 : 0;
 
     return `M ${x1} ${y1} A ${rOuter} ${rOuter} 0 ${largeArc} 1 ${x2} ${y2} L ${x3} ${y3} A ${rInner} ${rInner} 0 ${largeArc} 0 ${x4} ${y4} Z`;
+  }
+
+  /**
+   * Generates a complete standalone SVG document representing the current chart visualization.
+   */
+  generateSvgContent(): string {
+    const titleText = this.title() || 'Analytical Visualization';
+    const chartType = this.type();
+
+    if (chartType === 'donut') {
+      const donut = this.donutSlices();
+      const slicesMarkup = donut.slices.map((s) =>
+        `<path d="${s.path}" fill="${s.color}"><title>${s.label}: ${s.value} (${s.percentage}%)</title></path>`
+      ).join('\n    ');
+
+      const legendMarkup = donut.slices.map((s, i) => {
+        const y = 300 + i * 22;
+        return `<circle cx="60" cy="${y}" r="6" fill="${s.color}"/>
+        <text x="75" y="${y + 4}" font-family="system-ui, sans-serif" font-size="12" fill="#475569">${s.label} (${s.percentage}%)</text>`;
+      }).join('\n    ');
+
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 520" width="500" height="520">
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <text x="250" y="40" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0f172a">${titleText}</text>
+  <g transform="translate(150, 70) scale(2)">
+    ${slicesMarkup}
+    <text x="50" y="48" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="bold" fill="#0f172a">${donut.total.toLocaleString()}</text>
+    <text x="50" y="58" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7" fill="#64748b">Total</text>
+  </g>
+  <g transform="translate(0, 40)">
+    ${legendMarkup}
+  </g>
+</svg>`;
+    }
+
+    if (chartType === 'line') {
+      const line = this.lineSvg();
+      const pointsMarkup = line.points.map((p) =>
+        `<circle cx="${(p.x * 1.8 + 30).toFixed(1)}" cy="${(p.y * 1.8 + 60).toFixed(1)}" r="4" fill="#4f46e5" stroke="#ffffff" stroke-width="2"/>
+         <text x="${(p.x * 1.8 + 30).toFixed(1)}" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">${p.label}</text>`
+      ).join('\n    ');
+
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" width="600" height="320">
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <text x="300" y="40" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0f172a">${titleText}</text>
+  <g transform="translate(30, 60) scale(1.8)">
+    <path d="${line.area}" fill="rgba(79, 70, 229, 0.15)"/>
+    <path d="${line.path}" fill="none" stroke="#4f46e5" stroke-width="3"/>
+  </g>
+  ${pointsMarkup}
+</svg>`;
+    }
+
+    // Default: Bar Chart
+    const categories = this.barCategories();
+    const width = 600;
+    const height = 350;
+    const padX = 60;
+    const padY = 60;
+    const plotWidth = width - padX * 2;
+    const plotHeight = height - padY * 2;
+    const barCount = categories.length;
+    const colWidth = barCount > 0 ? plotWidth / barCount : 0;
+
+    const barsMarkup = categories.map((cat, cIdx) => {
+      const x = padX + cIdx * colWidth + colWidth * 0.15;
+      const w = colWidth * 0.7;
+      return cat.seriesBars.map((b, bIdx) => {
+        const subW = w / (cat.seriesBars.length || 1);
+        const subX = x + bIdx * subW;
+        const bHeight = (b.heightPct / 100) * plotHeight;
+        const bY = padY + plotHeight - bHeight;
+        return `<rect x="${subX.toFixed(1)}" y="${bY.toFixed(1)}" width="${(subW * 0.9).toFixed(1)}" height="${bHeight.toFixed(1)}" fill="${b.color}" rx="3">
+          <title>${cat.category} - ${b.seriesName}: ${b.value}</title>
+        </rect>`;
+      }).join('\n    ') + `\n    <text x="${(x + w / 2).toFixed(1)}" y="${height - 25}" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">${cat.category}</text>`;
+    }).join('\n    ');
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
+  <rect width="100%" height="100%" fill="#ffffff" rx="8"/>
+  <text x="${width / 2}" y="40" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0f172a">${titleText}</text>
+  <line x1="${padX}" y1="${padY + plotHeight}" x2="${width - padX}" y2="${padY + plotHeight}" stroke="#e2e8f0" stroke-width="1.5"/>
+  ${barsMarkup}
+</svg>`;
+  }
+
+  /**
+   * Triggers browser download of SVG chart snapshot.
+   */
+  exportSvg(): string {
+    const svgContent = this.generateSvgContent();
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      const safeTitle = (this.title() || 'chart').toLowerCase().replace(/[^a-z0-9]+/g, '_');
+      link.setAttribute('download', `${safeTitle}.svg`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }
+    return svgContent;
   }
 }

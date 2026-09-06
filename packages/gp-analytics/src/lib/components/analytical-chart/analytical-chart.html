@@ -8,22 +8,34 @@
       }
     </div>
 
-    <!-- Multi-series Legend -->
-    @if ((data()?.series?.length ?? 0) > 1) {
-      <div class="chart-series-legend">
-        @for (s of data()!.series; track s.name; let sIdx = $index) {
-          <gp-tag
-            [severity]="hiddenSeries().has(s.name) ? 'secondary' : 'primary'"
-            size="sm"
-            class="legend-tag"
-            (click)="toggleSeries(s.name)"
-            [title]="'Toggle ' + s.name">
-            <span class="legend-color-dot" [style.background-color]="palette[sIdx % palette.length]"></span>
-            {{ s.name }}
-          </gp-tag>
-        }
-      </div>
-    }
+    <div class="chart-header-right">
+      <!-- Multi-series Legend -->
+      @if ((data()?.series?.length ?? 0) > 1) {
+        <div class="chart-series-legend">
+          @for (s of data()!.series; track s.name; let sIdx = $index) {
+            <gp-tag
+              [severity]="hiddenSeries().has(s.name) ? 'secondary' : 'primary'"
+              size="sm"
+              class="legend-tag"
+              (click)="toggleSeries(s.name)"
+              [title]="'Toggle ' + s.name">
+              <span class="legend-color-dot" [style.background-color]="palette[sIdx % palette.length]"></span>
+              {{ s.name }}
+            </gp-tag>
+          }
+        </div>
+      }
+
+      @if (enableSvgExport()) {
+        <gp-button
+          size="sm"
+          variant="outlined"
+          (click)="exportSvg()"
+          title="Export Chart as SVG">
+          📥 SVG
+        </gp-button>
+      }
+    </div>
   </header>
 
   <div class="chart-body">

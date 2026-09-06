@@ -22,6 +22,13 @@
   gap: 0.5rem;
 }
 
+.chart-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .chart-series-legend {
   display: flex;
   align-items: center;
