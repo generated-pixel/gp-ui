@@ -1,0 +1,102 @@
+<div class="gp-filter-bar" role="toolbar" aria-label="Analytical Filter Bar">
+  <div class="filter-left">
+    <span class="filter-icon">🔍</span>
+    <span class="filter-label">Filters</span>
+
+    <!-- Quick Presets -->
+    @if (quickPresets().length > 0) {
+      <div class="preset-pills">
+        @for (p of quickPresets(); track p.label) {
+          <button
+            type="button"
+            class="preset-pill-btn"
+            (click)="applyQuickPreset(p)">
+            {{ p.label }}
+          </button>
+        }
+      </div>
+    }
+
+    <!-- Active Filters List -->
+    <div class="active-chips">
+      @for (f of filters(); track $index; let idx = $index) {
+        <span class="filter-chip">
+          <strong class="chip-field">{{ f.fieldId }}</strong>
+          <span class="chip-op">{{ f.operator }}</span>
+          <span class="chip-val">{{ f.value }}</span>
+          <button
+            type="button"
+            class="chip-remove"
+            (click)="removeFilter(idx)"
+            aria-label="Remove filter">
+            ✕
+          </button>
+        </span>
+      }
+    </div>
+  </div>
+
+  <div class="filter-right">
+    <button
+      type="button"
+      class="btn-add-filter"
+      (click)="openAddModal()">
+      + Add Filter
+    </button>
+
+    @if (filters().length > 0) {
+      <button
+        type="button"
+        class="btn-clear-filters"
+        (click)="clearAllFilters()">
+        Clear All ({{ filters().length }})
+      </button>
+    }
+  </div>
+
+  <!-- Add Condition Dialog -->
+  @if (isAddingCondition()) {
+    <div class="filter-dialog-backdrop" (click)="isAddingCondition.set(false)">
+      <div class="filter-dialog-card" (click)="$event.stopPropagation()">
+        <h4 class="dialog-title">Add Filter Rule</h4>
+
+        <div class="dialog-form">
+          <div class="form-group">
+            <label>Field</label>
+            <select class="form-select" [value]="selectedField()" (change)="selectedField.set($any($event.target).value)">
+              @for (field of availableFields(); track field.fieldId) {
+                <option [value]="field.fieldId">{{ field.label }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Condition</label>
+            <select class="form-select" [value]="selectedOperator()" (change)="selectedOperator.set($any($event.target).value)">
+              <option value="eq">Equals (=)</option>
+              <option value="neq">Does not equal (≠)</option>
+              <option value="gt">Greater than (&gt;)</option>
+              <option value="lt">Less than (&lt;)</option>
+              <option value="contains">Contains</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Value</label>
+            <input
+              type="text"
+              class="form-input"
+              placeholder="e.g. AMER, 1000..."
+              [value]="filterValue()"
+              (input)="filterValue.set($any($event.target).value)" />
+          </div>
+        </div>
+
+        <div class="dialog-footer">
+          <button type="button" class="btn-cancel" (click)="isAddingCondition.set(false)">Cancel</button>
+          <button type="button" class="btn-apply" (click)="addCondition()">Apply Rule</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
