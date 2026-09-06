@@ -458,80 +458,72 @@
           <span class="group-label">Dataset Capabilities</span>
           <div class="capability-switches">
             <!-- Filterable Switch -->
-            <label
+            <div
               class="capability-row"
               [class.disabled-capability]="!current.baseField.filterable"
               [title]="!current.baseField.filterable ? i18n.translate('baseFieldNotFilterable') : ''">
-              <input
-                type="checkbox"
-                class="gp-switch-input"
-                [checked]="current.filterable"
+              <gp-switch
+                [ngModel]="current.filterable"
                 [disabled]="!current.baseField.filterable"
-                (change)="updateFilterable($any($event.target).checked)" />
+                (ngModelChange)="updateFilterable($event)" />
               <div class="capability-text">
                 <span class="cap-name">{{ i18n.translate('filterable') }}</span>
                 @if (!current.baseField.filterable) {
                   <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotFilterable') }}</small>
                 }
               </div>
-            </label>
+            </div>
 
             <!-- Sortable Switch -->
-            <label
+            <div
               class="capability-row"
               [class.disabled-capability]="!current.baseField.sortable"
               [title]="!current.baseField.sortable ? i18n.translate('baseFieldNotSortable') : ''">
-              <input
-                type="checkbox"
-                class="gp-switch-input"
-                [checked]="current.sortable"
+              <gp-switch
+                [ngModel]="current.sortable"
                 [disabled]="!current.baseField.sortable"
-                (change)="updateSortable($any($event.target).checked)" />
+                (ngModelChange)="updateSortable($event)" />
               <div class="capability-text">
                 <span class="cap-name">{{ i18n.translate('sortable') }}</span>
                 @if (!current.baseField.sortable) {
                   <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotSortable') }}</small>
                 }
               </div>
-            </label>
+            </div>
 
             <!-- Groupable Switch -->
-            <label
+            <div
               class="capability-row"
               [class.disabled-capability]="!current.baseField.groupable"
               [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''">
-              <input
-                type="checkbox"
-                class="gp-switch-input"
-                [checked]="current.groupable"
+              <gp-switch
+                [ngModel]="current.groupable"
                 [disabled]="!current.baseField.groupable"
-                (change)="updateGroupable($any($event.target).checked)" />
+                (ngModelChange)="updateGroupable($event)" />
               <div class="capability-text">
                 <span class="cap-name">{{ i18n.translate('groupable') }}</span>
                 @if (!current.baseField.groupable) {
                   <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small>
                 }
               </div>
-            </label>
+            </div>
 
             <!-- Active Group By Switch -->
-            <label
+            <div
               class="capability-row"
               [class.disabled-capability]="!current.baseField.groupable"
               [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''">
-              <input
-                type="checkbox"
-                class="gp-switch-input"
-                [checked]="current.isGrouped"
+              <gp-switch
+                [ngModel]="current.isGrouped"
                 [disabled]="!current.baseField.groupable"
-                (change)="updateIsGrouped($any($event.target).checked)" />
+                (ngModelChange)="updateIsGrouped($event)" />
               <div class="capability-text">
                 <span class="cap-name">{{ i18n.translate('isGrouped') }}</span>
                 @if (!current.baseField.groupable) {
                   <small class="cap-restricted">🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small>
                 }
               </div>
-            </label>
+            </div>
           </div>
         </div>
 

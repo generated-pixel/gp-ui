@@ -28,10 +28,12 @@ export interface FieldListSection {
   fields: { field: DatasetField; globalIndex: number }[];
 }
 
+import { GpSwitch } from '@generatedpixel/gp-ui';
+
 @Component({
   selector: 'gp-dataset-field-selector',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, GpSwitch],
   templateUrl: './dataset-field-selector.html',
   styleUrl: './dataset-field-selector.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
