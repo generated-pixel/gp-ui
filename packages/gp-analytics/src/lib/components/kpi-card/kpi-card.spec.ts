@@ -51,4 +51,31 @@ describe('GpKpiCard', () => {
     expect(spark.path).toContain(' C ');
     expect(spark.areaPath).toContain(' Z');
   });
+
+  it('triggers target threshold alert when condition is met', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('value', 42);
+    fixture.componentRef.setInput('alertThreshold', 50);
+    fixture.componentRef.setInput('alertCondition', 'below');
+    fixture.componentRef.setInput('alertMessage', 'Low Performance');
+    fixture.detectChanges();
+
+    expect(component.isAlertActive()).toBe(true);
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.textContent).toContain('Low Performance');
+  });
+
+  it('handles sparkline hovering and updates hoveredPoint', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('sparklinePoints', [10, 20, 30]);
+    fixture.detectChanges();
+
+    expect(component.hoveredPoint()).toBeNull();
+    component.onSparklineHover(1);
+    expect(component.hoveredPoint()?.val).toBe(20);
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.sparkline-tooltip')?.textContent?.trim()).toBe('20');
+  });
 });

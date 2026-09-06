@@ -4,6 +4,11 @@
     <div class="kpi-title-row">
       <span class="kpi-icon" aria-hidden="true">{{ icon() }}</span>
       <h4 class="kpi-title">{{ title() }}</h4>
+      @if (isAlertActive()) {
+        <gp-tag severity="danger" class="kpi-alert-badge">
+          ⚠ {{ alertMessage() || 'Alert' }}
+        </gp-tag>
+      }
     </div>
 
     @if (variancePercentage() != null) {
@@ -36,6 +41,13 @@
     <!-- Embedded Micro-Sparkline -->
     @if (sparklineSvg().points.length > 1) {
       <div class="kpi-sparkline-container">
+        @if (hoveredPoint(); as hp) {
+          <div
+            class="sparkline-tooltip"
+            [style.left.px]="hp.x">
+            {{ hp.val.toLocaleString() }}
+          </div>
+        }
         <svg
           class="sparkline-svg"
           viewBox="0 0 140 40"
@@ -63,6 +75,7 @@
               [attr.cy]="pt.y"
               [attr.r]="idx === sparklineSvg().points.length - 1 ? 3 : 2"
               class="spark-dot"
+              [class.active]="hoveredPointIndex() === idx"
               [class.last]="idx === sparklineSvg().points.length - 1"
               (mouseenter)="onSparklineHover(idx)"
               (mouseleave)="onSparklineHover(null)" />

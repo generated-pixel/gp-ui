@@ -5,11 +5,13 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 
 @Component({
   selector: 'gp-kpi-card',
   standalone: true,
+  imports: [GpTag],
   templateUrl: './kpi-card.html',
   styleUrl: './kpi-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,8 +29,33 @@ export class GpKpiCard extends GpAnalyticsComponent {
   readonly sparklinePoints = input<number[]>([]);
   readonly icon = input<string>('📊');
   readonly unit = input<string>('');
+  readonly alertThreshold = input<number | null>(null);
+  readonly alertCondition = input<'above' | 'below'>('below');
+  readonly alertMessage = input<string | null>(null);
 
   protected readonly hoveredPointIndex = signal<number | null>(null);
+
+  /**
+   * Evaluates if metric breaches the target alert threshold.
+   */
+  readonly isAlertActive = computed<boolean>(() => {
+    const thresh = this.alertThreshold();
+    if (thresh === null || thresh === undefined) return false;
+    const val = this.value();
+    const num = typeof val === 'number' ? val : parseFloat(String(val));
+    if (isNaN(num)) return false;
+    return this.alertCondition() === 'above' ? num > thresh : num < thresh;
+  });
+
+  /**
+   * Hovered sparkline data point for tooltip positioning.
+   */
+  readonly hoveredPoint = computed(() => {
+    const idx = this.hoveredPointIndex();
+    if (idx === null) return null;
+    const pts = this.sparklineSvg().points;
+    return pts[idx] ? { ...pts[idx], index: idx } : null;
+  });
 
   /**
    * Display string for the metric value.

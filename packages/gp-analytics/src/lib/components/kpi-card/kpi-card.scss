@@ -69,6 +69,12 @@
   display: flex;
   align-items: center;
   gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.kpi-alert-badge {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.35rem;
 }
 
 .kpi-icon {
@@ -143,6 +149,23 @@
   width: 140px;
   height: 40px;
   flex-shrink: 0;
+  position: relative;
+}
+
+.sparkline-tooltip {
+  position: absolute;
+  top: -22px;
+  transform: translateX(-50%);
+  background: var(--gp-color-text-primary, #0f172a);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .sparkline-svg {
@@ -154,10 +177,16 @@
     fill: #ffffff;
     stroke: var(--sparkline-stroke, #4f46e5);
     stroke-width: 1.5;
+    cursor: pointer;
     transition: r 0.15s ease;
 
+    &.active,
     &.last {
       fill: var(--sparkline-stroke, #4f46e5);
+    }
+
+    &.active {
+      r: 4.5;
     }
 
     &:hover {
