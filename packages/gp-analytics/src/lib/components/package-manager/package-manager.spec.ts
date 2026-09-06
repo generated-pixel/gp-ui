@@ -136,6 +136,31 @@ describe('GpPackageManager', () => {
     expect(importedPayload.mode).toBe('merge');
   });
 
+  it('should support selective cherry-picking of assets during import', () => {
+    let importedPayload: any = null;
+    component.packageImported.subscribe((evt) => (importedPayload = evt));
+
+    const extraDs: Dataset = { datasetId: 'ds_2', name: 'Support Tickets', fields: [] };
+    const validPkg = service.createPackage({
+      name: 'Multi Asset Pkg',
+      datasets: [mockDataset, extraDs],
+      dashboards: [mockDashboard],
+      reports: [mockReport],
+    });
+
+    component.importJsonBuffer.set(service.exportPackageToJson(validPkg));
+
+    // Deselect all datasets, then cherry-pick only 'ds_2'
+    component.toggleImportAllDatasets();
+    component.toggleImportDataset('ds_2');
+
+    component.applyImport();
+
+    expect(importedPayload).toBeTruthy();
+    expect(importedPayload.package.datasets.length).toBe(1);
+    expect(importedPayload.package.datasets[0].datasetId).toBe('ds_2');
+  });
+
   it('should transmit distribution payload and emit packageDistributed', () => {
     vi.useFakeTimers();
     try {

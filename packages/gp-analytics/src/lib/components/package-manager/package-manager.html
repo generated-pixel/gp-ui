@@ -272,6 +272,89 @@
                 </div>
               }
 
+              <!-- Granular Selective Asset Cherry-Picker -->
+              @if (parsedImportPackage(); as pkg) {
+                <div class="selective-import-card">
+                  <h4 class="selective-title">Asset Cherry-Picker (Optional)</h4>
+                  <p class="selective-subtitle">Choose whether to import all assets or select specific dashboards, datasets, and reports:</p>
+
+                  @if (pkg.dashboards.length > 0) {
+                    <div class="selective-group">
+                      <div class="group-header-row">
+                        <span class="group-heading">Dashboards ({{ pkg.dashboards.length }})</span>
+                        <gp-switch
+                          [ngModel]="importAllDashboards()"
+                          (ngModelChange)="importAllDashboards.set($event)"
+                          label="All" />
+                      </div>
+                      @if (!importAllDashboards()) {
+                        <div class="cherry-chips-list">
+                          @for (db of pkg.dashboards; track db.id) {
+                            <gp-tag
+                              [severity]="selectedImportDashboardIds().has(db.id) ? 'primary' : 'secondary'"
+                              size="sm"
+                              class="cherry-tag"
+                              (click)="toggleImportDashboard(db.id)">
+                              {{ selectedImportDashboardIds().has(db.id) ? '✓ ' : '+ ' }}{{ db.title }}
+                            </gp-tag>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  @if (pkg.datasets.length > 0) {
+                    <div class="selective-group">
+                      <div class="group-header-row">
+                        <span class="group-heading">Datasets ({{ pkg.datasets.length }})</span>
+                        <gp-switch
+                          [ngModel]="importAllDatasets()"
+                          (ngModelChange)="importAllDatasets.set($event)"
+                          label="All" />
+                      </div>
+                      @if (!importAllDatasets()) {
+                        <div class="cherry-chips-list">
+                          @for (ds of pkg.datasets; track ds.datasetId) {
+                            <gp-tag
+                              [severity]="selectedImportDatasetIds().has(ds.datasetId) ? 'primary' : 'secondary'"
+                              size="sm"
+                              class="cherry-tag"
+                              (click)="toggleImportDataset(ds.datasetId)">
+                              {{ selectedImportDatasetIds().has(ds.datasetId) ? '✓ ' : '+ ' }}{{ ds.name }}
+                            </gp-tag>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  @if (pkg.reports.length > 0) {
+                    <div class="selective-group">
+                      <div class="group-header-row">
+                        <span class="group-heading">Reports ({{ pkg.reports.length }})</span>
+                        <gp-switch
+                          [ngModel]="importAllReports()"
+                          (ngModelChange)="importAllReports.set($event)"
+                          label="All" />
+                      </div>
+                      @if (!importAllReports()) {
+                        <div class="cherry-chips-list">
+                          @for (rp of pkg.reports; track rp.id) {
+                            <gp-tag
+                              [severity]="selectedImportReportIds().has(rp.id) ? 'primary' : 'secondary'"
+                              size="sm"
+                              class="cherry-tag"
+                              (click)="toggleImportReport(rp.id)">
+                              {{ selectedImportReportIds().has(rp.id) ? '✓ ' : '+ ' }}{{ rp.name }}
+                            </gp-tag>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+
               <!-- Import Mode Selector & Final Button -->
               <div class="import-footer-row">
                 <div class="import-mode-group">

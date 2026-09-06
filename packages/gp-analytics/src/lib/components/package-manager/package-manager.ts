@@ -106,6 +106,67 @@ export class GpPackageManager extends GpAnalyticsComponent {
     return this.exportImportService.validatePackage(raw);
   });
 
+  readonly parsedImportPackage = computed<GpAnalyticsPackage | null>(() => {
+    const val = this.validationResult();
+    if (!val || !val.isValid) return null;
+    try {
+      return JSON.parse(this.importJsonBuffer());
+    } catch {
+      return null;
+    }
+  });
+
+  // Selective import asset selection
+  readonly importAllDatasets = signal<boolean>(true);
+  readonly importAllDashboards = signal<boolean>(true);
+  readonly importAllReports = signal<boolean>(true);
+
+  readonly selectedImportDatasetIds = signal<Set<string>>(new Set());
+  readonly selectedImportDashboardIds = signal<Set<string>>(new Set());
+  readonly selectedImportReportIds = signal<Set<string>>(new Set());
+
+  toggleImportDataset(id: string): void {
+    const current = new Set(this.selectedImportDatasetIds());
+    if (current.has(id)) current.delete(id);
+    else current.add(id);
+    this.selectedImportDatasetIds.set(current);
+    this.importAllDatasets.set(false);
+  }
+
+  toggleImportAllDatasets(): void {
+    const next = !this.importAllDatasets();
+    this.importAllDatasets.set(next);
+    if (next) this.selectedImportDatasetIds.set(new Set());
+  }
+
+  toggleImportDashboard(id: string): void {
+    const current = new Set(this.selectedImportDashboardIds());
+    if (current.has(id)) current.delete(id);
+    else current.add(id);
+    this.selectedImportDashboardIds.set(current);
+    this.importAllDashboards.set(false);
+  }
+
+  toggleImportAllDashboards(): void {
+    const next = !this.importAllDashboards();
+    this.importAllDashboards.set(next);
+    if (next) this.selectedImportDashboardIds.set(new Set());
+  }
+
+  toggleImportReport(id: string): void {
+    const current = new Set(this.selectedImportReportIds());
+    if (current.has(id)) current.delete(id);
+    else current.add(id);
+    this.selectedImportReportIds.set(current);
+    this.importAllReports.set(false);
+  }
+
+  toggleImportAllReports(): void {
+    const next = !this.importAllReports();
+    this.importAllReports.set(next);
+    if (next) this.selectedImportReportIds.set(new Set());
+  }
+
   // Remote Distribution State
   readonly targetEndpoint = signal<string>('https://api.enterprise.corp/v1/analytics/distribution/packages');
   readonly apiAuthToken = signal<string>('bearer_live_dist_sec_8923a1');
@@ -219,7 +280,28 @@ export class GpPackageManager extends GpAnalyticsComponent {
     if (!raw) return;
 
     try {
-      const imported = this.exportImportService.importPackage(raw, this.importMode());
+      let imported = this.exportImportService.importPackage(raw, this.importMode());
+
+      // If selective import is configured, cherry-pick only selected items
+      const filterDs = !this.importAllDatasets() && this.selectedImportDatasetIds().size > 0;
+      const filterDb = !this.importAllDashboards() && this.selectedImportDashboardIds().size > 0;
+      const filterRp = !this.importAllReports() && this.selectedImportReportIds().size > 0;
+
+      if (filterDs || filterDb || filterRp) {
+        imported = {
+          ...imported,
+          datasets: filterDs
+            ? imported.datasets.filter((d: Dataset) => this.selectedImportDatasetIds().has(d.datasetId))
+            : imported.datasets,
+          dashboards: filterDb
+            ? imported.dashboards.filter((d: GpDashboardConfig) => this.selectedImportDashboardIds().has(d.id))
+            : imported.dashboards,
+          reports: filterRp
+            ? imported.reports.filter((r: GpReportConfig) => this.selectedImportReportIds().has(r.id))
+            : imported.reports,
+        };
+      }
+
       this.packageImported.emit({
         package: imported,
         mode: this.importMode(),
