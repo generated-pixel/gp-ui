@@ -4,3 +4,8 @@ dist
 .git
 package-lock.json
 coverage
+.editorconfig
+.gitignore
+.node-version
+.npmrc
+.prettierignore
