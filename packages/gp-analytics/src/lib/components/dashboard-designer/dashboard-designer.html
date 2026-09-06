@@ -142,6 +142,31 @@
 
     <!-- Right Actions using gp-button -->
     <div class="topbar-right">
+      <!-- Live Auto-Refresh Controls -->
+      <div class="auto-refresh-cluster">
+        @if (autoRefreshInterval() > 0) {
+          <gp-tag severity="success" class="live-indicator-tag">
+            <span class="live-pulse-dot"></span>
+            LIVE ({{ autoRefreshInterval() }}s)
+          </gp-tag>
+        }
+        <gp-select
+          [options]="autoRefreshOptions"
+          optionLabel="label"
+          optionValue="value"
+          size="sm"
+          [ngModel]="autoRefreshInterval()"
+          (ngModelChange)="setAutoRefresh($event)"
+          title="Auto-refresh interval" />
+        <gp-button
+          icon="sync"
+          size="sm"
+          [outlined]="true"
+          [disabled]="isRefreshing()"
+          title="Manual Refresh"
+          (click)="triggerRefresh()" />
+      </div>
+
       <gp-button
         label="Undo"
         icon="undo"

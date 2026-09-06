@@ -5,6 +5,7 @@ import {
   HostListener,
   input,
   model,
+  OnDestroy,
   output,
   signal,
 } from '@angular/core';
@@ -53,16 +54,33 @@ import {
   styleUrl: './dashboard-designer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GpDashboardDesigner extends GpAnalyticsComponent {
+export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestroy {
+  readonly autoRefreshOptions = [
+    { label: 'Refresh: Off', value: 0 },
+    { label: 'Every 5s', value: 5 },
+    { label: 'Every 15s', value: 15 },
+    { label: 'Every 30s', value: 30 },
+    { label: 'Every 60s', value: 60 },
+  ];
+
+  readonly widgetTypeOptions = [
+    { label: 'KPI Metric Card', value: 'kpi' },
+    { label: 'Analytical Chart', value: 'chart' },
+    { label: 'Tabular Report', value: 'table' },
+    { label: '2D Pivot Matrix', value: 'pivot' },
+    { label: 'Custom Info Card', value: 'custom' },
+  ];
+
   readonly aggregationOptions = [
-    { label: 'Sum (∑)', value: 'sum' },
-    { label: 'Average (µ)', value: 'avg' },
-    { label: 'Count (n)', value: 'count' },
-    { label: 'Minimum (Min)', value: 'min' },
-    { label: 'Maximum (Max)', value: 'max' },
+    { label: 'Sum', value: 'sum' },
+    { label: 'Average', value: 'avg' },
+    { label: 'Count', value: 'count' },
+    { label: 'Min', value: 'min' },
+    { label: 'Max', value: 'max' },
   ];
 
   readonly severityOptions = [
+    { label: 'Default (Primary)', value: 'info' },
     { label: 'Success (Green)', value: 'success' },
     { label: 'Info (Blue)', value: 'info' },
     { label: 'Warning (Amber)', value: 'warning' },
@@ -108,6 +126,17 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
    * Emitted when user clicks Cancel or Exit.
    */
   readonly cancel = output<void>();
+
+  /**
+   * Emitted when dashboard auto-refreshes or manual refresh is triggered.
+   */
+  readonly refresh = output<void>();
+
+  // Auto-refresh interval (in seconds, 0 = disabled)
+  readonly autoRefreshInterval = signal<number>(0);
+  readonly isRefreshing = signal<boolean>(false);
+  readonly lastRefreshedAt = signal<Date>(new Date());
+  protected autoRefreshTimer: any = null;
 
   // Active view mode: 'design' enables layout drag/resize & toolbar; 'preview' shows end-user experience
   readonly activeMode = signal<'design' | 'preview'>('design');
@@ -704,6 +733,44 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
   saveDashboard(): void {
     this.save.emit(this.config());
     this.showToast('Dashboard saved successfully!');
+  }
+
+  /**
+   * Configures automatic data refresh timer interval.
+   */
+  setAutoRefresh(intervalSeconds: number): void {
+    this.autoRefreshInterval.set(intervalSeconds);
+    if (this.autoRefreshTimer) {
+      clearInterval(this.autoRefreshTimer);
+      this.autoRefreshTimer = null;
+    }
+    if (intervalSeconds > 0) {
+      this.autoRefreshTimer = setInterval(() => {
+        this.triggerRefresh();
+      }, intervalSeconds * 1000);
+      this.showToast(`Auto-refresh set to every ${intervalSeconds}s`);
+    } else {
+      this.showToast('Auto-refresh disabled');
+    }
+  }
+
+  /**
+   * Triggers an immediate refresh cycle and emits refresh event.
+   */
+  triggerRefresh(): void {
+    this.isRefreshing.set(true);
+    this.lastRefreshedAt.set(new Date());
+    this.refresh.emit();
+    setTimeout(() => {
+      this.isRefreshing.set(false);
+    }, 500);
+  }
+
+  ngOnDestroy(): void {
+    if (this.autoRefreshTimer) {
+      clearInterval(this.autoRefreshTimer);
+      this.autoRefreshTimer = null;
+    }
   }
 
   private showToast(msg: string): void {

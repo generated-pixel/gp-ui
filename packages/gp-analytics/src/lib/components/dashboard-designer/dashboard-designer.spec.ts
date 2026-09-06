@@ -306,4 +306,32 @@ describe('GpDashboardDesigner', () => {
 
     expect(component.isFullscreen()).toBe(false);
   });
+
+  it('manages auto-refresh timer and emits refresh events', () => {
+    const { fixture, component } = createComponent();
+    fixture.detectChanges();
+
+    let refreshEmitted = 0;
+    component.refresh.subscribe(() => {
+      refreshEmitted++;
+    });
+
+    // Manual trigger
+    component.triggerRefresh();
+    expect(refreshEmitted).toBe(1);
+    expect(component.isRefreshing()).toBe(true);
+
+    // Set interval
+    component.setAutoRefresh(15);
+    expect(component.autoRefreshInterval()).toBe(15);
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.live-indicator-tag')?.textContent).toContain('LIVE (15s)');
+
+    // Turn off and destroy
+    component.setAutoRefresh(0);
+    expect(component.autoRefreshInterval()).toBe(0);
+    component.ngOnDestroy();
+  });
 });
