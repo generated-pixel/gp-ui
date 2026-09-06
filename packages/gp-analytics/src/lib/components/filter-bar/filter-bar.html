@@ -3,7 +3,18 @@
     <span class="filter-icon">🔍</span>
     <span class="filter-label">Filters</span>
 
-    <!-- Quick Presets -->
+    <!-- Quick Date Presets -->
+    @if (showDatePresets()) {
+      <div class="date-presets-group">
+        <gp-button label="Today" size="sm" [outlined]="true" (click)="applyDatePreset('today')" />
+        <gp-button label="Last 7d" size="sm" [outlined]="true" (click)="applyDatePreset('last7')" />
+        <gp-button label="Last 30d" size="sm" [outlined]="true" (click)="applyDatePreset('last30')" />
+        <gp-button label="MTD" size="sm" [outlined]="true" (click)="applyDatePreset('mtd')" />
+        <gp-button label="YTD" size="sm" [outlined]="true" (click)="applyDatePreset('ytd')" />
+      </div>
+    }
+
+    <!-- Custom Quick Presets -->
     @if (quickPresets().length > 0) {
       <div class="preset-pills">
         @for (p of quickPresets(); track p.label) {
@@ -81,16 +92,41 @@
               (ngModelChange)="selectedOperator.set($event)" />
           </div>
 
-          <div class="form-group">
-            <label>Value</label>
-            <input
-              type="text"
-              gpInputText
-              class="form-input"
-              placeholder="e.g. AMER, 1000..."
-              [ngModel]="filterValue()"
-              (ngModelChange)="filterValue.set($event)" />
-          </div>
+          @if (selectedOperator() === 'between') {
+            <div class="form-group-range">
+              <div class="form-group">
+                <label>From (Start)</label>
+                <input
+                  type="text"
+                  gpInputText
+                  class="form-input"
+                  placeholder="Start value..."
+                  [ngModel]="filterValue()"
+                  (ngModelChange)="filterValue.set($event)" />
+              </div>
+              <div class="form-group">
+                <label>To (End)</label>
+                <input
+                  type="text"
+                  gpInputText
+                  class="form-input"
+                  placeholder="End value..."
+                  [ngModel]="filterValueTo()"
+                  (ngModelChange)="filterValueTo.set($event)" />
+              </div>
+            </div>
+          } @else {
+            <div class="form-group">
+              <label>Value</label>
+              <input
+                type="text"
+                gpInputText
+                class="form-input"
+                placeholder="e.g. AMER, 1000..."
+                [ngModel]="filterValue()"
+                (ngModelChange)="filterValue.set($event)" />
+            </div>
+          }
         </div>
 
         <div class="dialog-footer">

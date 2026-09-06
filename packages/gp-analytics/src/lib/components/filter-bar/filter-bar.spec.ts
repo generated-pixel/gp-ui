@@ -48,4 +48,48 @@ describe('GpFilterBar', () => {
     expect(component.filters()).toHaveLength(1);
     expect(component.filters()[0].fieldId).toBe('status');
   });
+
+  it('applies temporal date range presets and adds between condition', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('dateField', 'order_date');
+    fixture.detectChanges();
+
+    let emitted: any = null;
+    component.filterChange.subscribe((f) => (emitted = f));
+
+    component.applyDatePreset('last7');
+    fixture.detectChanges();
+
+    expect(component.filters()).toHaveLength(1);
+    const filter = component.filters()[0];
+    expect(filter.fieldId).toBe('order_date');
+    expect(filter.operator).toBe('between');
+    expect(Array.isArray(filter.value)).toBe(true);
+    expect(filter.value).toHaveLength(2);
+    expect(emitted).toEqual(component.filters());
+  });
+
+  it('adds between range filter rule with dual start/end values', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('availableFields', [
+      { fieldId: 'amount', label: 'Amount' },
+    ]);
+    fixture.detectChanges();
+
+    component['openAddModal']();
+    component['selectedField'].set('amount');
+    component['selectedOperator'].set('between');
+    component['filterValue'].set('100');
+    component['filterValueTo'].set('500');
+
+    component['addCondition']();
+    fixture.detectChanges();
+
+    expect(component.filters()).toHaveLength(1);
+    expect(component.filters()[0]).toEqual({
+      fieldId: 'amount',
+      operator: 'between',
+      value: ['100', '500'],
+    });
+  });
 });
