@@ -316,7 +316,43 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
     const uniqueId = `widget-${type}-${Date.now().toString(36)}`;
     const numField = this.numericFields()[0]?.fieldId || 'total';
     const dimField = this.dimensionFields()[0]?.fieldId || 'customer_name';
+    const cols = this.config().columns || 12;
 
+    let targetW = 6;
+    let targetH = 3;
+    let minW = 3;
+    let minH = 2;
+
+    switch (type) {
+      case 'kpi':
+        targetW = 4;
+        targetH = 2;
+        minW = 3;
+        minH = 2;
+        break;
+      case 'chart':
+        targetW = 6;
+        targetH = 4;
+        minW = 4;
+        minH = 3;
+        break;
+      case 'table':
+      case 'pivot':
+        targetW = 12;
+        targetH = 5;
+        minW = 6;
+        minH = 4;
+        break;
+      case 'custom':
+      default:
+        targetW = 6;
+        targetH = 3;
+        minW = 3;
+        minH = 2;
+        break;
+    }
+
+    const pos = this.findAvailableGridPosition(targetW, targetH, cols);
     let newWidget: GpDashboardWidgetConfig;
 
     switch (type) {
@@ -326,7 +362,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
           type: 'kpi',
           title: `New KPI Metric`,
           icon: '📈',
-          grid: { x: 0, y: maxY, w: 4, h: 2, minW: 3, minH: 2 },
+          grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
           measure: { fieldId: numField, aggregation: 'sum' },
           formatCurrency: true,
           comparePrevious: true,
@@ -340,7 +376,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
           type: 'chart',
           title: `${this.formatLabel(chartType)} Analysis`,
           chartType,
-          grid: { x: 0, y: maxY, w: 6, h: 4, minW: 4, minH: 3 },
+          grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
           dimension: dimField,
           measure: { fieldId: numField, aggregation: 'sum', alias: 'val' },
           sortOrder: 'desc',
@@ -354,7 +390,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
           type: 'table',
           title: 'Analytical Table Rollup',
           subtitle: 'Hierarchical aggregation',
-          grid: { x: 0, y: maxY, w: 12, h: 5, minW: 6, minH: 4 },
+          grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
           dimensions: [dimField],
           measures: [{ fieldId: numField, aggregation: 'sum', alias: 'total_val' }],
           showSubtotals: true,
@@ -369,7 +405,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
           type: 'pivot',
           title: 'Cross-Tabulation Matrix',
           subtitle: '2D breakdown matrix',
-          grid: { x: 0, y: maxY, w: 12, h: 5, minW: 6, minH: 4 },
+          grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
           rowDimension: dimField,
           colDimension: colField,
           measure: { fieldId: numField, aggregation: 'sum' },
@@ -384,7 +420,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
           title: 'Information Card',
           subtitle: 'Operational notes',
           icon: '💡',
-          grid: { x: 0, y: maxY, w: 6, h: 3, minW: 3, minH: 2 },
+          grid: { x: pos.x, y: pos.y, w: targetW, h: targetH, minW, minH },
           content: 'Add custom insights, instructions, or operational highlights here.',
         };
         break;
@@ -401,15 +437,78 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
     this.openWidgetInspector(newWidget);
   }
 
-  // Duplicate Widget
+  /**
+   * Intelligently scans grid space to find the first non-overlapping (x, y) slot.
+   */
+  findAvailableGridPosition(width: number, height: number, cols = 12): { x: number; y: number } {
+    const widgets = this.config().widgets;
+    if (!widgets || widgets.length === 0) {
+      return { x: 0, y: 0 };
+    }
+
+    let maxY = 0;
+    for (const w of widgets) {
+      const b = (w.grid.y ?? 0) + (w.grid.h ?? 1);
+      if (b > maxY) maxY = b;
+    }
+
+    for (let y = 0; y <= maxY + 1; y++) {
+      for (let x = 0; x <= cols - width; x++) {
+        const overlaps = widgets.some((w) => {
+          const wx = w.grid.x ?? 0;
+          const wy = w.grid.y ?? 0;
+          const ww = w.grid.w ?? 1;
+          const wh = w.grid.h ?? 1;
+          return x < wx + ww && x + width > wx && y < wy + wh && y + height > wy;
+        });
+
+        if (!overlaps) {
+          return { x, y };
+        }
+      }
+    }
+
+    return { x: 0, y: maxY };
+  }
+
+  // Duplicate Widget with intelligent auto-placement
   duplicateWidget(w: GpDashboardWidgetConfig): void {
     this.pushHistory(this.config());
     const currentWidgets = this.config().widgets;
     const cloned: GpDashboardWidgetConfig = JSON.parse(JSON.stringify(w));
     cloned.id = `widget-${w.type}-${Date.now().toString(36)}`;
     cloned.title = `${w.title} (Copy)`;
-    // Offset position downwards
-    cloned.grid.y = (cloned.grid.y ?? 0) + (cloned.grid.h ?? 2);
+
+    const width = cloned.grid.w ?? 4;
+    const height = cloned.grid.h ?? 2;
+    const cols = this.config().columns || 12;
+
+    // Check if space immediately to the right is free
+    const candidateX = (w.grid.x ?? 0) + width;
+    const candidateY = w.grid.y ?? 0;
+    const isRightFree =
+      candidateX + width <= cols &&
+      !currentWidgets.some((cw) => {
+        const wx = cw.grid.x ?? 0;
+        const wy = cw.grid.y ?? 0;
+        const ww = cw.grid.w ?? 1;
+        const wh = cw.grid.h ?? 1;
+        return (
+          candidateX < wx + ww &&
+          candidateX + width > wx &&
+          candidateY < wy + wh &&
+          candidateY + height > wy
+        );
+      });
+
+    if (isRightFree) {
+      cloned.grid.x = candidateX;
+      cloned.grid.y = candidateY;
+    } else {
+      const bestSlot = this.findAvailableGridPosition(width, height, cols);
+      cloned.grid.x = bestSlot.x;
+      cloned.grid.y = bestSlot.y;
+    }
 
     this.config.set({
       ...this.config(),
@@ -417,6 +516,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
     });
 
     this.openWidgetInspector(cloned);
+    this.showToast(`Duplicated widget to (${cloned.grid.x}, ${cloned.grid.y})`);
   }
 
   // Delete Widget

@@ -257,4 +257,29 @@ describe('GpDashboardDesigner', () => {
     expect(component.canUndo()).toBe(true);
     expect(component.canRedo()).toBe(false);
   });
+
+  it('intelligently positions duplicated widget in adjacent horizontal slot or next available slot', () => {
+    const { fixture, component } = createComponent();
+    // Start with blank template
+    component.loadTemplate('blank');
+    fixture.detectChanges();
+
+    // Add first KPI widget (w=4, h=2) at (0, 0)
+    component.addWidget('kpi');
+    fixture.detectChanges();
+
+    const firstKpi = component.config().widgets[0];
+    expect(firstKpi.grid.x).toBe(0);
+    expect(firstKpi.grid.y).toBe(0);
+
+    // Duplicate first KPI -> since (4, 0) is free, it should be placed side-by-side at x=4, y=0
+    component.duplicateWidget(firstKpi);
+    fixture.detectChanges();
+
+    const widgets = component.config().widgets;
+    expect(widgets).toHaveLength(2);
+    const duplicatedKpi = widgets[1];
+    expect(duplicatedKpi.grid.x).toBe(4);
+    expect(duplicatedKpi.grid.y).toBe(0);
+  });
 });
