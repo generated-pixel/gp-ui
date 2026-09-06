@@ -1,0 +1,69 @@
+/**
+ * gp-analytics Foundational Theme Tokens
+ * Bridges and extends @generatedpixel/gp-ui-theme design tokens
+ * for analytical dashboards, data engine widgets, charts, and designers.
+ */
+
+:root {
+  /* Surface & Canvas Tokens */
+  --gp-analytics-canvas-bg: var(--gp-surface-ground, #f8fafc);
+  --gp-analytics-widget-bg: var(--gp-surface-card, #ffffff);
+  --gp-analytics-widget-border: var(--gp-surface-border, #e2e8f0);
+  --gp-analytics-widget-hover-border: var(--gp-primary-border, #a5b4fc);
+  --gp-analytics-widget-radius: var(--gp-border-radius-xl, 0.75rem);
+  --gp-analytics-widget-shadow: var(--gp-shadow-sm, 0 1px 3px rgba(15, 23, 42, 0.05));
+  --gp-analytics-widget-shadow-hover: var(--gp-shadow-md, 0 4px 14px rgba(15, 23, 42, 0.08));
+
+  /* Designer Workspace & Inspector Tokens */
+  --gp-analytics-designer-toolbar-bg: var(--gp-surface-card, #ffffff);
+  --gp-analytics-designer-toolbar-border: var(--gp-surface-border, #e2e8f0);
+  --gp-analytics-inspector-bg: var(--gp-surface-card, #ffffff);
+  --gp-analytics-inspector-border: var(--gp-surface-border, #e2e8f0);
+  --gp-analytics-inspector-header-bg: var(--gp-surface-section, #f8fafc);
+  --gp-analytics-drag-handle-color: var(--gp-primary, #6366f1);
+  --gp-analytics-drag-handle-bg: var(--gp-primary-light, #eef2ff);
+  --gp-analytics-drag-handle-border: var(--gp-primary-200, #c7d2fe);
+  --gp-analytics-selection-ring: var(--gp-primary, #6366f1);
+  --gp-analytics-grid-guide-line: rgba(99, 102, 241, 0.12);
+
+  /* Code & Editor Tokens */
+  --gp-analytics-code-bg: #0f172a;
+  --gp-analytics-code-text: #38bdf8;
+  --gp-analytics-code-border: var(--gp-surface-border, #334155);
+
+  /* Analytical Metric & Trend Tokens */
+  --gp-analytics-metric-up: var(--gp-success, #10b981);
+  --gp-analytics-metric-up-light: var(--gp-success-light, #ecfdf5);
+  --gp-analytics-metric-down: var(--gp-danger, #ef4444);
+  --gp-analytics-metric-down-light: var(--gp-danger-light, #fef2f2);
+  --gp-analytics-metric-neutral: var(--gp-secondary, #64748b);
+
+  /* Chart Color Palette Tokens */
+  --gp-analytics-chart-1: var(--gp-primary, #6366f1);
+  --gp-analytics-chart-2: var(--gp-info, #0ea5e9);
+  --gp-analytics-chart-3: var(--gp-success, #10b981);
+  --gp-analytics-chart-4: var(--gp-warning, #f59e0b);
+  --gp-analytics-chart-5: #ec4899;
+  --gp-analytics-chart-6: #8b5cf6;
+}
+
+/* Dark Mode Token Overrides */
+[data-gp-mode='dark'],
+.gp-dark {
+  --gp-analytics-canvas-bg: var(--gp-surface-ground, #0f172a);
+  --gp-analytics-widget-bg: var(--gp-surface-card, #1e293b);
+  --gp-analytics-widget-border: var(--gp-surface-border, #334155);
+  --gp-analytics-widget-hover-border: var(--gp-primary-400, #818cf8);
+  --gp-analytics-designer-toolbar-bg: var(--gp-surface-card, #1e293b);
+  --gp-analytics-designer-toolbar-border: var(--gp-surface-border, #334155);
+  --gp-analytics-inspector-bg: var(--gp-surface-card, #1e293b);
+  --gp-analytics-inspector-border: var(--gp-surface-border, #334155);
+  --gp-analytics-inspector-header-bg: var(--gp-surface-section, #0f172a);
+  --gp-analytics-drag-handle-color: var(--gp-primary-300, #a5b4fc);
+  --gp-analytics-drag-handle-bg: rgba(99, 102, 241, 0.18);
+  --gp-analytics-drag-handle-border: rgba(99, 102, 241, 0.35);
+  --gp-analytics-selection-ring: var(--gp-primary-400, #818cf8);
+  --gp-analytics-grid-guide-line: rgba(165, 180, 252, 0.1);
+  --gp-analytics-code-bg: #0b1120;
+  --gp-analytics-code-border: var(--gp-surface-border, #334155);
+}

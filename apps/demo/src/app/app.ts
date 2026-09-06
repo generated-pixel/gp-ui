@@ -18,6 +18,9 @@ import {
   GpAnalyticalChart,
   GpFilterBar,
   GpAnalyticsDashboard,
+  GpDashboardDesigner,
+  GpDashboardConfig,
+  createDefaultDashboardConfig,
   Grouping,
   JoinType,
   LoadedSchemaResult,
@@ -44,6 +47,7 @@ import {
     GpPivotGrid,
     GpAnalyticalChart,
     GpAnalyticsDashboard,
+    GpDashboardDesigner,
     GpSelect,
     GpTag,
   ],
@@ -86,12 +90,13 @@ export class App {
     this.themeService.toggleMode();
   }
 
-  protected readonly activeTab = signal<'workbench' | 'dashboard' | 'reports' | 'standalone'>('workbench');
+  protected readonly activeTab = signal<'workbench' | 'dashboard' | 'designer' | 'reports' | 'standalone'>('workbench');
 
   protected readonly currentTitle = computed(() => {
     switch (this.activeTab()) {
       case 'workbench': return 'Interactive Dataset Builder';
       case 'dashboard': return 'Executive Analytics Dashboard';
+      case 'designer': return 'Visual Dashboard Designer';
       case 'reports': return 'Tabular & Pivot Reports';
       case 'standalone': return 'Modular Standalone Components';
     }
@@ -101,10 +106,22 @@ export class App {
     switch (this.activeTab()) {
       case 'workbench': return 'Compose high-performance analytical datasets from relational enterprise schemas with automatic join validation, dynamic aggregation labeling, and real-time tabular preview.';
       case 'dashboard': return 'Interactive executive dashboard powered by @generatedpixel/gp-grid with responsive widget layout, real-time KPI scorecards, and cross-metric charts.';
+      case 'designer': return 'Interactively build, customize, and configure dashboards for users with live drag & drop layout, widget palette, property inspector, and JSON export/import.';
       case 'reports': return 'Advanced data reporting engine supporting multi-dimensional grouping, subtotal calculations, ad-hoc column aggregation, and 2D pivot matrices.';
       case 'standalone': return 'Modular, independently embeddable components with zero lock-in: Schema Catalogue, Field Selector, Preview Grid, KPI Cards, and Analytical Charts.';
     }
   });
+
+  // Dedicated state for Dashboard Designer
+  protected readonly designerDashboardConfig = signal<GpDashboardConfig>(createDefaultDashboardConfig());
+  protected readonly designerAvailableFields = computed(() => [
+    { fieldId: 'customer_name', label: 'Customer Name', type: 'string' },
+    { fieldId: 'region', label: 'Sales Region', type: 'string' },
+    { fieldId: 'status', label: 'Order Status', type: 'string' },
+    { fieldId: 'total', label: 'Total Revenue ($)', type: 'number' },
+    { fieldId: 'quantity', label: 'Order Units (Qty)', type: 'number' },
+    { fieldId: 'date', label: 'Order Date', type: 'date' },
+  ]);
 
   protected readonly demoAnalyticsData = [
     { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Completed', total: 18450, quantity: 14, date: '2026-02-14' },

@@ -136,6 +136,15 @@
     <button
       type="button"
       class="view-tab"
+      [class.active]="activeTab() === 'designer'"
+      (click)="activeTab.set('designer')"
+      role="tab"
+      [attr.aria-selected]="activeTab() === 'designer'">
+      <span>🎨 Dashboard Designer</span>
+    </button>
+    <button
+      type="button"
+      class="view-tab"
       [class.active]="activeTab() === 'reports'"
       (click)="activeTab.set('reports')"
       role="tab"
@@ -194,6 +203,16 @@
   @if (activeTab() === 'dashboard') {
     <section class="dashboard-section" aria-label="Executive Dashboard">
       <gp-analytics-dashboard [records]="demoAnalyticsData" />
+    </section>
+  }
+
+  <!-- ================= TAB 3: DASHBOARD DESIGNER ================= -->
+  @if (activeTab() === 'designer') {
+    <section class="designer-section" aria-label="Visual Dashboard Designer">
+      <gp-dashboard-designer
+        [(config)]="designerDashboardConfig"
+        [records]="demoAnalyticsData"
+        [availableFields]="designerAvailableFields()" />
     </section>
   }
 

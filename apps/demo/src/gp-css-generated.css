@@ -211,3 +211,6 @@ body {
 .sticky { position: sticky; }
 .relative { position: relative; }
 .absolute { position: absolute; }
+.fixed { position: fixed; }
+.inline { display: inline; }
+.gp-grid { display: grid; }
