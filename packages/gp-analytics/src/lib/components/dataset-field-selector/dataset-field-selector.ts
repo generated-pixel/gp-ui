@@ -13,7 +13,10 @@ import {
   AggregationType,
   DatasetField,
   Field,
+  GpFilterCondition,
+  GpFilterOperator,
   getDatasetFieldDisplayLabel,
+  getLookupValueDisplayLabel,
 } from '../../models';
 
 export type ListGroupingMode = 'none' | 'table' | 'role';
@@ -40,6 +43,11 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
   readonly fields = input<DatasetField[]>([]);
 
   /**
+   * Dataset-level filters applied to records.
+   */
+  readonly filters = input<GpFilterCondition[]>([]);
+
+  /**
    * Current grouping mode for the dataset fields list ('none', 'table', 'role').
    */
   readonly listGrouping = model<ListGroupingMode>('none');
@@ -55,6 +63,11 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
   readonly fieldsChange = output<DatasetField[]>();
 
   /**
+   * Emitted whenever dataset filters change.
+   */
+  readonly filtersChange = output<GpFilterCondition[]>();
+
+  /**
    * Emitted when a field is dropped into the component from the schema catalogue.
    */
   readonly fieldDrop = output<Field>();
@@ -63,6 +76,20 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
    * Emitted when a field is removed.
    */
   readonly fieldRemove = output<string>();
+
+  /**
+   * Active tab in the selector workbench: 'fields' or 'filters'.
+   */
+  readonly activeTab = signal<'fields' | 'filters'>('fields');
+
+  /**
+   * State for the inline Add Filter card.
+   */
+  readonly isAddingFilter = signal<boolean>(false);
+  readonly newFilterFieldId = signal<string>('');
+  readonly newFilterOperator = signal<GpFilterOperator>('eq');
+  readonly newFilterValue = signal<any>('');
+  readonly newFilterSelectedItems = signal<string[]>([]);
 
   /**
    * Visual drag-over state for drop-zone.
@@ -221,6 +248,257 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
       label: this.i18n.translate(opt.labelKey as any),
     }));
   });
+
+  /**
+   * Fields that can be filtered (visible and filterable !== false on both dataset and baseField).
+   */
+  readonly filterableFields = computed<DatasetField[]>(() => {
+    return this.visibleFields().filter(
+      (f) => f.filterable !== false && (f.baseField ? f.baseField.filterable !== false : true),
+    );
+  });
+
+  /**
+   * Currently selected field in the Add Filter form.
+   */
+  readonly selectedFilterField = computed<DatasetField | null>(() => {
+    const id = this.newFilterFieldId();
+    if (!id) return null;
+    return (
+      this.fields().find((f) => f.datasetFieldId === id || f.fieldId === id || f.fieldName === id) ??
+      null
+    );
+  });
+
+  /**
+   * Translated lookup options if the selected filter field has lookupValues.
+   */
+  readonly filterFieldLookupValues = computed(() => {
+    return this.selectedFilterField()?.lookupValues ?? [];
+  });
+
+  /**
+   * Available filter operators based on selected filter field and whether it has lookupValues.
+   */
+  readonly availableFilterOperators = computed<{ value: GpFilterOperator; label: string }[]>(() => {
+    const field = this.selectedFilterField();
+    const hasLookups = (field?.lookupValues && field.lookupValues.length > 0) ?? false;
+
+    if (hasLookups) {
+      return [
+        { value: 'eq', label: this.i18n.translate('equals') },
+        { value: 'neq', label: this.i18n.translate('notEquals') },
+        { value: 'in', label: this.i18n.translate('inList') },
+      ];
+    }
+
+    const type = field?.dataType ?? 'string';
+    const isNumeric = ['number', 'integer', 'decimal', 'currency'].includes(type);
+    const isDate = ['date', 'datetime'].includes(type);
+
+    if (isNumeric || isDate) {
+      return [
+        { value: 'eq', label: this.i18n.translate('equals') },
+        { value: 'neq', label: this.i18n.translate('notEquals') },
+        { value: 'gt', label: this.i18n.translate('greaterThan') },
+        { value: 'gte', label: this.i18n.translate('greaterOrEqual') },
+        { value: 'lt', label: this.i18n.translate('lessThan') },
+        { value: 'lte', label: this.i18n.translate('lessOrEqual') },
+        { value: 'isNull', label: this.i18n.translate('isNull') },
+        { value: 'isNotNull', label: this.i18n.translate('isNotNull') },
+      ];
+    }
+
+    return [
+      { value: 'eq', label: this.i18n.translate('equals') },
+      { value: 'neq', label: this.i18n.translate('notEquals') },
+      { value: 'contains', label: this.i18n.translate('contains') },
+      { value: 'startsWith', label: this.i18n.translate('startsWith') },
+      { value: 'in', label: this.i18n.translate('inList') },
+      { value: 'isNull', label: this.i18n.translate('isNull') },
+      { value: 'isNotNull', label: this.i18n.translate('isNotNull') },
+    ];
+  });
+
+  // --- Filter Management Methods ---
+
+  setActiveTab(tab: 'fields' | 'filters'): void {
+    this.activeTab.set(tab);
+  }
+
+  startAddFilter(preselectedFieldId?: string): void {
+    const fields = this.filterableFields();
+    if (fields.length === 0) {
+      return;
+    }
+    const targetField =
+      (preselectedFieldId
+        ? fields.find(
+            (f) =>
+              f.datasetFieldId === preselectedFieldId ||
+              f.fieldId === preselectedFieldId ||
+              f.fieldName === preselectedFieldId,
+          )
+        : null) ?? fields[0];
+
+    this.newFilterFieldId.set(targetField.datasetFieldId);
+    this.newFilterOperator.set('eq');
+
+    if (targetField.lookupValues && targetField.lookupValues.length > 0) {
+      this.newFilterValue.set(targetField.lookupValues[0].value);
+      this.newFilterSelectedItems.set([String(targetField.lookupValues[0].value)]);
+    } else {
+      this.newFilterValue.set('');
+      this.newFilterSelectedItems.set([]);
+    }
+
+    this.isAddingFilter.set(true);
+  }
+
+  cancelAddFilter(): void {
+    this.isAddingFilter.set(false);
+  }
+
+  onFilterFieldChange(fieldId: string): void {
+    this.newFilterFieldId.set(fieldId);
+    const field = this.fields().find((f) => f.datasetFieldId === fieldId || f.fieldId === fieldId);
+    this.newFilterOperator.set('eq');
+
+    if (field?.lookupValues && field.lookupValues.length > 0) {
+      this.newFilterValue.set(field.lookupValues[0].value);
+      this.newFilterSelectedItems.set([String(field.lookupValues[0].value)]);
+    } else {
+      this.newFilterValue.set('');
+      this.newFilterSelectedItems.set([]);
+    }
+  }
+
+  toggleMultiSelectValue(val: string): void {
+    const current = new Set(this.newFilterSelectedItems());
+    if (current.has(val)) {
+      current.delete(val);
+    } else {
+      current.add(val);
+    }
+    this.newFilterSelectedItems.set(Array.from(current));
+    this.newFilterValue.set(Array.from(current));
+  }
+
+  applyNewFilter(): void {
+    const fieldId = this.newFilterFieldId();
+    if (!fieldId) {
+      return;
+    }
+
+    const op = this.newFilterOperator();
+    const field = this.selectedFilterField();
+    let val = this.newFilterValue();
+
+    if (op === 'isNull' || op === 'isNotNull') {
+      val = null;
+    } else if (op === 'in') {
+      if (field?.lookupValues && field.lookupValues.length > 0) {
+        val = this.newFilterSelectedItems();
+      } else if (typeof val === 'string') {
+        val = val.split(',').map((s) => s.trim()).filter(Boolean);
+      }
+      if (!Array.isArray(val) || val.length === 0) {
+        return;
+      }
+    } else {
+      if (val === '' || val === null || val === undefined) {
+        return;
+      }
+      const isNumeric = ['number', 'integer', 'decimal', 'currency'].includes(field?.dataType ?? '');
+      if (isNumeric && !isNaN(Number(val))) {
+        val = Number(val);
+      }
+    }
+
+    const condition: GpFilterCondition = {
+      fieldId,
+      operator: op,
+      value: val,
+    };
+
+    const updated = [...this.filters(), condition];
+    this.filtersChange.emit(updated);
+    this.isAddingFilter.set(false);
+  }
+
+  removeFilter(index: number): void {
+    const updated = this.filters().filter((_, i) => i !== index);
+    this.filtersChange.emit(updated);
+  }
+
+  clearAllFilters(): void {
+    this.filtersChange.emit([]);
+  }
+
+  filterByField(field: DatasetField): void {
+    this.activeTab.set('filters');
+    this.startAddFilter(field.datasetFieldId);
+  }
+
+  getFilterFieldDisplayLabel(fieldId: string): string {
+    const field = this.fields().find(
+      (f) => f.datasetFieldId === fieldId || f.fieldId === fieldId || f.fieldName === fieldId,
+    );
+    if (!field) return fieldId;
+    return getDatasetFieldDisplayLabel(field, this.i18n.locale());
+  }
+
+  getFilterOperatorLabel(operator: GpFilterOperator): string {
+    switch (operator) {
+      case 'eq':
+        return '=';
+      case 'neq':
+        return '!=';
+      case 'gt':
+        return '>';
+      case 'gte':
+        return '>=';
+      case 'lt':
+        return '<';
+      case 'lte':
+        return '<=';
+      case 'in':
+        return this.i18n.translate('inList');
+      case 'contains':
+        return this.i18n.translate('contains');
+      case 'startsWith':
+        return this.i18n.translate('startsWith');
+      case 'isNull':
+        return this.i18n.translate('isNull');
+      case 'isNotNull':
+        return this.i18n.translate('isNotNull');
+      default:
+        return operator;
+    }
+  }
+
+  getFilterValueDisplay(condition: GpFilterCondition): string {
+    if (condition.operator === 'isNull' || condition.operator === 'isNotNull') {
+      return '';
+    }
+
+    const field = this.fields().find(
+      (f) =>
+        f.datasetFieldId === condition.fieldId ||
+        f.fieldId === condition.fieldId ||
+        f.fieldName === condition.fieldId,
+    );
+
+    const locale = this.i18n.locale();
+
+    if (Array.isArray(condition.value)) {
+      return condition.value
+        .map((v) => getLookupValueDisplayLabel(field, v, locale))
+        .join(', ');
+    }
+
+    return getLookupValueDisplayLabel(field, condition.value, locale);
+  }
 
   /**
    * Dynamic display label for a dataset field.

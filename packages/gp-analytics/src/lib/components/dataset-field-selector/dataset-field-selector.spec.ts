@@ -339,4 +339,56 @@ describe('GpDatasetFieldSelector', () => {
     component['toggleFieldGroupBy'](dfRestricted.datasetFieldId);
     expect(emitted.length).toBe(0);
   });
+
+  it('manages filters, switches tabs, and builds filters with translated lookup values', () => {
+    const { fixture, component } = createComponent();
+    const lookupField: Field = {
+      ...sortableField,
+      fieldId: 'order-status',
+      fieldName: 'status',
+      lookupValues: [
+        { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
+        { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } },
+      ],
+    };
+
+    const dfLookup = createDatasetField(lookupField);
+    fixture.componentRef.setInput('fields', [dfLookup]);
+    fixture.detectChanges();
+
+    expect(component.activeTab()).toBe('fields');
+    component.setActiveTab('filters');
+    expect(component.activeTab()).toBe('filters');
+
+    // Start adding a filter
+    component.startAddFilter(dfLookup.datasetFieldId);
+    expect(component.isAddingFilter()).toBe(true);
+    expect(component.selectedFilterField()?.datasetFieldId).toBe(dfLookup.datasetFieldId);
+    expect(component.filterFieldLookupValues().length).toBe(2);
+
+    let emittedFilters: any[] = [];
+    component.filtersChange.subscribe((f) => (emittedFilters = f));
+
+    // Apply the filter
+    component.applyNewFilter();
+    expect(component.isAddingFilter()).toBe(false);
+    expect(emittedFilters.length).toBe(1);
+    expect(emittedFilters[0].fieldId).toBe(dfLookup.datasetFieldId);
+    expect(emittedFilters[0].operator).toBe('eq');
+    expect(emittedFilters[0].value).toBe('completed');
+
+    // Display localized value representation
+    expect(component.getFilterValueDisplay(emittedFilters[0])).toBe('Completed');
+
+    // Switch locale to French and verify translation
+    const i18n = TestBed.inject(GpTranslationService);
+    i18n.setLocale('fr');
+    expect(component.getFilterValueDisplay(emittedFilters[0])).toBe('Complété');
+
+    // Test filterByField shortcut
+    i18n.setLocale('en');
+    component.filterByField(dfLookup);
+    expect(component.activeTab()).toBe('filters');
+    expect(component.isAddingFilter()).toBe(true);
+  });
 });
