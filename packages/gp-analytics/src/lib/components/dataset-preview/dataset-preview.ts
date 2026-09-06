@@ -2,12 +2,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
+  output,
   signal,
 } from '@angular/core';
 import { GpBadge, GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
-import { DatasetField, getDatasetFieldDisplayLabel } from '../../models';
+import {
+  DatasetField,
+  getDatasetFieldDisplayLabel,
+  DatasetDataSourceConfig,
+  LoadedDataResult,
+  CustomDataLoaderFn,
+} from '../../models';
+import { GpDatasetDataLoaderService } from '../../services/dataset-data-loader.service';
 
 export interface PreviewColumn {
   fieldId: string;
@@ -36,6 +45,8 @@ export interface RowGroupSection {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GpDatasetPreview extends GpAnalyticsComponent {
+  protected readonly dataLoader = inject(GpDatasetDataLoaderService);
+
   /**
    * The list of dataset fields forming the columns of this table preview.
    */
@@ -47,9 +58,29 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
   readonly datasetName = input<string>('Custom Dataset');
 
   /**
-   * Optional custom/real dataset records. If null, simulated data is rendered.
+   * Optional custom/real dataset records. If null and no source loaded, simulated data is rendered.
    */
   readonly customData = input<Record<string, any>[] | null>(null);
+
+  /**
+   * Optional custom data loader function for specialized or authenticated fetching.
+   */
+  readonly customDataLoader = input<CustomDataLoaderFn | null>(null);
+
+  /**
+   * Optional initial or pre-configured data source.
+   */
+  readonly dataSourceConfig = input<DatasetDataSourceConfig | null>(null);
+
+  /**
+   * Event emitted when custom data is loaded from a source.
+   */
+  readonly dataSourceLoaded = output<LoadedDataResult>();
+
+  /**
+   * Event emitted when the preview is reset to simulated data.
+   */
+  readonly dataSourceReset = output<void>();
 
   /**
    * Number of preview rows to simulate.
@@ -71,6 +102,29 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
    * Toggle for visual grouping of rows by primary grouped dimension.
    */
   readonly showGroupingView = signal<boolean>(true);
+
+  // --- Generic Data Source Modal & State ---
+  readonly isSourceModalOpen = signal<boolean>(false);
+  readonly activeTab = signal<'file' | 'api' | 'json'>('file');
+  readonly selectedFile = signal<File | null>(null);
+  readonly apiUrlInput = signal<string>('');
+  readonly dataPathInput = signal<string>('');
+  readonly rawJsonInput = signal<string>('');
+  readonly isLoadingSource = signal<boolean>(false);
+  readonly sourceError = signal<string | null>(null);
+  readonly loadedSourceResult = signal<LoadedDataResult | null>(null);
+  protected readonly internalLoadedRecords = signal<Record<string, any>[] | null>(null);
+
+  /**
+   * Whether a custom data source (via input, loader, or modal) is currently active.
+   */
+  readonly isCustomSourceActive = computed<boolean>(() => {
+    return Boolean(
+      (this.customData() && this.customData()!.length > 0) ||
+        (this.internalLoadedRecords() && this.internalLoadedRecords()!.length > 0) ||
+        this.loadedSourceResult(),
+    );
+  });
 
   /**
    * Filtered dataset fields ensuring only visible fields are rendered in preview.
@@ -117,14 +171,21 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
   });
 
   /**
-   * Computed rows: uses customData if provided, otherwise generates realistic clustered simulated rows.
+   * Computed rows: uses customData/internalLoadedRecords if available, otherwise generates realistic clustered simulated rows.
    */
   readonly rows = computed<Record<string, any>[]>(() => {
     // Read seed for reactivity
     const _seed = this.refreshSeed();
     const provided = this.customData();
-    if (provided && provided.length > 0) {
-      return this.applySorting(provided);
+    const internal = this.internalLoadedRecords();
+    const activeRecords = provided ?? internal;
+
+    if (activeRecords && activeRecords.length > 0) {
+      const mapped = this.dataLoader.mapRecordsToDatasetFields(
+        activeRecords,
+        this.visibleFields(),
+      );
+      return this.applySorting(mapped);
     }
 
     const currentFields = this.visibleFields();
@@ -217,6 +278,169 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
 
   toggleGroupingView(): void {
     this.showGroupingView.update((v) => !v);
+  }
+
+  openSourceModal(): void {
+    this.sourceError.set(null);
+    this.isSourceModalOpen.set(true);
+  }
+
+  closeSourceModal(): void {
+    this.isSourceModalOpen.set(false);
+    this.sourceError.set(null);
+  }
+
+  setActiveTab(tab: 'file' | 'api' | 'json'): void {
+    this.activeTab.set(tab);
+    this.sourceError.set(null);
+  }
+
+  onFileSelected(event: Event): void {
+    const inputEl = event.target as HTMLInputElement;
+    if (inputEl.files && inputEl.files.length > 0) {
+      this.selectedFile.set(inputEl.files[0]);
+      this.sourceError.set(null);
+    }
+  }
+
+  onFileDropped(event: DragEvent): void {
+    event.preventDefault();
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      if (file.name.endsWith('.json') || file.type.includes('json')) {
+        this.selectedFile.set(file);
+        this.sourceError.set(null);
+      } else {
+        this.sourceError.set('Please drop a valid .json file');
+      }
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  onApiUrlChange(val: string): void {
+    this.apiUrlInput.set(val);
+  }
+
+  onDataPathChange(val: string): void {
+    this.dataPathInput.set(val);
+  }
+
+  onRawJsonChange(val: string): void {
+    this.rawJsonInput.set(val);
+  }
+
+  async loadSourceData(): Promise<void> {
+    const tab = this.activeTab();
+    const dataPath = this.dataPathInput().trim() || undefined;
+    const currentFields = this.visibleFields();
+
+    this.isLoadingSource.set(true);
+    this.sourceError.set(null);
+
+    try {
+      let config: DatasetDataSourceConfig;
+
+      if (tab === 'file') {
+        const file = this.selectedFile();
+        if (!file) {
+          throw new Error(this.i18n.translate('noFileSelected'));
+        }
+        config = {
+          type: 'file',
+          file,
+          fileName: file.name,
+          dataPath,
+        };
+      } else if (tab === 'api') {
+        const url = this.apiUrlInput().trim();
+        if (!url || (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('/'))) {
+          throw new Error(this.i18n.translate('enterValidUrl'));
+        }
+        config = {
+          type: 'api',
+          url,
+          dataPath,
+        };
+      } else {
+        const rawJson = this.rawJsonInput().trim();
+        if (!rawJson) {
+          throw new Error(this.i18n.translate('enterValidJson'));
+        }
+        config = {
+          type: 'json',
+          rawJson,
+          dataPath,
+        };
+      }
+
+      // Check if custom loader function was passed
+      const customFn = this.customDataLoader();
+      let result: LoadedDataResult;
+
+      if (customFn) {
+        const rawOrResult = await customFn(config, { fields: currentFields });
+        if (Array.isArray(rawOrResult)) {
+          const mapped = this.dataLoader.mapRecordsToDatasetFields(rawOrResult, currentFields);
+          const analysis = this.dataLoader.analyzeFieldMatching(rawOrResult, currentFields);
+          result = {
+            sourceType: config.type,
+            sourceName: 'Custom Loader',
+            records: mapped,
+            totalRecords: mapped.length,
+            matchedFields: analysis.matchedFields,
+            unmatchedFields: analysis.unmatchedFields,
+            timestamp: new Date().toISOString(),
+          };
+        } else {
+          result = rawOrResult;
+        }
+      } else {
+        result = await this.dataLoader.loadData(config, currentFields);
+      }
+
+      this.internalLoadedRecords.set(result.records);
+      this.loadedSourceResult.set(result);
+      this.dataSourceLoaded.emit(result);
+      this.isSourceModalOpen.set(false);
+    } catch (err: any) {
+      this.sourceError.set(err.message || 'Failed to load data from source');
+    } finally {
+      this.isLoadingSource.set(false);
+    }
+  }
+
+  resetToSimulatedData(): void {
+    this.internalLoadedRecords.set(null);
+    this.loadedSourceResult.set(null);
+    this.selectedFile.set(null);
+    this.apiUrlInput.set('');
+    this.rawJsonInput.set('');
+    this.dataPathInput.set('');
+    this.sourceError.set(null);
+    this.refreshData();
+    this.dataSourceReset.emit();
+  }
+
+  loadPreset(records: Record<string, any>[], sourceName: string): void {
+    const mapped = this.dataLoader.mapRecordsToDatasetFields(records, this.visibleFields());
+    const analysis = this.dataLoader.analyzeFieldMatching(records, this.visibleFields());
+
+    const result: LoadedDataResult = {
+      sourceType: 'json',
+      sourceName,
+      records: mapped,
+      totalRecords: mapped.length,
+      matchedFields: analysis.matchedFields,
+      unmatchedFields: analysis.unmatchedFields,
+      timestamp: new Date().toISOString(),
+    };
+
+    this.internalLoadedRecords.set(result.records);
+    this.loadedSourceResult.set(result);
+    this.dataSourceLoaded.emit(result);
   }
 
   protected onHeaderClick(col: PreviewColumn): void {

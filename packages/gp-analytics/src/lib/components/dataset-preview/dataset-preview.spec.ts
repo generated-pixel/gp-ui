@@ -164,4 +164,85 @@ describe('GpDatasetPreview', () => {
     expect(component.hasActiveGrouping()).toBe(false);
     expect(component.groupedRowSections().length).toBe(1);
   });
+
+  it('renders custom data records and maps fields automatically', () => {
+    const { fixture, component } = createComponent();
+    const dfCust = createDatasetField(sampleField1, 'df_cust');
+    const dfTotal = createDatasetField(sampleField2, 'df_tot');
+
+    fixture.componentRef.setInput('fields', [dfCust, dfTotal]);
+
+    // Pass custom records using human-friendly field names
+    const customRecords = [
+      { customer_name: 'Custom Client Alpha', order_total: 8500 },
+      { customer_name: 'Custom Client Beta', order_total: 12400 },
+    ];
+    fixture.componentRef.setInput('customData', customRecords);
+    fixture.detectChanges();
+
+    const rows = component.rows();
+    expect(rows).toHaveLength(2);
+    expect(rows[0]['df_cust']).toBe('Custom Client Alpha');
+    expect(rows[0]['df_tot']).toBe(8500);
+    expect(rows[1]['df_cust']).toBe('Custom Client Beta');
+    expect(rows[1]['df_tot']).toBe(12400);
+  });
+
+  it('automagically groups custom loaded records by selected dimension', () => {
+    const { fixture, component } = createComponent();
+    const dfCust = { ...createDatasetField(sampleField1, 'df_cust'), isGrouped: true };
+    const dfTotal = createDatasetField(sampleField2, 'df_tot');
+
+    fixture.componentRef.setInput('fields', [dfCust, dfTotal]);
+
+    const customRecords = [
+      { customer_name: 'Alpha Corp', order_total: 100 },
+      { customer_name: 'Alpha Corp', order_total: 200 },
+      { customer_name: 'Beta LLC', order_total: 300 },
+    ];
+    fixture.componentRef.setInput('customData', customRecords);
+    fixture.detectChanges();
+
+    expect(component.hasActiveGrouping()).toBe(true);
+    const sections = component.groupedRowSections();
+    expect(sections).toHaveLength(2);
+    expect(sections[0].groupValue).toBe('Alpha Corp');
+    expect(sections[0].count).toBe(2);
+    expect(sections[1].groupValue).toBe('Beta LLC');
+    expect(sections[1].count).toBe(1);
+  });
+
+  it('handles loading preset and resetting to simulated data', () => {
+    const { fixture, component } = createComponent();
+    const dfCust = createDatasetField(sampleField1, 'df_cust');
+    fixture.componentRef.setInput('fields', [dfCust]);
+    fixture.detectChanges();
+
+    expect(component.isCustomSourceActive()).toBe(false);
+
+    // Load preset
+    let emittedResult: any = null;
+    component.dataSourceLoaded.subscribe((res) => (emittedResult = res));
+
+    component.loadPreset(
+      [{ customer_name: 'External Source Co' }],
+      'my-test.json',
+    );
+    fixture.detectChanges();
+
+    expect(component.isCustomSourceActive()).toBe(true);
+    expect(component.loadedSourceResult()?.sourceName).toBe('my-test.json');
+    expect(emittedResult?.sourceName).toBe('my-test.json');
+    expect(component.rows()[0]['df_cust']).toBe('External Source Co');
+
+    // Reset back to simulated
+    let resetEmitted = false;
+    component.dataSourceReset.subscribe(() => (resetEmitted = true));
+
+    component.resetToSimulatedData();
+    fixture.detectChanges();
+
+    expect(component.isCustomSourceActive()).toBe(false);
+    expect(resetEmitted).toBe(true);
+  });
 });
