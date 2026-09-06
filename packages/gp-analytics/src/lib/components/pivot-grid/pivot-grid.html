@@ -27,6 +27,14 @@
         [outlined]="true"
         (click)="swapAxes()"
         title="Swap row and column dimensions" />
+
+      <gp-button
+        label="Export CSV"
+        icon="download"
+        size="sm"
+        [outlined]="true"
+        (click)="exportToCsv()"
+        title="Export pivot matrix to CSV" />
     </div>
   </header>
 

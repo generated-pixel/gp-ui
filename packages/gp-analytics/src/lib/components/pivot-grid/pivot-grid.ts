@@ -106,4 +106,51 @@ export class GpPivotGrid extends GpAnalyticsComponent {
         return `color-mix(in srgb, var(--gp-color-primary, #4f46e5) ${percent}%, transparent)`;
     }
   }
+
+  exportToCsv(): void {
+    const p = this.pivotMatrix();
+    if (!p) return;
+
+    const csvLines: string[] = [];
+    const rDim = this.effectiveRowDim();
+    const cDim = this.effectiveColDim();
+
+    // 1. Header line
+    const headerLine = [`"${rDim} \\ ${cDim}"`, ...p.colHeaders.map((c) => `"${c}"`), '"Total"'].join(',');
+    csvLines.push(headerLine);
+
+    // 2. Data rows
+    for (let r = 0; r < p.rowHeaders.length; r++) {
+      const rowLabel = `"${p.rowHeaders[r]}"`;
+      const cellValues = p.matrix[r].map((v) => (v != null ? String(v) : '""'));
+      const rowTotal = p.rowTotals[r] != null ? String(p.rowTotals[r]) : '""';
+      csvLines.push([rowLabel, ...cellValues, rowTotal].join(','));
+    }
+
+    // 3. Column Totals / Grand Total row
+    const colTotals: (number | string)[] = [];
+    for (let c = 0; c < p.colHeaders.length; c++) {
+      let sum = 0;
+      let hasVal = false;
+      for (let r = 0; r < p.rowHeaders.length; r++) {
+        const val = p.matrix[r][c];
+        if (typeof val === 'number') {
+          sum += val;
+          hasVal = true;
+        }
+      }
+      colTotals.push(hasVal ? Number(sum.toFixed(2)) : '""');
+    }
+    const grandTotalVal = p.grandTotal != null ? String(p.grandTotal) : '""';
+    csvLines.push(['"Total"', ...colTotals.map(String), grandTotalVal].join(','));
+
+    const csvContent = csvLines.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pivot_${rDim}_by_${cDim}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 }

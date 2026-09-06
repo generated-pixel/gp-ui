@@ -89,4 +89,22 @@ describe('GpPivotGrid', () => {
     fixture.detectChanges();
     expect(component.getCellBg(2500)).toBe('transparent');
   });
+
+  it('exports 2D cross-tabulation matrix to CSV format', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('records', mockData);
+    fixture.componentRef.setInput('rowDimension', 'customer');
+    fixture.componentRef.setInput('colDimension', 'region');
+    fixture.detectChanges();
+
+    // Mock URL and anchor click
+    const createObjectURLMock = vi.fn().mockReturnValue('blob:test');
+    const revokeObjectURLMock = vi.fn();
+    window.URL.createObjectURL = createObjectURLMock;
+    window.URL.revokeObjectURL = revokeObjectURLMock;
+
+    component.exportToCsv();
+    expect(createObjectURLMock).toHaveBeenCalled();
+    expect(revokeObjectURLMock).toHaveBeenCalledWith('blob:test');
+  });
 });
