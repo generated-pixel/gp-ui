@@ -35,10 +35,11 @@
       [rowHeight]="rowHeight()"
       [gap]="gap()"
       [compactType]="compactType()"
-      [readonly]="!editable()"
+      [readonly]="isGridReadonly()"
       [showGridLines]="editable()"
-      (itemMoved)="onGridItemChange()"
-      (itemResized)="onGridItemChange()">
+      (layoutChanged)="onLayoutChanged($event)"
+      (itemMoved)="onGridItemChange($event)"
+      (itemResized)="onGridItemChange($event)">
       <!-- Custom Widget Template projected into gp-grid items -->
       <ng-template #widgetTemplate let-item>
         @let w = getWidget(item.id);
@@ -50,17 +51,30 @@
           
           <!-- Designer Header Overlay Actions (Visible in Edit Mode) -->
           @if (editable() && w) {
-            <div class="widget-designer-toolbar" (click)="$event.stopPropagation()">
-              <div class="widget-type-badge">
-                @switch (w.type) {
-                  @case ('kpi') { <span>📈 KPI</span> }
-                  @case ('chart') { <span>📊 Chart</span> }
-                  @case ('table') { <span>📑 Table</span> }
-                  @case ('pivot') { <span>🔲 Pivot</span> }
-                  @default { <span>🧩 Custom</span> }
+            <div class="widget-designer-toolbar">
+              <!-- Official Drag Handle recognized by gp-grid pointerdown engine -->
+              <div
+                class="gp-grid-drag-handle widget-drag-grip"
+                title="Click and drag to move item in grid"
+                [attr.aria-label]="'Drag ' + w.title + ' to move'">
+                <span class="drag-grip-icon">⠿</span>
+                <span class="widget-type-badge-text">
+                  @switch (w.type) {
+                    @case ('kpi') { 📈 KPI }
+                    @case ('chart') { 📊 Chart }
+                    @case ('table') { 📑 Table }
+                    @case ('pivot') { 🔲 Pivot }
+                    @default { 🧩 Custom }
+                  }
+                </span>
+                @if (w.grid.locked) {
+                  <span class="widget-locked-badge" title="Locked in place">🔒</span>
+                }
+                @if (w.grid.fixed) {
+                  <span class="widget-fixed-badge" title="Fixed position">📌</span>
                 }
               </div>
-              <div class="widget-actions-cluster">
+              <div class="widget-actions-cluster" (click)="$event.stopPropagation()">
                 <button
                   type="button"
                   class="btn-widget-action btn-config"
@@ -83,6 +97,13 @@
                   ✕
                 </button>
               </div>
+            </div>
+          } @else if ((effectiveConfig().allowMove ?? true) && w && !w.grid.fixed && !w.grid.locked) {
+            <!-- Subtle View-Mode Drag Handle when moving is enabled -->
+            <div
+              class="gp-grid-drag-handle view-mode-drag-grip"
+              title="Drag to reposition widget">
+              <span>⠿</span>
             </div>
           }
 
