@@ -12,13 +12,22 @@
       </div>
     </div>
 
-    <gp-button
-      label="Swap Axes"
-      icon="refresh"
-      size="sm"
-      [outlined]="true"
-      (click)="swapAxes()"
-      title="Swap row and column dimensions" />
+    <div class="pivot-header-actions">
+      <gp-select
+        [options]="heatmapOptions"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="heatmapMode()"
+        (ngModelChange)="heatmapMode.set($event)" />
+
+      <gp-button
+        label="Swap Axes"
+        icon="refresh"
+        size="sm"
+        [outlined]="true"
+        (click)="swapAxes()"
+        title="Swap row and column dimensions" />
+    </div>
   </header>
 
   <!-- Matrix Table View -->

@@ -24,6 +24,13 @@
   gap: 0.5rem;
 }
 
+.pivot-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
 .pivot-title-group {
   display: flex;
   align-items: center;

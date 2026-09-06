@@ -63,4 +63,30 @@ describe('GpPivotGrid', () => {
     expect(matrix!.rowHeaders).toEqual(['AMER', 'EMEA']);
     expect(matrix!.colHeaders).toEqual(['Acme', 'Northwind']);
   });
+
+  it('computes cell background based on configurable heatmap modes', () => {
+    const { fixture, component } = createComponent();
+    fixture.componentRef.setInput('records', mockData);
+    fixture.componentRef.setInput('rowDimension', 'customer');
+    fixture.componentRef.setInput('colDimension', 'region');
+    fixture.detectChanges();
+
+    // Primary mode
+    expect(component.getCellBg(2500)).toContain('var(--gp-color-primary');
+
+    // Emerald mode
+    component.heatmapMode.set('emerald');
+    fixture.detectChanges();
+    expect(component.getCellBg(2500)).toContain('#059669');
+
+    // Amber mode
+    component.heatmapMode.set('amber');
+    fixture.detectChanges();
+    expect(component.getCellBg(2500)).toContain('#d97706');
+
+    // None mode
+    component.heatmapMode.set('none');
+    fixture.detectChanges();
+    expect(component.getCellBg(2500)).toBe('transparent');
+  });
 });

@@ -10,12 +10,13 @@ import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import { GpDataEngineService } from '../../services/data-engine.service';
 import { GpMeasureQuery, GpPivotMatrix } from '../../models/query.model';
 
-import { GpButton } from '@generatedpixel/gp-ui';
+import { FormsModule } from '@angular/forms';
+import { GpButton, GpSelect } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-pivot-grid',
   standalone: true,
-  imports: [GpButton],
+  imports: [FormsModule, GpButton, GpSelect],
   templateUrl: './pivot-grid.html',
   styleUrl: './pivot-grid.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +29,14 @@ export class GpPivotGrid extends GpAnalyticsComponent {
   readonly rowDimension = input<string>('');
   readonly colDimension = input<string>('');
   readonly measure = input<GpMeasureQuery>({ fieldId: 'total', aggregation: 'sum' });
+
+  readonly heatmapMode = signal<'primary' | 'emerald' | 'amber' | 'none'>('primary');
+  readonly heatmapOptions = [
+    { label: 'Heatmap: Primary', value: 'primary' },
+    { label: 'Heatmap: Emerald', value: 'emerald' },
+    { label: 'Heatmap: Amber', value: 'amber' },
+    { label: 'No Heatmap', value: 'none' },
+  ];
 
   // Interactive axis override
   protected readonly activeRowDim = signal<string | null>(null);
@@ -83,8 +92,18 @@ export class GpPivotGrid extends GpAnalyticsComponent {
   }
 
   getCellBg(val: number | string | null): string {
-    if (typeof val !== 'number' || val <= 0) return 'transparent';
+    const mode = this.heatmapMode();
+    if (mode === 'none' || typeof val !== 'number' || val <= 0) return 'transparent';
     const percent = Math.round(this.getCellOpacity(val) * 100);
-    return `color-mix(in srgb, var(--gp-color-primary, #4f46e5) ${percent}%, transparent)`;
+
+    switch (mode) {
+      case 'emerald':
+        return `color-mix(in srgb, #059669 ${percent}%, transparent)`;
+      case 'amber':
+        return `color-mix(in srgb, #d97706 ${percent}%, transparent)`;
+      case 'primary':
+      default:
+        return `color-mix(in srgb, var(--gp-color-primary, #4f46e5) ${percent}%, transparent)`;
+    }
   }
 }
