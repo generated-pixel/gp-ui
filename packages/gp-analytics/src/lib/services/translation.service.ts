@@ -63,7 +63,62 @@ export type TranslationKey =
   | 'toggleGroupBy'
   | 'isGrouped'
   | 'groupedByDimensions'
-  | 'flatRows';
+  | 'flatRows'
+  | 'dataSource'
+  | 'loadDataSource'
+  | 'simulatedDataSource'
+  | 'fileDataSource'
+  | 'apiDataSource'
+  | 'rawJsonDataSource'
+  | 'selectSourceType'
+  | 'dragDropJsonFile'
+  | 'apiUrl'
+  | 'apiUrlPlaceholder'
+  | 'dataPath'
+  | 'dataPathPlaceholder'
+  | 'rawJsonPlaceholder'
+  | 'loadData'
+  | 'loading'
+  | 'resetToSimulated'
+  | 'fieldsMatched'
+  | 'recordsLoaded'
+  | 'sourceActive'
+  | 'close'
+  | 'noFileSelected'
+  | 'enterValidUrl'
+  | 'enterValidJson'
+  | 'loadSchema'
+  | 'loadSchemaTitle'
+  | 'schemaSource'
+  | 'presetSchema'
+  | 'schemaLoaded'
+  | 'rawJsonSchemaPlaceholder'
+  | 'filters'
+  | 'datasetFilters'
+  | 'addFilter'
+  | 'noFiltersDefined'
+  | 'filterValue'
+  | 'selectFilterField'
+  | 'operator'
+  | 'applyFilter'
+  | 'cancel'
+  | 'translatedList'
+  | 'filterByThisField'
+  | 'equals'
+  | 'notEquals'
+  | 'inList'
+  | 'greaterThan'
+  | 'greaterOrEqual'
+  | 'lessThan'
+  | 'lessOrEqual'
+  | 'contains'
+  | 'startsWith'
+  | 'isNull'
+  | 'isNotNull'
+  | 'filteredCount'
+  | 'activeFilters'
+  | 'clearAllFilters'
+  | 'availableOptions';
 
 type TranslationParams = Record<string, number | string>;
 
@@ -131,6 +186,61 @@ const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {
     isGrouped: 'Grouped dimension',
     groupedByDimensions: 'Grouped by Dimensions',
     flatRows: 'Flat Rows',
+    dataSource: 'Data Source',
+    loadDataSource: 'Load Custom Data',
+    simulatedDataSource: 'Simulated (Auto)',
+    fileDataSource: 'JSON File',
+    apiDataSource: 'REST API',
+    rawJsonDataSource: 'Raw JSON',
+    selectSourceType: 'Select Data Source',
+    dragDropJsonFile: 'Drag & drop a JSON file here or click to browse',
+    apiUrl: 'API Endpoint URL',
+    apiUrlPlaceholder: 'https://api.example.com/data',
+    dataPath: 'Data Path (optional, e.g. items or value)',
+    dataPathPlaceholder: 'e.g. data.items, value, or records',
+    rawJsonPlaceholder: 'Paste your JSON array or object here...',
+    loadData: 'Load Data',
+    loading: 'Loading...',
+    resetToSimulated: 'Reset to Simulated Data',
+    fieldsMatched: '{matched} of {total} fields matched',
+    recordsLoaded: '{count} records loaded',
+    sourceActive: 'Custom Source Active',
+    close: 'Close',
+    noFileSelected: 'Please select a JSON file to load',
+    enterValidUrl: 'Please enter a valid HTTP/HTTPS URL',
+    enterValidJson: 'Please provide valid JSON text',
+    loadSchema: 'Load Schema',
+    loadSchemaTitle: 'Load Schema Metadata',
+    schemaSource: 'Schema Source',
+    presetSchema: 'Curated Presets',
+    schemaLoaded: '{tables} tables and {fields} fields loaded',
+    rawJsonSchemaPlaceholder: 'Paste schema JSON ({ groupings: [...] } or Table[])...',
+    filters: 'Filters',
+    datasetFilters: 'Dataset Filters',
+    addFilter: 'Add Filter',
+    noFiltersDefined: 'No filters defined. Add a filter to refine the dataset rows.',
+    filterValue: 'Filter Value',
+    selectFilterField: 'Select Field...',
+    operator: 'Operator',
+    applyFilter: 'Apply Filter',
+    cancel: 'Cancel',
+    translatedList: 'Localized Lookup List',
+    filterByThisField: 'Filter by this field',
+    equals: 'Equals (=)',
+    notEquals: 'Not Equals (!=)',
+    inList: 'In List (one of)',
+    greaterThan: 'Greater Than (>)',
+    greaterOrEqual: 'Greater or Equal (>=)',
+    lessThan: 'Less Than (<)',
+    lessOrEqual: 'Less or Equal (<=)',
+    contains: 'Contains',
+    startsWith: 'Starts With',
+    isNull: 'Is Empty / Null',
+    isNotNull: 'Is Not Empty',
+    filteredCount: 'Filtered: {count} of {total} rows',
+    activeFilters: 'Active Filters',
+    clearAllFilters: 'Clear All Filters',
+    availableOptions: 'Available options (translated)',
   },
   fr: {
     metadataCatalogue: 'Catalogue de métadonnées',
@@ -195,6 +305,61 @@ const translations: Record<SupportedLocale, Record<TranslationKey, string>> = {
     isGrouped: 'Dimension regroupée',
     groupedByDimensions: 'Regroupé par dimensions',
     flatRows: 'Lignes plates',
+    dataSource: 'Source de données',
+    loadDataSource: 'Charger des données personnalisées',
+    simulatedDataSource: 'Simulé (Auto)',
+    fileDataSource: 'Fichier JSON',
+    apiDataSource: 'API REST',
+    rawJsonDataSource: 'JSON brut',
+    selectSourceType: 'Sélectionner la source',
+    dragDropJsonFile: 'Glissez un fichier JSON ici ou cliquez pour parcourir',
+    apiUrl: 'URL du point de terminaison API',
+    apiUrlPlaceholder: 'https://api.exemple.com/donnees',
+    dataPath: 'Chemin des données (optionnel, ex: items ou value)',
+    dataPathPlaceholder: 'ex: data.items, value ou records',
+    rawJsonPlaceholder: 'Collez votre tableau ou objet JSON ici...',
+    loadData: 'Charger les données',
+    loading: 'Chargement...',
+    resetToSimulated: 'Revenir aux données simulées',
+    fieldsMatched: '{matched} sur {total} champs correspondants',
+    recordsLoaded: '{count} enregistrements chargés',
+    sourceActive: 'Source personnalisée active',
+    close: 'Fermer',
+    noFileSelected: 'Veuillez sélectionner un fichier JSON',
+    enterValidUrl: 'Veuillez entrer une URL HTTP/HTTPS valide',
+    enterValidJson: 'Veuillez fournir un texte JSON valide',
+    loadSchema: 'Charger le schéma',
+    loadSchemaTitle: 'Charger les métadonnées du schéma',
+    schemaSource: 'Source du schéma',
+    presetSchema: 'Préréglages de domaine',
+    schemaLoaded: '{tables} tables et {fields} champs chargés',
+    rawJsonSchemaPlaceholder: 'Collez le schéma JSON ({ groupings: [...] } ou Table[])...',
+    filters: 'Filtres',
+    datasetFilters: 'Filtres du jeu de données',
+    addFilter: 'Ajouter un filtre',
+    noFiltersDefined: 'Aucun filtre défini. Ajoutez un filtre pour affiner les lignes.',
+    filterValue: 'Valeur du filtre',
+    selectFilterField: 'Sélectionner un champ...',
+    operator: 'Opérateur',
+    applyFilter: 'Appliquer le filtre',
+    cancel: 'Annuler',
+    translatedList: 'Liste de recherche localisée',
+    filterByThisField: 'Filtrer par ce champ',
+    equals: 'Égal à (=)',
+    notEquals: 'Différent de (!=)',
+    inList: 'Dans la liste (un parmi)',
+    greaterThan: 'Supérieur à (>)',
+    greaterOrEqual: 'Supérieur ou égal (>=)',
+    lessThan: 'Inférieur à (<)',
+    lessOrEqual: 'Inférieur ou égal (<=)',
+    contains: 'Contient',
+    startsWith: 'Commence par',
+    isNull: 'Est vide / nul',
+    isNotNull: 'N’est pas vide',
+    filteredCount: 'Filtré : {count} sur {total} lignes',
+    activeFilters: 'Filtres actifs',
+    clearAllFilters: 'Effacer tous les filtres',
+    availableOptions: 'Options disponibles (traduites)',
   },
 };
 
