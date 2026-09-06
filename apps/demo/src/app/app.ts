@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GpCard, GpDivider, GpSelect, GpTag, GpToolbar } from '@generatedpixel/gp-ui';
+import { GpCard, GpSelect, GpTag } from '@generatedpixel/gp-ui';
+import { DemoThemeMode, DemoThemeService, DEMO_THEMES } from './services/theme.service';
 import {
   createDatasetField,
   Dataset,
@@ -9,14 +10,21 @@ import {
   GpDatasetBuilder,
   GpDatasetFieldSelector,
   GpDatasetPreview,
-  GpMetadataTree,
   GpSchemaCatalogue,
   GpTranslationService,
+  GpKpiCard,
+  GpTabularReport,
+  GpPivotGrid,
+  GpAnalyticalChart,
+  GpFilterBar,
+  GpAnalyticsDashboard,
   Grouping,
   JoinType,
+  LoadedSchemaResult,
   Relationship,
   RelationshipCardinality,
   SupportedLocale,
+  GpSchemaDataLoaderService,
 } from 'gp-analytics';
 
 @Component({
@@ -27,22 +35,87 @@ import {
   imports: [
     FormsModule,
     GpCard,
-    GpDivider,
-    GpMetadataTree,
     GpSchemaCatalogue,
     GpDatasetFieldSelector,
     GpDatasetPreview,
     GpDatasetBuilder,
+    GpKpiCard,
+    GpTabularReport,
+    GpPivotGrid,
+    GpAnalyticalChart,
+    GpAnalyticsDashboard,
     GpSelect,
     GpTag,
-    GpToolbar,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
   protected readonly i18n = inject(GpTranslationService);
+  protected readonly themeService = inject(DemoThemeService);
+  protected readonly schemaDataLoader = inject(GpSchemaDataLoaderService);
 
-  protected readonly activeTab = signal<'workbench' | 'standalone' | 'legacy'>('workbench');
+  // Schema Preset state
+  protected readonly activePresetId = signal<string>('commerce');
+  protected readonly schemaPresetOptions = computed(() =>
+    this.schemaDataLoader.presets.map((p) => ({
+      value: p.id,
+      label: `${p.icon || '📦'} ${p.name}`,
+    })),
+  );
+
+  // Theme and Mode state backed by DemoThemeService
+  protected readonly currentTheme = this.themeService.currentTheme;
+  protected readonly currentMode = this.themeService.currentMode;
+  protected readonly isDark = this.themeService.isDark;
+
+  protected readonly themeOptions = DEMO_THEMES.map((t) => ({
+    value: t.id,
+    label: t.name,
+    color: t.primaryColor,
+  }));
+
+  protected selectTheme(themeId: string): void {
+    this.themeService.setTheme(themeId);
+  }
+
+  protected setMode(mode: DemoThemeMode): void {
+    this.themeService.setMode(mode);
+  }
+
+  protected toggleMode(): void {
+    this.themeService.toggleMode();
+  }
+
+  protected readonly activeTab = signal<'workbench' | 'dashboard' | 'reports' | 'standalone'>('workbench');
+
+  protected readonly currentTitle = computed(() => {
+    switch (this.activeTab()) {
+      case 'workbench': return 'Interactive Dataset Builder';
+      case 'dashboard': return 'Executive Analytics Dashboard';
+      case 'reports': return 'Tabular & Pivot Reports';
+      case 'standalone': return 'Modular Standalone Components';
+    }
+  });
+
+  protected readonly currentSubtitle = computed(() => {
+    switch (this.activeTab()) {
+      case 'workbench': return 'Compose high-performance analytical datasets from relational enterprise schemas with automatic join validation, dynamic aggregation labeling, and real-time tabular preview.';
+      case 'dashboard': return 'Interactive executive dashboard powered by @generatedpixel/gp-grid with responsive widget layout, real-time KPI scorecards, and cross-metric charts.';
+      case 'reports': return 'Advanced data reporting engine supporting multi-dimensional grouping, subtotal calculations, ad-hoc column aggregation, and 2D pivot matrices.';
+      case 'standalone': return 'Modular, independently embeddable components with zero lock-in: Schema Catalogue, Field Selector, Preview Grid, KPI Cards, and Analytical Charts.';
+    }
+  });
+
+  protected readonly demoAnalyticsData = [
+    { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Completed', total: 18450, quantity: 14, date: '2026-02-14' },
+    { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Processing', total: 6200, quantity: 4, date: '2026-02-18' },
+    { customer_name: 'Acme Industrial Corp', region: 'AMER', status: 'Completed', total: 34500, quantity: 28, date: '2026-02-15' },
+    { customer_name: 'Acme Industrial Corp', region: 'AMER', status: 'Delivered', total: 12100, quantity: 9, date: '2026-02-22' },
+    { customer_name: 'Starlight Solutions', region: 'APAC', status: 'Completed', total: 22800, quantity: 18, date: '2026-02-19' },
+    { customer_name: 'Starlight Solutions', region: 'APAC', status: 'Pending', total: 8400, quantity: 6, date: '2026-02-24' },
+    { customer_name: 'Helios Technologies', region: 'EMEA', status: 'Delivered', total: 15900, quantity: 12, date: '2026-02-20' },
+    { customer_name: 'Apex Logistics', region: 'AMER', status: 'Completed', total: 27300, quantity: 21, date: '2026-02-23' },
+  ];
 
   protected readonly localeOptions = computed(() => [
     { value: 'en', label: this.i18n.translate('english') },
@@ -56,7 +129,7 @@ export class App {
   }
 
   // Multi-table, multi-group enterprise schema with relationships
-  protected readonly groupings: Grouping[] = [
+  protected readonly groupings = signal<Grouping[]>([
     {
       groupingId: 'group-commerce',
       groupingName: 'Commerce & Sales',
@@ -234,6 +307,12 @@ export class App {
                   filterable: true,
                   sortable: true,
                   groupable: true,
+                  lookupValues: [
+                    { value: 'completed', displayValue: { en: 'Completed', fr: 'Complété' } },
+                    { value: 'processing', displayValue: { en: 'Processing', fr: 'En traitement' } },
+                    { value: 'shipped', displayValue: { en: 'Shipped', fr: 'Expédié' } },
+                    { value: 'cancelled', displayValue: { en: 'Cancelled', fr: 'Annulé' } },
+                  ],
                 },
                 {
                   fieldId: 'order-total',
@@ -423,10 +502,10 @@ export class App {
         },
       ],
     },
-  ];
+  ]);
 
   // Additional cross-group relationship (demonstrates modularity)
-  protected readonly additionalRelationships: Relationship[] = [];
+  protected readonly additionalRelationships = signal<Relationship[]>([]);
 
   // Active dataset state
   protected readonly activeDataset = signal<Dataset>({
@@ -447,30 +526,41 @@ export class App {
    * Loads a rich pre-configured sample dataset.
    */
   protected loadSampleDataset(): void {
-    const custTable = this.groupings[0].tables[0];
-    const ordersTable = this.groupings[0].tables[1];
-    const itemsTable = this.groupings[0].tables[2];
+    const currentGroupings = this.groupings();
+    if (!currentGroupings.length || !currentGroupings[0].tables.length) return;
+    const custTable = currentGroupings[0].tables[0];
+    const ordersTable = currentGroupings[0].tables[1] || custTable;
+    const itemsTable = currentGroupings[0].tables[2] || ordersTable;
 
-    const custName = custTable.fields[0].fields[2]; // Customer name
-    const orderDate = ordersTable.fields[0].fields[2]; // Order date
-    const orderTotal = ordersTable.fields[0].fields[4]; // Order total
-    const itemProduct = itemsTable.fields[0].fields[2]; // Product name
-    const itemQuantity = itemsTable.fields[0].fields[3]; // Quantity
+    const custName = custTable.fields[0]?.fields[2] || custTable.fields[0]?.fields[0];
+    const orderStatus = ordersTable.fields[0]?.fields[3];
+    const orderDate = ordersTable.fields[0]?.fields[2] || ordersTable.fields[0]?.fields[1];
+    const orderTotal = ordersTable.fields[0]?.fields[4] || ordersTable.fields[0]?.fields[2];
+    const itemProduct = itemsTable.fields[0]?.fields[2] || itemsTable.fields[0]?.fields[0];
+    const itemQuantity = itemsTable.fields[0]?.fields[3] || itemsTable.fields[0]?.fields[1];
 
-    const dfCust = createDatasetField(custName);
-    dfCust.isGrouped = true;
-    const dfDate = createDatasetField(orderDate);
-    dfDate.isGrouped = true;
-    const dfTotal = createDatasetField(orderTotal);
-    dfTotal.aggregationType = 'sum';
+    if (!custName) return;
 
-    const dfProduct = createDatasetField(itemProduct);
-    const dfQty = createDatasetField(itemQuantity);
-    dfQty.aggregationType = 'sum';
+    const fieldsToAdd = [custName, orderStatus, orderDate, orderTotal, itemProduct, itemQuantity].filter(Boolean);
+    const datasetFields = fieldsToAdd.map((f, idx) => {
+      const df = createDatasetField(f);
+      if (idx === 0 && df.groupable) {
+        df.isGrouped = true;
+      } else if ((df.dataType === 'currency' || df.dataType === 'number') && idx >= 3) {
+        df.aggregationType = 'sum';
+      }
+      return df;
+    });
+
+    const statusField = datasetFields.find((f) => f.fieldName === 'status');
+    const sampleFilters = statusField
+      ? [{ fieldId: statusField.datasetFieldId, operator: 'eq' as const, value: 'completed' }]
+      : [];
 
     this.activeDataset.set({
       ...this.activeDataset(),
-      fields: [dfCust, dfDate, dfTotal, dfProduct, dfQty],
+      fields: datasetFields,
+      filters: sampleFilters,
       updatedAt: new Date().toISOString(),
     });
   }
@@ -482,6 +572,7 @@ export class App {
     this.activeDataset.set({
       ...this.activeDataset(),
       fields: [],
+      filters: [],
       updatedAt: new Date().toISOString(),
     });
   }
@@ -502,6 +593,74 @@ export class App {
     this.activeDataset.set({
       ...this.activeDataset(),
       fields,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  protected updateStandaloneFilters(filters: any[]): void {
+    this.activeDataset.set({
+      ...this.activeDataset(),
+      filters,
+      updatedAt: new Date().toISOString(),
+    });
+  }
+
+  /**
+   * Handles schema metadata loaded from external source or preset.
+   */
+  protected onSchemaLoaded(result: LoadedSchemaResult): void {
+    this.groupings.set(result.groupings);
+    if (result.relationships) {
+      this.additionalRelationships.set(result.relationships);
+    }
+  }
+
+  /**
+   * Quick selector for domain schema presets.
+   */
+  protected async onSelectPreset(presetId: string): Promise<void> {
+    this.activePresetId.set(presetId);
+    const result = await this.schemaDataLoader.loadSchema({
+      type: 'preset',
+      presetId,
+    });
+    this.onSchemaLoaded(result);
+    this.populateInitialDatasetForPreset(result);
+  }
+
+  /**
+   * Populates a functional starter dataset whenever a schema preset is selected.
+   */
+  protected populateInitialDatasetForPreset(result: LoadedSchemaResult): void {
+    if (!result.groupings.length || !result.groupings[0].tables.length) {
+      this.resetDataset();
+      return;
+    }
+
+    const firstTable = result.groupings[0].tables[0];
+    const rawFields = firstTable.fields[0]?.fields || [];
+    if (!rawFields.length) {
+      this.resetDataset();
+      return;
+    }
+
+    const fieldsToSelect = rawFields.slice(0, Math.min(4, rawFields.length));
+    const datasetFields = fieldsToSelect.map((f, idx) => {
+      const df = createDatasetField(f);
+      if (idx === 0 && df.groupable) {
+        df.isGrouped = true;
+      } else if ((df.dataType === 'currency' || df.dataType === 'number') && idx === fieldsToSelect.length - 1) {
+        df.aggregationType = 'sum';
+      }
+      return df;
+    });
+
+    this.activeDataset.set({
+      datasetId: `dataset-${result.sourceType}-${Date.now()}`,
+      name: `${result.sourceName} Dataset`,
+      description: `Analytical dataset dynamically created from ${result.sourceName} schema.`,
+      fields: datasetFields,
+      createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
   }
