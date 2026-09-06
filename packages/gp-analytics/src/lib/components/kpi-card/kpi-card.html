@@ -1,0 +1,89 @@
+<div class="gp-kpi-card" [class]="'severity-' + severity()" role="region" [attr.aria-label]="title()">
+  <!-- Top Title & Icon -->
+  <div class="kpi-header">
+    <div class="kpi-title-row">
+      <span class="kpi-icon" aria-hidden="true">{{ icon() }}</span>
+      <h4 class="kpi-title">{{ title() }}</h4>
+    </div>
+
+    @if (variancePercentage() != null) {
+      <span
+        class="trend-badge"
+        [class.trend-up]="trend() === 'up'"
+        [class.trend-down]="trend() === 'down'"
+        [class.trend-neutral]="trend() === 'neutral'">
+        @if (trend() === 'up') {
+          <span class="arrow">▲</span>
+        } @else if (trend() === 'down') {
+          <span class="arrow">▼</span>
+        } @else {
+          <span class="arrow">●</span>
+        }
+        <span>{{ variancePercentage()! > 0 ? '+' : '' }}{{ variancePercentage() }}%</span>
+      </span>
+    }
+  </div>
+
+  <!-- Big Metric Value -->
+  <div class="kpi-body">
+    <div class="kpi-value-group">
+      <span class="kpi-value">{{ displayValue() }}</span>
+      @if (unit()) {
+        <span class="kpi-unit">{{ unit() }}</span>
+      }
+    </div>
+
+    <!-- Embedded Micro-Sparkline -->
+    @if (sparklineSvg().points.length > 1) {
+      <div class="kpi-sparkline-container">
+        <svg
+          class="sparkline-svg"
+          viewBox="0 0 140 40"
+          preserveAspectRatio="none"
+          aria-hidden="true">
+          <defs>
+            <linearGradient id="kpiSparkGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--sparkline-fill, #4f46e5)" stop-opacity="0.25" />
+              <stop offset="100%" stop-color="var(--sparkline-fill, #4f46e5)" stop-opacity="0.0" />
+            </linearGradient>
+          </defs>
+          <!-- Gradient Area -->
+          <path [attr.d]="sparklineSvg().areaPath" fill="url(#kpiSparkGradient)" />
+          <!-- Spline Line -->
+          <path
+            [attr.d]="sparklineSvg().path"
+            fill="none"
+            stroke="var(--sparkline-stroke, #4f46e5)"
+            stroke-width="2"
+            stroke-linecap="round" />
+          <!-- Interactive Points -->
+          @for (pt of sparklineSvg().points; track $index; let idx = $index) {
+            <circle
+              [attr.cx]="pt.x"
+              [attr.cy]="pt.y"
+              [attr.r]="idx === sparklineSvg().points.length - 1 ? 3 : 2"
+              class="spark-dot"
+              [class.last]="idx === sparklineSvg().points.length - 1"
+              (mouseenter)="onSparklineHover(idx)"
+              (mouseleave)="onSparklineHover(null)" />
+          }
+        </svg>
+      </div>
+    }
+  </div>
+
+  <!-- Target Progress Bar (if target exists) -->
+  @if (targetProgress() != null) {
+    <div class="target-progress-row">
+      <div class="progress-info">
+        <span class="progress-label">Goal Target</span>
+        <span class="progress-val">{{ targetProgress() }}%</span>
+      </div>
+      <div class="progress-track" role="progressbar" [attr.aria-valuenow]="targetProgress()" aria-valuemin="0" aria-valuemax="100">
+        <div
+          class="progress-fill"
+          [style.width.%]="targetProgress()! > 100 ? 100 : targetProgress()"></div>
+      </div>
+    </div>
+  }
+</div>
