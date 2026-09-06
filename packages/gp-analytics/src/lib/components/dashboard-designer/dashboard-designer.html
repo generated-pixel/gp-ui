@@ -121,17 +121,17 @@
             label="Executive"
             size="sm"
             [outlined]="true"
-            (onClick)="loadTemplate('executive')" />
+            (click)="loadTemplate('executive')" />
           <gp-button
             label="Operations"
             size="sm"
             [outlined]="true"
-            (onClick)="loadTemplate('operations')" />
+            (click)="loadTemplate('operations')" />
           <gp-button
             label="Blank"
             size="sm"
             [outlined]="true"
-            (onClick)="loadTemplate('blank')" />
+            (click)="loadTemplate('blank')" />
         </div>
       }
     </div>
@@ -142,17 +142,17 @@
         label="Settings"
         icon="cog"
         [outlined]="true"
-        (onClick)="openSettingsModal()" />
+        (click)="openSettingsModal()" />
       <gp-button
         label="JSON"
         icon="code"
         [outlined]="true"
-        (onClick)="openJsonModal('export')" />
+        (click)="openJsonModal('export')" />
       <gp-button
         label="Save Dashboard"
         icon="check"
         severity="success"
-        (onClick)="saveDashboard()" />
+        (click)="saveDashboard()" />
     </div>
   </header>
 
@@ -208,6 +208,7 @@
               <input
                 id="widget-title-input"
                 type="text"
+                gpInputText
                 class="form-control"
                 [ngModel]="w.title"
                 (ngModelChange)="updateSelectedWidget({ title: $event })" />
@@ -218,6 +219,7 @@
               <input
                 id="widget-sub-input"
                 type="text"
+                gpInputText
                 class="form-control"
                 [ngModel]="w.subtitle || ''"
                 (ngModelChange)="updateSelectedWidget({ subtitle: $event })" />
@@ -228,6 +230,7 @@
               <input
                 id="widget-icon-input"
                 type="text"
+                gpInputText
                 class="form-control"
                 [ngModel]="w.icon || ''"
                 (ngModelChange)="updateSelectedWidget({ icon: $event })" />
@@ -245,6 +248,7 @@
                   type="number"
                   min="1"
                   max="12"
+                  gpInputText
                   class="form-control"
                   [ngModel]="w.grid.w"
                   (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, w: +$event } })" />
@@ -256,6 +260,7 @@
                   type="number"
                   min="1"
                   max="10"
+                  gpInputText
                   class="form-control"
                   [ngModel]="w.grid.h"
                   (ngModelChange)="updateSelectedWidget({ grid: { ...w.grid, h: +$event } })" />
@@ -311,17 +316,13 @@
 
               <div class="form-group">
                 <label class="form-label" for="kpi-aggregation">Aggregation</label>
-                <select
+                <gp-select
                   id="kpi-aggregation"
-                  class="form-select"
+                  [options]="aggregationOptions"
+                  optionLabel="label"
+                  optionValue="value"
                   [ngModel]="kpi.measure.aggregation"
-                  (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, aggregation: $event } })">
-                  <option value="sum">Sum (∑)</option>
-                  <option value="avg">Average (µ)</option>
-                  <option value="count">Count (n)</option>
-                  <option value="min">Minimum (Min)</option>
-                  <option value="max">Maximum (Max)</option>
-                </select>
+                  (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, aggregation: $event } })" />
               </div>
 
               <div class="form-group">
@@ -329,6 +330,7 @@
                 <input
                   id="kpi-target-val"
                   type="number"
+                  gpInputText
                   class="form-control"
                   [ngModel]="kpi.targetValue ?? null"
                   (ngModelChange)="updateSelectedWidget({ targetValue: $event ? +$event : undefined })" />
@@ -336,16 +338,13 @@
 
               <div class="form-group">
                 <label class="form-label" for="kpi-severity">Accent Severity</label>
-                <select
+                <gp-select
                   id="kpi-severity"
-                  class="form-select"
+                  [options]="severityOptions"
+                  optionLabel="label"
+                  optionValue="value"
                   [ngModel]="kpi.severity || 'info'"
-                  (ngModelChange)="updateSelectedWidget({ severity: $event })">
-                  <option value="success">Success (Green)</option>
-                  <option value="info">Info (Blue)</option>
-                  <option value="warning">Warning (Amber)</option>
-                  <option value="danger">Danger (Red)</option>
-                </select>
+                  (ngModelChange)="updateSelectedWidget({ severity: $event })" />
               </div>
 
               <div class="switch-grid">
@@ -371,15 +370,13 @@
               <h4 class="section-title">Chart Visualization Settings</h4>
               <div class="form-group">
                 <label class="form-label" for="chart-type-select">Chart Type</label>
-                <select
+                <gp-select
                   id="chart-type-select"
-                  class="form-select"
+                  [options]="chartTypeOptions"
+                  optionLabel="label"
+                  optionValue="value"
                   [ngModel]="chart.chartType"
-                  (ngModelChange)="updateSelectedWidget({ chartType: $event })">
-                  <option value="bar">Bar Chart</option>
-                  <option value="donut">Donut Chart</option>
-                  <option value="line">Line Trend Chart</option>
-                </select>
+                  (ngModelChange)="updateSelectedWidget({ chartType: $event })" />
               </div>
 
               <div class="form-group">
@@ -426,14 +423,13 @@
               <div class="form-row-2col">
                 <div class="form-group">
                   <label class="form-label" for="chart-sort-order">Sort Order</label>
-                  <select
+                  <gp-select
                     id="chart-sort-order"
-                    class="form-select"
+                    [options]="sortOrderOptions"
+                    optionLabel="label"
+                    optionValue="value"
                     [ngModel]="chart.sortOrder || 'desc'"
-                    (ngModelChange)="updateSelectedWidget({ sortOrder: $event })">
-                    <option value="desc">High to Low</option>
-                    <option value="asc">Low to High</option>
-                  </select>
+                    (ngModelChange)="updateSelectedWidget({ sortOrder: $event })" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="chart-limit">Top Categories</label>
@@ -442,6 +438,7 @@
                     type="number"
                     min="3"
                     max="50"
+                    gpInputText
                     class="form-control"
                     [ngModel]="chart.limit || 8"
                     (ngModelChange)="updateSelectedWidget({ limit: +$event })" />
@@ -586,14 +583,14 @@
               icon="copy"
               [outlined]="true"
               [fluid]="true"
-              (onClick)="duplicateWidget(w)" />
+              (click)="duplicateWidget(w)" />
             <gp-button
               label="Delete Widget"
               icon="trash"
               severity="danger"
               [outlined]="true"
               [fluid]="true"
-              (onClick)="deleteWidget(w.id)" />
+              (click)="deleteWidget(w.id)" />
           </div>
         </div>
       </aside>
@@ -618,6 +615,7 @@
             <input
               id="dash-title-input"
               type="text"
+              gpInputText
               class="form-control"
               [ngModel]="config().title"
               (ngModelChange)="updateDashboardSettings({ title: $event })" />
@@ -628,6 +626,7 @@
             <input
               id="dash-subtitle-input"
               type="text"
+              gpInputText
               class="form-control"
               [ngModel]="config().subtitle || ''"
               (ngModelChange)="updateDashboardSettings({ subtitle: $event })" />
@@ -641,6 +640,7 @@
                 type="number"
                 min="6"
                 max="24"
+                gpInputText
                 class="form-control"
                 [ngModel]="config().columns || 12"
                 (ngModelChange)="updateDashboardSettings({ columns: +$event })" />
@@ -652,6 +652,7 @@
                 type="number"
                 min="50"
                 max="200"
+                gpInputText
                 class="form-control"
                 [ngModel]="config().rowHeight || 95"
                 (ngModelChange)="updateDashboardSettings({ rowHeight: +$event })" />
@@ -663,6 +664,7 @@
                 type="number"
                 min="4"
                 max="40"
+                gpInputText
                 class="form-control"
                 [ngModel]="config().gap || 16"
                 (ngModelChange)="updateDashboardSettings({ gap: +$event })" />
@@ -671,14 +673,13 @@
 
           <div class="form-group">
             <label class="form-label" for="dash-compact-type">Grid Compaction Placement Mode</label>
-            <select
+            <gp-select
               id="dash-compact-type"
-              class="form-select"
+              [options]="compactTypeOptions"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="config().compactType || 'vertical'"
-              (ngModelChange)="updateDashboardSettings({ compactType: $event })">
-              <option value="vertical">Vertical Packing (Pack and snap upwards automatically)</option>
-              <option value="none">Free Placement (Items stay exactly where dropped)</option>
-            </select>
+              (ngModelChange)="updateDashboardSettings({ compactType: $event })" />
           </div>
 
           <!-- Enhanced gp-switch toggle items in Settings Modal -->
@@ -699,7 +700,7 @@
         </div>
 
         <div class="modal-footer">
-          <gp-button label="Done" severity="primary" (onClick)="closeSettingsModal()" />
+          <gp-button label="Done" severity="primary" (click)="closeSettingsModal()" />
         </div>
       </div>
     </div>
@@ -754,20 +755,20 @@
               label="Copy to Clipboard"
               icon="copy"
               [outlined]="true"
-              (onClick)="copyJsonToClipboard()" />
+              (click)="copyJsonToClipboard()" />
             <gp-button
               label="Close"
-              (onClick)="closeJsonModal()" />
+              (click)="closeJsonModal()" />
           } @else {
             <gp-button
               label="Cancel"
               [outlined]="true"
-              (onClick)="closeJsonModal()" />
+              (click)="closeJsonModal()" />
             <gp-button
               label="Apply & Load Dashboard"
               icon="check"
               severity="primary"
-              (onClick)="applyImportedJson()" />
+              (click)="applyImportedJson()" />
           }
         </div>
       </div>

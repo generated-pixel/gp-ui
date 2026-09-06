@@ -27,7 +27,13 @@ import {
 } from '../../models/dashboard.model';
 import { GpMeasureQuery } from '../../models/query.model';
 
-import { GpButton, GpTag, GpSwitch } from '@generatedpixel/gp-ui';
+import {
+  GpButton,
+  GpTag,
+  GpSwitch,
+  GpSelect,
+  GpInputTextDirective,
+} from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-dashboard-designer',
@@ -39,12 +45,44 @@ import { GpButton, GpTag, GpSwitch } from '@generatedpixel/gp-ui';
     GpButton,
     GpTag,
     GpSwitch,
+    GpSelect,
+    GpInputTextDirective,
   ],
   templateUrl: './dashboard-designer.html',
   styleUrl: './dashboard-designer.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GpDashboardDesigner extends GpAnalyticsComponent {
+  readonly aggregationOptions = [
+    { label: 'Sum (∑)', value: 'sum' },
+    { label: 'Average (µ)', value: 'avg' },
+    { label: 'Count (n)', value: 'count' },
+    { label: 'Minimum (Min)', value: 'min' },
+    { label: 'Maximum (Max)', value: 'max' },
+  ];
+
+  readonly severityOptions = [
+    { label: 'Success (Green)', value: 'success' },
+    { label: 'Info (Blue)', value: 'info' },
+    { label: 'Warning (Amber)', value: 'warning' },
+    { label: 'Danger (Red)', value: 'danger' },
+  ];
+
+  readonly chartTypeOptions = [
+    { label: 'Bar Chart', value: 'bar' },
+    { label: 'Donut Chart', value: 'donut' },
+    { label: 'Line Trend Chart', value: 'line' },
+  ];
+
+  readonly sortOrderOptions = [
+    { label: 'High to Low', value: 'desc' },
+    { label: 'Low to High', value: 'asc' },
+  ];
+
+  readonly compactTypeOptions = [
+    { label: 'Vertical Packing (Pack and snap upwards automatically)', value: 'vertical' },
+    { label: 'Free Placement (Items stay exactly where dropped)', value: 'none' },
+  ];
   /**
    * Two-way bound dashboard configuration.
    */
