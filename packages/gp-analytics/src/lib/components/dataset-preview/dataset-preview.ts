@@ -7,7 +7,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { GpBadge, GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../base/gp-analytics-component';
 import {
   DatasetField,
@@ -41,15 +41,35 @@ export interface RowGroupSection {
   rows: Record<string, any>[];
 }
 
+export interface ColumnSummaryStats {
+  fieldId: string;
+  totalCount: number;
+  distinctCount: number;
+  nullCount: number;
+  isNumeric: boolean;
+  min?: number;
+  max?: number;
+  avg?: number;
+  sum?: number;
+}
+
 @Component({
   selector: 'gp-dataset-preview',
   standalone: true,
+  imports: [GpButton, GpTag],
   templateUrl: './dataset-preview.html',
   styleUrl: './dataset-preview.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GpDatasetPreview extends GpAnalyticsComponent {
   protected readonly dataLoader = inject(GpDatasetDataLoaderService);
+
+  readonly showSummaryStats = input<boolean>(true);
+  readonly isStatsExpanded = signal<boolean>(false);
+
+  toggleStatsExpanded(): void {
+    this.isStatsExpanded.update((v) => !v);
+  }
 
   /**
    * The list of dataset fields forming the columns of this table preview.
@@ -258,6 +278,52 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
     const all = this.rows();
     const f = this.filters();
     return this.dataEngine.applyFilters(all, f);
+  });
+
+  /**
+   * Computes comprehensive column profile statistics (distinct, null count, min/max/avg/sum).
+   */
+  readonly columnStatistics = computed<Record<string, ColumnSummaryStats>>(() => {
+    const rows = this.filteredRows();
+    const cols = this.columns();
+    const stats: Record<string, ColumnSummaryStats> = {};
+
+    for (const col of cols) {
+      const key = col.datasetFieldId;
+      const values = rows.map((r) => r[key]);
+      const nonNulls = values.filter((v) => v !== null && v !== undefined && v !== '');
+      const nullCount = values.length - nonNulls.length;
+      const distinctSet = new Set(nonNulls);
+
+      const isNum =
+        ['number', 'integer', 'float', 'decimal', 'currency'].includes(col.dataType.toLowerCase()) ||
+        (nonNulls.length > 0 && nonNulls.every((v) => typeof v === 'number'));
+
+      const colStat: ColumnSummaryStats = {
+        fieldId: key,
+        totalCount: values.length,
+        distinctCount: distinctSet.size,
+        nullCount,
+        isNumeric: isNum,
+      };
+
+      if (isNum && nonNulls.length > 0) {
+        const numValues = nonNulls
+          .map((v) => (typeof v === 'number' ? v : parseFloat(String(v))))
+          .filter((n) => !isNaN(n));
+        if (numValues.length > 0) {
+          const sum = numValues.reduce((acc, v) => acc + v, 0);
+          colStat.sum = Number(sum.toFixed(2));
+          colStat.min = Number(Math.min(...numValues).toFixed(2));
+          colStat.max = Number(Math.max(...numValues).toFixed(2));
+          colStat.avg = Number((sum / numValues.length).toFixed(2));
+        }
+      }
+
+      stats[key] = colStat;
+    }
+
+    return stats;
   });
 
   /**

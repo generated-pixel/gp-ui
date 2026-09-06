@@ -152,6 +152,60 @@
     </div>
   }
 
+  <!-- Column Summary Statistics Bar -->
+  @if (showSummaryStats() && columns().length > 0 && filteredRows().length > 0) {
+    <div class="summary-stats-section">
+      <div class="stats-header" (click)="toggleStatsExpanded()">
+        <div class="stats-header-left">
+          <span class="stats-toggle-icon">{{ isStatsExpanded() ? '▾' : '▸' }}</span>
+          <span class="stats-title">Column Profile & Summary Statistics</span>
+          <gp-tag severity="secondary" size="sm">{{ filteredRows().length }} Rows Analyzed</gp-tag>
+        </div>
+        <gp-button
+          [label]="isStatsExpanded() ? 'Hide Statistics' : 'Show Statistics'"
+          size="sm"
+          [outlined]="true"
+          (click)="$event.stopPropagation(); toggleStatsExpanded()" />
+      </div>
+
+      @if (isStatsExpanded()) {
+        <div class="stats-cards-grid">
+          @for (col of columns(); track col.datasetFieldId) {
+            @let stat = columnStatistics()[col.datasetFieldId];
+            @if (stat) {
+              <div class="stat-card" [class.is-numeric]="stat.isNumeric">
+                <div class="stat-card-top">
+                  <span class="stat-col-name" [title]="col.header">{{ col.header }}</span>
+                  <gp-tag [severity]="stat.isNumeric ? 'primary' : 'secondary'" size="sm">{{ col.dataType }}</gp-tag>
+                </div>
+                <div class="stat-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Distinct</span>
+                    <strong class="metric-value">{{ stat.distinctCount }}</strong>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Nulls</span>
+                    <strong class="metric-value" [class.has-nulls]="stat.nullCount > 0">{{ stat.nullCount }}</strong>
+                  </div>
+                  @if (stat.isNumeric && stat.avg !== undefined) {
+                    <div class="metric-item">
+                      <span class="metric-label">Avg</span>
+                      <strong class="metric-value">{{ stat.avg }}</strong>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-label">Min / Max</span>
+                      <strong class="metric-value">{{ stat.min }} - {{ stat.max }}</strong>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          }
+        </div>
+      }
+    </div>
+  }
+
   <!-- Table View -->
   <div class="table-scroll-container">
     @if (columns().length > 0) {

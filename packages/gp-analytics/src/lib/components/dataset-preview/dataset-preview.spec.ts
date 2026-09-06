@@ -292,4 +292,41 @@ describe('GpDatasetPreview', () => {
     expect(component.formatCellValue(col, 'completed')).toBe('Complété');
     expect(component.formatCellValue(col, 'pending')).toBe('En attente');
   });
+
+  it('computes summary column statistics including distinct counts and numeric aggregations', () => {
+    const { fixture, component } = createComponent();
+    const numField: Field = {
+      ...sampleField2,
+      fieldId: 'f-amount',
+      fieldName: 'amount',
+      dataType: 'currency',
+    };
+    const dfAmount = createDatasetField(numField, 'df_amount');
+    fixture.componentRef.setInput('fields', [dfAmount]);
+
+    const records = [
+      { df_amount: 100 },
+      { df_amount: 200 },
+      { df_amount: 300 },
+      { df_amount: 200 },
+    ];
+    fixture.componentRef.setInput('customData', records);
+    fixture.detectChanges();
+
+    const stats = component.columnStatistics()['df_amount'];
+    expect(stats).toBeDefined();
+    expect(stats.totalCount).toBe(4);
+    expect(stats.distinctCount).toBe(3); // 100, 200, 300
+    expect(stats.nullCount).toBe(0);
+    expect(stats.isNumeric).toBe(true);
+    expect(stats.min).toBe(100);
+    expect(stats.max).toBe(300);
+    expect(stats.sum).toBe(800);
+    expect(stats.avg).toBe(200);
+
+    // Test toggle
+    expect(component.isStatsExpanded()).toBe(false);
+    component.toggleStatsExpanded();
+    expect(component.isStatsExpanded()).toBe(true);
+  });
 });
