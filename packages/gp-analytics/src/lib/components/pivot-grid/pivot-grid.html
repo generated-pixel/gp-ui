@@ -1,0 +1,82 @@
+<div class="gp-pivot-grid" role="region" [attr.aria-label]="title()">
+  <!-- Header Bar -->
+  <header class="pivot-header">
+    <div class="pivot-title-group">
+      <span class="pivot-icon">🔀</span>
+      <div>
+        <h3 class="pivot-title">{{ title() }}</h3>
+        <p class="pivot-axes-hint">
+          Rows: <strong>{{ effectiveRowDim() }}</strong> ⇄ Cols: <strong>{{ effectiveColDim() }}</strong>
+          ({{ measure().fieldId }} {{ measure().aggregation.toUpperCase() }})
+        </p>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="btn-swap-axes"
+      (click)="swapAxes()"
+      title="Swap row and column dimensions">
+      ⇄ Swap Axes
+    </button>
+  </header>
+
+  <!-- Matrix Table View -->
+  <div class="matrix-scroll-wrap">
+    @if (pivotMatrix(); as m) {
+      <table class="pivot-table">
+        <thead>
+          <tr>
+            <th class="corner-header">
+              <span class="corner-label">{{ effectiveRowDim() }} \ {{ effectiveColDim() }}</span>
+            </th>
+            @for (colH of m.colHeaders; track 'col-' + colH) {
+              <th class="col-header">{{ colH }}</th>
+            }
+            <th class="total-header">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (rowH of m.rowHeaders; track 'row-' + rowH; let rIdx = $index) {
+            <tr class="pivot-row">
+              <td class="row-header-cell">{{ rowH }}</td>
+              @for (cell of m.matrix[rIdx]; track $index; let cIdx = $index) {
+                <td
+                  class="matrix-cell"
+                  [style.background-color]="getCellBg(cell)">
+                  @if (typeof cell === 'number') {
+                    {{ cell.toLocaleString('en-US') }}
+                  } @else {
+                    <span class="cell-null">—</span>
+                  }
+                </td>
+              }
+              <!-- Row Total -->
+              <td class="row-total-cell">
+                <strong>{{ m.rowTotals[rIdx]?.toLocaleString('en-US') ?? '—' }}</strong>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot class="pivot-tfoot">
+          <tr class="tfoot-row">
+            <td class="col-total-title">Total</td>
+            @for (colTotal of m.colTotals; track $index) {
+              <td class="col-total-cell">
+                <strong>{{ colTotal?.toLocaleString('en-US') ?? '—' }}</strong>
+              </td>
+            }
+            <td class="grand-total-cell">
+              <strong>{{ m.grandTotal?.toLocaleString('en-US') ?? '—' }}</strong>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    } @else {
+      <div class="empty-state">
+        <span class="empty-icon">🔀</span>
+        <p class="empty-text">Provide records and dimensions to render the 2D Pivot Matrix.</p>
+      </div>
+    }
+  </div>
+</div>
