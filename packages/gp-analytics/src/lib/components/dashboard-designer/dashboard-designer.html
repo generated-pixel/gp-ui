@@ -1,4 +1,8 @@
-<div class="gp-dashboard-designer" [class.mode-design]="activeMode() === 'design'" [class.mode-preview]="activeMode() === 'preview'">
+<div
+  class="gp-dashboard-designer"
+  [class.mode-design]="activeMode() === 'design'"
+  [class.mode-preview]="activeMode() === 'preview'"
+  [class.fullscreen-mode]="isFullscreen()">
   <!-- Top Designer Toolbar & Control Bar -->
   <header class="designer-topbar">
     <div class="topbar-left">
@@ -154,6 +158,13 @@
         [disabled]="!canRedo()"
         title="Redo change (Ctrl+Y)"
         (click)="redo()" />
+      <gp-button
+        [label]="isFullscreen() ? 'Exit Presentation' : 'Presentation'"
+        [icon]="isFullscreen() ? 'compress' : 'expand'"
+        size="sm"
+        [outlined]="true"
+        title="Distraction-free presentation mode (Esc to exit)"
+        (click)="toggleFullscreen()" />
       <gp-button
         label="Settings"
         icon="cog"

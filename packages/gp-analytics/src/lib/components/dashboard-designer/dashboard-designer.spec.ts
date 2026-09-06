@@ -282,4 +282,28 @@ describe('GpDashboardDesigner', () => {
     expect(duplicatedKpi.grid.x).toBe(4);
     expect(duplicatedKpi.grid.y).toBe(0);
   });
+
+  it('toggles distraction-free fullscreen presentation mode and exits on Escape', () => {
+    const { fixture, component } = createComponent();
+    fixture.detectChanges();
+
+    expect(component.isFullscreen()).toBe(false);
+    expect(component.activeMode()).toBe('design');
+
+    component.toggleFullscreen();
+    fixture.detectChanges();
+
+    expect(component.isFullscreen()).toBe(true);
+    expect(component.activeMode()).toBe('preview');
+
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.gp-dashboard-designer')?.classList.contains('fullscreen-mode')).toBe(true);
+
+    // Press Escape
+    const escapeEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+    component.handleKeyboardShortcuts(escapeEvent);
+    fixture.detectChanges();
+
+    expect(component.isFullscreen()).toBe(false);
+  });
 });

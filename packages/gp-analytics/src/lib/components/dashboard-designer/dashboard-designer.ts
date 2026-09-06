@@ -120,10 +120,24 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
   readonly isSettingsModalOpen = signal<boolean>(false);
   readonly isJsonModalOpen = signal<boolean>(false);
   readonly isAddMenuOpen = signal<boolean>(false);
+  readonly isFullscreen = signal<boolean>(false);
   readonly jsonModalTab = signal<'export' | 'import'>('export');
   readonly jsonBuffer = signal<string>('');
   readonly jsonError = signal<string | null>(null);
   readonly saveNotification = signal<string | null>(null);
+
+  /**
+   * Toggles distraction-free fullscreen presentation mode.
+   */
+  toggleFullscreen(): void {
+    const next = !this.isFullscreen();
+    this.isFullscreen.set(next);
+    if (next) {
+      this.activeMode.set('preview');
+      this.closeWidgetInspector();
+      this.closeAddMenu();
+    }
+  }
 
   // History state stacks for undo / redo
   readonly undoStack = signal<GpDashboardConfig[]>([]);
@@ -169,7 +183,13 @@ export class GpDashboardDesigner extends GpAnalyticsComponent {
   }
 
   @HostListener('window:keydown', ['$event'])
-  handleKeyboardUndoRedo(event: KeyboardEvent): void {
+  handleKeyboardShortcuts(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.isFullscreen()) {
+      event.preventDefault();
+      this.isFullscreen.set(false);
+      return;
+    }
+
     if (this.activeMode() !== 'design') return;
     const isCtrl = event.ctrlKey || event.metaKey;
     if (isCtrl && event.key.toLowerCase() === 'z') {

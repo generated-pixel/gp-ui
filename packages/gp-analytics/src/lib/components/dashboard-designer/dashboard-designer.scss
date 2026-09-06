@@ -11,6 +11,21 @@
   gap: 1.25rem;
   width: 100%;
   position: relative;
+
+  &.fullscreen-mode {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: var(--gp-color-surface-ground, #0f172a);
+    overflow-y: auto;
+    padding: 1.5rem;
+
+    .designer-topbar {
+      background: var(--gp-color-surface-card, #1e293b);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      border-color: var(--gp-color-surface-border, #334155);
+    }
+  }
 }
 
 /* =========================================================================
