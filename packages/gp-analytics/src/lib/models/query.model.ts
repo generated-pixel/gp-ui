@@ -21,9 +21,20 @@ export interface GpFilterCondition {
   secondValue?: any; // For 'between'
 }
 
+export type GpAggregationType =
+  | 'sum'
+  | 'avg'
+  | 'min'
+  | 'max'
+  | 'count'
+  | 'count-distinct'
+  | 'median'
+  | 'stddev'
+  | 'variance';
+
 export interface GpMeasureQuery {
   fieldId: string;
-  aggregation: 'sum' | 'avg' | 'min' | 'max' | 'count' | 'count-distinct';
+  aggregation: GpAggregationType;
   alias?: string;
 }
 

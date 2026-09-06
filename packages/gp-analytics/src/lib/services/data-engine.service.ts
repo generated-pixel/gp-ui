@@ -408,6 +408,24 @@ export class GpDataEngineService {
         return Number(Math.min(...numbers).toFixed(2));
       case 'max':
         return Number(Math.max(...numbers).toFixed(2));
+      case 'median': {
+        const sorted = [...numbers].sort((a, b) => a - b);
+        const mid = Math.floor(sorted.length / 2);
+        const med = sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+        return Number(med.toFixed(2));
+      }
+      case 'variance': {
+        const mean = numbers.reduce((acc, v) => acc + v, 0) / numbers.length;
+        const squareDiffs = numbers.map((value) => Math.pow(value - mean, 2));
+        const variance = squareDiffs.reduce((acc, v) => acc + v, 0) / numbers.length;
+        return Number(variance.toFixed(2));
+      }
+      case 'stddev': {
+        const mean = numbers.reduce((acc, v) => acc + v, 0) / numbers.length;
+        const squareDiffs = numbers.map((value) => Math.pow(value - mean, 2));
+        const variance = squareDiffs.reduce((acc, v) => acc + v, 0) / numbers.length;
+        return Number(Math.sqrt(variance).toFixed(2));
+      }
       default:
         return 0;
     }

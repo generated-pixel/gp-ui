@@ -86,6 +86,28 @@ describe('GpDataEngineService', () => {
       const amerSubtotal = result.subtotals!.find((s) => s['region'] === 'AMER');
       expect(amerSubtotal!['rev']).toBe(4500);
     });
+
+    it('computes median, variance, and stddev statistical aggregations', () => {
+      // mock totals: [1000, 2000, 3000, 1500, 500] -> sorted: [500, 1000, 1500, 2000, 3000]
+      // median = 1500
+      // mean = 8000 / 5 = 1600
+      // diffs: [-1100, -600, -100, 400, 1400]
+      // squared: [1210000, 360000, 10000, 160000, 1960000] = 3700000 / 5 = 740000
+      // variance = 740000, stddev = sqrt(740000) = 860.23
+      const spec: GpAnalyticalQuerySpec = {
+        dimensions: [],
+        measures: [
+          { fieldId: 'total', aggregation: 'median', alias: 'med' },
+          { fieldId: 'total', aggregation: 'variance', alias: 'var' },
+          { fieldId: 'total', aggregation: 'stddev', alias: 'std' },
+        ],
+      };
+
+      const result = service.executeQuery(mockRecords, spec);
+      expect(result.rows[0]['med']).toBe(1500);
+      expect(result.rows[0]['var']).toBe(740000);
+      expect(result.rows[0]['std']).toBe(860.23);
+    });
   });
 
   describe('computeKpiMetric', () => {
