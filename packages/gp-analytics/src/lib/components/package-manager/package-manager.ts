@@ -39,6 +39,16 @@ export interface DistributionTransmitEvent {
   environment: string;
 }
 
+export interface GpPackageSnapshot {
+  id: string;
+  timestamp: string;
+  action: 'export' | 'import' | 'distribution';
+  name: string;
+  environment?: string;
+  itemCounts: { datasets: number; dashboards: number; reports: number };
+  jsonPayload: string;
+}
+
 @Component({
   selector: 'gp-package-manager',
   standalone: true,
@@ -80,6 +90,14 @@ export class GpPackageManager extends GpAnalyticsComponent {
 
   // Active modal tab: 'export' | 'import' | 'distribution'
   readonly activeTab = signal<'export' | 'import' | 'distribution'>('export');
+
+  // Local storage history of export/import packages
+  readonly packageHistory = signal<GpPackageSnapshot[]>([]);
+
+  constructor() {
+    super();
+    this.loadPackageHistory();
+  }
 
   // Export Form State
   readonly packageName = signal<string>('Enterprise Analytics Distribution');
@@ -243,7 +261,9 @@ export class GpPackageManager extends GpAnalyticsComponent {
   // ================= Export Actions =================
 
   copyExportJson(): void {
+    const pkg = this.currentExportPackage();
     const json = this.exportJsonString();
+    this.savePackageSnapshot('export', pkg);
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(json).then(() => {
         this.showToast('✓ Package JSON copied to clipboard!');
@@ -253,6 +273,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
 
   downloadExportJson(): void {
     const pkg = this.currentExportPackage();
+    this.savePackageSnapshot('export', pkg);
     const filename = `${pkg.metadata.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${pkg.metadata.id}.json`;
     this.exportImportService.downloadJsonFile(filename, this.exportJsonString());
     this.packageExported.emit(pkg);
@@ -302,6 +323,8 @@ export class GpPackageManager extends GpAnalyticsComponent {
         };
       }
 
+      this.savePackageSnapshot('import', imported);
+
       this.packageImported.emit({
         package: imported,
         mode: this.importMode(),
@@ -336,6 +359,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
     this.transmissionResponse.set(null);
 
     const payload = this.distributionPayload();
+    const pkg = this.currentExportPackage();
 
     // Simulate network transmission to remote API endpoint
     setTimeout(() => {
@@ -350,6 +374,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
         message: `Package successfully ingested by distribution cluster at ${this.targetEndpoint()}`,
       };
       this.transmissionResponse.set(response);
+      this.savePackageSnapshot('distribution', pkg);
       this.packageDistributed.emit({
         payload,
         endpoint: this.targetEndpoint(),
@@ -357,6 +382,81 @@ export class GpPackageManager extends GpAnalyticsComponent {
       });
       this.showToast(`🚀 Successfully distributed package (${payload.payloadSizeBytes} bytes) to remote API!`);
     }, 800);
+  }
+
+  // ================= Package History & Snapshots =================
+
+  loadPackageHistory(): void {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const raw = window.localStorage.getItem('gp_analytics_package_history');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            this.packageHistory.set(parsed);
+          }
+        }
+      }
+    } catch {
+      // Ignore localStorage read errors
+    }
+  }
+
+  savePackageSnapshot(action: 'export' | 'import' | 'distribution', pkg: GpAnalyticsPackage): void {
+    try {
+      const snapshot: GpPackageSnapshot = {
+        id: `snap_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        action,
+        name: pkg.metadata?.name || 'Analytics Package',
+        environment: pkg.metadata?.environment || 'production',
+        itemCounts: {
+          datasets: pkg.datasets?.length ?? 0,
+          dashboards: pkg.dashboards?.length ?? 0,
+          reports: pkg.reports?.length ?? 0,
+        },
+        jsonPayload: this.exportImportService.exportPackageToJson(pkg, true),
+      };
+
+      const filtered = this.packageHistory().filter(
+        (s) => !(s.name === snapshot.name && s.action === snapshot.action)
+      );
+      const updated = [snapshot, ...filtered].slice(0, 8);
+      this.packageHistory.set(updated);
+
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('gp_analytics_package_history', JSON.stringify(updated));
+      }
+    } catch {
+      // Ignore localStorage write errors
+    }
+  }
+
+  restoreSnapshot(snapshot: GpPackageSnapshot): void {
+    this.importJsonBuffer.set(snapshot.jsonPayload);
+    this.activeTab.set('import');
+    this.showToast(`✓ Restored snapshot "${snapshot.name}" to Import editor`);
+  }
+
+  clearHistory(): void {
+    this.packageHistory.set([]);
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem('gp_analytics_package_history');
+      }
+      this.showToast('✓ Package history cleared');
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  formatSnapshotTime(iso: string): string {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch {
+      return iso;
+    }
   }
 
   protected showToast(msg: string): void {

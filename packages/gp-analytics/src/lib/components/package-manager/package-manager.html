@@ -224,6 +224,34 @@
                   (click)="loadSampleImport()" />
               </div>
 
+              <!-- Recent Snapshots Quick-Restore Strip -->
+              @if (packageHistory().length > 0) {
+                <div class="package-history-strip">
+                  <div class="history-strip-header">
+                    <span class="history-strip-title">🕒 Recent Snapshots ({{ packageHistory().length }})</span>
+                    <gp-button
+                      label="Clear History"
+                      size="sm"
+                      [outlined]="true"
+                      (click)="clearHistory()" />
+                  </div>
+                  <div class="history-cards-scroll">
+                    @for (snap of packageHistory(); track snap.id) {
+                      <div class="history-snap-card" (click)="restoreSnapshot(snap)" role="button" tabindex="0">
+                        <div class="snap-top">
+                          <span class="snap-action-tag" [class]="'snap-' + snap.action">{{ snap.action.toUpperCase() }}</span>
+                          <span class="snap-time">{{ formatSnapshotTime(snap.timestamp) }}</span>
+                        </div>
+                        <strong class="snap-name" [title]="snap.name">{{ snap.name }}</strong>
+                        <span class="snap-counts">
+                          {{ snap.itemCounts.datasets }} ds • {{ snap.itemCounts.dashboards }} db • {{ snap.itemCounts.reports }} rp
+                        </span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
               <!-- JSON Paste / Editor Box -->
               <div class="form-group">
                 <label class="form-label" for="import-textarea">Paste Package JSON Payload</label>

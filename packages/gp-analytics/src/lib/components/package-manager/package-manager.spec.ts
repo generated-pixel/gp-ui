@@ -181,4 +181,36 @@ describe('GpPackageManager', () => {
       vi.useRealTimers();
     }
   });
+
+  it('should capture snapshots on export, persist to localStorage, and restore into editor', () => {
+    localStorage.clear();
+    component.packageHistory.set([]);
+
+    // Trigger export
+    component.downloadExportJson();
+
+    expect(component.packageHistory().length).toBe(1);
+    const snap = component.packageHistory()[0];
+    expect(snap.action).toBe('export');
+    expect(snap.name).toBe('Enterprise Analytics Distribution');
+    expect(snap.itemCounts.datasets).toBe(1);
+
+    // Verify localStorage storage
+    const stored = localStorage.getItem('gp_analytics_package_history');
+    expect(stored).toBeTruthy();
+    expect(JSON.parse(stored!).length).toBe(1);
+
+    // Test snapshot restoration
+    component.setTab('export');
+    component.importJsonBuffer.set('');
+    component.restoreSnapshot(snap);
+
+    expect(component.activeTab()).toBe('import');
+    expect(component.importJsonBuffer()).toContain('Enterprise Analytics Distribution');
+
+    // Test clear history
+    component.clearHistory();
+    expect(component.packageHistory().length).toBe(0);
+    expect(localStorage.getItem('gp_analytics_package_history')).toBeNull();
+  });
 });
