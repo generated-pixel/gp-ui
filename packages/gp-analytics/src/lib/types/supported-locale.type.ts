@@ -1,1 +1,1 @@
-export type SupportedLocale = 'en' | 'fr';
+export type SupportedLocale = 'en' | 'fr' | 'de' | 'es' | 'ja' | (string & {});
