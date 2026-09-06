@@ -17,8 +17,10 @@ import {
   Grouping,
   Relationship,
   DatasetDataSourceConfig,
-  LoadedDataResult,
   CustomDataLoaderFn,
+  LoadedDataResult,
+  LoadedSchemaResult,
+  GpFilterCondition,
 } from '../../models';
 import { GpSchemaCatalogue } from '../schema-catalogue/schema-catalogue';
 import { GpDatasetFieldSelector } from '../dataset-field-selector/dataset-field-selector';
@@ -34,14 +36,19 @@ import { GpDatasetPreview } from '../dataset-preview/dataset-preview';
 })
 export class GpDatasetBuilder extends GpAnalyticsComponent {
   /**
-   * Groupings representing metadata schema.
+   * Groupings representing metadata schema. Supports two-way [(groupings)].
    */
-  readonly groupings = input.required<Grouping[]>();
+  readonly groupings = model.required<Grouping[]>();
 
   /**
-   * Optional relationships across groupings.
+   * Optional relationships across groupings. Supports two-way [(additionalRelationships)].
    */
-  readonly additionalRelationships = input<Relationship[]>([]);
+  readonly additionalRelationships = model<Relationship[]>([]);
+
+  /**
+   * Emitted when metadata schema is loaded from external source or preset.
+   */
+  readonly schemaLoad = output<LoadedSchemaResult>();
 
   /**
    * Dataset model being built. Two-way bindable via [(dataset)].
@@ -144,5 +151,60 @@ export class GpDatasetBuilder extends GpAnalyticsComponent {
 
     this.dataset.set(updatedDataset);
     this.datasetChange.emit(updatedDataset);
+  }
+
+  /**
+   * Handles schema metadata loaded from external source or preset.
+   */
+  protected onSchemaLoad(result: LoadedSchemaResult): void {
+    this.groupings.set(result.groupings);
+    if (result.relationships) {
+      this.additionalRelationships.set(result.relationships);
+    }
+    this.schemaLoad.emit(result);
+  }
+
+  /**
+   * Handles direct groupings updates from catalogue.
+   */
+  protected onGroupingsChange(groupings: Grouping[]): void {
+    this.groupings.set(groupings);
+  }
+
+  /**
+   * Handles direct relationships updates from catalogue.
+   */
+  protected onRelationshipsChange(relationships: Relationship[]): void {
+    this.additionalRelationships.set(relationships);
+  }
+
+  /**
+   * Handles dataset filter updates from field selector.
+   */
+  protected onFiltersChange(filters: GpFilterCondition[]): void {
+    const updatedDataset: Dataset = {
+      ...this.dataset(),
+      filters,
+      updatedAt: new Date().toISOString(),
+    };
+
+    this.dataset.set(updatedDataset);
+    this.datasetChange.emit(updatedDataset);
+  }
+
+  /**
+   * Handles removing a single filter from preview chip.
+   */
+  protected onFilterRemove(index: number): void {
+    const current = this.dataset().filters || [];
+    const updated = current.filter((_, i) => i !== index);
+    this.onFiltersChange(updated);
+  }
+
+  /**
+   * Clears all filters from preview chip bar.
+   */
+  protected onFiltersClear(): void {
+    this.onFiltersChange([]);
   }
 }

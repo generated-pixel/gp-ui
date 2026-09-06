@@ -7,6 +7,9 @@
         [groupings]="groupings()"
         [additionalRelationships]="additionalRelationships()"
         [activeDatasetFields]="datasetFields()"
+        (groupingsChange)="onGroupingsChange($event)"
+        (additionalRelationshipsChange)="onRelationshipsChange($event)"
+        (schemaLoad)="onSchemaLoad($event)"
         (fieldSelect)="onAddField($event)" />
     </div>
 
@@ -15,9 +18,12 @@
       <gp-dataset-preview
         [fields]="datasetFields()"
         [datasetName]="dataset().name"
+        [filters]="dataset().filters || []"
         [customData]="customData()"
         [customDataLoader]="customDataLoader()"
         [dataSourceConfig]="dataSourceConfig()"
+        (filterRemove)="onFilterRemove($event)"
+        (filtersClear)="onFiltersClear()"
         (dataSourceLoaded)="dataSourceLoaded.emit($event)"
         (dataSourceReset)="dataSourceReset.emit()" />
     </div>
@@ -26,8 +32,10 @@
     <div class="workbench-panel panel-fields">
       <gp-dataset-field-selector
         [fields]="datasetFields()"
+        [filters]="dataset().filters || []"
         [(selectedFieldId)]="selectedFieldId"
         (fieldsChange)="onFieldsChange($event)"
+        (filtersChange)="onFiltersChange($event)"
         (fieldDrop)="onAddField($event)"
         (fieldRemove)="onFieldRemove($event)" />
     </div>
