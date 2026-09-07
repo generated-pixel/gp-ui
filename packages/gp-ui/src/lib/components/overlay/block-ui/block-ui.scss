@@ -1,0 +1,85 @@
+.gp-block-ui {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gp-blockui-bg, rgba(15, 23, 42, 0.65));
+  color: var(--gp-text-primary, #f8fafc);
+  cursor: wait;
+  user-select: none;
+  box-sizing: border-box;
+
+  &--document {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &--target {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  &--blur {
+    backdrop-filter: blur(var(--gp-blockui-blur, 4px));
+    -webkit-backdrop-filter: blur(var(--gp-blockui-blur, 4px));
+  }
+
+  &--animate {
+    animation: gpBlockUiFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 1.25rem 1.75rem;
+    background: var(--gp-blockui-card-bg, rgba(30, 41, 59, 0.9));
+    border: 1px solid var(--gp-border, rgba(255, 255, 255, 0.12));
+    border-radius: var(--gp-border-radius-lg, 12px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    min-width: 8rem;
+    max-width: 90%;
+    box-sizing: border-box;
+  }
+
+  &__message {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--gp-text-primary, #f1f5f9);
+    line-height: 1.4;
+  }
+
+  &__icon {
+    font-size: 2rem;
+    color: var(--gp-primary, #38bdf8);
+  }
+}
+
+/* Applied dynamically to target container to maintain proper stacking coordinate context */
+.gp-block-ui-target {
+  position: relative !important;
+}
+
+@keyframes gpBlockUiFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

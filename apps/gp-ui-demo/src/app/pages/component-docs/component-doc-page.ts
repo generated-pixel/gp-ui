@@ -8,6 +8,8 @@ import {
   GpAutoComplete,
   GpAvatar,
   GpBadge,
+  GpBlockUI,
+  GpBlockUIDirective,
   GpBreadcrumb,
   GpButton,
   GpButtonGroup,
@@ -103,6 +105,8 @@ import { getComponentDoc } from './component-docs.data';
     GpAutoComplete,
     GpAvatar,
     GpBadge,
+    GpBlockUI,
+    GpBlockUIDirective,
     GpBreadcrumb,
     GpButton,
     GpButtonGroup,
@@ -674,6 +678,75 @@ Live **markdown** rendering with tables, task lists, and code blocks.'"
             </gp-popover>
           </div>
         }
+        @case ('block-ui') {
+          <div class="flex flex-col gap-6 w-full">
+            <div class="flex flex-wrap gap-3 items-center">
+              <gp-button
+                label="Block Document (2.5s)"
+                icon="lock"
+                severity="primary"
+                (onClickEvent)="blockDemoDocument()"
+              />
+              <gp-button
+                label="Block Target Card (2.5s)"
+                icon="refresh"
+                severity="secondary"
+                variant="outlined"
+                (onClickEvent)="blockDemoTarget()"
+              />
+              <gp-button
+                [label]="demoBlockUiDirective ? 'Unblock Directive Container' : 'Block Directive Container'"
+                [icon]="demoBlockUiDirective ? 'unlock' : 'lock'"
+                [severity]="demoBlockUiDirective ? 'danger' : 'info'"
+                (onClickEvent)="demoBlockUiDirective = !demoBlockUiDirective"
+              />
+            </div>
+
+            <!-- Fullscreen / Document BlockUI -->
+            <gp-block-ui
+              [blocked]="demoBlockUiDocument"
+              message="Processing global application request..."
+              [blur]="true"
+            />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Selector / Target BlockUI -->
+              <div id="demoBlockTargetCard" class="p-6 border rounded-xl surface-card shadow-sm relative">
+                <gp-block-ui
+                  [blocked]="demoBlockUiTarget"
+                  target="#demoBlockTargetCard"
+                  message="Updating analytics metrics..."
+                />
+                <h3 class="text-lg font-semibold mb-2">Target Container (Selector #demoBlockTargetCard)</h3>
+                <p class="text-secondary text-sm mb-4">
+                  This panel is blocked using <code>&lt;gp-block-ui target="#demoBlockTargetCard"&gt;</code>. User
+                  interactions within this container are safely intercepted.
+                </p>
+                <div class="flex gap-2">
+                  <gp-button label="Action A" size="sm" severity="secondary" />
+                  <gp-button label="Action B" size="sm" severity="secondary" />
+                </div>
+              </div>
+
+              <!-- Directive BlockUI -->
+              <div
+                class="p-6 border rounded-xl surface-card shadow-sm relative"
+                [gpBlockUI]="demoBlockUiDirective"
+                [blockUIMessage]="'Directive blocking active...'"
+                [blockUIBlur]="true"
+              >
+                <h3 class="text-lg font-semibold mb-2">Directive Container ([gpBlockUI])</h3>
+                <p class="text-secondary text-sm mb-4">
+                  Attached inline via <code>&lt;div [gpBlockUI]="isBlocked" [blockUIMessage]="'...' &gt;</code>. It
+                  creates its own isolated overlay and accessibility busy state.
+                </p>
+                <div class="flex gap-2">
+                  <gp-button label="Submit Form" size="sm" severity="primary" />
+                </div>
+              </div>
+            </div>
+          </div>
+        }
         @case ('card') {
           <gp-card header="Project Summary">A concise overview of the project state.</gp-card>
         }
@@ -1234,6 +1307,26 @@ export class ComponentDocPage implements OnInit {
 
   triggerDangerToast(): void {
     this.toastService.add({ severity: 'error', summary: 'Error', detail: 'Failed to establish database connection.' });
+  }
+
+  demoBlockUiDocument = false;
+  demoBlockUiTarget = false;
+  demoBlockUiDirective = false;
+
+  blockDemoDocument(): void {
+    this.demoBlockUiDocument = true;
+    setTimeout(() => {
+      this.demoBlockUiDocument = false;
+      this.cdr.markForCheck();
+    }, 2500);
+  }
+
+  blockDemoTarget(): void {
+    this.demoBlockUiTarget = true;
+    setTimeout(() => {
+      this.demoBlockUiTarget = false;
+      this.cdr.markForCheck();
+    }, 2500);
   }
 
   constructor(
