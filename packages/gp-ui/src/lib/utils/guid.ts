@@ -153,7 +153,9 @@ export class Guid {
    * Returns the UUID version number (e.g. 4 for v4, 7 for v7, 1 for v1) or 0 for empty GUID.
    */
   public get version(): number {
-    if (this.isEmpty) return 0;
+    if (this.isEmpty) {
+      return 0;
+    }
     // Version is in the 13th character (index 14 in hyphenated string: xxxxxxxx-xxxx-Vxxx-xxxx-xxxxxxxxxxxx)
     const verChar = this._value.charAt(14);
     const ver = parseInt(verChar, 16);
@@ -164,12 +166,20 @@ export class Guid {
    * Returns the UUID variant string (e.g. 'rfc4122', 'ncs', 'microsoft', 'future').
    */
   public get variant(): 'rfc4122' | 'ncs' | 'microsoft' | 'reserved' {
-    if (this.isEmpty) return 'rfc4122';
+    if (this.isEmpty) {
+      return 'rfc4122';
+    }
     // Variant is determined by upper bits of character at index 19
     const varChar = parseInt(this._value.charAt(19), 16);
-    if ((varChar & 0x8) === 0) return 'ncs';
-    if ((varChar & 0xc) === 0x8) return 'rfc4122';
-    if ((varChar & 0xe) === 0xc) return 'microsoft';
+    if ((varChar & 0x8) === 0) {
+      return 'ncs';
+    }
+    if ((varChar & 0xc) === 0x8) {
+      return 'rfc4122';
+    }
+    if ((varChar & 0xe) === 0xc) {
+      return 'microsoft';
+    }
     return 'reserved';
   }
 
@@ -363,7 +373,9 @@ export class Guid {
    * Determines whether this Guid is equal to another Guid or string representation.
    */
   public equals(other: Guid | string | null | undefined): boolean {
-    if (!other) return false;
+    if (!other) {
+      return false;
+    }
     if (other instanceof Guid) {
       return this._value === other._value;
     }
@@ -375,13 +387,19 @@ export class Guid {
    * Static equality helper comparing two GUIDs or string representations.
    */
   public static equals(a: Guid | string | null | undefined, b: Guid | string | null | undefined): boolean {
-    if (a === b) return true;
-    if (!a || !b) return false;
+    if (a === b) {
+      return true;
+    }
+    if (!a || !b) {
+      return false;
+    }
 
     const normA = a instanceof Guid ? a._value : normalizeGuid(a);
     const normB = b instanceof Guid ? b._value : normalizeGuid(b);
 
-    if (!normA || !normB) return false;
+    if (!normA || !normB) {
+      return false;
+    }
     return normA === normB;
   }
 
@@ -391,7 +409,9 @@ export class Guid {
    */
   public compareTo(other: Guid | string): number {
     const otherNorm = other instanceof Guid ? other._value : normalizeGuid(other);
-    if (!otherNorm) return 1;
+    if (!otherNorm) {
+      return 1;
+    }
     return this._value.localeCompare(otherNorm);
   }
 
