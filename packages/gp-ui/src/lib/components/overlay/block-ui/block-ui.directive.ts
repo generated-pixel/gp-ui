@@ -96,8 +96,9 @@ export class GpBlockUIDirective implements OnDestroy {
       return this.blockUiService.isBlocked(target);
     }
 
+    // Presence-only attribute (gpBlockUI="") should not imply blocking; use [gpBlockUI]="true" instead.
     if (directVal === '' && !target) {
-      return true;
+      return false;
     }
 
     return false;
