@@ -5,18 +5,18 @@
   [attr.aria-label]="effectiveTitle()"
 >
   <!-- Top Banner & Controls -->
-  <header class="dashboard-header">
-    <div class="header-brand">
-      <span class="brand-icon">📈</span>
+  <header class="gp-analytics-dashboard__header dashboard-header">
+    <div class="gp-analytics-dashboard__brand header-brand">
+      <span class="gp-analytics-dashboard__brand-icon brand-icon">📈</span>
       <div>
-        <h2 class="dashboard-title">{{ effectiveTitle() }}</h2>
-        <p class="dashboard-subtitle">{{ effectiveSubtitle() }}</p>
+        <h2 class="gp-analytics-dashboard__title dashboard-title">{{ effectiveTitle() }}</h2>
+        <p class="gp-analytics-dashboard__subtitle dashboard-subtitle">{{ effectiveSubtitle() }}</p>
       </div>
     </div>
 
-    <div class="dashboard-header-controls">
+    <div class="gp-analytics-dashboard__controls dashboard-header-controls">
       @if (lastRefreshedAt(); as ts) {
-      <span class="last-refreshed-badge" title="Last data synchronization">
+      <span class="gp-analytics-dashboard__last-refreshed-badge last-refreshed-badge" title="Last data synchronization">
         Synced: {{ ts | date : 'mediumTime' }}
       </span>
       }
@@ -26,15 +26,15 @@
         size="sm"
         [disabled]="isRefreshingAll()"
         (click)="reloadAll(true)"
-        class="btn-refresh-dashboard"
+        class="gp-analytics-dashboard__btn-refresh btn-refresh-dashboard"
       >
         <span class="refresh-icon" [class.spin-active]="isRefreshingAll()">⟳</span>
         <span>{{ isRefreshingAll() ? 'Syncing...' : 'Refresh All' }}</span>
       </gp-button>
 
       <!-- Live Status Indicator -->
-      <div class="live-pulse-badge">
-        <span class="pulse-dot"></span>
+      <div class="gp-analytics-dashboard__live-pulse-badge live-pulse-badge">
+        <span class="gp-analytics-dashboard__pulse-dot pulse-dot"></span>
         <span>{{ editable() ? 'Designer Canvas' : 'Live Real-Time' }}</span>
       </div>
     </div>
@@ -42,7 +42,7 @@
 
   <!-- Filter Bar (Only rendered when not empty or in view mode) -->
   @if (filterFields().length > 0) {
-  <div class="dashboard-filters">
+  <div class="gp-analytics-dashboard__filters dashboard-filters">
     <gp-filter-bar
       [availableFields]="filterFields()"
       [quickPresets]="quickPresets()"
@@ -53,7 +53,7 @@
   }
 
   <!-- Dynamic Responsive Dashboard Grid Canvas powered by gp-grid -->
-  <div class="dashboard-canvas">
+  <div class="gp-analytics-dashboard__canvas dashboard-canvas">
     <gp-grid
       [(items)]="gridItems"
       [columns]="columns()"
@@ -70,17 +70,17 @@
       <ng-template #widgetTemplate let-item>
         @let w = getWidget(item.id);
         <div
-          class="widget-container"
+          class="gp-analytics-dashboard__widget-container widget-container"
           [class.is-selected]="selectedWidgetId() === item.id"
           [class.has-designer-chrome]="editable()"
           (click)="w ? onSelect(w, $event) : null"
         >
           <!-- Designer Header Overlay Actions (Visible in Edit Mode) -->
           @if (editable() && w) {
-          <div class="widget-designer-toolbar">
+          <div class="gp-analytics-dashboard__widget-designer-toolbar widget-designer-toolbar">
             <!-- Official Drag Handle recognized by gp-grid pointerdown engine -->
             <div
-              class="gp-grid-drag-handle widget-drag-grip"
+              class="gp-grid-drag-handle gp-analytics-dashboard__widget-drag-grip widget-drag-grip"
               title="Click and drag to move item in grid"
               [attr.aria-label]="'Drag ' + w.title + ' to move'"
             >
@@ -95,71 +95,76 @@
               <span class="widget-fixed-badge" title="Fixed position">📌</span>
               }
             </div>
-            <div class="widget-actions-cluster" (click)="$event.stopPropagation()">
-              <button
-                type="button"
-                class="btn-widget-action btn-refresh"
+            <div class="gp-analytics-dashboard__widget-actions-cluster widget-actions-cluster" (click)="$event.stopPropagation()">
+              <gp-button
+                size="sm"
+                variant="text"
+                severity="secondary"
+                label="⟳"
                 title="Reload Widget"
                 (click)="reloadWidget(w.id)"
-              >
-                ⟳
-              </button>
-              <button
-                type="button"
-                class="btn-widget-action btn-config"
+                class="btn-widget-action btn-refresh"
+              />
+              <gp-button
+                size="sm"
+                variant="text"
+                severity="secondary"
+                label="⚙️"
                 title="Configure Widget"
                 (click)="onEdit(w, $event)"
-              >
-                ⚙️
-              </button>
-              <button
-                type="button"
-                class="btn-widget-action btn-dup"
+                class="btn-widget-action btn-config"
+              />
+              <gp-button
+                size="sm"
+                variant="text"
+                severity="secondary"
+                label="📋"
                 title="Duplicate Widget"
                 (click)="onDuplicate(w, $event)"
-              >
-                📋
-              </button>
-              <button
-                type="button"
-                class="btn-widget-action btn-del"
+                class="btn-widget-action btn-dup"
+              />
+              <gp-button
+                size="sm"
+                variant="text"
+                severity="danger"
+                label="✕"
                 title="Delete Widget"
                 (click)="onDelete(w, $event)"
-              >
-                ✕
-              </button>
+                class="btn-widget-action btn-del"
+              />
             </div>
           </div>
           } @else if (w) {
           <!-- View-Mode Header & Controls -->
-          <div class="widget-view-toolbar">
+          <div class="gp-analytics-dashboard__widget-view-toolbar widget-view-toolbar">
             @if ((effectiveConfig().allowMove ?? true) && !w.grid.fixed && !w.grid.locked) {
-            <div class="gp-grid-drag-handle view-mode-drag-grip" title="Drag to reposition widget">
+            <div class="gp-grid-drag-handle gp-analytics-dashboard__view-mode-drag-grip view-mode-drag-grip" title="Drag to reposition widget">
               <span>⠿</span>
             </div>
             }
-            <div class="widget-view-actions">
-              <button
-                type="button"
-                class="btn-view-refresh"
+            <div class="gp-analytics-dashboard__widget-view-actions widget-view-actions">
+              <gp-button
+                size="sm"
+                variant="text"
+                severity="secondary"
+                label="⟳"
                 title="Reload this widget"
                 (click)="reloadWidget(w.id); $event.stopPropagation()"
-              >
-                <span [class.spin-active]="isWidgetLoading(w.id)">⟳</span>
-              </button>
+                class="btn-view-refresh"
+              />
             </div>
           </div>
           }
 
           <!-- Widget Dynamic Content or Skeleton Placeholder -->
-          <div class="widget-content-body">
+          <div class="gp-analytics-dashboard__widget-content-body widget-content-body">
             @if (isWidgetLoading(item.id)) {
-            <div class="widget-loading-container">
+            <div class="gp-analytics-dashboard__widget-loading-container widget-loading-container">
               <div class="gp-analytics-loading-overlay">
                 <gp-progress-spinner strokeWidth="3" />
               </div>
               <!-- Shimmering Skeleton Loader based on Widget Type -->
-              <div class="widget-skeleton-wrapper skeleton-{{ w?.type }}">
+              <div class="gp-analytics-dashboard__widget-skeleton-wrapper widget-skeleton-wrapper skeleton-{{ w?.type }}">
                 <div class="skeleton-shimmer-header">
                   <div class="skeleton-shimmer-bar skeleton-title-bar"></div>
                   <div class="skeleton-shimmer-circle"></div>
@@ -188,10 +193,10 @@
             </div>
             } @else if (getWidgetError(item.id); as err) {
             <!-- Error Boundary & Retry -->
-            <div class="widget-error-state">
+            <div class="gp-analytics-dashboard__widget-error-state widget-error-state">
               <span class="widget-error-icon">⚠️</span>
               <p class="widget-error-message">{{ err }}</p>
-              <button type="button" class="btn-retry-widget" (click)="reloadWidget(item.id)">Retry</button>
+              <gp-button size="sm" variant="outlined" severity="danger" label="Retry" (click)="reloadWidget(item.id)" />
             </div>
             } @else {
             <!-- Populated Widget Content -->
