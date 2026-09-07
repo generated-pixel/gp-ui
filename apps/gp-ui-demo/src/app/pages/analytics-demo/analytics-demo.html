@@ -1,0 +1,22 @@
+<div class="analytics-page">
+  <div class="analytics-page__header">
+    <div class="analytics-page__badges">
+      <gp-badge value="gp-analytics" severity="primary" />
+      <gp-badge value="Signals Reactive" severity="success" />
+    </div>
+    <h1 class="analytics-page__title">gp-analytics Component Gallery</h1>
+    <p class="analytics-page__desc">
+      Each gp-analytics component is showcased on its own page so it can be explored in isolation, with a live demo,
+      usage snippet, and a full properties &amp; events reference sourced directly from the component API.
+    </p>
+  </div>
+
+  <div class="analytics-page__grid">
+    @for (link of links; track link.route) {
+    <a class="analytics-page__link-card" [routerLink]="link.route">
+      <span class="analytics-page__link-card-title">{{ link.title }}</span>
+      <span class="analytics-page__link-card-desc">{{ link.description }}</span>
+    </a>
+    }
+  </div>
+</div>
