@@ -18,7 +18,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/generated-pixel/gp-ui.git"
+    "url": "git+https://github.com/generated-pixel/gp-ui.git",
+    "directory": "packages/gp-ui-icons"
   },
   "peerDependencies": {
     "@angular/common": ">=18.0.0",
