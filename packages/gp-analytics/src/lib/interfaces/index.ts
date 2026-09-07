@@ -56,3 +56,4 @@ export * from './table.interface';
 export * from './gp-widget-load-context.interface';
 export * from './gp-widget-data-source-config.interface';
 export * from './gp-widget-data-state.interface';
+export * from './gp-lifecycle.interface';

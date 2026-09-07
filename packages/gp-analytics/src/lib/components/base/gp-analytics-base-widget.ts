@@ -12,7 +12,6 @@ export abstract class GpAnalyticsBaseWidget extends GpAnalyticsComponent {
   readonly title = input<string>('');
   readonly subtitle = input<string>('');
   readonly description = input<string>('');
-  readonly loading = input<boolean>(false);
   readonly error = input<string | null>(null);
 
   readonly isFullscreen = signal<boolean>(false);

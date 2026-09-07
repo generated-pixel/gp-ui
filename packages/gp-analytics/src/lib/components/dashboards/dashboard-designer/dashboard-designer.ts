@@ -766,7 +766,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     }, 500);
   }
 
-  ngOnDestroy(): void {
+  override onDestroy(): void {
     if (this.autoRefreshTimer) {
       clearInterval(this.autoRefreshTimer);
       this.autoRefreshTimer = null;

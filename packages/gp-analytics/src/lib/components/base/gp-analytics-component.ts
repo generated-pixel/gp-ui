@@ -1,12 +1,9 @@
-import { Directive, inject } from '@angular/core';
-import { GpTranslationService, TranslationKey } from '../../services/translation.service';
-import { TranslationParams } from '../../types/translation-params.type';
+import { Directive } from '@angular/core';
+import { GpAnalyticsBase } from './gp-analytics-base';
 
+/**
+ * Foundational component class for all gp-analytics components, extending GpAnalyticsBase.
+ * Maintains complete backwards compatibility while providing the standard GpBase architecture.
+ */
 @Directive()
-export abstract class GpAnalyticsComponent {
-  protected readonly i18n = inject(GpTranslationService);
-
-  protected translate(key: TranslationKey, params: TranslationParams = {}): string {
-    return this.i18n.translate(key, params);
-  }
-}
+export abstract class GpAnalyticsComponent extends GpAnalyticsBase {}
