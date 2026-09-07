@@ -17,7 +17,7 @@ on:
           - skip
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -85,3 +85,22 @@ jobs:
           echo "Publishing gp-analytics..."
           cd dist/packages/gp-analytics && npm publish --access public --provenance
           cd ../../..
+
+      - name: Resolve Published Suite Version
+        id: suite_version
+        run: echo "version=$(node -p "require('./dist/packages/gp-ui/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.suite_version.outputs.version }}"
+          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "Release $TAG already exists, skipping."
+          else
+            gh release create "$TAG" \
+              --repo "${{ github.repository }}" \
+              --title "$TAG" \
+              --generate-notes
+          fi
