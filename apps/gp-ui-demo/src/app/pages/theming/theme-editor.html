@@ -1,0 +1,786 @@
+<div class="theme-editor-wrapper">
+  <!-- Editor Header & Toolbar -->
+  <div class="editor-header">
+    <div class="header-left">
+      <div class="theme-title-input">
+        <gp-icon name="palette" size="1.2em" />
+        <gp-input-text
+          styleClass="theme-name-field"
+          [value]="themeName()"
+          (onInputEvent)="onThemeNameChange($event)"
+          placeholder="Theme Name (e.g. My Brand Theme)"
+        />
+        <span class="theme-id-tag">ID: {{ themeId() }}</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Quick Base Color Swatch in Header -->
+      <div class="header-color-quickpick" title="Current Base Primary Color (Click to change)">
+        <label class="quickpick-swatch" [style.backgroundColor]="primaryBaseColor()">
+          <input
+            type="color"
+            class="quickpick-native-input"
+            [value]="primaryBaseColor()"
+            (input)="onPrimaryHexChange($any($event.target).value)"
+            aria-label="Quick pick primary color"
+          />
+        </label>
+        <span class="quickpick-hex">{{ primaryBaseColor() }}</span>
+      </div>
+
+      <!-- Preset Selector -->
+      <div class="preset-dropdown-wrap">
+        <span class="toolbar-label">Preset:</span>
+        <gp-select
+          [options]="builtInPresets"
+          optionLabel="name"
+          optionValue="id"
+          [value]="selectedPresetId()"
+          ariaLabel="Theme preset"
+          (onChange)="onPresetSelect($event.value)"
+        />
+      </div>
+
+      <!-- Edit Mode Toggle (Light / Dark) -->
+      <div class="mode-switch-wrap">
+        <gp-button
+          label="Light Mode"
+          icon="sun"
+          size="sm"
+          [variant]="editMode() === 'light' ? 'filled' : 'outlined'"
+          [styleClass]="'mode-btn' + (editMode() === 'light' ? ' active' : '')"
+          (onClickEvent)="setEditMode('light')"
+        />
+        <gp-button
+          label="Dark Mode"
+          icon="moon"
+          size="sm"
+          [variant]="editMode() === 'dark' ? 'filled' : 'outlined'"
+          [styleClass]="'mode-btn' + (editMode() === 'dark' ? ' active' : '')"
+          (onClickEvent)="setEditMode('dark')"
+        />
+      </div>
+
+      <!-- Reset & Export Buttons -->
+      <gp-button label="Reset" variant="outlined" severity="secondary" size="sm" (onClickEvent)="resetToPreset()" />
+      <gp-button
+        label="Export Theme"
+        variant="filled"
+        severity="primary"
+        size="sm"
+        (onClickEvent)="setActiveTab('export')"
+      />
+    </div>
+  </div>
+
+  <!-- Editor Main Container: Left Control Tabs & Right Live Sandbox -->
+  <div class="editor-body">
+    <!-- Control Panel Side -->
+    <div class="control-panel">
+      <!-- Main Tab Navigation Bar -->
+      <div class="editor-tabs">
+        <gp-button
+          label="Primitives"
+          icon="sliders"
+          size="sm"
+          [variant]="activeTab() === 'primitives' ? 'filled' : 'text'"
+          [styleClass]="'tab-btn' + (activeTab() === 'primitives' ? ' active' : '')"
+          (onClickEvent)="setActiveTab('primitives')"
+        />
+        <gp-button
+          label="Semantics"
+          icon="palette"
+          size="sm"
+          [variant]="activeTab() === 'semantics' ? 'filled' : 'text'"
+          [styleClass]="'tab-btn' + (activeTab() === 'semantics' ? ' active' : '')"
+          (onClickEvent)="setActiveTab('semantics')"
+        />
+        <gp-button
+          label="Components"
+          icon="box"
+          size="sm"
+          [variant]="activeTab() === 'components' ? 'filled' : 'text'"
+          [styleClass]="'tab-btn' + (activeTab() === 'components' ? ' active' : '')"
+          (onClickEvent)="setActiveTab('components')"
+        />
+        <gp-button
+          label="Export Code"
+          icon="download"
+          size="sm"
+          [variant]="activeTab() === 'export' ? 'filled' : 'text'"
+          [styleClass]="'tab-btn' + (activeTab() === 'export' ? ' active' : '')"
+          (onClickEvent)="setActiveTab('export')"
+        />
+      </div>
+
+      <div class="tab-content">
+        <!-- 1. PRIMITIVES TAB -->
+        @if (activeTab() === 'primitives') {
+        <div class="tab-section">
+          <!-- Custom Base Primary Color Studio Card -->
+          <div class="custom-color-studio-card">
+            <div class="studio-card-header">
+              <div class="studio-title-group">
+                <gp-icon name="palette" size="1.2em" class="studio-header-icon" />
+                <div>
+                  <h4 class="studio-title">Custom Primary Base Color (500)</h4>
+                  <p class="studio-subtext">
+                    Choose any custom hue, enter an exact Hex code, adjust HSL sliders, or generate a random palette.
+                  </p>
+                </div>
+              </div>
+
+              <div class="studio-header-actions">
+                <gp-button
+                  label="Random Palette"
+                  icon="refresh"
+                  variant="outlined"
+                  severity="secondary"
+                  size="sm"
+                  (onClickEvent)="randomizePrimaryColor()"
+                  title="Generate a random vibrant brand color"
+                />
+              </div>
+            </div>
+
+            <!-- Visual Swatch & Direct Hex Input -->
+            <div class="custom-color-controls">
+              <div
+                class="color-swatch-box"
+                [style.backgroundColor]="primaryBaseColor()"
+                title="Click to open color wheel"
+              >
+                <input
+                  type="color"
+                  class="color-native-input"
+                  [value]="primaryBaseColor()"
+                  (input)="onPrimaryHexChange($any($event.target).value)"
+                  aria-label="Custom primary color picker"
+                />
+                <span class="swatch-label" [style.color]="getBestContrastTextColor(primaryBaseColor())">
+                  {{ primaryBaseColor() }}
+                </span>
+              </div>
+
+              <div class="color-hex-controls">
+                <div class="hex-input-group">
+                  <label>Hex Code:</label>
+                  <gp-input-text
+                    [value]="primaryBaseColor()"
+                    (onInputEvent)="onHexTextInput($any($event.target).value)"
+                    styleClass="editor-input hex-input-large"
+                    placeholder="#4F46E5"
+                    ariaLabel="Custom primary hex color"
+                  />
+                </div>
+
+                <div class="contrast-badge-wrap">
+                  <span class="contrast-label">Text Contrast:</span>
+                  <gp-tag
+                    [value]="contrastInfo().label"
+                    [severity]="contrastInfo().severity"
+                    [rounded]="true"
+                    [title]="contrastInfo().tooltip"
+                  />
+                  <gp-button
+                    label="Auto-Tune AAA"
+                    icon="sparkles"
+                    size="sm"
+                    severity="success"
+                    variant="outlined"
+                    (onClickEvent)="autoTunePrimaryContrast()"
+                    title="Automatically optimize luminance to meet WCAG 2.2 AAA (7:1) contrast"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Precision HSL Tuning Sliders -->
+            <div class="hsl-sliders-panel">
+              <div class="slider-row">
+                <div class="slider-meta">
+                  <span class="slider-name">Hue</span>
+                  <span class="slider-val">{{ hue() }}°</span>
+                </div>
+                <div class="slider-track-wrap hue-track">
+                  <input
+                    type="range"
+                    min="0"
+                    max="360"
+                    [value]="hue()"
+                    (input)="onHueSlider($any($event.target).value)"
+                    class="gp-range-slider hue-slider"
+                    aria-label="Hue angle"
+                  />
+                </div>
+              </div>
+
+              <div class="slider-row">
+                <div class="slider-meta">
+                  <span class="slider-name">Saturation</span>
+                  <span class="slider-val">{{ saturation() }}%</span>
+                </div>
+                <div class="slider-track-wrap saturation-track" [style.--hue]="hue()">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    [value]="saturation()"
+                    (input)="onSaturationSlider($any($event.target).value)"
+                    class="gp-range-slider"
+                    aria-label="Saturation percentage"
+                  />
+                </div>
+              </div>
+
+              <div class="slider-row">
+                <div class="slider-meta">
+                  <span class="slider-name">Lightness</span>
+                  <span class="slider-val">{{ lightness() }}%</span>
+                </div>
+                <div class="slider-track-wrap lightness-track" [style.--hue]="hue()" [style.--sat]="saturation() + '%'">
+                  <input
+                    type="range"
+                    min="15"
+                    max="85"
+                    [value]="lightness()"
+                    (input)="onLightnessSlider($any($event.target).value)"
+                    class="gp-range-slider"
+                    aria-label="Lightness percentage"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Inspiration Starters -->
+            <div class="palette-starters-section">
+              <span class="starters-label">Quick Color Inspirations:</span>
+              <div class="starters-grid">
+                @for (p of inspirationColors; track p.hex) {
+                <button
+                  type="button"
+                  class="starter-swatch"
+                  [style.backgroundColor]="p.hex"
+                  [class.starter-swatch-active]="primaryBaseColor().toLowerCase() === p.hex.toLowerCase()"
+                  [title]="p.name + ' (' + p.hex + ')'"
+                  (click)="onPrimaryHexChange(p.hex)"
+                >
+                  @if (primaryBaseColor().toLowerCase() === p.hex.toLowerCase()) {
+                  <gp-icon name="check" size="0.75em" [style.color]="getBestContrastTextColor(p.hex)" />
+                  }
+                </button>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Swatch Scale Ramp Display -->
+          <div class="shade-ramp-container">
+            <div class="shade-ramp-header">
+              <h4>Generated 50–950 Scale Ramp</h4>
+              <span class="shade-ramp-subtext"
+                >HSL-calculated shades automatically applied across components, hover states, and dark mode. Click any
+                step to set as base.</span
+              >
+            </div>
+            <div class="shade-ramp-grid">
+              @for (step of colorScaleSteps; track step) {
+              <div
+                class="shade-box"
+                [class.shade-box-base]="step === 500"
+                (click)="onPrimaryHexChange(getPrimaryScaleStep(step))"
+                [title]="'Step ' + step + ': ' + getPrimaryScaleStep(step) + ' (Click to set as base)'"
+              >
+                <div class="shade-swatch" [style.backgroundColor]="getPrimaryScaleStep(step)">
+                  @if (step === 500) {
+                  <span class="base-badge" [style.color]="getBestContrastTextColor(getPrimaryScaleStep(step))"
+                    >BASE</span
+                  >
+                  }
+                </div>
+                <span class="shade-step">{{ step }}</span>
+                <span class="shade-hex">{{ getPrimaryScaleStep(step) }}</span>
+              </div>
+              }
+            </div>
+          </div>
+
+          <hr class="section-divider" />
+
+          <h3>Border Radius Scale</h3>
+          <p class="section-desc">Adjust global corner rounding across all components.</p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Small (sm):</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="currentTheme().primitives.borderRadius.sm"
+                (onInputEvent)="updateRadius('sm', $any($event.target).value)"
+              />
+            </div>
+            <div class="form-group">
+              <label>Base (base):</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="currentTheme().primitives.borderRadius.base"
+                (onInputEvent)="updateRadius('base', $any($event.target).value)"
+              />
+            </div>
+            <div class="form-group">
+              <label>Medium (md):</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="currentTheme().primitives.borderRadius.md"
+                (onInputEvent)="updateRadius('md', $any($event.target).value)"
+              />
+            </div>
+            <div class="form-group">
+              <label>Large (lg):</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="currentTheme().primitives.borderRadius.lg"
+                (onInputEvent)="updateRadius('lg', $any($event.target).value)"
+              />
+            </div>
+          </div>
+
+          <hr class="section-divider" />
+
+          <h3>Typography Primitives</h3>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label>Sans-Serif Font Family:</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="currentTheme().primitives.typography.fontFamily.sans"
+                (onInputEvent)="updateFont('sans', $any($event.target).value)"
+              />
+            </div>
+            <div class="form-group">
+              <label>Base Font Size:</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="currentTheme().primitives.typography.fontSize.base"
+                (onInputEvent)="updateFontSize('base', $any($event.target).value)"
+              />
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- 2. SEMANTICS TAB -->
+        @if (activeTab() === 'semantics') {
+        <div class="tab-section">
+          <h3>Semantic Tokens ({{ editMode() | titlecase }} Mode)</h3>
+          <p class="section-desc">
+            Customize brand intents, status colors, surfaces, and text for {{ editMode() }} mode.
+          </p>
+
+          <h4>Brand &amp; Status Colors</h4>
+          <div class="token-grid">
+            <!-- Primary -->
+            <div class="token-card">
+              <span class="token-title">Primary Main</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().primary.main"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSemantic('primary', 'main', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().primary.main"
+                  (onInputEvent)="updateSemantic('primary', 'main', $any($event.target).value)"
+                  ariaLabel="Primary semantic color"
+                />
+              </div>
+            </div>
+
+            <!-- Secondary -->
+            <div class="token-card">
+              <span class="token-title">Secondary Main</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().secondary.main"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSemantic('secondary', 'main', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().secondary.main"
+                  (onInputEvent)="updateSemantic('secondary', 'main', $any($event.target).value)"
+                  ariaLabel="Secondary semantic color"
+                />
+              </div>
+            </div>
+
+            <!-- Success -->
+            <div class="token-card">
+              <span class="token-title">Success</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().success.main"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSemantic('success', 'main', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().success.main"
+                  (onInputEvent)="updateSemantic('success', 'main', $any($event.target).value)"
+                  ariaLabel="Success semantic color"
+                />
+              </div>
+            </div>
+
+            <!-- Danger -->
+            <div class="token-card">
+              <span class="token-title">Danger</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().danger.main"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSemantic('danger', 'main', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().danger.main"
+                  (onInputEvent)="updateSemantic('danger', 'main', $any($event.target).value)"
+                  ariaLabel="Danger semantic color"
+                />
+              </div>
+            </div>
+          </div>
+
+          <hr class="section-divider" />
+
+          <h4>Surfaces &amp; Text Colors</h4>
+          <div class="token-grid">
+            <div class="token-card">
+              <span class="token-title">Surface Ground</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().surfaces.ground"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSurface('ground', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().surfaces.ground"
+                  (onInputEvent)="updateSurface('ground', $any($event.target).value)"
+                  ariaLabel="Ground surface color"
+                />
+              </div>
+            </div>
+
+            <div class="token-card">
+              <span class="token-title">Surface Card</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().surfaces.card"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSurface('card', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().surfaces.card"
+                  (onInputEvent)="updateSurface('card', $any($event.target).value)"
+                  ariaLabel="Card surface color"
+                />
+              </div>
+            </div>
+
+            <div class="token-card">
+              <span class="token-title">Surface Border</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().surfaces.border"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateSurface('border', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().surfaces.border"
+                  (onInputEvent)="updateSurface('border', $any($event.target).value)"
+                  ariaLabel="Surface border color"
+                />
+              </div>
+            </div>
+
+            <div class="token-card">
+              <span class="token-title">Text Primary</span>
+              <div class="picker-controls">
+                <gp-color-picker
+                  [value]="activeSemantic().text.primary"
+                  [presetColors]="themeColorPresets"
+                  (onChange)="updateTextToken('primary', $event.value)"
+                />
+                <gp-input-text
+                  styleClass="editor-input hex-input"
+                  [value]="activeSemantic().text.primary"
+                  (onInputEvent)="updateTextToken('primary', $any($event.target).value)"
+                  ariaLabel="Primary text color"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- 3. COMPONENTS TAB (ALL GP-UI COMPONENTS) -->
+        @if (activeTab() === 'components') {
+        <div class="tab-section">
+          <h3>Component Token Overrides</h3>
+          <p class="section-desc">Select any component from the library to override its specific design tokens.</p>
+
+          <div class="comp-select-row">
+            <label>Component Target:</label>
+            <gp-select
+              [options]="componentOptions"
+              [value]="selectedComponent()"
+              [filter]="true"
+              placeholder="Select component"
+              ariaLabel="Component target"
+              (onChange)="selectedComponent.set($event.value)"
+            />
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Background Override:</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="getCompToken(selectedComponent(), 'background')"
+                (onInputEvent)="updateCompToken(selectedComponent(), 'background', $any($event.target).value)"
+                placeholder="{semantic.surfaces.card}"
+              />
+            </div>
+            <div class="form-group">
+              <label>Text Color Override:</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="getCompToken(selectedComponent(), 'color')"
+                (onInputEvent)="updateCompToken(selectedComponent(), 'color', $any($event.target).value)"
+                placeholder="{semantic.text.primary}"
+              />
+            </div>
+            <div class="form-group">
+              <label>Border Radius Override:</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="getCompToken(selectedComponent(), 'borderRadius')"
+                (onInputEvent)="updateCompToken(selectedComponent(), 'borderRadius', $any($event.target).value)"
+                placeholder="{primitives.borderRadius.base}"
+              />
+            </div>
+            <div class="form-group">
+              <label>Padding Override:</label>
+              <gp-input-text
+                styleClass="editor-input"
+                [value]="getCompToken(selectedComponent(), 'padding')"
+                (onInputEvent)="updateCompToken(selectedComponent(), 'padding', $any($event.target).value)"
+                placeholder="{primitives.spacing.4}"
+              />
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- 4. EXPORT TAB -->
+        @if (activeTab() === 'export') {
+        <div class="tab-section export-section">
+          <h3>Export Theme Package</h3>
+          <p class="section-desc">
+            Copy or download your customized theme output for direct integration into Angular apps.
+          </p>
+
+          <div class="export-format-selector">
+            <gp-button
+              label="CSS Stylesheet (.css)"
+              size="sm"
+              [variant]="exportFormat() === 'css' ? 'filled' : 'text'"
+              [styleClass]="'format-btn' + (exportFormat() === 'css' ? ' active' : '')"
+              (onClickEvent)="exportFormat.set('css')"
+            />
+            <gp-button
+              label="TypeScript Definition (.ts)"
+              size="sm"
+              [variant]="exportFormat() === 'typescript' ? 'filled' : 'text'"
+              [styleClass]="'format-btn' + (exportFormat() === 'typescript' ? ' active' : '')"
+              (onClickEvent)="exportFormat.set('typescript')"
+            />
+            <gp-button
+              label="JSON Tokens (.json)"
+              size="sm"
+              [variant]="exportFormat() === 'json' ? 'filled' : 'text'"
+              [styleClass]="'format-btn' + (exportFormat() === 'json' ? ' active' : '')"
+              (onClickEvent)="exportFormat.set('json')"
+            />
+            <gp-button
+              label="Angular Integration"
+              size="sm"
+              [variant]="exportFormat() === 'angular' ? 'filled' : 'text'"
+              [styleClass]="'format-btn' + (exportFormat() === 'angular' ? ' active' : '')"
+              (onClickEvent)="exportFormat.set('angular')"
+            />
+          </div>
+
+          <div class="export-actions-bar">
+            <gp-button
+              [label]="copied() ? 'Copied to Clipboard!' : 'Copy Code'"
+              [icon]="copied() ? 'check' : 'copy'"
+              [severity]="copied() ? 'success' : 'primary'"
+              size="sm"
+              (onClickEvent)="copyToClipboard()"
+            />
+            <gp-button
+              label="Download Theme File"
+              icon="download"
+              variant="outlined"
+              severity="secondary"
+              size="sm"
+              (onClickEvent)="downloadExportFile()"
+            />
+          </div>
+
+          <doc-code [code]="currentExportCode()" [language]="exportLanguage()" />
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Right Side: Comprehensive Live Component Sandbox -->
+    <div class="preview-panel">
+      <div class="preview-header">
+        <div class="preview-title">
+          <gp-icon name="eye" size="1.1em" />
+          <h3>Live Component Sandbox</h3>
+        </div>
+        <div class="preview-badges">
+          <gp-tag [value]="'Theme: ' + themeName()" severity="primary" />
+          <gp-tag [value]="'Mode: ' + editMode()" severity="success" />
+        </div>
+      </div>
+
+      <div class="sandbox-container">
+        <!-- Buttons & Action Controls -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Buttons &amp; Actions</h4>
+          <div class="component-row">
+            <gp-button label="Primary" severity="primary" />
+            <gp-button label="Secondary" severity="secondary" />
+            <gp-button label="Success" severity="success" />
+            <gp-button label="Danger" severity="danger" />
+            <gp-button label="Outlined" variant="outlined" severity="primary" />
+            <gp-button label="Text" variant="text" severity="primary" />
+            <gp-toggle-button [(ngModel)]="toggleState" onLabel="Active" offLabel="Inactive" />
+          </div>
+          <div class="component-row">
+            <gp-button-group>
+              <gp-button label="Left Option" severity="secondary" />
+              <gp-button label="Right Option" severity="secondary" />
+            </gp-button-group>
+          </div>
+        </div>
+
+        <!-- Form Inputs & Selectors -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Form Controls &amp; Inputs</h4>
+          <div class="component-row grid-2">
+            <gp-input-text placeholder="Text Input..." />
+            <gp-password placeholder="Password..." />
+          </div>
+          <div class="component-row grid-2">
+            <gp-input-number [value]="42" placeholder="Number..." />
+            <gp-select [options]="sampleOptions" placeholder="Select Option" />
+          </div>
+          <div class="component-row full-width">
+            <gp-textarea placeholder="Textarea multi-line input..." [rows]="2" />
+          </div>
+          <div class="component-row align-center">
+            <gp-checkbox [(ngModel)]="checkboxState" label="Remember choice" />
+            <gp-radio-button name="radioGroup" value="A" [(ngModel)]="radioState" label="Option A" />
+            <gp-radio-button name="radioGroup" value="B" [(ngModel)]="radioState" label="Option B" />
+            <gp-switch [(ngModel)]="previewSwitch" />
+          </div>
+          <div class="component-row">
+            <gp-slider [(ngModel)]="previewSliderValue" [min]="0" [max]="100" />
+            <gp-rating [(ngModel)]="ratingValue" />
+          </div>
+        </div>
+
+        <!-- Data & Displays (Avatars, Chips, Tags, Badges) -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Display &amp; Badges</h4>
+          <div class="component-row">
+            <gp-avatar label="JD" shape="circle" size="normal" />
+            <gp-avatar label="GP" shape="square" size="large" />
+            <gp-chip label="Design System" icon="tag" />
+            <gp-tag value="Active" severity="success" [rounded]="true" />
+            <gp-tag value="Pending" severity="warning" [rounded]="true" />
+            <gp-badge value="99+" severity="danger" />
+          </div>
+        </div>
+
+        <!-- Data Table Preview -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Data Table</h4>
+          <gp-table [value]="tableData">
+            <gp-column field="name" header="Name" />
+            <gp-column field="role" header="Role" />
+            <gp-column field="status" header="Status" />
+          </gp-table>
+        </div>
+
+        <!-- Feedback & Indicators -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Feedback &amp; Progress</h4>
+          <gp-message severity="info" text="This is a live semantic message alert banner." />
+          <gp-progress-bar [value]="previewSliderValue" />
+          <div class="component-row">
+            <gp-progress-spinner size="30px" />
+            <gp-skeleton width="120px" height="24px" />
+          </div>
+        </div>
+
+        <!-- Navigation & Breadcrumb -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Navigation &amp; Tabs</h4>
+          <gp-breadcrumb [model]="breadcrumbItems" />
+          <gp-tabs>
+            <gp-tab-panel header="Overview">
+              <p class="py-2 text-sm">Interactive tab content 1</p>
+            </gp-tab-panel>
+            <gp-tab-panel header="Settings">
+              <p class="py-2 text-sm">Interactive tab content 2</p>
+            </gp-tab-panel>
+          </gp-tabs>
+        </div>
+
+        <!-- Card & Panel Surface Containers -->
+        <div class="sandbox-group">
+          <h4 class="group-title">Surfaces &amp; Containers</h4>
+          <gp-card header="Sample Card Container" subheader="Live Surface Subtitle">
+            <p class="card-body">
+              Card container rendered with live surface tokens, border radius, typography, and dividers.
+            </p>
+            <gp-divider />
+            <div class="card-footer">
+              <gp-button label="Card Action" size="sm" severity="primary" />
+            </div>
+          </gp-card>
+
+          <gp-panel header="Sample Panel Container">
+            <p class="text-sm py-1">Panel container rendered with theme border and background tokens.</p>
+          </gp-panel>
+
+          <gp-accordion>
+            <gp-accordion-tab header="Accordion Section Preview">
+              <p class="text-sm py-2">Accordion panel with theme typography and surface styling.</p>
+            </gp-accordion-tab>
+          </gp-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

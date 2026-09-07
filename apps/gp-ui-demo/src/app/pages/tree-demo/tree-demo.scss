@@ -1,0 +1,12 @@
+.tree-demo-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &__tree-container {
+    max-width: 24rem;
+  }
+}

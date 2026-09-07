@@ -341,10 +341,18 @@ export class GpDateTimeFormat {
     const seconds = totalSeconds % 60;
 
     const parts: { value: number; unit: string; unitName: string }[] = [];
-    if (days > 0) parts.push({ value: days, unit: 'day', unitName: 'day' });
-    if (hours > 0) parts.push({ value: hours, unit: 'hour', unitName: 'hour' });
-    if (minutes > 0) parts.push({ value: minutes, unit: 'minute', unitName: 'minute' });
-    if (seconds > 0 || parts.length === 0) parts.push({ value: seconds, unit: 'second', unitName: 'second' });
+    if (days > 0) {
+      parts.push({ value: days, unit: 'day', unitName: 'day' });
+    }
+    if (hours > 0) {
+      parts.push({ value: hours, unit: 'hour', unitName: 'hour' });
+    }
+    if (minutes > 0) {
+      parts.push({ value: minutes, unit: 'minute', unitName: 'minute' });
+    }
+    if (seconds > 0 || parts.length === 0) {
+      parts.push({ value: seconds, unit: 'second', unitName: 'second' });
+    }
 
     const selectedParts = parts.slice(0, maxUnits);
     const targetLocale = locale || this.defaultLocale();
@@ -488,7 +496,9 @@ export class GpDateTimeFormat {
       return null;
     }
     const trimmed = dateString.trim();
-    if (!trimmed) return null;
+    if (!trimmed) {
+      return null;
+    }
 
     // Check epoch
     if (/^\d{10,13}$/.test(trimmed)) {
@@ -690,7 +700,9 @@ export class GpDateTimeFormat {
   public static businessDaysBetween(startInput: Date | number | string, endInput: Date | number | string): number {
     const start = this.toDate(startInput);
     const end = this.toDate(endInput);
-    if (!start || !end) return 0;
+    if (!start || !end) {
+      return 0;
+    }
 
     let current = new Date(start);
     const target = new Date(end);

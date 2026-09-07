@@ -1,0 +1,16 @@
+<div class="doc-code">
+  <div class="doc-code__header">
+    <span class="doc-code__lang">{{ language().toUpperCase() }}</span>
+    <gp-button
+      [label]="copied() ? 'Copied' : 'Copy'"
+      [icon]="copied() ? 'check' : 'copy'"
+      size="sm"
+      variant="text"
+      severity="secondary"
+      [styleClass]="'doc-code__copy-btn' + (copied() ? ' doc-code__copy-btn--copied' : '')"
+      ariaLabel="Copy code to clipboard"
+      (onClickEvent)="copyCode()"
+    />
+  </div>
+  <pre class="doc-code__pre"><code class="doc-code__content">{{ code() }}</code></pre>
+</div>

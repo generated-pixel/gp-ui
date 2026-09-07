@@ -1,0 +1,109 @@
+<div class="data-demo-page">
+  <div class="data-demo-page__header">
+    <h1>Data Table & Collection Components</h1>
+    <p class="data-demo-page__desc">
+      High-performance data management components featuring column sorting, paginated browsing, multi-row selection,
+      CSV/Excel/JSON export pipelines, and list/grid layout viewports.
+    </p>
+  </div>
+
+  <!-- Import Section -->
+  <div class="data-demo-page__section">
+    <h2 class="data-demo-page__section-title">Import</h2>
+    <p class="data-demo-page__section-desc">Import data components into your standalone component:</p>
+    <doc-code [code]="importCode" language="typescript" />
+  </div>
+
+  <!-- Feature-packed Data Table -->
+  <div class="data-demo-page__section">
+    <h2 class="data-demo-page__section-title">DataTable with Filtering, Selection, Pagination & Export</h2>
+    <p class="data-demo-page__section-desc">
+      Enterprise table with multi-column sorting, custom cell templating, row selection, and native multi-format data
+      export.
+    </p>
+    <div
+      class="data-demo-page__actions"
+      style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-bottom: 0.75rem"
+    >
+      <gp-button label="Export CSV" icon="download" severity="secondary" (onClickEvent)="exportCsv()" />
+      <gp-button label="Export Excel" icon="file" severity="secondary" (onClickEvent)="exportExcel()" />
+      <gp-button label="Export JSON" icon="sparkles" severity="secondary" (onClickEvent)="exportJson()" />
+    </div>
+
+    <gp-table
+      #dt
+      [value]="customers"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [stripedRows]="true"
+      [globalFilterFields]="['name', 'country', 'company', 'status']"
+      selectionMode="multiple"
+      [(selection)]="selectedCustomers"
+    >
+      <gp-column field="id" header="ID" width="5rem" [sortable]="true" />
+      <gp-column field="name" header="Customer Name" [sortable]="true" />
+      <gp-column field="country" header="Country" [sortable]="true" />
+      <gp-column field="company" header="Company" />
+      <gp-column field="status" header="Status" [sortable]="true">
+        <ng-template #body let-row>
+          <gp-tag
+            [value]="row.status"
+            [severity]="row.status === 'Active' ? 'success' : row.status === 'Pending' ? 'warning' : 'danger'"
+            [rounded]="true"
+          />
+        </ng-template>
+      </gp-column>
+    </gp-table>
+
+    <p class="data-demo-page__selection-status">Selected <strong>{{ selectedCustomers.length }}</strong> records.</p>
+
+    <doc-code [code]="tableCode" language="html" />
+  </div>
+
+  <!-- Data View -->
+  <div class="data-demo-page__section">
+    <h2 class="data-demo-page__section-title">DataView (Grid & List Switcher)</h2>
+    <p class="data-demo-page__section-desc">
+      Responsive collection display supporting custom templates for list and card grid views.
+    </p>
+    <gp-data-view [value]="products" layout="grid" [paginator]="true" [rows]="4">
+      <ng-template #griditem let-item>
+        <div class="data-demo-page__product-grid-card">
+          <div class="data-demo-page__product-header">
+            <span class="data-demo-page__product-category">{{ item.category }}</span>
+            <gp-tag [value]="item.inventoryStatus" severity="success" [rounded]="true" />
+          </div>
+          <div class="data-demo-page__product-name">{{ item.name }}</div>
+          <div class="data-demo-page__product-footer">
+            <span class="data-demo-page__product-price">\${{ item.price }}</span>
+            <gp-button icon="plus" [iconOnly]="true" severity="primary" size="sm" />
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #listitem let-item>
+        <div class="data-demo-page__product-list-card">
+          <div class="data-demo-page__product-details">
+            <div class="data-demo-page__product-name">{{ item.name }}</div>
+            <span class="data-demo-page__product-category">{{ item.category }}</span>
+          </div>
+          <div class="data-demo-page__product-price">\${{ item.price }}</div>
+        </div>
+      </ng-template>
+    </gp-data-view>
+
+    <doc-code [code]="dataViewCode" language="html" />
+  </div>
+
+  <!-- API Reference -->
+  <div class="data-demo-page__section">
+    <h2 class="data-demo-page__section-title">API Reference</h2>
+    <doc-api-table title="GpTable Properties &amp; Signal Inputs" [properties]="tableProperties" />
+    <doc-api-table title="GpColumn Properties &amp; Signal Inputs" [properties]="columnProperties" />
+    <doc-api-table title="GpDataView Properties &amp; Signal Inputs" [properties]="dataViewProperties" />
+    <doc-api-table title="GpPaginator Properties &amp; Signal Inputs" [properties]="paginatorProperties" />
+    <doc-api-table title="GpTreeTable Properties &amp; Signal Inputs" [properties]="treeTableProperties" />
+    <doc-api-table title="GpVirtualScroller Properties &amp; Signal Inputs" [properties]="virtualScrollerProperties" />
+  </div>
+</div>

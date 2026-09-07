@@ -1,0 +1,47 @@
+<div class="tree-demo-page">
+  <div class="tree-demo-page__header">
+    <h1>Tree & Hierarchical Components</h1>
+    <p class="tree-demo-page__desc">Hierarchical data visualization including Tree view and Organization Chart.</p>
+  </div>
+
+  <!-- Tree with Checkbox Selection -->
+  <div class="tree-demo-page__section">
+    <h2 class="tree-demo-page__section-title">Tree with Filtering & Checkbox Selection</h2>
+    <div class="tree-demo-page__tree-container">
+      <gp-tree [value]="filesTree" selectionMode="checkbox" [filter]="true" />
+    </div>
+  </div>
+
+  <!-- Organization Chart -->
+  <div class="tree-demo-page__section">
+    <h2 class="tree-demo-page__section-title">Organization Chart (Interactive &amp; Collapsible)</h2>
+    <p class="tree-demo-page__section-desc">
+      Hierarchical organizational structure with collapsible nodes, connector lines, and selection support.
+    </p>
+    <div
+      style="
+        width: 100%;
+        overflow-x: auto;
+        background: var(--gp-surface-ground);
+        border-radius: 8px;
+        padding: 1.5rem 0.5rem;
+        border: 1px solid var(--gp-surface-border);
+      "
+    >
+      <gp-org-chart [value]="orgRoot" selectionMode="single" [(selection)]="selectedOrgNode" />
+    </div>
+    @if (selectedOrgNode) {
+    <div
+      style="
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        background: var(--gp-surface-card);
+        border-radius: 6px;
+        border: 1px solid var(--gp-primary-light);
+      "
+    >
+      Selected Node: <strong>{{ selectedOrgNode.label }}</strong> ({{ selectedOrgNode.data?.title || 'Team Member' }})
+    </div>
+    }
+  </div>
+</div>

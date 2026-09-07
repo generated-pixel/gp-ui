@@ -1,0 +1,733 @@
+<div class="rules-demo-page">
+  <gp-toast />
+
+  <!-- Page Hero Header -->
+  <div class="rules-demo-page__header">
+    <div class="header-badge-row">
+      <gp-badge value="@generatedpixel/gp-rules" severity="primary" />
+      <gp-badge [value]="'v' + version" severity="info" />
+      <gp-badge value="Signals Reactive" severity="success" />
+    </div>
+    <h1 class="page-title">Dynamic Business Rules Engine</h1>
+    <p class="rules-demo-page__desc">
+      Enterprise declarative rules engine for Angular. Execute reactive UI actions triggered by keypress (with
+      configurable debounce), blur / focusout, value changes, button clicks, and custom events. Features rich formula
+      computation, field-to-field comparisons, transformations, dry-run simulator, and visual inspector.
+    </p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="rules-demo-page__tab-bar">
+    <button
+      type="button"
+      class="rules-demo-page__tab-btn"
+      [class.active]="activeTab() === 'demo'"
+      (click)="activeTab.set('demo')"
+    >
+      <gp-icon name="sparkles" size="0.9em" />
+      <span>Interactive Playground</span>
+    </button>
+    <button
+      type="button"
+      class="rules-demo-page__tab-btn"
+      [class.active]="activeTab() === 'simulator'"
+      (click)="activeTab.set('simulator')"
+    >
+      <gp-icon name="play" size="0.9em" />
+      <span>Dry-Run Simulator</span>
+    </button>
+    <button
+      type="button"
+      class="rules-demo-page__tab-btn"
+      [class.active]="activeTab() === 'api'"
+      (click)="activeTab.set('api')"
+    >
+      <gp-icon name="code" size="0.9em" />
+      <span>API & Operator Reference</span>
+    </button>
+    <button
+      type="button"
+      class="rules-demo-page__tab-btn"
+      [class.active]="activeTab() === 'recipes'"
+      (click)="activeTab.set('recipes')"
+    >
+      <gp-icon name="sliders" size="0.9em" />
+      <span>TypeScript Recipes</span>
+    </button>
+  </div>
+
+  <!-- TAB 1: Live Interactive Showcase -->
+  @if (activeTab() === 'demo') {
+  <!-- Quick Code Example -->
+  <div class="doc-card">
+    <div class="doc-card-header">
+      <gp-icon name="code" size="1em" />
+      <span>Declarative Directive Usage</span>
+    </div>
+    <div class="doc-card-body">
+      <doc-code [code]="exampleUsageCode" language="html" />
+    </div>
+  </div>
+
+  <!-- Live Interactive Showcase Grid -->
+  <div class="showcase-grid">
+    <!-- Left: Interactive Forms & Triggers -->
+    <div class="showcase-forms-col">
+      <!-- Scenario 1: Keypress Debounced Coupon & Pricing Calculator -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <div class="card-icon-title">
+            <gp-icon name="tag" size="1.1em" class="icon-accent" />
+            <h3>1. Debounced Keypress Coupon & Formula Pricing</h3>
+          </div>
+          <gp-badge value="Debounce: 300ms" severity="warning" />
+        </div>
+        <div class="demo-card-body">
+          <p class="section-hint">
+            Type <code>SAVE20</code> in Promo Code. Notice the 300ms keypress debouncer evaluates the condition as you
+            type, applying 20% discount and recalculating the total in real time.
+          </p>
+
+          <div class="form-grid-3">
+            <div class="form-field-item">
+              <label>Quantity</label>
+              <gp-input-number
+                [ngModel]="orderState().quantity"
+                (ngModelChange)="updateOrderField('quantity', $event)"
+                [min]="1"
+                [max]="100"
+                [gpRules]="orderRules"
+              />
+            </div>
+
+            <div class="form-field-item">
+              <label>Unit Price ($)</label>
+              <gp-input-number
+                [ngModel]="orderState().unitPrice"
+                (ngModelChange)="updateOrderField('unitPrice', $event)"
+                [min]="5"
+                [max]="1000"
+                [gpRules]="orderRules"
+              />
+            </div>
+
+            <div class="form-field-item">
+              <label>Promo Code (try 'SAVE20')</label>
+              <gp-input-text
+                [ngModel]="orderState().couponCode"
+                (ngModelChange)="updateOrderField('couponCode', $event)"
+                placeholder="e.g. SAVE20"
+                [gpRule]="couponRule"
+                [gpRuleState]="orderState()"
+              />
+            </div>
+          </div>
+
+          <!-- Calculation Summary Panel -->
+          <div class="calc-summary-box">
+            <div class="summary-row">
+              <span class="summary-label">Subtotal:</span>
+              <span class="summary-val">\${{ orderState().subtotal | number: '1.2-2' }}</span>
+            </div>
+            <div class="summary-row" [class.discount-highlight]="orderState().discountPercent > 0">
+              <span class="summary-label">Discount ({{ orderState().discountPercent }}%):</span>
+              <span class="summary-val"
+                >-\${{ (orderState().subtotal * orderState().discountPercent) / 100 | number: '1.2-2' }}</span
+              >
+            </div>
+            <div class="summary-row total-row">
+              <span class="summary-label">Final Order Total:</span>
+              <span class="summary-val">\${{ orderState().total | number: '1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 2: Password Complexity & Confirm Password Field Matching -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <div class="card-icon-title">
+            <gp-icon name="lock" size="1.1em" class="icon-accent" />
+            <h3>2. Password Strength & Field Matching (compareToField)</h3>
+          </div>
+          <gp-badge value="Compare with Field" severity="primary" />
+        </div>
+        <div class="demo-card-body">
+          <p class="section-hint">
+            Type a password to see strength scored live. Then type in <strong>Confirm Password</strong> to trigger the
+            <code>compareToField</code> equality check rule in real time.
+          </p>
+
+          <div class="form-grid-2">
+            <div class="form-field-item">
+              <label>New Password</label>
+              <gp-input-text
+                [ngModel]="userSecurityState().password"
+                (ngModelChange)="updateSecurityField('password', $event)"
+                placeholder="Enter password..."
+                [gpRule]="passwordStrengthRule"
+                [gpRuleState]="userSecurityState()"
+              />
+              <!-- Strength meter -->
+              <div class="strength-meter-wrap">
+                <div
+                  class="strength-meter-bar"
+                  [style.width.%]="userSecurityState().passwordScore"
+                  [class.str-weak]="userSecurityState().passwordStrength === 'weak'"
+                  [class.str-med]="userSecurityState().passwordStrength === 'medium'"
+                  [class.str-strong]="userSecurityState().passwordStrength === 'strong'"
+                ></div>
+              </div>
+              <span class="strength-badge-text">
+                Strength: <strong>{{ userSecurityState().passwordStrength | uppercase }}</strong> ({{
+                userSecurityState().passwordScore }}%)
+              </span>
+            </div>
+
+            <div class="form-field-item">
+              <label>Confirm Password</label>
+              <gp-input-text
+                [ngModel]="userSecurityState().confirmPassword"
+                (ngModelChange)="updateSecurityField('confirmPassword', $event)"
+                placeholder="Confirm password..."
+                [gpRule]="confirmPasswordRule"
+                [gpRuleState]="userSecurityState()"
+              />
+              @if ( userSecurityState().confirmPassword && userSecurityState().confirmPassword !==
+              userSecurityState().password ) {
+              <span class="field-error-msg">⚠️ Passwords do not match</span>
+              } @else if ( userSecurityState().confirmPassword && userSecurityState().confirmPassword ===
+              userSecurityState().password ) {
+              <span class="field-match-msg">✓ Passwords match perfectly</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 3: Auto Credit Card Brand Detection -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <div class="card-icon-title">
+            <gp-icon name="credit-card" size="1.1em" class="icon-accent" />
+            <h3>3. Auto Credit Card Type & Brand Detection</h3>
+          </div>
+          <gp-badge value="Live Format Rule" severity="success" />
+        </div>
+        <div class="demo-card-body">
+          <p class="section-hint">
+            Enter test card prefixes (e.g. <code>4</code> for Visa, <code>55</code> for Mastercard, <code>37</code> for
+            Amex, <code>6011</code> for Discover).
+          </p>
+
+          <div class="form-grid-2">
+            <div class="form-field-item">
+              <label>Card Number</label>
+              <gp-input-text
+                [ngModel]="paymentState().cardNumber"
+                (ngModelChange)="updatePaymentField('cardNumber', $event)"
+                placeholder="e.g. 4111 2222 3333 4444"
+                [gpRule]="creditCardRule"
+                [gpRuleState]="paymentState()"
+              />
+            </div>
+
+            <div class="form-field-item">
+              <label>Detected Card Brand</label>
+              <div class="card-brand-display">
+                <gp-badge
+                  [value]="paymentState().cardBrand | uppercase"
+                  [severity]="paymentState().cardBrand !== 'generic' ? 'success' : 'secondary'"
+                />
+                <span class="cvv-hint">Expected CVV: {{ paymentState().expectedCvvLength }} digits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 4: Title-to-Slug Transformation -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <div class="card-icon-title">
+            <gp-icon name="edit" size="1.1em" class="icon-accent" />
+            <h3>4. Automatic String Transformation (transformValue: slugify)</h3>
+          </div>
+          <gp-badge value="Transform Action" severity="info" />
+        </div>
+        <div class="demo-card-body">
+          <p class="section-hint">
+            Type any blog post or article title. The business rule automatically transforms and formats it into an
+            SEO-friendly URL slug.
+          </p>
+
+          <div class="form-grid-2">
+            <div class="form-field-item">
+              <label>Article Title</label>
+              <gp-input-text
+                [ngModel]="contentState().title"
+                (ngModelChange)="updateContentField('title', $event)"
+                placeholder="e.g. 10 Best Practices for Angular 19"
+                [gpRule]="slugifyRule"
+                [gpRuleState]="contentState()"
+              />
+            </div>
+
+            <div class="form-field-item">
+              <label>Generated URL Slug</label>
+              <gp-input-text [ngModel]="contentState().slug" [disabled]="true" placeholder="auto-generated-slug" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 5: Dependent Cascading Select (Country -> State) -->
+      <div class="demo-card">
+        <div class="demo-card-head">
+          <div class="card-icon-title">
+            <gp-icon name="globe" size="1.1em" class="icon-accent" />
+            <h3>5. Dependent Dropdown Cascader (Value Change)</h3>
+          </div>
+          <gp-badge value="Trigger: change" severity="info" />
+        </div>
+        <div class="demo-card-body">
+          <p class="section-hint">
+            Select a country. The business rule dynamically loads and selects matching states/provinces.
+          </p>
+
+          <div class="form-grid-2">
+            <div class="form-field-item">
+              <label>Select Country</label>
+              <gp-select
+                [options]="countryOptions"
+                [ngModel]="countryState().country"
+                (ngModelChange)="onCountryChange($event)"
+                [gpRule]="countryRule"
+              />
+            </div>
+
+            <div class="form-field-item">
+              <label>State / Province (Dynamic)</label>
+              <gp-select
+                [options]="stateOptions()"
+                [ngModel]="countryState().state"
+                (ngModelChange)="countryState.update((s) => ({ ...s, state: $event }))"
+                [disabled]="stateOptions().length === 0"
+                placeholder="Select State..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Rule Builder -->
+      <gp-rule-builder (ruleCreated)="onCustomRuleCreated($event)" />
+    </div>
+
+    <!-- Right: Live Audit Trail & Rule Inspector -->
+    <div class="showcase-inspector-col">
+      <gp-rule-inspector />
+    </div>
+  </div>
+  }
+
+  <!-- TAB 2: Dry-Run Rule Simulator -->
+  @if (activeTab() === 'simulator') {
+  <div class="simulator-container">
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="play" size="1em" />
+        <span>Dry-Run Business Rule Simulator</span>
+      </div>
+      <div class="doc-card-body">
+        <p class="section-hint">
+          The <code>GpRuleSimulator</code> allows backend services, form wizards, and QA teams to simulate rule chains
+          on mock data and inspect complete execution diffs without modifying real component state.
+        </p>
+
+        <div class="simulator-layout">
+          <div class="sim-input-col">
+            <div class="sim-editor-toolbar">
+              <div class="sim-editor-title-wrap">
+                <label class="sim-lbl" for="sim-state-editor">Initial Mock State (JSON):</label>
+                @if (simJsonError()) {
+                <span class="sim-status-badge sim-status-badge--error">
+                  <gp-icon name="exclamation-triangle" size="0.75em" />
+                  Invalid JSON
+                </span>
+                } @else {
+                <span class="sim-status-badge sim-status-badge--success">
+                  <gp-icon name="check-circle" size="0.75em" />
+                  Valid JSON
+                </span>
+                }
+              </div>
+
+              <div class="sim-editor-actions">
+                <gp-button
+                  variant="text"
+                  severity="secondary"
+                  size="sm"
+                  title="Format JSON (Indent 2 spaces)"
+                  [disabled]="isSimulating() || !!simJsonError()"
+                  (onClickEvent)="formatSimulatorJson()"
+                >
+                  <gp-icon name="code" size="0.85em" style="margin-right: 0.35rem" />
+                  Format JSON
+                </gp-button>
+                <gp-button
+                  variant="text"
+                  severity="secondary"
+                  size="sm"
+                  title="Reset to default mock state"
+                  [disabled]="isSimulating()"
+                  (onClickEvent)="resetSimulatorJson()"
+                >
+                  <gp-icon name="refresh" size="0.85em" style="margin-right: 0.35rem" />
+                  Reset
+                </gp-button>
+              </div>
+            </div>
+
+            <div class="sim-textarea-wrapper" [class.is-invalid]="!!simJsonError()">
+              <textarea
+                id="sim-state-editor"
+                class="sim-textarea"
+                rows="10"
+                spellcheck="false"
+                [value]="simStateJson()"
+                (input)="onSimStateChange($any($event.target).value)"
+                (keydown)="onSimStateKeydown($event)"
+                placeholder="Enter valid JSON mock state..."
+              ></textarea>
+            </div>
+
+            @if (simJsonError(); as err) {
+            <div class="sim-json-error">
+              <gp-icon name="exclamation-triangle" size="0.85em" />
+              <span>{{ err }}</span>
+            </div>
+            }
+
+            <div class="sim-btn-row">
+              <gp-button
+                severity="primary"
+                size="md"
+                [loading]="isSimulating()"
+                [disabled]="isSimulating() || !!simJsonError()"
+                (onClickEvent)="runSimulation()"
+              >
+                <gp-icon name="play" size="0.9em" style="margin-right: 0.4rem" />
+                {{ isSimulating() ? 'Simulating Rules...' : 'Run Simulation' }}
+              </gp-button>
+
+              <span class="sim-run-hint"> <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run </span>
+            </div>
+          </div>
+
+          <div class="sim-output-col">
+            <div class="sim-output-header">
+              <label class="sim-lbl">Simulation Output & Diff:</label>
+              @if (simulationResult(); as res) {
+              <gp-badge [value]="res.matchedRules.length + ' matched'" severity="success" />
+              }
+            </div>
+            @if (simulationResult(); as res) {
+            <div class="sim-result-box">
+              <div class="sim-meta-row">
+                <span>Matched Rules: <strong>{{ res.matchedRules.length }}</strong></span>
+                <span>Executed Actions: <strong>{{ res.executedActions.length }}</strong></span>
+                <span>Duration: <strong>{{ res.durationMs }}ms</strong></span>
+              </div>
+
+              <div class="sim-diff-block">
+                <label>State Changes:</label>
+                <pre><code>{{ res.stateDiff | json }}</code></pre>
+              </div>
+
+              <div class="sim-final-block">
+                <label>Final Computed State:</label>
+                <pre><code>{{ res.finalState | json }}</code></pre>
+              </div>
+            </div>
+            } @else {
+            <div class="sim-placeholder">
+              Click "Run Simulation" to execute registered rules on the mock input state.
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- TAB 3: API & Operator Reference -->
+  @if (activeTab() === 'api') {
+  <div class="api-docs-container">
+    <!-- Installation Section -->
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="download" size="1em" />
+        <span>Package Installation</span>
+      </div>
+      <div class="doc-card-body">
+        <p style="margin-top: 0; color: var(--gp-text-color-secondary); font-size: var(--gp-font-size-sm)">
+          Install <code>@generatedpixel/gp-rules</code> into your Angular 19+ application:
+        </p>
+        <doc-code code="npm install @generatedpixel/gp-rules" language="bash" />
+      </div>
+    </div>
+
+    <!-- Triggers Section -->
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="sliders" size="1em" />
+        <span>1. Supported Event Triggers</span>
+      </div>
+      <div class="doc-card-body">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Trigger Event</th>
+              <th>Supported Options</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>keypress</code> / <code>input</code></td>
+              <td><code>debounce: number</code>, <code>keyFilter: string</code></td>
+              <td>Fires on keystroke. Debounce delays execution until typing pauses.</td>
+            </tr>
+            <tr>
+              <td><code>blur</code> / <code>focusout</code></td>
+              <td><code>distinctUntilChanged: boolean</code></td>
+              <td>Fires when the component or DOM element loses focus.</td>
+            </tr>
+            <tr>
+              <td><code>change</code> / <code>valueChange</code></td>
+              <td>—</td>
+              <td>Fires when the control or signal value changes.</td>
+            </tr>
+            <tr>
+              <td><code>click</code> / <code>select</code></td>
+              <td>—</td>
+              <td>Fires on button click, option selection, or item interaction.</td>
+            </tr>
+            <tr>
+              <td><code>focus</code> / <code>focusin</code></td>
+              <td>—</td>
+              <td>Fires when the input or element receives focus.</td>
+            </tr>
+            <tr>
+              <td><code>init</code> / <code>mount</code></td>
+              <td>—</td>
+              <td>Fires once upon component initialization.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Operators Section -->
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="check-circle" size="1em" />
+        <span>2. Condition Evaluator Operators</span>
+      </div>
+      <div class="doc-card-body">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Operator</th>
+              <th>Meaning</th>
+              <th>Example Expression</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>eq</code> / <code>equals</code></td>
+              <td>Strict or loose equality, supports <code>compareToField</code></td>
+              <td>
+                <code>{{ '{' }} field: 'confirmPassword', operator: 'eq', compareToField: 'password' {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>neq</code> / <code>notEquals</code></td>
+              <td>Not equal</td>
+              <td>
+                <code>{{ '{' }} field: 'status', operator: 'neq', value: 'banned' {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>gt</code> / <code>gte</code></td>
+              <td>Greater than / Greater than or equal</td>
+              <td>
+                <code>{{ '{' }} field: 'age', operator: 'gte', value: 18 {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>lt</code> / <code>lte</code></td>
+              <td>Less than / Less than or equal</td>
+              <td>
+                <code>{{ '{' }} field: 'stock', operator: 'lt', value: 5 {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>between</code> / <code>notBetween</code></td>
+              <td>Value falls within inclusive <code>[min, max]</code> range</td>
+              <td>
+                <code>{{ '{' }} field: 'score', operator: 'between', value: [80, 100] {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>isBefore</code> / <code>isAfter</code></td>
+              <td>Chronological date comparison</td>
+              <td>
+                <code>{{ '{' }} field: 'endDate', operator: 'isAfter', compareToField: 'startDate' {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>lengthGt</code> / <code>hasLength</code></td>
+              <td>String or array length comparison</td>
+              <td>
+                <code>{{ '{' }} field: 'password', operator: 'lengthGt', value: 8 {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>contains</code></td>
+              <td>String substring or Array inclusion</td>
+              <td>
+                <code>{{ '{' }} field: 'permissions', operator: 'contains', value: 'write' {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>startsWith</code> / <code>endsWith</code></td>
+              <td>String prefix/suffix matching</td>
+              <td>
+                <code>{{ '{' }} field: 'taxId', operator: 'startsWith', value: 'US-' {{ '}' }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td><code>matches</code></td>
+              <td>Regular expression evaluation</td>
+              <td>
+                <code
+                  >{{ '{' }} field: 'email', operator: 'matches', value: '^[\\w.-]+@[\\w.-]+\\.\\w+$' {{ '}' }}</code
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="sparkles" size="1em" />
+        <span>3. Action Handlers</span>
+      </div>
+      <div class="doc-card-body">
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Action Type</th>
+              <th>Parameters</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>setValue</code></td>
+              <td><code>target: string</code>, <code>value: any</code></td>
+              <td>Updates the target form control or state variable.</td>
+            </tr>
+            <tr>
+              <td><code>copyValue</code></td>
+              <td><code>fromField: string</code>, <code>target: string</code></td>
+              <td>Copies value directly from another field.</td>
+            </tr>
+            <tr>
+              <td><code>transformValue</code></td>
+              <td><code>fromField</code>, <code>target</code>, <code>transformType</code></td>
+              <td>Transforms string formatting (slugify, uppercase, currency, phone).</td>
+            </tr>
+            <tr>
+              <td><code>setValidationError</code></td>
+              <td><code>target: string</code>, <code>errorKey: string</code></td>
+              <td>Sets custom validation error directly on Reactive Form control.</td>
+            </tr>
+            <tr>
+              <td><code>clearValidationError</code></td>
+              <td><code>target: string</code>, <code>errorKey?: string</code></td>
+              <td>Clears validation error from Reactive Form control.</td>
+            </tr>
+            <tr>
+              <td><code>compute</code> / <code>calculate</code></td>
+              <td><code>target: string</code>, <code>formula: string</code></td>
+              <td>Evaluates mathematical/logical formula with SUM, AVG, ROUND, IF, DATE_DIFF.</td>
+            </tr>
+            <tr>
+              <td><code>setOptions</code></td>
+              <td><code>target: string</code>, <code>options: any[]</code></td>
+              <td>Dynamically populates select/dropdown options.</td>
+            </tr>
+            <tr>
+              <td><code>show</code> / <code>hide</code></td>
+              <td><code>target: string</code></td>
+              <td>Toggles visibility of target component or section.</td>
+            </tr>
+            <tr>
+              <td><code>enable</code> / <code>disable</code></td>
+              <td><code>target: string</code></td>
+              <td>Enables or disables target input control.</td>
+            </tr>
+            <tr>
+              <td><code>toast</code></td>
+              <td><code>message: string</code>, <code>severity: string</code></td>
+              <td>Displays toast notification.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- TAB 4: TypeScript Recipes -->
+  @if (activeTab() === 'recipes') {
+  <div class="recipes-container">
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="code" size="1em" />
+        <span>Recipe 1: Field-to-Field Comparison (Password Match)</span>
+      </div>
+      <div class="doc-card-body">
+        <doc-code [code]="recipe1Code" language="typescript" />
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="code" size="1em" />
+        <span>Recipe 2: Dry-Run Rule Simulation & Testing</span>
+      </div>
+      <div class="doc-card-body">
+        <doc-code [code]="recipe2Code" language="typescript" />
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <gp-icon name="code" size="1em" />
+        <span>Recipe 3: Advanced Pricing Formulas with Math Helpers</span>
+      </div>
+      <div class="doc-card-body">
+        <doc-code [code]="recipe3Code" language="typescript" />
+      </div>
+    </div>
+  </div>
+  }
+</div>

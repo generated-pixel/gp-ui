@@ -49,7 +49,9 @@ export class GpListFormat {
       // Fallback below
     }
 
-    if (items.length === 1) return items[0];
+    if (items.length === 1) {
+      return items[0];
+    }
     if (items.length === 2) {
       const conj = type === 'disjunction' ? ' or ' : ' and ';
       return `${items[0]}${conj}${items[1]}`;
@@ -109,7 +111,9 @@ export class GpPhoneFormat {
    * Cleans phone numbers to raw digits (plus leading + if international).
    */
   public static clean(phone: string | null | undefined): string {
-    if (!phone) return '';
+    if (!phone) {
+      return '';
+    }
     const hasPlus = phone.trim().startsWith('+');
     const digits = phone.replace(/\D/g, '');
     return hasPlus ? `+${digits}` : digits;
@@ -122,10 +126,14 @@ export class GpPhoneFormat {
     phone: string | null | undefined,
     format: 'international' | 'national' | 'e164' | 'digits' = 'international'
   ): string {
-    if (!phone) return '';
+    if (!phone) {
+      return '';
+    }
 
     const digits = phone.replace(/\D/g, '');
-    if (!digits) return '';
+    if (!digits) {
+      return '';
+    }
 
     if (format === 'digits') {
       return digits;
@@ -171,9 +179,13 @@ export class GpNameFormat {
    * e.g. "Graeme Gorman" -> "GG", "John F. Kennedy" -> "JFK"
    */
   public static initials(name: string | null | undefined, maxInitials = 2): string {
-    if (!name || typeof name !== 'string') return '';
+    if (!name || typeof name !== 'string') {
+      return '';
+    }
     const trimmed = name.trim();
-    if (!trimmed) return '';
+    if (!trimmed) {
+      return '';
+    }
 
     const words = trimmed.split(/\s+/).filter(Boolean);
     if (words.length === 1) {
@@ -197,18 +209,32 @@ export class GpNameFormat {
 
     const segments: string[] = [];
 
-    if (parts.prefix) segments.push(parts.prefix);
-
-    if (isFamilyFirst) {
-      if (parts.familyName) segments.push(parts.familyName);
-      if (parts.givenName) segments.push(parts.givenName);
-    } else {
-      if (parts.givenName) segments.push(parts.givenName);
-      if (parts.middleName) segments.push(parts.middleName);
-      if (parts.familyName) segments.push(parts.familyName);
+    if (parts.prefix) {
+      segments.push(parts.prefix);
     }
 
-    if (parts.suffix) segments.push(parts.suffix);
+    if (isFamilyFirst) {
+      if (parts.familyName) {
+        segments.push(parts.familyName);
+      }
+      if (parts.givenName) {
+        segments.push(parts.givenName);
+      }
+    } else {
+      if (parts.givenName) {
+        segments.push(parts.givenName);
+      }
+      if (parts.middleName) {
+        segments.push(parts.middleName);
+      }
+      if (parts.familyName) {
+        segments.push(parts.familyName);
+      }
+    }
+
+    if (parts.suffix) {
+      segments.push(parts.suffix);
+    }
 
     return segments.join(' ').trim();
   }
