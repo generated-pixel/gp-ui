@@ -1,0 +1,721 @@
+<div class="blocks-page">
+  <!-- Hero Header -->
+  <div class="blocks-page__hero">
+    <div class="hero-content">
+      <div class="badge-row">
+        <gp-badge value="60+ Ready-to-use Blocks" severity="primary" />
+        <gp-badge value="PrimeBlocks Equivalent" severity="success" />
+        <gp-badge value="Zero-Config" severity="secondary" />
+      </div>
+      <h1 class="hero-title">Application Blocks & Enterprise UI Shells</h1>
+      <p class="hero-subtitle">
+        A comprehensive, modular collection of responsive application layouts, analytics dashboards, settings screens,
+        form wizards, and data displays built natively with <code>gp-ui</code>, <code>gp-theme</code>, and
+        <code>gp-css</code>.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/blocks-playground" class="btn-playground">
+          <gp-icon name="sparkles" size="1em" />
+          <span>Interactive JSON Schema Playground</span>
+        </a>
+        <div class="hero-install-code">
+          <gp-icon name="download" size="0.9em" />
+          <code>npm install @generatedpixel/gp-blocks</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Navigation Bar with Smooth Scroll & Arrows -->
+  <div class="blocks-toolbar">
+    <div class="categories-nav-wrapper">
+      <gp-button
+        icon="chevron-left"
+        [iconOnly]="true"
+        variant="text"
+        styleClass="cat-nav-btn prev-btn"
+        (onClickEvent)="scrollCategories(-240)"
+        [disabled]="!canScrollLeft()"
+        title="Scroll categories left"
+        ariaLabel="Previous categories"
+      />
+
+      <div #catTrack class="cat-track" (scroll)="updateScrollState()">
+        @for (cat of categories; track cat) {
+        <gp-button
+          variant="text"
+          [styleClass]="'cat-chip' + (selectedCategory() === cat.id ? ' active' : '')"
+          (onClickEvent)="selectCategory(cat.id, $event)"
+        >
+          <span>{{ cat.name }}</span>
+          <span class="cat-count">{{ cat.count }}</span>
+        </gp-button>
+        }
+      </div>
+
+      <gp-button
+        icon="chevron-right"
+        [iconOnly]="true"
+        variant="text"
+        styleClass="cat-nav-btn next-btn"
+        (onClickEvent)="scrollCategories(240)"
+        [disabled]="!canScrollRight()"
+        title="Scroll categories right"
+        ariaLabel="Next categories"
+      />
+    </div>
+
+    <div class="search-wrap">
+      <gp-icon name="search" size="0.85em" class="s-ico" />
+      <gp-input-text
+        styleClass="s-input"
+        placeholder="Search blocks..."
+        [value]="searchQuery()"
+        (onInputEvent)="searchQuery.set($any($event.target).value)"
+        ariaLabel="Search blocks"
+      />
+    </div>
+  </div>
+
+  <!-- Blocks Grid Showcase -->
+  <div class="blocks-container">
+    @for (block of filteredBlocks(); track block) {
+    <div class="block-preview-card">
+      <!-- Block Card Header -->
+      <div class="block-card-head">
+        <div class="head-left">
+          <span class="block-cat-badge">{{ block.category }}</span>
+          <h3 class="block-name">{{ block.name }}</h3>
+          <p class="block-desc">{{ block.description }}</p>
+        </div>
+        <div class="head-controls">
+          <!-- Viewport Switcher -->
+          <div class="viewport-toggle">
+            <gp-button
+              icon="window"
+              [iconOnly]="true"
+              variant="text"
+              [styleClass]="
+                      'v-btn' + (viewports[block.id] === 'desktop' || !viewports[block.id] ? ' active' : '')
+                    "
+              (onClickEvent)="setViewport(block.id, 'desktop')"
+              title="Desktop View (100%)"
+              ariaLabel="Desktop view"
+            />
+            <gp-button
+              icon="sliders"
+              [iconOnly]="true"
+              variant="text"
+              [styleClass]="'v-btn' + (viewports[block.id] === 'tablet' ? ' active' : '')"
+              (onClickEvent)="setViewport(block.id, 'tablet')"
+              title="Tablet View (768px)"
+              ariaLabel="Tablet view"
+            />
+            <gp-button
+              icon="bars"
+              [iconOnly]="true"
+              variant="text"
+              [styleClass]="'v-btn' + (viewports[block.id] === 'mobile' ? ' active' : '')"
+              (onClickEvent)="setViewport(block.id, 'mobile')"
+              title="Mobile View (375px)"
+              ariaLabel="Mobile view"
+            />
+          </div>
+          <!-- Preview / Code Mode Toggle -->
+          <div class="mode-toggle">
+            <gp-button
+              label="Preview"
+              size="sm"
+              [variant]="modeState[block.id] !== 'code' ? 'filled' : 'text'"
+              [styleClass]="'mode-btn' + (modeState[block.id] !== 'code' ? ' active' : '')"
+              (onClickEvent)="setMode(block.id, 'preview')"
+            />
+            <gp-button
+              label="Code"
+              size="sm"
+              [variant]="modeState[block.id] === 'code' ? 'filled' : 'text'"
+              [styleClass]="'mode-btn' + (modeState[block.id] === 'code' ? ' active' : '')"
+              (onClickEvent)="setMode(block.id, 'code')"
+            />
+          </div>
+          <gp-button
+            [label]="copiedState[block.id] ? 'Copied!' : 'Copy'"
+            [icon]="copiedState[block.id] ? 'check' : 'copy'"
+            size="sm"
+            variant="text"
+            styleClass="btn-copy"
+            (onClickEvent)="copyCode(block.code, block.id)"
+            title="Copy Angular snippet"
+          />
+        </div>
+      </div>
+      <!-- Block Live Preview Frame -->
+      @if (modeState[block.id] !== 'code') {
+      <div
+        class="block-preview-viewport"
+        [class.vp-tablet]="viewports[block.id] === 'tablet'"
+        [class.vp-mobile]="viewports[block.id] === 'mobile'"
+      >
+        <!-- 1. Multi Column Layouts -->
+        @if (block.id === 'two-col-split') {
+        <gp-layout-two-column-split
+          [splitRatio]="demoData.layouts.twoCol.splitRatio"
+          [primaryTitle]="demoData.layouts.twoCol.primaryTitle"
+          [primaryBadge]="demoData.layouts.twoCol.primaryBadge"
+          [primaryDescription]="demoData.layouts.twoCol.primaryDescription"
+          [secondaryTitle]="demoData.layouts.twoCol.secondaryTitle"
+          [secondaryDescription]="demoData.layouts.twoCol.secondaryDescription"
+        />
+        } @if (block.id === 'three-col-workspace') {
+        <gp-layout-three-column-workspace
+          [explorerTitle]="demoData.layouts.threeColWorkspace.explorerTitle"
+          [activeFileName]="demoData.layouts.threeColWorkspace.activeFileName"
+        />
+        } @if (block.id === 'three-col-fluid') {
+        <gp-layout-three-column-fluid
+          [leftTitle]="demoData.layouts.threeColFluid.leftTitle"
+          [mainTitle]="demoData.layouts.threeColFluid.mainTitle"
+          [mainSubtitle]="demoData.layouts.threeColFluid.mainSubtitle"
+          [rightTitle]="demoData.layouts.threeColFluid.rightTitle"
+        />
+        } @if (block.id === 'four-col-grid') {
+        <gp-layout-four-column-grid
+          [col1Title]="demoData.layouts.fourCol.col1Title"
+          [col1Badge]="demoData.layouts.fourCol.col1Badge"
+          [col2Title]="demoData.layouts.fourCol.col2Title"
+          [col2Badge]="demoData.layouts.fourCol.col2Badge"
+          [col3Title]="demoData.layouts.fourCol.col3Title"
+          [col3Badge]="demoData.layouts.fourCol.col3Badge"
+          [col4Title]="demoData.layouts.fourCol.col4Title"
+          [col4Badge]="demoData.layouts.fourCol.col4Badge"
+        />
+        }
+        <!-- 2. Sidebar Layouts -->
+        @if (block.id === 'sb-dark') {
+        <gp-layout-sidebar-dark
+          [brandName]="demoData.layouts.sbDark.brandName"
+          [title]="demoData.layouts.sbDark.title"
+          [navGroupLabel]="demoData.layouts.sbDark.navGroupLabel"
+          [userName]="demoData.layouts.sbDark.userName"
+          [userEmail]="demoData.layouts.sbDark.userEmail"
+          [activeNavId]="demoData.layouts.sbDark.activeNavId"
+          [navItems]="demoData.layouts.sbDark.navItems"
+        />
+        } @if (block.id === 'sb-light') {
+        <gp-layout-sidebar-light
+          [brandName]="demoData.layouts.sbLight.brandName"
+          [title]="demoData.layouts.sbLight.title"
+          [activeNavId]="demoData.layouts.sbLight.activeNavId"
+          [navItems]="demoData.layouts.sbLight.navItems"
+          [upgradeTitle]="demoData.layouts.sbLight.upgradeTitle"
+          [upgradeText]="demoData.layouts.sbLight.upgradeText"
+          [upgradeBtnLabel]="demoData.layouts.sbLight.upgradeBtnLabel"
+        />
+        } @if (block.id === 'sb-mini') {
+        <gp-layout-sidebar-mini
+          [title]="demoData.layouts.sbMini.title"
+          [activeNavId]="demoData.layouts.sbMini.activeNavId"
+          [userName]="demoData.layouts.sbMini.userName"
+          [navItems]="demoData.layouts.sbMini.navItems"
+        />
+        } @if (block.id === 'sb-dual') {
+        <gp-layout-sidebar-dual
+          [title]="demoData.layouts.sbDual.title"
+          [activeTier1Id]="demoData.layouts.sbDual.activeTier1Id"
+          [tier1Items]="demoData.layouts.sbDual.tier1Items"
+          [subnavTitle]="demoData.layouts.sbDual.subnavTitle"
+          [subnavBadge]="demoData.layouts.sbDual.subnavBadge"
+          [activeTier2Id]="demoData.layouts.sbDual.activeTier2Id"
+          [tier2Items]="demoData.layouts.sbDual.tier2Items"
+        />
+        } @if (block.id === 'sb-floating') {
+        <gp-layout-sidebar-floating
+          [brandName]="demoData.layouts.sbFloating.brandName"
+          [title]="demoData.layouts.sbFloating.title"
+          [activeNavId]="demoData.layouts.sbFloating.activeNavId"
+          [navItems]="demoData.layouts.sbFloating.navItems"
+        />
+        } @if (block.id === 'sb-gradient') {
+        <gp-layout-sidebar-gradient
+          [brandName]="demoData.layouts.sbGradient.brandName"
+          [title]="demoData.layouts.sbGradient.title"
+          [activeNavId]="demoData.layouts.sbGradient.activeNavId"
+          [navItems]="demoData.layouts.sbGradient.navItems"
+        />
+        } @if (block.id === 'sb-header-over') {
+        <gp-layout-sidebar-header-over
+          [brandName]="demoData.layouts.sbHeaderOver.brandName"
+          [userName]="demoData.layouts.sbHeaderOver.userName"
+          [activeNavId]="demoData.layouts.sbHeaderOver.activeNavId"
+          [navItems]="demoData.layouts.sbHeaderOver.navItems"
+        />
+        } @if (block.id === 'sb-workspace') {
+        <gp-layout-sidebar-workspace
+          [currentWorkspace]="demoData.layouts.sbWorkspace.currentWorkspace"
+          [workspaceTier]="demoData.layouts.sbWorkspace.workspaceTier"
+          [title]="demoData.layouts.sbWorkspace.title"
+          [activeNavId]="demoData.layouts.sbWorkspace.activeNavId"
+          [navItems]="demoData.layouts.sbWorkspace.navItems"
+        />
+        } @if (block.id === 'sb-search-tree') {
+        <gp-layout-sidebar-search-tree
+          [title]="demoData.layouts.sbSearchTree.title"
+          [catalogLabel]="demoData.layouts.sbSearchTree.catalogLabel"
+          [activeLeafId]="demoData.layouts.sbSearchTree.activeLeafId"
+          [treeData]="demoData.layouts.sbSearchTree.treeData"
+        />
+        } @if (block.id === 'sb-pinned-status') {
+        <gp-layout-sidebar-pinned-status
+          [brandName]="demoData.layouts.sbPinnedStatus.brandName"
+          [systemStatus]="demoData.layouts.sbPinnedStatus.systemStatus"
+          [uptimeText]="demoData.layouts.sbPinnedStatus.uptimeText"
+          [title]="demoData.layouts.sbPinnedStatus.title"
+          [activeNavId]="demoData.layouts.sbPinnedStatus.activeNavId"
+          [navItems]="demoData.layouts.sbPinnedStatus.navItems"
+        />
+        } @if (block.id === 'sb-offcanvas') {
+        <gp-layout-sidebar-offcanvas
+          [brandName]="demoData.layouts.sbOffcanvas.brandName"
+          [title]="demoData.layouts.sbOffcanvas.title"
+          [activeNavId]="demoData.layouts.sbOffcanvas.activeNavId"
+          [navItems]="demoData.layouts.sbOffcanvas.navItems"
+        />
+        } @if (block.id === 'sb-minimal') {
+        <gp-layout-sidebar-minimal
+          [brandName]="demoData.layouts.sbMinimal.brandName"
+          [title]="demoData.layouts.sbMinimal.title"
+          [activeNavId]="demoData.layouts.sbMinimal.activeNavId"
+          [navItems]="demoData.layouts.sbMinimal.navItems"
+        />
+        } @if (block.id === 'sb-stepper') {
+        <gp-layout-sidebar-stepper
+          [brandName]="demoData.layouts.sbStepper.brandName"
+          [currentStep]="demoData.layouts.sbStepper.currentStep"
+          [currentStepTitle]="demoData.layouts.sbStepper.currentStepTitle"
+          [currentStepSubtitle]="demoData.layouts.sbStepper.currentStepSubtitle"
+          [steps]="demoData.layouts.sbStepper.steps"
+        />
+        } @if (block.id === 'sb-accordion') {
+        <gp-layout-sidebar-accordion
+          [brandName]="demoData.layouts.sbAccordion.brandName"
+          [title]="demoData.layouts.sbAccordion.title"
+          [activeSubLinkId]="demoData.layouts.sbAccordion.activeSubLinkId"
+          [groups]="demoData.layouts.sbAccordion.groups"
+        />
+        }
+        <!-- 3. Stacked Layouts -->
+        @if (block.id === 'st-classic') {
+        <gp-layout-stacked-classic
+          [brandName]="demoData.layouts.stClassic.brandName"
+          [userName]="demoData.layouts.stClassic.userName"
+          [title]="demoData.layouts.stClassic.title"
+          [activeNavId]="demoData.layouts.stClassic.activeNavId"
+          [navItems]="demoData.layouts.stClassic.navItems"
+        />
+        } @if (block.id === 'st-subnav-tabs') {
+        <gp-layout-stacked-subnav-tabs
+          [brandName]="demoData.layouts.stSubnav.brandName"
+          [userName]="demoData.layouts.stSubnav.userName"
+          [activeTabId]="demoData.layouts.stSubnav.activeTabId"
+          [tabs]="demoData.layouts.stSubnav.tabs"
+        />
+        } @if (block.id === 'st-hero-banner') {
+        <gp-layout-stacked-hero-banner
+          [brandName]="demoData.layouts.stHero.brandName"
+          [heroTitle]="demoData.layouts.stHero.heroTitle"
+          [heroSubtitle]="demoData.layouts.stHero.heroSubtitle"
+          [primaryCta]="demoData.layouts.stHero.primaryCta"
+          [secondaryCta]="demoData.layouts.stHero.secondaryCta"
+          [navLinks]="demoData.layouts.stHero.navLinks"
+        />
+        } @if (block.id === 'st-floating-card') {
+        <gp-layout-stacked-floating-card
+          [brandName]="demoData.layouts.stFloat.brandName"
+          [userName]="demoData.layouts.stFloat.userName"
+          [title]="demoData.layouts.stFloat.title"
+        />
+        } @if (block.id === 'st-sticky-bar') {
+        <gp-layout-stacked-sticky-action-bar
+          [brandName]="demoData.layouts.stSticky.brandName"
+          [pageTitle]="demoData.layouts.stSticky.pageTitle"
+          [itemCount]="demoData.layouts.stSticky.itemCount"
+          [addBtnLabel]="demoData.layouts.stSticky.addBtnLabel"
+          [activeNavId]="demoData.layouts.stSticky.activeNavId"
+          [navLinks]="demoData.layouts.stSticky.navLinks"
+        />
+        } @if (block.id === 'st-bottom-dock') {
+        <gp-layout-stacked-bottom-dock
+          [brandName]="demoData.layouts.stDock.brandName"
+          [activeTab]="demoData.layouts.stDock.activeTab"
+          [activeDockId]="demoData.layouts.stDock.activeDockId"
+          [dockItems]="demoData.layouts.stDock.dockItems"
+        />
+        }
+        <!-- 4. Dashboards -->
+        @if (block.id === 'dash-saas') {
+        <gp-dashboard-saas-overview
+          [kpis]="demoData.dashboards.saas.kpis"
+          [chartTitle]="demoData.dashboards.saas.chartTitle"
+          [chartBadge]="demoData.dashboards.saas.chartBadge"
+          [monthlyData]="demoData.dashboards.saas.monthlyData"
+          [goalsTitle]="demoData.dashboards.saas.goalsTitle"
+          [goalsTarget]="demoData.dashboards.saas.goalsTarget"
+          [quotas]="demoData.dashboards.saas.quotas"
+          [tableTitle]="demoData.dashboards.saas.tableTitle"
+          [recentSignups]="demoData.dashboards.saas.recentSignups"
+        />
+        } @if (block.id === 'dash-ecom') {
+        <gp-dashboard-ecommerce
+          [kpis]="demoData.dashboards.ecommerce.kpis"
+          [topProducts]="demoData.dashboards.ecommerce.topProducts"
+          [recentOrders]="demoData.dashboards.ecommerce.recentOrders"
+        />
+        } @if (block.id === 'dash-analytics') {
+        <gp-dashboard-analytics
+          [stats]="demoData.dashboards.analytics.stats"
+          [channels]="demoData.dashboards.analytics.channels"
+          [regions]="demoData.dashboards.analytics.regions"
+        />
+        } @if (block.id === 'dash-finance') {
+        <gp-dashboard-finance
+          [balanceLabel]="demoData.dashboards.finance.balanceLabel"
+          [balanceAmount]="demoData.dashboards.finance.balanceAmount"
+          [balanceMeta]="demoData.dashboards.finance.balanceMeta"
+          [ledgerTitle]="demoData.dashboards.finance.ledgerTitle"
+          [ledgerBadge]="demoData.dashboards.finance.ledgerBadge"
+          [ledger]="demoData.dashboards.finance.ledger"
+          [invoicesTitle]="demoData.dashboards.finance.invoicesTitle"
+          [invoices]="demoData.dashboards.finance.invoices"
+        />
+        } @if (block.id === 'dash-pm') {
+        <gp-dashboard-project-management
+          [metrics]="demoData.dashboards.pm.metrics"
+          [columns]="demoData.dashboards.pm.columns"
+        />
+        } @if (block.id === 'dash-ops') {
+        <gp-dashboard-operations
+          [bannerText]="demoData.dashboards.ops.bannerText"
+          [uptimeBadge]="demoData.dashboards.ops.uptimeBadge"
+          [nodes]="demoData.dashboards.ops.nodes"
+        />
+        }
+        <!-- 5. Settings & Details -->
+        @if (block.id === 'set-profile') {
+        <gp-settings-profile
+          [userName]="demoData.settings.profile.userName"
+          [firstName]="demoData.settings.profile.firstName"
+          [lastName]="demoData.settings.profile.lastName"
+          [email]="demoData.settings.profile.email"
+          [jobTitle]="demoData.settings.profile.jobTitle"
+          [bio]="demoData.settings.profile.bio"
+        />
+        } @if (block.id === 'set-security') {
+        <gp-settings-security
+          [title]="demoData.settings.security.title"
+          [subtitle]="demoData.settings.security.subtitle"
+          [twoFaEnabled]="demoData.settings.security.twoFaEnabled"
+          [sessions]="demoData.settings.security.sessions"
+        />
+        } @if (block.id === 'set-billing') {
+        <gp-settings-billing
+          [title]="demoData.settings.billing.title"
+          [subtitle]="demoData.settings.billing.subtitle"
+          [planName]="demoData.settings.billing.planName"
+          [planStatus]="demoData.settings.billing.planStatus"
+          [planPrice]="demoData.settings.billing.planPrice"
+          [invoices]="demoData.settings.billing.invoices"
+        />
+        } @if (block.id === 'set-notifications') {
+        <gp-settings-notifications
+          [title]="demoData.settings.notifications.title"
+          [subtitle]="demoData.settings.notifications.subtitle"
+          [preferences]="demoData.settings.notifications.preferences"
+        />
+        } @if (block.id === 'set-team-roles') {
+        <gp-settings-team-roles
+          [title]="demoData.settings.team.title"
+          [subtitle]="demoData.settings.team.subtitle"
+          [members]="demoData.settings.team.members"
+        />
+        } @if (block.id === 'set-api-keys') {
+        <gp-settings-api-keys
+          [title]="demoData.settings.apiKeys.title"
+          [subtitle]="demoData.settings.apiKeys.subtitle"
+          [apiKeys]="demoData.settings.apiKeys.apiKeys"
+        />
+        } @if (block.id === 'set-danger-zone') {
+        <gp-settings-danger-zone [actions]="demoData.settings.dangerZone.actions" />
+        } @if (block.id === 'det-customer') {
+        <gp-details-customer-overview
+          [customerName]="demoData.settings.customer.customerName"
+          [customerStatus]="demoData.settings.customer.customerStatus"
+          [companyName]="demoData.settings.customer.companyName"
+          [location]="demoData.settings.customer.location"
+          [tags]="demoData.settings.customer.tags"
+          [metaFields]="demoData.settings.customer.metaFields"
+          [timelineEvents]="demoData.settings.customer.timelineEvents"
+        />
+        } @if (block.id === 'det-order') {
+        <gp-details-order-summary
+          [orderId]="demoData.settings.order.orderId"
+          [orderStatus]="demoData.settings.order.orderStatus"
+          [orderDate]="demoData.settings.order.orderDate"
+          [paymentMethod]="demoData.settings.order.paymentMethod"
+          [subtotal]="demoData.settings.order.subtotal"
+          [shipping]="demoData.settings.order.shipping"
+          [tax]="demoData.settings.order.tax"
+          [grandTotal]="demoData.settings.order.grandTotal"
+          [items]="demoData.settings.order.items"
+        />
+        }
+        <!-- 6. Headings -->
+        @if (block.id === 'hdr-actions') {
+        <gp-header-page-with-actions
+          [title]="demoData.headings.actions.title"
+          [badgeText]="demoData.headings.actions.badgeText"
+          [badgeSeverity]="demoData.headings.actions.badgeSeverity"
+          [subtitle]="demoData.headings.actions.subtitle"
+          [breadcrumbs]="demoData.headings.actions.breadcrumbs"
+          [actions]="demoData.headings.actions.actions"
+        />
+        } @if (block.id === 'hdr-filters') {
+        <gp-header-search-filters
+          [title]="demoData.headings.filters.title"
+          [subtitle]="demoData.headings.filters.subtitle"
+          [filterGroups]="demoData.headings.filters.filterGroups"
+        />
+        } @if (block.id === 'hdr-tabs') {
+        <gp-header-section-tabs
+          [title]="demoData.headings.tabs.title"
+          [description]="demoData.headings.tabs.description"
+          [tabs]="demoData.headings.tabs.tabs"
+        />
+        } @if (block.id === 'hdr-stats') {
+        <gp-header-with-stats
+          [title]="demoData.headings.stats.title"
+          [description]="demoData.headings.stats.description"
+          [stats]="demoData.headings.stats.stats"
+        />
+        } @if (block.id === 'hdr-breadcrumb') {
+        <gp-header-compact-breadcrumb
+          [backLabel]="demoData.headings.breadcrumb.backLabel"
+          [activeItem]="demoData.headings.breadcrumb.activeItem"
+          [editBtnLabel]="demoData.headings.breadcrumb.editBtnLabel"
+          [shareBtnLabel]="demoData.headings.breadcrumb.shareBtnLabel"
+        />
+        } @if (block.id === 'hdr-profile-banner') {
+        <gp-header-profile-banner
+          [userName]="demoData.headings.profileBanner.userName"
+          [statusText]="demoData.headings.profileBanner.statusText"
+          [statusSeverity]="demoData.headings.profileBanner.statusSeverity"
+          [userTitle]="demoData.headings.profileBanner.userTitle"
+          [location]="demoData.headings.profileBanner.location"
+        />
+        }
+        <!-- 7. Data Displays -->
+        @if (block.id === 'dd-kpi') {
+        <gp-data-display-kpi-cards [kpis]="demoData.dataDisplays.kpi.kpis" />
+        } @if (block.id === 'dd-desc-list') {
+        <gp-data-display-description-list
+          [title]="demoData.dataDisplays.descList.title"
+          [subtitle]="demoData.dataDisplays.descList.subtitle"
+          [items]="demoData.dataDisplays.descList.items"
+        />
+        } @if (block.id === 'dd-timeline') {
+        <gp-data-display-timeline-stream
+          [title]="demoData.dataDisplays.timeline.title"
+          [events]="demoData.dataDisplays.timeline.events"
+        />
+        } @if (block.id === 'dd-meter') {
+        <gp-data-display-meter-metrics
+          [title]="demoData.dataDisplays.meter.title"
+          [subtitle]="demoData.dataDisplays.meter.subtitle"
+          [meters]="demoData.dataDisplays.meter.meters"
+        />
+        } @if (block.id === 'dd-badges') {
+        <gp-data-display-badge-clusters
+          [title]="demoData.dataDisplays.badges.title"
+          [subtitle]="demoData.dataDisplays.badges.subtitle"
+          [groups]="demoData.dataDisplays.badges.groups"
+        />
+        } @if (block.id === 'dd-counter') {
+        <gp-data-display-stats-counter [counters]="demoData.dataDisplays.statsCounter.counters" />
+        }
+        <!-- 8. Lists -->
+        @if (block.id === 'list-grid') {
+        <gp-list-data-grid
+          [searchPlaceholder]="demoData.lists.grid.searchPlaceholder"
+          [rows]="demoData.lists.grid.rows"
+        />
+        } @if (block.id === 'list-feed') {
+        <gp-list-stacked-feed
+          [title]="demoData.lists.feed.title"
+          [badgeText]="demoData.lists.feed.badgeText"
+          [feedItems]="demoData.lists.feed.feedItems"
+        />
+        } @if (block.id === 'list-cards') {
+        <gp-list-card-grid
+          [title]="demoData.lists.cards.title"
+          [subtitle]="demoData.lists.cards.subtitle"
+          [cards]="demoData.lists.cards.cards"
+        />
+        } @if (block.id === 'list-tx') {
+        <gp-list-transactions
+          [title]="demoData.lists.tx.title"
+          [badgeText]="demoData.lists.tx.badgeText"
+          [transactions]="demoData.lists.tx.transactions"
+        />
+        } @if (block.id === 'list-users') {
+        <gp-list-user-directory [title]="demoData.lists.users.title" [users]="demoData.lists.users.users" />
+        } @if (block.id === 'list-files') {
+        <gp-list-file-list-download [title]="demoData.lists.files.title" [files]="demoData.lists.files.files" />
+        }
+        <!-- 9. Forms -->
+        @if (block.id === 'form-wizard') {
+        <gp-form-multi-step-wizard [steps]="demoData.forms.wizard.steps" />
+        } @if (block.id === 'form-auth') {
+        <gp-form-auth-split
+          [brandName]="demoData.forms.auth.brandName"
+          [heroTitle]="demoData.forms.auth.heroTitle"
+          [heroDesc]="demoData.forms.auth.heroDesc"
+          [formTitle]="demoData.forms.auth.formTitle"
+          [formSubtitle]="demoData.forms.auth.formSubtitle"
+        />
+        } @if (block.id === 'form-profile') {
+        <gp-form-user-profile
+          [title]="demoData.forms.userProfile.title"
+          [subtitle]="demoData.forms.userProfile.subtitle"
+        />
+        } @if (block.id === 'form-checkout') {
+        <gp-form-checkout-payment
+          [title]="demoData.forms.checkout.title"
+          [subtitle]="demoData.forms.checkout.subtitle"
+          [amount]="demoData.forms.checkout.amount"
+        />
+        } @if (block.id === 'form-contact') {
+        <gp-form-contact-feedback [title]="demoData.forms.contact.title" [subtitle]="demoData.forms.contact.subtitle" />
+        } @if (block.id === 'form-filter') {
+        <gp-form-advanced-filter-builder [title]="demoData.forms.filter.title" />
+        }
+        <!-- 10. Feedbacks -->
+        @if (block.id === 'fb-alerts') {
+        <gp-feedback-alert-banners [alerts]="demoData.feedbacks.alerts.alerts" />
+        } @if (block.id === 'fb-empty') {
+        <gp-feedback-empty-states
+          [title]="demoData.feedbacks.empty.title"
+          [description]="demoData.feedbacks.empty.description"
+          [primaryCta]="demoData.feedbacks.empty.primaryCta"
+          [secondaryCta]="demoData.feedbacks.empty.secondaryCta"
+        />
+        } @if (block.id === 'fb-confirm') {
+        <gp-feedback-confirm-modals
+          [title]="demoData.feedbacks.confirm.title"
+          [message]="demoData.feedbacks.confirm.message"
+          [confirmBtnLabel]="demoData.feedbacks.confirm.confirmBtnLabel"
+          [cancelBtnLabel]="demoData.feedbacks.confirm.cancelBtnLabel"
+        />
+        } @if (block.id === 'fb-toast') {
+        <gp-feedback-toast-status [toasts]="demoData.feedbacks.toast.toasts" />
+        } @if (block.id === 'fb-rating') {
+        <gp-feedback-rating-review
+          [title]="demoData.feedbacks.rating.title"
+          [subtitle]="demoData.feedbacks.rating.subtitle"
+        />
+        }
+        <!-- 11. Navigations & Overlays -->
+        @if (block.id === 'nav-topbar') {
+        <gp-nav-responsive-top-bar
+          [brandName]="demoData.navs.topbar.brandName"
+          [userName]="demoData.navs.topbar.userName"
+          [links]="demoData.navs.topbar.navLinks"
+        />
+        } @if (block.id === 'nav-palette') {
+        <gp-overlay-command-palette
+          [placeholder]="demoData.navs.palette.placeholder"
+          [groupLabel]="demoData.navs.palette.groupLabel"
+          [commands]="demoData.navs.palette.commands"
+        />
+        } @if (block.id === 'nav-slide-over') {
+        <gp-overlay-slide-over-panel
+          [title]="demoData.navs.slideOver.title"
+          [description]="demoData.navs.slideOver.description"
+        />
+        } @if (block.id === 'nav-dropdown') {
+        <gp-nav-dropdown-action-menu
+          [signedInLabel]="demoData.navs.dropdown.signedInLabel"
+          [userEmail]="demoData.navs.dropdown.userEmail"
+          [primaryItems]="demoData.navs.dropdown.primaryItems"
+          [dangerItems]="demoData.navs.dropdown.dangerItems"
+        />
+        } @if (block.id === 'nav-mega') {
+        <gp-nav-mega-menu-block [sections]="demoData.navs.mega.sections" [promo]="demoData.navs.mega.promo" />
+        } @if (block.id === 'nav-tabs') {
+        <gp-nav-tab-navigation
+          [underlineTabs]="demoData.navs.tabs.underlineTabs"
+          [activeUnderlineTab]="demoData.navs.tabs.activeUnderlineTab"
+          [pillTabs]="demoData.navs.tabs.pillTabs"
+          [activePillTab]="demoData.navs.tabs.activePillTab"
+        />
+        }
+        <!-- 12. Pages -->
+        @if (block.id === 'page-404') {
+        <gp-page-404
+          [code]="demoData.pages.p404.code"
+          [title]="demoData.pages.p404.title"
+          [description]="demoData.pages.p404.description"
+          [goBackBtnLabel]="demoData.pages.p404.goBackBtnLabel"
+          [returnHomeBtnLabel]="demoData.pages.p404.returnHomeBtnLabel"
+        />
+        } @if (block.id === 'page-500') {
+        <gp-page-500
+          [code]="demoData.pages.p500.code"
+          [title]="demoData.pages.p500.title"
+          [description]="demoData.pages.p500.description"
+          [supportBtnLabel]="demoData.pages.p500.supportBtnLabel"
+          [retryBtnLabel]="demoData.pages.p500.retryBtnLabel"
+        />
+        } @if (block.id === 'page-403') {
+        <gp-page-403
+          [code]="demoData.pages.p403.code"
+          [title]="demoData.pages.p403.title"
+          [description]="demoData.pages.p403.description"
+          [returnHomeBtnLabel]="demoData.pages.p403.returnHomeBtnLabel"
+          [requestAccessBtnLabel]="demoData.pages.p403.requestAccessBtnLabel"
+        />
+        } @if (block.id === 'page-maint') {
+        <gp-page-maintenance
+          [badgeText]="demoData.pages.pMaint.badgeText"
+          [badgeSeverity]="demoData.pages.pMaint.badgeSeverity"
+          [title]="demoData.pages.pMaint.title"
+          [description]="demoData.pages.pMaint.description"
+          [estimatedUptime]="demoData.pages.pMaint.estimatedUptime"
+        />
+        } @if (block.id === 'page-coming') {
+        <gp-page-coming-soon
+          [badgeText]="demoData.pages.pComing.badgeText"
+          [title]="demoData.pages.pComing.title"
+          [description]="demoData.pages.pComing.description"
+          [countdown]="demoData.pages.pComing.countdown"
+        />
+        } @if (block.id === 'page-success') {
+        <gp-page-success-confirmation
+          [title]="demoData.pages.pSuccess.title"
+          [description]="demoData.pages.pSuccess.description"
+          [orderNumber]="demoData.pages.pSuccess.orderNumber"
+          [email]="demoData.pages.pSuccess.email"
+          [secondaryBtnLabel]="demoData.pages.pSuccess.secondaryBtnLabel"
+          [primaryBtnLabel]="demoData.pages.pSuccess.primaryBtnLabel"
+        />
+        }
+      </div>
+      }
+      <!-- Block Code View -->
+      @if (modeState[block.id] === 'code') {
+      <div class="block-code-view">
+        <pre><code>{{ block.code }}</code></pre>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

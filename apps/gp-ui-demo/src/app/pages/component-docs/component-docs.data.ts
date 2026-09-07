@@ -647,7 +647,8 @@ const overlayDocSlugs = new Set<string>([
   'confirm-dialog',
   'popover',
   'bottom-sheet',
-  'command-palette'
+  'command-palette',
+  'block-ui'
 ]);
 const panelDocSlugs = new Set<string>(['panel', 'card', 'fieldset', 'accordion']);
 const feedbackDocSlugs = new Set<string>([
@@ -1192,6 +1193,121 @@ export const componentDocs: ComponentDocDefinition[] = [
     importStatement: "import { GpPopover } from '@generatedpixel/gp-ui';",
     exampleCode: '<gp-popover content="Helpful details" />',
     properties: [{ name: 'content', type: 'string', default: "''", description: 'Popover content shown when opened.' }]
+  },
+  {
+    slug: 'block-ui',
+    name: 'Block UI',
+    category: 'Overlays',
+    icon: 'lock',
+    description:
+      'Enterprise blocking overlay component and directive to prevent user interaction across the entire document, a CSS selector target, or an inline container.',
+    importStatement: "import { GpBlockUI, GpBlockUIDirective, GpBlockUIService } from '@generatedpixel/gp-ui';",
+    exampleCode: `<!-- Document Level -->
+<gp-block-ui [blocked]="isGlobalLoading" message="Please wait..." [blur]="true" />
+
+<!-- Target Container via Selector -->
+<div id="analyticsPanel">...</div>
+<gp-block-ui [blocked]="isPanelLoading" target="#analyticsPanel" message="Updating..." />
+
+<!-- Inline Directive -->
+<div [gpBlockUI]="isCardLoading" [blockUIMessage]="'Loading data...'" [blockUIBlur]="true">
+  ...
+</div>`,
+    properties: [
+      {
+        name: 'blocked',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Controls whether the overlay is active and user interaction is blocked.'
+      },
+      {
+        name: 'target',
+        type: "input<string | HTMLElement | ElementRef | 'document' | 'body'>",
+        default: 'undefined',
+        description:
+          "Target container to block: omit or 'document' for the full window, or CSS selector / ElementRef for a specific element."
+      },
+      {
+        name: 'message',
+        type: 'input<string>',
+        default: "''",
+        description: 'Optional text message displayed below the loading spinner.'
+      },
+      {
+        name: 'spinner',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Whether to display the loading spinner indicator.'
+      },
+      {
+        name: 'spinnerSize',
+        type: 'input<string>',
+        default: "'2.5rem'",
+        description: 'Dimension size of the loading spinner.'
+      },
+      {
+        name: 'blur',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Whether to apply a backdrop blur effect across the blocked region.'
+      },
+      {
+        name: 'animate',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Whether to smoothly animate the overlay entrance and exit.'
+      },
+      {
+        name: 'autoZIndex',
+        type: 'input<boolean>',
+        default: 'true',
+        description: 'Whether to automatically allocate an elevated z-index.'
+      },
+      {
+        name: 'baseZIndex',
+        type: 'input<number>',
+        default: '1100',
+        description: 'Base starting z-index layer when autoZIndex is false.'
+      },
+      {
+        name: 'name',
+        type: 'input<string>',
+        default: "''",
+        description: 'Named registration identifier to control blocking via GpBlockUIService.'
+      },
+      {
+        name: 'gpBlockUI (directive)',
+        type: 'input<boolean | string>',
+        default: 'false',
+        description: 'Directive input to directly block an inline container or attach to a service target name.'
+      },
+      {
+        name: 'blockUIMessage (directive)',
+        type: 'input<string>',
+        default: "''",
+        description: 'Message displayed on the directive overlay.'
+      },
+      {
+        name: 'blockUIBlur (directive)',
+        type: 'input<boolean>',
+        default: 'false',
+        description: 'Whether the directive overlay applies backdrop blur.'
+      }
+    ],
+    events: [
+      {
+        name: 'onBlocked',
+        type: 'output<void>',
+        default: '—',
+        description: 'Emitted when blocking becomes active.'
+      },
+      {
+        name: 'onUnblocked',
+        type: 'output<void>',
+        default: '—',
+        description: 'Emitted when blocking is released.'
+      }
+    ]
   },
   {
     slug: 'accordion',

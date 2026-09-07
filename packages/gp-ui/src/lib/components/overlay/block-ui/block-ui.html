@@ -1,0 +1,31 @@
+@if (isEffectivelyBlocked()) {
+<div
+  #mask
+  [id]="id()"
+  class="gp-block-ui"
+  [class.gp-block-ui--document]="isDocumentTarget()"
+  [class.gp-block-ui--target]="!isDocumentTarget()"
+  [class.gp-block-ui--blur]="blur()"
+  [class.gp-block-ui--animate]="animate()"
+  [ngClass]="styleClass()"
+  [ngStyle]="customStyle()"
+  [style.z-index]="currentZIndex()"
+  role="status"
+  aria-live="polite"
+  aria-busy="true"
+  [attr.aria-label]="ariaLabel() || 'Loading, please wait'"
+  (click)="onMaskClick($event)"
+>
+  <div class="gp-block-ui__content">
+    <ng-content>
+      @if (spinner()) {
+      <gp-progress-spinner [strokeWidth]="spinnerSize()" />
+      } @if (icon()) {
+      <gp-icon [name]="icon()" class="gp-block-ui__icon" />
+      } @if (message()) {
+      <span class="gp-block-ui__message">{{ message() }}</span>
+      }
+    </ng-content>
+  </div>
+</div>
+}

@@ -1,4 +1,8 @@
-<div class="gp-date-range" [class.gp-date-range--open]="isOpen()" [class.gp-date-range--disabled]="isEffectivelyDisabled()">
+<div
+  class="gp-date-range"
+  [class.gp-date-range--open]="isOpen()"
+  [class.gp-date-range--disabled]="isEffectivelyDisabled()"
+>
   <!-- Input Trigger Display -->
   <div
     class="gp-date-range__input-wrap"
@@ -13,10 +17,7 @@
     (keydown.space)="$event.preventDefault(); toggleOpen()"
   >
     <gp-icon name="calendar" class="gp-date-range__icon" />
-    <span
-      class="gp-date-range__display-text"
-      [class.gp-date-range__display-text--placeholder]="!formattedRange()"
-    >
+    <span class="gp-date-range__display-text" [class.gp-date-range__display-text--placeholder]="!formattedRange()">
       {{ formattedRange() || placeholder() }}
     </span>
     @if (internalValue()?.start && !isEffectivelyDisabled()) {
@@ -92,7 +93,8 @@
       <!-- Bottom Actions -->
       <div class="gp-date-range__footer">
         <span class="gp-date-range__selection-status">
-          {{ internalValue()?.start ? formatDate(internalValue()!.start) : 'Select start date' }} @if (internalValue()?.end) {
+          {{ internalValue()?.start ? formatDate(internalValue()!.start) : 'Select start date' }} @if
+          (internalValue()?.end) {
           <span> &rarr; {{ formatDate(internalValue()!.end) }}</span>
           }
         </span>

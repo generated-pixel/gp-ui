@@ -170,6 +170,7 @@ export class App {
     { name: 'Confirm Dialog', route: '/component/confirm-dialog', category: 'Overlays', icon: 'confirm' },
     { name: 'Drawer', route: '/component/drawer', category: 'Overlays', icon: 'panel-right' },
     { name: 'Popover', route: '/component/popover', category: 'Overlays', icon: 'message-circle' },
+    { name: 'Block UI', route: '/component/block-ui', category: 'Overlays', icon: 'lock', badge: 'New' },
     { name: 'Grid & Dashboard', route: '/grid', category: 'Panels', icon: 'layout-grid', badge: 'New' },
     { name: 'Card', route: '/component/card', category: 'Panels', icon: 'layer-group' },
     { name: 'Accordion', route: '/component/accordion', category: 'Panels', icon: 'chevron-down' },

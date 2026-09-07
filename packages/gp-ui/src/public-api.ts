@@ -9,6 +9,7 @@ export * from './lib/version';
 export * from './lib/config/gp-translation.interface';
 export * from './lib/config/gp-translations.presets';
 export * from './lib/config/gp-config.service';
+export * from './lib/i18n';
 
 // Base Architecture
 export * from './lib/base/gp-base';
@@ -29,6 +30,7 @@ export * from './lib/validation';
 
 // Utilities
 export * from './lib/utils/unique-id';
+export * from './lib/utils/guid';
 export * from './lib/utils/object-utils';
 export * from './lib/utils/dom-handler';
 
@@ -59,6 +61,8 @@ export * from './lib/services/confirmation.service';
 export * from './lib/services/hotkey.service';
 export * from './lib/services/export.service';
 export * from './lib/services/clipboard.service';
+export * from './lib/services/block-ui.interface';
+export * from './lib/services/block-ui.service';
 
 // Button Components
 export * from './lib/components/button/button/button';
@@ -145,6 +149,8 @@ export * from './lib/components/overlay/command-palette/command-palette';
 export * from './lib/components/overlay/bottom-sheet/bottom-sheet.interface';
 export * from './lib/components/overlay/bottom-sheet/bottom-sheet.service';
 export * from './lib/components/overlay/bottom-sheet/bottom-sheet';
+export * from './lib/components/overlay/block-ui/block-ui.directive';
+export * from './lib/components/overlay/block-ui/block-ui';
 
 // Panel Components
 export * from './lib/components/panel/card/card';

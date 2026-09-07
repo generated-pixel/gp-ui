@@ -1,0 +1,322 @@
+<div class="i18n-page">
+  <gp-confirm-dialog />
+
+  <!-- Page Header -->
+  <header class="i18n-page__header">
+    <div class="i18n-page__header-badges">
+      <gp-tag value="Intl ECMA-402 Native" severity="primary" [rounded]="true" />
+      <gp-tag value="100% Signal Reactive" severity="success" [rounded]="true" />
+      <gp-tag value="10 Standalone Pipes" severity="info" [rounded]="true" />
+    </div>
+    <h1 class="i18n-page__title">Internationalization (i18n) &amp; Locale Conversions</h1>
+    <p class="i18n-page__desc">
+      Enterprise localization suite for gp-ui. Includes bidirectional localized number parsing, currency formatting,
+      timezone world conversions, relative time, duration calculations, natural list joining, collation sorting, and
+      standalone Angular pipes.
+    </p>
+  </header>
+
+  <!-- Quick Preset Bar -->
+  <section class="i18n-page__section">
+    <div class="i18n-page__section-top">
+      <h2 class="i18n-page__section-title">
+        Active Environment: {{ activeLocaleName() }} ({{ localeService.locale() }})
+      </h2>
+      <div class="i18n-page__locale-badges">
+        <span class="i18n-page__meta-pill"
+          ><strong>Direction:</strong> {{ localeService.direction().toUpperCase() }}</span
+        >
+        <span class="i18n-page__meta-pill"><strong>Currency:</strong> {{ localeService.currency() }}</span>
+        <span class="i18n-page__meta-pill"><strong>Timezone:</strong> {{ localeService.timeZone() }}</span>
+        <span class="i18n-page__meta-pill"
+          ><strong>Decimal:</strong> <code>{{ localeService.separators().decimal }}</code></span
+        >
+        <span class="i18n-page__meta-pill"
+          ><strong>Group:</strong> <code>{{ localeService.separators().group }}</code></span
+        >
+      </div>
+    </div>
+
+    <div class="i18n-page__locale-buttons">
+      @for (preset of presets; track preset.code) {
+      <gp-button
+        [label]="preset.flag + ' ' + preset.name"
+        [severity]="localeService.locale() === preset.code ? 'primary' : 'secondary'"
+        [variant]="localeService.locale() === preset.code ? 'filled' : 'outlined'"
+        (onClickEvent)="selectPreset(preset)"
+      />
+      }
+    </div>
+  </section>
+
+  <!-- Section 1: Number Conversions & Live Parser -->
+  <section class="i18n-page__section">
+    <h2 class="i18n-page__section-title">1. Numeric Conversions &amp; Bidirectional Parser</h2>
+    <p class="i18n-page__section-subtext">
+      Automatic grouping and decimal separators, currency symbols, percentages, compact notation, units, and file sizes.
+    </p>
+
+    <div class="i18n-page__grid-cards">
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Standard Number (1,234,567.89)</span>
+        <span class="i18n-page__stat-val">{{ 1234567.89 | gpNumber: { minimumFractionDigits: 2 } }}</span>
+        <span class="i18n-page__stat-meta">Locale-formatted float</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Currency ({{ localeService.currency() }})</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--accent"
+          >{{ sampleAmount | gpCurrency: localeService.currency() }}</span
+        >
+        <span class="i18n-page__stat-meta">Accounting &amp; ISO 4217 standard</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Percentage (Ratio 0.3456)</span>
+        <span class="i18n-page__stat-val">{{ 0.3456 | gpPercent: 2 }}</span>
+        <span class="i18n-page__stat-meta">Ratio to localized percent</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Compact Metric (2,450,000)</span>
+        <span class="i18n-page__stat-val">{{ 2450000 | gpCompactNumber }}</span>
+        <span class="i18n-page__stat-meta">Short notation</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">File Size (15,728,640 bytes)</span>
+        <span class="i18n-page__stat-val">{{ 15728640 | gpByteSize: 'binary' : 2 }}</span>
+        <span class="i18n-page__stat-meta">Binary IEC (MiB) or Metric (MB)</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Ordinal Number (Rank 1, 2, 3)</span>
+        <span class="i18n-page__stat-val"
+          >{{ 1 | gpOrdinal }}, {{ 2 | gpOrdinal }}, {{ 3 | gpOrdinal }}, {{ 21 | gpOrdinal }}</span
+        >
+        <span class="i18n-page__stat-meta">Intl.PluralRules ordinal</span>
+      </div>
+    </div>
+
+    <!-- Live Bidirectional Parser Sandbox -->
+    <div class="i18n-page__sandbox">
+      <div class="i18n-page__sandbox-header">
+        <h3><gp-icon name="filter" /> Live Localized String-to-Number Parser</h3>
+        <span class="i18n-page__sandbox-sub"
+          >Try typing numbers formatted in German, French, Arabic, Swiss, or accounting format!</span
+        >
+      </div>
+
+      <div class="i18n-page__sandbox-row">
+        <div class="i18n-page__input-wrap">
+          <label for="i18nDemoInput">Enter any localized formatted string:</label>
+          <input
+            id="i18nDemoInput"
+            type="text"
+            class="i18n-page__input"
+            [ngModel]="parseInput()"
+            (ngModelChange)="parseInput.set($event)"
+            placeholder="e.g. 1.234.567,89 € or (1,234.50) or 45.5%"
+          />
+          <div class="i18n-page__quick-examples">
+            <span class="i18n-page__ex-label">Quick test presets:</span>
+            <button type="button" class="i18n-page__ex-btn" (click)="setParseExample('1.234.567,89 €')">
+              1.234.567,89 €
+            </button>
+            <button type="button" class="i18n-page__ex-btn" (click)="setParseExample('(5,432.10)')">(5,432.10)</button>
+            <button type="button" class="i18n-page__ex-btn" (click)="setParseExample('١٬٢٣٤٫٥٦')">١٬٢٣٤٫٥٦</button>
+            <button type="button" class="i18n-page__ex-btn" (click)="setSwiss()">1'234'567.89</button>
+            <button type="button" class="i18n-page__ex-btn" (click)="setParseExample('1 234 567,89')">
+              1 234 567,89
+            </button>
+            <button type="button" class="i18n-page__ex-btn" (click)="setParseExample('45.5%')">45.5%</button>
+          </div>
+        </div>
+
+        <div class="i18n-page__result-box">
+          <div class="i18n-page__result-item">
+            <span class="i18n-page__res-label">Parsed JavaScript Number (Float):</span>
+            <code class="i18n-page__res-code">{{ parsedNumberResult() }}</code>
+          </div>
+          <div class="i18n-page__result-item">
+            <span class="i18n-page__res-label">Parsed as Ratio (0-1):</span>
+            <code class="i18n-page__res-code">{{ parsedRatioResult() }}</code>
+          </div>
+          <div class="i18n-page__result-item">
+            <span class="i18n-page__res-label">Re-formatted in Active Locale:</span>
+            <span class="i18n-page__res-highlight">{{ parsedFormattedResult() }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: DateTime & Timezone World Engine -->
+  <section class="i18n-page__section">
+    <h2 class="i18n-page__section-title">2. DateTime &amp; Timezone World Engine</h2>
+    <p class="i18n-page__section-subtext">
+      Convert timestamps across global time zones, compute DST status, relative time, and human-readable durations.
+    </p>
+
+    <div class="i18n-page__tz-controls">
+      <label>Select Target World Timezone:</label>
+      <div class="i18n-page__tz-buttons">
+        @for (tz of commonTimeZones; track tz.timeZone) {
+        <button
+          type="button"
+          class="i18n-page__tz-btn"
+          [class.i18n-page__tz-btn--active]="selectedTimeZone() === tz.timeZone"
+          (click)="selectedTimeZone.set(tz.timeZone)"
+        >
+          {{ tz.city }} ({{ tz.region }})
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="i18n-page__grid-cards">
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Selected Timezone</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--small">{{ selectedTimeZone() }}</span>
+        <span class="i18n-page__stat-meta"
+          >Offset: {{ tzInfo().offsetString }} | {{ tzInfo().abbreviation }} (DST: {{ tzInfo().isDST ? 'Active' :
+          'Standard' }})</span
+        >
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Full Date &amp; Time</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--medium"
+          >{{ now() | gpDate: 'full' : selectedTimeZone() }}</span
+        >
+        <span class="i18n-page__stat-meta">Preset: 'full'</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Short Date &amp; Medium Time</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--medium"
+          >{{ now() | gpDate: 'shortDate' : selectedTimeZone() }} {{ now() | gpDate: 'mediumTime' : selectedTimeZone()
+          }}</span
+        >
+        <span class="i18n-page__stat-meta">Preset: 'shortDate' &amp; 'mediumTime'</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">ISO 8601 Standard</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--small"><code>{{ now() | gpDate: 'iso' }}</code></span>
+        <span class="i18n-page__stat-meta">Universal UTC wire format</span>
+      </div>
+    </div>
+
+    <!-- Relative Time & Duration Sandbox -->
+    <div class="i18n-page__sandbox i18n-page__sandbox--spaced">
+      <div class="i18n-page__sandbox-header">
+        <h3><gp-icon name="calendar" /> Relative Time &amp; Duration Formatter</h3>
+      </div>
+      <div class="i18n-page__relative-grid">
+        <div class="i18n-page__rel-col">
+          <h4>Relative Time (Live)</h4>
+          <ul class="i18n-page__rel-list">
+            <li class="i18n-page__rel-item">
+              <span>5 minutes ago:</span> <strong>{{ fiveMinutesAgo | gpRelativeTime }}</strong>
+            </li>
+            <li class="i18n-page__rel-item">
+              <span>3 hours ago:</span> <strong>{{ threeHoursAgo | gpRelativeTime }}</strong>
+            </li>
+            <li class="i18n-page__rel-item">
+              <span>Yesterday:</span> <strong>{{ yesterday | gpRelativeTime }}</strong>
+            </li>
+            <li class="i18n-page__rel-item">
+              <span>In 2 days:</span> <strong>{{ inTwoDays | gpRelativeTime }}</strong>
+            </li>
+          </ul>
+        </div>
+        <div class="i18n-page__rel-col">
+          <h4>Duration Formats (3,665 seconds)</h4>
+          <ul class="i18n-page__rel-list">
+            <li class="i18n-page__rel-item">
+              <span>Digital style:</span> <strong>{{ 3665 | gpDuration: 'digital' }}</strong>
+            </li>
+            <li class="i18n-page__rel-item">
+              <span>Long style:</span> <strong>{{ 3665 | gpDuration: 'long' }}</strong>
+            </li>
+            <li class="i18n-page__rel-item">
+              <span>Short style:</span> <strong>{{ 3665 | gpDuration: 'short' }}</strong>
+            </li>
+            <li class="i18n-page__rel-item">
+              <span>Narrow style:</span> <strong>{{ 3665 | gpDuration: 'narrow' }}</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Lists, Sorting & Text Utilities -->
+  <section class="i18n-page__section">
+    <h2 class="i18n-page__section-title">3. Natural Lists &amp; Localized Collation</h2>
+    <p class="i18n-page__section-subtext">
+      Format string arrays into natural grammatical sentences and sort strings with natural numeric ordering.
+    </p>
+
+    <div class="i18n-page__grid-cards">
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Conjunction List (gpList)</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--medium"
+          >{{ sampleFrameworks | gpList: 'conjunction' }}</span
+        >
+        <span class="i18n-page__stat-meta">Grammatically joined ("and")</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Disjunction List</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--medium">{{ sampleChoices | gpList: 'disjunction' }}</span>
+        <span class="i18n-page__stat-meta">Joined with "or"</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Natural Numeric Collation Sort</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--small">{{ sortedFiles().join(', ') }}</span>
+        <span class="i18n-page__stat-meta">"file2" naturally before "file10"</span>
+      </div>
+
+      <div class="i18n-page__stat-card">
+        <span class="i18n-page__stat-label">Phone &amp; Name Helpers</span>
+        <span class="i18n-page__stat-val i18n-page__stat-val--small"
+          >{{ formattedPhone() }} | Initials: {{ initials() }}</span
+        >
+        <span class="i18n-page__stat-meta">Clean E.164 &amp; cultural ordering</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Existing Components with Active Locale -->
+  <section class="i18n-page__section">
+    <h2 class="i18n-page__section-title">4. Localized gp-ui Components Integration</h2>
+    <div class="i18n-page__components-row">
+      <div class="i18n-page__component-card">
+        <h4>Date Picker with Active Locale</h4>
+        <gp-date-picker [inline]="true" />
+      </div>
+      <div class="i18n-page__component-card">
+        <h4>Pagination &amp; Dialog</h4>
+        <gp-paginator [totalRecords]="100" [rows]="10" />
+        <div class="i18n-page__dialog-trigger">
+          <gp-button label="Trigger Localized Dialog" severity="warning" (onClickEvent)="confirm()" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Developer Code Guide -->
+  <section class="i18n-page__section">
+    <h2 class="i18n-page__section-title">5. Developer Quick Start &amp; Usage</h2>
+    <p class="i18n-page__section-subtext">
+      Import standalone pipes via <code>GP_I18N_PIPES</code> or inject <code>GpLocaleService</code> in services and
+      components.
+    </p>
+
+    <doc-code [code]="pipesExampleCode" language="html" />
+    <doc-code [code]="serviceExampleCode" language="typescript" />
+  </section>
+</div>

@@ -1,0 +1,47 @@
+@if (editorService.isOpen()) {
+<div
+  class="theme-editor-dialog__backdrop"
+  [class.dialog-backdrop-maximized]="isMaximized()"
+  (click)="closeOnBackdrop($event)"
+>
+  <div
+    class="theme-editor-dialog__window"
+    [class.dialog-window-maximized]="isMaximized()"
+    role="dialog"
+    aria-labelledby="dialog-title"
+  >
+    <div class="theme-editor-dialog__header">
+      <div class="theme-editor-dialog__title-wrap">
+        <gp-icon name="sliders" size="1.25em" class="theme-editor-dialog__icon" />
+        <h2 id="dialog-title">Theme Studio &amp; Angular Token Exporter</h2>
+      </div>
+
+      <div class="theme-editor-dialog__actions">
+        <gp-button
+          [icon]="isMaximized() ? 'compress' : 'expand'"
+          [iconOnly]="true"
+          variant="text"
+          styleClass="header-icon-btn"
+          (onClickEvent)="toggleMaximize()"
+          [title]="isMaximized() ? 'Restore Window Size' : 'Expand to Fit Screen'"
+          [ariaLabel]="isMaximized() ? 'Restore Window Size' : 'Expand to Fit Screen'"
+        />
+        <gp-button
+          icon="xmark"
+          [iconOnly]="true"
+          variant="text"
+          severity="danger"
+          styleClass="header-icon-btn close-btn"
+          (onClickEvent)="editorService.close()"
+          ariaLabel="Close dialog"
+          title="Close Dialog"
+        />
+      </div>
+    </div>
+
+    <div class="theme-editor-dialog__body">
+      <app-theme-editor />
+    </div>
+  </div>
+</div>
+}
