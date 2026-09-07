@@ -174,14 +174,14 @@ export class GpDatasetDataLoaderService {
 
     // Direct exact matches
     if (field.datasetFieldId in record) {
-return record[field.datasetFieldId];
-}
+      return record[field.datasetFieldId];
+    }
     if (field.fieldId in record) {
-return record[field.fieldId];
-}
+      return record[field.fieldId];
+    }
     if (field.fieldName in record) {
-return record[field.fieldName];
-}
+      return record[field.fieldName];
+    }
 
     // Case-insensitive & normalized matches
     const recKeys = Object.keys(record);

@@ -58,14 +58,42 @@ export class PackageManagerDemo {
 
   protected readonly properties: DocApiProperty[] = [
     { name: 'datasets', type: 'input<Dataset[]>', default: '[]', description: 'Source datasets available for export.' },
-    { name: 'dashboards', type: 'input<GpDashboardConfig[]>', default: '[]', description: 'Source dashboards available for export.' },
-    { name: 'reports', type: 'input<GpReportConfig[]>', default: '[]', description: 'Source reports available for export.' },
-    { name: 'visible', type: 'model<boolean>', default: 'false', kind: 'model', description: 'Two-way modal dialog visibility.' }
+    {
+      name: 'dashboards',
+      type: 'input<GpDashboardConfig[]>',
+      default: '[]',
+      description: 'Source dashboards available for export.'
+    },
+    {
+      name: 'reports',
+      type: 'input<GpReportConfig[]>',
+      default: '[]',
+      description: 'Source reports available for export.'
+    },
+    {
+      name: 'visible',
+      type: 'model<boolean>',
+      default: 'false',
+      kind: 'model',
+      description: 'Two-way modal dialog visibility.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [
-    { name: 'packageImported', type: 'output<PackageImportEvent>', description: 'Emitted when a package is successfully imported.' },
-    { name: 'packageDistributed', type: 'output<DistributionTransmitEvent>', description: 'Emitted when a package is successfully distributed to a target environment.' },
-    { name: 'packageExported', type: 'output<GpAnalyticsPackage>', description: 'Emitted when a package is successfully exported/downloaded.' }
+    {
+      name: 'packageImported',
+      type: 'output<PackageImportEvent>',
+      description: 'Emitted when a package is successfully imported.'
+    },
+    {
+      name: 'packageDistributed',
+      type: 'output<DistributionTransmitEvent>',
+      description: 'Emitted when a package is successfully distributed to a target environment.'
+    },
+    {
+      name: 'packageExported',
+      type: 'output<GpAnalyticsPackage>',
+      description: 'Emitted when a package is successfully exported/downloaded.'
+    }
   ];
 }

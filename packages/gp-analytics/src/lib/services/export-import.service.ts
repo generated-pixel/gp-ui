@@ -31,26 +31,26 @@ export class GpExportImportService {
     const pkg = createEmptyPackage(options.name || 'Analytics Distribution Package');
 
     if (options.description) {
-pkg.metadata.description = options.description;
-}
+      pkg.metadata.description = options.description;
+    }
     if (options.exportedBy) {
-pkg.metadata.exportedBy = options.exportedBy;
-}
+      pkg.metadata.exportedBy = options.exportedBy;
+    }
     if (options.organization) {
-pkg.metadata.organization = options.organization;
-}
+      pkg.metadata.organization = options.organization;
+    }
     if (options.environment) {
-pkg.metadata.environment = options.environment;
-}
+      pkg.metadata.environment = options.environment;
+    }
     if (options.tags) {
-pkg.metadata.tags = [...options.tags];
-}
+      pkg.metadata.tags = [...options.tags];
+    }
     if (options.theme) {
-pkg.theme = { ...options.theme };
-}
+      pkg.theme = { ...options.theme };
+    }
     if (options.extensions) {
-pkg.extensions = { ...options.extensions };
-}
+      pkg.extensions = { ...options.extensions };
+    }
 
     pkg.datasets = options.datasets ? JSON.parse(JSON.stringify(options.datasets)) : [];
     pkg.dashboards = options.dashboards ? JSON.parse(JSON.stringify(options.dashboards)) : [];
@@ -130,11 +130,11 @@ pkg.extensions = { ...options.extensions };
       errors.push("Missing 'metadata' object in package.");
     } else {
       if (!parsed.metadata.id) {
-warnings.push('Metadata missing unique id.');
-}
+        warnings.push('Metadata missing unique id.');
+      }
       if (!parsed.metadata.name) {
-warnings.push('Metadata missing human-readable name.');
-}
+        warnings.push('Metadata missing human-readable name.');
+      }
     }
 
     // Datasets validation
@@ -276,8 +276,8 @@ warnings.push('Metadata missing human-readable name.');
    */
   downloadJsonFile(filename: string, jsonContent: string): void {
     if (typeof window === 'undefined' || !window.document) {
-return;
-}
+      return;
+    }
     const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

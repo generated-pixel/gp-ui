@@ -107,8 +107,8 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   readonly effectiveConfig = computed<GpDashboardConfig>(() => {
     const custom = this.config();
     if (custom) {
-return custom;
-}
+      return custom;
+    }
     return createDefaultDashboardConfig();
   });
 
@@ -132,8 +132,8 @@ return custom;
    */
   readonly isGridReadonly = computed(() => {
     if (this.editable()) {
-return false;
-}
+      return false;
+    }
     const allowMove = this.effectiveConfig().allowMove ?? false;
     const allowResize = this.effectiveConfig().allowResize ?? false;
     return !(allowMove || allowResize);
@@ -172,8 +172,8 @@ return false;
     const raw = this.records();
     const f = this.filters();
     if (!f || f.length === 0) {
-return raw;
-}
+      return raw;
+    }
     return this.engine.applyFilters(raw, f);
   });
 
@@ -338,8 +338,8 @@ return raw;
   async loadWidget(widgetId: string, forceRefresh = false): Promise<void> {
     const widget = this.widgetsMap().get(widgetId);
     if (!widget) {
-return;
-}
+      return;
+    }
 
     // Update state to loading
     this.updateWidgetState(widgetId, (prev) => ({
@@ -479,8 +479,8 @@ return;
   readonly kpiRevenue = computed(() => {
     const kpi = this.kpiMetricsMap().get('kpi-1');
     if (kpi) {
-return kpi;
-}
+      return kpi;
+    }
     return this.engine.computeKpiMetric(this.records(), { fieldId: 'total', aggregation: 'sum' }, 'Total Revenue', {
       previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 2))),
       targetValue: 80000,
@@ -491,8 +491,8 @@ return kpi;
   readonly kpiOrders = computed(() => {
     const kpi = this.kpiMetricsMap().get('kpi-2');
     if (kpi) {
-return kpi;
-}
+      return kpi;
+    }
     return this.engine.computeKpiMetric(this.records(), { fieldId: 'total', aggregation: 'count' }, 'Total Orders', {
       previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 3))),
       targetValue: 100,
@@ -503,8 +503,8 @@ return kpi;
   readonly kpiAvgOrder = computed(() => {
     const kpi = this.kpiMetricsMap().get('kpi-3');
     if (kpi) {
-return kpi;
-}
+      return kpi;
+    }
     return this.engine.computeKpiMetric(this.records(), { fieldId: 'total', aggregation: 'avg' }, 'Avg Order Value', {
       previousRecords: this.records().slice(0, Math.max(1, Math.floor(this.records().length / 2))),
       formatCurrency: true
@@ -514,8 +514,8 @@ return kpi;
   readonly customerBreakdownChart = computed(() => {
     const chart = this.chartDataMap().get('chart-bar');
     if (chart) {
-return chart;
-}
+      return chart;
+    }
     const res = this.engine.executeQuery(this.records(), {
       dimensions: ['customer_name'],
       measures: [{ fieldId: 'total', aggregation: 'sum', alias: 'revenue' }],
@@ -570,8 +570,8 @@ return chart;
 
   protected onSelect(w: GpDashboardWidgetConfig, event: MouseEvent): void {
     if (!this.editable()) {
-return;
-}
+      return;
+    }
     event.stopPropagation();
     this.widgetSelect.emit(w);
   }

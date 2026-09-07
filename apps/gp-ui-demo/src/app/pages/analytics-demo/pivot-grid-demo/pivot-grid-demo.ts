@@ -26,10 +26,20 @@ export class PivotGridDemo {
 
   protected readonly properties: DocApiProperty[] = [
     { name: 'title', type: 'input<string>', default: "'Dynamic Pivot Matrix'", description: 'Pivot grid title.' },
-    { name: 'records', type: 'input<Record<string, any>[]>', default: '[]', description: 'Source records to aggregate.' },
+    {
+      name: 'records',
+      type: 'input<Record<string, any>[]>',
+      default: '[]',
+      description: 'Source records to aggregate.'
+    },
     { name: 'rowDimension', type: 'input<string>', default: "''", description: 'Field ID used as the row axis.' },
     { name: 'colDimension', type: 'input<string>', default: "''", description: 'Field ID used as the column axis.' },
-    { name: 'measure', type: 'input<GpMeasureQuery>', default: "{fieldId: 'total', aggregation: 'sum'}", description: 'Aggregated measure rendered in each matrix cell.' }
+    {
+      name: 'measure',
+      type: 'input<GpMeasureQuery>',
+      default: "{fieldId: 'total', aggregation: 'sum'}",
+      description: 'Aggregated measure rendered in each matrix cell.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [];

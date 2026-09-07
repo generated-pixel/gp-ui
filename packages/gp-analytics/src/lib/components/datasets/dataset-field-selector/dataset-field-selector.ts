@@ -253,8 +253,8 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
   readonly selectedFilterField = computed<DatasetField | null>(() => {
     const id = this.newFilterFieldId();
     if (!id) {
-return null;
-}
+      return null;
+    }
     return this.fields().find((f) => f.datasetFieldId === id || f.fieldId === id || f.fieldName === id) ?? null;
   });
 
@@ -457,8 +457,8 @@ return null;
       (f) => f.datasetFieldId === fieldId || f.fieldId === fieldId || f.fieldName === fieldId
     );
     if (!field) {
-return fieldId;
-}
+      return fieldId;
+    }
     return getDatasetFieldDisplayLabel(field, this.i18n.locale());
   }
 

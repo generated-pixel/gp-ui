@@ -20,7 +20,11 @@ export class DatasetPreviewDemo {
   protected readonly filters = signal<GpFilterCondition[]>([]);
 
   protected onDataSourceLoaded(result: LoadedDataResult): void {
-    this.toastService.add({ severity: 'success', summary: 'Data source loaded', detail: `${result.records.length} record(s)` });
+    this.toastService.add({
+      severity: 'success',
+      summary: 'Data source loaded',
+      detail: `${result.records.length} record(s)`
+    });
   }
 
   protected onDataSourceReset(): void {
@@ -48,19 +52,66 @@ export class DatasetPreviewDemo {
 />`;
 
   protected readonly properties: DocApiProperty[] = [
-    { name: 'showSummaryStats', type: 'input<boolean>', default: 'true', description: 'Whether the per-column summary statistics panel is shown.' },
-    { name: 'fields', type: 'input<DatasetField[]>', default: '[]', description: 'The list of dataset fields forming the columns of this table preview.' },
-    { name: 'datasetName', type: 'input<string>', default: "'Custom Dataset'", description: 'Dataset name displayed on the header.' },
-    { name: 'customData', type: 'input<Record<string, any>[] | null>', default: 'null', description: 'Optional custom/real dataset records. If null and no source is loaded, simulated data is rendered.' },
-    { name: 'customDataLoader', type: 'input<CustomDataLoaderFn | null>', default: 'null', description: 'Optional custom data loader function for specialized or authenticated fetching.' },
-    { name: 'dataSourceConfig', type: 'input<DatasetDataSourceConfig | null>', default: 'null', description: 'Optional initial or pre-configured data source.' },
-    { name: 'filters', type: 'input<GpFilterCondition[]>', default: '[]', description: 'Dataset-level filters applied to records in the preview.' }
+    {
+      name: 'showSummaryStats',
+      type: 'input<boolean>',
+      default: 'true',
+      description: 'Whether the per-column summary statistics panel is shown.'
+    },
+    {
+      name: 'fields',
+      type: 'input<DatasetField[]>',
+      default: '[]',
+      description: 'The list of dataset fields forming the columns of this table preview.'
+    },
+    {
+      name: 'datasetName',
+      type: 'input<string>',
+      default: "'Custom Dataset'",
+      description: 'Dataset name displayed on the header.'
+    },
+    {
+      name: 'customData',
+      type: 'input<Record<string, any>[] | null>',
+      default: 'null',
+      description: 'Optional custom/real dataset records. If null and no source is loaded, simulated data is rendered.'
+    },
+    {
+      name: 'customDataLoader',
+      type: 'input<CustomDataLoaderFn | null>',
+      default: 'null',
+      description: 'Optional custom data loader function for specialized or authenticated fetching.'
+    },
+    {
+      name: 'dataSourceConfig',
+      type: 'input<DatasetDataSourceConfig | null>',
+      default: 'null',
+      description: 'Optional initial or pre-configured data source.'
+    },
+    {
+      name: 'filters',
+      type: 'input<GpFilterCondition[]>',
+      default: '[]',
+      description: 'Dataset-level filters applied to records in the preview.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [
-    { name: 'dataSourceLoaded', type: 'output<LoadedDataResult>', description: 'Emitted when custom data is loaded from a source.' },
-    { name: 'dataSourceReset', type: 'output<void>', description: 'Emitted when the preview is reset to simulated data.' },
-    { name: 'filterRemove', type: 'output<number>', description: 'Emitted with the index of a filter chip that was removed.' },
+    {
+      name: 'dataSourceLoaded',
+      type: 'output<LoadedDataResult>',
+      description: 'Emitted when custom data is loaded from a source.'
+    },
+    {
+      name: 'dataSourceReset',
+      type: 'output<void>',
+      description: 'Emitted when the preview is reset to simulated data.'
+    },
+    {
+      name: 'filterRemove',
+      type: 'output<number>',
+      description: 'Emitted with the index of a filter chip that was removed.'
+    },
     { name: 'filtersClear', type: 'output<void>', description: 'Emitted when all filters are cleared.' }
   ];
 }

@@ -41,14 +41,34 @@ export class DashboardDesignerDemo {
 />`;
 
   protected readonly properties: DocApiProperty[] = [
-    { name: 'config', type: 'model<GpDashboardConfig>', default: 'createDefaultDashboardConfig()', kind: 'model', description: 'Two-way bound dashboard configuration being authored.' },
-    { name: 'records', type: 'input<Record<string, any>[]>', default: '[]', description: 'Dataset records used to render live previews in the designer canvas.' },
-    { name: 'availableFields', type: 'input<{fieldId: string; label: string; type?: string}[]>', default: '[]', description: 'Available fields from the active domain schema or dataset.' }
+    {
+      name: 'config',
+      type: 'model<GpDashboardConfig>',
+      default: 'createDefaultDashboardConfig()',
+      kind: 'model',
+      description: 'Two-way bound dashboard configuration being authored.'
+    },
+    {
+      name: 'records',
+      type: 'input<Record<string, any>[]>',
+      default: '[]',
+      description: 'Dataset records used to render live previews in the designer canvas.'
+    },
+    {
+      name: 'availableFields',
+      type: 'input<{fieldId: string; label: string; type?: string}[]>',
+      default: '[]',
+      description: 'Available fields from the active domain schema or dataset.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [
     { name: 'save', type: 'output<GpDashboardConfig>', description: 'Emitted when the user clicks the Save button.' },
     { name: 'cancel', type: 'output<void>', description: 'Emitted when the user clicks Cancel or Exit.' },
-    { name: 'refresh', type: 'output<void>', description: 'Emitted when the dashboard auto-refreshes or a manual refresh is triggered.' }
+    {
+      name: 'refresh',
+      type: 'output<void>',
+      description: 'Emitted when the dashboard auto-refreshes or a manual refresh is triggered.'
+    }
   ];
 }

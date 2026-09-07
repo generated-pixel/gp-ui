@@ -1039,8 +1039,8 @@ export class GpSchemaDataLoaderService {
       }
       case 'file': {
         if (!config.file) {
-throw new Error('No schema file selected');
-}
+          throw new Error('No schema file selected');
+        }
         sourceName = config.fileName || config.file.name;
         const res = await this.readFromFile(config.file, config.dataPath);
         groupings = res.groupings;
@@ -1049,8 +1049,8 @@ throw new Error('No schema file selected');
       }
       case 'api': {
         if (!config.url) {
-throw new Error('No API URL provided');
-}
+          throw new Error('No API URL provided');
+        }
         sourceName = config.url;
         const res = await this.fetchFromUrl(config.url, config.headers, config.dataPath);
         groupings = res.groupings;
@@ -1059,8 +1059,8 @@ throw new Error('No API URL provided');
       }
       case 'json': {
         if (!config.rawJson) {
-throw new Error('No JSON schema payload provided');
-}
+          throw new Error('No JSON schema payload provided');
+        }
         sourceName = 'Raw Schema JSON';
         const res = this.parseJson(config.rawJson, config.dataPath);
         groupings = res.groupings;

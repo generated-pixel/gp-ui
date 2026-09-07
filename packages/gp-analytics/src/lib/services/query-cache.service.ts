@@ -88,8 +88,8 @@ export class GpQueryCacheService {
   has(key: string): boolean {
     const entry = this.cache.get(key);
     if (!entry) {
-return false;
-}
+      return false;
+    }
     if (Date.now() > entry.expiresAt) {
       this.cache.delete(key);
       return false;

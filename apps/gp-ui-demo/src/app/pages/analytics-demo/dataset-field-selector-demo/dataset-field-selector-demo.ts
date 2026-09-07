@@ -48,18 +48,56 @@ export class DatasetFieldSelectorDemo {
 />`;
 
   protected readonly properties: DocApiProperty[] = [
-    { name: 'fields', type: 'input<DatasetField[]>', default: '[]', description: 'The list of fields configured in the current dataset.' },
-    { name: 'filters', type: 'input<GpFilterCondition[]>', default: '[]', description: 'Dataset-level filters applied to records.' },
-    { name: 'listGrouping', type: 'model<ListGroupingMode>', default: "'none'", kind: 'model', description: "Two-way grouping mode for the fields list: 'none' | 'table' | 'role'." },
-    { name: 'selectedFieldId', type: 'model<string | null>', default: 'null', kind: 'model', description: 'Two-way currently active/selected dataset field ID for the properties panel.' },
+    {
+      name: 'fields',
+      type: 'input<DatasetField[]>',
+      default: '[]',
+      description: 'The list of fields configured in the current dataset.'
+    },
+    {
+      name: 'filters',
+      type: 'input<GpFilterCondition[]>',
+      default: '[]',
+      description: 'Dataset-level filters applied to records.'
+    },
+    {
+      name: 'listGrouping',
+      type: 'model<ListGroupingMode>',
+      default: "'none'",
+      kind: 'model',
+      description: "Two-way grouping mode for the fields list: 'none' | 'table' | 'role'."
+    },
+    {
+      name: 'selectedFieldId',
+      type: 'model<string | null>',
+      default: 'null',
+      kind: 'model',
+      description: 'Two-way currently active/selected dataset field ID for the properties panel.'
+    },
     { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disabled state.' },
     { name: 'loading', type: 'input<boolean>', default: 'false', description: 'Loading state indicator.' }
   ];
 
   protected readonly events: DocApiProperty[] = [
-    { name: 'fieldsChange', type: 'output<DatasetField[]>', description: 'Emitted whenever the fields array or any field property changes.' },
-    { name: 'filtersChange', type: 'output<GpFilterCondition[]>', description: 'Emitted whenever dataset filters change.' },
-    { name: 'fieldDrop', type: 'output<Field>', description: 'Emitted when a field is dropped into the component from the schema catalogue.' },
-    { name: 'fieldRemove', type: 'output<string>', description: 'Emitted when a field is removed, with the removed field ID.' }
+    {
+      name: 'fieldsChange',
+      type: 'output<DatasetField[]>',
+      description: 'Emitted whenever the fields array or any field property changes.'
+    },
+    {
+      name: 'filtersChange',
+      type: 'output<GpFilterCondition[]>',
+      description: 'Emitted whenever dataset filters change.'
+    },
+    {
+      name: 'fieldDrop',
+      type: 'output<Field>',
+      description: 'Emitted when a field is dropped into the component from the schema catalogue.'
+    },
+    {
+      name: 'fieldRemove',
+      type: 'output<string>',
+      description: 'Emitted when a field is removed, with the removed field ID.'
+    }
   ];
 }

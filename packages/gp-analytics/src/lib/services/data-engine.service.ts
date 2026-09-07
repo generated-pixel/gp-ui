@@ -282,11 +282,11 @@ export class GpDataEngineService {
 
     for (const rec of records) {
       if (rec[rowDim] != null) {
-rowKeysSet.add(String(rec[rowDim]));
-}
+        rowKeysSet.add(String(rec[rowDim]));
+      }
       if (rec[colDim] != null) {
-colKeysSet.add(String(rec[colDim]));
-}
+        colKeysSet.add(String(rec[colDim]));
+      }
     }
 
     const rowHeaders = Array.from(rowKeysSet).sort();
@@ -501,8 +501,8 @@ colKeysSet.add(String(rec[colDim]));
       const set = new Set();
       for (const r of records) {
         if (r[measure.fieldId] != null) {
-set.add(r[measure.fieldId]);
-}
+          set.add(r[measure.fieldId]);
+        }
       }
       return set.size;
     }
@@ -583,14 +583,14 @@ set.add(r[measure.fieldId]);
         const valB = b[sort.fieldId];
 
         if (valA === valB) {
-continue;
-}
+          continue;
+        }
         if (valA == null) {
-return 1;
-}
+          return 1;
+        }
         if (valB == null) {
-return -1;
-}
+          return -1;
+        }
 
         const orderFactor = sort.order === 'asc' ? 1 : -1;
 
@@ -689,8 +689,8 @@ return -1;
    */
   private evaluateExpression(expr: string, record: Record<string, any>): number {
     if (!expr || typeof expr !== 'string') {
-return 0;
-}
+      return 0;
+    }
 
     // Substitute identifier tokens with their numeric values
     const sanitized = expr.replace(/[a-zA-Z_][a-zA-Z0-9_]*/g, (match) => {
@@ -716,12 +716,12 @@ return 0;
    */
   bucketDateToGrain(val: any, grain: GpTimeGrain): string {
     if (!val) {
-return 'N/A';
-}
+      return 'N/A';
+    }
     const date = new Date(val);
     if (isNaN(date.getTime())) {
-return String(val);
-}
+      return String(val);
+    }
 
     const y = date.getUTCFullYear();
     const m = date.getUTCMonth() + 1;

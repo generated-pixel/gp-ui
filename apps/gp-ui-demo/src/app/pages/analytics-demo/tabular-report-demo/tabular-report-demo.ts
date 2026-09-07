@@ -32,12 +32,42 @@ export class TabularReportDemo {
 
   protected readonly properties: DocApiProperty[] = [
     { name: 'title', type: 'input<string>', default: "'Tabular Analytical Report'", description: 'Report title.' },
-    { name: 'subtitle', type: 'input<string>', default: "'Aggregated enterprise reporting with subtotal rollups'", description: 'Report subtitle.' },
-    { name: 'records', type: 'input<Record<string, any>[]>', default: '[]', description: 'Source records to aggregate.' },
-    { name: 'dimensions', type: 'input<string[]>', default: '[]', description: 'Field IDs used to group rows, in nesting order.' },
-    { name: 'measures', type: 'input<GpMeasureQuery[]>', default: '[]', description: 'Aggregated measures rendered as columns.' },
-    { name: 'showSubtotals', type: 'input<boolean>', default: 'true', description: 'Whether subtotal rows are rendered for each dimension group.' },
-    { name: 'showGrandTotal', type: 'input<boolean>', default: 'true', description: 'Whether a grand total row is rendered.' }
+    {
+      name: 'subtitle',
+      type: 'input<string>',
+      default: "'Aggregated enterprise reporting with subtotal rollups'",
+      description: 'Report subtitle.'
+    },
+    {
+      name: 'records',
+      type: 'input<Record<string, any>[]>',
+      default: '[]',
+      description: 'Source records to aggregate.'
+    },
+    {
+      name: 'dimensions',
+      type: 'input<string[]>',
+      default: '[]',
+      description: 'Field IDs used to group rows, in nesting order.'
+    },
+    {
+      name: 'measures',
+      type: 'input<GpMeasureQuery[]>',
+      default: '[]',
+      description: 'Aggregated measures rendered as columns.'
+    },
+    {
+      name: 'showSubtotals',
+      type: 'input<boolean>',
+      default: 'true',
+      description: 'Whether subtotal rows are rendered for each dimension group.'
+    },
+    {
+      name: 'showGrandTotal',
+      type: 'input<boolean>',
+      default: 'true',
+      description: 'Whether a grand total row is rendered.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [];

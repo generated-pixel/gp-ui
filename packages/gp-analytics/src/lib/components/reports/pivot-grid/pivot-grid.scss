@@ -263,11 +263,7 @@
 
     .grand-total-cell,
     .gp-pivot-grid__grand-total-cell {
-      background: color-mix(
-        in srgb,
-        var(--gp-primary, #4f46e5) 30%,
-        var(--gp-surface-card, #0f172a)
-      ) !important;
+      background: color-mix(in srgb, var(--gp-primary, #4f46e5) 30%, var(--gp-surface-card, #0f172a)) !important;
       color: #ffffff !important;
       border-color: var(--gp-surface-border, #334155);
       box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gp-primary, #4f46e5) 50%, transparent);

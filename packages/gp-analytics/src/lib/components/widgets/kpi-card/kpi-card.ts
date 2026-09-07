@@ -39,13 +39,13 @@ export class GpKpiCard extends GpAnalyticsBaseWidget {
   readonly isAlertActive = computed<boolean>(() => {
     const thresh = this.alertThreshold();
     if (thresh === null || thresh === undefined) {
-return false;
-}
+      return false;
+    }
     const val = this.value();
     const num = typeof val === 'number' ? val : parseFloat(String(val));
     if (isNaN(num)) {
-return false;
-}
+      return false;
+    }
     return this.alertCondition() === 'above' ? num > thresh : num < thresh;
   });
 
@@ -55,8 +55,8 @@ return false;
   readonly hoveredPoint = computed(() => {
     const idx = this.hoveredPointIndex();
     if (idx === null) {
-return null;
-}
+      return null;
+    }
     const pts = this.sparklineSvg().points;
     return pts[idx] ? { ...pts[idx], index: idx } : null;
   });

@@ -34,14 +34,44 @@ export class FilterBarDemo {
 />`;
 
   protected readonly properties: DocApiProperty[] = [
-    { name: 'availableFields', type: 'input<{fieldId: string; label: string}[]>', default: '[]', description: 'Fields offered in the "Add Condition" field picker.' },
-    { name: 'filters', type: 'model<GpFilterCondition[]>', default: '[]', kind: 'model', description: 'Two-way active filter conditions.' },
-    { name: 'quickPresets', type: 'input<{label: string; condition: GpFilterCondition}[]>', default: '[]', description: 'One-click filter presets rendered as quick-filter chips.' },
-    { name: 'dateField', type: 'input<string>', default: "'order_date'", description: 'Field ID used by the built-in date range quick presets.' },
-    { name: 'showDatePresets', type: 'input<boolean>', default: 'true', description: 'Whether the built-in Today/Last 7 days/Last 30 days presets are shown.' }
+    {
+      name: 'availableFields',
+      type: 'input<{fieldId: string; label: string}[]>',
+      default: '[]',
+      description: 'Fields offered in the "Add Condition" field picker.'
+    },
+    {
+      name: 'filters',
+      type: 'model<GpFilterCondition[]>',
+      default: '[]',
+      kind: 'model',
+      description: 'Two-way active filter conditions.'
+    },
+    {
+      name: 'quickPresets',
+      type: 'input<{label: string; condition: GpFilterCondition}[]>',
+      default: '[]',
+      description: 'One-click filter presets rendered as quick-filter chips.'
+    },
+    {
+      name: 'dateField',
+      type: 'input<string>',
+      default: "'order_date'",
+      description: 'Field ID used by the built-in date range quick presets.'
+    },
+    {
+      name: 'showDatePresets',
+      type: 'input<boolean>',
+      default: 'true',
+      description: 'Whether the built-in Today/Last 7 days/Last 30 days presets are shown.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [
-    { name: 'filterChange', type: 'output<GpFilterCondition[]>', description: 'Emitted whenever the active filter conditions change.' }
+    {
+      name: 'filterChange',
+      type: 'output<GpFilterCondition[]>',
+      description: 'Emitted whenever the active filter conditions change.'
+    }
   ];
 }

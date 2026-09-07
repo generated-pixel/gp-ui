@@ -61,8 +61,8 @@ export class GpPivotGrid extends GpAnalyticsComponent {
   readonly maxCellValue = computed<number>(() => {
     const p = this.pivotMatrix();
     if (!p) {
-return 1;
-}
+      return 1;
+    }
 
     let max = 0;
     for (const row of p.matrix) {
@@ -84,8 +84,8 @@ return 1;
 
   getCellOpacity(val: number | string | null): number {
     if (typeof val !== 'number' || val <= 0) {
-return 0;
-}
+      return 0;
+    }
     const ratio = val / this.maxCellValue();
     return Math.max(0.08, Math.min(0.7, ratio * 0.7));
   }
@@ -93,8 +93,8 @@ return 0;
   getCellBg(val: number | string | null): string {
     const mode = this.heatmapMode();
     if (mode === 'none' || typeof val !== 'number' || val <= 0) {
-return 'transparent';
-}
+      return 'transparent';
+    }
     const percent = Math.round(this.getCellOpacity(val) * 100);
 
     switch (mode) {
@@ -111,8 +111,8 @@ return 'transparent';
   exportToCsv(): void {
     const p = this.pivotMatrix();
     if (!p) {
-return;
-}
+      return;
+    }
 
     const csvLines: string[] = [];
     const rDim = this.effectiveRowDim();
@@ -159,8 +159,8 @@ return;
 
   formatCellValue(val: any): string {
     if (val == null) {
-return '—';
-}
+      return '—';
+    }
     if (typeof val === 'number') {
       return this.localeFormatter.formatNumber(val);
     }

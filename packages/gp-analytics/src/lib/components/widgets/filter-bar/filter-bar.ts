@@ -91,8 +91,8 @@ export class GpFilterBar extends GpAnalyticsComponent {
 
   private resolveDateField(): string {
     if (this.dateField()) {
-return this.dateField();
-}
+      return this.dateField();
+    }
     const fields = this.availableFields();
     const matched = fields.find((f) => /date|time|created|timestamp/i.test(f.fieldId));
     return matched ? matched.fieldId : fields[0]?.fieldId || 'order_date';
@@ -134,15 +134,15 @@ return this.dateField();
     const op = this.selectedOperator() as any;
     const val = this.filterValue().trim();
     if (!fieldId || !val) {
-return;
-}
+      return;
+    }
 
     let finalVal: any = val;
     if (op === 'between') {
       const valTo = this.filterValueTo().trim();
       if (!valTo) {
-return;
-}
+        return;
+      }
       finalVal = [val, valTo];
     } else if (op === 'in') {
       finalVal = val

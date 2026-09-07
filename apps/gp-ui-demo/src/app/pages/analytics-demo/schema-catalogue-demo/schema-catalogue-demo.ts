@@ -24,11 +24,19 @@ export class SchemaCatalogueDemo {
   }
 
   protected onFieldSelect(field: Field): void {
-    this.toastService.add({ severity: 'info', summary: 'Field selected', detail: field.fieldDisplayName.displayValue['en'] });
+    this.toastService.add({
+      severity: 'info',
+      summary: 'Field selected',
+      detail: field.fieldDisplayName.displayValue['en']
+    });
   }
 
   protected onSchemaLoad(result: LoadedSchemaResult): void {
-    this.toastService.add({ severity: 'success', summary: 'Schema loaded', detail: `${result.groupings.length} grouping(s) loaded` });
+    this.toastService.add({
+      severity: 'success',
+      summary: 'Schema loaded',
+      detail: `${result.groupings.length} grouping(s) loaded`
+    });
   }
 
   protected readonly usageCode = `<gp-schema-catalogue
@@ -40,21 +48,61 @@ export class SchemaCatalogueDemo {
 />`;
 
   protected readonly properties: DocApiProperty[] = [
-    { name: 'groupings', type: 'input.required<Grouping[]>', description: 'Metadata schema to browse: groupings, tables, field groupings, and fields.' },
-    { name: 'additionalRelationships', type: 'input<Relationship[]>', default: '[]', description: 'Cross-grouping relationships used to resolve join eligibility.' },
-    { name: 'activeDatasetFields', type: 'input<DatasetField[]>', default: '[]', description: 'Fields already present in the active dataset, used to highlight added fields.' },
+    {
+      name: 'groupings',
+      type: 'input.required<Grouping[]>',
+      description: 'Metadata schema to browse: groupings, tables, field groupings, and fields.'
+    },
+    {
+      name: 'additionalRelationships',
+      type: 'input<Relationship[]>',
+      default: '[]',
+      description: 'Cross-grouping relationships used to resolve join eligibility.'
+    },
+    {
+      name: 'activeDatasetFields',
+      type: 'input<DatasetField[]>',
+      default: '[]',
+      description: 'Fields already present in the active dataset, used to highlight added fields.'
+    },
     { name: 'id', type: 'input<string>', default: 'auto-generated', description: 'Unique element identifier.' },
-    { name: 'styleClass', type: 'input<string>', default: "''", description: 'Custom CSS class applied to the host/root container.' },
-    { name: 'style', type: 'input<{[k:string]:any}|null>', default: 'null', description: 'Custom inline styles applied to the host/root container.' },
+    {
+      name: 'styleClass',
+      type: 'input<string>',
+      default: "''",
+      description: 'Custom CSS class applied to the host/root container.'
+    },
+    {
+      name: 'style',
+      type: 'input<{[k:string]:any}|null>',
+      default: 'null',
+      description: 'Custom inline styles applied to the host/root container.'
+    },
     { name: 'ariaLabel', type: 'input<string>', default: "''", description: 'Accessible label for screen readers.' },
     { name: 'disabled', type: 'input<boolean>', default: 'false', description: 'Disabled state.' },
     { name: 'loading', type: 'input<boolean>', default: 'false', description: 'Loading state indicator.' }
   ];
 
   protected readonly events: DocApiProperty[] = [
-    { name: 'groupingsChange', type: 'output<Grouping[]>', description: 'Emitted when groupings are updated via preset loading or an external source.' },
-    { name: 'additionalRelationshipsChange', type: 'output<Relationship[]>', description: 'Emitted when relationships are updated via preset loading or an external source.' },
-    { name: 'schemaLoad', type: 'output<LoadedSchemaResult>', description: 'Emitted when metadata schema is loaded from a preset, file, API, or JSON.' },
-    { name: 'fieldSelect', type: 'output<Field>', description: 'Emitted when a user chooses to add a field (via the + button or drag start).' }
+    {
+      name: 'groupingsChange',
+      type: 'output<Grouping[]>',
+      description: 'Emitted when groupings are updated via preset loading or an external source.'
+    },
+    {
+      name: 'additionalRelationshipsChange',
+      type: 'output<Relationship[]>',
+      description: 'Emitted when relationships are updated via preset loading or an external source.'
+    },
+    {
+      name: 'schemaLoad',
+      type: 'output<LoadedSchemaResult>',
+      description: 'Emitted when metadata schema is loaded from a preset, file, API, or JSON.'
+    },
+    {
+      name: 'fieldSelect',
+      type: 'output<Field>',
+      description: 'Emitted when a user chooses to add a field (via the + button or drag start).'
+    }
   ];
 }

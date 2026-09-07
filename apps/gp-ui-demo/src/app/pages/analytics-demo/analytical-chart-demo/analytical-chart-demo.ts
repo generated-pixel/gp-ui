@@ -41,18 +41,50 @@ export class AnalyticalChartDemo {
 />`;
 
   protected readonly properties: DocApiProperty[] = [
-    { name: 'widgetId', type: 'input<string>', default: "''", description: 'Identifier passed back on refresh/export events.' },
+    {
+      name: 'widgetId',
+      type: 'input<string>',
+      default: "''",
+      description: 'Identifier passed back on refresh/export events.'
+    },
     { name: 'title', type: 'input<string>', default: "'Analytical Visualization'", description: 'Chart title.' },
     { name: 'subtitle', type: 'input<string>', default: "''", description: 'Optional subtitle text.' },
     { name: 'type', type: "input<'bar'|'donut'|'line'>", default: "'bar'", description: 'Chart rendering type.' },
-    { name: 'data', type: 'input<GpCategoricalChartData | null>', default: 'null', description: 'Categories and one or more named series of values.' },
-    { name: 'stacked', type: 'input<boolean>', default: 'false', description: 'Whether multi-series bar charts render stacked instead of grouped.' },
-    { name: 'enableSvgExport', type: 'input<boolean>', default: 'true', description: 'Whether the SVG export action is available.' }
+    {
+      name: 'data',
+      type: 'input<GpCategoricalChartData | null>',
+      default: 'null',
+      description: 'Categories and one or more named series of values.'
+    },
+    {
+      name: 'stacked',
+      type: 'input<boolean>',
+      default: 'false',
+      description: 'Whether multi-series bar charts render stacked instead of grouped.'
+    },
+    {
+      name: 'enableSvgExport',
+      type: 'input<boolean>',
+      default: 'true',
+      description: 'Whether the SVG export action is available.'
+    }
   ];
 
   protected readonly events: DocApiProperty[] = [
-    { name: 'refresh', type: 'output<string>', description: 'Emitted with the widgetId when the user requests a refresh.' },
-    { name: 'exportData', type: "output<{widgetId: string; format: 'csv'|'json'|'png'}>", description: 'Emitted when the user requests a data export.' },
-    { name: 'configure', type: 'output<string>', description: 'Emitted with the widgetId when the user requests configuration.' }
+    {
+      name: 'refresh',
+      type: 'output<string>',
+      description: 'Emitted with the widgetId when the user requests a refresh.'
+    },
+    {
+      name: 'exportData',
+      type: "output<{widgetId: string; format: 'csv'|'json'|'png'}>",
+      description: 'Emitted when the user requests a data export.'
+    },
+    {
+      name: 'configure',
+      type: 'output<string>',
+      description: 'Emitted with the widgetId when the user requests configuration.'
+    }
   ];
 }

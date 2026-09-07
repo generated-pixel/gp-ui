@@ -12,14 +12,78 @@ import {
 
 /** Shared sample order records used across every gp-analytics demo page. */
 export const ANALYTICS_SAMPLE_RECORDS: Record<string, any>[] = [
-  { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Completed', currency: 'GBP', total: 18450, quantity: 14, date: '2026-02-14' },
-  { customer_name: 'Northwind Trading', region: 'EMEA', status: 'Processing', currency: 'EUR', total: 6200, quantity: 4, date: '2026-02-18' },
-  { customer_name: 'Acme Industrial Corp', region: 'AMER', status: 'Completed', currency: 'USD', total: 34500, quantity: 28, date: '2026-02-15' },
-  { customer_name: 'Acme Industrial Corp', region: 'AMER', status: 'Delivered', currency: 'USD', total: 12100, quantity: 9, date: '2026-02-22' },
-  { customer_name: 'Starlight Solutions', region: 'APAC', status: 'Completed', currency: 'JPY', total: 2280000, quantity: 18, date: '2026-02-19' },
-  { customer_name: 'Starlight Solutions', region: 'APAC', status: 'Pending', currency: 'JPY', total: 840000, quantity: 6, date: '2026-02-24' },
-  { customer_name: 'Helios Technologies', region: 'EMEA', status: 'Delivered', currency: 'EUR', total: 15900, quantity: 12, date: '2026-02-20' },
-  { customer_name: 'Apex Logistics', region: 'AMER', status: 'Completed', currency: 'USD', total: 27300, quantity: 21, date: '2026-02-23' }
+  {
+    customer_name: 'Northwind Trading',
+    region: 'EMEA',
+    status: 'Completed',
+    currency: 'GBP',
+    total: 18450,
+    quantity: 14,
+    date: '2026-02-14'
+  },
+  {
+    customer_name: 'Northwind Trading',
+    region: 'EMEA',
+    status: 'Processing',
+    currency: 'EUR',
+    total: 6200,
+    quantity: 4,
+    date: '2026-02-18'
+  },
+  {
+    customer_name: 'Acme Industrial Corp',
+    region: 'AMER',
+    status: 'Completed',
+    currency: 'USD',
+    total: 34500,
+    quantity: 28,
+    date: '2026-02-15'
+  },
+  {
+    customer_name: 'Acme Industrial Corp',
+    region: 'AMER',
+    status: 'Delivered',
+    currency: 'USD',
+    total: 12100,
+    quantity: 9,
+    date: '2026-02-22'
+  },
+  {
+    customer_name: 'Starlight Solutions',
+    region: 'APAC',
+    status: 'Completed',
+    currency: 'JPY',
+    total: 2280000,
+    quantity: 18,
+    date: '2026-02-19'
+  },
+  {
+    customer_name: 'Starlight Solutions',
+    region: 'APAC',
+    status: 'Pending',
+    currency: 'JPY',
+    total: 840000,
+    quantity: 6,
+    date: '2026-02-24'
+  },
+  {
+    customer_name: 'Helios Technologies',
+    region: 'EMEA',
+    status: 'Delivered',
+    currency: 'EUR',
+    total: 15900,
+    quantity: 12,
+    date: '2026-02-20'
+  },
+  {
+    customer_name: 'Apex Logistics',
+    region: 'AMER',
+    status: 'Completed',
+    currency: 'USD',
+    total: 27300,
+    quantity: 21,
+    date: '2026-02-23'
+  }
 ];
 
 /** Fields describing the "orders" table used by schema/dataset oriented demos. */

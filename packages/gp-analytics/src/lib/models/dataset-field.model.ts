@@ -43,8 +43,8 @@ export function getLookupValueDisplayLabel(
   locale: string = 'en'
 ): string {
   if (val == null) {
-return '';
-}
+    return '';
+  }
   if (field?.lookupValues && field.lookupValues.length > 0) {
     const match = field.lookupValues.find((item) => item.value === val || String(item.value) === String(val));
     if (match) {

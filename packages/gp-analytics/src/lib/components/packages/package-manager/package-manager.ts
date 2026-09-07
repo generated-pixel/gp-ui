@@ -85,16 +85,16 @@ export class GpPackageManager extends GpAnalyticsComponent {
   readonly validationResult = computed<GpPackageValidationResult | null>(() => {
     const raw = this.importJsonBuffer().trim();
     if (!raw) {
-return null;
-}
+      return null;
+    }
     return this.exportImportService.validatePackage(raw);
   });
 
   readonly parsedImportPackage = computed<GpAnalyticsPackage | null>(() => {
     const val = this.validationResult();
     if (!val || !val.isValid) {
-return null;
-}
+      return null;
+    }
     try {
       return JSON.parse(this.importJsonBuffer());
     } catch {
@@ -114,10 +114,10 @@ return null;
   toggleImportDataset(id: string): void {
     const current = new Set(this.selectedImportDatasetIds());
     if (current.has(id)) {
-current.delete(id);
-} else {
-current.add(id);
-}
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
     this.selectedImportDatasetIds.set(current);
     this.importAllDatasets.set(false);
   }
@@ -126,17 +126,17 @@ current.add(id);
     const next = !this.importAllDatasets();
     this.importAllDatasets.set(next);
     if (next) {
-this.selectedImportDatasetIds.set(new Set());
-}
+      this.selectedImportDatasetIds.set(new Set());
+    }
   }
 
   toggleImportDashboard(id: string): void {
     const current = new Set(this.selectedImportDashboardIds());
     if (current.has(id)) {
-current.delete(id);
-} else {
-current.add(id);
-}
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
     this.selectedImportDashboardIds.set(current);
     this.importAllDashboards.set(false);
   }
@@ -145,17 +145,17 @@ current.add(id);
     const next = !this.importAllDashboards();
     this.importAllDashboards.set(next);
     if (next) {
-this.selectedImportDashboardIds.set(new Set());
-}
+      this.selectedImportDashboardIds.set(new Set());
+    }
   }
 
   toggleImportReport(id: string): void {
     const current = new Set(this.selectedImportReportIds());
     if (current.has(id)) {
-current.delete(id);
-} else {
-current.add(id);
-}
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
     this.selectedImportReportIds.set(current);
     this.importAllReports.set(false);
   }
@@ -164,8 +164,8 @@ current.add(id);
     const next = !this.importAllReports();
     this.importAllReports.set(next);
     if (next) {
-this.selectedImportReportIds.set(new Set());
-}
+      this.selectedImportReportIds.set(new Set());
+    }
   }
 
   // Remote Distribution State
@@ -275,8 +275,8 @@ this.selectedImportReportIds.set(new Set());
   applyImport(): void {
     const raw = this.importJsonBuffer().trim();
     if (!raw) {
-return;
-}
+      return;
+    }
 
     try {
       let imported = this.exportImportService.importPackage(raw, this.importMode());
