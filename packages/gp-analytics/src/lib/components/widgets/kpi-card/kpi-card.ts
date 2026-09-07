@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { GpTag } from '@generatedpixel/gp-ui';
+import { GpProgressSpinner, GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsBaseWidget } from '../../base/gp-analytics-base-widget';
 import { GpLocaleFormatterService } from '../../../services/locale-formatter.service';
 
 @Component({
   selector: 'gp-kpi-card',
   standalone: true,
-  imports: [GpTag],
+  imports: [GpTag, GpProgressSpinner],
   templateUrl: './kpi-card.html',
   styleUrl: './kpi-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

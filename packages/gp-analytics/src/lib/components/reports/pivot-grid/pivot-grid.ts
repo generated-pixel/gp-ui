@@ -5,12 +5,12 @@ import { GpLocaleFormatterService } from '../../../services/locale-formatter.ser
 import { GpMeasureQuery, GpPivotMatrix } from '../../../models/query.model';
 
 import { FormsModule } from '@angular/forms';
-import { GpButton, GpSelect } from '@generatedpixel/gp-ui';
+import { GpButton, GpProgressSpinner, GpSelect } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-pivot-grid',
   standalone: true,
-  imports: [FormsModule, GpButton, GpSelect],
+  imports: [FormsModule, GpButton, GpSelect, GpProgressSpinner],
   templateUrl: './pivot-grid.html',
   styleUrl: './pivot-grid.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

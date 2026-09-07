@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { GpAnalyticsBaseWidget } from '../../base/gp-analytics-base-widget';
 import { GpCategoricalChartData } from '../../../models/query.model';
-import { GpButton, GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpProgressSpinner, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-analytical-chart',
   standalone: true,
-  imports: [GpButton, GpTag],
+  imports: [GpButton, GpTag, GpProgressSpinner],
   templateUrl: './analytical-chart.html',
   styleUrl: './analytical-chart.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

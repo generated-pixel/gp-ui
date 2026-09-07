@@ -154,31 +154,36 @@
           <!-- Widget Dynamic Content or Skeleton Placeholder -->
           <div class="widget-content-body">
             @if (isWidgetLoading(item.id)) {
-            <!-- Shimmering Skeleton Loader based on Widget Type -->
-            <div class="widget-skeleton-wrapper skeleton-{{ w?.type }}">
-              <div class="skeleton-shimmer-header">
-                <div class="skeleton-shimmer-bar skeleton-title-bar"></div>
-                <div class="skeleton-shimmer-circle"></div>
+            <div class="widget-loading-container">
+              <div class="gp-analytics-loading-overlay">
+                <gp-progress-spinner strokeWidth="3" />
               </div>
-              <div class="skeleton-shimmer-body">
-                @switch (w?.type) { @case ('kpi') {
-                <div class="skeleton-shimmer-bar skeleton-kpi-value"></div>
-                <div class="skeleton-shimmer-bar skeleton-sparkline"></div>
-                } @case ('chart') {
-                <div class="skeleton-chart-bars">
-                  <div class="skeleton-bar" style="height: 45%"></div>
-                  <div class="skeleton-bar" style="height: 85%"></div>
-                  <div class="skeleton-bar" style="height: 60%"></div>
-                  <div class="skeleton-bar" style="height: 95%"></div>
-                  <div class="skeleton-bar" style="height: 50%"></div>
+              <!-- Shimmering Skeleton Loader based on Widget Type -->
+              <div class="widget-skeleton-wrapper skeleton-{{ w?.type }}">
+                <div class="skeleton-shimmer-header">
+                  <div class="skeleton-shimmer-bar skeleton-title-bar"></div>
+                  <div class="skeleton-shimmer-circle"></div>
                 </div>
-                } @default {
-                <div class="skeleton-table-rows">
-                  <div class="skeleton-shimmer-bar skeleton-table-row"></div>
-                  <div class="skeleton-shimmer-bar skeleton-table-row"></div>
-                  <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                <div class="skeleton-shimmer-body">
+                  @switch (w?.type) { @case ('kpi') {
+                  <div class="skeleton-shimmer-bar skeleton-kpi-value"></div>
+                  <div class="skeleton-shimmer-bar skeleton-sparkline"></div>
+                  } @case ('chart') {
+                  <div class="skeleton-chart-bars">
+                    <div class="skeleton-bar" style="height: 45%"></div>
+                    <div class="skeleton-bar" style="height: 85%"></div>
+                    <div class="skeleton-bar" style="height: 60%"></div>
+                    <div class="skeleton-bar" style="height: 95%"></div>
+                    <div class="skeleton-bar" style="height: 50%"></div>
+                  </div>
+                  } @default {
+                  <div class="skeleton-table-rows">
+                    <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                    <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                    <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                  </div>
+                  } }
                 </div>
-                } }
               </div>
             </div>
             } @else if (getWidgetError(item.id); as err) {
@@ -192,6 +197,7 @@
             <!-- Populated Widget Content -->
             @if (asKpi(w); as kpi) { @let metric = getKpiMetric(kpi.id); @if (metric) {
             <gp-kpi-card
+              [loading]="isWidgetLoading(kpi.id)"
               [title]="kpi.title"
               [formattedValue]="metric.formattedCurrentValue"
               [variancePercentage]="metric.variancePercentage ?? null"
@@ -204,9 +210,10 @@
               [icon]="kpi.icon || '📊'"
             />
             } @else {
-            <gp-kpi-card [title]="kpi.title" formattedValue="--" icon="📊" />
+            <gp-kpi-card [loading]="isWidgetLoading(kpi.id)" [title]="kpi.title" formattedValue="--" icon="📊" />
             } } @else if (asChart(w); as chart) {
             <gp-analytical-chart
+              [loading]="isWidgetLoading(chart.id)"
               [title]="chart.title"
               [subtitle]="chart.subtitle || ''"
               [type]="chart.chartType"
@@ -214,6 +221,7 @@
             />
             } @else if (asTable(w); as table) {
             <gp-tabular-report
+              [loading]="isWidgetLoading(table.id)"
               [title]="table.title"
               [subtitle]="table.subtitle || ''"
               [records]="getTableRecords(table.id)"
@@ -224,6 +232,7 @@
             />
             } @else if (asPivot(w); as pivot) {
             <gp-pivot-grid
+              [loading]="isWidgetLoading(pivot.id)"
               [title]="pivot.title"
               [records]="getPivotRecords(pivot.id)"
               [rowDimension]="pivot.rowDimension"

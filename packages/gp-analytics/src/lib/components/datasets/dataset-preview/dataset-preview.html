@@ -1,4 +1,9 @@
-<div class="dataset-preview" role="region" [attr.aria-label]="i18n.translate('datasetPreview')">
+<div class="dataset-preview" [class]="cx()" role="region" [attr.aria-label]="i18n.translate('datasetPreview')">
+  @if (loading()) {
+  <div class="gp-analytics-loading-overlay">
+    <gp-progress-spinner strokeWidth="3" />
+  </div>
+  }
   <!-- Table Header Bar -->
   <header class="preview-header">
     <div class="header-left">

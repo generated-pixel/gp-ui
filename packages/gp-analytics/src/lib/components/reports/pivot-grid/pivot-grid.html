@@ -1,4 +1,9 @@
-<div class="gp-pivot-grid" role="region" [attr.aria-label]="title()">
+<div class="gp-pivot-grid" [class]="cx()" role="region" [attr.aria-label]="title()">
+  @if (loading()) {
+  <div class="gp-analytics-loading-overlay">
+    <gp-progress-spinner strokeWidth="3" />
+  </div>
+  }
   <!-- Header Bar -->
   <header class="pivot-header">
     <div class="pivot-title-group">

@@ -408,7 +408,15 @@
   }
 }
 
-/* Shimmering Skeleton Loader */
+/* Shimmering Skeleton Loader & Centered Spinner */
+.widget-loading-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .widget-skeleton-wrapper {
   height: 100%;
   padding: 1.25rem;

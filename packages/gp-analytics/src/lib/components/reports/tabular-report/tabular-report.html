@@ -1,4 +1,9 @@
-<div class="gp-tabular-report" role="region" [attr.aria-label]="title()">
+<div class="gp-tabular-report" [class]="cx()" role="region" [attr.aria-label]="title()">
+  @if (loading()) {
+  <div class="gp-analytics-loading-overlay">
+    <gp-progress-spinner strokeWidth="3" />
+  </div>
+  }
   <!-- Header Bar -->
   <header class="report-header">
     <div class="report-title-group">

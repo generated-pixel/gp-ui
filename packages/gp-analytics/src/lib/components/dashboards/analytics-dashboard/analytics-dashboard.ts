@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { GpGrid, GpGridItem, GpGridChangeEvent } from '@generatedpixel/gp-grid';
-import { GpButton } from '@generatedpixel/gp-ui';
+import { GpButton, GpProgressSpinner } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import { GpDataEngineService } from '../../../services/data-engine.service';
 import { GpAnalyticsConfigService } from '../../../services/analytics-config.service';
@@ -45,7 +45,17 @@ import { GpWidgetDataState } from '../../../interfaces/gp-widget-data-state.inte
 @Component({
   selector: 'gp-analytics-dashboard',
   standalone: true,
-  imports: [DatePipe, GpGrid, GpButton, GpKpiCard, GpTabularReport, GpPivotGrid, GpAnalyticalChart, GpFilterBar],
+  imports: [
+    DatePipe,
+    GpGrid,
+    GpButton,
+    GpProgressSpinner,
+    GpKpiCard,
+    GpTabularReport,
+    GpPivotGrid,
+    GpAnalyticalChart,
+    GpFilterBar
+  ],
   templateUrl: './analytics-dashboard.html',
   styleUrl: './analytics-dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
