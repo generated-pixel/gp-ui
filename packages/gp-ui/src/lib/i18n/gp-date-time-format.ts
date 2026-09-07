@@ -54,15 +54,7 @@ export interface GpTimeZoneInfo {
 }
 
 export type GpDateUnit =
-  | 'years'
-  | 'quarters'
-  | 'months'
-  | 'weeks'
-  | 'days'
-  | 'hours'
-  | 'minutes'
-  | 'seconds'
-  | 'milliseconds';
+  'years' | 'quarters' | 'months' | 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds' | 'milliseconds';
 
 const PRESET_OPTIONS: Record<GpDateTimePreset, Intl.DateTimeFormatOptions> = {
   shortDate: { year: 'numeric', month: 'numeric', day: 'numeric' },
@@ -74,8 +66,25 @@ const PRESET_OPTIONS: Record<GpDateTimePreset, Intl.DateTimeFormatOptions> = {
   longTime: { hour: 'numeric', minute: '2-digit', second: '2-digit', timeZoneName: 'short' },
   short: { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' },
   medium: { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit' },
-  long: { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit', timeZoneName: 'short' },
-  full: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit', timeZoneName: 'long' },
+  long: {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short'
+  },
+  full: {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'long'
+  },
   iso: {}
 };
 
@@ -88,7 +97,12 @@ export const GP_COMMON_TIMEZONES = [
   { timeZone: 'America/New_York', label: 'New York, Toronto, Miami (EST/EDT)', city: 'New York', region: 'Americas' },
   { timeZone: 'America/Chicago', label: 'Chicago, Dallas, Mexico City (CST/CDT)', city: 'Chicago', region: 'Americas' },
   { timeZone: 'America/Denver', label: 'Denver, Phoenix, Calgary (MST/MDT)', city: 'Denver', region: 'Americas' },
-  { timeZone: 'America/Los_Angeles', label: 'Los Angeles, San Francisco, Vancouver (PST/PDT)', city: 'Los Angeles', region: 'Americas' },
+  {
+    timeZone: 'America/Los_Angeles',
+    label: 'Los Angeles, San Francisco, Vancouver (PST/PDT)',
+    city: 'Los Angeles',
+    region: 'Americas'
+  },
   { timeZone: 'America/Sao_Paulo', label: 'São Paulo, Rio de Janeiro (BRT)', city: 'São Paulo', region: 'Americas' },
   { timeZone: 'Asia/Dubai', label: 'Dubai, Abu Dhabi, Muscat (GST)', city: 'Dubai', region: 'Middle East' },
   { timeZone: 'Asia/Kolkata', label: 'Mumbai, New Delhi, Bengaluru (IST)', city: 'Kolkata', region: 'Asia' },
@@ -537,15 +551,33 @@ export class GpDateTimeFormat {
   public static add(dateInput: Date | number | string, amount: number, unit: GpDateUnit): Date {
     const d = new Date(this.toDate(dateInput) ?? new Date());
     switch (unit) {
-      case 'years': d.setFullYear(d.getFullYear() + amount); break;
-      case 'quarters': d.setMonth(d.getMonth() + amount * 3); break;
-      case 'months': d.setMonth(d.getMonth() + amount); break;
-      case 'weeks': d.setDate(d.getDate() + amount * 7); break;
-      case 'days': d.setDate(d.getDate() + amount); break;
-      case 'hours': d.setHours(d.getHours() + amount); break;
-      case 'minutes': d.setMinutes(d.getMinutes() + amount); break;
-      case 'seconds': d.setSeconds(d.getSeconds() + amount); break;
-      case 'milliseconds': d.setMilliseconds(d.getMilliseconds() + amount); break;
+      case 'years':
+        d.setFullYear(d.getFullYear() + amount);
+        break;
+      case 'quarters':
+        d.setMonth(d.getMonth() + amount * 3);
+        break;
+      case 'months':
+        d.setMonth(d.getMonth() + amount);
+        break;
+      case 'weeks':
+        d.setDate(d.getDate() + amount * 7);
+        break;
+      case 'days':
+        d.setDate(d.getDate() + amount);
+        break;
+      case 'hours':
+        d.setHours(d.getHours() + amount);
+        break;
+      case 'minutes':
+        d.setMinutes(d.getMinutes() + amount);
+        break;
+      case 'seconds':
+        d.setSeconds(d.getSeconds() + amount);
+        break;
+      case 'milliseconds':
+        d.setMilliseconds(d.getMilliseconds() + amount);
+        break;
     }
     return d;
   }
@@ -554,25 +586,30 @@ export class GpDateTimeFormat {
     return this.add(dateInput, -amount, unit);
   }
 
-  public static diff(
-    date1: Date | number | string,
-    date2: Date | number | string,
-    unit: GpDateUnit = 'days'
-  ): number {
+  public static diff(date1: Date | number | string, date2: Date | number | string, unit: GpDateUnit = 'days'): number {
     const d1 = this.toDate(date1) ?? new Date();
     const d2 = this.toDate(date2) ?? new Date();
     const msDiff = d1.getTime() - d2.getTime();
 
     switch (unit) {
-      case 'milliseconds': return msDiff;
-      case 'seconds': return Math.round(msDiff / 1000);
-      case 'minutes': return Math.round(msDiff / 60000);
-      case 'hours': return Math.round(msDiff / 3600000);
-      case 'days': return Math.round(msDiff / 86400000);
-      case 'weeks': return Math.round(msDiff / 604800000);
-      case 'months': return (d1.getFullYear() - d2.getFullYear()) * 12 + (d1.getMonth() - d2.getMonth());
-      case 'years': return d1.getFullYear() - d2.getFullYear();
-      case 'quarters': return ((d1.getFullYear() - d2.getFullYear()) * 12 + (d1.getMonth() - d2.getMonth())) / 3;
+      case 'milliseconds':
+        return msDiff;
+      case 'seconds':
+        return Math.round(msDiff / 1000);
+      case 'minutes':
+        return Math.round(msDiff / 60000);
+      case 'hours':
+        return Math.round(msDiff / 3600000);
+      case 'days':
+        return Math.round(msDiff / 86400000);
+      case 'weeks':
+        return Math.round(msDiff / 604800000);
+      case 'months':
+        return (d1.getFullYear() - d2.getFullYear()) * 12 + (d1.getMonth() - d2.getMonth());
+      case 'years':
+        return d1.getFullYear() - d2.getFullYear();
+      case 'quarters':
+        return ((d1.getFullYear() - d2.getFullYear()) * 12 + (d1.getMonth() - d2.getMonth())) / 3;
     }
   }
 

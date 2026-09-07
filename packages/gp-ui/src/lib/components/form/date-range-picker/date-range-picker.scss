@@ -119,7 +119,9 @@
   font-size: 0.8125rem;
   color: var(--gp-text-color, #1e293b);
   cursor: pointer;
-  transition: background 150ms ease, color 150ms ease;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
   white-space: nowrap;
 }
 .gp-date-range__preset-btn:hover {

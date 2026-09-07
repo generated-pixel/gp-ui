@@ -486,9 +486,7 @@ import { DocCode } from '../../shared/doc-code';
                       {{ isSimulating() ? 'Simulating Rules...' : 'Run Simulation' }}
                     </gp-button>
 
-                    <span class="sim-run-hint">
-                      <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run
-                    </span>
+                    <span class="sim-run-hint"> <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to run </span>
                   </div>
                 </div>
 
@@ -1182,7 +1180,9 @@ import { DocCode } from '../../shared/doc-code';
         border: 1px solid var(--gp-surface-border, #cbd5e1);
         background: var(--gp-surface-card, #ffffff);
         overflow: hidden;
-        transition: border-color 0.2s, box-shadow 0.2s;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
       }
 
       .sim-textarea-wrapper:focus-within {
@@ -1202,7 +1202,8 @@ import { DocCode } from '../../shared/doc-code';
       .sim-textarea {
         width: 100%;
         padding: 0.875rem 1rem;
-        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+        font-family:
+          'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
         font-size: 0.8125rem;
         line-height: 1.6;
         tab-size: 2;

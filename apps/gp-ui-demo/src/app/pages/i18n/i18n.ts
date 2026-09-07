@@ -79,8 +79,12 @@ interface LocalePreset {
             <span class="meta-pill"><strong>Direction:</strong> {{ localeService.direction().toUpperCase() }}</span>
             <span class="meta-pill"><strong>Currency:</strong> {{ localeService.currency() }}</span>
             <span class="meta-pill"><strong>Timezone:</strong> {{ localeService.timeZone() }}</span>
-            <span class="meta-pill"><strong>Decimal:</strong> <code>{{ localeService.separators().decimal }}</code></span>
-            <span class="meta-pill"><strong>Group:</strong> <code>{{ localeService.separators().group }}</code></span>
+            <span class="meta-pill"
+              ><strong>Decimal:</strong> <code>{{ localeService.separators().decimal }}</code></span
+            >
+            <span class="meta-pill"
+              ><strong>Group:</strong> <code>{{ localeService.separators().group }}</code></span
+            >
           </div>
         </div>
 
@@ -100,7 +104,8 @@ interface LocalePreset {
       <div class="doc-section">
         <h2 class="doc-section-title">1. Numeric Conversions &amp; Bidirectional Parser</h2>
         <p class="section-subtext">
-          Automatic grouping and decimal separators, currency symbols, percentages, compact notation, units, and file sizes.
+          Automatic grouping and decimal separators, currency symbols, percentages, compact notation, units, and file
+          sizes.
         </p>
 
         <div class="grid-cards">
@@ -136,7 +141,9 @@ interface LocalePreset {
 
           <div class="stat-card">
             <span class="stat-label">Ordinal Number (Rank 1, 2, 3)</span>
-            <span class="stat-val">{{ 1 | gpOrdinal }}, {{ 2 | gpOrdinal }}, {{ 3 | gpOrdinal }}, {{ 21 | gpOrdinal }}</span>
+            <span class="stat-val"
+              >{{ 1 | gpOrdinal }}, {{ 2 | gpOrdinal }}, {{ 3 | gpOrdinal }}, {{ 21 | gpOrdinal }}</span
+            >
             <span class="stat-meta">Intl.PluralRules ordinal</span>
           </div>
         </div>
@@ -145,7 +152,9 @@ interface LocalePreset {
         <div class="sandbox-box">
           <div class="sandbox-header">
             <h3><gp-icon name="filter" /> Live Localized String-to-Number Parser</h3>
-            <span class="sandbox-sub">Try typing numbers formatted in German, French, Arabic, Swiss, or accounting format!</span>
+            <span class="sandbox-sub"
+              >Try typing numbers formatted in German, French, Arabic, Swiss, or accounting format!</span
+            >
           </div>
 
           <div class="sandbox-row">
@@ -213,7 +222,10 @@ interface LocalePreset {
           <div class="stat-card">
             <span class="stat-label">Selected Timezone</span>
             <span class="stat-val small">{{ selectedTimeZone() }}</span>
-            <span class="stat-meta">Offset: {{ tzInfo().offsetString }} | {{ tzInfo().abbreviation }} (DST: {{ tzInfo().isDST ? 'Active' : 'Standard' }})</span>
+            <span class="stat-meta"
+              >Offset: {{ tzInfo().offsetString }} | {{ tzInfo().abbreviation }} (DST:
+              {{ tzInfo().isDST ? 'Active' : 'Standard' }})</span
+            >
           </div>
 
           <div class="stat-card">
@@ -224,13 +236,18 @@ interface LocalePreset {
 
           <div class="stat-card">
             <span class="stat-label">Short Date &amp; Medium Time</span>
-            <span class="stat-val medium">{{ now() | gpDate: 'shortDate' : selectedTimeZone() }} {{ now() | gpDate: 'mediumTime' : selectedTimeZone() }}</span>
+            <span class="stat-val medium"
+              >{{ now() | gpDate: 'shortDate' : selectedTimeZone() }}
+              {{ now() | gpDate: 'mediumTime' : selectedTimeZone() }}</span
+            >
             <span class="stat-meta">Preset: 'shortDate' &amp; 'mediumTime'</span>
           </div>
 
           <div class="stat-card">
             <span class="stat-label">ISO 8601 Standard</span>
-            <span class="stat-val small"><code>{{ now() | gpDate: 'iso' }}</code></span>
+            <span class="stat-val small"
+              ><code>{{ now() | gpDate: 'iso' }}</code></span
+            >
             <span class="stat-meta">Universal UTC wire format</span>
           </div>
         </div>
@@ -244,19 +261,35 @@ interface LocalePreset {
             <div class="rel-col">
               <h4>Relative Time (Live)</h4>
               <ul class="rel-list">
-                <li><span>5 minutes ago:</span> <strong>{{ fiveMinutesAgo | gpRelativeTime }}</strong></li>
-                <li><span>3 hours ago:</span> <strong>{{ threeHoursAgo | gpRelativeTime }}</strong></li>
-                <li><span>Yesterday:</span> <strong>{{ yesterday | gpRelativeTime }}</strong></li>
-                <li><span>In 2 days:</span> <strong>{{ inTwoDays | gpRelativeTime }}</strong></li>
+                <li>
+                  <span>5 minutes ago:</span> <strong>{{ fiveMinutesAgo | gpRelativeTime }}</strong>
+                </li>
+                <li>
+                  <span>3 hours ago:</span> <strong>{{ threeHoursAgo | gpRelativeTime }}</strong>
+                </li>
+                <li>
+                  <span>Yesterday:</span> <strong>{{ yesterday | gpRelativeTime }}</strong>
+                </li>
+                <li>
+                  <span>In 2 days:</span> <strong>{{ inTwoDays | gpRelativeTime }}</strong>
+                </li>
               </ul>
             </div>
             <div class="rel-col">
               <h4>Duration Formats (3,665 seconds)</h4>
               <ul class="rel-list">
-                <li><span>Digital style:</span> <strong>{{ 3665 | gpDuration: 'digital' }}</strong></li>
-                <li><span>Long style:</span> <strong>{{ 3665 | gpDuration: 'long' }}</strong></li>
-                <li><span>Short style:</span> <strong>{{ 3665 | gpDuration: 'short' }}</strong></li>
-                <li><span>Narrow style:</span> <strong>{{ 3665 | gpDuration: 'narrow' }}</strong></li>
+                <li>
+                  <span>Digital style:</span> <strong>{{ 3665 | gpDuration: 'digital' }}</strong>
+                </li>
+                <li>
+                  <span>Long style:</span> <strong>{{ 3665 | gpDuration: 'long' }}</strong>
+                </li>
+                <li>
+                  <span>Short style:</span> <strong>{{ 3665 | gpDuration: 'short' }}</strong>
+                </li>
+                <li>
+                  <span>Narrow style:</span> <strong>{{ 3665 | gpDuration: 'narrow' }}</strong>
+                </li>
               </ul>
             </div>
           </div>
@@ -319,7 +352,8 @@ interface LocalePreset {
       <div class="doc-section">
         <h2 class="doc-section-title">5. Developer Quick Start &amp; Usage</h2>
         <p class="section-subtext">
-          Import standalone pipes via <code>GP_I18N_PIPES</code> or inject <code>GpLocaleService</code> in services and components.
+          Import standalone pipes via <code>GP_I18N_PIPES</code> or inject <code>GpLocaleService</code> in services and
+          components.
         </p>
 
         <doc-code [code]="pipesExampleCode" language="html" />
