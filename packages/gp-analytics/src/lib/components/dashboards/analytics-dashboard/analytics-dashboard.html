@@ -14,10 +14,29 @@
       </div>
     </div>
 
-    <!-- Live Status Indicator -->
-    <div class="live-pulse-badge">
-      <span class="pulse-dot"></span>
-      <span>{{ editable() ? 'Designer Canvas' : 'Live Real-Time' }}</span>
+    <div class="dashboard-header-controls">
+      @if (lastRefreshedAt(); as ts) {
+      <span class="last-refreshed-badge" title="Last data synchronization">
+        Synced: {{ ts | date : 'mediumTime' }}
+      </span>
+      }
+
+      <gp-button
+        variant="outlined"
+        size="sm"
+        [disabled]="isRefreshingAll()"
+        (click)="reloadAll(true)"
+        class="btn-refresh-dashboard"
+      >
+        <span class="refresh-icon" [class.spin-active]="isRefreshingAll()">⟳</span>
+        <span>{{ isRefreshingAll() ? 'Syncing...' : 'Refresh All' }}</span>
+      </gp-button>
+
+      <!-- Live Status Indicator -->
+      <div class="live-pulse-badge">
+        <span class="pulse-dot"></span>
+        <span>{{ editable() ? 'Designer Canvas' : 'Live Real-Time' }}</span>
+      </div>
     </div>
   </header>
 
@@ -79,6 +98,14 @@
             <div class="widget-actions-cluster" (click)="$event.stopPropagation()">
               <button
                 type="button"
+                class="btn-widget-action btn-refresh"
+                title="Reload Widget"
+                (click)="reloadWidget(w.id)"
+              >
+                ⟳
+              </button>
+              <button
+                type="button"
                 class="btn-widget-action btn-config"
                 title="Configure Widget"
                 (click)="onEdit(w, $event)"
@@ -103,16 +130,67 @@
               </button>
             </div>
           </div>
-          } @else if ((effectiveConfig().allowMove ?? true) && w && !w.grid.fixed && !w.grid.locked) {
-          <!-- Subtle View-Mode Drag Handle when moving is enabled -->
-          <div class="gp-grid-drag-handle view-mode-drag-grip" title="Drag to reposition widget">
-            <span>⠿</span>
+          } @else if (w) {
+          <!-- View-Mode Header & Controls -->
+          <div class="widget-view-toolbar">
+            @if ((effectiveConfig().allowMove ?? true) && !w.grid.fixed && !w.grid.locked) {
+            <div class="gp-grid-drag-handle view-mode-drag-grip" title="Drag to reposition widget">
+              <span>⠿</span>
+            </div>
+            }
+            <div class="widget-view-actions">
+              <button
+                type="button"
+                class="btn-view-refresh"
+                title="Reload this widget"
+                (click)="reloadWidget(w.id); $event.stopPropagation()"
+              >
+                <span [class.spin-active]="isWidgetLoading(w.id)">⟳</span>
+              </button>
+            </div>
           </div>
           }
 
-          <!-- Widget Dynamic Content by Type -->
+          <!-- Widget Dynamic Content or Skeleton Placeholder -->
           <div class="widget-content-body">
-            @if (asKpi(w); as kpi) { @let metric = kpiMetricsMap().get(kpi.id); @if (metric) {
+            @if (isWidgetLoading(item.id)) {
+            <!-- Shimmering Skeleton Loader based on Widget Type -->
+            <div class="widget-skeleton-wrapper skeleton-{{ w?.type }}">
+              <div class="skeleton-shimmer-header">
+                <div class="skeleton-shimmer-bar skeleton-title-bar"></div>
+                <div class="skeleton-shimmer-circle"></div>
+              </div>
+              <div class="skeleton-shimmer-body">
+                @switch (w?.type) { @case ('kpi') {
+                <div class="skeleton-shimmer-bar skeleton-kpi-value"></div>
+                <div class="skeleton-shimmer-bar skeleton-sparkline"></div>
+                } @case ('chart') {
+                <div class="skeleton-chart-bars">
+                  <div class="skeleton-bar" style="height: 45%"></div>
+                  <div class="skeleton-bar" style="height: 85%"></div>
+                  <div class="skeleton-bar" style="height: 60%"></div>
+                  <div class="skeleton-bar" style="height: 95%"></div>
+                  <div class="skeleton-bar" style="height: 50%"></div>
+                </div>
+                } @default {
+                <div class="skeleton-table-rows">
+                  <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                  <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                  <div class="skeleton-shimmer-bar skeleton-table-row"></div>
+                </div>
+                } }
+              </div>
+            </div>
+            } @else if (getWidgetError(item.id); as err) {
+            <!-- Error Boundary & Retry -->
+            <div class="widget-error-state">
+              <span class="widget-error-icon">⚠️</span>
+              <p class="widget-error-message">{{ err }}</p>
+              <button type="button" class="btn-retry-widget" (click)="reloadWidget(item.id)">Retry</button>
+            </div>
+            } @else {
+            <!-- Populated Widget Content -->
+            @if (asKpi(w); as kpi) { @let metric = getKpiMetric(kpi.id); @if (metric) {
             <gp-kpi-card
               [title]="kpi.title"
               [formattedValue]="metric.formattedCurrentValue"
@@ -132,13 +210,13 @@
               [title]="chart.title"
               [subtitle]="chart.subtitle || ''"
               [type]="chart.chartType"
-              [data]="chartDataMap().get(chart.id) || null"
+              [data]="getChartData(chart.id) || null"
             />
             } @else if (asTable(w); as table) {
             <gp-tabular-report
               [title]="table.title"
               [subtitle]="table.subtitle || ''"
-              [records]="activeRecords()"
+              [records]="getTableRecords(table.id)"
               [dimensions]="table.dimensions"
               [measures]="table.measures"
               [showSubtotals]="table.showSubtotals ?? true"
@@ -147,7 +225,7 @@
             } @else if (asPivot(w); as pivot) {
             <gp-pivot-grid
               [title]="pivot.title"
-              [records]="activeRecords()"
+              [records]="getPivotRecords(pivot.id)"
               [rowDimension]="pivot.rowDimension"
               [colDimension]="pivot.colDimension"
               [measure]="pivot.measure"
@@ -167,7 +245,7 @@
             <div class="empty-widget">
               <p>Widget: {{ item.id }}</p>
             </div>
-            }
+            } }
           </div>
         </div>
       </ng-template>

@@ -2,17 +2,22 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
   model,
   output,
-  signal
+  signal,
+  untracked
 } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { GpGrid, GpGridItem, GpGridChangeEvent } from '@generatedpixel/gp-grid';
+import { GpButton } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import { GpDataEngineService } from '../../../services/data-engine.service';
 import { GpAnalyticsConfigService } from '../../../services/analytics-config.service';
+import { GpDashboardDataLoaderService } from '../../../services/dashboard-data-loader.service';
 import { GpKpiCard } from '../../widgets/kpi-card/kpi-card';
 import { GpTabularReport } from '../../reports/tabular-report/tabular-report';
 import { GpPivotGrid } from '../../reports/pivot-grid/pivot-grid';
@@ -35,11 +40,12 @@ import {
   GpDashboardQuickPreset,
   createDefaultDashboardConfig
 } from '../../../models/dashboard.model';
+import { GpWidgetDataState } from '../../../interfaces/gp-widget-data-state.interface';
 
 @Component({
   selector: 'gp-analytics-dashboard',
   standalone: true,
-  imports: [GpGrid, GpKpiCard, GpTabularReport, GpPivotGrid, GpAnalyticalChart, GpFilterBar],
+  imports: [DatePipe, GpGrid, GpButton, GpKpiCard, GpTabularReport, GpPivotGrid, GpAnalyticalChart, GpFilterBar],
   templateUrl: './analytics-dashboard.html',
   styleUrl: './analytics-dashboard.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -47,6 +53,8 @@ import {
 export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
   protected readonly analyticsConfig = inject(GpAnalyticsConfigService, { optional: true });
+  protected readonly dataLoader = inject(GpDashboardDataLoaderService);
+  private readonly destroyRef = inject(DestroyRef);
 
   // Optional dashboard configuration; defaults to default executive layout
   readonly config = input<GpDashboardConfig | null>(null);
@@ -68,6 +76,20 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   readonly widgetDuplicate = output<GpDashboardWidgetConfig>();
   readonly widgetDelete = output<GpDashboardWidgetConfig>();
   readonly layoutChange = output<GpGridItem[]>();
+  readonly widgetDataLoaded = output<{ widgetId: string; data: any; fromCache: boolean }>();
+
+  /**
+   * Runtime loading & data states per widget.
+   */
+  readonly widgetStates = signal<Map<string, GpWidgetDataState>>(new Map());
+
+  /**
+   * Status indicators for global dashboard refresh.
+   */
+  readonly isRefreshingAll = signal<boolean>(false);
+  readonly lastRefreshedAt = signal<number | null>(null);
+
+  private readonly pollingIntervalMap = new Map<string, ReturnType<typeof setInterval>>();
 
   /**
    * Resolved effective dashboard configuration.
@@ -151,7 +173,7 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
   });
 
   /**
-   * Dynamic Map of Computed KPI Metrics for all KPI widgets.
+   * Dynamic Map of Computed KPI Metrics for all KPI widgets (fallback & synchronicity).
    */
   readonly kpiMetricsMap = computed(() => {
     const records = this.activeRecords();
@@ -170,7 +192,6 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
           currencyCode: (kpiWidget as any).currency || this.analyticsConfig?.currency()
         });
 
-        // Override severity if explicitly configured
         if (kpiWidget.severity) {
           res.trendSeverity = kpiWidget.severity;
         }
@@ -221,12 +242,14 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
 
   /**
    * Dynamic gp-grid Layout items synchronized with configuration.
+   * Rendered immediately on frame 0 to guarantee instant visual layout.
    */
   readonly gridItems = signal<GpGridItem[]>([]);
 
   constructor() {
     super();
-    // Synchronize grid items whenever effectiveConfig changes
+
+    // Synchronize grid items whenever effectiveConfig changes (Layout renders immediately)
     effect(() => {
       const widgets = this.effectiveConfig().widgets;
       const current = this.gridItems();
@@ -273,6 +296,165 @@ export class GpAnalyticsDashboard extends GpAnalyticsComponent {
         this.gridItems.set(items);
       }
     });
+
+    // Reactive effect: Trigger decoupled asynchronous data loading when widgets, records, or filters change
+    effect(() => {
+      const widgets = this.effectiveConfig().widgets;
+      const recs = this.records();
+      const filts = this.filters();
+
+      // Untracked to prevent infinite loops
+      untracked(() => {
+        this.setupAutoPolling(widgets);
+        this.loadAllWidgets(false);
+      });
+    });
+
+    // Cleanup timers on destruction
+    this.destroyRef.onDestroy(() => {
+      this.clearAllPolling();
+    });
+  }
+
+  /**
+   * Asynchronously loads data for a single widget.
+   */
+  async loadWidget(widgetId: string, forceRefresh = false): Promise<void> {
+    const widget = this.widgetsMap().get(widgetId);
+    if (!widget) return;
+
+    // Update state to loading
+    this.updateWidgetState(widgetId, (prev) => ({
+      widgetId,
+      loading: true,
+      data: prev?.data ?? null,
+      error: null,
+      lastUpdated: prev?.lastUpdated ?? null,
+      fromCache: prev?.fromCache
+    }));
+
+    try {
+      const result = await this.dataLoader.loadWidgetData(widget, {
+        dashboardFilters: this.filters(),
+        inheritedRecords: this.records(),
+        forceRefresh
+      });
+
+      this.updateWidgetState(widgetId, () => ({
+        widgetId,
+        loading: false,
+        data: result.data,
+        error: null,
+        lastUpdated: Date.now(),
+        fromCache: result.fromCache
+      }));
+
+      this.widgetDataLoaded.emit({ widgetId, data: result.data, fromCache: result.fromCache });
+    } catch (err: any) {
+      this.updateWidgetState(widgetId, (prev) => ({
+        widgetId,
+        loading: false,
+        data: prev?.data ?? null,
+        error: err?.message || 'Failed to load widget data',
+        lastUpdated: prev?.lastUpdated ?? null
+      }));
+    }
+  }
+
+  /**
+   * Reloads a specific widget independently.
+   */
+  async reloadWidget(widgetId: string): Promise<void> {
+    await this.loadWidget(widgetId, true);
+  }
+
+  /**
+   * Reloads all dashboard widgets concurrently.
+   */
+  async reloadAll(force = true): Promise<void> {
+    await this.loadAllWidgets(force);
+  }
+
+  private async loadAllWidgets(force: boolean): Promise<void> {
+    this.isRefreshingAll.set(true);
+    const widgets = this.effectiveConfig().widgets;
+
+    await Promise.all(widgets.map((w) => this.loadWidget(w.id, force)));
+
+    this.lastRefreshedAt.set(Date.now());
+    this.isRefreshingAll.set(false);
+  }
+
+  private updateWidgetState(widgetId: string, updater: (prev?: GpWidgetDataState) => GpWidgetDataState): void {
+    const map = new Map(this.widgetStates());
+    const prev = map.get(widgetId);
+    map.set(widgetId, updater(prev));
+    this.widgetStates.set(map);
+  }
+
+  private setupAutoPolling(widgets: GpDashboardWidgetConfig[]): void {
+    this.clearAllPolling();
+    for (const w of widgets) {
+      const interval = w.dataSource?.refreshIntervalMs;
+      if (interval && interval > 0) {
+        const timer = setInterval(() => {
+          this.loadWidget(w.id, true);
+        }, interval);
+        this.pollingIntervalMap.set(w.id, timer);
+      }
+    }
+  }
+
+  private clearAllPolling(): void {
+    for (const timer of this.pollingIntervalMap.values()) {
+      clearInterval(timer);
+    }
+    this.pollingIntervalMap.clear();
+  }
+
+  // Helper methods to read resolved asynchronous widget data with seamless fallbacks
+  protected getKpiMetric(widgetId: string): GpKpiMetricResult | undefined {
+    const s = this.widgetStates().get(widgetId);
+    if (s?.data && typeof s.data === 'object' && 'currentValue' in s.data) {
+      return s.data as GpKpiMetricResult;
+    }
+    return this.kpiMetricsMap().get(widgetId);
+  }
+
+  protected getChartData(widgetId: string): GpCategoricalChartData | undefined {
+    const s = this.widgetStates().get(widgetId);
+    if (s?.data && typeof s.data === 'object' && 'categories' in s.data) {
+      return s.data as GpCategoricalChartData;
+    }
+    return this.chartDataMap().get(widgetId) || undefined;
+  }
+
+  protected getTableRecords(widgetId: string): Record<string, any>[] {
+    const s = this.widgetStates().get(widgetId);
+    if (Array.isArray(s?.data)) {
+      return s.data;
+    }
+    return this.activeRecords();
+  }
+
+  protected getPivotRecords(widgetId: string): Record<string, any>[] {
+    const s = this.widgetStates().get(widgetId);
+    if (Array.isArray(s?.data)) {
+      return s.data;
+    }
+    return this.activeRecords();
+  }
+
+  protected isWidgetLoading(widgetId: string): boolean {
+    return this.widgetStates().get(widgetId)?.loading ?? false;
+  }
+
+  protected getWidgetError(widgetId: string): string | null {
+    return this.widgetStates().get(widgetId)?.error ?? null;
+  }
+
+  protected getWidgetLastUpdated(widgetId: string): number | null {
+    return this.widgetStates().get(widgetId)?.lastUpdated ?? null;
   }
 
   // Backwards-compatible computed KPI properties for existing tests/consumers
