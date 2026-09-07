@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { GpBadge, GpToast, GpToastService } from 'gp-ui';
-import { inject } from '@angular/core';
-import { Field, Grouping, LoadedSchemaResult, GpSchemaCatalogue } from 'gp-analytics';
 import { DocApiTable, DocApiProperty } from '../../../shared/doc-api-table';
 import { DocCode } from '../../../shared/doc-code';
 import { ANALYTICS_SAMPLE_GROUPINGS } from '../analytics-demo-data';
