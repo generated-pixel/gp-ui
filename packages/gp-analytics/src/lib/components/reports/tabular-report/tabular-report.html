@@ -5,28 +5,36 @@
   </div>
   }
   <!-- Header Bar -->
-  <header class="report-header">
-    <div class="report-title-group">
-      <span class="report-icon">📑</span>
+  <header class="gp-tabular-report__header report-header">
+    <div class="gp-tabular-report__title-group report-title-group">
+      <span class="gp-tabular-report__icon report-icon">📑</span>
       <div>
-        <h3 class="report-title">{{ title() }}</h3>
-        <p class="report-subtitle">{{ subtitle() }}</p>
+        <h3 class="gp-tabular-report__title report-title">{{ title() }}</h3>
+        <p class="gp-tabular-report__subtitle report-subtitle">{{ subtitle() }}</p>
       </div>
     </div>
 
-    <div class="report-actions">
+    <div class="gp-tabular-report__actions report-actions">
       <!-- Live Search Input -->
-      <div class="table-search-group">
+      <div class="gp-tabular-report__search-group table-search-group">
         <input
           type="text"
           gpInputText
-          class="table-search-input"
+          class="gp-tabular-report__search-input table-search-input"
           placeholder="Search table rows..."
           [ngModel]="searchQuery()"
           (ngModelChange)="searchQuery.set($event)"
         />
         @if (searchQuery()) {
-        <button type="button" class="btn-clear-search" (click)="searchQuery.set('')" title="Clear search">✕</button>
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="secondary"
+          label="✕"
+          (click)="searchQuery.set('')"
+          title="Clear search"
+          class="gp-tabular-report__btn-clear-search btn-clear-search"
+        />
         }
       </div>
 
@@ -49,23 +57,23 @@
   </header>
 
   <!-- Table View -->
-  <div class="table-scroll-wrap">
+  <div class="gp-tabular-report__table-scroll-wrap table-scroll-wrap">
     @if (queryResult(); as res) { @if (filteredRows().length > 0) {
-    <table class="report-table">
+    <table class="gp-tabular-report__table report-table">
       <thead>
         <tr>
-          <th class="col-num">#</th>
+          <th class="gp-tabular-report__col-num col-num">#</th>
           @for (col of columns(); track col.key) {
           <th
-            class="report-th"
+            class="gp-tabular-report__th report-th"
             [class.th-measure]="col.isMeasure"
             [class.th-dimension]="col.isDimension"
             (click)="onSort(col.key)"
           >
-            <div class="th-content">
-              <span class="th-label">{{ col.header }}</span>
+            <div class="gp-tabular-report__th-content th-content">
+              <span class="gp-tabular-report__th-label th-label">{{ col.header }}</span>
               @if (sortColumn() === col.key) {
-              <span class="th-sort-icon">{{ sortOrder() === 'asc' ? '▲' : '▼' }}</span>
+              <span class="gp-tabular-report__th-sort-icon th-sort-icon">{{ sortOrder() === 'asc' ? '▲' : '▼' }}</span>
               }
             </div>
           </th>
@@ -74,10 +82,10 @@
       </thead>
       <tbody>
         @for (row of paginatedRows(); track row['_id']; let idx = $index) {
-        <tr class="report-tr">
-          <td class="td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
+        <tr class="gp-tabular-report__tr report-tr">
+          <td class="gp-tabular-report__td-num td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
           @for (col of columns(); track col.key) {
-          <td class="report-td" [class.td-measure]="col.isMeasure" [class.td-dimension]="col.isDimension">
+          <td class="gp-tabular-report__td report-td" [class.td-measure]="col.isMeasure" [class.td-dimension]="col.isDimension">
             {{ formatCellValue(col, row[col.key]) }}
           </td>
           }
@@ -87,11 +95,11 @@
 
       <!-- Grand Total Footer -->
       @if (showGrandTotal() && res.grandTotal) {
-      <tfoot class="report-tfoot">
-        <tr class="tfoot-tr">
-          <td class="td-num">∑</td>
+      <tfoot class="gp-tabular-report__tfoot report-tfoot">
+        <tr class="gp-tabular-report__tfoot-tr tfoot-tr">
+          <td class="gp-tabular-report__td-num td-num">∑</td>
           @for (col of columns(); track col.key; let cIdx = $index) {
-          <td class="report-td tfoot-td" [class.td-measure]="col.isMeasure">
+          <td class="gp-tabular-report__td report-td tfoot-td" [class.td-measure]="col.isMeasure">
             @if (cIdx === 0) {
             <strong>Grand Total</strong>
             } @else if (col.isMeasure && res.grandTotal[col.key] != null) {
@@ -106,14 +114,14 @@
 
     <!-- Interactive Pagination Bar -->
     @if (filteredRows().length > pageSizeOptions[0].value) {
-    <footer class="report-pagination-bar">
-      <div class="pagination-left">
-        <span class="pagination-count-label">
+    <footer class="gp-tabular-report__pagination-bar report-pagination-bar">
+      <div class="gp-tabular-report__pagination-left pagination-left">
+        <span class="gp-tabular-report__pagination-count-label pagination-count-label">
           Showing {{ (currentPage() - 1) * pageSize() + 1 }}–{{ Math.min(currentPage() * pageSize(),
           filteredRows().length) }} of {{ filteredRows().length }} rows
         </span>
-        <div class="page-size-selector">
-          <span class="size-label">Rows per page:</span>
+        <div class="gp-tabular-report__page-size-selector page-size-selector">
+          <span class="gp-tabular-report__size-label size-label">Rows per page:</span>
           <gp-select
             [options]="pageSizeOptions"
             optionLabel="label"
@@ -124,7 +132,7 @@
         </div>
       </div>
 
-      <div class="pagination-controls">
+      <div class="gp-tabular-report__pagination-controls pagination-controls">
         <gp-button label="« First" size="sm" [outlined]="true" [disabled]="currentPage() === 1" (click)="goToPage(1)" />
         <gp-button
           label="‹ Prev"
@@ -134,7 +142,7 @@
           (click)="goToPage(currentPage() - 1)"
         />
 
-        <span class="page-indicator">
+        <span class="gp-tabular-report__page-indicator page-indicator">
           Page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong>
         </span>
 
@@ -155,14 +163,14 @@
       </div>
     </footer>
     } } @else {
-    <div class="empty-state">
-      <span class="empty-icon">📋</span>
-      <p class="empty-text">No records match the report criteria.</p>
+    <div class="gp-tabular-report__empty-state empty-state">
+      <span class="gp-tabular-report__empty-icon empty-icon">📋</span>
+      <p class="gp-tabular-report__empty-text empty-text">No records match the report criteria.</p>
     </div>
     } } @else {
-    <div class="empty-state">
-      <span class="empty-icon">⏳</span>
-      <p class="empty-text">Awaiting dataset records to generate report...</p>
+    <div class="gp-tabular-report__empty-state empty-state">
+      <span class="gp-tabular-report__empty-icon empty-icon">⏳</span>
+      <p class="gp-tabular-report__empty-text empty-text">Awaiting dataset records to generate report...</p>
     </div>
     }
   </div>
