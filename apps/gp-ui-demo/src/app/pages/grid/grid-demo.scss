@@ -3,8 +3,6 @@
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 /* Page Header */
@@ -362,6 +360,7 @@
     color: var(--gp-text-color-muted, #94a3b8);
     text-transform: uppercase;
   }
+
   .value {
     font-size: 0.95rem;
     font-weight: 700;
@@ -396,6 +395,7 @@
     font-size: 0.95rem;
     color: var(--gp-warning, #f59e0b);
   }
+
   p {
     margin: 0;
     font-size: 0.775rem;
@@ -422,6 +422,7 @@
     color: var(--gp-text-color-muted, #94a3b8);
     text-transform: uppercase;
   }
+
   .stat-num {
     font-size: 1.1rem;
     font-weight: 700;
@@ -499,9 +500,11 @@
   &--success {
     background: var(--gp-success, #22c55e);
   }
+
   &--primary {
     background: var(--gp-primary, #6366f1);
   }
+
   &--warning {
     background: var(--gp-warning, #f59e0b);
   }
@@ -735,10 +738,12 @@
     transform: scale(0.9);
     opacity: 0.7;
   }
+
   50% {
     transform: scale(1.2);
     opacity: 1;
   }
+
   100% {
     transform: scale(0.9);
     opacity: 0.7;

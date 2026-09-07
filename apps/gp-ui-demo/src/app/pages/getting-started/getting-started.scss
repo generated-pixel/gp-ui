@@ -1,7 +1,5 @@
 .getting-started-page {
   width: 100%;
-  max-width: 1040px;
-  margin: 0 auto;
   padding-bottom: 4rem;
   box-sizing: border-box;
 
@@ -111,11 +109,9 @@
 
     &--featured {
       border-color: var(--gp-primary);
-      background: linear-gradient(
-        180deg,
-        var(--gp-surface-card) 0%,
-        rgba(var(--gp-primary-rgb, 99, 102, 241), 0.04) 100%
-      );
+      background: linear-gradient(180deg,
+          var(--gp-surface-card) 0%,
+          rgba(var(--gp-primary-rgb, 99, 102, 241), 0.04) 100%);
     }
   }
 

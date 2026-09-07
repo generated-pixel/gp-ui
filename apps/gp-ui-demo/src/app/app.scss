@@ -113,21 +113,19 @@
   height: 1.35rem;
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-  background: linear-gradient(
-    180deg,
-    #e40303 0%,
-    #e40303 16.666%,
-    #ff8c00 16.666%,
-    #ff8c00 33.333%,
-    #ffed00 33.333%,
-    #ffed00 50%,
-    #008026 50%,
-    #008026 66.666%,
-    #004dff 66.666%,
-    #004dff 83.333%,
-    #750787 83.333%,
-    #750787 100%
-  );
+  background: linear-gradient(180deg,
+      #e40303 0%,
+      #e40303 16.666%,
+      #ff8c00 16.666%,
+      #ff8c00 33.333%,
+      #ffed00 33.333%,
+      #ffed00 50%,
+      #008026 50%,
+      #008026 66.666%,
+      #004dff 66.666%,
+      #004dff 83.333%,
+      #750787 83.333%,
+      #750787 100%);
 }
 
 .donation-badge {
@@ -456,21 +454,19 @@
 
 .pride-flag-banner {
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    #e40303 0%,
-    #e40303 16.666%,
-    #ff8c00 16.666%,
-    #ff8c00 33.333%,
-    #ffed00 33.333%,
-    #ffed00 50%,
-    #008026 50%,
-    #008026 66.666%,
-    #004dff 66.666%,
-    #004dff 83.333%,
-    #750787 83.333%,
-    #750787 100%
-  );
+  background: linear-gradient(90deg,
+      #e40303 0%,
+      #e40303 16.666%,
+      #ff8c00 16.666%,
+      #ff8c00 33.333%,
+      #ffed00 33.333%,
+      #ffed00 50%,
+      #008026 50%,
+      #008026 66.666%,
+      #004dff 66.666%,
+      #004dff 83.333%,
+      #750787 83.333%,
+      #750787 100%);
 }
 
 .app-body {
@@ -582,6 +578,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -706,6 +703,7 @@
     opacity: 0;
     transform: translateX(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -913,7 +911,6 @@
 .app-main-docs {
   flex: 1;
   min-width: 0;
-  max-width: 1200px;
   width: 100%;
   padding: 2rem 2.5rem;
   overflow-x: hidden;
@@ -1022,6 +1019,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
