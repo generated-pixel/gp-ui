@@ -5,7 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "lib": ["ESNext", "dom"],
+    "lib": ["ESNext", "dom", "esnext.intl"],
     "types": []
   },
   "include": ["src/**/*.ts"],
