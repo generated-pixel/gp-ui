@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { GpGrid, GpGridItem, GpGridChangeEvent } from '@generatedpixel/gp-grid';
-import { GpButton, GpProgressSpinner } from '@generatedpixel/gp-ui';
+import { GpBlockUI, GpButton } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import { GpDataEngineService } from '../../../services/data-engine.service';
 import { GpAnalyticsConfigService } from '../../../services/analytics-config.service';
@@ -49,7 +49,7 @@ import { GpWidgetDataState } from '../../../interfaces/gp-widget-data-state.inte
     DatePipe,
     GpGrid,
     GpButton,
-    GpProgressSpinner,
+    GpBlockUI,
     GpKpiCard,
     GpTabularReport,
     GpPivotGrid,

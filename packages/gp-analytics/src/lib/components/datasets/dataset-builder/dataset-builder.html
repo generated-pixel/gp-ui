@@ -1,9 +1,11 @@
-<div class="gp-dataset-builder" role="application">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div class="gp-dataset-builder" [id]="inputId()" role="application">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
 
   <!-- 3-Column Workbench: Available Fields (Left) | Dataset View (Middle) | Selected Fields (Right) -->
   <div class="gp-dataset-builder__workbench-layout builder-workbench-layout">

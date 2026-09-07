@@ -64,6 +64,15 @@ export abstract class GpAnalyticsBase implements GpLifecycle {
   /** Loading state indicator */
   public loading = input<boolean>(false);
 
+  /** Shared block target selector for the active component root */
+  public readonly blockUiTarget = computed<string | undefined>(() => {
+    const id = this.inputId();
+    return id ? `#${id}` : undefined;
+  });
+
+  /** Shared loading message used by gp-block-ui */
+  public readonly blockUiMessage = computed<string>(() => this.translate('loading'));
+
   /**
    * Helper method to compose CSS class strings, filtering out falsy values and appending styleClass().
    */

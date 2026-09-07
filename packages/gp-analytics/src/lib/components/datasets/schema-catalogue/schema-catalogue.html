@@ -1,9 +1,16 @@
-<div class="gp-schema-catalogue schema-catalogue" role="region" [attr.aria-label]="i18n.translate('schemaExplorer')">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div
+  class="gp-schema-catalogue schema-catalogue"
+  [id]="inputId()"
+  role="region"
+  [attr.aria-label]="i18n.translate('schemaExplorer')"
+>
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
 
   <!-- Top Bar: Search & Group Filter -->
   <div class="gp-schema-catalogue__toolbar catalogue-toolbar">

@@ -1,9 +1,11 @@
-<div class="gp-analytical-chart" [class]="cx()" role="region" [attr.aria-label]="title()">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div class="gp-analytical-chart" [id]="inputId()" [class]="cx()" role="region" [attr.aria-label]="title()">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
   <!-- Header -->
   <header class="gp-analytical-chart__header chart-header">
     <div>
@@ -25,7 +27,10 @@
           (click)="toggleSeries(s.name)"
           [title]="'Toggle ' + s.name"
         >
-          <span class="gp-analytical-chart__legend-color-dot legend-color-dot" [style.background-color]="palette[sIdx % palette.length]"></span>
+          <span
+            class="gp-analytical-chart__legend-color-dot legend-color-dot"
+            [style.background-color]="palette[sIdx % palette.length]"
+          ></span>
           {{ s.name }}
         </gp-tag>
         }
@@ -50,7 +55,11 @@
         >
           <div class="gp-analytical-chart__bar-track bar-track" [class.stacked-track]="stacked()">
             @for (bar of catItem.seriesBars; track bar.seriesName) {
-            <div class="gp-analytical-chart__bar-fill bar-fill" [style.height.%]="bar.heightPct" [style.background-color]="bar.color">
+            <div
+              class="gp-analytical-chart__bar-fill bar-fill"
+              [style.height.%]="bar.heightPct"
+              [style.background-color]="bar.color"
+            >
               @if (hoveredIndex() === idx) {
               <div class="gp-analytical-chart__bar-tooltip bar-tooltip">
                 <strong>{{ catItem.category }}</strong> ({{ bar.seriesName }}): {{ bar.value.toLocaleString('en-US') }}
@@ -64,7 +73,9 @@
       </div>
       <div class="gp-analytical-chart__bar-axis-row bar-axis-row">
         @for (catItem of barCategories(); track catItem.category) {
-        <span class="gp-analytical-chart__bar-axis-label bar-axis-label" [title]="catItem.category">{{ catItem.category }}</span>
+        <span class="gp-analytical-chart__bar-axis-label bar-axis-label" [title]="catItem.category"
+          >{{ catItem.category }}</span
+        >
         }
       </div>
     </div>
@@ -87,7 +98,9 @@
           }
         </svg>
         <div class="gp-analytical-chart__donut-center-readout donut-center-readout">
-          <span class="gp-analytical-chart__center-total center-total">{{ donutSlices().total.toLocaleString('en-US') }}</span>
+          <span class="gp-analytical-chart__center-total center-total"
+            >{{ donutSlices().total.toLocaleString('en-US') }}</span
+          >
           <span class="gp-analytical-chart__center-label center-label">Total</span>
         </div>
       </div>

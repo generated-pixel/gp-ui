@@ -79,13 +79,12 @@ describe('GpKpiCard', () => {
     expect(el.querySelector('.sparkline-tooltip')?.textContent?.trim()).toBe('20');
   });
 
-  it('renders progress spinner when loading is true', () => {
-    const { fixture, component } = createComponent();
+  it('renders gp-block-ui when loading is true', () => {
+    const { fixture } = createComponent();
     fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
     const el = fixture.nativeElement as HTMLElement;
-    expect(el.querySelector('.gp-analytics-loading-overlay')).toBeTruthy();
-    expect(el.querySelector('gp-progress-spinner')).toBeTruthy();
+    expect(el.querySelector('gp-block-ui')).toBeTruthy();
   });
 });

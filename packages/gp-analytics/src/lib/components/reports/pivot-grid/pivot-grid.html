@@ -1,9 +1,11 @@
-<div class="gp-pivot-grid" [class]="cx()" role="region" [attr.aria-label]="title()">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div class="gp-pivot-grid" [id]="inputId()" [class]="cx()" role="region" [attr.aria-label]="title()">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
   <!-- Header Bar -->
   <header class="gp-pivot-grid__header pivot-header">
     <div class="gp-pivot-grid__title-group pivot-title-group">
@@ -53,7 +55,9 @@
       <thead>
         <tr>
           <th class="gp-pivot-grid__corner-header corner-header">
-            <span class="gp-pivot-grid__corner-label corner-label">{{ effectiveRowDim() }} \ {{ effectiveColDim() }}</span>
+            <span class="gp-pivot-grid__corner-label corner-label"
+              >{{ effectiveRowDim() }} \ {{ effectiveColDim() }}</span
+            >
           </th>
           @for (colH of m.colHeaders; track 'col-' + colH) {
           <th class="gp-pivot-grid__col-header col-header">{{ colH }}</th>
@@ -66,7 +70,9 @@
         <tr class="gp-pivot-grid__row pivot-row">
           <td class="gp-pivot-grid__row-header-cell row-header-cell">{{ rowH }}</td>
           @for (cell of m.matrix[rIdx]; track $index; let cIdx = $index) {
-          <td class="gp-pivot-grid__cell matrix-cell" [style.background-color]="getCellBg(cell)">{{ formatCellValue(cell) }}</td>
+          <td class="gp-pivot-grid__cell matrix-cell" [style.background-color]="getCellBg(cell)">
+            {{ formatCellValue(cell) }}
+          </td>
           }
           <!-- Row Total -->
           <td class="gp-pivot-grid__row-total-cell row-total-cell">

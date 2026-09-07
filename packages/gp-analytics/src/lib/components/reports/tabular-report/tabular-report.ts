@@ -5,12 +5,12 @@ import { GpLocaleFormatterService } from '../../../services/locale-formatter.ser
 import { GpAnalyticalQuerySpec, GpMeasureQuery } from '../../../models/query.model';
 
 import { FormsModule } from '@angular/forms';
-import { GpButton, GpInputTextDirective, GpProgressSpinner, GpSelect, GpTag } from '@generatedpixel/gp-ui';
+import { GpBlockUI, GpButton, GpInputTextDirective, GpSelect, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-tabular-report',
   standalone: true,
-  imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect, GpTag, GpProgressSpinner],
+  imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect, GpTag, GpBlockUI],
   templateUrl: './tabular-report.html',
   styleUrl: './tabular-report.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

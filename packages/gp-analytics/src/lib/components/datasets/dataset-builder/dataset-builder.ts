@@ -14,7 +14,7 @@ import {
   LoadedSchemaResult,
   GpFilterCondition
 } from '../../../models';
-import { GpProgressSpinner } from '@generatedpixel/gp-ui';
+import { GpBlockUI } from '@generatedpixel/gp-ui';
 import { GpSchemaCatalogue } from '../schema-catalogue/schema-catalogue';
 import { GpDatasetFieldSelector } from '../dataset-field-selector/dataset-field-selector';
 import { GpDatasetPreview } from '../dataset-preview/dataset-preview';
@@ -22,7 +22,7 @@ import { GpDatasetPreview } from '../dataset-preview/dataset-preview';
 @Component({
   selector: 'gp-dataset-builder',
   standalone: true,
-  imports: [GpProgressSpinner, GpSchemaCatalogue, GpDatasetFieldSelector, GpDatasetPreview],
+  imports: [GpBlockUI, GpSchemaCatalogue, GpDatasetFieldSelector, GpDatasetPreview],
   templateUrl: './dataset-builder.html',
   styleUrl: './dataset-builder.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

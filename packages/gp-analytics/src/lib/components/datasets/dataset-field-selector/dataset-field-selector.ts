@@ -17,12 +17,12 @@ export type { FieldListSection } from '../../../interfaces/field-list-section.in
 import type { ListGroupingMode } from '../../../types/list-grouping-mode.type';
 import type { FieldListSection } from '../../../interfaces/field-list-section.interface';
 
-import { GpButton, GpInputTextDirective, GpProgressSpinner, GpSelect, GpSwitch, GpTag } from '@generatedpixel/gp-ui';
+import { GpBlockUI, GpButton, GpInputTextDirective, GpSelect, GpSwitch, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-dataset-field-selector',
   standalone: true,
-  imports: [FormsModule, GpSwitch, GpButton, GpTag, GpSelect, GpInputTextDirective, GpProgressSpinner],
+  imports: [FormsModule, GpSwitch, GpButton, GpTag, GpSelect, GpInputTextDirective, GpBlockUI],
   templateUrl: './dataset-field-selector.html',
   styleUrl: './dataset-field-selector.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,9 +1,11 @@
-<div class="gp-tabular-report" [class]="cx()" role="region" [attr.aria-label]="title()">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div class="gp-tabular-report" [id]="inputId()" [class]="cx()" role="region" [attr.aria-label]="title()">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
   <!-- Header Bar -->
   <header class="gp-tabular-report__header report-header">
     <div class="gp-tabular-report__title-group report-title-group">
@@ -85,7 +87,11 @@
         <tr class="gp-tabular-report__tr report-tr">
           <td class="gp-tabular-report__td-num td-num">{{ (currentPage() - 1) * pageSize() + idx + 1 }}</td>
           @for (col of columns(); track col.key) {
-          <td class="gp-tabular-report__td report-td" [class.td-measure]="col.isMeasure" [class.td-dimension]="col.isDimension">
+          <td
+            class="gp-tabular-report__td report-td"
+            [class.td-measure]="col.isMeasure"
+            [class.td-dimension]="col.isDimension"
+          >
             {{ formatCellValue(col, row[col.key]) }}
           </td>
           }

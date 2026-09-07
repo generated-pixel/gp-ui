@@ -71,10 +71,18 @@
         @let w = getWidget(item.id);
         <div
           class="gp-analytics-dashboard__widget-container widget-container"
+          [id]="'widget-' + item.id"
           [class.is-selected]="selectedWidgetId() === item.id"
           [class.has-designer-chrome]="editable()"
           (click)="w ? onSelect(w, $event) : null"
         >
+          <gp-block-ui
+            [blocked]="isWidgetLoading(item.id)"
+            [target]="'#widget-' + item.id"
+            [message]="'Loading...'"
+            [blur]="true"
+            [animate]="true"
+          />
           <!-- Designer Header Overlay Actions (Visible in Edit Mode) -->
           @if (editable() && w) {
           <div class="gp-analytics-dashboard__widget-designer-toolbar widget-designer-toolbar">
@@ -95,7 +103,10 @@
               <span class="widget-fixed-badge" title="Fixed position">📌</span>
               }
             </div>
-            <div class="gp-analytics-dashboard__widget-actions-cluster widget-actions-cluster" (click)="$event.stopPropagation()">
+            <div
+              class="gp-analytics-dashboard__widget-actions-cluster widget-actions-cluster"
+              (click)="$event.stopPropagation()"
+            >
               <gp-button
                 size="sm"
                 variant="text"
@@ -138,7 +149,10 @@
           <!-- View-Mode Header & Controls -->
           <div class="gp-analytics-dashboard__widget-view-toolbar widget-view-toolbar">
             @if ((effectiveConfig().allowMove ?? true) && !w.grid.fixed && !w.grid.locked) {
-            <div class="gp-grid-drag-handle gp-analytics-dashboard__view-mode-drag-grip view-mode-drag-grip" title="Drag to reposition widget">
+            <div
+              class="gp-grid-drag-handle gp-analytics-dashboard__view-mode-drag-grip view-mode-drag-grip"
+              title="Drag to reposition widget"
+            >
               <span>⠿</span>
             </div>
             }
@@ -160,11 +174,10 @@
           <div class="gp-analytics-dashboard__widget-content-body widget-content-body">
             @if (isWidgetLoading(item.id)) {
             <div class="gp-analytics-dashboard__widget-loading-container widget-loading-container">
-              <div class="gp-analytics-loading-overlay">
-                <gp-progress-spinner strokeWidth="3" />
-              </div>
               <!-- Shimmering Skeleton Loader based on Widget Type -->
-              <div class="gp-analytics-dashboard__widget-skeleton-wrapper widget-skeleton-wrapper skeleton-{{ w?.type }}">
+              <div
+                class="gp-analytics-dashboard__widget-skeleton-wrapper widget-skeleton-wrapper skeleton-{{ w?.type }}"
+              >
                 <div class="skeleton-shimmer-header">
                   <div class="skeleton-shimmer-bar skeleton-title-bar"></div>
                   <div class="skeleton-shimmer-circle"></div>

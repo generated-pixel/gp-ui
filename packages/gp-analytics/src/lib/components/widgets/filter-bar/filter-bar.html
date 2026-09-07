@@ -1,9 +1,11 @@
-<div class="gp-filter-bar" [class]="cx()" role="toolbar" aria-label="Analytical Filter Bar">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div class="gp-filter-bar" [id]="inputId()" [class]="cx()" role="toolbar" aria-label="Analytical Filter Bar">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
   <div class="gp-filter-bar__left filter-left">
     <span class="gp-filter-bar__icon filter-icon">🔍</span>
     <span class="gp-filter-bar__label filter-label">Filters</span>
@@ -35,7 +37,14 @@
         <strong class="gp-filter-bar__chip-field chip-field">{{ f.fieldId }}</strong>
         <span class="gp-filter-bar__chip-op chip-op">{{ f.operator }}</span>
         <span class="gp-filter-bar__chip-val chip-val">{{ f.value }}</span>
-        <button type="button" class="gp-filter-bar__chip-remove chip-remove" (click)="removeFilter(idx)" aria-label="Remove filter">✕</button>
+        <button
+          type="button"
+          class="gp-filter-bar__chip-remove chip-remove"
+          (click)="removeFilter(idx)"
+          aria-label="Remove filter"
+        >
+          ✕
+        </button>
       </span>
       }
     </div>

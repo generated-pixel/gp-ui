@@ -1,16 +1,26 @@
-<div class="gp-kpi-card" [class]="cx('severity-' + severity())" role="region" [attr.aria-label]="title()">
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+<div
+  class="gp-kpi-card"
+  [id]="inputId()"
+  [class]="cx('severity-' + severity())"
+  role="region"
+  [attr.aria-label]="title()"
+>
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
   <!-- Top Title & Icon -->
   <div class="gp-kpi-card__header kpi-header">
     <div class="gp-kpi-card__title-row kpi-title-row">
       <span class="gp-kpi-card__icon kpi-icon" aria-hidden="true">{{ icon() }}</span>
       <h4 class="gp-kpi-card__title kpi-title">{{ title() }}</h4>
       @if (isAlertActive()) {
-      <gp-tag severity="danger" class="gp-kpi-card__alert-badge kpi-alert-badge"> ⚠ {{ alertMessage() || 'Alert' }} </gp-tag>
+      <gp-tag severity="danger" class="gp-kpi-card__alert-badge kpi-alert-badge">
+        ⚠ {{ alertMessage() || 'Alert' }}
+      </gp-tag>
       }
     </div>
 
@@ -47,13 +57,28 @@
     @if (sparklineSvg().points.length > 1) {
     <div class="gp-kpi-card__sparkline-container kpi-sparkline-container">
       @if (hoveredPoint(); as hp) {
-      <div class="gp-kpi-card__sparkline-tooltip sparkline-tooltip" [style.left.px]="hp.x">{{ hp.val.toLocaleString() }}</div>
+      <div class="gp-kpi-card__sparkline-tooltip sparkline-tooltip" [style.left.px]="hp.x">
+        {{ hp.val.toLocaleString() }}
+      </div>
       }
-      <svg class="gp-kpi-card__sparkline-svg sparkline-svg" viewBox="0 0 140 40" preserveAspectRatio="none" aria-hidden="true">
+      <svg
+        class="gp-kpi-card__sparkline-svg sparkline-svg"
+        viewBox="0 0 140 40"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
         <defs>
           <linearGradient id="kpiSparkGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="var(--sparkline-fill, var(--gp-color-primary, #4f46e5))" stop-opacity="0.25" />
-            <stop offset="100%" stop-color="var(--sparkline-fill, var(--gp-color-primary, #4f46e5))" stop-opacity="0.0" />
+            <stop
+              offset="0%"
+              stop-color="var(--sparkline-fill, var(--gp-color-primary, #4f46e5))"
+              stop-opacity="0.25"
+            />
+            <stop
+              offset="100%"
+              stop-color="var(--sparkline-fill, var(--gp-color-primary, #4f46e5))"
+              stop-opacity="0.0"
+            />
           </linearGradient>
         </defs>
         <!-- Gradient Area -->
@@ -98,7 +123,10 @@
       aria-valuemin="0"
       aria-valuemax="100"
     >
-      <div class="gp-kpi-card__progress-fill progress-fill" [style.width.%]="targetProgress()! > 100 ? 100 : targetProgress()"></div>
+      <div
+        class="gp-kpi-card__progress-fill progress-fill"
+        [style.width.%]="targetProgress()! > 100 ? 100 : targetProgress()"
+      ></div>
     </div>
   </div>
   }

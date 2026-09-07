@@ -1,5 +1,6 @@
 <div
   class="gp-dataset-field-selector dataset-field-selector"
+  [id]="inputId()"
   role="region"
   [class.gp-dataset-field-selector--drag-over]="isDragOver()"
   [class.drag-over]="isDragOver()"
@@ -8,11 +9,13 @@
   (drop)="onDrop($event)"
   [attr.aria-label]="i18n.translate('selectDatasetFields')"
 >
-  @if (loading()) {
-  <div class="gp-analytics-loading-overlay">
-    <gp-progress-spinner strokeWidth="3" />
-  </div>
-  }
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
 
   <!-- ================= TOP SECTION: WORKBENCH TABS & PANELS ================= -->
   <div class="gp-dataset-field-selector__tabs-bar workbench-tabs-bar" role="tablist">

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GpButton, GpInputTextDirective, GpProgressSpinner, GpSelect } from '@generatedpixel/gp-ui';
+import { GpBlockUI, GpButton, GpInputTextDirective, GpSelect } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import { GpFilterCondition } from '../../../models/query.model';
 
 @Component({
   selector: 'gp-filter-bar',
   standalone: true,
-  imports: [FormsModule, GpButton, GpInputTextDirective, GpProgressSpinner, GpSelect],
+  imports: [FormsModule, GpButton, GpInputTextDirective, GpBlockUI, GpSelect],
   templateUrl: './filter-bar.html',
   styleUrl: './filter-bar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
