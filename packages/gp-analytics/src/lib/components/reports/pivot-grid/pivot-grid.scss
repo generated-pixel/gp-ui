@@ -14,6 +14,7 @@
   position: relative;
 }
 
+.gp-pivot-grid__header,
 .pivot-header {
   display: flex;
   align-items: center;
@@ -25,6 +26,7 @@
   gap: 0.5rem;
 }
 
+.gp-pivot-grid__actions,
 .pivot-header-actions {
   display: flex;
   align-items: center;
@@ -32,16 +34,19 @@
   flex-wrap: wrap;
 }
 
+.gp-pivot-grid__title-group,
 .pivot-title-group {
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
+.gp-pivot-grid__icon,
 .pivot-icon {
   font-size: 1.25rem;
 }
 
+.gp-pivot-grid__title,
 .pivot-title {
   margin: 0;
   font-size: 0.95rem;
@@ -50,37 +55,20 @@
   letter-spacing: -0.01em;
 }
 
+.gp-pivot-grid__axes-hint,
 .pivot-axes-hint {
   margin: 0.15rem 0 0;
   font-size: 0.72rem;
   color: var(--gp-color-text-secondary, #64748b);
 }
 
-.btn-swap-axes {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border: 1px solid var(--gp-color-primary, #4f46e5);
-  border-radius: var(--gp-radius-md, 0.375rem);
-  background: var(--gp-color-primary-light, #eef2ff);
-  color: var(--gp-color-primary, #4f46e5);
-  cursor: pointer;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background: var(--gp-color-primary, #4f46e5);
-    color: #ffffff;
-  }
-}
-
+.gp-pivot-grid__scroll-wrap,
 .matrix-scroll-wrap {
   overflow-x: auto;
   max-height: 480px;
 }
 
+.gp-pivot-grid__table,
 .pivot-table {
   width: 100%;
   border-collapse: collapse;
@@ -88,6 +76,7 @@
   text-align: right;
 }
 
+.gp-pivot-grid__corner-header,
 .corner-header {
   text-align: left;
   padding: 0.7rem 0.9rem;
@@ -99,6 +88,7 @@
   border-right: 1px solid var(--gp-color-surface-border, #e2e8f0);
 }
 
+.gp-pivot-grid__col-header,
 .col-header {
   padding: 0.7rem 0.9rem;
   font-weight: 700;
@@ -109,6 +99,7 @@
   white-space: nowrap;
 }
 
+.gp-pivot-grid__total-header,
 .total-header {
   padding: 0.7rem 0.9rem;
   font-weight: 800;
@@ -118,6 +109,7 @@
   border-left: 2px solid var(--gp-color-surface-border, #cbd5e1);
 }
 
+.gp-pivot-grid__row-header-cell,
 .row-header-cell {
   text-align: left;
   padding: 0.65rem 0.9rem;
@@ -129,6 +121,7 @@
   white-space: nowrap;
 }
 
+.gp-pivot-grid__cell,
 .matrix-cell {
   padding: 0.65rem 0.9rem;
   color: var(--gp-color-text-primary, #1e293b);
@@ -137,12 +130,14 @@
   font-variant-numeric: tabular-nums;
   transition: background-color 0.2s ease;
 
-  .cell-null {
+  .cell-null,
+  .gp-pivot-grid__cell-null {
     color: var(--gp-color-text-muted, #94a3b8);
     opacity: 0.5;
   }
 }
 
+.gp-pivot-grid__row-total-cell,
 .row-total-cell {
   padding: 0.65rem 0.9rem;
   background: var(--gp-color-surface-section, #f8fafc);
@@ -153,6 +148,7 @@
   font-weight: 700;
 }
 
+.gp-pivot-grid__tfoot,
 .pivot-tfoot {
   position: sticky;
   bottom: 0;
@@ -160,7 +156,8 @@
   border-top: 2px solid var(--gp-color-surface-border, #cbd5e1);
   background: var(--gp-color-surface-section, #f8fafc);
 
-  .col-total-title {
+  .col-total-title,
+  .gp-pivot-grid__col-total-title {
     text-align: left;
     padding: 0.75rem 0.9rem;
     font-weight: 800;
@@ -169,7 +166,8 @@
     border-right: 1px solid var(--gp-color-surface-border, #e2e8f0);
   }
 
-  .col-total-cell {
+  .col-total-cell,
+  .gp-pivot-grid__col-total-cell {
     padding: 0.75rem 0.9rem;
     color: var(--gp-color-text-primary, #0f172a);
     background: var(--gp-color-surface-section, #f8fafc);
@@ -178,7 +176,8 @@
     font-weight: 700;
   }
 
-  .grand-total-cell {
+  .grand-total-cell,
+  .gp-pivot-grid__grand-total-cell {
     padding: 0.75rem 0.9rem;
     background: color-mix(in srgb, var(--gp-color-primary, #4f46e5) 15%, var(--gp-color-surface-card, #ffffff));
     color: var(--gp-color-primary, #4f46e5);
@@ -201,55 +200,69 @@
     box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.3);
   }
 
+  .gp-pivot-grid__header,
   .pivot-header {
     background: var(--gp-color-surface-ground, #0f172a);
     border-color: var(--gp-color-surface-border, #334155);
   }
 
+  .gp-pivot-grid__title,
   .pivot-title {
     color: var(--gp-color-text-primary, #f8fafc);
   }
 
+  .gp-pivot-grid__axes-hint,
   .pivot-axes-hint {
     color: var(--gp-color-text-secondary, #94a3b8);
   }
 
+  .gp-pivot-grid__corner-header,
   .corner-header,
+  .gp-pivot-grid__col-header,
   .col-header,
+  .gp-pivot-grid__row-header-cell,
   .row-header-cell {
     background: var(--gp-color-surface-ground, #0f172a);
     color: var(--gp-color-text-primary, #f8fafc);
     border-color: var(--gp-color-surface-border, #334155);
   }
 
+  .gp-pivot-grid__total-header,
   .total-header,
+  .gp-pivot-grid__row-total-cell,
   .row-total-cell {
     background: var(--gp-color-surface-section, #1e293b);
     color: var(--gp-color-text-primary, #f8fafc);
     border-color: var(--gp-color-surface-border, #334155);
   }
 
+  .gp-pivot-grid__cell,
   .matrix-cell {
     color: var(--gp-color-text-primary, #f8fafc);
     border-color: var(--gp-color-surface-border, #334155);
 
-    .cell-null {
+    .cell-null,
+    .gp-pivot-grid__cell-null {
       color: var(--gp-color-text-muted, #64748b);
     }
   }
 
+  .gp-pivot-grid__tfoot,
   .pivot-tfoot {
     background: var(--gp-color-surface-section, #1e293b);
     border-color: var(--gp-color-surface-border, #334155);
 
     .col-total-title,
-    .col-total-cell {
+    .gp-pivot-grid__col-total-title,
+    .col-total-cell,
+    .gp-pivot-grid__col-total-cell {
       background: var(--gp-color-surface-section, #1e293b);
       color: var(--gp-color-text-primary, #f8fafc);
       border-color: var(--gp-color-surface-border, #334155);
     }
 
-    .grand-total-cell {
+    .grand-total-cell,
+    .gp-pivot-grid__grand-total-cell {
       background: color-mix(
         in srgb,
         var(--gp-color-primary, #4f46e5) 30%,
@@ -262,6 +275,7 @@
   }
 }
 
+.gp-pivot-grid__empty-state,
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -270,13 +284,15 @@
   padding: 3rem 1.5rem;
   color: var(--gp-color-text-secondary, #64748b);
 
-  .empty-icon {
+  .empty-icon,
+  .gp-pivot-grid__empty-icon {
     font-size: 2rem;
     opacity: 0.4;
     margin-bottom: 0.5rem;
   }
 
-  .empty-text {
+  .empty-text,
+  .gp-pivot-grid__empty-text {
     margin: 0;
     font-size: 0.85rem;
   }

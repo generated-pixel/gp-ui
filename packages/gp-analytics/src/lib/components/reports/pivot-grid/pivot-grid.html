@@ -5,19 +5,19 @@
   </div>
   }
   <!-- Header Bar -->
-  <header class="pivot-header">
-    <div class="pivot-title-group">
-      <span class="pivot-icon">🔀</span>
+  <header class="gp-pivot-grid__header pivot-header">
+    <div class="gp-pivot-grid__title-group pivot-title-group">
+      <span class="gp-pivot-grid__icon pivot-icon">🔀</span>
       <div>
-        <h3 class="pivot-title">{{ title() }}</h3>
-        <p class="pivot-axes-hint">
+        <h3 class="gp-pivot-grid__title pivot-title">{{ title() }}</h3>
+        <p class="gp-pivot-grid__axes-hint pivot-axes-hint">
           Rows: <strong>{{ effectiveRowDim() }}</strong> ⇄ Cols: <strong>{{ effectiveColDim() }}</strong>
           ({{ measure().fieldId }} {{ measure().aggregation.toUpperCase() }})
         </p>
       </div>
     </div>
 
-    <div class="pivot-header-actions">
+    <div class="gp-pivot-grid__actions pivot-header-actions">
       <gp-select
         [options]="heatmapOptions"
         optionLabel="label"
@@ -47,52 +47,52 @@
   </header>
 
   <!-- Matrix Table View -->
-  <div class="matrix-scroll-wrap">
+  <div class="gp-pivot-grid__scroll-wrap matrix-scroll-wrap">
     @if (pivotMatrix(); as m) {
-    <table class="pivot-table">
+    <table class="gp-pivot-grid__table pivot-table">
       <thead>
         <tr>
-          <th class="corner-header">
-            <span class="corner-label">{{ effectiveRowDim() }} \ {{ effectiveColDim() }}</span>
+          <th class="gp-pivot-grid__corner-header corner-header">
+            <span class="gp-pivot-grid__corner-label corner-label">{{ effectiveRowDim() }} \ {{ effectiveColDim() }}</span>
           </th>
           @for (colH of m.colHeaders; track 'col-' + colH) {
-          <th class="col-header">{{ colH }}</th>
+          <th class="gp-pivot-grid__col-header col-header">{{ colH }}</th>
           }
-          <th class="total-header">Total</th>
+          <th class="gp-pivot-grid__total-header total-header">Total</th>
         </tr>
       </thead>
       <tbody>
         @for (rowH of m.rowHeaders; track 'row-' + rowH; let rIdx = $index) {
-        <tr class="pivot-row">
-          <td class="row-header-cell">{{ rowH }}</td>
+        <tr class="gp-pivot-grid__row pivot-row">
+          <td class="gp-pivot-grid__row-header-cell row-header-cell">{{ rowH }}</td>
           @for (cell of m.matrix[rIdx]; track $index; let cIdx = $index) {
-          <td class="matrix-cell" [style.background-color]="getCellBg(cell)">{{ formatCellValue(cell) }}</td>
+          <td class="gp-pivot-grid__cell matrix-cell" [style.background-color]="getCellBg(cell)">{{ formatCellValue(cell) }}</td>
           }
           <!-- Row Total -->
-          <td class="row-total-cell">
+          <td class="gp-pivot-grid__row-total-cell row-total-cell">
             <strong>{{ formatCellValue(m.rowTotals[rIdx]) }}</strong>
           </td>
         </tr>
         }
       </tbody>
-      <tfoot class="pivot-tfoot">
-        <tr class="tfoot-row">
-          <td class="col-total-title">Total</td>
+      <tfoot class="gp-pivot-grid__tfoot pivot-tfoot">
+        <tr class="gp-pivot-grid__tfoot-row tfoot-row">
+          <td class="gp-pivot-grid__col-total-title col-total-title">Total</td>
           @for (colTotal of m.colTotals; track $index) {
-          <td class="col-total-cell">
+          <td class="gp-pivot-grid__col-total-cell col-total-cell">
             <strong>{{ formatCellValue(colTotal) }}</strong>
           </td>
           }
-          <td class="grand-total-cell">
+          <td class="gp-pivot-grid__grand-total-cell grand-total-cell">
             <strong>{{ formatCellValue(m.grandTotal) }}</strong>
           </td>
         </tr>
       </tfoot>
     </table>
     } @else {
-    <div class="empty-state">
-      <span class="empty-icon">🔀</span>
-      <p class="empty-text">Provide records and dimensions to render the 2D Pivot Matrix.</p>
+    <div class="gp-pivot-grid__empty-state empty-state">
+      <span class="gp-pivot-grid__empty-icon empty-icon">🔀</span>
+      <p class="gp-pivot-grid__empty-text empty-text">Provide records and dimensions to render the 2D Pivot Matrix.</p>
     </div>
     }
   </div>
