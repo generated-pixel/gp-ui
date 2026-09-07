@@ -1,0 +1,52 @@
+<div class="analytics-page">
+  <gp-toast />
+
+  <div class="analytics-page__header">
+    <div class="analytics-page__badges">
+      <gp-badge value="gp-kpi-card" severity="primary" />
+      <gp-badge value="gp-analytics" severity="info" />
+    </div>
+    <h1 class="analytics-page__title">KPI Card</h1>
+    <p class="analytics-page__desc">
+      Single-metric scorecard widget with trend indicator, variance, target progress bar, inline sparkline, and
+      threshold-based alerting.
+    </p>
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Live Demo</h2>
+    <div class="analytics-page__demo">
+      <gp-kpi-card
+        widgetId="kpi-revenue"
+        title="Global Revenue"
+        icon="💰"
+        [value]="value()"
+        currency="USD"
+        [previousValue]="172000"
+        [variancePercentage]="7.3"
+        trend="up"
+        severity="success"
+        [targetValue]="200000"
+        [targetProgress]="92"
+        [sparklinePoints]="sparkline()"
+        [alertThreshold]="150000"
+        alertCondition="below"
+        alertMessage="Revenue is below the monthly floor"
+        (refresh)="onRefresh($event)"
+        (exportData)="onExportData($event)"
+        (configure)="onConfigure($event)"
+      />
+    </div>
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Usage</h2>
+    <doc-code [code]="usageCode" language="html" />
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">API Reference</h2>
+    <doc-api-table title="Properties (Inputs)" [properties]="properties" />
+    <doc-api-table title="Events (Outputs)" [properties]="events" [hasDefaults]="false" />
+  </div>
+</div>
