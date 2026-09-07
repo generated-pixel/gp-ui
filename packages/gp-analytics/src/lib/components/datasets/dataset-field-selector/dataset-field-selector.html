@@ -7,6 +7,12 @@
   (drop)="onDrop($event)"
   [attr.aria-label]="i18n.translate('selectDatasetFields')"
 >
+  @if (loading()) {
+  <div class="gp-analytics-loading-overlay">
+    <gp-progress-spinner strokeWidth="3" />
+  </div>
+  }
+
   <!-- ================= TOP SECTION: WORKBENCH TABS & PANELS ================= -->
   <div class="workbench-tabs-bar" role="tablist">
     <button
@@ -19,7 +25,9 @@
     >
       <span class="tab-icon">📋</span>
       <span class="tab-title">{{ i18n.translate('datasetFields') }}</span>
-      <span class="tab-badge">{{ visibleFields().length }}</span>
+      <gp-tag size="sm" [severity]="activeTab() === 'fields' ? 'primary' : 'secondary'" class="tab-tag-badge">
+        {{ visibleFields().length }}
+      </gp-tag>
     </button>
     <button
       type="button"
@@ -31,7 +39,9 @@
     >
       <span class="tab-icon">🔍</span>
       <span class="tab-title">{{ i18n.translate('filters') }}</span>
-      <span class="tab-badge" [class.has-filters]="filters().length > 0">{{ filters().length }}</span>
+      <gp-tag size="sm" [severity]="filters().length > 0 ? 'info' : 'secondary'" class="tab-tag-badge">
+        {{ filters().length }}
+      </gp-tag>
     </button>
   </div>
 
@@ -41,7 +51,7 @@
       <div class="header-title-group">
         <span class="header-icon" aria-hidden="true">📋</span>
         <h3 class="section-title">{{ i18n.translate('datasetFields') }}</h3>
-        <span class="count-badge">{{ visibleFields().length }}</span>
+        <gp-tag size="sm" severity="primary">{{ visibleFields().length }}</gp-tag>
       </div>
 
       <!-- Grouping Mode Switcher -->
@@ -76,9 +86,14 @@
       </div>
 
       @if (visibleFields().length > 0) {
-      <button type="button" class="clear-all-btn" (click)="clearAllFields()" [title]="i18n.translate('clearAll')">
-        {{ i18n.translate('clearAll') }}
-      </button>
+      <gp-button
+        size="sm"
+        variant="text"
+        severity="danger"
+        (click)="clearAllFields()"
+        [title]="i18n.translate('clearAll')"
+        [label]="i18n.translate('clearAll')"
+      />
       }
     </header>
 
@@ -99,7 +114,7 @@
           <span class="group-icon">{{ section.icon }}</span>
           <strong class="group-title">{{ section.title }}</strong>
         </div>
-        <span class="group-count-badge">{{ section.fields.length }}</span>
+        <gp-tag size="sm" severity="secondary" class="group-count-badge">{{ section.fields.length }}</gp-tag>
       </div>
       } @if (!section.title || !isGroupCollapsed(section.id)) {
       <div class="group-items-wrapper">
@@ -156,7 +171,7 @@
             </button>
 
             @if (field.aggregationType && field.aggregationType !== 'none') {
-            <span class="chip-agg-badge">{{ field.aggregationType }}</span>
+            <gp-tag size="sm" severity="warning" class="chip-agg-badge">{{ field.aggregationType }}</gp-tag>
             }
 
             <div class="reorder-actions" (click)="$event.stopPropagation()">
@@ -180,14 +195,14 @@
               </button>
             </div>
 
-            <button
-              type="button"
-              class="btn-remove"
+            <gp-button
+              size="sm"
+              variant="text"
+              severity="danger"
               (click)="removeField(field.datasetFieldId, $event)"
               [attr.aria-label]="i18n.translate('removeField') + ': ' + displayLabel"
-            >
-              ✕
-            </button>
+              label="✕"
+            />
           </div>
         </div>
         }
@@ -208,29 +223,28 @@
       <div class="header-title-group">
         <span class="header-icon" aria-hidden="true">🔍</span>
         <h3 class="section-title">{{ i18n.translate('datasetFilters') }}</h3>
-        <span class="count-badge">{{ filters().length }}</span>
+        <gp-tag size="sm" [severity]="filters().length > 0 ? 'info' : 'secondary'">{{ filters().length }}</gp-tag>
       </div>
 
       <div class="header-actions">
         @if (!isAddingFilter()) {
-        <button
-          type="button"
-          class="add-filter-btn"
+        <gp-button
+          size="sm"
+          variant="filled"
           (click)="startAddFilter()"
           [disabled]="filterableFields().length === 0"
           [title]="i18n.translate('addFilter')"
-        >
-          + {{ i18n.translate('addFilter') }}
-        </button>
+          [label]="'+ ' + i18n.translate('addFilter')"
+        />
         } @if (filters().length > 0) {
-        <button
-          type="button"
-          class="clear-all-btn"
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="danger"
           (click)="clearAllFilters()"
           [title]="i18n.translate('clearAllFilters')"
-        >
-          {{ i18n.translate('clearAll') }}
-        </button>
+          [label]="i18n.translate('clearAll')"
+        />
         }
       </div>
     </header>
@@ -247,21 +261,27 @@
         <!-- Field Selection -->
         <div class="filter-input-group">
           <label class="filter-input-label">{{ i18n.translate('selectFilterField') }}</label>
-          <select class="filter-select" [ngModel]="newFilterFieldId()" (ngModelChange)="onFilterFieldChange($event)">
-            @for (f of filterableFields(); track f.datasetFieldId) {
-            <option [value]="f.datasetFieldId">{{ getDisplayLabel(f) }} ({{ f.fieldName }})</option>
-            }
-          </select>
+          <gp-select
+            [options]="filterFieldSelectOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="newFilterFieldId()"
+            (ngModelChange)="onFilterFieldChange($event)"
+            size="sm"
+          />
         </div>
 
         <!-- Operator Selection -->
         <div class="filter-input-group">
           <label class="filter-input-label">{{ i18n.translate('operator') }}</label>
-          <select class="filter-select" [ngModel]="newFilterOperator()" (ngModelChange)="newFilterOperator.set($event)">
-            @for (op of availableFilterOperators(); track op.value) {
-            <option [value]="op.value">{{ op.label }}</option>
-            }
-          </select>
+          <gp-select
+            [options]="availableFilterOperators()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="newFilterOperator()"
+            (ngModelChange)="newFilterOperator.set($event)"
+            size="sm"
+          />
         </div>
       </div>
 
@@ -276,7 +296,7 @@
         <div class="filter-lookup-selection">
           <div class="lookup-selection-header">
             <label class="filter-input-label">{{ i18n.translate('translatedList') }}</label>
-            <span class="lookup-count-badge">{{ filterFieldLookupValues().length }} options</span>
+            <gp-tag size="sm" severity="secondary">{{ filterFieldLookupValues().length }} options</gp-tag>
           </div>
 
           @if (newFilterOperator() === 'in') {
@@ -298,15 +318,14 @@
           </div>
           } @else {
           <!-- Single selection select -->
-          <select
-            class="filter-select lookup-select"
+          <gp-select
+            [options]="lookupSelectOptions()"
+            optionLabel="label"
+            optionValue="value"
             [ngModel]="newFilterValue()"
             (ngModelChange)="newFilterValue.set($event)"
-          >
-            @for (item of filterFieldLookupValues(); track item.value) {
-            <option [value]="item.value">{{ item.displayValue[i18n.locale()] }} [{{ item.value }}]</option>
-            }
-          </select>
+            size="sm"
+          />
           }
         </div>
         } @else {
@@ -315,6 +334,7 @@
           <label class="filter-input-label">{{ i18n.translate('filterValue') }}</label>
           <input
             type="text"
+            gpInputText
             class="filter-text-input"
             [placeholder]="i18n.translate('filterValue')"
             [ngModel]="newFilterValue()"
@@ -327,12 +347,8 @@
 
       <!-- Builder Actions -->
       <div class="filter-builder-actions">
-        <button type="button" class="btn-cancel-filter" (click)="cancelAddFilter()">
-          {{ i18n.translate('cancel') }}
-        </button>
-        <button type="button" class="btn-apply-filter" (click)="applyNewFilter()">
-          {{ i18n.translate('applyFilter') }}
-        </button>
+        <gp-button size="sm" variant="outlined" (click)="cancelAddFilter()" [label]="i18n.translate('cancel')" />
+        <gp-button size="sm" variant="filled" (click)="applyNewFilter()" [label]="i18n.translate('applyFilter')" />
       </div>
     </div>
     }
@@ -346,7 +362,9 @@
           <div class="filter-item-info">
             <strong class="filter-field-title">{{ getFilterFieldDisplayLabel(cond.fieldId) }}</strong>
             <div class="filter-condition-row">
-              <span class="filter-op-badge">{{ getFilterOperatorLabel(cond.operator) }}</span>
+              <gp-tag size="sm" severity="primary" class="filter-op-badge"
+                >{{ getFilterOperatorLabel(cond.operator) }}</gp-tag
+              >
               @if (cond.operator !== 'isNull' && cond.operator !== 'isNotNull') {
               <span class="filter-val-text">{{ getFilterValueDisplay(cond) }}</span>
               }
@@ -354,7 +372,14 @@
           </div>
         </div>
 
-        <button type="button" class="btn-remove-filter" (click)="removeFilter(idx)" title="Remove filter">✕</button>
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="danger"
+          (click)="removeFilter(idx)"
+          title="Remove filter"
+          label="✕"
+        />
       </div>
       } @empty { @if (!isAddingFilter()) {
       <div class="empty-filters-state">
@@ -362,9 +387,12 @@
         <p class="empty-title">{{ i18n.translate('datasetFilters') }}</p>
         <p class="empty-subtitle">{{ i18n.translate('noFiltersDefined') }}</p>
         @if (filterableFields().length > 0) {
-        <button type="button" class="empty-add-btn" (click)="startAddFilter()">
-          + {{ i18n.translate('addFilter') }}
-        </button>
+        <gp-button
+          size="sm"
+          variant="filled"
+          (click)="startAddFilter()"
+          [label]="'+ ' + i18n.translate('addFilter')"
+        />
         }
       </div>
       } }
@@ -380,7 +408,7 @@
         <h3 class="section-title">{{ i18n.translate('fieldProperties') }}</h3>
       </div>
       @if (activeField()) {
-      <span class="active-badge">{{ activeField()?.dataType }}</span>
+      <gp-tag size="sm" severity="info" class="active-badge">{{ activeField()?.dataType }}</gp-tag>
       }
     </header>
 
@@ -400,14 +428,13 @@
       <div class="property-group lookup-values-group">
         <div class="lookup-header-line">
           <span class="group-label">{{ i18n.translate('translatedList') }}</span>
-          <button
-            type="button"
-            class="btn-filter-shortcut"
+          <gp-button
+            size="sm"
+            variant="text"
             (click)="filterByField(current)"
             [title]="i18n.translate('filterByThisField')"
-          >
-            + {{ i18n.translate('filterByThisField') }}
-          </button>
+            [label]="'+ ' + i18n.translate('filterByThisField')"
+          />
         </div>
         <p class="lookup-subtitle">{{ i18n.translate('availableOptions') }} ({{ current.lookupValues.length }}):</p>
         <div class="lookup-chips-list">
@@ -426,15 +453,12 @@
         <label class="group-label" for="agg-select">{{ i18n.translate('aggregation') }}</label>
         <div class="aggregation-pills">
           @for (opt of availableAggregations(); track opt.value) {
-          <button
-            type="button"
-            id="agg-{{ opt.value }}"
-            class="agg-pill"
-            [class.selected]="current.aggregationType === opt.value"
+          <gp-button
+            size="sm"
+            [variant]="current.aggregationType === opt.value ? 'filled' : 'outlined'"
             (click)="updateAggregation(opt.value)"
-          >
-            {{ opt.label }}
-          </button>
+            [label]="opt.label"
+          />
           }
         </div>
       </div>

@@ -17,12 +17,12 @@ export type { FieldListSection } from '../../../interfaces/field-list-section.in
 import type { ListGroupingMode } from '../../../types/list-grouping-mode.type';
 import type { FieldListSection } from '../../../interfaces/field-list-section.interface';
 
-import { GpSwitch } from '@generatedpixel/gp-ui';
+import { GpButton, GpInputTextDirective, GpProgressSpinner, GpSelect, GpSwitch, GpTag } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-dataset-field-selector',
   standalone: true,
-  imports: [FormsModule, GpSwitch],
+  imports: [FormsModule, GpSwitch, GpButton, GpTag, GpSelect, GpInputTextDirective, GpProgressSpinner],
   templateUrl: './dataset-field-selector.html',
   styleUrl: './dataset-field-selector.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -261,6 +261,27 @@ export class GpDatasetFieldSelector extends GpAnalyticsComponent {
    */
   readonly filterFieldLookupValues = computed(() => {
     return this.selectedFilterField()?.lookupValues ?? [];
+  });
+
+  /**
+   * Options formatted for GpSelect dropdown in filter field selector.
+   */
+  readonly filterFieldSelectOptions = computed<{ label: string; value: string }[]>(() => {
+    return this.filterableFields().map((f) => ({
+      label: `${this.getDisplayLabel(f)} (${f.fieldName})`,
+      value: f.datasetFieldId
+    }));
+  });
+
+  /**
+   * Options formatted for GpSelect dropdown in lookup single value selection.
+   */
+  readonly lookupSelectOptions = computed<{ label: string; value: any }[]>(() => {
+    const loc = this.i18n.locale();
+    return this.filterFieldLookupValues().map((item) => ({
+      label: `${item.displayValue[loc] || item.value} [${item.value}]`,
+      value: item.value
+    }));
   });
 
   /**
