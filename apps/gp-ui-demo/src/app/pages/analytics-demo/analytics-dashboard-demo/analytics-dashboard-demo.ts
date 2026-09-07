@@ -28,10 +28,6 @@ export class AnalyticsDashboardDemo {
     this.toastService.add({ severity: 'info', summary: 'Layout changed', detail: `${items.length} widget(s)` });
   }
 
-  protected onWidgetDataLoaded(event: { widgetId: string; data: any; fromCache: boolean }): void {
-    this.toastService.add({ severity: 'success', summary: 'Widget data loaded', detail: event.widgetId });
-  }
-
   protected readonly usageCode = `<gp-analytics-dashboard
   title="Executive Analytics Cockpit"
   subtitle="Live analytical dashboard"
@@ -41,7 +37,6 @@ export class AnalyticsDashboardDemo {
   [editable]="false"
   (widgetSelect)="onWidgetSelect($event)"
   (layoutChange)="onLayoutChange($event)"
-  (widgetDataLoaded)="onWidgetDataLoaded($event)"
 />`;
 
   protected readonly properties: DocApiProperty[] = [
