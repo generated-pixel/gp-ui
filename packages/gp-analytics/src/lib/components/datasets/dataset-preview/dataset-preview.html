@@ -1,0 +1,475 @@
+<div
+  class="dataset-preview"
+  [id]="inputId()"
+  [class]="cx()"
+  role="region"
+  [attr.aria-label]="i18n.translate('datasetPreview')"
+>
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
+  <!-- Table Header Bar -->
+  <header class="preview-header">
+    <div class="header-left">
+      <span class="preview-icon" aria-hidden="true">📊</span>
+      <div>
+        <h3 class="preview-title">{{ datasetName() }}</h3>
+        @if (isCustomSourceActive()) {
+        <p class="preview-subtitle custom-active-sub">
+          <span class="source-tag">{{ loadedSourceResult()?.sourceType?.toUpperCase() || 'CUSTOM' }}</span>
+          {{ loadedSourceResult()?.sourceName || 'Custom records loaded' }}
+        </p>
+        } @else {
+        <p class="preview-subtitle">{{ i18n.translate('simulatedData') }}</p>
+        }
+      </div>
+      <span class="columns-pill"> {{ columns().length }} {{ columns().length === 1 ? 'column' : 'columns' }} </span>
+    </div>
+
+    <div class="header-right">
+      <!-- Automagic Grouping State Badge -->
+      @if (hasActiveGrouping()) {
+      <span class="auto-group-badge" [title]="'Automagically grouped by ' + primaryGroupColumn()?.header">
+        <span class="badge-icon">⊞</span>
+        <span>Grouped by {{ primaryGroupColumn()?.header }}</span>
+      </span>
+      } @else {
+      <span class="flat-table-badge" title="Flat table (no dimension selected for grouping)">
+        <span class="badge-icon">≡</span>
+        <span>Flat Table</span>
+      </span>
+      }
+
+      <!-- Data Source Action Button -->
+      <gp-button
+        size="sm"
+        [variant]="isCustomSourceActive() ? 'outlined' : 'filled'"
+        [severity]="isCustomSourceActive() ? 'info' : 'primary'"
+        class="data-source-btn"
+        (click)="openSourceModal()"
+        title="Configure external data source (JSON, REST API, or raw JSON)"
+        [label]="isCustomSourceActive() ? '⚡ Source: ' + (loadedSourceResult()?.sourceType || 'Custom') : '⚡ ' + i18n.translate('loadDataSource')"
+      />
+
+      @if (isCustomSourceActive()) {
+      <gp-button
+        size="sm"
+        variant="text"
+        severity="secondary"
+        class="reset-source-btn"
+        (click)="resetToSimulatedData()"
+        title="Reset to simulated sample data"
+        [label]="'↺ ' + i18n.translate('resetToSimulated')"
+      />
+      } @if (!isCustomSourceActive()) {
+      <div class="row-count-selector">
+        <span>Rows:</span>
+        <gp-button size="sm" [variant]="rowCount() === 5 ? 'filled' : 'outlined'" (click)="setRowCount(5)" label="5" />
+        <gp-button
+          size="sm"
+          [variant]="rowCount() === 10 ? 'filled' : 'outlined'"
+          (click)="setRowCount(10)"
+          label="10"
+        />
+        <gp-button
+          size="sm"
+          [variant]="rowCount() === 20 ? 'filled' : 'outlined'"
+          (click)="setRowCount(20)"
+          label="20"
+        />
+      </div>
+
+      <gp-button
+        size="sm"
+        variant="outlined"
+        severity="secondary"
+        class="refresh-btn"
+        (click)="refreshData()"
+        title="Regenerate simulated records"
+        label="↻ Refresh"
+      />
+      }
+    </div>
+  </header>
+
+  <!-- Diagnostic Field Matching Banner for Custom Sources -->
+  @if (loadedSourceResult(); as res) {
+  <div class="source-diagnostic-banner">
+    <div class="diag-left">
+      <span class="diag-badge-ok">✓ Loaded</span>
+      <span class="diag-info">
+        <strong>{{ res.totalRecords }}</strong> records loaded from <em>{{ res.sourceName }}</em>
+      </span>
+      <span class="diag-match-pill" [class.partial]="res.unmatchedFields.length > 0">
+        {{ res.matchedFields.length }} of {{ visibleFields().length }} fields matched
+      </span>
+    </div>
+    @if (res.unmatchedFields.length > 0) {
+    <div class="diag-unmatched-hint" [title]="res.unmatchedFields.join(', ')">
+      Unmatched: {{ res.unmatchedFields.join(', ') }} (rendered as null)
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Active Filters Strip -->
+  @if (filters().length > 0) {
+  <div class="active-filters-bar">
+    <div class="filter-bar-left">
+      <span class="filter-bar-icon" aria-hidden="true">🔍</span>
+      <span class="filter-bar-title">{{ i18n.translate('activeFilters') }}:</span>
+      <div class="filter-chips-list">
+        @for (f of filters(); track $index; let idx = $index) {
+        <span class="active-filter-chip">
+          <strong class="filter-chip-field">{{ getFilterFieldLabel(f.fieldId) }}</strong>
+          <span class="filter-chip-op">{{ getFilterOperatorLabel(f.operator) }}</span>
+          @if (f.operator !== 'isNull' && f.operator !== 'isNotNull') {
+          <span class="filter-chip-val">{{ getFilterValueDisplay(f) }}</span>
+          }
+          <gp-button
+            size="sm"
+            variant="text"
+            severity="secondary"
+            class="filter-chip-remove"
+            (click)="removeFilter(idx)"
+            title="Remove filter"
+            label="✕"
+          />
+        </span>
+        }
+      </div>
+    </div>
+
+    <div class="filter-bar-right">
+      <span class="filter-row-count">
+        {{ i18n.translate('filteredCount', { count: filteredRows().length, total: rows().length }) }}
+      </span>
+      <gp-button
+        size="sm"
+        variant="text"
+        severity="danger"
+        class="btn-clear-filters"
+        (click)="clearAllFilters()"
+        [title]="i18n.translate('clearAllFilters')"
+        [label]="i18n.translate('clearAll')"
+      />
+    </div>
+  </div>
+  }
+
+  <!-- Column Summary Statistics Bar -->
+  @if (showSummaryStats() && columns().length > 0 && filteredRows().length > 0) {
+  <div class="summary-stats-section">
+    <div class="stats-header" (click)="toggleStatsExpanded()">
+      <div class="stats-header-left">
+        <span class="stats-toggle-icon">{{ isStatsExpanded() ? '▾' : '▸' }}</span>
+        <span class="stats-title">Column Profile & Summary Statistics</span>
+        <gp-tag severity="secondary" size="sm">{{ filteredRows().length }} Rows Analyzed</gp-tag>
+      </div>
+      <gp-button
+        [label]="isStatsExpanded() ? 'Hide Statistics' : 'Show Statistics'"
+        size="sm"
+        [outlined]="true"
+        (click)="$event.stopPropagation(); toggleStatsExpanded()"
+      />
+    </div>
+
+    @if (isStatsExpanded()) {
+    <div class="stats-cards-grid">
+      @for (col of columns(); track col.datasetFieldId) { @let stat = columnStatistics()[col.datasetFieldId]; @if (stat)
+      {
+      <div class="stat-card" [class.is-numeric]="stat.isNumeric">
+        <div class="stat-card-top">
+          <span class="stat-col-name" [title]="col.header">{{ col.header }}</span>
+          <gp-tag [severity]="stat.isNumeric ? 'primary' : 'secondary'" size="sm">{{ col.dataType }}</gp-tag>
+        </div>
+        <div class="stat-metrics">
+          <div class="metric-item">
+            <span class="metric-label">Distinct</span>
+            <strong class="metric-value">{{ stat.distinctCount }}</strong>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Nulls</span>
+            <strong class="metric-value" [class.has-nulls]="stat.nullCount > 0">{{ stat.nullCount }}</strong>
+          </div>
+          @if (stat.isNumeric && stat.avg !== undefined) {
+          <div class="metric-item">
+            <span class="metric-label">Avg</span>
+            <strong class="metric-value">{{ stat.avg }}</strong>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Min / Max</span>
+            <strong class="metric-value">{{ stat.min }} - {{ stat.max }}</strong>
+          </div>
+          }
+        </div>
+      </div>
+      } }
+    </div>
+    }
+  </div>
+  }
+
+  <!-- Table View -->
+  <div class="table-scroll-container">
+    @if (columns().length > 0) {
+    <table class="preview-table">
+      <thead>
+        <tr>
+          <th class="col-index">#</th>
+          @for (col of columns(); track col.datasetFieldId) {
+          <th
+            class="col-header"
+            [class.sortable]="col.sortable"
+            [class.col-is-grouped]="col.isGrouped"
+            (click)="onHeaderClick(col)"
+            [title]="col.sortable ? 'Click to sort' : ''"
+          >
+            <div class="col-header-content">
+              <span class="col-type" [attr.data-type]="col.dataType"> {{ getDataTypeIcon(col.dataType) }} </span>
+              <span class="col-name">{{ col.header }}</span>
+
+              @if (col.isGrouped) {
+              <span class="group-col-tag" title="Grouped Dimension">⊞ Group By</span>
+              } @if (col.aggregationType && col.aggregationType !== 'none') {
+              <span class="agg-tag">{{ col.aggregationType }}</span>
+              } @if (col.sortable) {
+              <span class="sort-icon" aria-hidden="true">
+                @if (sortColumn() === col.datasetFieldId) { {{ sortOrder() === 1 ? '▲' : '▼' }} } @else { ⇅ }
+              </span>
+              }
+            </div>
+          </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (section of groupedRowSections(); track section.groupKey) { @if (showGroupingView() && section.groupValue)
+        {
+        <tr class="group-header-row">
+          <td [attr.colspan]="columns().length + 1" class="group-header-cell">
+            <div class="group-bar-content">
+              <span class="group-bar-icon">📁</span>
+              <strong class="group-bar-val">{{ section.groupValue }}</strong>
+              <span class="group-bar-badge">{{ section.count }} {{ section.count === 1 ? 'record' : 'records' }}</span>
+            </div>
+          </td>
+        </tr>
+        } @for (row of section.rows; track row['_id']; let idx = $index) {
+        <tr class="preview-row" [class.in-group]="showGroupingView() && section.groupValue">
+          <td class="cell-index">{{ idx + 1 }}</td>
+          @for (col of columns(); track col.datasetFieldId) {
+          <td class="preview-cell" [attr.data-type]="col.dataType" [class.cell-grouped]="col.isGrouped">
+            {{ formatCellValue(col, row[col.datasetFieldId], row) }}
+          </td>
+          }
+        </tr>
+        } }
+      </tbody>
+    </table>
+    } @else {
+    <div class="preview-empty">
+      <span class="empty-icon" aria-hidden="true">📋</span>
+      <h4 class="empty-title">{{ i18n.translate('noFieldsSelected') }}</h4>
+      <p class="empty-hint">{{ i18n.translate('dragFieldsHere') }}</p>
+    </div>
+    }
+  </div>
+
+  <!-- Data Source Modal Dialog -->
+  @if (isSourceModalOpen()) {
+  <div class="modal-backdrop" (click)="closeSourceModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">⚡</span>
+          <div>
+            <h4 class="modal-title">{{ i18n.translate('selectSourceType') }}</h4>
+            <p class="modal-subtitle">Load sample records from your custom file, API, or JSON</p>
+          </div>
+        </div>
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="secondary"
+          class="modal-close-btn"
+          (click)="closeSourceModal()"
+          aria-label="Close modal"
+          label="✕"
+        />
+      </div>
+
+      <!-- Source Tabs -->
+      <div class="source-tabs">
+        <button
+          type="button"
+          class="source-tab-btn"
+          [class.active]="activeTab() === 'file'"
+          (click)="setActiveTab('file')"
+        >
+          <span class="tab-icon">📁</span>
+          <span>{{ i18n.translate('fileDataSource') }}</span>
+        </button>
+        <button
+          type="button"
+          class="source-tab-btn"
+          [class.active]="activeTab() === 'api'"
+          (click)="setActiveTab('api')"
+        >
+          <span class="tab-icon">🌐</span>
+          <span>{{ i18n.translate('apiDataSource') }}</span>
+        </button>
+        <button
+          type="button"
+          class="source-tab-btn"
+          [class.active]="activeTab() === 'json'"
+          (click)="setActiveTab('json')"
+        >
+          <span class="tab-icon">📝</span>
+          <span>{{ i18n.translate('rawJsonDataSource') }}</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        @if (sourceError(); as err) {
+        <div class="source-error-banner">
+          <span class="err-icon">⚠️</span>
+          <span class="err-text">{{ err }}</span>
+        </div>
+        }
+
+        <!-- TAB 1: JSON File -->
+        @if (activeTab() === 'file') {
+        <div class="tab-panel">
+          <div class="file-dropzone" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)">
+            <input
+              #fileInput
+              type="file"
+              accept=".json,application/json"
+              class="hidden-file-input"
+              (change)="onFileSelected($event)"
+            />
+            <span class="drop-icon">📤</span>
+            <p class="drop-text">{{ i18n.translate('dragDropJsonFile') }}</p>
+            <gp-button
+              size="sm"
+              variant="outlined"
+              class="browse-btn"
+              (click)="fileInput.click()"
+              label="Browse File"
+            />
+            @if (selectedFile(); as file) {
+            <div class="selected-file-badge">
+              <span>📄 <strong>{{ file.name }}</strong> ({{ (file.size / 1024).toFixed(1) }} KB)</span>
+            </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="fileDataPath">{{ i18n.translate('dataPath') }}</label>
+            <input
+              id="fileDataPath"
+              type="text"
+              gpInputText
+              class="form-input"
+              [placeholder]="i18n.translate('dataPathPlaceholder')"
+              [value]="dataPathInput()"
+              (input)="onDataPathChange($any($event.target).value)"
+            />
+          </div>
+        </div>
+        }
+
+        <!-- TAB 2: REST API -->
+        @if (activeTab() === 'api') {
+        <div class="tab-panel">
+          <div class="form-group">
+            <label class="form-label" for="apiUrlInput">{{ i18n.translate('apiUrl') }}</label>
+            <input
+              id="apiUrlInput"
+              type="url"
+              gpInputText
+              class="form-input"
+              [placeholder]="i18n.translate('apiUrlPlaceholder')"
+              [value]="apiUrlInput()"
+              (input)="onApiUrlChange($any($event.target).value)"
+            />
+            <span class="form-hint">Enter an HTTP or HTTPS endpoint returning a JSON array or object.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="apiDataPath">{{ i18n.translate('dataPath') }}</label>
+            <input
+              id="apiDataPath"
+              type="text"
+              gpInputText
+              class="form-input"
+              [placeholder]="i18n.translate('dataPathPlaceholder')"
+              [value]="dataPathInput()"
+              (input)="onDataPathChange($any($event.target).value)"
+            />
+            <span class="form-hint"
+              >Path to array if nested (e.g. "data.items" or "value"). Leaves blank if root array.</span
+            >
+          </div>
+        </div>
+        }
+
+        <!-- TAB 3: Raw JSON -->
+        @if (activeTab() === 'json') {
+        <div class="tab-panel">
+          <div class="form-group">
+            <label class="form-label" for="rawJsonTextarea">JSON Payload</label>
+            <textarea
+              id="rawJsonTextarea"
+              class="form-textarea"
+              rows="6"
+              [placeholder]="i18n.translate('rawJsonPlaceholder')"
+              [value]="rawJsonInput()"
+              (input)="onRawJsonChange($any($event.target).value)"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="jsonDataPath">{{ i18n.translate('dataPath') }}</label>
+            <input
+              id="jsonDataPath"
+              type="text"
+              gpInputText
+              class="form-input"
+              [placeholder]="i18n.translate('dataPathPlaceholder')"
+              [value]="dataPathInput()"
+              (input)="onDataPathChange($any($event.target).value)"
+            />
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <gp-button
+          size="sm"
+          variant="outlined"
+          severity="secondary"
+          class="btn-cancel"
+          (click)="closeSourceModal()"
+          [label]="i18n.translate('close')"
+        />
+        <gp-button
+          size="sm"
+          variant="filled"
+          class="btn-load"
+          [disabled]="isLoadingSource()"
+          (click)="loadSourceData()"
+          [label]="isLoadingSource() ? i18n.translate('loading') : '⚡ ' + i18n.translate('loadData')"
+        />
+      </div>
+    </div>
+  </div>
+  }
+</div>

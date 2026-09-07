@@ -1,0 +1,647 @@
+<div
+  class="gp-dataset-field-selector dataset-field-selector"
+  [id]="inputId()"
+  role="region"
+  [class.gp-dataset-field-selector--drag-over]="isDragOver()"
+  [class.drag-over]="isDragOver()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+  [attr.aria-label]="i18n.translate('selectDatasetFields')"
+>
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
+
+  <!-- ================= TOP SECTION: WORKBENCH TABS & PANELS ================= -->
+  <div class="gp-dataset-field-selector__tabs-bar workbench-tabs-bar" role="tablist">
+    <button
+      type="button"
+      role="tab"
+      class="gp-dataset-field-selector__tab-btn tab-btn"
+      [class.gp-dataset-field-selector__tab-btn--active]="activeTab() === 'fields'"
+      [class.active]="activeTab() === 'fields'"
+      (click)="setActiveTab('fields')"
+      [attr.aria-selected]="activeTab() === 'fields'"
+    >
+      <span class="gp-dataset-field-selector__tab-icon tab-icon">📋</span>
+      <span class="gp-dataset-field-selector__tab-title tab-title">{{ i18n.translate('datasetFields') }}</span>
+      <gp-tag
+        size="sm"
+        [severity]="activeTab() === 'fields' ? 'primary' : 'secondary'"
+        class="gp-dataset-field-selector__tab-badge tab-tag-badge tab-badge"
+      >
+        {{ visibleFields().length }}
+      </gp-tag>
+    </button>
+    <button
+      type="button"
+      role="tab"
+      class="gp-dataset-field-selector__tab-btn tab-btn"
+      [class.gp-dataset-field-selector__tab-btn--active]="activeTab() === 'filters'"
+      [class.active]="activeTab() === 'filters'"
+      (click)="setActiveTab('filters')"
+      [attr.aria-selected]="activeTab() === 'filters'"
+    >
+      <span class="gp-dataset-field-selector__tab-icon tab-icon">🔍</span>
+      <span class="gp-dataset-field-selector__tab-title tab-title">{{ i18n.translate('filters') }}</span>
+      <gp-tag
+        size="sm"
+        [severity]="filters().length > 0 ? 'info' : 'secondary'"
+        class="gp-dataset-field-selector__tab-badge tab-tag-badge tab-badge"
+      >
+        {{ filters().length }}
+      </gp-tag>
+    </button>
+  </div>
+
+  @if (activeTab() === 'fields') {
+  <section class="gp-dataset-field-selector__section gp-dataset-field-selector__section--fields fields-section">
+    <header class="gp-dataset-field-selector__section-header section-header">
+      <div class="gp-dataset-field-selector__header-title-group header-title-group">
+        <span class="gp-dataset-field-selector__header-icon header-icon" aria-hidden="true">📋</span>
+        <h3 class="gp-dataset-field-selector__section-title section-title">{{ i18n.translate('datasetFields') }}</h3>
+        <gp-tag size="sm" severity="primary">{{ visibleFields().length }}</gp-tag>
+      </div>
+
+      <!-- Grouping Mode Switcher -->
+      <div
+        class="gp-dataset-field-selector__grouping-toggle-group grouping-toggle-group"
+        role="group"
+        [attr.aria-label]="i18n.translate('groupBy')"
+      >
+        <button
+          type="button"
+          class="gp-dataset-field-selector__grouping-mode-pill grouping-mode-pill"
+          [class.gp-dataset-field-selector__grouping-mode-pill--active]="listGrouping() === 'none'"
+          [class.active]="listGrouping() === 'none'"
+          (click)="setGroupingMode('none')"
+          [title]="i18n.translate('groupByNone')"
+        >
+          {{ i18n.translate('groupByNone') }}
+        </button>
+        <button
+          type="button"
+          class="gp-dataset-field-selector__grouping-mode-pill grouping-mode-pill"
+          [class.gp-dataset-field-selector__grouping-mode-pill--active]="listGrouping() === 'table'"
+          [class.active]="listGrouping() === 'table'"
+          (click)="setGroupingMode('table')"
+          [title]="i18n.translate('groupByTable')"
+        >
+          {{ i18n.translate('groupByTable') }}
+        </button>
+        <button
+          type="button"
+          class="gp-dataset-field-selector__grouping-mode-pill grouping-mode-pill"
+          [class.gp-dataset-field-selector__grouping-mode-pill--active]="listGrouping() === 'role'"
+          [class.active]="listGrouping() === 'role'"
+          (click)="setGroupingMode('role')"
+          [title]="i18n.translate('groupByRole')"
+        >
+          {{ i18n.translate('groupByRole') }}
+        </button>
+      </div>
+
+      @if (visibleFields().length > 0) {
+      <gp-button
+        size="sm"
+        variant="text"
+        severity="danger"
+        (click)="clearAllFields()"
+        [title]="i18n.translate('clearAll')"
+        [label]="i18n.translate('clearAll')"
+      />
+      }
+    </header>
+
+    <!-- Fields Container with Grouping Support -->
+    <div class="gp-dataset-field-selector__fields-list-container fields-list-container">
+      @for (section of groupedSections(); track section.id) { @if (section.title) {
+      <div
+        class="gp-dataset-field-selector__list-group-header list-group-header"
+        (click)="toggleGroupCollapse(section.id)"
+        role="button"
+        tabindex="0"
+        (keydown.enter)="toggleGroupCollapse(section.id)"
+        (keydown.space)="toggleGroupCollapse(section.id)"
+        [attr.aria-expanded]="!isGroupCollapsed(section.id)"
+      >
+        <div class="gp-dataset-field-selector__group-header-info group-header-info">
+          <span
+            class="gp-dataset-field-selector__collapse-chevron collapse-chevron"
+            [class.gp-dataset-field-selector__collapse-chevron--collapsed]="isGroupCollapsed(section.id)"
+            [class.collapsed]="isGroupCollapsed(section.id)"
+            >▼</span
+          >
+          <span class="gp-dataset-field-selector__group-icon group-icon">{{ section.icon }}</span>
+          <strong class="gp-dataset-field-selector__group-title group-title">{{ section.title }}</strong>
+        </div>
+        <gp-tag size="sm" severity="secondary" class="gp-dataset-field-selector__group-count-badge group-count-badge"
+          >{{ section.fields.length }}</gp-tag
+        >
+      </div>
+      } @if (!section.title || !isGroupCollapsed(section.id)) {
+      <div class="gp-dataset-field-selector__group-items-wrapper group-items-wrapper">
+        @for (item of section.fields; track item.field.datasetFieldId) { @let field = item.field; @let idx =
+        item.globalIndex; @let isActive = activeField()?.datasetFieldId === field.datasetFieldId; @let displayLabel =
+        getDisplayLabel(field);
+
+        <div
+          class="gp-dataset-field-selector__chip dataset-field-chip"
+          [class.gp-dataset-field-selector__chip--active]="isActive"
+          [class.active]="isActive"
+          [class.gp-dataset-field-selector__chip--dragging]="draggedIndex() === idx"
+          [class.is-dragging]="draggedIndex() === idx"
+          [class.gp-dataset-field-selector__chip--drop-before]="dropTargetIndex() === idx && dropPosition() === 'before'"
+          [class.drop-before]="dropTargetIndex() === idx && dropPosition() === 'before'"
+          [class.gp-dataset-field-selector__chip--drop-after]="dropTargetIndex() === idx && dropPosition() === 'after'"
+          [class.drop-after]="dropTargetIndex() === idx && dropPosition() === 'after'"
+          (click)="selectField(field.datasetFieldId)"
+          draggable="true"
+          (dragstart)="onListDragStart($event, idx)"
+          (dragover)="onListDragOver($event, idx)"
+          (dragleave)="onListDragLeave($event, idx)"
+          (drop)="onListDrop($event, idx)"
+          (dragend)="onListDragEnd()"
+          role="button"
+          tabindex="0"
+          (keydown.enter)="selectField(field.datasetFieldId)"
+          (keydown.space)="selectField(field.datasetFieldId)"
+          [attr.aria-pressed]="isActive"
+          title="Drag to reorder or click to configure properties"
+        >
+          <!-- Reorder & Type -->
+          <div class="gp-dataset-field-selector__chip-left chip-left">
+            <span class="gp-dataset-field-selector__chip-drag-handle chip-drag-handle" title="Drag to reorder">⋮⋮</span>
+            <span class="gp-dataset-field-selector__chip-type-icon chip-type-icon" [attr.data-type]="field.dataType">
+              {{ getDataTypeIcon(field.dataType) }}
+            </span>
+            <div class="gp-dataset-field-selector__chip-label-group chip-label-group">
+              <strong class="gp-dataset-field-selector__chip-display-label chip-display-label"
+                >{{ displayLabel }}</strong
+              >
+              <small class="gp-dataset-field-selector__chip-source chip-source">{{ field.fieldName }}</small>
+            </div>
+          </div>
+
+          <!-- Modifiers & Actions -->
+          <div class="gp-dataset-field-selector__chip-right chip-right">
+            <!-- Inline Group By Toggle -->
+            <button
+              type="button"
+              class="gp-dataset-field-selector__chip-group-btn chip-group-btn"
+              [class.gp-dataset-field-selector__chip-group-btn--grouped]="field.isGrouped"
+              [class.is-grouped]="field.isGrouped"
+              [class.gp-dataset-field-selector__chip-group-btn--disabled]="!field.baseField.groupable"
+              [class.disabled-group]="!field.baseField.groupable"
+              (click)="toggleFieldGroupBy(field.datasetFieldId, $event)"
+              [title]="!field.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : i18n.translate('toggleGroupBy')"
+            >
+              <span class="gp-dataset-field-selector__group-btn-icon group-btn-icon"
+                >{{ field.isGrouped ? '✓' : '⊞' }}</span
+              >
+              <span class="gp-dataset-field-selector__group-btn-text group-btn-text">Group By</span>
+            </button>
+
+            @if (field.aggregationType && field.aggregationType !== 'none') {
+            <gp-tag size="sm" severity="warning" class="gp-dataset-field-selector__chip-agg-badge chip-agg-badge"
+              >{{ field.aggregationType }}</gp-tag
+            >
+            }
+
+            <div class="gp-dataset-field-selector__reorder-actions reorder-actions" (click)="$event.stopPropagation()">
+              <button
+                type="button"
+                class="gp-dataset-field-selector__btn-arrow btn-arrow"
+                [disabled]="idx === 0"
+                (click)="moveItem(idx, 'up', $event)"
+                aria-label="Move field up"
+              >
+                ▲
+              </button>
+              <button
+                type="button"
+                class="gp-dataset-field-selector__btn-arrow btn-arrow"
+                [disabled]="idx === visibleFields().length - 1"
+                (click)="moveItem(idx, 'down', $event)"
+                aria-label="Move field down"
+              >
+                ▼
+              </button>
+            </div>
+
+            <gp-button
+              size="sm"
+              variant="text"
+              severity="danger"
+              (click)="removeField(field.datasetFieldId, $event)"
+              [attr.aria-label]="i18n.translate('removeField') + ': ' + displayLabel"
+              label="✕"
+            />
+          </div>
+        </div>
+        }
+      </div>
+      } } @empty {
+      <div class="gp-dataset-field-selector__empty-drop-state empty-drop-state">
+        <span class="gp-dataset-field-selector__drop-icon drop-icon" aria-hidden="true">📥</span>
+        <p class="gp-dataset-field-selector__drop-title drop-title">{{ i18n.translate('noFieldsSelected') }}</p>
+        <p class="gp-dataset-field-selector__drop-subtitle drop-subtitle">{{ i18n.translate('dragFieldsHere') }}</p>
+      </div>
+      }
+    </div>
+  </section>
+  } @else {
+  <!-- ================= FILTERS TAB SECTION ================= -->
+  <section class="gp-dataset-field-selector__section gp-dataset-field-selector__section--filters filters-section">
+    <header class="gp-dataset-field-selector__section-header section-header">
+      <div class="gp-dataset-field-selector__header-title-group header-title-group">
+        <span class="gp-dataset-field-selector__header-icon header-icon" aria-hidden="true">🔍</span>
+        <h3 class="gp-dataset-field-selector__section-title section-title">{{ i18n.translate('datasetFilters') }}</h3>
+        <gp-tag size="sm" [severity]="filters().length > 0 ? 'info' : 'secondary'">{{ filters().length }}</gp-tag>
+      </div>
+
+      <div class="gp-dataset-field-selector__header-actions header-actions">
+        @if (!isAddingFilter()) {
+        <gp-button
+          size="sm"
+          variant="filled"
+          (click)="startAddFilter()"
+          [disabled]="filterableFields().length === 0"
+          [title]="i18n.translate('addFilter')"
+          [label]="'+ ' + i18n.translate('addFilter')"
+        />
+        } @if (filters().length > 0) {
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="danger"
+          (click)="clearAllFilters()"
+          [title]="i18n.translate('clearAllFilters')"
+          [label]="i18n.translate('clearAll')"
+        />
+        }
+      </div>
+    </header>
+
+    <!-- Inline Filter Builder Card -->
+    @if (isAddingFilter()) {
+    <div class="gp-dataset-field-selector__filter-builder-card filter-builder-card">
+      <div class="gp-dataset-field-selector__filter-builder-title filter-builder-title">
+        <span class="gp-dataset-field-selector__builder-icon builder-icon">➕</span>
+        <strong>{{ i18n.translate('addFilter') }}</strong>
+      </div>
+
+      <div class="gp-dataset-field-selector__filter-builder-grid filter-builder-grid">
+        <!-- Field Selection -->
+        <div class="gp-dataset-field-selector__filter-input-group filter-input-group">
+          <label class="gp-dataset-field-selector__filter-input-label filter-input-label"
+            >{{ i18n.translate('selectFilterField') }}</label
+          >
+          <gp-select
+            [options]="filterFieldSelectOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="newFilterFieldId()"
+            (ngModelChange)="onFilterFieldChange($event)"
+            size="sm"
+          />
+        </div>
+
+        <!-- Operator Selection -->
+        <div class="gp-dataset-field-selector__filter-input-group filter-input-group">
+          <label class="gp-dataset-field-selector__filter-input-label filter-input-label"
+            >{{ i18n.translate('operator') }}</label
+          >
+          <gp-select
+            [options]="availableFilterOperators()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="newFilterOperator()"
+            (ngModelChange)="newFilterOperator.set($event)"
+            size="sm"
+          />
+        </div>
+      </div>
+
+      <!-- Value / Lookup List Selection -->
+      <div class="gp-dataset-field-selector__filter-builder-value-row filter-builder-value-row">
+        @if (newFilterOperator() === 'isNull' || newFilterOperator() === 'isNotNull') {
+        <div class="gp-dataset-field-selector__filter-null-hint filter-null-hint">
+          <em>{{ i18n.translate(newFilterOperator() === 'isNull' ? 'isNull' : 'isNotNull') }}</em>
+        </div>
+        } @else if (filterFieldLookupValues().length > 0) {
+        <!-- Localized Lookup Options -->
+        <div class="gp-dataset-field-selector__filter-lookup-selection filter-lookup-selection">
+          <div class="gp-dataset-field-selector__lookup-selection-header lookup-selection-header">
+            <label class="gp-dataset-field-selector__filter-input-label filter-input-label"
+              >{{ i18n.translate('translatedList') }}</label
+            >
+            <gp-tag size="sm" severity="secondary">{{ filterFieldLookupValues().length }} options</gp-tag>
+          </div>
+
+          @if (newFilterOperator() === 'in') {
+          <!-- Multi-selection pills -->
+          <div class="gp-dataset-field-selector__lookup-multi-chips lookup-multi-chips">
+            @for (item of filterFieldLookupValues(); track item.value) { @let isSelected =
+            newFilterSelectedItems().includes(item.value);
+            <button
+              type="button"
+              class="gp-dataset-field-selector__lookup-multi-pill lookup-multi-pill"
+              [class.gp-dataset-field-selector__lookup-multi-pill--selected]="isSelected"
+              [class.selected]="isSelected"
+              (click)="toggleMultiSelectValue(item.value)"
+            >
+              <span class="gp-dataset-field-selector__check-icon check-icon">{{ isSelected ? '✓' : '+' }}</span>
+              <span class="gp-dataset-field-selector__pill-label pill-label"
+                >{{ item.displayValue[i18n.locale()] }}</span
+              >
+              <code class="gp-dataset-field-selector__pill-code pill-code">{{ item.value }}</code>
+            </button>
+            }
+          </div>
+          } @else {
+          <!-- Single selection select -->
+          <gp-select
+            [options]="lookupSelectOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="newFilterValue()"
+            (ngModelChange)="newFilterValue.set($event)"
+            size="sm"
+          />
+          }
+        </div>
+        } @else {
+        <!-- Free Text / Number Input -->
+        <div class="gp-dataset-field-selector__filter-input-group filter-input-group full-width">
+          <label class="gp-dataset-field-selector__filter-input-label filter-input-label"
+            >{{ i18n.translate('filterValue') }}</label
+          >
+          <input
+            type="text"
+            gpInputText
+            class="gp-dataset-field-selector__filter-text-input filter-text-input"
+            [placeholder]="i18n.translate('filterValue')"
+            [ngModel]="newFilterValue()"
+            (ngModelChange)="newFilterValue.set($event)"
+            (keydown.enter)="applyNewFilter()"
+          />
+        </div>
+        }
+      </div>
+
+      <!-- Builder Actions -->
+      <div class="gp-dataset-field-selector__filter-builder-actions filter-builder-actions">
+        <gp-button size="sm" variant="outlined" (click)="cancelAddFilter()" [label]="i18n.translate('cancel')" />
+        <gp-button size="sm" variant="filled" (click)="applyNewFilter()" [label]="i18n.translate('applyFilter')" />
+      </div>
+    </div>
+    }
+
+    <!-- Active Filters List -->
+    <div class="gp-dataset-field-selector__filters-list-container filters-list-container">
+      @for (cond of filters(); track $index; let idx = $index) {
+      <div class="gp-dataset-field-selector__filter-item-card filter-item-card">
+        <div class="gp-dataset-field-selector__filter-item-left filter-item-left">
+          <span class="gp-dataset-field-selector__filter-item-icon filter-item-icon">⚡</span>
+          <div class="gp-dataset-field-selector__filter-item-info filter-item-info">
+            <strong class="gp-dataset-field-selector__filter-field-title filter-field-title"
+              >{{ getFilterFieldDisplayLabel(cond.fieldId) }}</strong
+            >
+            <div class="gp-dataset-field-selector__filter-condition-row filter-condition-row">
+              <gp-tag size="sm" severity="primary" class="gp-dataset-field-selector__filter-op-badge filter-op-badge"
+                >{{ getFilterOperatorLabel(cond.operator) }}</gp-tag
+              >
+              @if (cond.operator !== 'isNull' && cond.operator !== 'isNotNull') {
+              <span class="gp-dataset-field-selector__filter-val-text filter-val-text"
+                >{{ getFilterValueDisplay(cond) }}</span
+              >
+              }
+            </div>
+          </div>
+        </div>
+
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="danger"
+          (click)="removeFilter(idx)"
+          title="Remove filter"
+          label="✕"
+        />
+      </div>
+      } @empty { @if (!isAddingFilter()) {
+      <div class="gp-dataset-field-selector__empty-filters-state empty-filters-state">
+        <span class="gp-dataset-field-selector__empty-icon empty-icon">🔍</span>
+        <p class="gp-dataset-field-selector__empty-title empty-title">{{ i18n.translate('datasetFilters') }}</p>
+        <p class="gp-dataset-field-selector__empty-subtitle empty-subtitle">{{ i18n.translate('noFiltersDefined') }}</p>
+        @if (filterableFields().length > 0) {
+        <gp-button size="sm" variant="filled" (click)="startAddFilter()" [label]="'+ ' + i18n.translate('addFilter')" />
+        }
+      </div>
+      } }
+    </div>
+  </section>
+  }
+
+  <!-- ================= BOTTOM SECTION: PROPERTIES PANEL ================= -->
+  <section class="gp-dataset-field-selector__section gp-dataset-field-selector__section--properties properties-section">
+    <header class="gp-dataset-field-selector__section-header section-header">
+      <div class="gp-dataset-field-selector__header-title-group header-title-group">
+        <span class="gp-dataset-field-selector__header-icon header-icon" aria-hidden="true">⚙</span>
+        <h3 class="gp-dataset-field-selector__section-title section-title">{{ i18n.translate('fieldProperties') }}</h3>
+      </div>
+      @if (activeField()) {
+      <gp-tag size="sm" severity="info" class="gp-dataset-field-selector__active-badge active-badge"
+        >{{ activeField()?.dataType }}</gp-tag
+      >
+      }
+    </header>
+
+    @if (activeField(); as current) {
+    <div class="gp-dataset-field-selector__properties-body properties-body">
+      <!-- Dynamic Label Preview Banner -->
+      <div class="gp-dataset-field-selector__property-banner property-banner">
+        <div class="gp-dataset-field-selector__banner-label-meta banner-label-meta">
+          <span class="gp-dataset-field-selector__meta-title meta-title">Display Name (Dynamic)</span>
+          <strong class="gp-dataset-field-selector__dynamic-name dynamic-name">{{ getDisplayLabel(current) }}</strong>
+        </div>
+        <small class="gp-dataset-field-selector__banner-hint banner-hint">
+          Base label: <em>{{ getBaseDisplayName(current) }}</em>
+        </small>
+      </div>
+
+      <!-- Localized Lookup List Section (if available) -->
+      @if (current.lookupValues && current.lookupValues.length > 0) {
+      <div
+        class="gp-dataset-field-selector__property-group gp-dataset-field-selector__property-group--lookup property-group lookup-values-group"
+      >
+        <div class="gp-dataset-field-selector__lookup-header-line lookup-header-line">
+          <span class="gp-dataset-field-selector__group-label group-label">{{ i18n.translate('translatedList') }}</span>
+          <gp-button
+            size="sm"
+            variant="text"
+            (click)="filterByField(current)"
+            [title]="i18n.translate('filterByThisField')"
+            [label]="'+ ' + i18n.translate('filterByThisField')"
+          />
+        </div>
+        <p class="gp-dataset-field-selector__lookup-subtitle lookup-subtitle">
+          {{ i18n.translate('availableOptions') }} ({{ current.lookupValues.length }}):
+        </p>
+        <div class="gp-dataset-field-selector__lookup-chips-list lookup-chips-list">
+          @for (item of current.lookupValues; track item.value) {
+          <div class="gp-dataset-field-selector__lookup-item-pill lookup-item-pill">
+            <span class="gp-dataset-field-selector__lookup-display lookup-display"
+              >{{ item.displayValue[i18n.locale()] }}</span
+            >
+            <code class="gp-dataset-field-selector__lookup-val lookup-val">{{ item.value }}</code>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Aggregation Selector -->
+      <div class="gp-dataset-field-selector__property-group property-group">
+        <label class="gp-dataset-field-selector__group-label group-label" for="agg-select"
+          >{{ i18n.translate('aggregation') }}</label
+        >
+        <div class="gp-dataset-field-selector__aggregation-pills aggregation-pills">
+          @for (opt of availableAggregations(); track opt.value) {
+          <gp-button
+            size="sm"
+            [variant]="current.aggregationType === opt.value ? 'filled' : 'outlined'"
+            (click)="updateAggregation(opt.value)"
+            [label]="opt.label"
+          />
+          }
+        </div>
+      </div>
+
+      <!-- Capabilities (Filterable, Sortable, Groupable) with strict base checks -->
+      <div class="gp-dataset-field-selector__property-group property-group">
+        <span class="gp-dataset-field-selector__group-label group-label">Dataset Capabilities</span>
+        <div class="gp-dataset-field-selector__capability-switches capability-switches">
+          <!-- Filterable Switch -->
+          <div
+            class="gp-dataset-field-selector__capability-row capability-row"
+            [class.gp-dataset-field-selector__capability-row--disabled]="!current.baseField.filterable"
+            [class.disabled-capability]="!current.baseField.filterable"
+            [title]="!current.baseField.filterable ? i18n.translate('baseFieldNotFilterable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.filterable"
+              [disabled]="!current.baseField.filterable"
+              (ngModelChange)="updateFilterable($event)"
+            />
+            <div class="gp-dataset-field-selector__capability-text capability-text">
+              <span class="gp-dataset-field-selector__cap-name cap-name">{{ i18n.translate('filterable') }}</span>
+              @if (!current.baseField.filterable) {
+              <small class="gp-dataset-field-selector__cap-restricted cap-restricted"
+                >🔒 {{ i18n.translate('baseFieldNotFilterable') }}</small
+              >
+              }
+            </div>
+          </div>
+
+          <!-- Sortable Switch -->
+          <div
+            class="gp-dataset-field-selector__capability-row capability-row"
+            [class.gp-dataset-field-selector__capability-row--disabled]="!current.baseField.sortable"
+            [class.disabled-capability]="!current.baseField.sortable"
+            [title]="!current.baseField.sortable ? i18n.translate('baseFieldNotSortable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.sortable"
+              [disabled]="!current.baseField.sortable"
+              (ngModelChange)="updateSortable($event)"
+            />
+            <div class="gp-dataset-field-selector__capability-text capability-text">
+              <span class="gp-dataset-field-selector__cap-name cap-name">{{ i18n.translate('sortable') }}</span>
+              @if (!current.baseField.sortable) {
+              <small class="gp-dataset-field-selector__cap-restricted cap-restricted"
+                >🔒 {{ i18n.translate('baseFieldNotSortable') }}</small
+              >
+              }
+            </div>
+          </div>
+
+          <!-- Groupable Switch -->
+          <div
+            class="gp-dataset-field-selector__capability-row capability-row"
+            [class.gp-dataset-field-selector__capability-row--disabled]="!current.baseField.groupable"
+            [class.disabled-capability]="!current.baseField.groupable"
+            [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.groupable"
+              [disabled]="!current.baseField.groupable"
+              (ngModelChange)="updateGroupable($event)"
+            />
+            <div class="gp-dataset-field-selector__capability-text capability-text">
+              <span class="gp-dataset-field-selector__cap-name cap-name">{{ i18n.translate('groupable') }}</span>
+              @if (!current.baseField.groupable) {
+              <small class="gp-dataset-field-selector__cap-restricted cap-restricted"
+                >🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small
+              >
+              }
+            </div>
+          </div>
+
+          <!-- Active Group By Switch -->
+          <div
+            class="gp-dataset-field-selector__capability-row capability-row"
+            [class.gp-dataset-field-selector__capability-row--disabled]="!current.baseField.groupable"
+            [class.disabled-capability]="!current.baseField.groupable"
+            [title]="!current.baseField.groupable ? i18n.translate('baseFieldNotGroupable') : ''"
+          >
+            <gp-switch
+              [ngModel]="current.isGrouped"
+              [disabled]="!current.baseField.groupable"
+              (ngModelChange)="updateIsGrouped($event)"
+            />
+            <div class="gp-dataset-field-selector__capability-text capability-text">
+              <span class="gp-dataset-field-selector__cap-name cap-name">{{ i18n.translate('isGrouped') }}</span>
+              @if (!current.baseField.groupable) {
+              <small class="gp-dataset-field-selector__cap-restricted cap-restricted"
+                >🔒 {{ i18n.translate('baseFieldNotGroupable') }}</small
+              >
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Base Schema Readonly Info -->
+      <div class="gp-dataset-field-selector__property-meta-box property-meta-box">
+        <div class="gp-dataset-field-selector__meta-item meta-item">
+          <span>{{ i18n.translate('dataType') }}</span>
+          <code>{{ current.dataType }}</code>
+        </div>
+        <div class="gp-dataset-field-selector__meta-item meta-item">
+          <span>{{ i18n.translate('sourceTable') }}</span>
+          <code>{{ current.tableId }}</code>
+        </div>
+        <div class="gp-dataset-field-selector__meta-item meta-item">
+          <span>{{ i18n.translate('primaryKey') }}</span>
+          <span>{{ current.baseField.isPrimaryKey ? 'Yes' : 'No' }}</span>
+        </div>
+        <div class="gp-dataset-field-selector__meta-item meta-item">
+          <span>{{ i18n.translate('joinKey') }}</span>
+          <span>{{ current.baseField.isJoinField ? 'Yes' : 'No' }}</span>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <div class="gp-dataset-field-selector__no-active-field no-active-field">
+      <p>{{ i18n.translate('selectedFieldDetails') }}</p>
+    </div>
+    }
+  </section>
+</div>

@@ -1,0 +1,144 @@
+<div class="gp-filter-bar" [id]="inputId()" [class]="cx()" role="toolbar" aria-label="Analytical Filter Bar">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
+  <div class="gp-filter-bar__left filter-left">
+    <span class="gp-filter-bar__icon filter-icon">🔍</span>
+    <span class="gp-filter-bar__label filter-label">Filters</span>
+
+    <!-- Quick Date Presets -->
+    @if (showDatePresets()) {
+    <div class="gp-filter-bar__date-presets date-presets-group">
+      <gp-button label="Today" size="sm" [outlined]="true" (click)="applyDatePreset('today')" />
+      <gp-button label="Last 7d" size="sm" [outlined]="true" (click)="applyDatePreset('last7')" />
+      <gp-button label="Last 30d" size="sm" [outlined]="true" (click)="applyDatePreset('last30')" />
+      <gp-button label="MTD" size="sm" [outlined]="true" (click)="applyDatePreset('mtd')" />
+      <gp-button label="YTD" size="sm" [outlined]="true" (click)="applyDatePreset('ytd')" />
+    </div>
+    }
+
+    <!-- Custom Quick Presets -->
+    @if (quickPresets().length > 0) {
+    <div class="gp-filter-bar__preset-pills preset-pills">
+      @for (p of quickPresets(); track p.label) {
+      <gp-button [label]="p.label" size="sm" [outlined]="true" (click)="applyQuickPreset(p)" />
+      }
+    </div>
+    }
+
+    <!-- Active Filters List -->
+    <div class="gp-filter-bar__active-chips active-chips">
+      @for (f of filters(); track $index; let idx = $index) {
+      <span class="gp-filter-bar__chip filter-chip">
+        <strong class="gp-filter-bar__chip-field chip-field">{{ f.fieldId }}</strong>
+        <span class="gp-filter-bar__chip-op chip-op">{{ f.operator }}</span>
+        <span class="gp-filter-bar__chip-val chip-val">{{ f.value }}</span>
+        <button
+          type="button"
+          class="gp-filter-bar__chip-remove chip-remove"
+          (click)="removeFilter(idx)"
+          aria-label="Remove filter"
+        >
+          ✕
+        </button>
+      </span>
+      }
+    </div>
+  </div>
+
+  <div class="gp-filter-bar__right filter-right">
+    <gp-button label="Add Filter" icon="plus" size="sm" severity="primary" (click)="openAddModal()" />
+
+    @if (filters().length > 0) {
+    <gp-button
+      [label]="'Clear All (' + filters().length + ')'"
+      icon="trash"
+      size="sm"
+      [outlined]="true"
+      severity="danger"
+      (click)="clearAllFilters()"
+    />
+    }
+  </div>
+
+  <!-- Add Condition Dialog -->
+  @if (isAddingCondition()) {
+  <div class="gp-filter-bar__dialog-backdrop filter-dialog-backdrop" (click)="isAddingCondition.set(false)">
+    <div class="gp-filter-bar__dialog-card filter-dialog-card" (click)="$event.stopPropagation()">
+      <h4 class="gp-filter-bar__dialog-title dialog-title">Add Filter Rule</h4>
+
+      <div class="gp-filter-bar__dialog-form dialog-form">
+        <div class="gp-filter-bar__form-group form-group">
+          <label>Field</label>
+          <gp-select
+            [options]="fieldOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedField()"
+            (ngModelChange)="selectedField.set($event)"
+          />
+        </div>
+
+        <div class="gp-filter-bar__form-group form-group">
+          <label>Condition</label>
+          <gp-select
+            [options]="operatorOptions"
+            optionLabel="label"
+            optionValue="value"
+            [ngModel]="selectedOperator()"
+            (ngModelChange)="selectedOperator.set($event)"
+          />
+        </div>
+
+        @if (selectedOperator() === 'between') {
+        <div class="gp-filter-bar__form-group-range form-group-range">
+          <div class="gp-filter-bar__form-group form-group">
+            <label>From (Start)</label>
+            <input
+              type="text"
+              gpInputText
+              class="gp-filter-bar__input form-input"
+              placeholder="Start value..."
+              [ngModel]="filterValue()"
+              (ngModelChange)="filterValue.set($event)"
+            />
+          </div>
+          <div class="gp-filter-bar__form-group form-group">
+            <label>To (End)</label>
+            <input
+              type="text"
+              gpInputText
+              class="gp-filter-bar__input form-input"
+              placeholder="End value..."
+              [ngModel]="filterValueTo()"
+              (ngModelChange)="filterValueTo.set($event)"
+            />
+          </div>
+        </div>
+        } @else {
+        <div class="gp-filter-bar__form-group form-group">
+          <label>Value</label>
+          <input
+            type="text"
+            gpInputText
+            class="gp-filter-bar__input form-input"
+            placeholder="e.g. AMER, 1000..."
+            [ngModel]="filterValue()"
+            (ngModelChange)="filterValue.set($event)"
+          />
+        </div>
+        }
+      </div>
+
+      <div class="gp-filter-bar__dialog-footer dialog-footer">
+        <gp-button label="Cancel" [outlined]="true" size="sm" (click)="isAddingCondition.set(false)" />
+        <gp-button label="Apply Rule" icon="check" size="sm" severity="primary" (click)="addCondition()" />
+      </div>
+    </div>
+  </div>
+  }
+</div>

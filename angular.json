@@ -135,7 +135,8 @@
             "tsConfig": "packages/tsconfig.spec.json",
             "runner": "vitest",
             "setupFiles": ["tools/test-setup.ts"],
-            "include": ["**/*.spec.ts"]
+            "include": ["**/*.spec.ts"],
+            "exclude": ["gp-analytics/**/*.spec.ts"]
           }
         }
       }
@@ -208,6 +209,37 @@
             }
           },
           "defaultConfiguration": "development"
+        }
+      }
+    },
+    "gp-analytics": {
+      "projectType": "library",
+      "root": "packages/gp-analytics",
+      "sourceRoot": "packages/gp-analytics/src",
+      "prefix": "gp",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "project": "packages/gp-analytics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/gp-analytics/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/gp-analytics/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "packages/gp-analytics/tsconfig.spec.json",
+            "runner": "vitest",
+            "setupFiles": ["tools/analytics-test-setup.ts"]
+          }
         }
       }
     }

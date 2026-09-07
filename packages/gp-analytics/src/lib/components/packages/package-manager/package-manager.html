@@ -1,0 +1,494 @@
+@if (visible()) {
+<div class="gp-package-manager-overlay" (click)="close()">
+  <div
+    class="package-manager-modal"
+    (click)="$event.stopPropagation()"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pkg-modal-title"
+  >
+    <!-- Modal Header -->
+    <header class="modal-header">
+      <div class="modal-title-cluster">
+        <span class="modal-icon">📦</span>
+        <div>
+          <div class="title-row">
+            <h2 id="pkg-modal-title" class="modal-title">Package Distribution Manager</h2>
+            <gp-tag severity="info" [rounded]="true">v1.0 Distribution</gp-tag>
+          </div>
+          <p class="modal-subtitle">Export, distribute, or import complete analytical packages across environments</p>
+        </div>
+      </div>
+      <gp-button
+        size="sm"
+        variant="text"
+        severity="secondary"
+        label="✕"
+        (click)="close()"
+        title="Close dialog"
+        class="btn-close-modal"
+      />
+    </header>
+
+    <!-- Segmented Navigation Tabs -->
+    <nav class="package-tabs" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'export'"
+        [attr.aria-selected]="activeTab() === 'export'"
+        (click)="setTab('export')"
+      >
+        <span>📤 Export Package</span>
+        <gp-tag severity="primary" size="sm">
+          {{ currentExportPackage().metadata.itemCounts?.datasets || 0 }} DS • {{
+          currentExportPackage().metadata.itemCounts?.dashboards || 0 }} DB • {{
+          currentExportPackage().metadata.itemCounts?.reports || 0 }} RP
+        </gp-tag>
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'import'"
+        [attr.aria-selected]="activeTab() === 'import'"
+        (click)="setTab('import')"
+      >
+        <span>📥 Import Package</span>
+        @if (validationResult(); as val) {
+        <gp-tag [severity]="val.isValid ? 'success' : 'danger'" size="sm">
+          {{ val.isValid ? '✓ Valid Package' : '⚠️ Invalid' }}
+        </gp-tag>
+        }
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        class="tab-btn"
+        [class.active]="activeTab() === 'distribution'"
+        [attr.aria-selected]="activeTab() === 'distribution'"
+        (click)="setTab('distribution')"
+      >
+        <span>🚀 Remote API Distribution</span>
+        <gp-tag severity="warning" size="sm">REST / Webhook</gp-tag>
+      </button>
+    </nav>
+
+    <!-- Notification Toast -->
+    @if (actionToast()) {
+    <div class="package-toast">
+      <span>{{ actionToast() }}</span>
+    </div>
+    }
+
+    <!-- Modal Body -->
+    <div class="modal-body-container">
+      <!-- ================= TAB 1: EXPORT ================= -->
+      @if (activeTab() === 'export') {
+      <div class="tab-content export-tab">
+        <div class="export-grid-layout">
+          <!-- Left Column: Package Metadata & Asset Inclusions -->
+          <div class="export-config-panel">
+            <div class="panel-section">
+              <h3 class="section-title">Package Metadata</h3>
+              <div class="form-group">
+                <label class="form-label" for="pkg-name-input">Package Name</label>
+                <input
+                  id="pkg-name-input"
+                  type="text"
+                  gpInputText
+                  class="form-control"
+                  [ngModel]="packageName()"
+                  (ngModelChange)="packageName.set($event)"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pkg-desc-input">Description / Release Notes</label>
+                <textarea
+                  id="pkg-desc-input"
+                  rows="2"
+                  gpInputText
+                  class="form-control"
+                  [ngModel]="packageDesc()"
+                  (ngModelChange)="packageDesc.set($event)"
+                ></textarea>
+              </div>
+
+              <div class="form-row-2col">
+                <div class="form-group">
+                  <label class="form-label" for="pkg-author-input">Exported By</label>
+                  <input
+                    id="pkg-author-input"
+                    type="text"
+                    gpInputText
+                    class="form-control"
+                    [ngModel]="packageAuthor()"
+                    (ngModelChange)="packageAuthor.set($event)"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="pkg-env-select">Target Environment</label>
+                  <gp-select
+                    id="pkg-env-select"
+                    [options]="environmentOptions"
+                    optionLabel="label"
+                    optionValue="value"
+                    [ngModel]="packageEnvironment()"
+                    (ngModelChange)="packageEnvironment.set($event)"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h3 class="section-title">Included Assets</h3>
+              <div class="switch-grid">
+                <div class="switch-item">
+                  <span class="switch-label">Include Datasets ({{ datasets().length }})</span>
+                  <gp-switch [ngModel]="includeAllDatasets()" (ngModelChange)="includeAllDatasets.set($event)" />
+                </div>
+                <div class="switch-item">
+                  <span class="switch-label">Include Dashboards ({{ dashboards().length }})</span>
+                  <gp-switch [ngModel]="includeAllDashboards()" (ngModelChange)="includeAllDashboards.set($event)" />
+                </div>
+                <div class="switch-item">
+                  <span class="switch-label">Include Reports ({{ reports().length }})</span>
+                  <gp-switch [ngModel]="includeAllReports()" (ngModelChange)="includeAllReports.set($event)" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Package Summary Badge Card -->
+            <div class="package-summary-card">
+              <div class="summary-header">
+                <span class="summary-icon">🛡️</span>
+                <strong>Package Integrity Summary</strong>
+              </div>
+              <div class="summary-stats-grid">
+                <div class="stat-pill">
+                  <span class="stat-lbl">Checksum</span>
+                  <code class="stat-val">{{ currentExportPackage().metadata.checksum || 'calculating...' }}</code>
+                </div>
+                <div class="stat-pill">
+                  <span class="stat-lbl">Schema Format</span>
+                  <span class="stat-val">gp-analytics-package v1.0.0</span>
+                </div>
+                <div class="stat-pill">
+                  <span class="stat-lbl">Export Size</span>
+                  <span class="stat-val">{{ distributionPayload().payloadSizeBytes }} bytes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: JSON Preview & Fast Actions -->
+          <div class="export-preview-panel">
+            <div class="preview-header-bar">
+              <span class="preview-label">Package JSON Preview</span>
+              <div class="preview-actions">
+                <gp-button label="Copy JSON" icon="copy" size="sm" [outlined]="true" (click)="copyExportJson()" />
+                <gp-button
+                  label="Download .json"
+                  icon="download"
+                  size="sm"
+                  severity="success"
+                  (click)="downloadExportJson()"
+                />
+              </div>
+            </div>
+            <textarea class="json-code-viewer" rows="18" readonly [value]="exportJsonString()"></textarea>
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- ================= TAB 2: IMPORT ================= -->
+      @if (activeTab() === 'import') {
+      <div class="tab-content import-tab">
+        <div class="import-layout">
+          <!-- Top Controls: File Upload & Quick Samples -->
+          <div class="import-toolbar">
+            <div class="file-upload-box">
+              <label class="file-upload-label" for="pkg-file-upload">
+                <span>📁 Upload JSON Package File</span>
+                <input
+                  id="pkg-file-upload"
+                  type="file"
+                  accept=".json"
+                  class="file-input-hidden"
+                  (change)="onFileUpload($event)"
+                />
+              </label>
+            </div>
+            <gp-button label="Load Sample Package" size="sm" [outlined]="true" (click)="loadSampleImport()" />
+          </div>
+
+          <!-- Recent Snapshots Quick-Restore Strip -->
+          @if (packageHistory().length > 0) {
+          <div class="package-history-strip">
+            <div class="history-strip-header">
+              <span class="history-strip-title">🕒 Recent Snapshots ({{ packageHistory().length }})</span>
+              <gp-button label="Clear History" size="sm" [outlined]="true" (click)="clearHistory()" />
+            </div>
+            <div class="history-cards-scroll">
+              @for (snap of packageHistory(); track snap.id) {
+              <div class="history-snap-card" (click)="restoreSnapshot(snap)" role="button" tabindex="0">
+                <div class="snap-top">
+                  <span class="snap-action-tag" [class]="'snap-' + snap.action">{{ snap.action.toUpperCase() }}</span>
+                  <span class="snap-time">{{ formatSnapshotTime(snap.timestamp) }}</span>
+                </div>
+                <strong class="snap-name" [title]="snap.name">{{ snap.name }}</strong>
+                <span class="snap-counts">
+                  {{ snap.itemCounts.datasets }} ds • {{ snap.itemCounts.dashboards }} db • {{ snap.itemCounts.reports
+                  }} rp
+                </span>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          <!-- JSON Paste / Editor Box -->
+          <div class="form-group">
+            <label class="form-label" for="import-textarea">Paste Package JSON Payload</label>
+            <textarea
+              id="import-textarea"
+              class="json-code-viewer json-editor-input"
+              rows="12"
+              placeholder="Paste or drop exported gp-analytics-package JSON here..."
+              [ngModel]="importJsonBuffer()"
+              (ngModelChange)="importJsonBuffer.set($event)"
+            ></textarea>
+          </div>
+
+          <!-- Real-Time Schema Validation Card -->
+          @if (validationResult(); as val) {
+          <div class="validation-banner" [class.is-valid]="val.isValid" [class.is-invalid]="!val.isValid">
+            <div class="validation-header">
+              <span class="status-icon">{{ val.isValid ? '✅' : '❌' }}</span>
+              <div>
+                <strong>{{ val.isValid ? 'Schema Validation Passed' : 'Schema Validation Failed' }}</strong>
+                <p class="validation-summary-text">
+                  Detected: {{ val.itemCounts.datasets }} Datasets, {{ val.itemCounts.dashboards }} Dashboards, {{
+                  val.itemCounts.reports }} Reports @if (val.metadata?.name) { • Package: "{{ val.metadata.name }}" }
+                </p>
+              </div>
+            </div>
+
+            @if (val.errors.length > 0) {
+            <ul class="validation-error-list">
+              @for (err of val.errors; track $index) {
+              <li>⚠️ {{ err }}</li>
+              }
+            </ul>
+            } @if (val.warnings.length > 0) {
+            <ul class="validation-warning-list">
+              @for (warn of val.warnings; track $index) {
+              <li>ℹ️ {{ warn }}</li>
+              }
+            </ul>
+            }
+          </div>
+          }
+
+          <!-- Granular Selective Asset Cherry-Picker -->
+          @if (parsedImportPackage(); as pkg) {
+          <div class="selective-import-card">
+            <h4 class="selective-title">Asset Cherry-Picker (Optional)</h4>
+            <p class="selective-subtitle">
+              Choose whether to import all assets or select specific dashboards, datasets, and reports:
+            </p>
+
+            @if (pkg.dashboards.length > 0) {
+            <div class="selective-group">
+              <div class="group-header-row">
+                <span class="group-heading">Dashboards ({{ pkg.dashboards.length }})</span>
+                <gp-switch
+                  [ngModel]="importAllDashboards()"
+                  (ngModelChange)="importAllDashboards.set($event)"
+                  label="All"
+                />
+              </div>
+              @if (!importAllDashboards()) {
+              <div class="cherry-chips-list">
+                @for (db of pkg.dashboards; track db.id) {
+                <gp-tag
+                  [severity]="selectedImportDashboardIds().has(db.id) ? 'primary' : 'secondary'"
+                  size="sm"
+                  class="cherry-tag"
+                  (click)="toggleImportDashboard(db.id)"
+                >
+                  {{ selectedImportDashboardIds().has(db.id) ? '✓ ' : '+ ' }}{{ db.title }}
+                </gp-tag>
+                }
+              </div>
+              }
+            </div>
+            } @if (pkg.datasets.length > 0) {
+            <div class="selective-group">
+              <div class="group-header-row">
+                <span class="group-heading">Datasets ({{ pkg.datasets.length }})</span>
+                <gp-switch
+                  [ngModel]="importAllDatasets()"
+                  (ngModelChange)="importAllDatasets.set($event)"
+                  label="All"
+                />
+              </div>
+              @if (!importAllDatasets()) {
+              <div class="cherry-chips-list">
+                @for (ds of pkg.datasets; track ds.datasetId) {
+                <gp-tag
+                  [severity]="selectedImportDatasetIds().has(ds.datasetId) ? 'primary' : 'secondary'"
+                  size="sm"
+                  class="cherry-tag"
+                  (click)="toggleImportDataset(ds.datasetId)"
+                >
+                  {{ selectedImportDatasetIds().has(ds.datasetId) ? '✓ ' : '+ ' }}{{ ds.name }}
+                </gp-tag>
+                }
+              </div>
+              }
+            </div>
+            } @if (pkg.reports.length > 0) {
+            <div class="selective-group">
+              <div class="group-header-row">
+                <span class="group-heading">Reports ({{ pkg.reports.length }})</span>
+                <gp-switch [ngModel]="importAllReports()" (ngModelChange)="importAllReports.set($event)" label="All" />
+              </div>
+              @if (!importAllReports()) {
+              <div class="cherry-chips-list">
+                @for (rp of pkg.reports; track rp.id) {
+                <gp-tag
+                  [severity]="selectedImportReportIds().has(rp.id) ? 'primary' : 'secondary'"
+                  size="sm"
+                  class="cherry-tag"
+                  (click)="toggleImportReport(rp.id)"
+                >
+                  {{ selectedImportReportIds().has(rp.id) ? '✓ ' : '+ ' }}{{ rp.name }}
+                </gp-tag>
+                }
+              </div>
+              }
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Import Mode Selector & Final Button -->
+          <div class="import-footer-row">
+            <div class="import-mode-group">
+              <span class="form-label">Import Mode:</span>
+              <gp-radio-button
+                name="importMode"
+                value="merge"
+                label="Merge (Update matching IDs)"
+                [ngModel]="importMode()"
+                (ngModelChange)="importMode.set($event)"
+              />
+              <gp-radio-button
+                name="importMode"
+                value="copy"
+                label="Copy (Clone with fresh IDs)"
+                [ngModel]="importMode()"
+                (ngModelChange)="importMode.set($event)"
+              />
+            </div>
+
+            <gp-button
+              label="Apply & Import Package"
+              icon="check"
+              severity="primary"
+              [disabled]="!validationResult()?.isValid"
+              (click)="applyImport()"
+            />
+          </div>
+        </div>
+      </div>
+      }
+
+      <!-- ================= TAB 3: REMOTE DISTRIBUTION ================= -->
+      @if (activeTab() === 'distribution') {
+      <div class="tab-content distribution-tab">
+        <div class="distribution-layout">
+          <div class="dist-header-note">
+            <h3>🛰️ Remote API Package Distribution</h3>
+            <p>
+              Distribute versioned analytical workspaces to microservices, remote tenants, or edge distribution clusters
+              via HTTP POST webhook.
+            </p>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label class="form-label" for="dist-endpoint-input">Target Remote API Endpoint</label>
+              <input
+                id="dist-endpoint-input"
+                type="url"
+                gpInputText
+                class="form-control font-mono"
+                [ngModel]="targetEndpoint()"
+                (ngModelChange)="targetEndpoint.set($event)"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="dist-token-input">API Authorization Token</label>
+              <input
+                id="dist-token-input"
+                type="password"
+                gpInputText
+                class="form-control font-mono"
+                [ngModel]="apiAuthToken()"
+                (ngModelChange)="apiAuthToken.set($event)"
+              />
+            </div>
+          </div>
+
+          <!-- Payload Envelope Preview -->
+          <div class="payload-preview-section">
+            <div class="payload-meta-row">
+              <span><strong>Payload Envelope:</strong> {{ distributionPayload().packageId }}</span>
+              <span><strong>Payload Size:</strong> {{ distributionPayload().payloadSizeBytes }} bytes</span>
+              <span><strong>Checksum:</strong> <code>{{ distributionPayload().checksum }}</code></span>
+            </div>
+
+            <textarea class="json-code-viewer" rows="10" readonly [value]="exportJsonString()"></textarea>
+          </div>
+
+          <!-- Transmission Action & Simulation Response -->
+          <div class="dist-action-row">
+            <gp-button
+              label="Transmit Package to Remote API"
+              icon="cloud-upload"
+              severity="warning"
+              [loading]="isTransmitting()"
+              (click)="transmitToRemoteApi()"
+            />
+
+            @if (transmissionResponse(); as res) {
+            <div class="transmission-status-card">
+              <span class="status-badge-ok">HTTP {{ res.status }} OK</span>
+              <p class="status-msg">{{ res.message }}</p>
+              <span class="status-id"
+                >Distribution ID: <code>{{ res.distributionId }}</code> • Delivered: {{ res.deliveredAt }}</span
+              >
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Modal Footer -->
+    <footer class="modal-footer">
+      <gp-button label="Done / Close" [outlined]="true" (click)="close()" />
+    </footer>
+  </div>
+</div>
+}

@@ -16,6 +16,12 @@
     },
     {
       "path": "./apps/gp-ui-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./packages/gp-analytics/tsconfig.lib.json"
+    },
+    {
+      "path": "./packages/gp-analytics/tsconfig.spec.json"
     }
   ]
 }

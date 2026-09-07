@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": [],
+    "paths": {
+      "@generatedpixel/gp-ui": ["dist/packages/gp-ui"],
+      "@generatedpixel/gp-grid": ["dist/packages/gp-grid"]
+    },
+    "experimentalDecorators": true
+  },
+  "exclude": ["src/test.ts", "**/*.spec.ts"],
+  "include": ["src/**/*.ts"]
+}
