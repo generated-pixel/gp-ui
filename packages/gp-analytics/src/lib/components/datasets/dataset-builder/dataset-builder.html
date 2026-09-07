@@ -1,8 +1,16 @@
 <div class="gp-dataset-builder" role="application">
+  @if (loading()) {
+  <div class="gp-analytics-loading-overlay">
+    <gp-progress-spinner strokeWidth="3" />
+  </div>
+  }
+
   <!-- 3-Column Workbench: Available Fields (Left) | Dataset View (Middle) | Selected Fields (Right) -->
-  <div class="builder-workbench-layout">
+  <div class="gp-dataset-builder__workbench-layout builder-workbench-layout">
     <!-- Left Panel: Available fields (Schema Catalogue) -->
-    <div class="workbench-panel panel-catalogue">
+    <div
+      class="gp-dataset-builder__workbench-panel gp-dataset-builder__workbench-panel--catalogue workbench-panel panel-catalogue"
+    >
       <gp-schema-catalogue
         [groupings]="groupings()"
         [additionalRelationships]="additionalRelationships()"
@@ -15,7 +23,9 @@
     </div>
 
     <!-- Middle Panel: Dataset View (Preview Table) -->
-    <div class="workbench-panel panel-dataset-view">
+    <div
+      class="gp-dataset-builder__workbench-panel gp-dataset-builder__workbench-panel--dataset-view workbench-panel panel-dataset-view"
+    >
       <gp-dataset-preview
         [fields]="datasetFields()"
         [datasetName]="dataset().name"
@@ -31,7 +41,9 @@
     </div>
 
     <!-- Right Panel: Selected Fields & Properties (Field Selector) -->
-    <div class="workbench-panel panel-fields">
+    <div
+      class="gp-dataset-builder__workbench-panel gp-dataset-builder__workbench-panel--fields workbench-panel panel-fields"
+    >
       <gp-dataset-field-selector
         [fields]="datasetFields()"
         [filters]="dataset().filters || []"

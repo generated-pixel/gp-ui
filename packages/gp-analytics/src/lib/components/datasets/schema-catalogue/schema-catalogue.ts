@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpInputTextDirective, GpProgressSpinner, GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import { DatasetField, Field, Grouping, LoadedSchemaResult, Relationship, Table } from '../../../models';
 import { GpRelationshipGraphService } from '../../../services/relationship-graph.service';
@@ -9,7 +9,7 @@ import { GpSchemaDataLoaderService } from '../../../services/schema-data-loader.
 @Component({
   selector: 'gp-schema-catalogue',
   standalone: true,
-  imports: [FormsModule, GpTag],
+  imports: [FormsModule, GpButton, GpInputTextDirective, GpProgressSpinner, GpTag],
   templateUrl: './schema-catalogue.html',
   styleUrl: './schema-catalogue.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

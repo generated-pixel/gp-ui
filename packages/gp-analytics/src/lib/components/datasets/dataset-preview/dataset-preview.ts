@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
-import { GpButton, GpProgressSpinner, GpTag } from '@generatedpixel/gp-ui';
+import { GpButton, GpInputTextDirective, GpProgressSpinner, GpTag } from '@generatedpixel/gp-ui';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import {
   DatasetField,
@@ -49,7 +49,7 @@ export interface ColumnSummaryStats {
 @Component({
   selector: 'gp-dataset-preview',
   standalone: true,
-  imports: [GpButton, GpTag, GpProgressSpinner],
+  imports: [GpButton, GpTag, GpProgressSpinner, GpInputTextDirective],
   templateUrl: './dataset-preview.html',
   styleUrl: './dataset-preview.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
