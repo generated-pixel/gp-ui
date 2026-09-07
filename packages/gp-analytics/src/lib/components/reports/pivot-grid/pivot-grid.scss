@@ -11,6 +11,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   position: relative;
 }
 
@@ -24,6 +25,7 @@
   border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
   flex-wrap: wrap;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .gp-pivot-grid__actions,
@@ -64,8 +66,9 @@
 
 .gp-pivot-grid__scroll-wrap,
 .matrix-scroll-wrap {
-  overflow-x: auto;
-  max-height: 480px;
+  overflow: auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .gp-pivot-grid__table,

@@ -11,6 +11,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   position: relative;
 }
 
@@ -24,6 +25,7 @@
   border-bottom: 1px solid var(--gp-surface-border, #e2e8f0);
   flex-wrap: wrap;
   gap: 0.6rem;
+  flex-shrink: 0;
 }
 
 .gp-tabular-report__title-group,
@@ -101,7 +103,9 @@
 .gp-tabular-report__table-scroll-wrap,
 .table-scroll-wrap {
   overflow-x: auto;
-  max-height: 480px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .gp-tabular-report__table,
@@ -320,6 +324,7 @@
   border-top: 1px solid var(--gp-surface-border, #e2e8f0);
   background: var(--gp-surface-card, #ffffff);
   font-size: 0.8rem;
+  flex-shrink: 0;
 }
 
 .gp-tabular-report__pagination-left,
@@ -340,6 +345,9 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  /* Compact the select to match the pagination bar's small controls instead of the default input height. */
+  --gp-input-height: 1.85rem;
+  --gp-input-padding-x: 0.5rem;
 
   .size-label,
   .gp-tabular-report__size-label {

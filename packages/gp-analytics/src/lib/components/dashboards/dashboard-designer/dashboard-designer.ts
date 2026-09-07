@@ -30,7 +30,7 @@ import {
 } from '../../../models/dashboard.model';
 import { GpMeasureQuery } from '../../../models/query.model';
 
-import { GpButton, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@generatedpixel/gp-ui';
+import { GpButton, GpIcon, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-dashboard-designer',
@@ -40,6 +40,7 @@ import { GpButton, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@gene
     UpperCasePipe,
     GpAnalyticsDashboard,
     GpButton,
+    GpIcon,
     GpTag,
     GpSwitch,
     GpSelect,

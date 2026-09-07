@@ -55,12 +55,9 @@
       <!-- Add Widget Palette (Only in Design Mode) -->
       @if (activeMode() === 'design') {
       <div class="add-widget-dropdown">
-        <gp-button
-          severity="primary"
-          label="➕ Add Widget ▾"
-          (click)="toggleAddMenu()"
-          class="btn-primary-action btn-add-widget"
-        />
+        <gp-button severity="primary" label="Add Widget" icon="plus" (click)="toggleAddMenu()" class="btn-add-widget">
+          <gp-icon name="chevron-down" size="0.8em" />
+        </gp-button>
 
         @if (isAddMenuOpen()) {
         <div class="add-menu-popover">
