@@ -13,9 +13,15 @@
           <div class="title-row">
             <h2 class="designer-title">{{ config().title }}</h2>
             <gp-tag severity="info" [rounded]="true">v2.0 Designer</gp-tag>
-            <button type="button" class="btn-icon-mini" title="Edit Dashboard Settings" (click)="openSettingsModal()">
-              ✏️
-            </button>
+            <gp-button
+              size="sm"
+              variant="text"
+              severity="secondary"
+              label="✏️"
+              title="Edit Dashboard Settings"
+              (click)="openSettingsModal()"
+              class="btn-icon-mini"
+            />
           </div>
           <p class="designer-subtitle">{{ config().subtitle }}</p>
         </div>
@@ -49,10 +55,12 @@
       <!-- Add Widget Palette (Only in Design Mode) -->
       @if (activeMode() === 'design') {
       <div class="add-widget-dropdown">
-        <button type="button" class="btn-primary-action btn-add-widget" (click)="toggleAddMenu()">
-          <span>➕ Add Widget</span>
-          <span class="arrow-indicator">▾</span>
-        </button>
+        <gp-button
+          severity="primary"
+          label="➕ Add Widget ▾"
+          (click)="toggleAddMenu()"
+          class="btn-primary-action btn-add-widget"
+        />
 
         @if (isAddMenuOpen()) {
         <div class="add-menu-popover">
@@ -220,9 +228,15 @@
             <gp-tag severity="primary" [rounded]="true">{{ w.type | uppercase }}</gp-tag>
           </div>
         </div>
-        <button type="button" class="btn-close-inspector" title="Close Inspector" (click)="closeWidgetInspector()">
-          ✕
-        </button>
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="secondary"
+          label="✕"
+          title="Close Inspector"
+          (click)="closeWidgetInspector()"
+          class="btn-close-inspector"
+        />
       </div>
 
       <div class="inspector-body">
@@ -336,18 +350,14 @@
           <h4 class="section-title">Data Source Strategy</h4>
           <div class="form-group">
             <label class="form-label" for="widget-ds-type">Data Loading Source</label>
-            <select
+            <gp-select
               id="widget-ds-type"
-              class="form-select"
+              [options]="dataSourceTypeOptions"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="w.dataSource?.type || 'inherited'"
               (ngModelChange)="updateWidgetDataSource({ type: $event })"
-            >
-              <option value="inherited">Inherited (Dashboard Records)</option>
-              <option value="dataset">Named Dataset ID</option>
-              <option value="remote">Remote REST / HTTP Endpoint</option>
-              <option value="custom">Custom Async Loader</option>
-              <option value="inline">Inline Static Data</option>
-            </select>
+            />
           </div>
 
           @if (w.dataSource?.type === 'dataset') {
@@ -435,16 +445,14 @@
           <h4 class="section-title">KPI Metric Settings</h4>
           <div class="form-group">
             <label class="form-label" for="kpi-measure-field">Metric Field</label>
-            <select
+            <gp-select
               id="kpi-measure-field"
-              class="form-select"
+              [options]="numericFieldOptions()"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="kpi.measure.fieldId"
               (ngModelChange)="updateSelectedWidget({ measure: { ...kpi.measure, fieldId: $event } })"
-            >
-              @for (field of numericFields(); track field.fieldId) {
-              <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
-              }
-            </select>
+            />
           </div>
 
           <div class="form-group">
@@ -520,46 +528,38 @@
 
           <div class="form-group">
             <label class="form-label" for="chart-dim-select">Category Dimension</label>
-            <select
+            <gp-select
               id="chart-dim-select"
-              class="form-select"
+              [options]="effectiveFieldOptions()"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="chart.dimension"
               (ngModelChange)="updateSelectedWidget({ dimension: $event })"
-            >
-              @for (field of effectiveFields(); track field.fieldId) {
-              <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
-              }
-            </select>
+            />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="chart-measure-field">Measure Metric</label>
-            <select
+            <gp-select
               id="chart-measure-field"
-              class="form-select"
+              [options]="numericFieldOptions()"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="chart.measure.fieldId"
               (ngModelChange)="updateSelectedWidget({ measure: { ...chart.measure, fieldId: $event } })"
-            >
-              @for (field of numericFields(); track field.fieldId) {
-              <option [value]="field.fieldId">{{ field.label }} ({{ field.fieldId }})</option>
-              }
-            </select>
+            />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="chart-aggregation">Aggregation</label>
-            <select
+            <gp-select
               id="chart-aggregation"
-              class="form-select"
+              [options]="measureAggregationOptions"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="chart.measure.aggregation"
               (ngModelChange)="updateSelectedWidget({ measure: { ...chart.measure, aggregation: $event } })"
-            >
-              <option value="sum">Sum</option>
-              <option value="avg">Average</option>
-              <option value="count">Count</option>
-              <option value="min">Minimum</option>
-              <option value="max">Maximum</option>
-            </select>
+            />
           </div>
 
           <div class="form-row-2col">
@@ -600,6 +600,7 @@
             <input
               id="table-dims"
               type="text"
+              gpInputText
               class="form-control"
               [ngModel]="tbl.dimensions.join(', ')"
               (ngModelChange)="updateTableDimensions($event)"
@@ -610,36 +611,37 @@
           <div class="form-group">
             <div class="measures-header-row">
               <label class="form-label">Measures</label>
-              <button type="button" class="btn-link-action" (click)="addTableMeasure()">+ Add Measure</button>
+              <gp-button size="sm" variant="link" label="+ Add Measure" (click)="addTableMeasure()" class="btn-link-action" />
             </div>
             @for (m of tbl.measures; track $index) {
             <div class="measure-config-row">
-              <select
-                class="form-select form-select-sm"
+              <gp-select
+                class="form-select-sm"
+                [options]="tableNumericFieldOptions()"
+                optionLabel="label"
+                optionValue="value"
+                size="sm"
                 [ngModel]="m.fieldId"
                 (ngModelChange)="updateMeasureField(m, $event)"
-              >
-                @for (f of numericFields(); track f.fieldId) {
-                <option [value]="f.fieldId">{{ f.label }}</option>
-                }
-              </select>
-              <select
-                class="form-select form-select-sm"
+              />
+              <gp-select
+                class="form-select-sm"
+                [options]="measureAggregationOptions"
+                optionLabel="label"
+                optionValue="value"
+                size="sm"
                 [ngModel]="m.aggregation"
                 (ngModelChange)="updateMeasureAggregation(m, $event)"
-              >
-                <option value="sum">Sum</option>
-                <option value="count">Count</option>
-                <option value="avg">Avg</option>
-              </select>
-              <button
-                type="button"
-                class="btn-icon-mini-del"
+              />
+              <gp-button
+                size="sm"
+                variant="text"
+                severity="danger"
+                label="✕"
                 title="Remove Measure"
                 (click)="removeTableMeasure($index)"
-              >
-                ✕
-              </button>
+                class="btn-icon-mini-del"
+              />
             </div>
             }
           </div>
@@ -669,44 +671,38 @@
           <h4 class="section-title">Pivot Matrix Settings</h4>
           <div class="form-group">
             <label class="form-label" for="pivot-row-dim">Row Dimension</label>
-            <select
+            <gp-select
               id="pivot-row-dim"
-              class="form-select"
+              [options]="effectiveFieldOptions()"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="pvt.rowDimension"
               (ngModelChange)="updateSelectedWidget({ rowDimension: $event })"
-            >
-              @for (f of effectiveFields(); track f.fieldId) {
-              <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
-              }
-            </select>
+            />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="pivot-col-dim">Column Dimension</label>
-            <select
+            <gp-select
               id="pivot-col-dim"
-              class="form-select"
+              [options]="effectiveFieldOptions()"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="pvt.colDimension"
               (ngModelChange)="updateSelectedWidget({ colDimension: $event })"
-            >
-              @for (f of effectiveFields(); track f.fieldId) {
-              <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
-              }
-            </select>
+            />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="pivot-measure-field">Matrix Value Measure</label>
-            <select
+            <gp-select
               id="pivot-measure-field"
-              class="form-select"
+              [options]="numericFieldOptions()"
+              optionLabel="label"
+              optionValue="value"
               [ngModel]="pvt.measure.fieldId"
               (ngModelChange)="updateSelectedWidget({ measure: { ...pvt.measure, fieldId: $event } })"
-            >
-              @for (f of numericFields(); track f.fieldId) {
-              <option [value]="f.fieldId">{{ f.label }} ({{ f.fieldId }})</option>
-              }
-            </select>
+            />
           </div>
         </div>
         }
@@ -760,7 +756,14 @@
           <span class="modal-icon">⚙️</span>
           <h3>Dashboard Settings</h3>
         </div>
-        <button type="button" class="btn-modal-close" (click)="closeSettingsModal()">✕</button>
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="secondary"
+          label="✕"
+          (click)="closeSettingsModal()"
+          class="btn-modal-close"
+        />
       </div>
 
       <div class="modal-body">
@@ -877,7 +880,14 @@
           <span class="modal-icon">📋</span>
           <h3>Dashboard Configuration (JSON)</h3>
         </div>
-        <button type="button" class="btn-modal-close" (click)="closeJsonModal()">✕</button>
+        <gp-button
+          size="sm"
+          variant="text"
+          severity="secondary"
+          label="✕"
+          (click)="closeJsonModal()"
+          class="btn-modal-close"
+        />
       </div>
 
       <div class="modal-tabs">

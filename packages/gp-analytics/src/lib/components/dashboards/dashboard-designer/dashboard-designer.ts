@@ -285,6 +285,34 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     return eff.filter((f) => typeof sample[f.fieldId] !== 'number');
   });
 
+  readonly effectiveFieldOptions = computed(() =>
+    this.effectiveFields().map((f) => ({ label: `${f.label} (${f.fieldId})`, value: f.fieldId }))
+  );
+
+  readonly numericFieldOptions = computed(() =>
+    this.numericFields().map((f) => ({ label: `${f.label} (${f.fieldId})`, value: f.fieldId }))
+  );
+
+  readonly tableNumericFieldOptions = computed(() =>
+    this.numericFields().map((f) => ({ label: f.label, value: f.fieldId }))
+  );
+
+  readonly measureAggregationOptions = [
+    { label: 'Sum', value: 'sum' },
+    { label: 'Count', value: 'count' },
+    { label: 'Avg', value: 'avg' },
+    { label: 'Min', value: 'min' },
+    { label: 'Max', value: 'max' }
+  ];
+
+  readonly dataSourceTypeOptions = [
+    { label: 'Inherited (Dashboard Records)', value: 'inherited' },
+    { label: 'Named Dataset ID', value: 'dataset' },
+    { label: 'Remote REST / HTTP Endpoint', value: 'remote' },
+    { label: 'Custom Async Loader', value: 'custom' },
+    { label: 'Inline Static Data', value: 'inline' }
+  ];
+
   /**
    * Comma-separated list of available field IDs.
    */
