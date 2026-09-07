@@ -250,7 +250,7 @@ export class Guid {
     } else {
       lastV7Timestamp = ts;
       // Initialize counter with random 12-bit seed
-      v7SequenceCounter = ((bytes[6] << 8) | bytes[7]) & 0x7ff;
+      v7SequenceCounter = ((bytes[6] << 8) | bytes[7]) & 0xfff;
     }
 
     // Version 7 in upper 4 bits of byte 6 (0x70) + upper 4 bits of counter
