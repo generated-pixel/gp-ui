@@ -9,6 +9,7 @@ export * from './lib/version';
 export * from './lib/config/gp-translation.interface';
 export * from './lib/config/gp-translations.presets';
 export * from './lib/config/gp-config.service';
+export * from './lib/i18n';
 
 // Base Architecture
 export * from './lib/base/gp-base';
