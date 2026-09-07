@@ -6,15 +6,19 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: 'Version Bump Type (patch, minor, major) or skip'
+        description: "Version Bump Type (patch, minor, major) or skip"
         required: true
-        default: 'patch'
+        default: "patch"
         type: choice
         options:
           - patch
           - minor
           - major
           - skip
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   publish:
@@ -30,8 +34,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: 'https://registry.npmjs.org/'
-          cache: 'npm'
+          registry-url: "https://registry.npmjs.org/"
+          cache: "npm"
 
       - name: Install Dependencies
         run: npm ci
@@ -49,14 +53,35 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          # Dependency-safe order: mirrors publish-all.ps1 (foundational packages first, dependents last).
+          echo "Publishing @generatedpixel/gp-ui..."
+          cd dist/packages/gp-ui && npm publish --access public --provenance
+          cd ../../..
+
           echo "Publishing @generatedpixel/gp-ui-theme..."
-          cd dist/packages/gp-ui-theme && npm publish --access public
+          cd dist/packages/gp-ui-theme && npm publish --access public --provenance
           cd ../../..
 
           echo "Publishing @generatedpixel/gp-ui-icons..."
-          cd dist/packages/gp-ui-icons && npm publish --access public
+          cd dist/packages/gp-ui-icons && npm publish --access public --provenance
           cd ../../..
 
-          echo "Publishing @generatedpixel/gp-ui..."
-          cd dist/packages/gp-ui && npm publish --access public
+          echo "Publishing @generatedpixel/gp-css..."
+          cd dist/packages/gp-css && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-grid..."
+          cd dist/packages/gp-grid && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-blocks..."
+          cd dist/packages/gp-blocks && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-rules..."
+          cd dist/packages/gp-rules && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing gp-analytics..."
+          cd dist/packages/gp-analytics && npm publish --access public --provenance
           cd ../../..
