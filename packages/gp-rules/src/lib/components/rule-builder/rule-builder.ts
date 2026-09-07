@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GpButton, GpInputText, GpSelect, GpIcon, GpInputNumber } from '@generatedpixel/gp-ui';
+import { GpButton, GpInputText, GpSelect, GpIcon, GpInputNumber, UniqueId } from '@generatedpixel/gp-ui';
 import { GpBusinessRule } from '../../types/rule.types';
 import { GpRuleEventType } from '../../types/trigger.types';
 import { GpRuleOperator } from '../../types/condition.types';
@@ -19,7 +19,7 @@ import { GpRuleActionType, GpTransformType } from '../../types/action.types';
 export class GpRuleBuilder {
   public ruleCreated = output<GpBusinessRule>();
 
-  public ruleId = signal<string>('custom-rule-' + Math.floor(Math.random() * 1000));
+  public ruleId = signal<string>(UniqueId.generate('custom-rule-'));
   public ruleName = signal<string>('Dynamic Custom Rule');
   public category = signal<string>('custom');
   public priority = signal<number>(10);

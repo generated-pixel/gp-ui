@@ -1,24 +1,22 @@
-import { UniqueId as GpUiUniqueId } from '@generatedpixel/gp-ui';
-
-let fallbackCounter = 0;
+import { Guid } from '@generatedpixel/gp-ui';
 
 /**
- * Utility for generating unique, collision-resistant element and input identifiers.
+ * Utility for generating unique, collision-resistant element and record identifiers.
+ * Always backed by a real RFC 4122 guid (via `@generatedpixel/gp-ui`'s `Guid.newGuid()`) so
+ * every generated id is a genuine guid, optionally namespaced with a prefix for DOM/CSS-selector safety.
  */
 export class UniqueId {
   /**
-   * Generates a unique identifier with the given prefix.
-   * Uses `@generatedpixel/gp-ui` UniqueId generator when available, with resilient fallback.
+   * Generates a unique identifier with the given prefix, backed by a real guid.
    */
   static generate(prefix = 'gp_ana_'): string {
-    try {
-      if (typeof GpUiUniqueId?.generate === 'function') {
-        return GpUiUniqueId.generate(prefix);
-      }
-    } catch {
-      // ignore and use fallback
-    }
-    fallbackCounter += 1;
-    return `${prefix}${Date.now().toString(36)}_${fallbackCounter.toString(36)}`;
+    return `${prefix}${UniqueId.guid()}`;
+  }
+
+  /**
+   * Generates a standalone RFC 4122 v4 guid string.
+   */
+  static guid(): string {
+    return Guid.newGuid().toString();
   }
 }

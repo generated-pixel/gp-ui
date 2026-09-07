@@ -44,8 +44,8 @@ export class GpAnalyticalChart extends GpAnalyticsBaseWidget {
   readonly activeSeries = computed(() => {
     const d = this.data();
     if (!d || !d.series) {
-return [];
-}
+      return [];
+    }
     return d.series.filter((s) => !this.hiddenSeries().has(s.name));
   });
 
@@ -55,12 +55,12 @@ return [];
   readonly barCategories = computed(() => {
     const d = this.data();
     if (!d || !d.categories || d.categories.length === 0) {
-return [];
-}
+      return [];
+    }
     const active = this.activeSeries();
     if (active.length === 0) {
-return [];
-}
+      return [];
+    }
 
     const isStacked = this.stacked();
 
@@ -70,15 +70,15 @@ return [];
       for (let i = 0; i < d.categories.length; i++) {
         const catSum = active.reduce((acc, s) => acc + (s.data[i] ?? 0), 0);
         if (catSum > maxScale) {
-maxScale = catSum;
-}
+          maxScale = catSum;
+        }
       }
     } else {
       for (const s of active) {
         const sMax = Math.max(...s.data, 0);
         if (sMax > maxScale) {
-maxScale = sMax;
-}
+          maxScale = sMax;
+        }
       }
     }
 
@@ -139,8 +139,8 @@ maxScale = sMax;
     const primarySeries = d.series[0];
     const total = primarySeries.data.reduce((acc, v) => acc + v, 0);
     if (total === 0) {
-return { total: 0, slices: [] };
-}
+      return { total: 0, slices: [] };
+    }
 
     let currentAngle = 0;
     const slices = d.categories.map((cat, idx) => {

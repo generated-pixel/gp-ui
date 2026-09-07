@@ -1,0 +1,39 @@
+<div class="analytics-page">
+  <gp-toast />
+
+  <div class="analytics-page__header">
+    <div class="analytics-page__badges">
+      <gp-badge value="gp-schema-catalogue" severity="primary" />
+      <gp-badge value="gp-analytics" severity="info" />
+    </div>
+    <h1 class="analytics-page__title">Schema Catalogue</h1>
+    <p class="analytics-page__desc">
+      Browse relational metadata groupings, tables, and field groupings. Select a field to add it to a dataset, or load
+      a preset/custom schema from an external source.
+    </p>
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Live Demo</h2>
+    <div class="analytics-page__demo">
+      <gp-schema-catalogue
+        [groupings]="groupings()"
+        [activeDatasetFields]="activeDatasetFields()"
+        (groupingsChange)="onGroupingsChange($event)"
+        (fieldSelect)="onFieldSelect($event)"
+        (schemaLoad)="onSchemaLoad($event)"
+      />
+    </div>
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Usage</h2>
+    <doc-code [code]="usageCode" language="html" />
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">API Reference</h2>
+    <doc-api-table title="Properties (Inputs)" [properties]="properties" />
+    <doc-api-table title="Events (Outputs)" [properties]="events" [hasDefaults]="false" />
+  </div>
+</div>

@@ -16,6 +16,10 @@ on:
           - major
           - skip
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -49,14 +53,54 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          # Dependency-safe order: mirrors publish-all.ps1 (foundational packages first, dependents last).
+          echo "Publishing @generatedpixel/gp-ui..."
+          cd dist/packages/gp-ui && npm publish --access public --provenance
+          cd ../../..
+
           echo "Publishing @generatedpixel/gp-ui-theme..."
-          cd dist/packages/gp-ui-theme && npm publish --access public
+          cd dist/packages/gp-ui-theme && npm publish --access public --provenance
           cd ../../..
 
           echo "Publishing @generatedpixel/gp-ui-icons..."
-          cd dist/packages/gp-ui-icons && npm publish --access public
+          cd dist/packages/gp-ui-icons && npm publish --access public --provenance
           cd ../../..
 
-          echo "Publishing @generatedpixel/gp-ui..."
-          cd dist/packages/gp-ui && npm publish --access public
+          echo "Publishing @generatedpixel/gp-css..."
+          cd dist/packages/gp-css && npm publish --access public --provenance
           cd ../../..
+
+          echo "Publishing @generatedpixel/gp-grid..."
+          cd dist/packages/gp-grid && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-blocks..."
+          cd dist/packages/gp-blocks && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing @generatedpixel/gp-rules..."
+          cd dist/packages/gp-rules && npm publish --access public --provenance
+          cd ../../..
+
+          echo "Publishing gp-analytics..."
+          cd dist/packages/gp-analytics && npm publish --access public --provenance
+          cd ../../..
+
+      - name: Resolve Published Suite Version
+        id: suite_version
+        run: echo "version=$(node -p 'require("./dist/packages/gp-ui/package.json").version')" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.suite_version.outputs.version }}"
+          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "Release $TAG already exists, skipping."
+          else
+            gh release create "$TAG" \
+              --repo "${{ github.repository }}" \
+              --title "$TAG" \
+              --generate-notes
+          fi

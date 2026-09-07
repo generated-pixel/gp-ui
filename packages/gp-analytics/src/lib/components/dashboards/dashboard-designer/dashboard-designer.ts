@@ -29,8 +29,9 @@ import {
   GpWidgetDataSourceConfig
 } from '../../../models/dashboard.model';
 import { GpMeasureQuery } from '../../../models/query.model';
+import { UniqueId } from '../../../utils/unique-id';
 
-import { GpButton, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@generatedpixel/gp-ui';
+import { GpButton, GpIcon, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-dashboard-designer',
@@ -40,6 +41,7 @@ import { GpButton, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@gene
     UpperCasePipe,
     GpAnalyticsDashboard,
     GpButton,
+    GpIcon,
     GpTag,
     GpSwitch,
     GpSelect,
@@ -185,8 +187,8 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
   undo(): void {
     const stack = this.undoStack();
     if (stack.length === 0) {
-return;
-}
+      return;
+    }
     const prev = stack[stack.length - 1];
     this.undoStack.set(stack.slice(0, -1));
     const current: GpDashboardConfig = JSON.parse(JSON.stringify(this.config()));
@@ -201,8 +203,8 @@ return;
   redo(): void {
     const stack = this.redoStack();
     if (stack.length === 0) {
-return;
-}
+      return;
+    }
     const next = stack[stack.length - 1];
     this.redoStack.set(stack.slice(0, -1));
     const current: GpDashboardConfig = JSON.parse(JSON.stringify(this.config()));
@@ -220,8 +222,8 @@ return;
     }
 
     if (this.activeMode() !== 'design') {
-return;
-}
+      return;
+    }
     const isCtrl = event.ctrlKey || event.metaKey;
     if (isCtrl && event.key.toLowerCase() === 'z') {
       if (event.shiftKey) {
@@ -243,8 +245,8 @@ return;
   readonly selectedWidget = computed<GpDashboardWidgetConfig | null>(() => {
     const id = this.selectedWidgetId();
     if (!id) {
-return null;
-}
+      return null;
+    }
     return this.config().widgets.find((w) => w.id === id) ?? null;
   });
 
@@ -279,8 +281,8 @@ return null;
     const recs = this.records();
     const eff = this.effectiveFields();
     if (!recs || recs.length === 0) {
-return eff;
-}
+      return eff;
+    }
     const sample = recs[0];
     return eff.filter((f) => typeof sample[f.fieldId] === 'number');
   });
@@ -292,8 +294,8 @@ return eff;
     const recs = this.records();
     const eff = this.effectiveFields();
     if (!recs || recs.length === 0) {
-return eff;
-}
+      return eff;
+    }
     const sample = recs[0];
     return eff.filter((f) => typeof sample[f.fieldId] !== 'number');
   });
@@ -401,11 +403,11 @@ return eff;
     for (const w of currentWidgets) {
       const bottom = (w.grid.y ?? 0) + (w.grid.h ?? 2);
       if (bottom > maxY) {
-maxY = bottom;
-}
+        maxY = bottom;
+      }
     }
 
-    const uniqueId = `widget-${type}-${Date.now().toString(36)}`;
+    const uniqueId = UniqueId.generate(`widget-${type}-`);
     const numField = this.numericFields()[0]?.fieldId || 'total';
     const dimField = this.dimensionFields()[0]?.fieldId || 'customer_name';
     const cols = this.config().columns || 12;
@@ -542,8 +544,8 @@ maxY = bottom;
     for (const w of widgets) {
       const b = (w.grid.y ?? 0) + (w.grid.h ?? 1);
       if (b > maxY) {
-maxY = b;
-}
+        maxY = b;
+      }
     }
 
     for (let y = 0; y <= maxY + 1; y++) {
@@ -570,7 +572,7 @@ maxY = b;
     this.pushHistory(this.config());
     const currentWidgets = this.config().widgets;
     const cloned: GpDashboardWidgetConfig = JSON.parse(JSON.stringify(w));
-    cloned.id = `widget-${w.type}-${Date.now().toString(36)}`;
+    cloned.id = UniqueId.generate(`widget-${w.type}-`);
     cloned.title = `${w.title} (Copy)`;
 
     const width = cloned.grid.w ?? 4;
@@ -661,8 +663,8 @@ maxY = b;
   updateSelectedWidget(patch: Partial<GpDashboardWidgetConfig>): void {
     const current = this.selectedWidget();
     if (!current) {
-return;
-}
+      return;
+    }
 
     const updated = { ...current, ...patch } as GpDashboardWidgetConfig;
     const currentWidgets = this.config().widgets;
@@ -682,8 +684,8 @@ return;
   updateWidgetDataSource(patch: Partial<GpWidgetDataSourceConfig>): void {
     const current = this.selectedWidget();
     if (!current) {
-return;
-}
+      return;
+    }
     const currentDs: GpWidgetDataSourceConfig = current.dataSource ?? { type: 'inherited' };
     this.updateSelectedWidget({
       dataSource: { ...currentDs, ...patch }
@@ -694,8 +696,8 @@ return;
   addTableMeasure(): void {
     const w = this.selectedWidget();
     if (!w || w.type !== 'table') {
-return;
-}
+      return;
+    }
     const table = w as GpTableWidgetConfig;
     const numField = this.numericFields()[0]?.fieldId || 'total';
     const newMeasure: GpMeasureQuery = {
@@ -711,8 +713,8 @@ return;
   removeTableMeasure(index: number): void {
     const w = this.selectedWidget();
     if (!w || w.type !== 'table') {
-return;
-}
+      return;
+    }
     const table = w as GpTableWidgetConfig;
     this.updateSelectedWidget({
       measures: table.measures.filter((_, i) => i !== index)

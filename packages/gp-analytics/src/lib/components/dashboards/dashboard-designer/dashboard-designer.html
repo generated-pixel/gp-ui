@@ -55,12 +55,9 @@
       <!-- Add Widget Palette (Only in Design Mode) -->
       @if (activeMode() === 'design') {
       <div class="add-widget-dropdown">
-        <gp-button
-          severity="primary"
-          label="➕ Add Widget ▾"
-          (click)="toggleAddMenu()"
-          class="btn-primary-action btn-add-widget"
-        />
+        <gp-button severity="primary" label="Add Widget" icon="plus" (click)="toggleAddMenu()" class="btn-add-widget">
+          <gp-icon name="chevron-down" size="0.8em" />
+        </gp-button>
 
         @if (isAddMenuOpen()) {
         <div class="add-menu-popover">
@@ -611,7 +608,13 @@
           <div class="form-group">
             <div class="measures-header-row">
               <label class="form-label">Measures</label>
-              <gp-button size="sm" variant="link" label="+ Add Measure" (click)="addTableMeasure()" class="btn-link-action" />
+              <gp-button
+                size="sm"
+                variant="link"
+                label="+ Add Measure"
+                (click)="addTableMeasure()"
+                class="btn-link-action"
+              />
             </div>
             @for (m of tbl.measures; track $index) {
             <div class="measure-config-row">

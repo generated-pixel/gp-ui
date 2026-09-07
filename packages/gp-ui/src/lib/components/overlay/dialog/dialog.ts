@@ -3,6 +3,7 @@ import { GpIcon } from '../../../icons/icon';
 import { GpFocusTrapDirective } from '../../../overlay/focus-trap.directive';
 import { GpOverlayBase } from '../../../base/gp-overlay-base';
 import { GpAppendToDirective } from '../../../overlay/append-to.directive';
+import { UniqueId } from '../../../utils/unique-id';
 
 @Component({
   selector: 'gp-dialog',
@@ -20,7 +21,7 @@ export class GpDialog extends GpOverlayBase {
   public showFooter = input<boolean>(true);
 
   public maximized = signal<boolean>(false);
-  public headerId = `gp_dialog_header_${Math.random().toString(36).substring(2, 7)}`;
+  public headerId = UniqueId.generate('gp_dialog_header_');
 
   public override close(): void {
     super.close();

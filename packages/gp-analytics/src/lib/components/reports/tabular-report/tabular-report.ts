@@ -95,12 +95,12 @@ export class GpTabularReport extends GpAnalyticsComponent {
   readonly filteredRows = computed(() => {
     const res = this.queryResult();
     if (!res) {
-return [];
-}
+      return [];
+    }
     const q = this.searchQuery().trim().toLowerCase();
     if (!q) {
-return res.rows;
-}
+      return res.rows;
+    }
     return res.rows.filter((row) =>
       this.columns().some((col) =>
         String(row[col.key] ?? '')
@@ -148,8 +148,8 @@ return res.rows;
   protected exportToCsv(): void {
     const res = this.queryResult();
     if (!res || res.rows.length === 0) {
-return;
-}
+      return;
+    }
 
     const cols = this.columns();
     const headers = cols.map((c) => `"${c.header}"`).join(',');
@@ -170,8 +170,8 @@ return;
 
   formatCellValue(col: { key: string; isMeasure: boolean }, val: any): string {
     if (val == null) {
-return '—';
-}
+      return '—';
+    }
     if (col.isMeasure && typeof val === 'number') {
       return this.localeFormatter.formatNumber(val);
     }
@@ -180,8 +180,8 @@ return '—';
 
   formatGrandTotal(val: any): string {
     if (val == null) {
-return '—';
-}
+      return '—';
+    }
     if (typeof val === 'number') {
       return this.localeFormatter.formatNumber(val);
     }

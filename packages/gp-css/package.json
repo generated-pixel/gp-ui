@@ -23,6 +23,12 @@
   ],
   "author": "Generated Pixel",
   "license": "MIT",
+  "homepage": "https://gp-ui.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/generated-pixel/gp-ui.git",
+    "directory": "packages/gp-css"
+  },
   "devDependencies": {
     "typescript": "^5.7.3"
   }

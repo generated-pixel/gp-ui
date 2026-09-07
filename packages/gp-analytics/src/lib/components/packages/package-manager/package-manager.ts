@@ -11,6 +11,7 @@ import {
 import { Dataset } from '../../../models/dataset.model';
 import { GpDashboardConfig } from '../../../models/dashboard.model';
 import { GpReportConfig } from '../../../models/report.model';
+import { UniqueId } from '../../../utils/unique-id';
 import { GpButton, GpTag, GpSwitch, GpSelect, GpRadioButton, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
 export type { PackageImportEvent } from '../../../interfaces/package-import-event.interface';
@@ -85,16 +86,16 @@ export class GpPackageManager extends GpAnalyticsComponent {
   readonly validationResult = computed<GpPackageValidationResult | null>(() => {
     const raw = this.importJsonBuffer().trim();
     if (!raw) {
-return null;
-}
+      return null;
+    }
     return this.exportImportService.validatePackage(raw);
   });
 
   readonly parsedImportPackage = computed<GpAnalyticsPackage | null>(() => {
     const val = this.validationResult();
     if (!val || !val.isValid) {
-return null;
-}
+      return null;
+    }
     try {
       return JSON.parse(this.importJsonBuffer());
     } catch {
@@ -114,10 +115,10 @@ return null;
   toggleImportDataset(id: string): void {
     const current = new Set(this.selectedImportDatasetIds());
     if (current.has(id)) {
-current.delete(id);
-} else {
-current.add(id);
-}
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
     this.selectedImportDatasetIds.set(current);
     this.importAllDatasets.set(false);
   }
@@ -126,17 +127,17 @@ current.add(id);
     const next = !this.importAllDatasets();
     this.importAllDatasets.set(next);
     if (next) {
-this.selectedImportDatasetIds.set(new Set());
-}
+      this.selectedImportDatasetIds.set(new Set());
+    }
   }
 
   toggleImportDashboard(id: string): void {
     const current = new Set(this.selectedImportDashboardIds());
     if (current.has(id)) {
-current.delete(id);
-} else {
-current.add(id);
-}
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
     this.selectedImportDashboardIds.set(current);
     this.importAllDashboards.set(false);
   }
@@ -145,17 +146,17 @@ current.add(id);
     const next = !this.importAllDashboards();
     this.importAllDashboards.set(next);
     if (next) {
-this.selectedImportDashboardIds.set(new Set());
-}
+      this.selectedImportDashboardIds.set(new Set());
+    }
   }
 
   toggleImportReport(id: string): void {
     const current = new Set(this.selectedImportReportIds());
     if (current.has(id)) {
-current.delete(id);
-} else {
-current.add(id);
-}
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
     this.selectedImportReportIds.set(current);
     this.importAllReports.set(false);
   }
@@ -164,8 +165,8 @@ current.add(id);
     const next = !this.importAllReports();
     this.importAllReports.set(next);
     if (next) {
-this.selectedImportReportIds.set(new Set());
-}
+      this.selectedImportReportIds.set(new Set());
+    }
   }
 
   // Remote Distribution State
@@ -275,8 +276,8 @@ this.selectedImportReportIds.set(new Set());
   applyImport(): void {
     const raw = this.importJsonBuffer().trim();
     if (!raw) {
-return;
-}
+      return;
+    }
 
     try {
       let imported = this.exportImportService.importPackage(raw, this.importMode());
@@ -342,7 +343,7 @@ return;
     // Simulate network transmission to remote API endpoint
     setTimeout(() => {
       this.isTransmitting.set(false);
-      const distId = `dist_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+      const distId = UniqueId.generate('dist_');
       const response = {
         status: 200,
         distributionId: distId,
@@ -383,7 +384,7 @@ return;
   savePackageSnapshot(action: 'export' | 'import' | 'distribution', pkg: GpAnalyticsPackage): void {
     try {
       const snapshot: GpPackageSnapshot = {
-        id: `snap_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        id: UniqueId.generate('snap_'),
         timestamp: new Date().toISOString(),
         action,
         name: pkg.metadata?.name || 'Analytics Package',

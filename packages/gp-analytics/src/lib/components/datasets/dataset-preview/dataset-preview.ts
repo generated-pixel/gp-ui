@@ -553,14 +553,14 @@ export class GpDatasetPreview extends GpAnalyticsComponent {
       const valB = b[col];
 
       if (valA === valB) {
-return 0;
-}
+        return 0;
+      }
       if (valA == null) {
-return 1;
-}
+        return 1;
+      }
       if (valB == null) {
-return -1;
-}
+        return -1;
+      }
 
       if (typeof valA === 'number' && typeof valB === 'number') {
         return (valA - valB) * order;

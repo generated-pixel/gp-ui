@@ -582,6 +582,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -706,6 +707,7 @@
     opacity: 0;
     transform: translateX(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -913,7 +915,6 @@
 .app-main-docs {
   flex: 1;
   min-width: 0;
-  max-width: 1200px;
   width: 100%;
   padding: 2rem 2.5rem;
   overflow-x: hidden;
