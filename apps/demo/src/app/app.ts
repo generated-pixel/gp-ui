@@ -35,7 +35,8 @@ import {
   SupportedCurrency,
   SupportedDateFormat,
   GpAnalyticsConfigService,
-  GpSchemaDataLoaderService
+  GpSchemaDataLoaderService,
+  GpDashboardDataLoaderService
 } from 'gp-analytics';
 
 @Component({
@@ -68,6 +69,99 @@ export class App {
   protected readonly config = inject(GpAnalyticsConfigService);
   protected readonly themeService = inject(DemoThemeService);
   protected readonly schemaDataLoader = inject(GpSchemaDataLoaderService);
+  protected readonly dashboardDataLoader = inject(GpDashboardDataLoaderService);
+
+  protected readonly dashboardMode = signal<'decoupled' | 'unified'>('decoupled');
+
+  protected readonly decoupledDashboardConfig: GpDashboardConfig = {
+    id: 'decoupled-cockpit',
+    title: 'Decoupled Asynchronous Analytics Cockpit',
+    subtitle: 'Immediate frame-0 grid layout rendering with decoupled data fetching from distinct sources',
+    columns: 12,
+    rowHeight: 95,
+    gap: 16,
+    allowMove: true,
+    allowResize: true,
+    widgets: [
+      {
+        id: 'kpi-revenue',
+        type: 'kpi',
+        title: 'Global Revenue',
+        icon: '💰',
+        grid: { x: 0, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'total', aggregation: 'sum' },
+        formatCurrency: true,
+        comparePrevious: true,
+        severity: 'success',
+        dataSource: { type: 'inherited' }
+      },
+      {
+        id: 'kpi-telemetry',
+        type: 'kpi',
+        title: 'Live Transaction Throughput',
+        icon: '⚡',
+        grid: { x: 3, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'tx', aggregation: 'count' },
+        dataSource: {
+          type: 'custom',
+          customLoaderId: 'realtime-throughput',
+          refreshIntervalMs: 6000
+        }
+      },
+      {
+        id: 'kpi-logistics',
+        type: 'kpi',
+        title: 'Warehouse Units Stored',
+        icon: '📦',
+        grid: { x: 6, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'units', aggregation: 'sum' },
+        dataSource: {
+          type: 'dataset',
+          datasetId: 'global-logistics'
+        }
+      },
+      {
+        id: 'kpi-fulfillment',
+        type: 'kpi',
+        title: 'Fulfillment Rate',
+        icon: '🎯',
+        grid: { x: 9, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'rate', aggregation: 'avg' },
+        dataSource: {
+          type: 'custom',
+          customLoaderId: 'fulfillment-rate'
+        }
+      },
+      {
+        id: 'chart-regional',
+        type: 'chart',
+        title: 'Revenue Distribution by Region',
+        chartType: 'bar',
+        dimension: 'region',
+        measure: { fieldId: 'total', aggregation: 'sum' },
+        grid: { x: 0, y: 2, w: 6, h: 4, minW: 4, minH: 3 },
+        dataSource: { type: 'inherited' }
+      },
+      {
+        id: 'table-inventory',
+        type: 'table',
+        title: 'Global Warehouse Logistics Inventory',
+        subtitle: 'Loaded asynchronously from independent logistics dataset',
+        dimensions: ['warehouse', 'product', 'category'],
+        measures: [
+          { fieldId: 'units', aggregation: 'sum', alias: 'total_units' },
+          { fieldId: 'reorder_level', aggregation: 'avg', alias: 'avg_reorder' }
+        ],
+        showSubtotals: true,
+        showGrandTotal: true,
+        grid: { x: 6, y: 2, w: 6, h: 4, minW: 4, minH: 3 },
+        dataSource: {
+          type: 'dataset',
+          datasetId: 'global-logistics'
+        }
+      }
+    ]
+  };
 
   // Schema Preset state
   protected readonly activePresetId = signal<string>('commerce');
@@ -202,6 +296,85 @@ export class App {
     setTimeout(() => {
       this.packageToast.set(null);
     }, 5000);
+  }
+
+  constructor() {
+    // Register decoupled demo datasets & asynchronous loaders
+    this.dashboardDataLoader.registerDataset('global-logistics', [
+      {
+        warehouse: 'Rotterdam Hub',
+        product: 'Industrial Valves',
+        category: 'Hardware',
+        units: 14500,
+        reorder_level: 2000
+      },
+      {
+        warehouse: 'Rotterdam Hub',
+        product: 'Sensor Arrays',
+        category: 'Electronics',
+        units: 8200,
+        reorder_level: 1500
+      },
+      {
+        warehouse: 'Singapore Terminal',
+        product: 'Power Units',
+        category: 'Hardware',
+        units: 23100,
+        reorder_level: 3000
+      },
+      {
+        warehouse: 'Singapore Terminal',
+        product: 'Control Boards',
+        category: 'Electronics',
+        units: 19400,
+        reorder_level: 2500
+      },
+      {
+        warehouse: 'Chicago Midwest',
+        product: 'Pneumatics',
+        category: 'Hardware',
+        units: 11800,
+        reorder_level: 1800
+      },
+      {
+        warehouse: 'Chicago Midwest',
+        product: 'Wiring Looms',
+        category: 'Accessories',
+        units: 31200,
+        reorder_level: 5000
+      }
+    ]);
+
+    this.dashboardDataLoader.registerLoader('realtime-throughput', async () => {
+      // Simulate staggered network latency to clearly demonstrate shimmer skeleton
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      const tps = Math.floor(1200 + Math.random() * 600);
+      return {
+        currentValue: tps,
+        formattedCurrentValue: `${tps.toLocaleString()} TPS`,
+        variancePercentage: +(Math.random() * 12 - 4).toFixed(1),
+        trend: Math.random() > 0.4 ? 'up' : 'down',
+        trendSeverity: 'success',
+        targetValue: 2000,
+        targetProgressPercentage: Math.min(100, Math.round((tps / 2000) * 100)),
+        sparklinePoints: [1100, 1250, 1180, 1340, 1420, 1380, tps]
+      };
+    });
+
+    this.dashboardDataLoader.registerLoader('fulfillment-rate', async () => {
+      // Simulate staggered network latency to clearly demonstrate shimmer skeleton
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      return {
+        currentValue: 98.6,
+        formattedCurrentValue: '98.6%',
+        variancePercentage: 2.1,
+        trend: 'up',
+        trendSeverity: 'success',
+        targetValue: 99.0,
+        targetProgressPercentage: 99,
+        sparklinePoints: [96.2, 96.8, 97.4, 97.9, 98.2, 98.6]
+      };
+    });
   }
 
   protected readonly demoAnalyticsData = [

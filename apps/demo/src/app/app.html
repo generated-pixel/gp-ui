@@ -257,7 +257,42 @@
   <!-- ================= TAB 2: DASHBOARD ================= -->
   @if (activeTab() === 'dashboard') {
   <section class="dashboard-section" aria-label="Executive Dashboard">
+    <div class="dashboard-mode-banner">
+      <div class="mode-info">
+        <span class="mode-label">Architecture:</span>
+        <span class="mode-text">
+          @if (dashboardMode() === 'decoupled') {
+          <strong>Decoupled Multi-Source Loading:</strong> Grid layout renders immediately on frame 0; each widget
+          independently loads its data from separate sources with shimmer skeletons. } @else {
+          <strong>Classic Unified Loading:</strong> All widgets synchronously derive their data from a single shared
+          records array. }
+        </span>
+      </div>
+      <div class="mode-actions">
+        <gp-button
+          [outlined]="dashboardMode() !== 'decoupled'"
+          size="sm"
+          severity="primary"
+          (click)="dashboardMode.set('decoupled')"
+        >
+          ⚡ Decoupled Multi-Source
+        </gp-button>
+        <gp-button
+          [outlined]="dashboardMode() !== 'unified'"
+          size="sm"
+          severity="secondary"
+          (click)="dashboardMode.set('unified')"
+        >
+          📊 Classic Unified
+        </gp-button>
+      </div>
+    </div>
+
+    @if (dashboardMode() === 'decoupled') {
+    <gp-analytics-dashboard [config]="decoupledDashboardConfig" [records]="demoAnalyticsData" />
+    } @else {
     <gp-analytics-dashboard [records]="demoAnalyticsData" />
+    }
   </section>
   }
 

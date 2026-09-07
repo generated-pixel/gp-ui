@@ -325,6 +325,49 @@ h1 {
   width: 100%;
 }
 
+.dashboard-mode-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 1.25rem;
+  background: var(--gp-color-surface-card, #ffffff);
+  border: 1px solid var(--gp-color-surface-border, #e2e8f0);
+  border-radius: var(--gp-radius-xl, 0.75rem);
+  flex-wrap: wrap;
+
+  .mode-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .mode-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gp-color-text-secondary, #64748b);
+    }
+
+    .mode-text {
+      font-size: 0.8125rem;
+      color: var(--gp-color-text-primary, #1e293b);
+
+      strong {
+        color: var(--gp-color-primary, #4f46e5);
+      }
+    }
+  }
+
+  .mode-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
 /* Reports Section */
 .reports-section {
   display: flex;
