@@ -7,6 +7,7 @@ export * from '../interfaces/gp-package-validation-result.interface';
 export * from '../interfaces/gp-distribution-payload.interface';
 
 import { GpAnalyticsPackage } from '../interfaces/gp-analytics-package.interface';
+import { UniqueId } from '../utils/unique-id';
 
 export function computePackageChecksum(data: unknown): string {
   const str = typeof data === 'string' ? data : JSON.stringify(data);
@@ -20,7 +21,7 @@ export function computePackageChecksum(data: unknown): string {
 
 export function createEmptyPackage(name = 'Analytics Distribution Package'): GpAnalyticsPackage {
   const timestamp = new Date().toISOString();
-  const id = `pkg_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+  const id = UniqueId.generate('pkg_');
   return {
     $schema: 'https://generatedpixel.dev/schemas/gp-analytics-package.v1.json',
     format: 'gp-analytics-package',

@@ -29,6 +29,7 @@ import {
   GpWidgetDataSourceConfig
 } from '../../../models/dashboard.model';
 import { GpMeasureQuery } from '../../../models/query.model';
+import { UniqueId } from '../../../utils/unique-id';
 
 import { GpButton, GpIcon, GpTag, GpSwitch, GpSelect, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
@@ -406,7 +407,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
       }
     }
 
-    const uniqueId = `widget-${type}-${Date.now().toString(36)}`;
+    const uniqueId = UniqueId.generate(`widget-${type}-`);
     const numField = this.numericFields()[0]?.fieldId || 'total';
     const dimField = this.dimensionFields()[0]?.fieldId || 'customer_name';
     const cols = this.config().columns || 12;
@@ -571,7 +572,7 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
     this.pushHistory(this.config());
     const currentWidgets = this.config().widgets;
     const cloned: GpDashboardWidgetConfig = JSON.parse(JSON.stringify(w));
-    cloned.id = `widget-${w.type}-${Date.now().toString(36)}`;
+    cloned.id = UniqueId.generate(`widget-${w.type}-`);
     cloned.title = `${w.title} (Copy)`;
 
     const width = cloned.grid.w ?? 4;

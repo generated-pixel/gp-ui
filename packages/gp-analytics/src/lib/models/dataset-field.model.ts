@@ -2,14 +2,14 @@ export * from '../interfaces/dataset-field.interface';
 
 import { DatasetField } from '../interfaces/dataset-field.interface';
 import { Field } from '../interfaces/field.interface';
+import { UniqueId } from '../utils/unique-id';
 
 /**
  * Creates a new DatasetField instance from a base Field schema.
  * Initial values inherit from base Field, but flags can never exceed base capabilities.
  */
 export function createDatasetField(baseField: Field, customId?: string): DatasetField {
-  const uid =
-    customId ?? `df_${baseField.fieldId}_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 7)}`;
+  const uid = customId ?? UniqueId.generate(`df_${baseField.fieldId}_`);
 
   return {
     datasetFieldId: uid,

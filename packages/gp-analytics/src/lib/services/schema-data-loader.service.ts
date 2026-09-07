@@ -7,6 +7,7 @@ import { FieldValue } from '../models/field-value.model';
 import { LocalizedValue } from '../models/localized-value.model';
 import { Relationship, RelationshipCardinality } from '../models/relationship.model';
 import { LoadedSchemaResult, SchemaPreset, SchemaSourceConfig } from '../models/schema-data-source.model';
+import { UniqueId } from '../utils/unique-id';
 
 function locVal(val: string, en: string, fr?: string): FieldValue<string> {
   return {
@@ -1301,7 +1302,7 @@ export class GpSchemaDataLoaderService {
 
   private normalizeRelationship(rawRel: any): Relationship {
     return {
-      relationshipId: String(rawRel.relationshipId || rawRel.id || `rel-${Math.random().toString(36).substring(2, 7)}`),
+      relationshipId: String(rawRel.relationshipId || rawRel.id || UniqueId.generate('rel-')),
       name: String(rawRel.name || rawRel.label || 'Relationship'),
       sourceTableId: String(rawRel.sourceTableId || rawRel.fromTable || ''),
       sourceFieldId: String(rawRel.sourceFieldId || rawRel.fromField || ''),

@@ -13,6 +13,7 @@ import {
 import { Dataset } from '../models/dataset.model';
 import { GpDashboardConfig } from '../models/dashboard.model';
 import { GpReportConfig } from '../models/report.model';
+import { UniqueId } from '../utils/unique-id';
 
 export type { CreatePackageOptions } from '../interfaces/create-package-options.interface';
 import type { CreatePackageOptions } from '../interfaces/create-package-options.interface';
@@ -226,7 +227,7 @@ export class GpExportImportService {
     const pkg: GpAnalyticsPackage = JSON.parse(jsonString);
 
     if (mode === 'copy') {
-      const idSuffix = `_copy_${Date.now().toString(36)}`;
+      const idSuffix = `_copy_${UniqueId.guid()}`;
       pkg.metadata.id = `${pkg.metadata.id}${idSuffix}`;
       pkg.metadata.name = `${pkg.metadata.name} (Copy)`;
 

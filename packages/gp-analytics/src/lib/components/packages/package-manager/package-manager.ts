@@ -11,6 +11,7 @@ import {
 import { Dataset } from '../../../models/dataset.model';
 import { GpDashboardConfig } from '../../../models/dashboard.model';
 import { GpReportConfig } from '../../../models/report.model';
+import { UniqueId } from '../../../utils/unique-id';
 import { GpButton, GpTag, GpSwitch, GpSelect, GpRadioButton, GpInputTextDirective } from '@generatedpixel/gp-ui';
 
 export type { PackageImportEvent } from '../../../interfaces/package-import-event.interface';
@@ -342,7 +343,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
     // Simulate network transmission to remote API endpoint
     setTimeout(() => {
       this.isTransmitting.set(false);
-      const distId = `dist_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+      const distId = UniqueId.generate('dist_');
       const response = {
         status: 200,
         distributionId: distId,
@@ -383,7 +384,7 @@ export class GpPackageManager extends GpAnalyticsComponent {
   savePackageSnapshot(action: 'export' | 'import' | 'distribution', pkg: GpAnalyticsPackage): void {
     try {
       const snapshot: GpPackageSnapshot = {
-        id: `snap_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        id: UniqueId.generate('snap_'),
         timestamp: new Date().toISOString(),
         action,
         name: pkg.metadata?.name || 'Analytics Package',

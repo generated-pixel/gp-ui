@@ -9,6 +9,7 @@ import { GpTabularReportConfig } from '../interfaces/gp-tabular-report-config.in
 import { GpPivotReportConfig } from '../interfaces/gp-pivot-report-config.interface';
 import { GpChartReportConfig } from '../interfaces/gp-chart-report-config.interface';
 import { GpReportConfig } from '../interfaces/gp-report-config.interface';
+import { UniqueId } from '../utils/unique-id';
 
 export function createReportConfig(
   type: GpReportType,
@@ -18,7 +19,7 @@ export function createReportConfig(
 ): GpReportConfig {
   const timestamp = new Date().toISOString();
   return {
-    id: `rpt_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`,
+    id: UniqueId.generate('rpt_'),
     name,
     type,
     datasetId,
