@@ -242,6 +242,9 @@ body {
 .gp-grid {
   display: grid;
 }
+.inline {
+  display: inline;
+}
 .block {
   display: block;
 }
@@ -428,9 +431,6 @@ body {
 .font-semibold {
   font-weight: 600;
 }
-.inline {
-  display: inline;
-}
 .shadow {
   box-shadow:
     0 1px 3px 0 rgba(0, 0, 0, 0.1),
@@ -592,6 +592,10 @@ body {
 .inline-flex {
   display: inline-flex;
 }
+.transform {
+  transform: translate(var(--gp-translate-x, 0), var(--gp-translate-y, 0)) rotate(var(--gp-rotate, 0))
+    scaleX(var(--gp-scale-x, 1)) scaleY(var(--gp-scale-y, 1));
+}
 .italic {
   font-style: italic;
 }
@@ -600,10 +604,6 @@ body {
 }
 .inline-block {
   display: inline-block;
-}
-.transform {
-  transform: translate(var(--gp-translate-x, 0), var(--gp-translate-y, 0)) rotate(var(--gp-rotate, 0))
-    scaleX(var(--gp-scale-x, 1)) scaleY(var(--gp-scale-y, 1));
 }
 .\:inline-flex {
   display: inline-flex;
