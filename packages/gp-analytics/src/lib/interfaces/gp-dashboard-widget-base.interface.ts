@@ -1,5 +1,6 @@
 import { GpDashboardWidgetType } from '../types/gp-dashboard-widget-type.type';
 import { GpDashboardGridPosition } from './gp-dashboard-grid-position.interface';
+import { GpWidgetDataSourceConfig } from './gp-widget-data-source-config.interface';
 
 export interface GpDashboardWidgetBase {
   id: string;
@@ -10,4 +11,5 @@ export interface GpDashboardWidgetBase {
   badge?: string;
   badgeSeverity?: 'primary' | 'success' | 'warning' | 'danger' | 'info';
   grid: GpDashboardGridPosition;
+  dataSource?: GpWidgetDataSourceConfig;
 }

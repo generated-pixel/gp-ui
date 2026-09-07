@@ -53,3 +53,6 @@ export * from './relationship.interface';
 export * from './schema-preset.interface';
 export * from './schema-source-config.interface';
 export * from './table.interface';
+export * from './gp-widget-load-context.interface';
+export * from './gp-widget-data-source-config.interface';
+export * from './gp-widget-data-state.interface';
