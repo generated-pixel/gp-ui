@@ -86,9 +86,9 @@ jobs:
           cd dist/packages/gp-analytics && npm publish --access public --provenance
           cd ../../..
 
-      - name: Resolve Published Suite Version
-        id: suite_version
-        run: echo "version=$(node -p "require('./dist/packages/gp-ui/package.json').version")" >> "$GITHUB_OUTPUT"
+- name: Resolve Published Suite Version
+  id: suite_version
+  run: echo "version=$(node -p 'require("./dist/packages/gp-ui/package.json").version')" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         if: github.event_name == 'workflow_dispatch'
