@@ -61,6 +61,7 @@ export class GpBlockUIDirective implements OnDestroy {
   public gpBlockUIChange = output<boolean>();
 
   private overlayElement: HTMLElement | null = null;
+  private stopOverlayClickListener: (() => void) | null = null;
   private wasBlocked = false;
 
   /**
