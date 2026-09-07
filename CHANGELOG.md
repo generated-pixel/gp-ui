@@ -151,3 +151,8 @@
 
 - Release of @generatedpixel gp-ui suite v1.0.3
 - Synchronized @generatedpixel/gp-ui, @generatedpixel/gp-ui-theme, @generatedpixel/gp-ui-icons, and @generatedpixel/gp-css
+
+## [1.0.4] - 2026-09-07
+
+- Release of gp-ui version 1.0.4
+- Production components, theming tokens, and accessibility enhancements.
