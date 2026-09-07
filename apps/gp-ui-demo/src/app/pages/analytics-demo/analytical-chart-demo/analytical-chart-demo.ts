@@ -18,7 +18,7 @@ export class AnalyticalChartDemo {
 
   protected readonly chartData = signal<GpCategoricalChartData>({
     categories: ['EMEA', 'AMER', 'APAC'],
-    series: [{ name: 'Revenue', values: [40650, 73900, 3120000] }]
+    series: [{ name: 'Revenue', data: [40650, 73900, 3120000] }]
   });
 
   protected onRefresh(widgetId: string): void {
