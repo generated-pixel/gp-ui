@@ -1,0 +1,43 @@
+<div class="analytics-page">
+  <gp-toast />
+
+  <div class="analytics-page__header">
+    <div class="analytics-page__badges">
+      <gp-badge value="gp-analytics-dashboard" severity="primary" />
+      <gp-badge value="gp-analytics" severity="info" />
+    </div>
+    <h1 class="analytics-page__title">Analytics Dashboard</h1>
+    <p class="analytics-page__desc">
+      Composable KPI, chart, table, and pivot widgets on a responsive gp-grid powered dashboard layout, with support
+      for inherited, per-widget dataset, and custom async data sources.
+    </p>
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Live Demo</h2>
+    <div class="analytics-page__demo">
+      <gp-analytics-dashboard
+        title="Executive Analytics Cockpit"
+        subtitle="Live analytical dashboard"
+        [config]="config()"
+        [records]="records()"
+        [(filters)]="filters"
+        [editable]="false"
+        (widgetSelect)="onWidgetSelect($event)"
+        (layoutChange)="onLayoutChange($event)"
+        (widgetDataLoaded)="onWidgetDataLoaded($event)"
+      />
+    </div>
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Usage</h2>
+    <doc-code [code]="usageCode" language="html" />
+  </div>
+
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">API Reference</h2>
+    <doc-api-table title="Properties (Inputs)" [properties]="properties" />
+    <doc-api-table title="Events (Outputs)" [properties]="events" [hasDefaults]="false" />
+  </div>
+</div>
