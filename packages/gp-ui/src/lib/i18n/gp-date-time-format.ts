@@ -23,11 +23,15 @@ export interface GpDateTimeFormatOptions extends Intl.DateTimeFormatOptions {
   fallback?: string;
 }
 
-export interface GpRelativeTimeOptions extends Intl.RelativeTimeFormatOptions {
+export interface GpRelativeTimeOptions {
+  localeMatcher?: 'lookup' | 'best fit' | string;
+  numeric?: 'always' | 'auto' | string;
+  style?: 'long' | 'short' | 'narrow' | string;
   /** Fallback string if value is null or undefined (defaults to '') */
   fallback?: string;
   /** Custom base date to compare against. Defaults to now. */
   baseDate?: Date | number | string;
+  [key: string]: any;
 }
 
 export interface GpDurationFormatOptions {
@@ -237,20 +241,31 @@ export class GpDateTimeFormat {
     const targetLocale = locale || this.defaultLocale();
     const diffSeconds = Math.round((d.getTime() - base.getTime()) / 1000);
 
-    const intlOptions: Intl.RelativeTimeFormatOptions = {
+    const intlOptions: any = {
       numeric: options?.numeric ?? 'auto',
       style: options?.style ?? 'long',
       ...options
     };
 
-    let rtf: Intl.RelativeTimeFormat;
+    let rtf: any;
     try {
-      rtf = new Intl.RelativeTimeFormat(targetLocale, intlOptions);
+      if (typeof (Intl as any).RelativeTimeFormat === 'function') {
+        rtf = new (Intl as any).RelativeTimeFormat(targetLocale, intlOptions);
+      }
     } catch {
-      rtf = new Intl.RelativeTimeFormat('en-US', intlOptions);
+      try {
+        rtf = new (Intl as any).RelativeTimeFormat('en-US', intlOptions);
+      } catch {
+        // Fallback below
+      }
     }
 
     const absDiff = Math.abs(diffSeconds);
+
+    if (!rtf) {
+      const mins = Math.round(Math.abs(diffSeconds) / 60);
+      return diffSeconds < 0 ? `${mins} minutes ago` : `in ${mins} minutes`;
+    }
 
     if (absDiff < 45) {
       return rtf.format(diffSeconds, 'second');
@@ -330,14 +345,14 @@ export class GpDateTimeFormat {
         style: 'unit',
         unit: 'second',
         unitDisplay: style === 'short' ? 'short' : 'long'
-      });
+      } as any);
 
       const formatted = selectedParts.map((p) => {
         return new Intl.NumberFormat(targetLocale, {
           style: 'unit',
           unit: p.unitName,
           unitDisplay: style === 'short' ? 'short' : 'long'
-        }).format(p.value);
+        } as any).format(p.value);
       });
 
       // Join parts naturally using Intl.ListFormat if available

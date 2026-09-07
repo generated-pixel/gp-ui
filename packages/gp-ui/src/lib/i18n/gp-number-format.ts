@@ -2,18 +2,35 @@
  * gp-ui - Locale-Aware Number Formatting, Conversion & Parsing Utilities
  */
 
-export interface GpNumberFormatOptions extends Intl.NumberFormatOptions {
+export interface GpNumberFormatOptions {
+  localeMatcher?: string;
+  style?: 'decimal' | 'currency' | 'percent' | 'unit' | string;
+  currency?: string;
+  currencyDisplay?: 'symbol' | 'narrowSymbol' | 'code' | 'name' | string;
+  currencySign?: 'standard' | 'accounting' | string;
+  useGrouping?: boolean | 'always' | 'auto' | 'min2' | string;
+  minimumIntegerDigits?: number;
+  minimumFractionDigits?: number;
+  maximumFractionDigits?: number;
+  minimumSignificantDigits?: number;
+  maximumSignificantDigits?: number;
+  compactDisplay?: 'short' | 'long' | string;
+  notation?: 'standard' | 'scientific' | 'engineering' | 'compact' | string;
+  unit?: string;
+  unitDisplay?: 'short' | 'narrow' | 'long' | string;
+  signDisplay?: 'auto' | 'never' | 'always' | 'exceptZero' | string;
   /** Fallback string if value is null, undefined, or NaN (defaults to '') */
   fallback?: string;
+  [key: string]: any;
 }
 
 export interface GpCurrencyFormatOptions extends GpNumberFormatOptions {
   /** ISO 4217 3-letter currency code (e.g. 'USD', 'EUR', 'GBP', 'JPY') */
   currency?: string;
   /** Currency display format ('symbol' | 'narrowSymbol' | 'code' | 'name') */
-  currencyDisplay?: 'symbol' | 'narrowSymbol' | 'code' | 'name';
+  currencyDisplay?: 'symbol' | 'narrowSymbol' | 'code' | 'name' | string;
   /** Whether to use accounting parenthesis for negative numbers e.g. ($50.00) */
-  currencySign?: 'standard' | 'accounting';
+  currencySign?: 'standard' | 'accounting' | string;
 }
 
 export interface GpByteSizeOptions {
@@ -71,7 +88,7 @@ export class GpNumberFormat {
     const targetLocale = locale || this.defaultLocale();
 
     try {
-      return new Intl.NumberFormat(targetLocale, intlOptions).format(value);
+      return new Intl.NumberFormat(targetLocale, intlOptions as any).format(value);
     } catch {
       return String(value);
     }
@@ -255,7 +272,7 @@ export class GpNumberFormat {
     }
 
     const targetLocale = locale || this.defaultLocale();
-    const intlOptions: Intl.NumberFormatOptions = {
+    const intlOptions: any = {
       style: 'currency',
       currency,
       currencyDisplay: options?.currencyDisplay ?? 'symbol',
@@ -264,7 +281,7 @@ export class GpNumberFormat {
     };
 
     try {
-      return new Intl.NumberFormat(targetLocale, intlOptions).format(amount);
+      return new Intl.NumberFormat(targetLocale, intlOptions as any).format(amount);
     } catch {
       return `${amount} ${currency}`;
     }
@@ -303,14 +320,14 @@ export class GpNumberFormat {
     }
 
     const targetLocale = locale || this.defaultLocale();
-    const intlOptions: Intl.NumberFormatOptions = {
+    const intlOptions: any = {
       style: 'percent',
       maximumFractionDigits: 2,
       ...options
     };
 
     try {
-      return new Intl.NumberFormat(targetLocale, intlOptions).format(value);
+      return new Intl.NumberFormat(targetLocale, intlOptions as any).format(value);
     } catch {
       return `${value * 100}%`;
     }
@@ -330,7 +347,7 @@ export class GpNumberFormat {
     }
 
     const targetLocale = locale || this.defaultLocale();
-    const intlOptions: Intl.NumberFormatOptions = {
+    const intlOptions: any = {
       notation: 'compact',
       compactDisplay: display,
       maximumFractionDigits: 1,
@@ -338,7 +355,7 @@ export class GpNumberFormat {
     };
 
     try {
-      return new Intl.NumberFormat(targetLocale, intlOptions).format(value);
+      return new Intl.NumberFormat(targetLocale, intlOptions as any).format(value);
     } catch {
       return String(value);
     }
@@ -358,7 +375,7 @@ export class GpNumberFormat {
     }
 
     const targetLocale = locale || this.defaultLocale();
-    const intlOptions: Intl.NumberFormatOptions = {
+    const intlOptions: any = {
       style: 'unit',
       unit,
       unitDisplay: 'short',
@@ -366,7 +383,7 @@ export class GpNumberFormat {
     };
 
     try {
-      return new Intl.NumberFormat(targetLocale, intlOptions).format(value);
+      return new Intl.NumberFormat(targetLocale, intlOptions as any).format(value);
     } catch {
       return `${value} ${unit}`;
     }
@@ -459,7 +476,7 @@ export class GpNumberFormat {
     locale?: string
   ): string {
     const targetLocale = locale || this.defaultLocale();
-    const formatter = new Intl.NumberFormat(targetLocale, options);
+    const formatter = new Intl.NumberFormat(targetLocale, options as any);
 
     if (typeof (formatter as any).formatRange === 'function') {
       return (formatter as any).formatRange(start, end);
