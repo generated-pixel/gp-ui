@@ -30,6 +30,7 @@ export * from './lib/validation';
 
 // Utilities
 export * from './lib/utils/unique-id';
+export * from './lib/utils/guid';
 export * from './lib/utils/object-utils';
 export * from './lib/utils/dom-handler';
 
