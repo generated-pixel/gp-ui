@@ -43,9 +43,9 @@ describe('GpNumberFormat', () => {
     });
 
     it('parses negative accounting format with parentheses', () => {
-      expect(GpNumberFormat.parse('(1,234.50)')).toBe(-1234.50);
-      expect(GpNumberFormat.parse('-1,234.50')).toBe(-1234.50);
-      expect(GpNumberFormat.parse('1,234.50-')).toBe(-1234.50);
+      expect(GpNumberFormat.parse('(1,234.50)')).toBe(-1234.5);
+      expect(GpNumberFormat.parse('-1,234.50')).toBe(-1234.5);
+      expect(GpNumberFormat.parse('1,234.50-')).toBe(-1234.5);
     });
 
     it('parses percentages', () => {

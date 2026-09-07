@@ -31,11 +31,7 @@ export class GpListFormat {
    * Formats an array of strings naturally into a localized list using Intl.ListFormat.
    * e.g. ["Apple", "Banana", "Orange"] -> "Apple, Banana, and Orange" (en) vs "Apple, Banana et Orange" (fr)
    */
-  public static format(
-    items: string[] | null | undefined,
-    options?: GpListFormatOptions,
-    locale?: string
-  ): string {
+  public static format(items: string[] | null | undefined, options?: GpListFormatOptions, locale?: string): string {
     if (!items || !items.length) {
       return options?.fallback ?? '';
     }
@@ -77,12 +73,7 @@ export class GpCollator {
    * Compares two strings using localized collation.
    * By default enables numeric sorting so that "item2" comes before "item10".
    */
-  public static compare(
-    a: string,
-    b: string,
-    options?: Intl.CollatorOptions,
-    locale?: string
-  ): number {
+  public static compare(a: string, b: string, options?: Intl.CollatorOptions, locale?: string): number {
     const targetLocale = locale || this.defaultLocale();
     const collator = new Intl.Collator(targetLocale, {
       numeric: true,
@@ -189,7 +180,10 @@ export class GpNameFormat {
       return words[0].slice(0, maxInitials).toUpperCase();
     }
 
-    const initials = words.map((w) => w[0]).join('').toUpperCase();
+    const initials = words
+      .map((w) => w[0])
+      .join('')
+      .toUpperCase();
     return initials.slice(0, maxInitials);
   }
 

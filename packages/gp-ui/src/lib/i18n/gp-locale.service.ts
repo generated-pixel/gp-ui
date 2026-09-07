@@ -139,7 +139,12 @@ export class GpLocaleService {
     return GpNumberFormat.formatCompact(value, display, locale || this.currentLocale(), options);
   }
 
-  public formatUnit(value: number | null | undefined, unit: string, options?: GpNumberFormatOptions, locale?: string): string {
+  public formatUnit(
+    value: number | null | undefined,
+    unit: string,
+    options?: GpNumberFormatOptions,
+    locale?: string
+  ): string {
     return GpNumberFormat.formatUnit(value, unit, options, locale || this.currentLocale());
   }
 

@@ -50,10 +50,26 @@ export interface GpLocaleSeparators {
 
 /** Mapping of Eastern Arabic / Persian digits to Western digits */
 const ARABIC_INDIC_DIGITS: Record<string, string> = {
-  '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
-  '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9',
-  '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
-  '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9'
+  '٠': '0',
+  '١': '1',
+  '٢': '2',
+  '٣': '3',
+  '٤': '4',
+  '٥': '5',
+  '٦': '6',
+  '٧': '7',
+  '٨': '8',
+  '٩': '9',
+  '۰': '0',
+  '۱': '1',
+  '۲': '2',
+  '۳': '3',
+  '۴': '4',
+  '۵': '5',
+  '۶': '6',
+  '۷': '7',
+  '۸': '8',
+  '۹': '9'
 };
 
 const ARABIC_DIGIT_REGEX = /[٠-٩۰-۹]/g;
@@ -75,11 +91,7 @@ export class GpNumberFormat {
   /**
    * Formats a numeric value according to locale and Intl options.
    */
-  public static format(
-    value: number | null | undefined,
-    options?: GpNumberFormatOptions,
-    locale?: string
-  ): string {
+  public static format(value: number | null | undefined, options?: GpNumberFormatOptions, locale?: string): string {
     if (value === null || value === undefined || isNaN(value)) {
       return options?.fallback ?? '';
     }
@@ -136,11 +148,7 @@ export class GpNumberFormat {
    * - Percentages (e.g. "45.5%" -> 45.5 or 0.455 if parseAsRatio = true)
    * - Currency and non-numeric prefix/suffix symbols
    */
-  public static parse(
-    text: string | null | undefined,
-    locale?: string,
-    options?: { parseAsRatio?: boolean }
-  ): number {
+  public static parse(text: string | null | undefined, locale?: string, options?: { parseAsRatio?: boolean }): number {
     if (!text || typeof text !== 'string') {
       return NaN;
     }
@@ -291,12 +299,7 @@ export class GpNumberFormat {
    * Currency conversion calculation helper.
    * e.g. convert 100 USD to EUR given rates { USD: 1, EUR: 0.92 }
    */
-  public static convertCurrency(
-    amount: number,
-    fromRate: number,
-    toRate: number,
-    decimals = 2
-  ): number {
+  public static convertCurrency(amount: number, fromRate: number, toRate: number, decimals = 2): number {
     if (isNaN(amount) || fromRate <= 0 || toRate <= 0) {
       return NaN;
     }
@@ -392,11 +395,7 @@ export class GpNumberFormat {
   /**
    * Formats a byte size into human-readable representation (e.g. "1.5 MB" or "1,5 Mio. octets").
    */
-  public static formatByteSize(
-    bytes: number | null | undefined,
-    options?: GpByteSizeOptions,
-    locale?: string
-  ): string {
+  public static formatByteSize(bytes: number | null | undefined, options?: GpByteSizeOptions, locale?: string): string {
     if (bytes === null || bytes === undefined || isNaN(bytes) || bytes < 0) {
       return options?.fallback ?? '0 B';
     }
@@ -406,9 +405,8 @@ export class GpNumberFormat {
     const precision = options?.precision ?? 1;
 
     const base = standard === 'binary' ? 1024 : 1000;
-    const units = standard === 'binary'
-      ? ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB']
-      : ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    const units =
+      standard === 'binary' ? ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'] : ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
     if (bytes < base) {
       return `${bytes} B`;
@@ -428,10 +426,7 @@ export class GpNumberFormat {
   /**
    * Formats a number as an ordinal (e.g. 1st, 2nd, 3rd in English; 1er, 2e in French).
    */
-  public static formatOrdinal(
-    value: number | null | undefined,
-    locale?: string
-  ): string {
+  public static formatOrdinal(value: number | null | undefined, locale?: string): string {
     if (value === null || value === undefined || isNaN(value)) {
       return '';
     }
@@ -469,12 +464,7 @@ export class GpNumberFormat {
   /**
    * Formats a range between two numbers (e.g. "10 – 20 kg", "€10.00 – €50.00").
    */
-  public static formatRange(
-    start: number,
-    end: number,
-    options?: GpNumberFormatOptions,
-    locale?: string
-  ): string {
+  public static formatRange(start: number, end: number, options?: GpNumberFormatOptions, locale?: string): string {
     const targetLocale = locale || this.defaultLocale();
     const formatter = new Intl.NumberFormat(targetLocale, options as any);
 

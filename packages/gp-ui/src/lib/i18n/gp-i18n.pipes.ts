@@ -1,11 +1,6 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { GpLocaleService } from './gp-locale.service';
-import {
-  GpNumberFormat,
-  GpNumberFormatOptions,
-  GpCurrencyFormatOptions,
-  GpByteSizeOptions
-} from './gp-number-format';
+import { GpNumberFormat, GpNumberFormatOptions, GpCurrencyFormatOptions, GpByteSizeOptions } from './gp-number-format';
 import {
   GpDateTimeFormat,
   GpDateTimePreset,
@@ -26,11 +21,7 @@ import { GpListFormat, GpListFormatOptions } from './gp-text-format';
 export class GpNumberPipe implements PipeTransform {
   private localeService = inject(GpLocaleService);
 
-  public transform(
-    value: number | null | undefined,
-    options?: GpNumberFormatOptions,
-    locale?: string
-  ): string {
+  public transform(value: number | null | undefined, options?: GpNumberFormatOptions, locale?: string): string {
     return GpNumberFormat.format(value, options, locale || this.localeService.locale());
   }
 }
@@ -75,11 +66,7 @@ export class GpCurrencyPipe implements PipeTransform {
 export class GpPercentPipe implements PipeTransform {
   private localeService = inject(GpLocaleService);
 
-  public transform(
-    value: number | null | undefined,
-    fractionDigits = 1,
-    locale?: string
-  ): string {
+  public transform(value: number | null | undefined, fractionDigits = 1, locale?: string): string {
     const options: GpNumberFormatOptions = {
       minimumFractionDigits: fractionDigits,
       maximumFractionDigits: fractionDigits
@@ -99,11 +86,7 @@ export class GpPercentPipe implements PipeTransform {
 export class GpCompactNumberPipe implements PipeTransform {
   private localeService = inject(GpLocaleService);
 
-  public transform(
-    value: number | null | undefined,
-    display: 'short' | 'long' = 'short',
-    locale?: string
-  ): string {
+  public transform(value: number | null | undefined, display: 'short' | 'long' = 'short', locale?: string): string {
     return GpNumberFormat.formatCompact(value, display, locale || this.localeService.locale());
   }
 }
