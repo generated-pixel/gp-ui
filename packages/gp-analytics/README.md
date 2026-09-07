@@ -70,5 +70,5 @@ Run these commands from the gp-ui repository root:
 
 Every gp-analytics component has its own standalone demo page under `apps/gp-ui-demo` (see the "Analytics" section of
 the sidebar), so each component can be explored in isolation with a live demo and a full properties/events reference.
-The former standalone demo app under `legacy/gp-analytics/apps/demo` has been superseded by this integration and is
-kept only for historical reference.
+The original standalone gp-analytics demo app has been fully superseded by this integration; its history remains
+accessible via `git log --full-history -- packages/gp-analytics`.
