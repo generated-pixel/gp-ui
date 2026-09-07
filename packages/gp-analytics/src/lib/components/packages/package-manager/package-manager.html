@@ -19,7 +19,15 @@
           <p class="modal-subtitle">Export, distribute, or import complete analytical packages across environments</p>
         </div>
       </div>
-      <button type="button" class="btn-close-modal" (click)="close()" title="Close dialog">✕</button>
+      <gp-button
+        size="sm"
+        variant="text"
+        severity="secondary"
+        label="✕"
+        (click)="close()"
+        title="Close dialog"
+        class="btn-close-modal"
+      />
     </header>
 
     <!-- Segmented Navigation Tabs -->
