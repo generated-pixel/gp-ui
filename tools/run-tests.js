@@ -17,7 +17,7 @@ function runSuite(name, callback) {
   }
 }
 
-runSuite('1/2 Running @generatedpixel/gp-css test suite...', () => {
+runSuite('1/3 Running @generatedpixel/gp-css test suite...', () => {
   execSync('node tools/build-css.js', { stdio: 'inherit', cwd: workspaceRoot });
   try {
     execSync('node --experimental-strip-types packages/gp-css/test/compiler.test.ts', {
@@ -32,11 +32,15 @@ runSuite('1/2 Running @generatedpixel/gp-css test suite...', () => {
   }
 });
 
-runSuite('2/2 Running Angular package test suites with Vitest...', () => {
+runSuite('2/3 Running Angular package test suites with Vitest...', () => {
   execSync('npx ng test packages-tests --watch=false', {
     stdio: 'inherit',
     cwd: workspaceRoot
   });
+});
+
+runSuite('3/3 Running gp-analytics test suite with Vitest...', () => {
+  execSync('npm run test:analytics', { stdio: 'inherit', cwd: workspaceRoot });
 });
 
 if (failedSuites === 0) {

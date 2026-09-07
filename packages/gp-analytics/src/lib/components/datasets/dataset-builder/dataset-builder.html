@@ -1,0 +1,60 @@
+<div class="gp-dataset-builder" [id]="inputId()" role="application">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
+
+  <!-- 3-Column Workbench: Available Fields (Left) | Dataset View (Middle) | Selected Fields (Right) -->
+  <div class="gp-dataset-builder__workbench-layout builder-workbench-layout">
+    <!-- Left Panel: Available fields (Schema Catalogue) -->
+    <div
+      class="gp-dataset-builder__workbench-panel gp-dataset-builder__workbench-panel--catalogue workbench-panel panel-catalogue"
+    >
+      <gp-schema-catalogue
+        [groupings]="groupings()"
+        [additionalRelationships]="additionalRelationships()"
+        [activeDatasetFields]="datasetFields()"
+        (groupingsChange)="onGroupingsChange($event)"
+        (additionalRelationshipsChange)="onRelationshipsChange($event)"
+        (schemaLoad)="onSchemaLoad($event)"
+        (fieldSelect)="onAddField($event)"
+      />
+    </div>
+
+    <!-- Middle Panel: Dataset View (Preview Table) -->
+    <div
+      class="gp-dataset-builder__workbench-panel gp-dataset-builder__workbench-panel--dataset-view workbench-panel panel-dataset-view"
+    >
+      <gp-dataset-preview
+        [fields]="datasetFields()"
+        [datasetName]="dataset().name"
+        [filters]="dataset().filters || []"
+        [customData]="customData()"
+        [customDataLoader]="customDataLoader()"
+        [dataSourceConfig]="dataSourceConfig()"
+        (filterRemove)="onFilterRemove($event)"
+        (filtersClear)="onFiltersClear()"
+        (dataSourceLoaded)="dataSourceLoaded.emit($event)"
+        (dataSourceReset)="dataSourceReset.emit()"
+      />
+    </div>
+
+    <!-- Right Panel: Selected Fields & Properties (Field Selector) -->
+    <div
+      class="gp-dataset-builder__workbench-panel gp-dataset-builder__workbench-panel--fields workbench-panel panel-fields"
+    >
+      <gp-dataset-field-selector
+        [fields]="datasetFields()"
+        [filters]="dataset().filters || []"
+        [(selectedFieldId)]="selectedFieldId"
+        (fieldsChange)="onFieldsChange($event)"
+        (filtersChange)="onFiltersChange($event)"
+        (fieldDrop)="onAddField($event)"
+        (fieldRemove)="onFieldRemove($event)"
+      />
+    </div>
+  </div>
+</div>

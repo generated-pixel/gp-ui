@@ -38,7 +38,9 @@
       "gp-rules": ["packages/gp-rules/src/public-api.ts"],
       "gp-rules/*": ["packages/gp-rules/src/*"],
       "@generatedpixel/gp-rules": ["packages/gp-rules/src/public-api.ts"],
-      "@generatedpixel/gp-rules/*": ["packages/gp-rules/src/*"]
+      "@generatedpixel/gp-rules/*": ["packages/gp-rules/src/*"],
+      "gp-analytics": ["packages/gp-analytics/src/public-api.ts"],
+      "@generatedpixel/gp-analytics": ["packages/gp-analytics/src/public-api.ts"]
     },
     "strict": true,
     "noImplicitOverride": true,

@@ -1,0 +1,157 @@
+<div class="gp-analytical-chart" [id]="inputId()" [class]="cx()" role="region" [attr.aria-label]="title()">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
+  <!-- Header -->
+  <header class="gp-analytical-chart__header chart-header">
+    <div>
+      <h4 class="gp-analytical-chart__title chart-title">{{ title() }}</h4>
+      @if (subtitle()) {
+      <p class="gp-analytical-chart__subtitle chart-subtitle">{{ subtitle() }}</p>
+      }
+    </div>
+
+    <div class="gp-analytical-chart__header-right chart-header-right">
+      <!-- Multi-series Legend -->
+      @if ((data()?.series?.length ?? 0) > 1) {
+      <div class="gp-analytical-chart__series-legend chart-series-legend">
+        @for (s of data()!.series; track s.name; let sIdx = $index) {
+        <gp-tag
+          [severity]="hiddenSeries().has(s.name) ? 'secondary' : 'primary'"
+          size="sm"
+          class="gp-analytical-chart__legend-tag legend-tag"
+          (click)="toggleSeries(s.name)"
+          [title]="'Toggle ' + s.name"
+        >
+          <span
+            class="gp-analytical-chart__legend-color-dot legend-color-dot"
+            [style.background-color]="palette[sIdx % palette.length]"
+          ></span>
+          {{ s.name }}
+        </gp-tag>
+        }
+      </div>
+      } @if (enableSvgExport()) {
+      <gp-button size="sm" variant="outlined" label="📥 SVG" (click)="exportSvg()" title="Export Chart as SVG" />
+      }
+    </div>
+  </header>
+
+  <div class="gp-analytical-chart__body chart-body">
+    <!-- MODE 1: BAR CHART -->
+    @if (type() === 'bar') {
+    <div class="gp-analytical-chart__bar-container bar-chart-container">
+      <div class="gp-analytical-chart__bar-plot-area bar-plot-area">
+        @for (catItem of barCategories(); track catItem.category; let idx = $index) {
+        <div
+          class="gp-analytical-chart__bar-col bar-col"
+          [class.stacked-col]="stacked()"
+          (mouseenter)="hoveredIndex.set(idx)"
+          (mouseleave)="hoveredIndex.set(null)"
+        >
+          <div class="gp-analytical-chart__bar-track bar-track" [class.stacked-track]="stacked()">
+            @for (bar of catItem.seriesBars; track bar.seriesName) {
+            <div
+              class="gp-analytical-chart__bar-fill bar-fill"
+              [style.height.%]="bar.heightPct"
+              [style.background-color]="bar.color"
+            >
+              @if (hoveredIndex() === idx) {
+              <div class="gp-analytical-chart__bar-tooltip bar-tooltip">
+                <strong>{{ catItem.category }}</strong> ({{ bar.seriesName }}): {{ bar.value.toLocaleString('en-US') }}
+              </div>
+              }
+            </div>
+            }
+          </div>
+        </div>
+        }
+      </div>
+      <div class="gp-analytical-chart__bar-axis-row bar-axis-row">
+        @for (catItem of barCategories(); track catItem.category) {
+        <span class="gp-analytical-chart__bar-axis-label bar-axis-label" [title]="catItem.category"
+          >{{ catItem.category }}</span
+        >
+        }
+      </div>
+    </div>
+    }
+
+    <!-- MODE 2: DONUT CHART -->
+    @if (type() === 'donut') {
+    <div class="gp-analytical-chart__donut-container donut-chart-container">
+      <div class="gp-analytical-chart__donut-stage donut-stage">
+        <svg class="gp-analytical-chart__donut-svg donut-svg" viewBox="0 0 100 100" aria-hidden="true">
+          @for (slice of donutSlices().slices; track slice.label; let idx = $index) {
+          <path
+            [attr.d]="slice.path"
+            [attr.fill]="slice.color"
+            class="gp-analytical-chart__donut-slice donut-slice"
+            [class.active]="hoveredIndex() === idx"
+            (mouseenter)="hoveredIndex.set(idx)"
+            (mouseleave)="hoveredIndex.set(null)"
+          />
+          }
+        </svg>
+        <div class="gp-analytical-chart__donut-center-readout donut-center-readout">
+          <span class="gp-analytical-chart__center-total center-total"
+            >{{ donutSlices().total.toLocaleString('en-US') }}</span
+          >
+          <span class="gp-analytical-chart__center-label center-label">Total</span>
+        </div>
+      </div>
+
+      <div class="gp-analytical-chart__donut-legend donut-legend">
+        @for (slice of donutSlices().slices; track slice.label; let idx = $index) {
+        <div
+          class="gp-analytical-chart__legend-item legend-item"
+          [class.active]="hoveredIndex() === idx"
+          (mouseenter)="hoveredIndex.set(idx)"
+          (mouseleave)="hoveredIndex.set(null)"
+        >
+          <span class="gp-analytical-chart__legend-swatch legend-swatch" [style.background-color]="slice.color"></span>
+          <span class="gp-analytical-chart__legend-text legend-text">{{ slice.label }}</span>
+          <strong class="gp-analytical-chart__legend-pct legend-pct">{{ slice.percentage }}%</strong>
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- MODE 3: LINE / AREA CHART -->
+    @if (type() === 'line') {
+    <div class="gp-analytical-chart__line-container line-chart-container">
+      <svg class="gp-analytical-chart__line-svg line-svg" viewBox="0 0 300 120" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--gp-color-primary, #4f46e5)" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="var(--gp-color-primary, #4f46e5)" stop-opacity="0.0" />
+          </linearGradient>
+        </defs>
+        <path [attr.d]="lineSvg().area" fill="url(#areaGrad)" />
+        <path [attr.d]="lineSvg().path" fill="none" stroke="var(--gp-color-primary, #4f46e5)" stroke-width="2.5" />
+        @for (pt of lineSvg().points; track pt.label; let idx = $index) {
+        <circle
+          [attr.cx]="pt.x"
+          [attr.cy]="pt.y"
+          r="3.5"
+          class="gp-analytical-chart__line-point line-point"
+          (mouseenter)="hoveredIndex.set(idx)"
+          (mouseleave)="hoveredIndex.set(null)"
+        />
+        }
+      </svg>
+
+      <div class="gp-analytical-chart__line-x-axis line-x-axis">
+        @for (pt of lineSvg().points; track pt.label) {
+        <span class="gp-analytical-chart__axis-label axis-label">{{ pt.label }}</span>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>

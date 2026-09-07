@@ -1,0 +1,78 @@
+/* Global Styles & Theming */
+@use '../../../packages/gp-analytics/src/lib/styles/analytics-theme-tokens.scss';
+
+:root {
+  --app-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --app-font-mono: 'JetBrains Mono', monospace;
+
+  /* Universal Theme Token Aliases bridging gp-ui-theme to gp-analytics */
+  --gp-color-primary: var(--gp-primary);
+  --gp-color-primary-hover: var(--gp-primary-hover);
+  --gp-color-primary-light: var(--gp-primary-light);
+  --gp-color-primary-border: var(--gp-primary-border);
+
+  --gp-color-surface-ground: var(--gp-surface-ground);
+  --gp-color-surface-card: var(--gp-surface-card);
+  --gp-color-surface-border: var(--gp-surface-border);
+  --gp-color-surface-hover: var(--gp-surface-hover);
+  --gp-color-surface-section: var(--gp-surface-section);
+
+  --gp-color-text-primary: var(--gp-text-color);
+  --gp-color-text-secondary: var(--gp-text-color-secondary);
+  --gp-color-text-muted: var(--gp-text-color-muted);
+
+  --gp-color-success: var(--gp-success);
+  --gp-color-info: var(--gp-info);
+  --gp-color-warning: var(--gp-warning);
+  --gp-color-danger: var(--gp-danger);
+}
+
+[data-gp-mode='dark'],
+.gp-dark {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--app-font-sans);
+  color: var(--gp-text-color, #0f172a);
+  background-color: var(--gp-surface-ground, #f8fafc);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gp-surface-section, #f1f5f9);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gp-surface-border, #cbd5e1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gp-text-color-muted, #94a3b8);
+}
+
+code,
+pre {
+  font-family: var(--app-font-mono);
+}

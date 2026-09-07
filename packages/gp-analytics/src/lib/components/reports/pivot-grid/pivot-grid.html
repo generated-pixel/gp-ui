@@ -1,0 +1,105 @@
+<div class="gp-pivot-grid" [id]="inputId()" [class]="cx()" role="region" [attr.aria-label]="title()">
+  <gp-block-ui
+    [blocked]="loading()"
+    [target]="blockUiTarget()"
+    [message]="blockUiMessage()"
+    [blur]="true"
+    [animate]="true"
+  />
+  <!-- Header Bar -->
+  <header class="gp-pivot-grid__header pivot-header">
+    <div class="gp-pivot-grid__title-group pivot-title-group">
+      <span class="gp-pivot-grid__icon pivot-icon">🔀</span>
+      <div>
+        <h3 class="gp-pivot-grid__title pivot-title">{{ title() }}</h3>
+        <p class="gp-pivot-grid__axes-hint pivot-axes-hint">
+          Rows: <strong>{{ effectiveRowDim() }}</strong> ⇄ Cols: <strong>{{ effectiveColDim() }}</strong>
+          ({{ measure().fieldId }} {{ measure().aggregation.toUpperCase() }})
+        </p>
+      </div>
+    </div>
+
+    <div class="gp-pivot-grid__actions pivot-header-actions">
+      <gp-select
+        [options]="heatmapOptions"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="heatmapMode()"
+        (ngModelChange)="heatmapMode.set($event)"
+      />
+
+      <gp-button
+        label="Swap Axes"
+        icon="refresh"
+        size="sm"
+        [outlined]="true"
+        (click)="swapAxes()"
+        title="Swap row and column dimensions"
+      />
+
+      <gp-button
+        label="Export CSV"
+        icon="download"
+        size="sm"
+        [outlined]="true"
+        (click)="exportToCsv()"
+        title="Export pivot matrix to CSV"
+      />
+    </div>
+  </header>
+
+  <!-- Matrix Table View -->
+  <div class="gp-pivot-grid__scroll-wrap matrix-scroll-wrap">
+    @if (pivotMatrix(); as m) {
+    <table class="gp-pivot-grid__table pivot-table">
+      <thead>
+        <tr>
+          <th class="gp-pivot-grid__corner-header corner-header">
+            <span class="gp-pivot-grid__corner-label corner-label"
+              >{{ effectiveRowDim() }} \ {{ effectiveColDim() }}</span
+            >
+          </th>
+          @for (colH of m.colHeaders; track 'col-' + colH) {
+          <th class="gp-pivot-grid__col-header col-header">{{ colH }}</th>
+          }
+          <th class="gp-pivot-grid__total-header total-header">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (rowH of m.rowHeaders; track 'row-' + rowH; let rIdx = $index) {
+        <tr class="gp-pivot-grid__row pivot-row">
+          <td class="gp-pivot-grid__row-header-cell row-header-cell">{{ rowH }}</td>
+          @for (cell of m.matrix[rIdx]; track $index; let cIdx = $index) {
+          <td class="gp-pivot-grid__cell matrix-cell" [style.background-color]="getCellBg(cell)">
+            {{ formatCellValue(cell) }}
+          </td>
+          }
+          <!-- Row Total -->
+          <td class="gp-pivot-grid__row-total-cell row-total-cell">
+            <strong>{{ formatCellValue(m.rowTotals[rIdx]) }}</strong>
+          </td>
+        </tr>
+        }
+      </tbody>
+      <tfoot class="gp-pivot-grid__tfoot pivot-tfoot">
+        <tr class="gp-pivot-grid__tfoot-row tfoot-row">
+          <td class="gp-pivot-grid__col-total-title col-total-title">Total</td>
+          @for (colTotal of m.colTotals; track $index) {
+          <td class="gp-pivot-grid__col-total-cell col-total-cell">
+            <strong>{{ formatCellValue(colTotal) }}</strong>
+          </td>
+          }
+          <td class="gp-pivot-grid__grand-total-cell grand-total-cell">
+            <strong>{{ formatCellValue(m.grandTotal) }}</strong>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    } @else {
+    <div class="gp-pivot-grid__empty-state empty-state">
+      <span class="gp-pivot-grid__empty-icon empty-icon">🔀</span>
+      <p class="gp-pivot-grid__empty-text empty-text">Provide records and dimensions to render the 2D Pivot Matrix.</p>
+    </div>
+    }
+  </div>
+</div>

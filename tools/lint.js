@@ -53,6 +53,8 @@ if (fs.existsSync(path.join(__dirname, '../packages/gp-rules/src/lib'))) {
   checkFiles(path.join(__dirname, '../packages/gp-rules/src/lib'));
 }
 
+checkFiles(path.join(__dirname, '../packages/gp-analytics/src/lib'));
+
 const architecturePassed = errors === 0;
 if (architecturePassed) {
   console.log('✅ All components pass architectural lint rules (standalone, OnPush, no 3rd-party dependencies)!');

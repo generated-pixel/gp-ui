@@ -31,6 +31,7 @@ npm install @generatedpixel/gp-ui @generatedpixel/gp-ui-theme @generatedpixel/gp
 
 Detailed package guides:
 
+- [`gp-analytics`](packages/gp-analytics/README.md): Analytics models, datasets, reports, and dashboards. Build with `npm run build:analytics` and test with `npm run test:analytics`; see the [repository migration notes](legacy/gp-analytics/MIGRATION.md) for preserved history and the pending demo integration.
 - [`@generatedpixel/gp-ui`](packages/gp-ui/README.md): Enterprise Angular UI component framework with 50+ standalone components.
 - [`@generatedpixel/gp-blocks`](packages/gp-blocks/README.md): 50+ pre-built application layouts, dashboards, settings, and dynamic JSON schema engine.
 - [`@generatedpixel/gp-grid`](packages/gp-grid/README.md): Reactive draggable/resizable grid and dashboard layout engine with collision resolution.
