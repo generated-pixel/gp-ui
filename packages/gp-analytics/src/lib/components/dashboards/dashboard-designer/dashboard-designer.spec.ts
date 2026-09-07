@@ -330,4 +330,25 @@ describe('GpDashboardDesigner', () => {
     expect(component.autoRefreshInterval()).toBe(0);
     component.ngOnDestroy();
   });
+
+  it('updates widget data source strategy in property inspector', () => {
+    const { fixture, component } = createComponent();
+    fixture.detectChanges();
+
+    const w = component.config().widgets[0];
+    component.openWidgetInspector(w);
+
+    component.updateWidgetDataSource({
+      type: 'dataset',
+      datasetId: 'warehouse-metrics',
+      refreshIntervalMs: 5000,
+      ignoreDashboardFilters: true
+    });
+
+    const updated = component.selectedWidget();
+    expect(updated?.dataSource?.type).toBe('dataset');
+    expect(updated?.dataSource?.datasetId).toBe('warehouse-metrics');
+    expect(updated?.dataSource?.refreshIntervalMs).toBe(5000);
+    expect(updated?.dataSource?.ignoreDashboardFilters).toBe(true);
+  });
 });

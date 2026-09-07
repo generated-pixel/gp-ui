@@ -25,7 +25,8 @@ import {
   GpCustomWidgetConfig,
   createDefaultDashboardConfig,
   createBlankDashboardConfig,
-  createOperationsDashboardConfig
+  createOperationsDashboardConfig,
+  GpWidgetDataSourceConfig
 } from '../../../models/dashboard.model';
 import { GpMeasureQuery } from '../../../models/query.model';
 
@@ -628,6 +629,16 @@ export class GpDashboardDesigner extends GpAnalyticsComponent implements OnDestr
         widgets: copy
       });
     }
+  }
+
+  // Update Data Source for Selected Widget
+  updateWidgetDataSource(patch: Partial<GpWidgetDataSourceConfig>): void {
+    const current = this.selectedWidget();
+    if (!current) return;
+    const currentDs: GpWidgetDataSourceConfig = current.dataSource ?? { type: 'inherited' };
+    this.updateSelectedWidget({
+      dataSource: { ...currentDs, ...patch }
+    });
   }
 
   // Table Measures builder helpers

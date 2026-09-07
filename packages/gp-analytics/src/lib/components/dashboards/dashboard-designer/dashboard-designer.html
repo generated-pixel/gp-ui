@@ -331,7 +331,104 @@
           </div>
         </div>
 
-        <!-- Section 3: Context-Specific Data Settings -->
+        <!-- Section 3: Data Source Strategy -->
+        <div class="inspector-section">
+          <h4 class="section-title">Data Source Strategy</h4>
+          <div class="form-group">
+            <label class="form-label" for="widget-ds-type">Data Loading Source</label>
+            <select
+              id="widget-ds-type"
+              class="form-select"
+              [ngModel]="w.dataSource?.type || 'inherited'"
+              (ngModelChange)="updateWidgetDataSource({ type: $event })"
+            >
+              <option value="inherited">Inherited (Dashboard Records)</option>
+              <option value="dataset">Named Dataset ID</option>
+              <option value="remote">Remote REST / HTTP Endpoint</option>
+              <option value="custom">Custom Async Loader</option>
+              <option value="inline">Inline Static Data</option>
+            </select>
+          </div>
+
+          @if (w.dataSource?.type === 'dataset') {
+          <div class="form-group">
+            <label class="form-label" for="widget-dataset-id">Dataset Identifier</label>
+            <input
+              id="widget-dataset-id"
+              type="text"
+              gpInputText
+              class="form-control"
+              placeholder="e.g. sales-data, inventory-metrics"
+              [ngModel]="w.dataSource.datasetId || ''"
+              (ngModelChange)="updateWidgetDataSource({ datasetId: $event })"
+            />
+          </div>
+          } @if (w.dataSource?.type === 'remote') {
+          <div class="form-group">
+            <label class="form-label" for="widget-remote-url">API Endpoint URL</label>
+            <input
+              id="widget-remote-url"
+              type="text"
+              gpInputText
+              class="form-control"
+              placeholder="https://api.example.com/v1/metrics"
+              [ngModel]="w.dataSource.url || ''"
+              (ngModelChange)="updateWidgetDataSource({ url: $event })"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="widget-remote-path">Data Path (Optional)</label>
+            <input
+              id="widget-remote-path"
+              type="text"
+              gpInputText
+              class="form-control"
+              placeholder="e.g. data.items or rows"
+              [ngModel]="w.dataSource.dataPath || ''"
+              (ngModelChange)="updateWidgetDataSource({ dataPath: $event })"
+            />
+          </div>
+          } @if (w.dataSource?.type === 'custom') {
+          <div class="form-group">
+            <label class="form-label" for="widget-custom-loader-id">Custom Loader ID</label>
+            <input
+              id="widget-custom-loader-id"
+              type="text"
+              gpInputText
+              class="form-control"
+              placeholder="e.g. live-telemetry-loader"
+              [ngModel]="w.dataSource.customLoaderId || ''"
+              (ngModelChange)="updateWidgetDataSource({ customLoaderId: $event })"
+            />
+          </div>
+          }
+
+          <div class="form-group">
+            <label class="form-label" for="widget-refresh-interval">Auto-Refresh Interval (Seconds, 0 = manual)</label>
+            <input
+              id="widget-refresh-interval"
+              type="number"
+              min="0"
+              gpInputText
+              class="form-control"
+              placeholder="0"
+              [ngModel]="(w.dataSource?.refreshIntervalMs || 0) / 1000"
+              (ngModelChange)="updateWidgetDataSource({ refreshIntervalMs: +$event * 1000 })"
+            />
+          </div>
+
+          <div class="switch-grid">
+            <div class="switch-item">
+              <span class="switch-label">Ignore Dashboard Filters</span>
+              <gp-switch
+                [ngModel]="w.dataSource?.ignoreDashboardFilters ?? false"
+                (ngModelChange)="updateWidgetDataSource({ ignoreDashboardFilters: $event })"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Context-Specific Data Settings -->
         <!-- KPI Settings -->
         @if (asKpi(w); as kpi) {
         <div class="inspector-section">
