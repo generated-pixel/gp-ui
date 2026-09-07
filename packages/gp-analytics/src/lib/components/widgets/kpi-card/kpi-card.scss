@@ -37,36 +37,38 @@
   }
 
   &.severity-success {
-    --kpi-accent: #22c55e;
-    --sparkline-stroke: #22c55e;
-    --sparkline-fill: #22c55e;
+    --kpi-accent: var(--gp-color-success, #22c55e);
+    --sparkline-stroke: var(--gp-color-success, #22c55e);
+    --sparkline-fill: var(--gp-color-success, #22c55e);
   }
 
   &.severity-danger {
-    --kpi-accent: #ef4444;
-    --sparkline-stroke: #ef4444;
-    --sparkline-fill: #ef4444;
+    --kpi-accent: var(--gp-color-danger, #ef4444);
+    --sparkline-stroke: var(--gp-color-danger, #ef4444);
+    --sparkline-fill: var(--gp-color-danger, #ef4444);
   }
 
   &.severity-warning {
-    --kpi-accent: #f59e0b;
-    --sparkline-stroke: #f59e0b;
-    --sparkline-fill: #f59e0b;
+    --kpi-accent: var(--gp-color-warning, #f59e0b);
+    --sparkline-stroke: var(--gp-color-warning, #f59e0b);
+    --sparkline-fill: var(--gp-color-warning, #f59e0b);
   }
 
   &.severity-info {
-    --kpi-accent: #0ea5e9;
-    --sparkline-stroke: #0ea5e9;
-    --sparkline-fill: #0ea5e9;
+    --kpi-accent: var(--gp-color-info, #0ea5e9);
+    --sparkline-stroke: var(--gp-color-info, #0ea5e9);
+    --sparkline-fill: var(--gp-color-info, #0ea5e9);
   }
 }
 
+.gp-kpi-card__header,
 .kpi-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.gp-kpi-card__title-row,
 .kpi-title-row {
   display: flex;
   align-items: center;
@@ -74,15 +76,18 @@
   flex-wrap: wrap;
 }
 
+.gp-kpi-card__alert-badge,
 .kpi-alert-badge {
   font-size: 0.68rem;
   padding: 0.1rem 0.35rem;
 }
 
+.gp-kpi-card__icon,
 .kpi-icon {
   font-size: 1.15rem;
 }
 
+.gp-kpi-card__title,
 .kpi-title {
   margin: 0;
   font-size: 0.8125rem;
@@ -91,35 +96,18 @@
   letter-spacing: -0.01em;
 }
 
+.gp-kpi-card__trend-badge,
 .trend-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: var(--gp-radius-full, 9999px);
-  font-size: 0.725rem;
-  font-weight: 700;
-
-  &.trend-up {
-    background: #dcfce7;
-    color: #15803d;
-  }
-
-  &.trend-down {
-    background: #fee2e2;
-    color: #b91c1c;
-  }
-
-  &.trend-neutral {
-    background: #f1f5f9;
-    color: #64748b;
-  }
 
   .arrow {
     font-size: 0.65rem;
   }
 }
 
+.gp-kpi-card__body,
 .kpi-body {
   display: flex;
   align-items: flex-end;
@@ -127,12 +115,14 @@
   gap: 1rem;
 }
 
+.gp-kpi-card__value-group,
 .kpi-value-group {
   display: flex;
   align-items: baseline;
   gap: 0.35rem;
 }
 
+.gp-kpi-card__value,
 .kpi-value {
   font-size: 1.75rem;
   font-weight: 800;
@@ -141,12 +131,14 @@
   letter-spacing: -0.02em;
 }
 
+.gp-kpi-card__unit,
 .kpi-unit {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--gp-color-text-secondary, #64748b);
 }
 
+.gp-kpi-card__sparkline-container,
 .kpi-sparkline-container {
   width: 140px;
   height: 40px;
@@ -154,6 +146,7 @@
   position: relative;
 }
 
+.gp-kpi-card__sparkline-tooltip,
 .sparkline-tooltip {
   position: absolute;
   top: -22px;
@@ -170,6 +163,7 @@
   z-index: 10;
 }
 
+.gp-kpi-card__sparkline-svg,
 .sparkline-svg {
   width: 100%;
   height: 100%;
@@ -177,14 +171,14 @@
 
   .spark-dot {
     fill: #ffffff;
-    stroke: var(--sparkline-stroke, #4f46e5);
+    stroke: var(--sparkline-stroke, var(--gp-color-primary, #4f46e5));
     stroke-width: 1.5;
     cursor: pointer;
     transition: r 0.15s ease;
 
     &.active,
     &.last {
-      fill: var(--sparkline-stroke, #4f46e5);
+      fill: var(--sparkline-stroke, var(--gp-color-primary, #4f46e5));
     }
 
     &.active {
@@ -197,6 +191,7 @@
   }
 }
 
+.gp-kpi-card__target-progress-row,
 .target-progress-row {
   display: flex;
   flex-direction: column;
@@ -205,6 +200,7 @@
   border-top: 1px dashed var(--gp-color-surface-border, #e2e8f0);
 }
 
+.gp-kpi-card__progress-info,
 .progress-info {
   display: flex;
   justify-content: space-between;
@@ -213,6 +209,7 @@
   color: var(--gp-color-text-secondary, #64748b);
 }
 
+.gp-kpi-card__progress-track,
 .progress-track {
   width: 100%;
   height: 6px;
@@ -221,6 +218,7 @@
   overflow: hidden;
 }
 
+.gp-kpi-card__progress-fill,
 .progress-fill {
   height: 100%;
   background: var(--kpi-accent, var(--gp-color-primary, #4f46e5));

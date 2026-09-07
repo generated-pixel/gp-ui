@@ -5,18 +5,19 @@
   </div>
   }
   <!-- Top Title & Icon -->
-  <div class="kpi-header">
-    <div class="kpi-title-row">
-      <span class="kpi-icon" aria-hidden="true">{{ icon() }}</span>
-      <h4 class="kpi-title">{{ title() }}</h4>
+  <div class="gp-kpi-card__header kpi-header">
+    <div class="gp-kpi-card__title-row kpi-title-row">
+      <span class="gp-kpi-card__icon kpi-icon" aria-hidden="true">{{ icon() }}</span>
+      <h4 class="gp-kpi-card__title kpi-title">{{ title() }}</h4>
       @if (isAlertActive()) {
-      <gp-tag severity="danger" class="kpi-alert-badge"> ⚠ {{ alertMessage() || 'Alert' }} </gp-tag>
+      <gp-tag severity="danger" class="gp-kpi-card__alert-badge kpi-alert-badge"> ⚠ {{ alertMessage() || 'Alert' }} </gp-tag>
       }
     </div>
 
     @if (variancePercentage() != null) {
-    <span
-      class="trend-badge"
+    <gp-tag
+      [severity]="trend() === 'up' ? 'success' : (trend() === 'down' ? 'danger' : 'secondary')"
+      class="gp-kpi-card__trend-badge trend-badge"
       [class.trend-up]="trend() === 'up'"
       [class.trend-down]="trend() === 'down'"
       [class.trend-neutral]="trend() === 'neutral'"
@@ -29,30 +30,30 @@
       <span class="arrow">●</span>
       }
       <span>{{ variancePercentage()! > 0 ? '+' : '' }}{{ variancePercentage() }}%</span>
-    </span>
+    </gp-tag>
     }
   </div>
 
   <!-- Big Metric Value -->
-  <div class="kpi-body">
-    <div class="kpi-value-group">
-      <span class="kpi-value">{{ displayValue() }}</span>
+  <div class="gp-kpi-card__body kpi-body">
+    <div class="gp-kpi-card__value-group kpi-value-group">
+      <span class="gp-kpi-card__value kpi-value">{{ displayValue() }}</span>
       @if (unit()) {
-      <span class="kpi-unit">{{ unit() }}</span>
+      <span class="gp-kpi-card__unit kpi-unit">{{ unit() }}</span>
       }
     </div>
 
     <!-- Embedded Micro-Sparkline -->
     @if (sparklineSvg().points.length > 1) {
-    <div class="kpi-sparkline-container">
+    <div class="gp-kpi-card__sparkline-container kpi-sparkline-container">
       @if (hoveredPoint(); as hp) {
-      <div class="sparkline-tooltip" [style.left.px]="hp.x">{{ hp.val.toLocaleString() }}</div>
+      <div class="gp-kpi-card__sparkline-tooltip sparkline-tooltip" [style.left.px]="hp.x">{{ hp.val.toLocaleString() }}</div>
       }
-      <svg class="sparkline-svg" viewBox="0 0 140 40" preserveAspectRatio="none" aria-hidden="true">
+      <svg class="gp-kpi-card__sparkline-svg sparkline-svg" viewBox="0 0 140 40" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id="kpiSparkGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="var(--sparkline-fill, #4f46e5)" stop-opacity="0.25" />
-            <stop offset="100%" stop-color="var(--sparkline-fill, #4f46e5)" stop-opacity="0.0" />
+            <stop offset="0%" stop-color="var(--sparkline-fill, var(--gp-color-primary, #4f46e5))" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="var(--sparkline-fill, var(--gp-color-primary, #4f46e5))" stop-opacity="0.0" />
           </linearGradient>
         </defs>
         <!-- Gradient Area -->
@@ -61,7 +62,7 @@
         <path
           [attr.d]="sparklineSvg().path"
           fill="none"
-          stroke="var(--sparkline-stroke, #4f46e5)"
+          stroke="var(--sparkline-stroke, var(--gp-color-primary, #4f46e5))"
           stroke-width="2"
           stroke-linecap="round"
         />
@@ -85,19 +86,19 @@
 
   <!-- Target Progress Bar (if target exists) -->
   @if (targetProgress() != null) {
-  <div class="target-progress-row">
-    <div class="progress-info">
-      <span class="progress-label">Goal Target</span>
-      <span class="progress-val">{{ targetProgress() }}%</span>
+  <div class="gp-kpi-card__target-progress-row target-progress-row">
+    <div class="gp-kpi-card__progress-info progress-info">
+      <span class="gp-kpi-card__progress-label progress-label">Goal Target</span>
+      <span class="gp-kpi-card__progress-val progress-val">{{ targetProgress() }}%</span>
     </div>
     <div
-      class="progress-track"
+      class="gp-kpi-card__progress-track progress-track"
       role="progressbar"
       [attr.aria-valuenow]="targetProgress()"
       aria-valuemin="0"
       aria-valuemax="100"
     >
-      <div class="progress-fill" [style.width.%]="targetProgress()! > 100 ? 100 : targetProgress()"></div>
+      <div class="gp-kpi-card__progress-fill progress-fill" [style.width.%]="targetProgress()! > 100 ? 100 : targetProgress()"></div>
     </div>
   </div>
   }
