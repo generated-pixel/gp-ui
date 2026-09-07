@@ -19,6 +19,33 @@ Foundational metadata models for analytics applications: groups, tables, field g
 npm install gp-analytics
 ```
 
+## Theming
+
+`gp-analytics` components read colors, surfaces, and radii from the same `--gp-*` custom properties published by
+`@generatedpixel/gp-ui-theme`, so switching a theme or toggling dark mode automatically restyles every analytics
+component alongside the rest of `gp-ui`.
+
+On top of that, it publishes its own `--gp-analytics-*` token layer (widget surfaces, code blocks, up/down metric
+colors, chart palette, designer/inspector chrome) for anything analytics-specific that isn't part of the core
+design system. Each token falls back to a `--gp-*` theme token, so it stays in sync with the active theme unless you
+override it.
+
+Import the token stylesheet once alongside the core theme CSS:
+
+```scss
+@import '@generatedpixel/gp-ui-theme/src/index.css';
+@import '@generatedpixel/gp-analytics/src/lib/styles/analytics-theme-tokens.scss';
+```
+
+Override any analytics-only token per-app, e.g. to give KPI cards a custom accent:
+
+```css
+:root {
+  --gp-analytics-chart-1: #22c55e;
+  --gp-analytics-widget-radius: 1rem;
+}
+```
+
 ## Quick Start
 
 ### Define metadata

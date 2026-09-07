@@ -169,6 +169,7 @@
             ],
             "styles": [
               "packages/gp-ui-theme/src/index.css",
+              "packages/gp-analytics/src/lib/styles/analytics-theme-tokens.scss",
               "apps/gp-ui-demo/src/gp-css.generated.css",
               "apps/gp-ui-demo/src/styles.scss"
             ],
