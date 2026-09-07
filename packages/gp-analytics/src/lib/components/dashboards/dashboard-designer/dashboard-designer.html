@@ -55,7 +55,7 @@
       <!-- Add Widget Palette (Only in Design Mode) -->
       @if (activeMode() === 'design') {
       <div class="add-widget-dropdown">
-        <gp-button severity="primary" label="Add Widget" icon="plus" (click)="toggleAddMenu()" class="btn-add-widget">
+        <gp-button severity="primary" size="sm" label="Add Widget" icon="plus" (click)="toggleAddMenu()" class="btn-add-widget">
           <gp-icon name="chevron-down" size="0.8em" />
         </gp-button>
 
@@ -149,10 +149,10 @@
           title="Auto-refresh interval"
         />
         <gp-button
-          icon="sync"
+          icon="refresh"
           size="sm"
           [outlined]="true"
-          [disabled]="isRefreshing()"
+          [loading]="isRefreshing()"
           title="Manual Refresh"
           (click)="triggerRefresh()"
         />
@@ -184,9 +184,9 @@
         title="Distraction-free presentation mode (Esc to exit)"
         (click)="toggleFullscreen()"
       />
-      <gp-button label="Settings" icon="cog" [outlined]="true" (click)="openSettingsModal()" />
-      <gp-button label="JSON" icon="code" [outlined]="true" (click)="openJsonModal('export')" />
-      <gp-button label="Save Dashboard" icon="check" severity="success" (click)="saveDashboard()" />
+      <gp-button label="Settings" icon="cog" size="sm" [outlined]="true" (click)="openSettingsModal()" />
+      <gp-button label="JSON" icon="code" size="sm" [outlined]="true" (click)="openJsonModal('export')" />
+      <gp-button label="Save Dashboard" icon="check" size="sm" severity="success" (click)="saveDashboard()" />
     </div>
   </header>
 

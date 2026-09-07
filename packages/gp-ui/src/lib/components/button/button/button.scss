@@ -57,6 +57,7 @@ button {
 /* Sizes */
 .gp-button--sm,
 .gp-button-sm {
+  height: var(--gp-button-height-sm, 2rem);
   padding: 0.35rem 0.65rem;
   font-size: var(--gp-font-size-xs);
   gap: 0.35rem;
@@ -64,12 +65,14 @@ button {
 
 .gp-button--md,
 .gp-button-md {
+  height: var(--gp-button-height, 2.5rem);
   padding: 0.5rem 1rem;
   font-size: var(--gp-font-size-sm);
 }
 
 .gp-button--lg,
 .gp-button-lg {
+  height: var(--gp-button-height-lg, 3rem);
   padding: 0.75rem 1.5rem;
   font-size: var(--gp-font-size-base);
   gap: 0.65rem;

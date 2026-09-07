@@ -46,7 +46,7 @@
       <gp-button
         size="sm"
         variant="filled"
-        class="gp-schema-catalogue__load-schema-btn load-schema-btn"
+        severity="primary"
         (click)="openSourceModal()"
         [title]="i18n.translate('loadSchemaTitle')"
         [label]="'⚡ ' + i18n.translate('loadSchema')"
@@ -467,14 +467,13 @@
           size="sm"
           variant="outlined"
           severity="secondary"
-          class="btn-cancel"
           (click)="closeSourceModal()"
           [label]="i18n.translate('close')"
         />
         <gp-button
           size="sm"
           variant="filled"
-          class="btn-load"
+          severity="primary"
           [disabled]="isLoadingSource()"
           (click)="loadSourceSchema()"
           [label]="isLoadingSource() ? i18n.translate('loading') : '⚡ ' + i18n.translate('loadSchema')"

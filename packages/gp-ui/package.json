@@ -1,6 +1,6 @@
 {
   "name": "@generatedpixel/gp-ui",
-  "version": "1.0.4",
+  "version": "1.1.1",
   "description": "Production-grade Angular UI Component Framework",
   "keywords": [
     "angular",
@@ -29,6 +29,8 @@
     "@angular/core": ">=18.0.0",
     "@angular/forms": ">=18.0.0",
     "@angular/router": ">=18.0.0",
+    "@generatedpixel/gp-ui-theme": ">=1.0.0",
+    "@generatedpixel/gp-ui-icons": ">=1.0.0",
     "rxjs": ">=7.0.0"
   },
   "dependencies": {

@@ -82,7 +82,7 @@ jobs:
           cd dist/packages/gp-rules && npm publish --access public --provenance
           cd ../../..
 
-          echo "Publishing gp-analytics..."
+          echo "Publishing @generatedpixel/gp-analytics..."
           cd dist/packages/gp-analytics && npm publish --access public --provenance
           cd ../../..
 
