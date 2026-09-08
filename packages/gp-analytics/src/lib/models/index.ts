@@ -17,3 +17,4 @@ export * from './schema-data-source.model';
 export * from './dashboard.model';
 export * from './report.model';
 export * from './package.model';
+export * from './report-dashboard.model';

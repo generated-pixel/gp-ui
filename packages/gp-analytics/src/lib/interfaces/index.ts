@@ -57,3 +57,6 @@ export * from './gp-widget-load-context.interface';
 export * from './gp-widget-data-source-config.interface';
 export * from './gp-widget-data-state.interface';
 export * from './gp-lifecycle.interface';
+export * from './user-permission.interface';
+export * from './global-sort-config.interface';
+export * from './widget-library.interface';

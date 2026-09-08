@@ -18,3 +18,4 @@ export * from './translation-key.type';
 export * from './translation-params.type';
 export * from './gp-widget-data-source-type.type';
 export * from './gp-widget-data-loader-fn.type';
+export * from './user-role.type';
