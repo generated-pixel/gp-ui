@@ -24,7 +24,6 @@ export * from './lib/services/translations.en-gb';
 export * from './lib/services/translations.fr';
 export * from './lib/services/translations.fr-fr';
 export * from './lib/services/translations.fr-ca';
-export * from './lib/services/translations.de';
 export * from './lib/services/translations.de-de';
 export * from './lib/services/translations.es';
 export * from './lib/services/translations.ja';

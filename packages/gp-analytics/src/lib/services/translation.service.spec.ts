@@ -51,12 +51,12 @@ describe('GpTranslationService', () => {
     expect(service.translate('metadataCatalogue')).toBe('Catalogue de métadonnées');
   });
 
-  it('should maintain backwards compatibility with 2-letter codes (fr, de, es, ja, en)', () => {
+  it('should maintain backwards compatibility with 2-letter codes (fr, es, ja, en)', () => {
     service.setLocale('fr');
     expect(service.translate('metadataCatalogue')).toBe('Catalogue de métadonnées');
 
-    service.setLocale('de');
-    expect(service.translate('metadataCatalogue')).toBe('Metadaten-Katalog');
+    service.setLocale('es');
+    expect(service.translate('metadataCatalogue')).toBe('Catálogo de metadatos');
 
     service.setLocale('en');
     expect(service.translate('metadataCatalogue')).toBe('Metadata catalogue');

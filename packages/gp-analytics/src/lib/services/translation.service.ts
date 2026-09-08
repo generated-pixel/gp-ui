@@ -3,7 +3,6 @@ import { DEFAULT_ENGLISH_TRANSLATIONS } from './default-translations.en';
 import { ENGLISH_GB_TRANSLATIONS } from './translations.en-gb';
 import { FRENCH_TRANSLATIONS } from './translations.fr';
 import { FRENCH_CA_TRANSLATIONS } from './translations.fr-ca';
-import { GERMAN_TRANSLATIONS } from './translations.de';
 import { GERMAN_DE_TRANSLATIONS } from './translations.de-de';
 import { SPANISH_TRANSLATIONS } from './translations.es';
 import { JAPANESE_TRANSLATIONS } from './translations.ja';
@@ -17,7 +16,7 @@ export type { TranslationKey } from '../types/translation-key.type';
 export type { TranslationParams } from '../types/translation-params.type';
 
 /**
- * Enterprise Translation Service with BCP 47 language code support (e.g. 'en-US', 'fr-FR', 'en-GB', 'fr-CA').
+ * Enterprise Translation Service with BCP 47 language code support (e.g. 'en-US', 'fr-FR', 'en-GB', 'fr-CA', 'de-DE').
  * Uses immutable English (en-US) translations as the single source of truth fallback.
  * Every registered locale dictionary is merged over English with hierarchical regional fallback
  * (e.g. 'fr-CA' -> 'fr-FR' / 'fr' -> 'en-US' / 'en') so no UI keys are ever missing.
@@ -56,9 +55,8 @@ export class GpTranslationService {
     this.registerTranslations('fr-CA', FRENCH_CA_TRANSLATIONS);
     this.registerTranslations('fr', FRENCH_TRANSLATIONS);
 
-    // 4. Pre-register German variants
+    // 4. Pre-register German (de-DE)
     this.registerTranslations('de-DE', GERMAN_DE_TRANSLATIONS);
-    this.registerTranslations('de', GERMAN_TRANSLATIONS);
 
     // 5. Pre-register Spanish variants
     this.registerTranslations('es-ES', SPANISH_TRANSLATIONS);
