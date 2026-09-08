@@ -1,0 +1,582 @@
+<div
+  class="gp-report-dashboard"
+  [class.is-designer-mode]="editable() || permissions().canCustomizeLayout"
+  role="region"
+  [attr.aria-label]="effectiveTitle()"
+>
+  <!-- Top Header Banner & Role Context -->
+  <header class="gp-report-dashboard__header">
+    <div class="gp-report-dashboard__brand">
+      <div class="brand-icon-wrapper">📊</div>
+      <div>
+        <div class="title-row">
+          <h2 class="dashboard-title">{{ effectiveTitle() }}</h2>
+          @if (config().isCustom) {
+          <gp-tag value="Custom" severity="info" size="sm" />
+          }
+          <div class="role-badge-container" [title]="roleDescription()">
+            <gp-tag [value]="roleBadge().label" [severity]="roleBadge().severity" size="sm" />
+          </div>
+        </div>
+        <p class="dashboard-subtitle">{{ effectiveSubtitle() }}</p>
+      </div>
+    </div>
+
+    <div class="gp-report-dashboard__header-actions">
+      @if (lastRefreshedAt(); as ts) {
+      <span class="sync-badge" title="Data synchronization timestamp">
+        Synced: {{ ts | date : 'mediumTime' }}
+      </span>
+      }
+
+      <gp-button
+        variant="outlined"
+        size="sm"
+        severity="secondary"
+        (click)="refreshAll()"
+        class="btn-refresh"
+        title="Refresh data"
+      >
+        <span>⟳</span>
+        <span>Refresh</span>
+      </gp-button>
+
+      @if (permissions().canShareDashboards) {
+      <gp-button
+        variant="outlined"
+        size="sm"
+        severity="primary"
+        (click)="onShareDashboard()"
+        class="btn-share"
+        title="Share dashboard and reports"
+      >
+        <span>↗</span>
+        <span>Share</span>
+      </gp-button>
+      }
+
+      @if (permissions().canManageDashboards || permissions().canCreateCustomDashboards) {
+      <gp-button
+        variant="filled"
+        size="sm"
+        severity="primary"
+        (click)="onSaveDashboard()"
+        class="btn-save"
+        title="Save dashboard state"
+      >
+        <span>💾</span>
+        <span>Save Dashboard</span>
+      </gp-button>
+      }
+    </div>
+  </header>
+
+  <!-- Global Filter & Sorting Controls Toolbar -->
+  <section class="gp-report-dashboard__controls-bar" aria-label="Global Dashboard Controls">
+    <!-- Global Filters Section -->
+    @if (filterFields().length > 0) {
+    <div class="controls-filter-section">
+      <gp-filter-bar
+        [availableFields]="filterFields()"
+        [filters]="filters()"
+        (filterChange)="onFiltersChange($event)"
+      />
+    </div>
+    }
+
+    <!-- Global Sorting & Derived Creation Bar -->
+    <div class="controls-bottom-row">
+      <!-- Global Sorting Cluster -->
+      <div class="global-sort-cluster" role="group" aria-label="Global Sorting">
+        <span class="control-label">
+          <span class="sort-icon">⇅</span> Global Sort:
+        </span>
+
+        <select
+          class="gp-input-select sort-select"
+          [value]="globalSort().activeFieldId || 'none'"
+          (change)="onSelectGlobalSort($any($event.target).value)"
+          aria-label="Select global sort field"
+        >
+          <option value="none">None (Default order)</option>
+          @for (f of globalSort().availableFields; track f.fieldId) {
+          <option [value]="f.fieldId">{{ f.label }}</option>
+          }
+        </select>
+
+        <button
+          type="button"
+          class="btn-sort-order"
+          (click)="toggleGlobalSortOrder()"
+          [title]="globalSort().activeOrder === 'asc' ? 'Sort Ascending (Click to switch to Descending)' : 'Sort Descending (Click to switch to Ascending)'"
+          [disabled]="!globalSort().activeFieldId"
+        >
+          {{ globalSort().activeOrder === 'asc' ? '▲ Asc' : '▼ Desc' }}
+        </button>
+
+        @if (permissions().canConfigureGlobalSorting) {
+        <button
+          type="button"
+          class="btn-config-sort"
+          (click)="openGlobalSortModal()"
+          title="Configure which fields are available for global sorting"
+        >
+          ⚙ Configure Sort Fields
+        </button>
+        }
+      </div>
+
+      <!-- Action buttons: Add Derived Widgets & Library -->
+      <div class="controls-action-cluster">
+        @if (permissions().canCreateDerivedWidgets) {
+        <gp-button
+          variant="outlined"
+          size="sm"
+          severity="primary"
+          (click)="openAddDerivedModal('kpi')"
+          class="btn-add-kpi"
+        >
+          <span>+ KPI off Report</span>
+        </gp-button>
+
+        <gp-button
+          variant="outlined"
+          size="sm"
+          severity="primary"
+          (click)="openAddDerivedModal('chart')"
+          class="btn-add-chart"
+        >
+          <span>+ Graph off Report</span>
+        </gp-button>
+        }
+
+        @if (permissions().canCreateCustomDashboards || permissions().canManageDashboards) {
+        <gp-button
+          variant="outlined"
+          size="sm"
+          severity="secondary"
+          (click)="openLibraryDrawer()"
+          class="btn-open-library"
+        >
+          <span>📚 Widget Library</span>
+        </gp-button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Responsive Dashboard Canvas Grid -->
+  <main class="gp-report-dashboard__canvas">
+    <gp-grid
+      [(items)]="gridItems"
+      [columns]="columns()"
+      [rowHeight]="rowHeight()"
+      [gap]="gap()"
+      [compactType]="compactType()"
+      [readonly]="isGridReadonly()"
+      [showGridLines]="permissions().canCustomizeLayout && editable()"
+      (layoutChanged)="onLayoutChanged($event)"
+      (itemMoved)="onGridItemChange($event)"
+      (itemResized)="onGridItemChange($event)"
+    >
+      <!-- Projected Grid Item Template -->
+      <ng-template #widgetTemplate let-item>
+        <!-- Case 1: The Anchored Primary Report -->
+        @if (item.id === 'anchored-primary-report') {
+        <div
+          class="gp-report-dashboard__anchored-report-wrapper"
+          id="widget-anchored-primary-report"
+          [class.has-custom-layout]="permissions().canCustomizeLayout"
+        >
+          <div class="report-header-banner">
+            <div class="report-title-meta">
+              <span class="report-badge-icon">📑</span>
+              <span class="report-badge-text">Anchored Primary Report</span>
+            </div>
+            <span class="report-records-count">
+              {{ processedRecords().length }} records
+            </span>
+          </div>
+
+          <div class="report-content-body">
+            @if (config().reportConfig.type === 'tabular') {
+            <gp-tabular-report
+              [title]="config().reportConfig.name"
+              [subtitle]="config().reportConfig.description || ''"
+              [records]="processedRecords()"
+              [dimensions]="reportDimensions()"
+              [measures]="reportMeasures()"
+              [showSubtotals]="true"
+              [showGrandTotal]="true"
+            />
+            } @else if (config().reportConfig.type === 'pivot') {
+            <gp-pivot-grid
+              [title]="config().reportConfig.name"
+              [records]="processedRecords()"
+              [rowDimension]="reportDimensions()[0] || ''"
+              [colDimension]="reportDimensions()[1] || ''"
+              [measure]="reportMeasures()[0]"
+            />
+            }
+          </div>
+        </div>
+        } @else {
+        <!-- Case 2: User-Derived KPI or Chart Widget -->
+        @let w = getWidget(item.id);
+        <div
+          class="gp-report-dashboard__widget-container"
+          [id]="'widget-' + item.id"
+          [class.is-selected]="selectedWidgetId() === item.id"
+        >
+          <!-- Widget Action Chrome -->
+          <div class="widget-toolbar">
+            @if (permissions().canCustomizeLayout) {
+            <div class="gp-grid-drag-handle widget-drag-grip" title="Drag to reposition">
+              <span>⠿</span>
+              <span class="widget-type-label">
+                {{ w?.type === 'kpi' ? 'KPI' : 'Graph' }}
+              </span>
+            </div>
+            }
+
+            <div class="widget-actions">
+              @if (permissions().canManageLibraries && w) {
+              <button
+                type="button"
+                class="btn-widget-action"
+                title="Save widget to organization library"
+                (click)="saveWidgetToLibrary(w, $event)"
+              >
+                📥
+              </button>
+              }
+
+              @if ((permissions().canCustomizeLayout || permissions().canCreateDerivedWidgets) && w) {
+              <button
+                type="button"
+                class="btn-widget-action btn-danger"
+                title="Remove widget"
+                (click)="deleteWidget(w.id, $event)"
+              >
+                ✕
+              </button>
+              }
+            </div>
+          </div>
+
+          <!-- Populated Widget Body -->
+          <div class="widget-content">
+            @if (asKpi(w); as kpi) {
+            @let metric = getKpiMetric(kpi.id);
+            @if (metric) {
+            <gp-kpi-card
+              [title]="kpi.title"
+              [formattedValue]="metric.formattedCurrentValue"
+              [variancePercentage]="metric.variancePercentage ?? null"
+              [trend]="metric.trend"
+              [severity]="metric.trendSeverity"
+              [targetValue]="metric.targetValue ?? null"
+              [targetProgress]="metric.targetProgressPercentage ?? null"
+              [sparklinePoints]="metric.sparklinePoints"
+              [unit]="kpi.unit || ''"
+              [icon]="kpi.icon || '📊'"
+            />
+            } @else {
+            <gp-kpi-card [title]="kpi.title" formattedValue="--" icon="📊" />
+            }
+            } @else if (asChart(w); as chart) {
+            <gp-analytical-chart
+              [title]="chart.title"
+              [subtitle]="chart.subtitle || ''"
+              [type]="chart.chartType"
+              [data]="getChartData(chart.id) || null"
+            />
+            }
+          </div>
+        </div>
+        }
+      </ng-template>
+    </gp-grid>
+  </main>
+
+  <!-- Modal: Create Derived KPI or Graph -->
+  @if (isDerivedModalOpen()) {
+  <div class="modal-backdrop" (click)="closeDerivedModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Derived Widget off Report</h3>
+        <button type="button" class="btn-close" (click)="closeDerivedModal()">✕</button>
+      </div>
+
+      <!-- Tab Switcher: KPI vs Graph -->
+      <div class="modal-tabs" role="tablist">
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="derivedType() === 'kpi'"
+          (click)="derivedType.set('kpi')"
+        >
+          📈 KPI Scorecard
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="derivedType() === 'chart'"
+          (click)="derivedType.set('chart')"
+        >
+          📊 Analytical Graph
+        </button>
+      </div>
+
+      <div class="modal-body">
+        @if (derivedType() === 'kpi') {
+        <!-- KPI Builder Form -->
+        <div class="form-group">
+          <label class="form-label">Metric Title</label>
+          <input
+            type="text"
+            class="form-input"
+            [value]="draftKpiTitle()"
+            (input)="draftKpiTitle.set($any($event.target).value)"
+            placeholder="e.g. Total Revenue"
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label">Report Measure</label>
+            <select
+              class="form-select"
+              [value]="draftKpiField()"
+              (change)="draftKpiField.set($any($event.target).value)"
+            >
+              @for (m of reportMeasures(); track m.fieldId) {
+              <option [value]="m.fieldId">{{ m.alias || m.fieldId }} ({{ m.aggregation }})</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label">Aggregation</label>
+            <select
+              class="form-select"
+              [value]="draftKpiAggregation()"
+              (change)="draftKpiAggregation.set($any($event.target).value)"
+            >
+              <option value="sum">Sum</option>
+              <option value="avg">Average</option>
+              <option value="count">Count</option>
+              <option value="min">Minimum</option>
+              <option value="max">Maximum</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label">Target Benchmark (optional)</label>
+            <input
+              type="number"
+              class="form-input"
+              [value]="draftKpiTarget() ?? ''"
+              (input)="draftKpiTarget.set($any($event.target).value ? +$any($event.target).value : null)"
+              placeholder="e.g. 50000"
+            />
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label">Icon</label>
+            <select
+              class="form-select"
+              [value]="draftKpiIcon()"
+              (change)="draftKpiIcon.set($any($event.target).value)"
+            >
+              <option value="💰">💰 Money / Currency</option>
+              <option value="📦">📦 Orders / Packages</option>
+              <option value="📈">📈 Growth / Trend</option>
+              <option value="💳">💳 Payment / Cards</option>
+              <option value="👥">👥 Customers / Users</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row align-center">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              [checked]="draftKpiFormatCurrency()"
+              (change)="draftKpiFormatCurrency.set($any($event.target).checked)"
+            />
+            Format as Currency
+          </label>
+        </div>
+        } @else {
+        <!-- Chart Builder Form -->
+        <div class="form-group">
+          <label class="form-label">Chart Title</label>
+          <input
+            type="text"
+            class="form-input"
+            [value]="draftChartTitle()"
+            (input)="draftChartTitle.set($any($event.target).value)"
+            placeholder="e.g. Revenue Breakdown"
+          />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label">Chart Type</label>
+            <select
+              class="form-select"
+              [value]="draftChartType()"
+              (change)="draftChartType.set($any($event.target).value)"
+            >
+              <option value="bar">Bar Chart</option>
+              <option value="donut">Donut Chart</option>
+              <option value="line">Line Trend Chart</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label">Category Dimension</label>
+            <select
+              class="form-select"
+              [value]="draftChartDimension()"
+              (change)="draftChartDimension.set($any($event.target).value)"
+            >
+              @for (dim of reportDimensions(); track dim) {
+              <option [value]="dim">{{ dim }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label">Measure</label>
+            <select
+              class="form-select"
+              [value]="draftChartField()"
+              (change)="draftChartField.set($any($event.target).value)"
+            >
+              @for (m of reportMeasures(); track m.fieldId) {
+              <option [value]="m.fieldId">{{ m.alias || m.fieldId }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label">Sort Order</label>
+            <select
+              class="form-select"
+              [value]="draftChartSort()"
+              (change)="draftChartSort.set($any($event.target).value)"
+            >
+              <option value="desc">High to Low (Desc)</option>
+              <option value="asc">Low to High (Asc)</option>
+            </select>
+          </div>
+        </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closeDerivedModal()">Cancel</button>
+        <button type="button" class="btn-confirm" (click)="createDerivedWidget()">
+          Add to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Modal: Configure Global Sorting Fields -->
+  @if (isGlobalSortModalOpen()) {
+  <div class="modal-backdrop" (click)="closeGlobalSortModal()">
+    <div class="modal-card modal-sm" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title">Configure Global Sorting Fields</h3>
+        <button type="button" class="btn-close" (click)="closeGlobalSortModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-instruction">
+          Select which report dimensions and measures are exposed to users in the Global Sort selector:
+        </p>
+
+        <div class="fields-checklist">
+          @for (opt of allReportFieldOptions(); track opt.fieldId) {
+          <label class="checklist-item">
+            <input
+              type="checkbox"
+              [checked]="draftSortFieldIds().has(opt.fieldId)"
+              (change)="toggleDraftSortField(opt.fieldId)"
+            />
+            <span class="item-label">{{ opt.label }}</span>
+            <span class="item-type-badge">{{ opt.type }}</span>
+          </label>
+          }
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closeGlobalSortModal()">Cancel</button>
+        <button type="button" class="btn-confirm" (click)="saveGlobalSortConfiguration()">
+          Apply Sort Settings
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Drawer: Widget Library -->
+  @if (isLibraryDrawerOpen()) {
+  <div class="drawer-backdrop" (click)="closeLibraryDrawer()">
+    <div class="drawer-panel" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="drawer-header">
+        <div class="drawer-title-meta">
+          <span class="drawer-icon">📚</span>
+          <h3>Widget & Report Library</h3>
+        </div>
+        <button type="button" class="btn-close" (click)="closeLibraryDrawer()">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <p class="drawer-subtitle">
+          Curated widgets designed by Dashboard Designers. Managers can add any item to their custom dashboard:
+        </p>
+
+        <div class="library-items-list">
+          @for (item of libraryService.widgetLibrary(); track item.id) {
+          <div class="library-item-card">
+            <div class="item-top">
+              <span class="item-icon">{{ item.icon || '📊' }}</span>
+              <div class="item-meta">
+                <h4 class="item-name">{{ item.name }}</h4>
+                <span class="item-creator">By {{ item.createdBy || 'Designer' }}</span>
+              </div>
+              <gp-tag [value]="item.category" severity="secondary" size="sm" />
+            </div>
+
+            @if (item.description) {
+            <p class="item-desc">{{ item.description }}</p>
+            }
+
+            <div class="item-actions">
+              <gp-button
+                size="sm"
+                variant="filled"
+                severity="primary"
+                (click)="addLibraryWidgetToDashboard(item)"
+              >
+                + Add to Dashboard
+              </gp-button>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>
