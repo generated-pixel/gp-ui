@@ -60,3 +60,5 @@ export * from './gp-lifecycle.interface';
 export * from './user-permission.interface';
 export * from './global-sort-config.interface';
 export * from './widget-library.interface';
+export * from './language-config.interface';
+export * from './translation-term.interface';

@@ -121,4 +121,5 @@ export type TranslationKey =
   | 'filteredCount'
   | 'activeFilters'
   | 'clearAllFilters'
-  | 'availableOptions';
+  | 'availableOptions'
+  | (string & {});
