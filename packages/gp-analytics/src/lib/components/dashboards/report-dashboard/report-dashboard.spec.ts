@@ -119,6 +119,33 @@ describe('GpReportDashboard', () => {
       expect(component.roleBadge().label).toBe('Regular User');
       expect(component.isGridReadonly()).toBe(true);
     });
+
+    it('Custom Role: dynamically resolves permissions and badges for user-defined roles', () => {
+      const roleService = TestBed.inject(GpRoleSecurityService);
+      roleService.defineCustomRole(
+        'Sales Lead',
+        'Sales team leadership role with derived widget rights but no dataset editing',
+        {
+          canCreateDerivedWidgets: true,
+          canCustomizeLayout: true,
+          canAddFilters: true,
+          canManageDatasets: false
+        },
+        'success',
+        'sales-lead'
+      );
+
+      fixture.componentRef.setInput('role', 'sales-lead');
+      fixture.detectChanges();
+
+      const perms = component.permissions();
+      expect(perms.canCreateDerivedWidgets).toBe(true);
+      expect(perms.canCustomizeLayout).toBe(true);
+      expect(perms.canManageDatasets).toBe(false);
+      expect(component.roleBadge().label).toBe('Sales Lead');
+      expect(component.roleBadge().severity).toBe('success');
+      expect(component.roleDescription()).toContain('Sales team leadership');
+    });
   });
 
   describe('Derived KPIs and Graphs off Anchored Report', () => {

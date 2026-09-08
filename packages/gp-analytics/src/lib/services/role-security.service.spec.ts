@@ -113,10 +113,67 @@ describe('GpRoleSecurityService', () => {
 
   describe('descriptions and badges', () => {
     it('provides role descriptions and badges', () => {
-      expect(service.getRoleDescription('admin')).toContain('Administrator');
-      expect(service.getRoleDescription('regular')).toContain('Regular User');
+      expect(service.getRoleDescription('admin')).toContain('Superuser');
+      expect(service.getRoleDescription('regular')).toContain('Operational users');
       expect(service.getRoleBadge('admin').label).toBe('Admin');
       expect(service.getRoleBadge('manager').label).toBe('Manager');
+    });
+  });
+
+  describe('User-Defined Custom Roles and Available Permissions', () => {
+    it('provides the complete catalog of available permissions with categories and descriptions', () => {
+      const permsList = service.getAvailablePermissions();
+      expect(permsList.length).toBeGreaterThan(5);
+
+      const datasetPerm = permsList.find((p) => p.key === 'canManageDatasets');
+      expect(datasetPerm).toBeDefined();
+      expect(datasetPerm?.category).toBe('Datasets');
+      expect(datasetPerm?.label).toBe('Manage Datasets');
+      expect(datasetPerm?.description).toBeTruthy();
+
+      const sortPerm = permsList.find((p) => p.key === 'canConfigureGlobalSorting');
+      expect(sortPerm).toBeDefined();
+      expect(sortPerm?.category).toBe('Filtering & Sorting');
+    });
+
+    it('allows users to define and register their own custom roles', () => {
+      const customRole = service.defineCustomRole(
+        'Financial Auditor',
+        'Can view and sort dashboards and add filters, but cannot edit or move layout',
+        {
+          canAddFilters: true,
+          canConfigureGlobalSorting: false,
+          canCustomizeLayout: false,
+          canManageDatasets: false,
+          canManageReports: false
+        },
+        'warning',
+        'role-auditor'
+      );
+
+      expect(customRole.id).toBe('role-auditor');
+      expect(customRole.name).toBe('Financial Auditor');
+      expect(customRole.isBuiltIn).toBe(false);
+
+      // Verify permissions via service
+      const auditorPerms = service.getPermissions('role-auditor');
+      expect(auditorPerms.canAddFilters).toBe(true);
+      expect(auditorPerms.canCustomizeLayout).toBe(false);
+      expect(auditorPerms.canManageDatasets).toBe(false);
+
+      // Verify badge and description
+      expect(service.getRoleBadge('role-auditor').label).toBe('Financial Auditor');
+      expect(service.getRoleBadge('role-auditor').severity).toBe('warning');
+      expect(service.getRoleDescription('role-auditor')).toContain('Financial Auditor');
+
+      // Verify unregistration
+      expect(service.unregisterRole('role-auditor')).toBe(true);
+      expect(service.getRoleDefinition('role-auditor')).toBeUndefined();
+    });
+
+    it('prevents unregistering built-in roles', () => {
+      expect(service.unregisterRole('admin')).toBe(false);
+      expect(service.getRoleDefinition('admin')).toBeDefined();
     });
   });
 });

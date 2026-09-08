@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { GpBadge, GpToast, GpToastService, GpButton, GpTag } from 'gp-ui';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { GpBadge, GpToast, GpToastService, GpTag, GpButton } from 'gp-ui';
 import {
   GpReportDashboard,
   GpReportDashboardConfig,
@@ -8,7 +9,12 @@ import {
   GpGlobalSortConfig,
   GpDashboardWidgetConfig,
   GpWidgetLibraryItem,
-  createDefaultReportDashboardConfig
+  GpRoleSecurityService,
+  GpPermissionDescriptor,
+  GpRolePermissions,
+  GpRoleDefinition,
+  createDefaultReportDashboardConfig,
+  createEmptyPermissions
 } from 'gp-analytics';
 import { DocApiTable, DocApiProperty } from '../../../shared/doc-api-table';
 import { DocCode } from '../../../shared/doc-code';
@@ -21,25 +27,47 @@ interface RoleOption {
   description: string;
   capabilities: string[];
   restrictions: string[];
+  isCustom?: boolean;
 }
 
 @Component({
   selector: 'app-report-dashboard-demo',
   standalone: true,
-  imports: [GpBadge, GpToast, GpTag, GpReportDashboard, DocApiTable, DocCode],
+  imports: [FormsModule, GpBadge, GpToast, GpTag, GpButton, GpReportDashboard, DocApiTable, DocCode],
   templateUrl: './report-dashboard-demo.html',
   styleUrl: './report-dashboard-demo.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportDashboardDemo {
   private readonly toastService = inject(GpToastService);
+  protected readonly roleSecurity = inject(GpRoleSecurityService);
 
   protected readonly activeRole = signal<GpUserRole>('admin');
   protected readonly config = signal<GpReportDashboardConfig>(createDefaultReportDashboardConfig());
   protected readonly records = signal<Record<string, any>[]>(ANALYTICS_SAMPLE_RECORDS);
   protected readonly filters = signal<GpFilterCondition[]>([]);
 
-  protected readonly roleOptions: RoleOption[] = [
+  // List of all granular permissions provided by gp-analytics
+  protected readonly availablePermissions = this.roleSecurity.getAvailablePermissions();
+
+  // Custom roles reactive signal
+  protected readonly customRoles = signal<RoleOption[]>([]);
+
+  // Modal draft state for defining a custom role
+  protected readonly isCustomRoleModalOpen = signal<boolean>(false);
+  protected readonly draftRoleName = signal<string>('Senior Financial Analyst');
+  protected readonly draftRoleDesc = signal<string>(
+    'Can create derived graphs and add filters, but cannot edit raw data schemas'
+  );
+  protected readonly draftRoleSeverity = signal<'primary' | 'secondary' | 'success' | 'info' | 'warning'>('success');
+  protected readonly draftRolePermissions = signal<Record<string, boolean>>({
+    canCreateDerivedWidgets: true,
+    canCustomizeLayout: true,
+    canAddFilters: true,
+    canConfigureGlobalSorting: true
+  });
+
+  protected readonly builtInRoles: RoleOption[] = [
     {
       role: 'admin',
       label: 'Admin',
@@ -119,6 +147,27 @@ export class ReportDashboardDemo {
     }
   ];
 
+  /**
+   * Combined list of built-in + user-defined roles.
+   */
+  protected readonly allRoles = computed<RoleOption[]>(() => {
+    return [...this.builtInRoles, ...this.customRoles()];
+  });
+
+  /**
+   * Permissions grouped by category for the permission selection dialog.
+   */
+  protected readonly permissionsByCategory = computed(() => {
+    const map = new Map<string, GpPermissionDescriptor[]>();
+    for (const perm of this.availablePermissions) {
+      if (!map.has(perm.category)) {
+        map.set(perm.category, []);
+      }
+      map.get(perm.category)!.push(perm);
+    }
+    return Array.from(map.entries()).map(([category, items]) => ({ category, items }));
+  });
+
   protected selectRole(role: GpUserRole): void {
     this.activeRole.set(role);
     this.toastService.add({
@@ -129,7 +178,80 @@ export class ReportDashboardDemo {
   }
 
   protected getActiveRoleOption(): RoleOption {
-    return this.roleOptions.find((r) => r.role === this.activeRole()) || this.roleOptions[0];
+    return this.allRoles().find((r) => r.role === this.activeRole()) || this.builtInRoles[0];
+  }
+
+  // Custom Role Modal Handlers
+  protected openCustomRoleModal(): void {
+    this.isCustomRoleModalOpen.set(true);
+  }
+
+  protected closeCustomRoleModal(): void {
+    this.isCustomRoleModalOpen.set(false);
+  }
+
+  protected togglePermission(key: string): void {
+    this.draftRolePermissions.update((current) => ({
+      ...current,
+      [key]: !current[key]
+    }));
+  }
+
+  protected isDraftPermissionChecked(key: string): boolean {
+    return Boolean(this.draftRolePermissions()[key]);
+  }
+
+  protected saveCustomRole(): void {
+    const name = this.draftRoleName().trim();
+    if (!name) {
+      return;
+    }
+
+    const id = `role-custom-${Date.now()}`;
+    const desc = this.draftRoleDesc().trim() || `User-defined role: ${name}`;
+    const severity = this.draftRoleSeverity();
+    const rawPerms = this.draftRolePermissions();
+
+    const perms: Partial<GpRolePermissions> = {};
+    for (const p of this.availablePermissions) {
+      (perms as any)[p.key] = Boolean(rawPerms[p.key]);
+    }
+
+    // Register into GpRoleSecurityService
+    this.roleSecurity.defineCustomRole(name, desc, perms, severity, id);
+
+    // Extract active capabilities and restrictions
+    const capabilities: string[] = [];
+    const restrictions: string[] = [];
+
+    for (const p of this.availablePermissions) {
+      if ((perms as any)[p.key]) {
+        capabilities.push(p.label);
+      } else {
+        restrictions.push(`No ${p.label.toLowerCase()} permission`);
+      }
+    }
+
+    const newRoleOpt: RoleOption = {
+      role: id,
+      label: name,
+      badgeSeverity: severity,
+      description: desc,
+      capabilities: capabilities.length > 0 ? capabilities : ['Minimal permissions'],
+      restrictions: restrictions.length > 0 ? restrictions : ['No restrictions'],
+      isCustom: true
+    };
+
+    this.customRoles.update((list) => [...list, newRoleOpt]);
+    this.activeRole.set(id);
+
+    this.toastService.add({
+      severity: 'success',
+      summary: 'Custom Role Created',
+      detail: `Created role "${name}" and activated it on the Report Dashboard.`
+    });
+
+    this.closeCustomRoleModal();
   }
 
   protected onSaveDashboard(cfg: GpReportDashboardConfig): void {
@@ -182,15 +304,26 @@ export class ReportDashboardDemo {
     });
   }
 
-  protected readonly usageCode = `<gp-report-dashboard
-  [role]="'manager'"
+  protected readonly usageCode = `// 1. You can define your own custom roles with any subset of permissions:
+const customRole = roleSecurityService.defineCustomRole(
+  'Financial Auditor',
+  'Can view and sort dashboards and add filters, but cannot edit raw schemas',
+  {
+    canAddFilters: true,
+    canConfigureGlobalSorting: true,
+    canCustomizeLayout: false,
+    canManageDatasets: false
+  },
+  'warning',
+  'financial-auditor'
+);
+
+// 2. Or pass any custom role ID or built-in role to gp-report-dashboard:
+<gp-report-dashboard
+  [role]="'financial-auditor'"
   [config]="dashboardConfig"
   [records]="datasetRecords"
   [(filters)]="activeFilters"
-  (saveDashboard)="onSave($event)"
-  (shareDashboard)="onShare($event)"
-  (widgetCreated)="onWidgetCreated($event)"
-  (sortChanged)="onSortChanged($event)"
 />`;
 
   protected readonly properties: DocApiProperty[] = [
@@ -199,7 +332,7 @@ export class ReportDashboardDemo {
       type: "input<GpUserRole>('admin')",
       default: "'admin'",
       description:
-        "User role: 'admin' | 'dataset-designer' | 'dashboard-designer' | 'manager' | 'regular'. Dictates exact UI controls and capabilities."
+        "User role: can be built-in ('admin' | 'dataset-designer' | 'dashboard-designer' | 'manager' | 'regular') or ANY custom user-defined role ID. Dictates exact UI controls and capabilities."
     },
     {
       name: 'permissionOverrides',

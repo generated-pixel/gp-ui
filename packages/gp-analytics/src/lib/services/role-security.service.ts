@@ -1,16 +1,110 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { GpUserRole } from '../types/user-role.type';
-import { GpRolePermissions, GP_ROLE_PERMISSIONS_MAP } from '../interfaces/user-permission.interface';
+import {
+  GpRolePermissions,
+  GpPermissionDescriptor,
+  GpRoleDefinition,
+  GP_AVAILABLE_PERMISSIONS,
+  GP_BUILT_IN_ROLES,
+  createEmptyPermissions
+} from '../interfaces/user-permission.interface';
+import { UniqueId } from '../utils/unique-id';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GpRoleSecurityService {
   /**
-   * Retrieves the permission set for the specified role.
+   * Internal reactive map of registered roles (both built-in and user-defined).
+   */
+  private readonly rolesMap = signal<Map<string, GpRoleDefinition>>(this.initializeRolesMap());
+
+  /**
+   * Returns the list of all available granular permissions that can be granted.
+   * Useful for permission pickers, matrices, and role authoring forms.
+   */
+  getAvailablePermissions(): GpPermissionDescriptor[] {
+    return [...GP_AVAILABLE_PERMISSIONS];
+  }
+
+  /**
+   * Returns all currently registered roles (built-in and custom user-defined roles).
+   */
+  getRegisteredRoles(): GpRoleDefinition[] {
+    return Array.from(this.rolesMap().values());
+  }
+
+  /**
+   * Retrieves the role definition for a given role ID.
+   */
+  getRoleDefinition(roleId: GpUserRole): GpRoleDefinition | undefined {
+    return this.rolesMap().get(roleId);
+  }
+
+  /**
+   * Registers a role definition (custom or overridden).
+   */
+  registerRole(roleDef: GpRoleDefinition): void {
+    this.rolesMap.update((map) => {
+      const next = new Map(map);
+      next.set(roleDef.id, roleDef);
+      return next;
+    });
+  }
+
+  /**
+   * Creates, registers, and returns a new user-defined custom role.
+   */
+  defineCustomRole(
+    name: string,
+    description: string,
+    permissions: Partial<GpRolePermissions>,
+    badgeSeverity: 'primary' | 'secondary' | 'success' | 'info' | 'warning' = 'info',
+    customId?: string
+  ): GpRoleDefinition {
+    const id = customId || UniqueId.generate('role-custom-');
+    const fullPermissions: GpRolePermissions = {
+      ...createEmptyPermissions(),
+      ...permissions
+    };
+
+    const newRole: GpRoleDefinition = {
+      id,
+      name,
+      description,
+      permissions: fullPermissions,
+      isBuiltIn: false,
+      badgeSeverity
+    };
+
+    this.registerRole(newRole);
+    return newRole;
+  }
+
+  /**
+   * Unregisters a user-defined custom role. Built-in roles cannot be removed.
+   */
+  unregisterRole(roleId: string): boolean {
+    const existing = this.rolesMap().get(roleId);
+    if (!existing || existing.isBuiltIn) {
+      return false;
+    }
+
+    this.rolesMap.update((map) => {
+      const next = new Map(map);
+      next.delete(roleId);
+      return next;
+    });
+    return true;
+  }
+
+  /**
+   * Retrieves the active permission set for any role (built-in or user-defined).
    */
   getPermissions(role: GpUserRole, overrides?: Partial<GpRolePermissions>): GpRolePermissions {
-    const base = GP_ROLE_PERMISSIONS_MAP[role] ?? GP_ROLE_PERMISSIONS_MAP.regular;
+    const def = this.rolesMap().get(role);
+    const base = def ? def.permissions : createEmptyPermissions();
+
     if (!overrides) {
       return { ...base };
     }
@@ -33,18 +127,11 @@ export class GpRoleSecurityService {
    * Human readable description of each role for UI tooltips & indicators.
    */
   getRoleDescription(role: GpUserRole): string {
-    switch (role) {
-      case 'admin':
-        return 'Administrator: Unrestricted access to manage datasets, reports, dashboards, libraries, and global configurations.';
-      case 'dataset-designer':
-        return 'Dataset Designer: Can create and edit datasets, data structures, reports, and dashboards.';
-      case 'dashboard-designer':
-        return 'Dashboard Designer: Can create, edit, and share dashboards, reports, and widget/report libraries from existing datasets.';
-      case 'manager':
-        return 'Manager User: Can consume dashboards, build personal dashboards from curated libraries, and filter on available fields.';
-      case 'regular':
-        return 'Regular User: Read-only access to consume dashboards and reports with basic filtering.';
+    const def = this.rolesMap().get(role);
+    if (def) {
+      return `${def.name} - ${def.description}`;
     }
+    return `Custom User Role: ${role}`;
   }
 
   /**
@@ -54,17 +141,21 @@ export class GpRoleSecurityService {
     label: string;
     severity: 'primary' | 'secondary' | 'success' | 'info' | 'warning';
   } {
-    switch (role) {
-      case 'admin':
-        return { label: 'Admin', severity: 'warning' };
-      case 'dataset-designer':
-        return { label: 'Dataset Designer', severity: 'info' };
-      case 'dashboard-designer':
-        return { label: 'Dashboard Designer', severity: 'primary' };
-      case 'manager':
-        return { label: 'Manager', severity: 'success' };
-      case 'regular':
-        return { label: 'Regular User', severity: 'secondary' };
+    const def = this.rolesMap().get(role);
+    if (def) {
+      return {
+        label: def.name,
+        severity: def.badgeSeverity || 'info'
+      };
     }
+    return { label: String(role), severity: 'secondary' };
+  }
+
+  private initializeRolesMap(): Map<string, GpRoleDefinition> {
+    const map = new Map<string, GpRoleDefinition>();
+    for (const role of GP_BUILT_IN_ROLES) {
+      map.set(role.id, role);
+    }
+    return map;
   }
 }

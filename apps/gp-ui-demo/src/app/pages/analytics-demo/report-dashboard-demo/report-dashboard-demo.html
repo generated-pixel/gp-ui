@@ -6,33 +6,49 @@
     <div class="analytics-page__badges">
       <gp-badge value="gp-report-dashboard" severity="primary" />
       <gp-badge value="gp-analytics" severity="info" />
-      <gp-badge value="5 User Roles" severity="success" />
+      <gp-badge value="Custom User Roles" severity="success" />
     </div>
     <h1 class="analytics-page__title">Report Dashboard</h1>
     <p class="analytics-page__desc">
       A 1-Report analytical cockpit where users can build their own derived KPI cards and analytical graphs off an
-      anchored central report, with full 5-tier role-based access control, widget libraries, and global filtering with
-      customizable global sorting.
+      anchored central report, with support for built-in and user-defined roles, widget libraries, and global filtering
+      with customizable global sorting.
     </p>
   </div>
 
-  <!-- Interactive Role Persona Switcher -->
+  <!-- Interactive Role Persona Switcher & Custom Role Creator -->
   <div class="analytics-page__section">
-    <h2 class="analytics-page__section-title">Select User Role (Interactive Persona)</h2>
+    <div class="section-title-row">
+      <h2 class="analytics-page__section-title">Select User Role (Interactive Persona)</h2>
+      <gp-button
+        variant="outlined"
+        size="sm"
+        severity="primary"
+        (click)="openCustomRoleModal()"
+        class="btn-define-role"
+      >
+        <span>+ Define Custom Role</span>
+      </gp-button>
+    </div>
+
     <p class="role-switcher-intro">
-      Switch between the 5 personas below to immediately experience how permissions, controls, and capabilities adapt in
-      real time:
+      Switch between built-in personas or your own custom-defined roles below to observe how permissions and
+      capabilities adapt live:
     </p>
 
     <div class="role-selector-bar">
-      @for (opt of roleOptions; track opt.role) {
+      @for (opt of allRoles(); track opt.role) {
       <button
         type="button"
         class="role-pill-btn"
         [class.active]="activeRole() === opt.role"
+        [class.is-custom]="opt.isCustom"
         (click)="selectRole(opt.role)"
       >
         <gp-tag [value]="opt.label" [severity]="opt.badgeSeverity" size="sm" />
+        @if (opt.isCustom) {
+        <span class="custom-badge-indicator" title="Custom user-defined role">★</span>
+        }
       </button>
       }
     </div>
@@ -43,13 +59,16 @@
       <div class="role-card-header">
         <div class="role-card-title">
           <gp-tag [value]="roleInfo.label" [severity]="roleInfo.badgeSeverity" />
+          @if (roleInfo.isCustom) {
+          <gp-tag value="Custom Role" severity="info" size="sm" />
+          }
           <span class="role-desc">{{ roleInfo.description }}</span>
         </div>
       </div>
 
       <div class="role-card-columns">
         <div class="capability-column">
-          <h4 class="col-title text-success">✓ Capabilities</h4>
+          <h4 class="col-title text-success">✓ Capabilities (Granted Permissions)</h4>
           <ul class="capability-list">
             @for (cap of roleInfo.capabilities; track cap) {
             <li>{{ cap }}</li>
@@ -88,10 +107,104 @@
     </div>
   </div>
 
+  <!-- Modal: Define Custom Role -->
+  @if (isCustomRoleModalOpen()) {
+  <div class="custom-role-modal-backdrop" (click)="closeCustomRoleModal()">
+    <div class="custom-role-modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Define Custom User Role</h3>
+          <p class="modal-subtitle">
+            Configure a new role by selecting from the provided list of granular permissions.
+          </p>
+        </div>
+        <button type="button" class="btn-close" (click)="closeCustomRoleModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group flex-2">
+            <label class="form-label">Role Name</label>
+            <input
+              type="text"
+              class="form-input"
+              [value]="draftRoleName()"
+              (input)="draftRoleName.set($any($event.target).value)"
+              placeholder="e.g. Senior Financial Analyst"
+            />
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label">Badge Style</label>
+            <select
+              class="form-select"
+              [value]="draftRoleSeverity()"
+              (change)="draftRoleSeverity.set($any($event.target).value)"
+            >
+              <option value="primary">Primary (Purple)</option>
+              <option value="success">Success (Green)</option>
+              <option value="info">Info (Blue)</option>
+              <option value="warning">Warning (Amber)</option>
+              <option value="secondary">Secondary (Slate)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Role Description</label>
+          <input
+            type="text"
+            class="form-input"
+            [value]="draftRoleDesc()"
+            (input)="draftRoleDesc.set($any($event.target).value)"
+            placeholder="Brief explanation of this role's responsibilities"
+          />
+        </div>
+
+        <!-- List of Available Permissions Grouped by Category -->
+        <div class="permissions-section">
+          <h4 class="perm-section-title">Available Granular Permissions Catalog</h4>
+          <p class="perm-section-desc">Toggle the exact capabilities you wish to grant to this role:</p>
+
+          <div class="categories-list">
+            @for (cat of permissionsByCategory(); track cat.category) {
+            <div class="category-block">
+              <h5 class="category-title">{{ cat.category }}</h5>
+              <div class="permissions-grid">
+                @for (perm of cat.items; track perm.key) {
+                <label class="permission-item-card" [class.is-checked]="isDraftPermissionChecked(perm.key)">
+                  <input
+                    type="checkbox"
+                    [checked]="isDraftPermissionChecked(perm.key)"
+                    (change)="togglePermission(perm.key)"
+                  />
+                  <div class="perm-text">
+                    <span class="perm-label">{{ perm.label }}</span>
+                    <span class="perm-desc">{{ perm.description }}</span>
+                  </div>
+                </label>
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closeCustomRoleModal()">Cancel</button>
+        <button type="button" class="btn-confirm" (click)="saveCustomRole()" [disabled]="!draftRoleName().trim()">
+          Create & Activate Role
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
   <!-- Usage Section -->
   <div class="analytics-page__section">
     <h2 class="analytics-page__section-title">Usage</h2>
-    <doc-code [code]="usageCode" language="html" />
+    <doc-code [code]="usageCode" language="typescript" />
   </div>
 
   <!-- API Reference Section -->
