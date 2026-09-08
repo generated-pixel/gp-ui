@@ -1,4 +1,4 @@
 /**
  * Current version of the @generatedpixel/gp-ui library suite.
  */
-export const GP_UI_VERSION = '1.1.1';
+export const GP_UI_VERSION = '1.1.2';
