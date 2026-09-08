@@ -1,10 +1,12 @@
 import { TranslationKey } from '../types/translation-key.type';
+import { ENGLISH_US_TRANSLATIONS } from './translations.en-us';
 
 /**
  * British English (en-GB) regional translation pack.
- * Inherits default en-US translations with British English spellings and conventions.
+ * Inherits all baseline en-US translations with British English spellings and conventions.
  */
-export const ENGLISH_GB_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
+export const ENGLISH_GB_TRANSLATIONS: Record<TranslationKey, string> = {
+  ...ENGLISH_US_TRANSLATIONS,
   metadataCatalogue: 'Metadata catalogue',
   metadataTree: 'Metadata catalogue',
   browseMetadata: 'Browse your metadata',
