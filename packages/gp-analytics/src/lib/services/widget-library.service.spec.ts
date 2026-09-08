@@ -11,10 +11,10 @@ describe('GpWidgetLibraryService', () => {
     service = TestBed.inject(GpWidgetLibraryService);
   });
 
-  it('should be created and contain seeded widgets and reports', () => {
+  it('should be created with empty widget and report libraries by default', () => {
     expect(service).toBeTruthy();
-    expect(service.widgetLibrary().length).toBeGreaterThan(0);
-    expect(service.reportLibrary().length).toBeGreaterThan(0);
+    expect(service.widgetLibrary()).toEqual([]);
+    expect(service.reportLibrary()).toEqual([]);
   });
 
   it('allows adding and removing widget templates', () => {

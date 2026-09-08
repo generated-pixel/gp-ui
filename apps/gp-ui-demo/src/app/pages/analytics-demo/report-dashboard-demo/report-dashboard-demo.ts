@@ -9,6 +9,7 @@ import {
   GpGlobalSortConfig,
   GpDashboardWidgetConfig,
   GpWidgetLibraryItem,
+  GpWidgetLibraryService,
   GpRoleSecurityService,
   GpPermissionDescriptor,
   GpRolePermissions,
@@ -41,6 +42,128 @@ interface RoleOption {
 export class ReportDashboardDemo {
   private readonly toastService = inject(GpToastService);
   protected readonly roleSecurity = inject(GpRoleSecurityService);
+  protected readonly widgetLibraryService = inject(GpWidgetLibraryService);
+
+  constructor() {
+    if (this.widgetLibraryService.widgetLibrary().length === 0) {
+      this.seedDemoWidgets();
+    }
+  }
+
+  private seedDemoWidgets(): void {
+    this.widgetLibraryService.addWidget({
+      name: 'Executive Revenue Scorecard',
+      description: 'Sum of total revenue with sparkline and target benchmarking',
+      category: 'kpi',
+      icon: '💰',
+      tags: ['Finance', 'KPI', 'Executive'],
+      createdBy: 'Dashboard Designer',
+      widgetConfig: {
+        type: 'kpi',
+        title: 'Total Revenue',
+        icon: '💰',
+        grid: { x: 0, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'total', aggregation: 'sum' },
+        targetValue: 100000,
+        formatCurrency: true,
+        comparePrevious: true,
+        severity: 'success'
+      }
+    });
+    this.widgetLibraryService.addWidget({
+      name: 'Order Volume Counter',
+      description: 'Count of transactional orders processed with alert threshold',
+      category: 'kpi',
+      icon: '📦',
+      tags: ['Operations', 'Orders', 'Volume'],
+      createdBy: 'Dashboard Designer',
+      widgetConfig: {
+        type: 'kpi',
+        title: 'Orders Processed',
+        icon: '📦',
+        grid: { x: 3, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'total', aggregation: 'count' },
+        targetValue: 50,
+        formatCurrency: false,
+        comparePrevious: true,
+        severity: 'info'
+      }
+    });
+    this.widgetLibraryService.addWidget({
+      name: 'Units Shipped Metric',
+      description: 'Total unit quantity sold across all accounts',
+      category: 'kpi',
+      icon: '📈',
+      tags: ['Logistics', 'Inventory'],
+      createdBy: 'Dashboard Designer',
+      widgetConfig: {
+        type: 'kpi',
+        title: 'Total Units',
+        icon: '📈',
+        grid: { x: 6, y: 0, w: 3, h: 2, minW: 3, minH: 2 },
+        measure: { fieldId: 'quantity', aggregation: 'sum' },
+        targetValue: 250,
+        formatCurrency: false,
+        comparePrevious: true,
+        severity: 'warning'
+      }
+    });
+    this.widgetLibraryService.addWidget({
+      name: 'Top Customers by Revenue',
+      description: 'Horizontal or vertical bar distribution ranked high to low',
+      category: 'chart',
+      icon: '📊',
+      tags: ['Sales', 'Customers', 'Ranking'],
+      createdBy: 'Dashboard Designer',
+      widgetConfig: {
+        type: 'chart',
+        title: 'Revenue by Customer',
+        subtitle: 'Top contributing accounts',
+        chartType: 'bar',
+        grid: { x: 0, y: 2, w: 6, h: 4, minW: 4, minH: 3 },
+        dimension: 'customer_name',
+        measure: { fieldId: 'total', aggregation: 'sum', alias: 'revenue' },
+        sortOrder: 'desc',
+        limit: 6
+      }
+    });
+    this.widgetLibraryService.addWidget({
+      name: 'Status Share Donut',
+      description: 'Proportional order breakdown across fulfillment statuses',
+      category: 'chart',
+      icon: '🍩',
+      tags: ['Status', 'Fulfillment', 'Proportions'],
+      createdBy: 'Dashboard Designer',
+      widgetConfig: {
+        type: 'chart',
+        title: 'Status Distribution',
+        subtitle: 'Order progress share',
+        chartType: 'donut',
+        grid: { x: 6, y: 2, w: 6, h: 4, minW: 3, minH: 3 },
+        dimension: 'status',
+        measure: { fieldId: 'total', aggregation: 'count', alias: 'count' },
+        sortOrder: 'desc'
+      }
+    });
+    this.widgetLibraryService.addWidget({
+      name: 'Regional Units Trend',
+      description: 'Comparative units across geographic regions',
+      category: 'chart',
+      icon: '📉',
+      tags: ['Regional', 'Geography'],
+      createdBy: 'Dashboard Designer',
+      widgetConfig: {
+        type: 'chart',
+        title: 'Units by Region',
+        subtitle: 'Geographic quantity distribution',
+        chartType: 'bar',
+        grid: { x: 0, y: 6, w: 6, h: 4, minW: 4, minH: 3 },
+        dimension: 'region',
+        measure: { fieldId: 'quantity', aggregation: 'sum', alias: 'units' },
+        sortOrder: 'desc'
+      }
+    });
+  }
 
   protected readonly activeRole = signal<GpUserRole>('admin');
   protected readonly config = signal<GpReportDashboardConfig>(createDefaultReportDashboardConfig());

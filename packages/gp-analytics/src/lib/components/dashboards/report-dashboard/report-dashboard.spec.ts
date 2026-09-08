@@ -293,7 +293,17 @@ describe('GpReportDashboard', () => {
       fixture.detectChanges();
 
       const libService = TestBed.inject(GpWidgetLibraryService);
-      const sampleItem = libService.widgetLibrary()[0];
+      const sampleItem = libService.addWidget({
+        name: 'Sample KPI',
+        category: 'kpi',
+        createdBy: 'Designer',
+        widgetConfig: {
+          type: 'kpi',
+          title: 'Sample KPI',
+          grid: { x: 0, y: 0, w: 3, h: 2 },
+          measure: { fieldId: 'total', aggregation: 'sum' }
+        }
+      });
 
       const initialCount = component.config().derivedWidgets.length;
       component.addLibraryWidgetToDashboard(sampleItem);
