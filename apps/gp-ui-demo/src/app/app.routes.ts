@@ -67,6 +67,13 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'analytics/report-dashboard',
+    loadComponent: () =>
+      import('./pages/analytics-demo/report-dashboard-demo/report-dashboard-demo').then(
+        (m) => m.ReportDashboardDemo
+      )
+  },
+  {
     path: 'analytics/dashboard-designer',
     loadComponent: () =>
       import('./pages/analytics-demo/dashboard-designer-demo/dashboard-designer-demo').then(

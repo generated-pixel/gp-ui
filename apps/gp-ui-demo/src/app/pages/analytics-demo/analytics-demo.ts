@@ -68,6 +68,11 @@ export class AnalyticsDemo {
       description: 'Composable KPI, chart, table, and pivot widgets on a gp-grid powered dashboard layout.'
     },
     {
+      route: '/analytics/report-dashboard',
+      title: 'Report Dashboard',
+      description: '1-Report analytical cockpit with user-derived KPIs & graphs, 5-tier role-based access control, widget libraries, and global sorting.'
+    },
+    {
       route: '/analytics/dashboard-designer',
       title: 'Dashboard Designer',
       description: 'Drag-and-drop dashboard authoring tool with widget palette, inspector, and JSON export/import.'

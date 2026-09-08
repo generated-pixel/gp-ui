@@ -1,0 +1,101 @@
+<div class="analytics-page">
+  <gp-toast />
+
+  <!-- Header & Description -->
+  <div class="analytics-page__header">
+    <div class="analytics-page__badges">
+      <gp-badge value="gp-report-dashboard" severity="primary" />
+      <gp-badge value="gp-analytics" severity="info" />
+      <gp-badge value="5 User Roles" severity="success" />
+    </div>
+    <h1 class="analytics-page__title">Report Dashboard</h1>
+    <p class="analytics-page__desc">
+      A 1-Report analytical cockpit where users can build their own derived KPI cards and analytical graphs off an anchored central report,
+      with full 5-tier role-based access control, widget libraries, and global filtering with customizable global sorting.
+    </p>
+  </div>
+
+  <!-- Interactive Role Persona Switcher -->
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Select User Role (Interactive Persona)</h2>
+    <p class="role-switcher-intro">
+      Switch between the 5 personas below to immediately experience how permissions, controls, and capabilities adapt in real time:
+    </p>
+
+    <div class="role-selector-bar">
+      @for (opt of roleOptions; track opt.role) {
+      <button
+        type="button"
+        class="role-pill-btn"
+        [class.active]="activeRole() === opt.role"
+        (click)="selectRole(opt.role)"
+      >
+        <gp-tag [value]="opt.label" [severity]="opt.badgeSeverity" size="sm" />
+      </button>
+      }
+    </div>
+
+    <!-- Active Role Capability Card -->
+    @let roleInfo = getActiveRoleOption();
+    <div class="active-role-card">
+      <div class="role-card-header">
+        <div class="role-card-title">
+          <gp-tag [value]="roleInfo.label" [severity]="roleInfo.badgeSeverity" />
+          <span class="role-desc">{{ roleInfo.description }}</span>
+        </div>
+      </div>
+
+      <div class="role-card-columns">
+        <div class="capability-column">
+          <h4 class="col-title text-success">✓ Capabilities</h4>
+          <ul class="capability-list">
+            @for (cap of roleInfo.capabilities; track cap) {
+            <li>{{ cap }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="restriction-column">
+          <h4 class="col-title text-muted">✕ Guardrails & Restrictions</h4>
+          <ul class="restriction-list">
+            @for (res of roleInfo.restrictions; track res) {
+            <li>{{ res }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Demo Section -->
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Live Report Dashboard Demo</h2>
+    <div class="analytics-page__demo">
+      <gp-report-dashboard
+        [role]="activeRole()"
+        [config]="config()"
+        [records]="records()"
+        [(filters)]="filters"
+        (saveDashboard)="onSaveDashboard($event)"
+        (shareDashboard)="onShareDashboard($event)"
+        (widgetCreated)="onWidgetCreated($event)"
+        (widgetDeleted)="onWidgetDeleted($event)"
+        (libraryItemAdded)="onLibraryItemAdded($event)"
+        (sortChanged)="onSortChanged($event)"
+      />
+    </div>
+  </div>
+
+  <!-- Usage Section -->
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">Usage</h2>
+    <doc-code [code]="usageCode" language="html" />
+  </div>
+
+  <!-- API Reference Section -->
+  <div class="analytics-page__section">
+    <h2 class="analytics-page__section-title">API Reference</h2>
+    <doc-api-table title="Properties (Inputs)" [properties]="properties" />
+    <doc-api-table title="Events (Outputs)" [properties]="events" [hasDefaults]="false" />
+  </div>
+</div>
