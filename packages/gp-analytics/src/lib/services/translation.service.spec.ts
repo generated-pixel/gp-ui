@@ -51,10 +51,7 @@ describe('GpTranslationService', () => {
     expect(service.translate('metadataCatalogue')).toBe('Catalogue de métadonnées');
   });
 
-  it('should maintain backwards compatibility with 2-letter codes (fr, es, ja, en)', () => {
-    service.setLocale('fr');
-    expect(service.translate('metadataCatalogue')).toBe('Catalogue de métadonnées');
-
+  it('should maintain backwards compatibility with 2-letter codes (es, ja, en)', () => {
     service.setLocale('es');
     expect(service.translate('metadataCatalogue')).toBe('Catálogo de metadatos');
 
@@ -103,6 +100,6 @@ describe('GpTranslationService', () => {
     expect(locales).toContain('es-ES');
     expect(locales).toContain('ja-JP');
     expect(locales).toContain('en');
-    expect(locales).toContain('fr');
+    expect(locales).toContain('es');
   });
 });

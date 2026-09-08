@@ -11,7 +11,6 @@ export type SupportedLocale =
   | 'es-ES'
   | 'ja-JP'
   | 'en'
-  | 'fr'
   | 'es'
   | 'ja'
   | (string & {});

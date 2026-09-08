@@ -1,7 +1,7 @@
 import { Injectable, Optional, inject, signal } from '@angular/core';
 import { DEFAULT_ENGLISH_TRANSLATIONS } from './default-translations.en';
 import { ENGLISH_GB_TRANSLATIONS } from './translations.en-gb';
-import { FRENCH_TRANSLATIONS } from './translations.fr';
+import { FRENCH_FR_TRANSLATIONS } from './translations.fr-fr';
 import { FRENCH_CA_TRANSLATIONS } from './translations.fr-ca';
 import { GERMAN_DE_TRANSLATIONS } from './translations.de-de';
 import { SPANISH_TRANSLATIONS } from './translations.es';
@@ -51,9 +51,8 @@ export class GpTranslationService {
     this.registerTranslations('en-GB', ENGLISH_GB_TRANSLATIONS);
 
     // 3. Pre-register French variants
-    this.registerTranslations('fr-FR', FRENCH_TRANSLATIONS);
+    this.registerTranslations('fr-FR', FRENCH_FR_TRANSLATIONS);
     this.registerTranslations('fr-CA', FRENCH_CA_TRANSLATIONS);
-    this.registerTranslations('fr', FRENCH_TRANSLATIONS);
 
     // 4. Pre-register German (de-DE)
     this.registerTranslations('de-DE', GERMAN_DE_TRANSLATIONS);
@@ -88,10 +87,12 @@ export class GpTranslationService {
    */
   registerTranslations(locale: string, translations: Partial<Record<TranslationKey, string>>): void {
     const baseLang = this.getBaseLanguage(locale);
+    const canonicalRegional = `${baseLang}-${baseLang.toUpperCase()}`;
     const enUsDefaults = this.registry.get('en-US') || DEFAULT_ENGLISH_TRANSLATIONS;
     const existing =
       this.registry.get(locale) ||
       this.registry.get(baseLang) ||
+      this.registry.get(canonicalRegional) ||
       enUsDefaults;
 
     this.registry.set(locale, {
@@ -102,8 +103,8 @@ export class GpTranslationService {
   }
 
   /**
-   * Sets the active locale. Accepts BCP 47 codes like 'en-US', 'fr-FR', 'en-GB', 'fr-CA'
-   * or short codes like 'en', 'fr'.
+   * Sets the active locale. Accepts BCP 47 codes like 'en-US', 'fr-FR', 'en-GB', 'fr-CA', 'de-DE'
+   * or short codes like 'en', 'es'.
    */
   setLocale(locale: SupportedLocale): void {
     this.locale.set(locale);
@@ -127,22 +128,25 @@ export class GpTranslationService {
       return true;
     }
     const baseLang = this.getBaseLanguage(locale);
-    return this.registry.has(baseLang);
+    const canonicalRegional = `${baseLang}-${baseLang.toUpperCase()}`;
+    return this.registry.has(baseLang) || this.registry.has(canonicalRegional);
   }
 
   /**
    * Translates a key with optional dynamic template parameters.
-   * Employs hierarchical fallback: exact locale -> base language -> en-US defaults.
+   * Employs hierarchical fallback: exact locale -> base language -> canonical regional (e.g. fr-FR) -> en-US defaults.
    * Any values that do not exist in other languages come directly from en-US.
    */
   translate(key: TranslationKey, params: TranslationParams = {}): string {
     const activeLocale = this.locale();
     const baseLang = this.getBaseLanguage(activeLocale);
+    const canonicalRegional = `${baseLang}-${baseLang.toUpperCase()}`;
     const enUsDefaults = this.registry.get('en-US') || DEFAULT_ENGLISH_TRANSLATIONS;
 
     const dictionary =
       this.registry.get(activeLocale) ||
       this.registry.get(baseLang) ||
+      this.registry.get(canonicalRegional) ||
       enUsDefaults;
 
     let text = dictionary[key] || enUsDefaults[key] || key;
