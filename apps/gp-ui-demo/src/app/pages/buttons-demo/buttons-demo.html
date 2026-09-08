@@ -60,6 +60,26 @@
     <doc-code [code]="iconsCode" language="html" />
   </div>
 
+  <!-- Badges & Tags -->
+  <div class="buttons-demo-page__section">
+    <h2 class="buttons-demo-page__section-title">Badges &amp; Tags</h2>
+    <p class="buttons-demo-page__section-desc">
+      Buttons can display badge counters or embedded status tags with customizable severities.
+    </p>
+    <div class="buttons-demo-page__demo-box">
+      <gp-button label="Emails" badge="8" severity="primary" />
+      <gp-button label="Messages" icon="envelope" badge="5" badgeSeverity="success" severity="secondary" />
+      <gp-button label="Notifications" icon="bell" badge="3" badgeSeverity="danger" severity="secondary" />
+      <gp-button label="Updates" badge="New" badgeSeverity="info" variant="outlined" severity="primary" />
+      <gp-button label="Tasks" badge="12" badgeSeverity="warning" variant="text" severity="secondary" />
+      <gp-button severity="secondary" variant="outlined">
+        <span>Custom Tag</span>
+        <gp-tag value="Beta" severity="info" size="sm" [rounded]="true"></gp-tag>
+      </gp-button>
+    </div>
+    <doc-code [code]="badgeCode" language="html" />
+  </div>
+
   <!-- Button Groups & Split Buttons -->
   <div class="buttons-demo-page__section">
     <h2 class="buttons-demo-page__section-title">Button Groups & Split Button</h2>

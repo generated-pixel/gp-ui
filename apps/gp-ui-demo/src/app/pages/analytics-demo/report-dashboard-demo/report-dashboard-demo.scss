@@ -19,30 +19,31 @@
 
 .role-selector-bar {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--gp-tag-gap, 0.5rem);
   flex-wrap: wrap;
   margin-bottom: 1.25rem;
 
   .role-pill-btn {
-    background: var(--gp-surface-card, #ffffff);
-    border: 1px solid var(--gp-surface-border, #cbd5e1);
-    border-radius: var(--gp-border-radius-lg, 0.5rem);
-    padding: 0.4rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--gp-surface-border);
+    border-radius: var(--gp-border-radius-full);
+    padding: 0.2rem 0.45rem;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all var(--gp-transition-duration) var(--gp-transition-timing);
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: var(--gp-tag-gap, 0.35rem);
 
     &:hover {
-      border-color: var(--gp-primary, #6366f1);
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);
+      border-color: var(--gp-primary);
+      box-shadow: var(--gp-shadow-sm);
+      transform: translateY(-1px);
     }
 
     &.active {
-      border-color: var(--gp-primary, #6366f1);
-      background: var(--gp-primary-light, #eef2ff);
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+      border-color: var(--gp-primary);
+      background: var(--gp-surface-ground);
+      box-shadow: var(--gp-focus-ring);
     }
 
     &.is-custom {
@@ -50,8 +51,8 @@
     }
 
     .custom-badge-indicator {
-      font-size: 0.75rem;
-      color: #f59e0b;
+      font-size: var(--gp-font-size-xs);
+      color: var(--gp-warning);
     }
   }
 }

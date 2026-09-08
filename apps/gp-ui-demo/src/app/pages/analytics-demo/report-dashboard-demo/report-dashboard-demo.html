@@ -45,7 +45,7 @@
         [class.is-custom]="opt.isCustom"
         (click)="selectRole(opt.role)"
       >
-        <gp-tag [value]="opt.label" [severity]="opt.badgeSeverity" size="sm" />
+        <gp-tag [value]="opt.label" [severity]="opt.badgeSeverity" size="sm" [rounded]="true" />
         @if (opt.isCustom) {
         <span class="custom-badge-indicator" title="Custom user-defined role">★</span>
         }

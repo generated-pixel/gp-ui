@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, GpMenuItem } from 'gp-ui';
+import { GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, GpMenuItem, GpTag } from 'gp-ui';
 import { DocCode } from '../../shared/doc-code';
 import { DocApiTable, DocApiProperty } from '../../shared/doc-api-table';
 import { getComponentDoc } from '../component-docs/component-docs.data';
@@ -8,7 +8,7 @@ import { getComponentDoc } from '../component-docs/component-docs.data';
 @Component({
   selector: 'app-buttons-demo',
   standalone: true,
-  imports: [GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, DocCode, DocApiTable],
+  imports: [GpButton, GpButtonGroup, GpSplitButton, GpSpeedDial, GpToggleButton, GpTag, DocCode, DocApiTable],
   templateUrl: './buttons-demo.html',
   styleUrl: './buttons-demo.scss'
 })
@@ -39,6 +39,16 @@ export class ButtonsDemo {
 <gp-button icon="check" [iconOnly]="true" severity="success" />
 <gp-button icon="trash" [iconOnly]="true" [rounded]="true" severity="danger" />
 <gp-button label="Saving..." [loading]="true" severity="primary" />`;
+
+  badgeCode = `<gp-button label="Emails" badge="8" severity="primary" />
+<gp-button label="Messages" icon="envelope" badge="5" badgeSeverity="success" severity="secondary" />
+<gp-button label="Notifications" icon="bell" badge="3" badgeSeverity="danger" severity="secondary" />
+<gp-button label="Updates" badge="New" badgeSeverity="info" variant="outlined" severity="primary" />
+<gp-button label="Tasks" badge="12" badgeSeverity="warning" variant="text" severity="secondary" />
+<gp-button severity="secondary" variant="outlined">
+  <span>Custom Tag</span>
+  <gp-tag value="Beta" severity="info" size="sm" [rounded]="true" />
+</gp-button>`;
 
   groupsCode = `<gp-button-group>
   <gp-button label="Left" severity="secondary" />
