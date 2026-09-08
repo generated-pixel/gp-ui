@@ -17,8 +17,8 @@ export const routes: Routes = [
   },
   {
     path: 'analytics/schema-catalogue',
-    loadComponent: () =>
-      import('./pages/analytics-demo/schema-catalogue-demo/schema-catalogue-demo').then((m) => m.SchemaCatalogueDemo)
+    redirectTo: 'analytics/dataset-builder',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/dataset-field-selector',
@@ -27,8 +27,8 @@ export const routes: Routes = [
   },
   {
     path: 'analytics/dataset-preview',
-    loadComponent: () =>
-      import('./pages/analytics-demo/dataset-preview-demo/dataset-preview-demo').then((m) => m.DatasetPreviewDemo)
+    redirectTo: 'analytics/dataset-builder',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/dataset-builder',
@@ -37,25 +37,28 @@ export const routes: Routes = [
   },
   {
     path: 'analytics/kpi-card',
-    loadComponent: () => import('./pages/analytics-demo/kpi-card-demo/kpi-card-demo').then((m) => m.KpiCardDemo)
+    redirectTo: 'analytics/dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/analytical-chart',
-    loadComponent: () =>
-      import('./pages/analytics-demo/analytical-chart-demo/analytical-chart-demo').then((m) => m.AnalyticalChartDemo)
+    redirectTo: 'analytics/dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/filter-bar',
-    loadComponent: () => import('./pages/analytics-demo/filter-bar-demo/filter-bar-demo').then((m) => m.FilterBarDemo)
+    redirectTo: 'analytics/dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/tabular-report',
-    loadComponent: () =>
-      import('./pages/analytics-demo/tabular-report-demo/tabular-report-demo').then((m) => m.TabularReportDemo)
+    redirectTo: 'analytics/report-dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/pivot-grid',
-    loadComponent: () => import('./pages/analytics-demo/pivot-grid-demo/pivot-grid-demo').then((m) => m.PivotGridDemo)
+    redirectTo: 'analytics/report-dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/dashboard',

@@ -86,14 +86,6 @@ export class App {
       badge: 'New'
     },
     { name: 'Analytics Overview', route: '/analytics', category: 'Analytics', icon: 'sparkles', badge: 'New' },
-    { name: 'Schema Catalogue', route: '/analytics/schema-catalogue', category: 'Analytics', icon: 'sitemap' },
-    { name: 'Dataset Preview', route: '/analytics/dataset-preview', category: 'Analytics', icon: 'table' },
-    { name: 'Dataset Builder', route: '/analytics/dataset-builder', category: 'Analytics', icon: 'edit' },
-    { name: 'KPI Card', route: '/analytics/kpi-card', category: 'Analytics', icon: 'meter' },
-    { name: 'Analytical Chart', route: '/analytics/analytical-chart', category: 'Analytics', icon: 'bar-chart-2' },
-    { name: 'Filter Bar', route: '/analytics/filter-bar', category: 'Analytics', icon: 'search' },
-    { name: 'Tabular Report', route: '/analytics/tabular-report', category: 'Analytics', icon: 'bars' },
-    { name: 'Pivot Grid', route: '/analytics/pivot-grid', category: 'Analytics', icon: 'grid' },
     { name: 'Analytics Dashboard', route: '/analytics/dashboard', category: 'Analytics', icon: 'layout-grid' },
     {
       name: 'Report Dashboard',
@@ -109,6 +101,7 @@ export class App {
       icon: 'palette',
       badge: 'New'
     },
+    { name: 'Dataset Builder', route: '/analytics/dataset-builder', category: 'Analytics', icon: 'edit' },
     { name: 'Package Manager', route: '/analytics/package-manager', category: 'Analytics', icon: 'panel-right' },
     { name: 'UI Blocks Gallery', route: '/blocks', category: 'General', icon: 'grid', badge: '60+ Blocks' },
     {
