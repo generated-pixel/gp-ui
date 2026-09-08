@@ -52,15 +52,20 @@ describe('dataset-field model', () => {
     const df = createDatasetField(sampleBaseField);
 
     // With aggregation = sum
+    expect(getDatasetFieldDisplayLabel(df, 'en-US')).toBe('Order total (SUM)');
     expect(getDatasetFieldDisplayLabel(df, 'en')).toBe('Order total (SUM)');
+    expect(getDatasetFieldDisplayLabel(df, 'fr-FR')).toBe('Total de la commande (SUM)');
+    expect(getDatasetFieldDisplayLabel(df, 'fr-CA')).toBe('Total de la commande (SUM)');
     expect(getDatasetFieldDisplayLabel(df, 'fr')).toBe('Total de la commande (SUM)');
 
     // With aggregation = none
     df.aggregationType = 'none';
+    expect(getDatasetFieldDisplayLabel(df, 'en-US')).toBe('Order total');
     expect(getDatasetFieldDisplayLabel(df, 'en')).toBe('Order total');
 
     // With aggregation = count-distinct
     df.aggregationType = 'count-distinct';
+    expect(getDatasetFieldDisplayLabel(df, 'en-US')).toBe('Order total (COUNT DISTINCT)');
     expect(getDatasetFieldDisplayLabel(df, 'en')).toBe('Order total (COUNT DISTINCT)');
   });
 
@@ -96,15 +101,32 @@ describe('dataset-field model', () => {
     expect(df.lookupValues!.length).toBe(3);
 
     // English resolution
+    expect(getLookupValueDisplayLabel(df, 'completed', 'en-US')).toBe('Completed');
     expect(getLookupValueDisplayLabel(df, 'completed', 'en')).toBe('Completed');
-    expect(getLookupValueDisplayLabel(df, 'processing', 'en')).toBe('Processing');
+    expect(getLookupValueDisplayLabel(df, 'processing', 'en-US')).toBe('Processing');
 
-    // French resolution
+    // French resolution (both fr-FR and fr-CA fall back to base 'fr' when regional key not explicitly provided)
+    expect(getLookupValueDisplayLabel(df, 'completed', 'fr-FR')).toBe('Complété');
+    expect(getLookupValueDisplayLabel(df, 'completed', 'fr-CA')).toBe('Complété');
     expect(getLookupValueDisplayLabel(df, 'completed', 'fr')).toBe('Complété');
-    expect(getLookupValueDisplayLabel(df, 'processing', 'fr')).toBe('En traitement');
+    expect(getLookupValueDisplayLabel(df, 'processing', 'fr-FR')).toBe('En traitement');
+
+    // Regional override resolution
+    const regionalField: Field = {
+      ...sampleBaseField,
+      fieldId: 'color-pref',
+      fieldName: 'color',
+      lookupValues: [
+        { value: 'col1', displayValue: { 'en-US': 'Color', 'en-GB': 'Colour', fr: 'Couleur' } }
+      ]
+    };
+    const dfRegional = createDatasetField(regionalField);
+    expect(getLookupValueDisplayLabel(dfRegional, 'col1', 'en-US')).toBe('Color');
+    expect(getLookupValueDisplayLabel(dfRegional, 'col1', 'en-GB')).toBe('Colour');
+    expect(getLookupValueDisplayLabel(dfRegional, 'col1', 'fr-CA')).toBe('Couleur');
 
     // Unmatched value fallback
-    expect(getLookupValueDisplayLabel(df, 'unknown', 'en')).toBe('unknown');
-    expect(getLookupValueDisplayLabel(undefined, 'custom', 'en')).toBe('custom');
+    expect(getLookupValueDisplayLabel(df, 'unknown', 'en-US')).toBe('unknown');
+    expect(getLookupValueDisplayLabel(undefined, 'custom', 'en-US')).toBe('custom');
   });
 });

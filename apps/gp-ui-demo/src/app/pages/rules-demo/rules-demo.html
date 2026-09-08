@@ -127,17 +127,17 @@
           <div class="calc-summary-box">
             <div class="summary-row">
               <span class="summary-label">Subtotal:</span>
-              <span class="summary-val">\${{ orderState().subtotal | number: '1.2-2' }}</span>
+              <span class="summary-val">${{ orderState().subtotal | number: '1.2-2' }}</span>
             </div>
             <div class="summary-row" [class.discount-highlight]="orderState().discountPercent > 0">
               <span class="summary-label">Discount ({{ orderState().discountPercent }}%):</span>
               <span class="summary-val"
-                >-\${{ (orderState().subtotal * orderState().discountPercent) / 100 | number: '1.2-2' }}</span
+                >-${{ (orderState().subtotal * orderState().discountPercent) / 100 | number: '1.2-2' }}</span
               >
             </div>
             <div class="summary-row total-row">
               <span class="summary-label">Final Order Total:</span>
-              <span class="summary-val">\${{ orderState().total | number: '1.2-2' }}</span>
+              <span class="summary-val">${{ orderState().total | number: '1.2-2' }}</span>
             </div>
           </div>
         </div>

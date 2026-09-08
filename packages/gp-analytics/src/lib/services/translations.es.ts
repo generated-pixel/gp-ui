@@ -128,3 +128,8 @@ export const SPANISH_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
   clearAllFilters: 'Borrar todos los filtros',
   availableOptions: 'Opciones disponibles (traducidas)'
 };
+
+/**
+ * es-ES Spanish translation alias.
+ */
+export const SPANISH_ES_TRANSLATIONS: Partial<Record<TranslationKey, string>> = SPANISH_TRANSLATIONS;

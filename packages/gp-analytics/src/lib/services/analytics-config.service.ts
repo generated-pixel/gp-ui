@@ -7,7 +7,7 @@ import { GP_ANALYTICS_CONFIG } from '../providers/gp-analytics-config.token';
  * Default global configuration values.
  */
 export const DEFAULT_GP_ANALYTICS_CONFIG: Required<GpAnalyticsConfig> = {
-  locale: 'en',
+  locale: 'en-US',
   dateFormat: 'YYYY-MM-DD',
   numberFormat: {
     decimalSeparator: '.',

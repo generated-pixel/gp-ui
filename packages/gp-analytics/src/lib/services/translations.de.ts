@@ -128,3 +128,8 @@ export const GERMAN_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
   clearAllFilters: 'Alle Filter löschen',
   availableOptions: 'Verfügbare Optionen (übersetzt)'
 };
+
+/**
+ * de-DE German translation alias.
+ */
+export const GERMAN_DE_TRANSLATIONS: Partial<Record<TranslationKey, string>> = GERMAN_TRANSLATIONS;

@@ -128,3 +128,8 @@ export const JAPANESE_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
   clearAllFilters: 'すべてのフィルタを解除',
   availableOptions: '利用可能な選択肢 (ローカライズ済み)'
 };
+
+/**
+ * ja-JP Japanese translation alias.
+ */
+export const JAPANESE_JP_TRANSLATIONS: Partial<Record<TranslationKey, string>> = JAPANESE_TRANSLATIONS;

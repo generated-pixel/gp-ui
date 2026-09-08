@@ -40,7 +40,7 @@ export function createDatasetField(baseField: Field, customId?: string): Dataset
 export function getLookupValueDisplayLabel(
   field: DatasetField | Field | undefined,
   val: any,
-  locale: string = 'en'
+  locale: string = 'en-US'
 ): string {
   if (val == null) {
     return '';
@@ -48,7 +48,14 @@ export function getLookupValueDisplayLabel(
   if (field?.lookupValues && field.lookupValues.length > 0) {
     const match = field.lookupValues.find((item) => item.value === val || String(item.value) === String(val));
     if (match) {
-      return match.displayValue?.[locale] ?? match.displayValue?.['en'] ?? String(match.value);
+      const baseLang = (locale || 'en-US').split('-')[0].toLowerCase();
+      return (
+        match.displayValue?.[locale] ??
+        match.displayValue?.[baseLang] ??
+        match.displayValue?.['en-US'] ??
+        match.displayValue?.['en'] ??
+        String(match.value)
+      );
     }
   }
   return String(val);
@@ -62,10 +69,14 @@ export function getLookupValueDisplayLabel(
  */
 export function getDatasetFieldDisplayLabel(
   field: Pick<DatasetField, 'fieldDisplayName' | 'aggregationType'>,
-  locale: string = 'en'
+  locale: string = 'en-US'
 ): string {
+  const baseLang = (locale || 'en-US').split('-')[0].toLowerCase();
   const baseLabel =
     field.fieldDisplayName?.displayValue?.[locale] ??
+    field.fieldDisplayName?.displayValue?.[baseLang] ??
+    field.fieldDisplayName?.displayValue?.['en-US'] ??
+    field.fieldDisplayName?.displayValue?.['en'] ??
     (field.fieldDisplayName?.value != null ? String(field.fieldDisplayName.value) : '');
 
   if (!field.aggregationType || field.aggregationType === 'none') {

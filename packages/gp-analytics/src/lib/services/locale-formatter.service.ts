@@ -71,7 +71,7 @@ export class GpLocaleFormatterService {
 
     const code = (currencyCode || this.configService?.currency() || 'USD').toUpperCase();
     const currencyDisplay = display || this.configService?.currencyDisplay() || 'symbol';
-    const activeLocale = this.configService?.locale() || 'en';
+    const activeLocale = this.configService?.locale() || 'en-US';
 
     try {
       return new Intl.NumberFormat(activeLocale, {

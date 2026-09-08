@@ -129,3 +129,8 @@ export const DEFAULT_ENGLISH_TRANSLATIONS: Record<TranslationKey, string> = {
   clearAllFilters: 'Clear All Filters',
   availableOptions: 'Available options (translated)'
 };
+
+/**
+ * en-US English translation alias.
+ */
+export const ENGLISH_US_TRANSLATIONS: Record<TranslationKey, string> = DEFAULT_ENGLISH_TRANSLATIONS;

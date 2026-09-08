@@ -125,3 +125,8 @@ export const FRENCH_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
   clearAllFilters: 'Effacer tous les filtres',
   availableOptions: 'Options disponibles (traduites)'
 };
+
+/**
+ * fr-FR French translation alias.
+ */
+export const FRENCH_FR_TRANSLATIONS: Partial<Record<TranslationKey, string>> = FRENCH_TRANSLATIONS;
