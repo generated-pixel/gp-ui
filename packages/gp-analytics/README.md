@@ -12,6 +12,10 @@ Foundational metadata models for analytics applications: groups, tables, field g
 - **Field capabilities**: Describe whether a field is reportable, filterable, sortable, groupable, indexed, or usable for joins.
 - **Relationships**: Model one-to-one and one-to-many joins by source and target field IDs.
 - **Localized values**: Keep a stable stored value separate from language-specific display values.
+- **Report Dashboard (`GpReportDashboard`)**: Anchored 1-report analytical cockpit empowering users to create derived graphs and KPI scorecards directly off report dimensions and measures.
+- **5-Tier Role Access Control**: Built-in permission models for Admins, Dataset Designers, Dashboard Designers, Managers, and Regular Users.
+- **Widget & Report Libraries**: Curated reusable templates created by designers and consumable by managers to build custom dashboards.
+- **Global Filtering & Global Sorting**: Dashboard-wide filters and configurable global sorting with exposed field whitelist and sort direction controls.
 
 ## Installation
 

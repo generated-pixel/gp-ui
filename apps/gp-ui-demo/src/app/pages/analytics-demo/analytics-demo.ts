@@ -70,7 +70,8 @@ export class AnalyticsDemo {
     {
       route: '/analytics/report-dashboard',
       title: 'Report Dashboard',
-      description: '1-Report analytical cockpit with user-derived KPIs & graphs, 5-tier role-based access control, widget libraries, and global sorting.'
+      description:
+        '1-Report analytical cockpit with user-derived KPIs & graphs, 5-tier role-based access control, widget libraries, and global sorting.'
     },
     {
       route: '/analytics/dashboard-designer',

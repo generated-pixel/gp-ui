@@ -29,11 +29,7 @@ import {
   GpKpiMetricResult,
   GpMeasureQuery
 } from '../../../models/query.model';
-import {
-  GpDashboardWidgetConfig,
-  GpKpiWidgetConfig,
-  GpChartWidgetConfig
-} from '../../../models/dashboard.model';
+import { GpDashboardWidgetConfig, GpKpiWidgetConfig, GpChartWidgetConfig } from '../../../models/dashboard.model';
 import {
   GpReportDashboardConfig,
   createDefaultReportDashboardConfig,
@@ -271,9 +267,15 @@ export class GpReportDashboard extends GpAnalyticsComponent {
       list = [...list].sort((a, b) => {
         const valA = a[field];
         const valB = b[field];
-        if (valA == null && valB == null) return 0;
-        if (valA == null) return order === 'asc' ? -1 : 1;
-        if (valB == null) return order === 'asc' ? 1 : -1;
+        if (valA == null && valB == null) {
+          return 0;
+        }
+        if (valA == null) {
+          return order === 'asc' ? -1 : 1;
+        }
+        if (valB == null) {
+          return order === 'asc' ? 1 : -1;
+        }
         if (typeof valA === 'number' && typeof valB === 'number') {
           return order === 'asc' ? valA - valB : valB - valA;
         }
@@ -295,7 +297,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
   readonly compactType = computed(() => this.config().compactType ?? 'vertical');
 
   readonly isGridReadonly = computed(() => {
-    if (this.editable()) return false;
+    if (this.editable()) {
+      return false;
+    }
     return !this.permissions().canCustomizeLayout;
   });
 
@@ -320,9 +324,7 @@ export class GpReportDashboard extends GpAnalyticsComponent {
     for (const w of this.config().derivedWidgets) {
       if (w.type === 'kpi') {
         const kpi = w as GpKpiWidgetConfig;
-        const prev = kpi.comparePrevious
-          ? records.slice(0, Math.max(1, Math.floor(records.length / 2)))
-          : undefined;
+        const prev = kpi.comparePrevious ? records.slice(0, Math.max(1, Math.floor(records.length / 2))) : undefined;
         const metric = this.engine.computeKpiMetric(records, kpi.measure, kpi.title, {
           previousRecords: prev,
           targetValue: kpi.targetValue,
@@ -348,8 +350,7 @@ export class GpReportDashboard extends GpAnalyticsComponent {
     for (const w of this.config().derivedWidgets) {
       if (w.type === 'chart') {
         const chart = w as GpChartWidgetConfig;
-        const measureKey =
-          chart.measure.alias || `${chart.measure.fieldId}_${chart.measure.aggregation}`;
+        const measureKey = chart.measure.alias || `${chart.measure.fieldId}_${chart.measure.aggregation}`;
         const spec: GpAnalyticalQuerySpec = {
           dimensions: [chart.dimension],
           measures: [chart.measure],
@@ -489,7 +490,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
 
   // Global Sort Configuration Modal
   openGlobalSortModal(): void {
-    if (!this.permissions().canConfigureGlobalSorting) return;
+    if (!this.permissions().canConfigureGlobalSorting) {
+      return;
+    }
     const available = this.globalSort().availableFields.map((f) => f.fieldId);
     this.draftSortFieldIds.set(new Set(available));
     this.isGlobalSortModalOpen.set(true);
@@ -534,7 +537,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
 
   // Derived Widget Creation
   openAddDerivedModal(type: 'kpi' | 'chart' = 'kpi'): void {
-    if (!this.permissions().canCreateDerivedWidgets) return;
+    if (!this.permissions().canCreateDerivedWidgets) {
+      return;
+    }
     this.derivedType.set(type);
 
     const measures = this.reportMeasures();
@@ -555,7 +560,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
   }
 
   createDerivedWidget(): void {
-    if (!this.permissions().canCreateDerivedWidgets) return;
+    if (!this.permissions().canCreateDerivedWidgets) {
+      return;
+    }
 
     let newWidget: GpDashboardWidgetConfig;
 
@@ -595,8 +602,12 @@ export class GpReportDashboard extends GpAnalyticsComponent {
 
   // Delete Derived Widget
   deleteWidget(widgetId: string, event?: MouseEvent): void {
-    if (event) event.stopPropagation();
-    if (!this.permissions().canCustomizeLayout && !this.permissions().canCreateDerivedWidgets) return;
+    if (event) {
+      event.stopPropagation();
+    }
+    if (!this.permissions().canCustomizeLayout && !this.permissions().canCreateDerivedWidgets) {
+      return;
+    }
 
     this.config.update((c) => ({
       ...c,
@@ -608,8 +619,12 @@ export class GpReportDashboard extends GpAnalyticsComponent {
 
   // Save Widget to Library (Designers / Admins)
   saveWidgetToLibrary(widget: GpDashboardWidgetConfig, event?: MouseEvent): void {
-    if (event) event.stopPropagation();
-    if (!this.permissions().canManageLibraries) return;
+    if (event) {
+      event.stopPropagation();
+    }
+    if (!this.permissions().canManageLibraries) {
+      return;
+    }
 
     const added = this.libraryService.addWidget({
       name: widget.title,
@@ -634,7 +649,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
   }
 
   addLibraryWidgetToDashboard(item: GpWidgetLibraryItem): void {
-    if (!this.permissions().canCreateCustomDashboards && !this.permissions().canManageDashboards) return;
+    if (!this.permissions().canCreateCustomDashboards && !this.permissions().canManageDashboards) {
+      return;
+    }
 
     const newWidget: GpDashboardWidgetConfig = {
       ...(item.widgetConfig as any),
@@ -654,7 +671,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
 
   // Layout changes from gp-grid
   onLayoutChanged(items: GpGridItem[]): void {
-    if (!this.permissions().canCustomizeLayout) return;
+    if (!this.permissions().canCustomizeLayout) {
+      return;
+    }
 
     const itemMap = new Map<string, GpGridItem>();
     for (const item of items) {
@@ -697,7 +716,9 @@ export class GpReportDashboard extends GpAnalyticsComponent {
   }
 
   onShareDashboard(): void {
-    if (!this.permissions().canShareDashboards) return;
+    if (!this.permissions().canShareDashboards) {
+      return;
+    }
     const current = this.config();
     this.shareDashboard.emit(current);
   }

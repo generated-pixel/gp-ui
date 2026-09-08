@@ -26,14 +26,7 @@ interface RoleOption {
 @Component({
   selector: 'app-report-dashboard-demo',
   standalone: true,
-  imports: [
-    GpBadge,
-    GpToast,
-    GpTag,
-    GpReportDashboard,
-    DocApiTable,
-    DocCode
-  ],
+  imports: [GpBadge, GpToast, GpTag, GpReportDashboard, DocApiTable, DocCode],
   templateUrl: './report-dashboard-demo.html',
   styleUrl: './report-dashboard-demo.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -51,7 +44,8 @@ export class ReportDashboardDemo {
       role: 'admin',
       label: 'Admin',
       badgeSeverity: 'warning',
-      description: 'Superusers who can manage datasets, create reports, edit dashboards, configure global sorts, and administer libraries.',
+      description:
+        'Superusers who can manage datasets, create reports, edit dashboards, configure global sorts, and administer libraries.',
       capabilities: [
         'Full access to all datasets and schema design',
         'Create, edit, and share dashboards and reports',
@@ -78,7 +72,8 @@ export class ReportDashboardDemo {
       role: 'dashboard-designer',
       label: 'Dashboard Designer',
       badgeSeverity: 'primary',
-      description: 'Analytical authors who build, edit, and share dashboards and reports from created datasets, and create widget libraries.',
+      description:
+        'Analytical authors who build, edit, and share dashboards and reports from created datasets, and create widget libraries.',
       capabilities: [
         'Create, edit, and share dashboards and reports',
         'Create and publish libraries of widgets & reports for others',
@@ -91,7 +86,8 @@ export class ReportDashboardDemo {
       role: 'manager',
       label: 'Manager User',
       badgeSeverity: 'success',
-      description: 'Business leaders who consume dashboards, build personal dashboards using curated libraries, and filter available data.',
+      description:
+        'Business leaders who consume dashboards, build personal dashboards using curated libraries, and filter available data.',
       capabilities: [
         'Consume reports and dashboards',
         'Build custom personal dashboards using the widget library',
@@ -202,7 +198,8 @@ export class ReportDashboardDemo {
       name: 'role',
       type: "input<GpUserRole>('admin')",
       default: "'admin'",
-      description: "User role: 'admin' | 'dataset-designer' | 'dashboard-designer' | 'manager' | 'regular'. Dictates exact UI controls and capabilities."
+      description:
+        "User role: 'admin' | 'dataset-designer' | 'dashboard-designer' | 'manager' | 'regular'. Dictates exact UI controls and capabilities."
     },
     {
       name: 'permissionOverrides',

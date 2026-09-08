@@ -24,9 +24,7 @@
 
     <div class="gp-report-dashboard__header-actions">
       @if (lastRefreshedAt(); as ts) {
-      <span class="sync-badge" title="Data synchronization timestamp">
-        Synced: {{ ts | date : 'mediumTime' }}
-      </span>
+      <span class="sync-badge" title="Data synchronization timestamp"> Synced: {{ ts | date : 'mediumTime' }} </span>
       }
 
       <gp-button
@@ -53,9 +51,7 @@
         <span>↗</span>
         <span>Share</span>
       </gp-button>
-      }
-
-      @if (permissions().canManageDashboards || permissions().canCreateCustomDashboards) {
+      } @if (permissions().canManageDashboards || permissions().canCreateCustomDashboards) {
       <gp-button
         variant="filled"
         size="sm"
@@ -88,9 +84,7 @@
     <div class="controls-bottom-row">
       <!-- Global Sorting Cluster -->
       <div class="global-sort-cluster" role="group" aria-label="Global Sorting">
-        <span class="control-label">
-          <span class="sort-icon">⇅</span> Global Sort:
-        </span>
+        <span class="control-label"> <span class="sort-icon">⇅</span> Global Sort: </span>
 
         <select
           class="gp-input-select sort-select"
@@ -148,9 +142,7 @@
         >
           <span>+ Graph off Report</span>
         </gp-button>
-        }
-
-        @if (permissions().canCreateCustomDashboards || permissions().canManageDashboards) {
+        } @if (permissions().canCreateCustomDashboards || permissions().canManageDashboards) {
         <gp-button
           variant="outlined"
           size="sm"
@@ -193,9 +185,7 @@
               <span class="report-badge-icon">📑</span>
               <span class="report-badge-text">Anchored Primary Report</span>
             </div>
-            <span class="report-records-count">
-              {{ processedRecords().length }} records
-            </span>
+            <span class="report-records-count"> {{ processedRecords().length }} records </span>
           </div>
 
           <div class="report-content-body">
@@ -233,9 +223,7 @@
             @if (permissions().canCustomizeLayout) {
             <div class="gp-grid-drag-handle widget-drag-grip" title="Drag to reposition">
               <span>⠿</span>
-              <span class="widget-type-label">
-                {{ w?.type === 'kpi' ? 'KPI' : 'Graph' }}
-              </span>
+              <span class="widget-type-label"> {{ w?.type === 'kpi' ? 'KPI' : 'Graph' }} </span>
             </div>
             }
 
@@ -249,9 +237,7 @@
               >
                 📥
               </button>
-              }
-
-              @if ((permissions().canCustomizeLayout || permissions().canCreateDerivedWidgets) && w) {
+              } @if ((permissions().canCustomizeLayout || permissions().canCreateDerivedWidgets) && w) {
               <button
                 type="button"
                 class="btn-widget-action btn-danger"
@@ -266,9 +252,7 @@
 
           <!-- Populated Widget Body -->
           <div class="widget-content">
-            @if (asKpi(w); as kpi) {
-            @let metric = getKpiMetric(kpi.id);
-            @if (metric) {
+            @if (asKpi(w); as kpi) { @let metric = getKpiMetric(kpi.id); @if (metric) {
             <gp-kpi-card
               [title]="kpi.title"
               [formattedValue]="metric.formattedCurrentValue"
@@ -283,8 +267,7 @@
             />
             } @else {
             <gp-kpi-card [title]="kpi.title" formattedValue="--" icon="📊" />
-            }
-            } @else if (asChart(w); as chart) {
+            } } @else if (asChart(w); as chart) {
             <gp-analytical-chart
               [title]="chart.title"
               [subtitle]="chart.subtitle || ''"
@@ -310,12 +293,7 @@
 
       <!-- Tab Switcher: KPI vs Graph -->
       <div class="modal-tabs" role="tablist">
-        <button
-          type="button"
-          class="tab-btn"
-          [class.active]="derivedType() === 'kpi'"
-          (click)="derivedType.set('kpi')"
-        >
+        <button type="button" class="tab-btn" [class.active]="derivedType() === 'kpi'" (click)="derivedType.set('kpi')">
           📈 KPI Scorecard
         </button>
         <button
@@ -386,11 +364,7 @@
 
           <div class="form-group flex-1">
             <label class="form-label">Icon</label>
-            <select
-              class="form-select"
-              [value]="draftKpiIcon()"
-              (change)="draftKpiIcon.set($any($event.target).value)"
-            >
+            <select class="form-select" [value]="draftKpiIcon()" (change)="draftKpiIcon.set($any($event.target).value)">
               <option value="💰">💰 Money / Currency</option>
               <option value="📦">📦 Orders / Packages</option>
               <option value="📈">📈 Growth / Trend</option>
@@ -482,9 +456,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn-cancel" (click)="closeDerivedModal()">Cancel</button>
-        <button type="button" class="btn-confirm" (click)="createDerivedWidget()">
-          Add to Dashboard
-        </button>
+        <button type="button" class="btn-confirm" (click)="createDerivedWidget()">Add to Dashboard</button>
       </div>
     </div>
   </div>
@@ -521,9 +493,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn-cancel" (click)="closeGlobalSortModal()">Cancel</button>
-        <button type="button" class="btn-confirm" (click)="saveGlobalSortConfiguration()">
-          Apply Sort Settings
-        </button>
+        <button type="button" class="btn-confirm" (click)="saveGlobalSortConfiguration()">Apply Sort Settings</button>
       </div>
     </div>
   </div>
@@ -563,12 +533,7 @@
             }
 
             <div class="item-actions">
-              <gp-button
-                size="sm"
-                variant="filled"
-                severity="primary"
-                (click)="addLibraryWidgetToDashboard(item)"
-              >
+              <gp-button size="sm" variant="filled" severity="primary" (click)="addLibraryWidgetToDashboard(item)">
                 + Add to Dashboard
               </gp-button>
             </div>

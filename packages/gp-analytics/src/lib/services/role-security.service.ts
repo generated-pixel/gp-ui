@@ -50,7 +50,10 @@ export class GpRoleSecurityService {
   /**
    * Badge variant / label helper for UI.
    */
-  getRoleBadge(role: GpUserRole): { label: string; severity: 'primary' | 'secondary' | 'success' | 'info' | 'warning' } {
+  getRoleBadge(role: GpUserRole): {
+    label: string;
+    severity: 'primary' | 'secondary' | 'success' | 'info' | 'warning';
+  } {
     switch (role) {
       case 'admin':
         return { label: 'Admin', severity: 'warning' };
