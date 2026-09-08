@@ -81,6 +81,16 @@ describe('GpButton', () => {
     expect(btn.disabled).toBe(true);
   });
 
+  it('should retain badge layout classes while applying the badge severity', () => {
+    fixture.componentRef.setInput('badge', '3');
+    fixture.componentRef.setInput('badgeSeverity', 'success');
+    fixture.detectChanges();
+
+    const badge = fixture.nativeElement.querySelector('.gp-button__badge');
+    expect(badge.classList).toContain('gp-button-badge');
+    expect(badge.classList).toContain('gp-badge-success');
+  });
+
   it('should apply aria-haspopup and aria-expanded to the native button', () => {
     fixture.componentRef.setInput('ariaHasPopup', 'menu');
     fixture.componentRef.setInput('ariaExpanded', true);

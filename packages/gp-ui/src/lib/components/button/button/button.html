@@ -36,9 +36,27 @@
   } @if (badge()) {
   <span
     class="gp-button__badge gp-button-badge"
+    [class.gp-button__badge--primary]="badgeSeverity() === 'primary'"
+    [class.gp-button-badge-primary]="badgeSeverity() === 'primary'"
+    [class.gp-badge-primary]="badgeSeverity() === 'primary'"
+    [class.gp-button__badge--secondary]="badgeSeverity() === 'secondary'"
+    [class.gp-button-badge-secondary]="badgeSeverity() === 'secondary'"
+    [class.gp-badge-secondary]="badgeSeverity() === 'secondary'"
+    [class.gp-button__badge--success]="badgeSeverity() === 'success'"
+    [class.gp-button-badge-success]="badgeSeverity() === 'success'"
+    [class.gp-badge-success]="badgeSeverity() === 'success'"
+    [class.gp-button__badge--info]="badgeSeverity() === 'info'"
+    [class.gp-button-badge-info]="badgeSeverity() === 'info'"
+    [class.gp-badge-info]="badgeSeverity() === 'info'"
+    [class.gp-button__badge--warning]="badgeSeverity() === 'warning'"
+    [class.gp-button-badge-warning]="badgeSeverity() === 'warning'"
+    [class.gp-badge-warning]="badgeSeverity() === 'warning'"
     [class.gp-button__badge--danger]="badgeSeverity() === 'danger'"
     [class.gp-button-badge-danger]="badgeSeverity() === 'danger'"
-    [class]="'gp-badge-' + badgeSeverity()"
+    [class.gp-badge-danger]="badgeSeverity() === 'danger'"
+    [class.gp-button__badge--contrast]="badgeSeverity() === 'contrast'"
+    [class.gp-button-badge-contrast]="badgeSeverity() === 'contrast'"
+    [class.gp-badge-contrast]="badgeSeverity() === 'contrast'"
   >
     {{ badge() }}
   </span>

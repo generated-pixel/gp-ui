@@ -3,15 +3,16 @@ gp-button {
   display: inline-flex;
   vertical-align: middle;
 
-  + gp-button,
+  +gp-button,
   + :host,
-  + button {
+  +button {
     margin-inline-start: var(--gp-button-gap, 0.5rem);
   }
 }
 
 button {
-  + gp-button,
+
+  +gp-button,
   + :host {
     margin-inline-start: var(--gp-button-gap, 0.5rem);
   }
@@ -39,7 +40,7 @@ button {
   text-decoration: none;
   white-space: nowrap;
 
-  + .gp-button {
+  +.gp-button {
     margin-inline-start: var(--gp-button-gap, 0.5rem);
   }
 }
@@ -351,51 +352,74 @@ button {
   }
 }
 
-/* Badges */
+/* Badges & Tags inside Button */
 .gp-button__badge,
 .gp-button-badge {
   background: rgba(255, 255, 255, 0.3);
   color: inherit;
-  font-size: 0.7rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: var(--gp-border-radius-full, 9999px);
-  font-weight: 700;
+  font-size: var(--gp-button-badge-font-size, 0.7rem);
+  padding: var(--gp-button-badge-padding-y, 0.15rem) var(--gp-button-badge-padding-x, 0.45rem);
+  border-radius: var(--gp-button-badge-border-radius, var(--gp-border-radius-full));
+  font-weight: var(--gp-button-badge-font-weight, 700);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1.2;
 }
 
+.gp-button__badge--primary,
+.gp-button-badge-primary,
+.gp-badge-primary {
+  background: var(--gp-primary);
+  color: var(--gp-primary-text);
+}
+
+.gp-button__badge--secondary,
+.gp-button-badge-secondary,
+.gp-badge-secondary {
+  background: var(--gp-secondary);
+  color: var(--gp-secondary-text);
+}
+
+.gp-button__badge--success,
+.gp-button-badge-success,
+.gp-badge-success {
+  background: var(--gp-success);
+  color: var(--gp-success-text);
+}
+
+.gp-button__badge--warning,
+.gp-button-badge-warning,
+.gp-badge-warning {
+  background: var(--gp-warning);
+  color: var(--gp-warning-text);
+}
+
+.gp-button__badge--info,
+.gp-button-badge-info,
+.gp-badge-info {
+  background: var(--gp-info);
+  color: var(--gp-info-text);
+}
+
 .gp-button__badge--danger,
 .gp-button-badge-danger,
 .gp-badge-danger {
-  background: var(--gp-danger, #e11d48);
-  color: #fff;
+  background: var(--gp-danger);
+  color: var(--gp-danger-text);
 }
 
-.gp-badge-primary {
-  background: var(--gp-primary, #3b82f6);
-  color: #fff;
+.gp-button__badge--contrast,
+.gp-button-badge-contrast,
+.gp-badge-contrast {
+  background: var(--gp-contrast);
+  color: var(--gp-contrast-text);
 }
 
-.gp-badge-success {
-  background: var(--gp-success, #10b981);
-  color: #fff;
-}
-
-.gp-badge-warning {
-  background: var(--gp-warning, #f59e0b);
-  color: #fff;
-}
-
-.gp-badge-info {
-  background: var(--gp-info, #0ea5e9);
-  color: #fff;
-}
-
-.gp-badge-secondary {
-  background: var(--gp-secondary, #64748b);
-  color: #fff;
+.gp-button gp-tag,
+.gp-button .gp-tag {
+  display: inline-flex;
+  vertical-align: middle;
 }
 
 /* Button Label */
