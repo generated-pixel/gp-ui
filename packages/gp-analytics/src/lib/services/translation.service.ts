@@ -20,13 +20,13 @@ export type { GpLanguageConfig } from '../interfaces/language-config.interface';
 export type { GpTranslationTerm } from '../interfaces/translation-term.interface';
 
 const DEFAULT_LANGUAGES: GpLanguageConfig[] = [
-  { code: 'en-US', name: 'English (US)', flag: '🇺🇸', direction: 'ltr', currency: 'USD', isCustom: false },
-  { code: 'en-GB', name: 'English (UK)', flag: '🇬🇧', direction: 'ltr', currency: 'GBP', isCustom: false },
-  { code: 'fr-FR', name: 'Français (France)', flag: '🇫🇷', direction: 'ltr', currency: 'EUR', isCustom: false },
-  { code: 'fr-CA', name: 'Français (Canada)', flag: '🇨🇦', direction: 'ltr', currency: 'CAD', isCustom: false },
-  { code: 'de-DE', name: 'Deutsch (Deutschland)', flag: '🇩🇪', direction: 'ltr', currency: 'EUR', isCustom: false },
-  { code: 'es-ES', name: 'Español (España)', flag: '🇪🇸', direction: 'ltr', currency: 'EUR', isCustom: false },
-  { code: 'ja-JP', name: '日本語 (日本)', flag: '🇯🇵', direction: 'ltr', currency: 'JPY', isCustom: false }
+  { code: 'en-US' },
+  { code: 'en-GB' },
+  { code: 'fr-FR' },
+  { code: 'fr-CA' },
+  { code: 'de-DE' },
+  { code: 'es-ES' },
+  { code: 'ja-JP' }
 ];
 
 /**
@@ -151,8 +151,8 @@ export class GpTranslationService {
     }
 
     const langItem: GpLanguageConfig = {
-      ...config,
-      isCustom: config.isCustom ?? true
+      code: config.code,
+      translations: config.translations
     };
 
     // Initialize or augment dictionary

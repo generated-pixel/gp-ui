@@ -103,15 +103,11 @@ describe('GpTranslationService', () => {
     expect(locales).toContain('es');
   });
 
-  it('should allow users to dynamically add their own languages with metadata and translations', () => {
+  it('should allow users to dynamically add their own languages with code and translations', () => {
     const initialCount = service.availableLanguages().length;
 
     service.addLanguage({
       code: 'pt-BR',
-      name: 'Português (Brasil)',
-      flag: '🇧🇷',
-      direction: 'ltr',
-      currency: 'BRL',
       translations: {
         metadataCatalogue: 'Catálogo de Metadados',
         clearAll: 'Limpar Tudo'
@@ -120,8 +116,7 @@ describe('GpTranslationService', () => {
 
     expect(service.availableLanguages().length).toBe(initialCount + 1);
     const added = service.availableLanguages().find((l) => l.code === 'pt-BR');
-    expect(added?.name).toBe('Português (Brasil)');
-    expect(added?.isCustom).toBe(true);
+    expect(added?.code).toBe('pt-BR');
 
     service.setLocale('pt-BR');
     expect(service.translate('metadataCatalogue')).toBe('Catálogo de Metadados');
