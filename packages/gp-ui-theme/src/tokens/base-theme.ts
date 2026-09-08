@@ -234,6 +234,21 @@ export const baseTheme: GpThemeDefinition = {
         shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
         padding: '1rem'
       },
+      badge: {
+        borderRadius: '9999px',
+        paddingX: '0.5rem',
+        paddingY: '0.25rem',
+        fontSize: '0.75rem',
+        fontWeight: 700
+      },
+      tag: {
+        borderRadius: '6px',
+        paddingX: '0.5rem',
+        paddingY: '0.25rem',
+        fontSize: '0.75rem',
+        fontWeight: 600,
+        gap: '0.35rem'
+      },
       grid: {
         padding: '0',
         margin: '0',

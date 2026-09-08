@@ -130,6 +130,26 @@
   --gp-button-height: 2.5rem;
   --gp-button-height-sm: 2rem;
   --gp-button-height-lg: 3rem;
+  --gp-button-badge-font-size: 0.7rem;
+  --gp-button-badge-padding-x: 0.45rem;
+  --gp-button-badge-padding-y: 0.15rem;
+  --gp-button-badge-border-radius: var(--gp-border-radius-full, 9999px);
+  --gp-button-badge-font-weight: 700;
+
+  --gp-tag-font-size: var(--gp-font-size-xs, 0.75rem);
+  --gp-tag-font-size-sm: 0.7rem;
+  --gp-tag-font-size-lg: var(--gp-font-size-sm, 0.875rem);
+  --gp-tag-font-weight: 600;
+  --gp-tag-border-radius: var(--gp-border-radius, 6px);
+  --gp-tag-padding-x: 0.5rem;
+  --gp-tag-padding-y: 0.25rem;
+  --gp-tag-padding-x-sm: 0.375rem;
+  --gp-tag-padding-y-sm: 0.15rem;
+  --gp-tag-padding-x-lg: 0.75rem;
+  --gp-tag-padding-y-lg: 0.35rem;
+  --gp-tag-gap: 0.35rem;
+  --gp-tag-gap-sm: 0.25rem;
+  --gp-tag-gap-lg: 0.5rem;
 
   --gp-mask-bg: rgba(15, 23, 42, 0.45);
 }
