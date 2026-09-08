@@ -59,6 +59,7 @@ export class ReportDashboardDemo {
   protected readonly draftRoleDesc = signal<string>(
     'Can create derived graphs and add filters, but cannot edit raw data schemas'
   );
+
   protected readonly draftRoleSeverity = signal<'primary' | 'secondary' | 'success' | 'info' | 'warning'>('success');
   protected readonly draftRolePermissions = signal<Record<string, boolean>>({
     canCreateDerivedWidgets: true,

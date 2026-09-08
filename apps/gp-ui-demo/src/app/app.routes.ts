@@ -22,10 +22,8 @@ export const routes: Routes = [
   },
   {
     path: 'analytics/dataset-field-selector',
-    loadComponent: () =>
-      import('./pages/analytics-demo/dataset-field-selector-demo/dataset-field-selector-demo').then(
-        (m) => m.DatasetFieldSelectorDemo
-      )
+    redirectTo: 'analytics/dataset-builder',
+    pathMatch: 'full'
   },
   {
     path: 'analytics/dataset-preview',

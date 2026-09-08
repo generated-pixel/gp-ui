@@ -23,11 +23,6 @@ export class AnalyticsDemo {
       description: 'Browse relational metadata groupings, tables, and fields; drag or select fields into a dataset.'
     },
     {
-      route: '/analytics/dataset-field-selector',
-      title: 'Dataset Field Selector',
-      description: 'Manage the fields and filters that make up an analytical dataset.'
-    },
-    {
       route: '/analytics/dataset-preview',
       title: 'Dataset Preview',
       description: 'Live tabular preview of a dataset with summary statistics and active filter chips.'

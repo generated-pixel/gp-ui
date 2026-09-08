@@ -9,7 +9,6 @@ export * from './lib/components/base/gp-analytics-base';
 export * from './lib/components/base/gp-analytics-component';
 export * from './lib/components/base/gp-analytics-base-widget';
 export * from './lib/components/datasets/schema-catalogue/schema-catalogue';
-export * from './lib/components/datasets/dataset-field-selector/dataset-field-selector';
 export * from './lib/components/datasets/dataset-preview/dataset-preview';
 export * from './lib/components/datasets/dataset-builder/dataset-builder';
 export * from './lib/components/widgets/kpi-card/kpi-card';
