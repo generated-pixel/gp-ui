@@ -4,6 +4,7 @@ import { ENGLISH_GB_TRANSLATIONS } from './translations.en-gb';
 import { FRENCH_TRANSLATIONS } from './translations.fr';
 import { FRENCH_CA_TRANSLATIONS } from './translations.fr-ca';
 import { GERMAN_TRANSLATIONS } from './translations.de';
+import { GERMAN_DE_TRANSLATIONS } from './translations.de-de';
 import { SPANISH_TRANSLATIONS } from './translations.es';
 import { JAPANESE_TRANSLATIONS } from './translations.ja';
 import type { SupportedLocale } from '../types/supported-locale.type';
@@ -56,7 +57,7 @@ export class GpTranslationService {
     this.registerTranslations('fr', FRENCH_TRANSLATIONS);
 
     // 4. Pre-register German variants
-    this.registerTranslations('de-DE', GERMAN_TRANSLATIONS);
+    this.registerTranslations('de-DE', GERMAN_DE_TRANSLATIONS);
     this.registerTranslations('de', GERMAN_TRANSLATIONS);
 
     // 5. Pre-register Spanish variants

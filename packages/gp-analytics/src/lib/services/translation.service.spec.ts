@@ -30,6 +30,8 @@ describe('GpTranslationService', () => {
 
     service.setLocale('de-DE');
     expect(service.translate('metadataCatalogue')).toBe('Metadaten-Katalog');
+    expect(service.translate('searchFieldsOrTables')).toBe('Tabellen und Felder suchen...');
+    expect(service.translate('clearAll')).toBe('Alles löschen');
 
     service.setLocale('es-ES');
     expect(service.translate('metadataCatalogue')).toBe('Catálogo de metadatos');
