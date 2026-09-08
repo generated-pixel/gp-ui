@@ -1,10 +1,12 @@
 import { TranslationKey } from '../types/translation-key.type';
+import { ENGLISH_US_TRANSLATIONS } from './translations.en-us';
 
 /**
- * Partial French translation pack.
- * Unspecified keys will automatically inherit English defaults.
+ * French translation pack.
+ * Inherits en-US defaults for any values that do not exist in French.
  */
-export const FRENCH_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
+export const FRENCH_TRANSLATIONS: Record<TranslationKey, string> = {
+  ...ENGLISH_US_TRANSLATIONS,
   metadataCatalogue: 'Catalogue de métadonnées',
   schemaExplorer: 'Explorateur de schéma',
   browseMetadata: 'Parcourir vos métadonnées',

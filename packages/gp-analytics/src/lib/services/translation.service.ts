@@ -89,13 +89,14 @@ export class GpTranslationService {
    */
   registerTranslations(locale: string, translations: Partial<Record<TranslationKey, string>>): void {
     const baseLang = this.getBaseLanguage(locale);
+    const enUsDefaults = this.registry.get('en-US') || DEFAULT_ENGLISH_TRANSLATIONS;
     const existing =
       this.registry.get(locale) ||
       this.registry.get(baseLang) ||
-      this.registry.get('en-US') ||
-      DEFAULT_ENGLISH_TRANSLATIONS;
+      enUsDefaults;
 
     this.registry.set(locale, {
+      ...enUsDefaults,
       ...existing,
       ...translations
     });
@@ -132,20 +133,20 @@ export class GpTranslationService {
 
   /**
    * Translates a key with optional dynamic template parameters.
-   * Employs hierarchical fallback: exact locale -> base language -> en-US -> English defaults.
+   * Employs hierarchical fallback: exact locale -> base language -> en-US defaults.
+   * Any values that do not exist in other languages come directly from en-US.
    */
   translate(key: TranslationKey, params: TranslationParams = {}): string {
     const activeLocale = this.locale();
     const baseLang = this.getBaseLanguage(activeLocale);
+    const enUsDefaults = this.registry.get('en-US') || DEFAULT_ENGLISH_TRANSLATIONS;
 
     const dictionary =
       this.registry.get(activeLocale) ||
       this.registry.get(baseLang) ||
-      this.registry.get('en-US') ||
-      this.registry.get('en') ||
-      DEFAULT_ENGLISH_TRANSLATIONS;
+      enUsDefaults;
 
-    let text = dictionary[key] ?? DEFAULT_ENGLISH_TRANSLATIONS[key] ?? key;
+    let text = dictionary[key] || enUsDefaults[key] || key;
 
     for (const [name, value] of Object.entries(params)) {
       text = text.split(`{${name}}`).join(String(value));

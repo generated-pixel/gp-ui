@@ -1,9 +1,12 @@
 import { TranslationKey } from '../types/translation-key.type';
+import { ENGLISH_US_TRANSLATIONS } from './translations.en-us';
 
 /**
  * Japanese dictionary for gp-analytics.
+ * Inherits en-US defaults for any values that do not exist in Japanese.
  */
-export const JAPANESE_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
+export const JAPANESE_TRANSLATIONS: Record<TranslationKey, string> = {
+  ...ENGLISH_US_TRANSLATIONS,
   metadataCatalogue: 'メタデータカタログ',
   schemaExplorer: 'スキーマエクスプローラー',
   browseMetadata: 'メタデータを参照',

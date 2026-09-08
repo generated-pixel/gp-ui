@@ -1,9 +1,12 @@
 import { TranslationKey } from '../types/translation-key.type';
+import { ENGLISH_US_TRANSLATIONS } from './translations.en-us';
 
 /**
  * German dictionary for gp-analytics.
+ * Inherits en-US defaults for any values that do not exist in German.
  */
-export const GERMAN_TRANSLATIONS: Partial<Record<TranslationKey, string>> = {
+export const GERMAN_TRANSLATIONS: Record<TranslationKey, string> = {
+  ...ENGLISH_US_TRANSLATIONS,
   metadataCatalogue: 'Metadaten-Katalog',
   schemaExplorer: 'Schema-Explorer',
   browseMetadata: 'Metadaten durchsuchen',
