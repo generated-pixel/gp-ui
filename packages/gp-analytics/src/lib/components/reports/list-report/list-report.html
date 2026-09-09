@@ -1,0 +1,51 @@
+<div class="gp-list-report">
+  <div class="gp-list-report__header">
+    <h2 class="gp-list-report__title">{{ title() }}</h2>
+    <p class="gp-list-report__subtitle">{{ subtitle() }}</p>
+  </div>
+
+  <div class="gp-list-report__controls" *ngIf="records()?.length">
+    <div class="gp-list-report__search">
+      <input
+        type="text"
+        gpInputText
+        [placeholder]="'Search records...'"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($event.target.value)"
+        class="gp-list-report__search-input"
+      />
+    </div>
+
+    <div class="gp-list-report__pagination" *ngIf="totalPages() > 1">
+      <gp-select
+        [options]="pageSizeOptions"
+        [value]="pageSize()"
+        (onChange)="pageSize.set($event.value)"
+        class="gp-list-report__page-size"
+      ></gp-select>
+    </div>
+  </div>
+
+  <gp-block-ui [loading]="!records()" class="gp-list-report__content">
+    <table class="gp-list-report__table" *ngIf="filteredRows().length">
+      <thead class="gp-list-report__table-header" *ngIf="showHeaders()">
+        <tr>
+          <th *ngFor="let col of columns()" class="gp-list-report__header-cell" [attr.data-column]="col.key">
+            {{ col.header }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="gp-list-report__table-body">
+        <tr *ngFor="let row of paginatedRows()" class="gp-list-report__row">
+          <td *ngFor="let col of columns()" class="gp-list-report__cell" [attr.data-column]="col.key">
+            {{ formatCellValue(col, row[col.key]) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="gp-list-report__no-results" *ngIf="!filteredRows().length">
+      No records found matching your search criteria.
+    </div>
+  </gp-block-ui>
+</div>

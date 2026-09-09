@@ -43,6 +43,7 @@ export * from './gp-report-config.interface';
 export * from './gp-sort-spec.interface';
 export * from './gp-table-widget-config.interface';
 export * from './gp-tabular-report-config.interface';
+export * from './gp-list-report-config.interface';
 export * from './gp-time-series-data.interface';
 export * from './grouping.interface';
 export * from './loaded-data-result.interface';

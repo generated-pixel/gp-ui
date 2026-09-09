@@ -1,5 +1,6 @@
 export * from '../types/gp-report-type.type';
 export * from '../interfaces/gp-tabular-report-config.interface';
+export * from '../interfaces/gp-list-report-config.interface';
 export * from '../interfaces/gp-pivot-report-config.interface';
 export * from '../interfaces/gp-chart-report-config.interface';
 export * from '../interfaces/gp-report-config.interface';
@@ -8,13 +9,14 @@ import { GpReportType } from '../types/gp-report-type.type';
 import { GpTabularReportConfig } from '../interfaces/gp-tabular-report-config.interface';
 import { GpPivotReportConfig } from '../interfaces/gp-pivot-report-config.interface';
 import { GpChartReportConfig } from '../interfaces/gp-chart-report-config.interface';
+import { GpListReportConfig } from '../interfaces/gp-list-report-config.interface';
 import { GpReportConfig } from '../interfaces/gp-report-config.interface';
 import { UniqueId } from '../utils/unique-id';
 
 export function createReportConfig(
   type: GpReportType,
   name: string,
-  config: GpTabularReportConfig | GpPivotReportConfig | GpChartReportConfig,
+  config: GpTabularReportConfig | GpPivotReportConfig | GpChartReportConfig | GpListReportConfig,
   datasetId?: string
 ): GpReportConfig {
   const timestamp = new Date().toISOString();

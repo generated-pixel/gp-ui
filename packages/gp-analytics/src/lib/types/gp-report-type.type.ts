@@ -1,1 +1,1 @@
-export type GpReportType = 'tabular' | 'pivot' | 'chart';
+export type GpReportType = 'tabular' | 'pivot' | 'chart' | 'list';

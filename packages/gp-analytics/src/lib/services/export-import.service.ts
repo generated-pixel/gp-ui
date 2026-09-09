@@ -182,7 +182,7 @@ export class GpExportImportService {
           if (!r.id || !r.name || !r.type) {
             errors.push(`Report at index [${idx}] missing required 'id', 'name', or 'type'.`);
           }
-          if (!['tabular', 'pivot', 'chart'].includes(r.type)) {
+          if (!['tabular', 'pivot', 'chart', 'list'].includes(r.type)) {
             warnings.push(`Report '${r.name || idx}' has uncommon report type '${r.type}'.`);
           }
           if (!r.config) {

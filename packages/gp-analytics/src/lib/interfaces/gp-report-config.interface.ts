@@ -2,6 +2,7 @@ import { GpReportType } from '../types/gp-report-type.type';
 import { GpTabularReportConfig } from './gp-tabular-report-config.interface';
 import { GpPivotReportConfig } from './gp-pivot-report-config.interface';
 import { GpChartReportConfig } from './gp-chart-report-config.interface';
+import { GpListReportConfig } from './gp-list-report-config.interface';
 
 export interface GpReportConfig {
   id: string;
@@ -9,7 +10,7 @@ export interface GpReportConfig {
   description?: string;
   type: GpReportType;
   datasetId?: string;
-  config: GpTabularReportConfig | GpPivotReportConfig | GpChartReportConfig;
+  config: GpTabularReportConfig | GpPivotReportConfig | GpChartReportConfig | GpListReportConfig;
   createdAt?: string;
   updatedAt?: string;
 }

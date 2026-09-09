@@ -13,6 +13,7 @@ export * from './lib/components/dashboards/analytics-dashboard/analytics-dashboa
 export * from './lib/components/dashboards/dashboard-designer/dashboard-designer';
 export * from './lib/components/dashboards/report-dashboard/report-dashboard';
 export * from './lib/components/packages/package-manager/package-manager';
+export * from './lib/components/reports/list-report/list-report';
 export * from './lib/providers';
 export * from './lib/services/analytics-config.service';
 export * from './lib/services/role-security.service';
