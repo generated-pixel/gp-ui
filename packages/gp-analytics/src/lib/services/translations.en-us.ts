@@ -127,5 +127,6 @@ export const ENGLISH_US_TRANSLATIONS: Record<TranslationKey, string> = {
   filteredCount: 'Filtered: {count} of {total} rows',
   activeFilters: 'Active Filters',
   clearAllFilters: 'Clear All Filters',
-  availableOptions: 'Available options (translated)'
+  availableOptions: 'Available options',
+  noRecordsFound: 'No records found'
 };

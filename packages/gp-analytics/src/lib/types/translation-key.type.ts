@@ -122,4 +122,5 @@ export type TranslationKey =
   | 'activeFilters'
   | 'clearAllFilters'
   | 'availableOptions'
+  | 'noRecordsFound'
   | (string & {});
