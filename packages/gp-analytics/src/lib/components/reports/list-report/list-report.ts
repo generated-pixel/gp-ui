@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GpAnalyticsComponent } from '../../base/gp-analytics-component';
 import { GpDataEngineService } from '../../../services/data-engine.service';
 import { GpLocaleFormatterService } from '../../../services/locale-formatter.service';
 import { GpMeasureQuery } from '../../../models/query.model';
 
 import { FormsModule } from '@angular/forms';
-import { GpBlockUI, GpButton, GpInputTextDirective, GpSelect } from '@generatedpixel/gp-ui';
+import { GpBlockUI, GpInputTextDirective, GpSelect } from '@generatedpixel/gp-ui';
 
 @Component({
   selector: 'gp-list-report',
   standalone: true,
-  imports: [FormsModule, GpButton, GpInputTextDirective, GpSelect, GpBlockUI],
+  imports: [FormsModule, GpInputTextDirective, GpSelect, GpBlockUI],
   templateUrl: './list-report.html',
   styleUrl: './list-report.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,14 +19,14 @@ export class GpListReport extends GpAnalyticsComponent {
   protected readonly engine = inject(GpDataEngineService);
   protected readonly localeFormatter = inject(GpLocaleFormatterService);
 
-  readonly title = input<string>('Simple List Report');
-  readonly subtitle = input<string>('Flat list of data records with no aggregation or grouping');
+  readonly title = input<string>('');
+  readonly subtitle = input<string>('');
   readonly records = input<Record<string, any>[]>([]);
   readonly dimensions = input<string[]>([]);
   readonly measures = input<GpMeasureQuery[]>([]);
 
-  readonly searchQuery = input<string>('');
-  readonly pageSize = input<number>(10);
+  readonly searchQuery = signal<string>('');
+  readonly pageSize = signal<number>(10);
   readonly showHeaders = input<boolean>(true);
 
   readonly pageSizeOptions = [
@@ -141,4 +141,10 @@ export class GpListReport extends GpAnalyticsComponent {
     }
     return String(val);
   }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize.set(size);
+  }
+
+
 }
